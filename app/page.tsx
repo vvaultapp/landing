@@ -51,10 +51,10 @@ export default function HomePage() {
   const isLoading = status === "loading";
 
   return (
-    <div className="min-h-screen bg-[#050509] text-slate-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-3xl">
+    <div className="min-h-screen bg-[#050509] text-slate-100 px-4 py-8 md:py-0 flex md:items-center md:justify-center">
+      <div className="w-full max-w-3xl mx-auto">
         {/* Top bar / logo */}
-        <header className="mb-12 flex items-center justify-between">
+        <header className="mb-8 md:mb-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold tracking-[0.22em] uppercase text-slate-300">
               VVAULT
@@ -64,8 +64,8 @@ export default function HomePage() {
             </span>
           </div>
 
-          <div className="flex flex-col items-end gap-1.5">
-            {/* PRIVATE BETA pill with same color as Campaigns pill */}
+          <div className="flex flex-col items-start sm:items-end gap-1.5 text-left sm:text-right">
+            {/* PRIVATE BETA pill */}
             <span className="rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] bg-lime-400/10 text-lime-300 border border-lime-400/40">
               PRIVATE BETA
             </span>
@@ -77,7 +77,7 @@ export default function HomePage() {
         </header>
 
         {/* Main content */}
-        <main className="grid gap-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-start">
+        <main className="grid gap-8 md:gap-10 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-start">
           {/* Left side: hero + form */}
           <section className="space-y-6">
             <div className="space-y-3">
@@ -131,7 +131,7 @@ export default function HomePage() {
                 >
                   {isLoading ? "Joining..." : "Apply"}
 
-                  {/* Neon pulse using same lime color */}
+                  {/* Neon pulse */}
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full rounded-full bg-lime-300 opacity-75 animate-ping"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-lime-300"></span>
@@ -163,7 +163,8 @@ export default function HomePage() {
                 <li className="flex gap-2">
                   <span className="mt-[3px] h-1.5 w-1.5 rounded-full bg-slate-400" />
                   <span>
-                    Store and organize all your beats & songs with auto BPM and key detection.
+                    Store and organize all your beats & songs with auto BPM and
+                    key detection.
                   </span>
                 </li>
 
@@ -185,14 +186,16 @@ export default function HomePage() {
                 <li className="flex gap-2">
                   <span className="mt-[3px] h-1.5 w-1.5 rounded-full bg-slate-400" />
                   <span>
-                    Get detailed analytics and insights on when to send your tracks.
+                    Get detailed analytics and insights on when to send your
+                    tracks.
                   </span>
                 </li>
 
                 <li className="flex gap-2">
                   <span className="mt-[3px] h-1.5 w-1.5 rounded-full bg-slate-400" />
                   <span>
-                    Chrome extension for Gmail: add tracking without changing how you write emails.
+                    Chrome extension for Gmail: add tracking without changing
+                    how you write emails.
                   </span>
                 </li>
               </ul>
@@ -202,5 +205,4 @@ export default function HomePage() {
       </div>
     </div>
   );
-  
 }
