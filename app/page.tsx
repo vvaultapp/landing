@@ -51,7 +51,6 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-[#050509] text-slate-100 px-5 pt-10 pb-20 md:flex md:items-center md:justify-center">
       <div className="w-full max-w-3xl mx-auto">
-
         {/* HEADER */}
         <header className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col leading-tight">
@@ -63,7 +62,7 @@ export default function HomePage() {
             </span>
           </div>
 
-          <div className="flex flex-col items-start sm:items-end gap-2">
+          <div className="flex flex-col items-center gap-2 text-center">
             <span className="rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] bg-lime-400/10 text-lime-300 border border-lime-400/40">
               PRIVATE BETA
             </span>
@@ -75,7 +74,6 @@ export default function HomePage() {
 
         {/* BODY GRID */}
         <main className="grid gap-12 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-start">
-
           {/* LEFT SECTION */}
           <section className="space-y-8">
             <div className="space-y-4 leading-relaxed">
@@ -89,8 +87,10 @@ export default function HomePage() {
 
               <p className="text-sm sm:text-base text-slate-400 max-w-lg leading-relaxed">
                 vvault is the complete solution to{" "}
-                <span className="text-slate-300">store and organize your beats & songs</span>,
-                <span className="text-slate-300"> mass send to artists</span>,
+                <span className="text-slate-300">
+                  store and organize your beats & songs
+                </span>
+                ,<span className="text-slate-300"> mass send to artists</span>,
                 and track who actually opens, and downloads.
               </p>
             </div>
@@ -98,7 +98,7 @@ export default function HomePage() {
             {/* FORM */}
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col gap-4"
             >
               <div className="flex-1">
                 <label
@@ -119,25 +119,26 @@ export default function HomePage() {
                 />
               </div>
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="inline-flex items-center gap-2 rounded-lg bg-slate-100 text-slate-900 text-sm font-medium px-6 py-3 whitespace-nowrap border border-slate-200 hover:bg-white disabled:opacity-60 disabled:cursor-not-allowed transition"
-              >
-                {isLoading ? "Joining..." : "Apply"}
+              <div className="flex justify-center pt-1">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="inline-flex items-center gap-2 rounded-full bg-slate-100 text-slate-900 text-xs sm:text-sm font-medium px-5 py-2 border border-slate-200 hover:bg-white disabled:opacity-60 disabled:cursor-not-allowed transition"
+                >
+                  {isLoading ? "Joining..." : "Apply"}
 
-                {/* Pulse */}
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full rounded-full bg-lime-300 opacity-75 animate-ping"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-lime-300"></span>
-                </span>
-              </button>
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-lime-300 opacity-75 animate-ping"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-lime-300"></span>
+                  </span>
+                </button>
+              </div>
             </form>
 
             {/* STATUS TEXT */}
             {message && (
               <p
-                className={`text-xs sm:text-sm leading-relaxed ${
+                className={`text-xs sm:text-sm leading-relaxed text-center ${
                   status === "success" ? "text-lime-300" : "text-red-400"
                 }`}
               >
@@ -156,27 +157,41 @@ export default function HomePage() {
               <ul className="space-y-3 text-xs text-slate-300 leading-relaxed">
                 <li className="flex gap-3">
                   <span className="mt-[5px] h-1.5 w-1.5 rounded-full bg-slate-400" />
-                  <span>Store and organize all your beats & songs with auto BPM and key detection.</span>
+                  <span>
+                    Store and organize all your beats & songs with auto BPM and
+                    key detection.
+                  </span>
                 </li>
 
                 <li className="flex gap-3">
                   <span className="mt-[5px] h-1.5 w-1.5 rounded-full bg-slate-400" />
-                  <span>Build packs and send them to multiple artists in one go <span className="italic text-slate-500">(without bcc)</span>.</span>
+                  <span>
+                    Build packs and send them to multiple artists in one go{" "}
+                    <span className="italic text-slate-500">(without bcc)</span>.
+                  </span>
                 </li>
 
                 <li className="flex gap-3">
                   <span className="mt-[5px] h-1.5 w-1.5 rounded-full bg-slate-400" />
-                  <span>Track opens, link clicks and file downloads per contact.</span>
+                  <span>
+                    Track opens, link clicks and file downloads per contact.
+                  </span>
                 </li>
 
                 <li className="flex gap-3">
                   <span className="mt-[5px] h-1.5 w-1.5 rounded-full bg-slate-400" />
-                  <span>Get detailed analytics and insights on when to send your tracks.</span>
+                  <span>
+                    Get detailed analytics and insights on when to send your
+                    tracks.
+                  </span>
                 </li>
 
                 <li className="flex gap-3">
                   <span className="mt-[5px] h-1.5 w-1.5 rounded-full bg-slate-400" />
-                  <span>Chrome extension for Gmail: add tracking without changing how you write emails.</span>
+                  <span>
+                    Chrome extension for Gmail: add tracking without changing
+                    how you write emails.
+                  </span>
                 </li>
               </ul>
             </div>
