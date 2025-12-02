@@ -52,7 +52,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#050509] text-slate-100 px-5 pt-10 pb-20 md:flex md:items-center md:justify-center">
       <div className="w-full max-w-3xl mx-auto">
         {/* HEADER */}
-        <header className="mb-12 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <header className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold tracking-[0.22em] uppercase text-slate-300">
               VVAULT
@@ -61,21 +61,22 @@ export default function HomePage() {
               store • send • track
             </span>
           </div>
-
-          <div className="flex flex-col items-center gap-2 text-center">
-            <span className="rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] bg-lime-400/10 text-lime-300 border border-lime-400/40">
-              PRIVATE BETA
-            </span>
-            <span className="text-[11px] text-slate-500">
-              Built for producers & artists
-            </span>
-          </div>
         </header>
 
         {/* BODY GRID */}
         <main className="grid gap-12 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] items-start">
           {/* LEFT SECTION */}
           <section className="space-y-8">
+            {/* MOBILE pill + text (entre logo et titre) */}
+            <div className="flex flex-col items-center gap-2 text-center mb-2 md:hidden">
+              <span className="rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] bg-lime-400/10 text-lime-300 border border-lime-400/40">
+                PRIVATE BETA
+              </span>
+              <span className="text-[11px] text-slate-500">
+                Built for producers & artists
+              </span>
+            </div>
+
             <div className="space-y-4 leading-relaxed">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
                 The{" "}
@@ -96,29 +97,40 @@ export default function HomePage() {
             </div>
 
             {/* FORM */}
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-4"
-            >
-              <div className="flex-1">
-                <label
-                  htmlFor="email"
-                  className="mb-1 block text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500"
-                >
-                  Join the private beta
-                </label>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              {/* Ligne input + pill desktop */}
+              <div className="flex flex-col md:flex-row md:items-end gap-4">
+                <div className="flex-1">
+                  <label
+                    htmlFor="email"
+                    className="mb-1 block text-[11px] font-medium uppercase tracking-[0.16em] text-slate-500"
+                  >
+                    Join the private beta
+                  </label>
 
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  placeholder="adress@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-lg bg-[#0A0A10] border border-slate-800 px-4 py-3 text-sm outline-none placeholder:text-slate-600 focus:border-slate-400 focus:ring-1 focus:ring-slate-500/70 transition"
-                />
+                  <input
+                    id="email"
+                    type="email"
+                    required
+                    placeholder="adress@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full rounded-lg bg-[#0A0A10] border border-slate-800 px-4 py-3 text-sm outline-none placeholder:text-slate-600 focus:border-slate-400 focus:ring-1 focus:ring-slate-500/70 transition"
+                  />
+                </div>
+
+                {/* DESKTOP pill + text (sur la même ligne que l'input) */}
+                <div className="hidden md:flex flex-col items-end gap-1 text-right">
+                  <span className="rounded-full px-3 py-1 text-[10px] font-medium uppercase tracking-[0.14em] bg-lime-400/10 text-lime-300 border border-lime-400/40">
+                    PRIVATE BETA
+                  </span>
+                  <span className="text-[11px] text-slate-500">
+                    Built for producers & artists
+                  </span>
+                </div>
               </div>
 
+              {/* Bouton centré */}
               <div className="flex justify-center pt-1">
                 <button
                   type="submit"
