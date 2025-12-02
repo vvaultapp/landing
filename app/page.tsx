@@ -82,12 +82,13 @@ export default function HomePage() {
           <section className="space-y-6">
             <div className="space-y-3">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight">
-                The{" "}
-                <span className="text-slate-100 underline decoration-slate-500/70 decoration-[1px] underline-offset-4">
-                  proper way
-                </span>{" "}
-                to send your music.
-              </h1>
+  The ONLY{" "}
+  <span className="text-slate-100 underline decoration-slate-500/70 decoration-[1px] underline-offset-4">
+    sane way
+  </span>{" "}
+  to send your music.
+</h1>
+
 
               <p className="text-sm sm:text-base text-slate-400 max-w-lg">
                 vvault is the complete solution to{" "}
