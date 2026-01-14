@@ -2,7 +2,7 @@
 
 import React, { FormEvent, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -18,13 +18,13 @@ export default function HomePage() {
 
   const isLoading = status === "loading";
 
-  const heroVariants = useMemo(
+  const heroVariants = useMemo<Variants>(
     () => ({
       hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 10 },
       show: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.6, ease: "easeOut" },
+        transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
       },
     }),
     [prefersReducedMotion]
