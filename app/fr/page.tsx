@@ -47,24 +47,6 @@ const PRICING = {
   },
 };
 
-const HERO_STATS: Feature[] = [
-  {
-    icon: BarChart3,
-    title: "Tracking réel",
-    desc: "opens • temps d’écoute • downloads",
-  },
-  {
-    icon: Cloud,
-    title: "Packs & collabs",
-    desc: "cloud privé • liens propres • série",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Ventes sécurisées",
-    desc: "paiement Stripe • Ultra: 0% fees vvault*",
-  },
-];
-
 const FEATURES_PRIMARY: Feature[] = [
   {
     icon: BarChart3,
@@ -442,20 +424,8 @@ export default function HomePage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="hidden sm:inline-flex"
-            >
+            <Button asChild variant="outline" size="sm">
               <a href={buildAppUrl("/login")}>Se connecter</a>
-            </Button>
-
-            <Button asChild size="sm" variant="accent">
-              <a href={buildAppUrl("/signup", { plan: "free" })}>
-                Commencer gratuit
-                <ArrowRight className="h-4 w-4" />
-              </a>
             </Button>
           </div>
         </nav>
@@ -465,25 +435,18 @@ export default function HomePage() {
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-104px)] w-full max-w-6xl items-center px-5 pb-12 pt-24">
         <motion.div initial="hidden" animate="show" variants={heroVariants} className="w-full">
           <div className="mx-auto max-w-3xl text-center">
-            {typeof waitlistCount === "number" ? (
-              <div className="inline-flex flex-wrap items-center justify-center gap-2">
-                <Badge className="text-[11px] normal-case" variant="accent">
-                  {waitlistCount.toLocaleString()} producteurs inscrits
-                </Badge>
-              </div>
-            ) : null}
+            <div className="inline-flex flex-wrap items-center justify-center gap-2">
+              <Badge className="text-[11px] normal-case" variant="accent">
+                {(waitlistCount ?? 212).toLocaleString()} producteurs inscrits
+              </Badge>
+            </div>
 
             <h1 className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl">
-              Envoie tes beats comme un pro.
-              <span className="mt-3 block text-white/70">
-                Packs + tracking + relances + ventes — en un seul lien.
-              </span>
+              Arrête de te faire ghoster.
             </h1>
 
             <p className="mt-4 text-sm text-white/60 sm:text-base">
-              vvault est ton workspace privé pour stocker, organiser, vendre et envoyer ta
-              musique — avec des analytics détaillées pour savoir ce que les artistes font
-              vraiment avec tes sons.
+              Envoie tes packs de beats via un seul lien, track écoutes & téléchargements, et relance au bon moment.
             </p>
 
             <div className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row sm:justify-center">
@@ -495,26 +458,7 @@ export default function HomePage() {
               </Button>
             </div>
 
-            <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
-              {HERO_STATS.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <Reveal key={item.title} delay={index * 0.08} className="h-full">
-                    <Card className="h-full px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
-                      <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                        <Icon className="h-4 w-4" />
-                        {item.title}
-                      </div>
-                      <div className="mt-1 text-xs text-white/60">{item.desc}</div>
-                    </Card>
-                  </Reveal>
-                );
-              })}
-            </div>
-
-            <p className="mt-4 text-xs text-white/45">
-              * Hors frais Stripe. Les “fees vvault” = frais de marketplace / plateforme.
-            </p>
+            <div className="mt-10" />
           </div>
         </motion.div>
       </div>

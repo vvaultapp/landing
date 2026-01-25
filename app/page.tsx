@@ -47,24 +47,6 @@ const PRICING = {
   },
 };
 
-const HERO_STATS: Feature[] = [
-  {
-    icon: BarChart3,
-    title: "Real tracking",
-    desc: "opens • listen time • downloads",
-  },
-  {
-    icon: Cloud,
-    title: "Packs & collabs",
-    desc: "private cloud • clean links • series",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Secure sales",
-    desc: "Stripe payments • Ultra: 0% vvault fees*",
-  },
-];
-
 const FEATURES_PRIMARY: Feature[] = [
   {
     icon: BarChart3,
@@ -442,20 +424,8 @@ export default function HomePage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              asChild
-              variant="outline"
-              size="sm"
-              className="hidden sm:inline-flex"
-            >
+            <Button asChild variant="outline" size="sm">
               <a href={buildAppUrl("/login")}>Log in</a>
-            </Button>
-
-            <Button asChild size="sm" variant="accent">
-              <a href={buildAppUrl("/signup", { plan: "free" })}>
-                Start free
-                <ArrowRight className="h-4 w-4" />
-              </a>
             </Button>
           </div>
         </nav>
@@ -465,24 +435,18 @@ export default function HomePage() {
       <div className="relative z-10 mx-auto flex min-h-[calc(100vh-104px)] w-full max-w-6xl items-center px-5 pb-12 pt-24">
         <motion.div initial="hidden" animate="show" variants={heroVariants} className="w-full">
           <div className="mx-auto max-w-3xl text-center">
-            {typeof waitlistCount === "number" ? (
-              <div className="inline-flex flex-wrap items-center justify-center gap-2">
-                <Badge className="text-[11px] normal-case" variant="accent">
-                  {waitlistCount.toLocaleString()} producers joined
-                </Badge>
-              </div>
-            ) : null}
+            <div className="inline-flex flex-wrap items-center justify-center gap-2">
+              <Badge className="text-[11px] normal-case" variant="accent">
+                {(waitlistCount ?? 212).toLocaleString()} producers joined
+              </Badge>
+            </div>
 
             <h1 className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl">
-              Send your beats like a pro.
-              <span className="mt-3 block text-white/70">
-                Packs + tracking + follow-ups + sales — in a single link.
-              </span>
+              Stop getting ghosted.
             </h1>
 
             <p className="mt-4 text-sm text-white/60 sm:text-base">
-              vvault is your private workspace to store, organize, sell, and send your music —
-              with detailed analytics to see what artists actually do with your beats.
+              Send beat packs in one link, track listens & downloads, and follow up at the right time.
             </p>
 
             <div className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row sm:justify-center">
@@ -494,26 +458,7 @@ export default function HomePage() {
               </Button>
             </div>
 
-            <div className="mx-auto mt-8 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-3">
-              {HERO_STATS.map((item, index) => {
-                const Icon = item.icon;
-                return (
-                  <Reveal key={item.title} delay={index * 0.08} className="h-full">
-                    <Card className="h-full px-4 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.35)]">
-                      <div className="flex items-center gap-2 text-sm font-semibold text-white">
-                        <Icon className="h-4 w-4" />
-                        {item.title}
-                      </div>
-                      <div className="mt-1 text-xs text-white/60">{item.desc}</div>
-                    </Card>
-                  </Reveal>
-                );
-              })}
-            </div>
-
-            <p className="mt-4 text-xs text-white/45">
-              * Stripe fees excluded. “vvault fees” = marketplace / platform fees.
-            </p>
+            <div className="mt-10" />
           </div>
         </motion.div>
       </div>
