@@ -37,13 +37,13 @@ const BILLING_URL = "https://vvault.app/billing";
 const PRICING = {
   pro: {
     monthly: 8.99,
-    annual: 8.99 * 10, // 2 mois offerts (modifie si ton pricing réel est différent)
-    lifetime: 8.99 * 36, // "3 ans pour toujours" (modifie si tu as un prix fixe)
+    annual: 89,
+    lifetime: 240,
   },
   ultra: {
     monthly: 24.99,
-    annual: 24.99 * 10,
-    lifetime: 24.99 * 36,
+    annual: 249,
+    lifetime: 690,
   },
 };
 
@@ -88,6 +88,14 @@ function euro(v: number) {
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 2,
+  }).format(v);
+}
+
+function euroNoDecimals(v: number) {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+    maximumFractionDigits: 0,
   }).format(v);
 }
 
@@ -239,7 +247,7 @@ export default function HomePage() {
   const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
 
   // UI
-  const [billing, setBilling] = useState<Billing>("monthly");
+  const [billing, setBilling] = useState<Billing>("annual");
 
   const isLoading = status === "loading";
 
@@ -315,17 +323,31 @@ export default function HomePage() {
 
   const proPrice =
     billing === "monthly"
-      ? `${euro(PRICING.pro.monthly)}/mois`
+      ? `${euro(PRICING.pro.monthly)}/mo`
       : billing === "annual"
-      ? `${euro(PRICING.pro.annual)}/an`
-      : `${euro(PRICING.pro.lifetime)} une fois`;
+      ? `${euro(PRICING.pro.annual / 12)}/mo`
+      : `${euroNoDecimals(PRICING.pro.lifetime)} une fois`;
+
+  const proSubLine =
+    billing === "monthly"
+      ? "Facturé mensuellement"
+      : billing === "annual"
+      ? `Facturé à l'année (${euro(PRICING.pro.annual)})`
+      : "Accès à vie";
 
   const ultraPrice =
     billing === "monthly"
-      ? `${euro(PRICING.ultra.monthly)}/mois`
+      ? `${euro(PRICING.ultra.monthly)}/mo`
       : billing === "annual"
-      ? `${euro(PRICING.ultra.annual)}/an`
-      : `${euro(PRICING.ultra.lifetime)} une fois`;
+      ? `${euro(PRICING.ultra.annual / 12)}/mo`
+      : `${euroNoDecimals(PRICING.ultra.lifetime)} une fois`;
+
+  const ultraSubLine =
+    billing === "monthly"
+      ? "Facturé mensuellement"
+      : billing === "annual"
+      ? `Facturé à l'année (${euro(PRICING.ultra.annual)})`
+      : "Accès à vie";
 
   const floatSlow = prefersReducedMotion
     ? undefined
@@ -374,20 +396,20 @@ export default function HomePage() {
     <div className="group relative min-h-screen overflow-hidden bg-[#030305] text-white">
       {/* background */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_0%,rgba(255,255,255,0.08),transparent_60%),radial-gradient(90%_120%_at_100%_10%,rgba(255,255,255,0.06),transparent_60%),radial-gradient(120%_120%_at_0%_80%,rgba(255,255,255,0.04),transparent_65%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.95),transparent_22%,transparent_78%,rgba(0,0,0,0.95)),radial-gradient(120%_120%_at_50%_40%,transparent_35%,rgba(0,0,0,0.95)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_0%,rgba(255,255,255,0.06),transparent_60%),radial-gradient(90%_120%_at_100%_10%,rgba(255,255,255,0.045),transparent_60%),radial-gradient(120%_120%_at_0%_80%,rgba(255,255,255,0.03),transparent_65%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.98),transparent_22%,transparent_78%,rgba(0,0,0,0.98)),radial-gradient(120%_120%_at_50%_40%,transparent_35%,rgba(0,0,0,0.98)_100%)]" />
         <MotionDiv
-          className="absolute -top-32 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.18),transparent_70%)] blur-3xl opacity-60"
+          className="absolute -top-32 left-1/2 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.16),transparent_70%)] blur-3xl opacity-45"
           animate={floatSlow}
           transition={floatSlowTransition}
         />
         <MotionDiv
-          className="absolute -bottom-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.16),transparent_70%)] blur-3xl opacity-45"
+          className="absolute -bottom-40 right-[-10%] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.14),transparent_70%)] blur-3xl opacity-35"
           animate={floatMedium}
           transition={floatMediumTransition}
         />
         <MotionDiv
-          className="absolute bottom-10 left-10 h-72 w-72 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1),transparent_70%)] blur-2xl opacity-25"
+          className="absolute bottom-10 left-10 h-72 w-72 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_70%)] blur-2xl opacity-18"
           animate={floatFast}
           transition={floatFastTransition}
         />
@@ -424,8 +446,11 @@ export default function HomePage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button asChild variant="outline" size="sm">
-              <a href={buildAppUrl("/login")}>Se connecter</a>
+            <Button asChild variant="accent" size="sm">
+              <a href={buildAppUrl("/login")}>
+                Se connecter
+                <ArrowRight className="h-4 w-4" />
+              </a>
             </Button>
           </div>
         </nav>
@@ -437,19 +462,40 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex flex-wrap items-center justify-center gap-2">
               <Badge className="text-[11px] normal-case" variant="accent">
-                {(waitlistCount ?? 212).toLocaleString()} producteurs inscrits
+                <span className="relative mr-2 flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                </span>
+                Utilisé par plus de {(waitlistCount ?? 212).toLocaleString()} producteurs
               </Badge>
             </div>
 
-            <h1 className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl">
+            <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
               Arrête de te faire ghoster.
             </h1>
 
-            <p className="mt-4 text-sm text-white/60 sm:text-base">
+            <MotionDiv
+              className="mt-3 text-base font-medium text-transparent sm:text-lg"
+              style={{
+                backgroundImage:
+                  "linear-gradient(90deg, rgba(255,255,255,0.85), rgba(255,255,255,0.45), rgba(255,255,255,0.85))",
+                backgroundSize: "200% 100%",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+              }}
+              animate={
+                prefersReducedMotion ? undefined : { backgroundPosition: ["0% 50%", "100% 50%"] }
+              }
+              transition={
+                prefersReducedMotion
+                  ? undefined
+                  : { duration: 18, ease: "linear", repeat: Infinity }
+              }
+            >
               Envoie tes packs de beats via un seul lien, track écoutes & téléchargements, et relance au bon moment.
-            </p>
+            </MotionDiv>
 
-            <div className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row sm:justify-center">
+            <div className="mx-auto mt-6 flex max-w-xl flex-col gap-3 sm:flex-row sm:justify-center">
               <Button asChild size="lg" variant="accent" className="w-full sm:w-auto">
                 <a href={buildAppUrl("/signup", { plan: "free" })}>
                   Créer mon compte gratuitement
@@ -458,13 +504,13 @@ export default function HomePage() {
               </Button>
             </div>
 
-            <div className="mt-10" />
+            <div className="mt-6" />
           </div>
         </motion.div>
       </div>
 
       {/* VIDEO */}
-      <div className="relative z-10 mx-auto w-full max-w-5xl -mt-20 px-5 pb-16">
+      <div className="relative z-10 mx-auto w-full max-w-5xl -mt-16 px-5 pb-12">
         <Reveal>
           <div className="overflow-hidden rounded-3xl border border-white/10 bg-black/60 shadow-[0_18px_70px_rgba(0,0,0,0.65)]">
             <div className="aspect-video w-full">
@@ -483,7 +529,7 @@ export default function HomePage() {
       </div>
 
       {/* FEATURES */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16">
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12">
         <Reveal>
           <SectionTitle
             id="features"
@@ -493,7 +539,7 @@ export default function HomePage() {
           />
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
           {FEATURES_PRIMARY.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -508,7 +554,7 @@ export default function HomePage() {
           })}
         </div>
 
-        <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
           {FEATURES_SECONDARY.map((feature, index) => {
             const Icon = feature.icon;
             return (
@@ -525,7 +571,7 @@ export default function HomePage() {
       </section>
 
       {/* PRICING */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16">
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12">
         <Reveal>
           <SectionTitle
             id="pricing"
@@ -536,7 +582,7 @@ export default function HomePage() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="mx-auto mt-8 flex w-full max-w-md items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] p-1 backdrop-blur-xl">
+          <div className="mx-auto mt-6 flex w-full max-w-md items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] p-1 backdrop-blur-xl">
             {(["monthly", "annual", "lifetime"] as Billing[]).map((b) => (
               <button
                 key={b}
@@ -553,7 +599,7 @@ export default function HomePage() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 items-stretch gap-4 lg:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 items-stretch gap-3 lg:grid-cols-3">
           <Reveal delay={0.1} className="h-full">
             <PlanCard
               name="Free"
@@ -577,7 +623,7 @@ export default function HomePage() {
               name="Pro"
               badge={billing === "annual" ? "2 mois offerts" : "Le plus populaire"}
               priceLine={proPrice}
-              subLine="Placements & outreach sérieux"
+              subLine={proSubLine}
               highlight
               features={[
                 "Mass send emails (campagnes)",
@@ -597,7 +643,7 @@ export default function HomePage() {
               name="Ultra"
               badge="Pour scaler"
               priceLine={ultraPrice}
-              subLine="Automation, branding & 0% fees vvault"
+              subLine={ultraSubLine}
               features={[
                 "Series",
                 "Follow-up suggestions + profils d’écoute + “quoi envoyer”",
@@ -614,7 +660,7 @@ export default function HomePage() {
         </div>
 
         <Reveal delay={0.2}>
-          <div className="mx-auto mt-8 max-w-3xl text-center text-xs text-white/45">
+          <div className="mx-auto mt-6 max-w-3xl text-center text-xs text-white/45">
             Les prix affichés sont modifiables dans le config en haut du fichier.
             Pense à afficher “hors frais Stripe” partout où tu mentionnes 0% fees.
           </div>
@@ -622,7 +668,7 @@ export default function HomePage() {
       </section>
 
       {/* FAQ */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16">
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12">
         <Reveal>
           <SectionTitle
             id="faq"
@@ -632,7 +678,7 @@ export default function HomePage() {
           />
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
           <Reveal delay={0.05}>
             <FAQItem
               q="Est-ce que le Free plan est “trop limité” ?"
@@ -682,7 +728,7 @@ export default function HomePage() {
       </section>
 
       {/* WAITING LIST */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-16">
+      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12">
         <Reveal>
           <Card className="p-6">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">

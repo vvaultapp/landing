@@ -14,15 +14,15 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-2xl text-sm font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 disabled:pointer-events-none disabled:opacity-60";
+  "inline-flex items-center justify-center gap-2 rounded-2xl text-sm font-medium transition-all duration-200 ease-out hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 disabled:pointer-events-none disabled:opacity-60";
 
 const variants: Record<ButtonVariant, string> = {
-  default: "border border-white/20 bg-white/10 text-white hover:bg-white/15",
+  default: "border border-white/20 bg-white/10 text-white hover:bg-white/15 hover:shadow-[0_8px_24px_rgba(0,0,0,0.35)]",
   outline:
-    "border border-white/20 bg-transparent text-white/80 hover:text-white hover:border-white/30",
+    "border border-white/20 bg-transparent text-white/80 hover:text-white hover:border-white/30 hover:shadow-[0_6px_18px_rgba(0,0,0,0.3)]",
   ghost: "text-white/70 hover:text-white",
   soft: "border border-white/10 bg-white/5 text-white/70 hover:bg-white/10",
-  accent: "bg-white text-black hover:bg-white/90",
+  accent: "bg-white text-black hover:bg-white/90 hover:shadow-[0_10px_26px_rgba(255,255,255,0.18)]",
 };
 
 const sizes: Record<ButtonSize, string> = {
