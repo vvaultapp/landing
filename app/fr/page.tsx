@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useEffect, useMemo, useState } from "react";
+import React, { FormEvent, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import {
@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { MotionDiv, Reveal } from "@/components/ui/motion";
+import { ShimmerText } from "@/components/ui/shimmer-text";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
@@ -47,39 +48,79 @@ const PRICING = {
   },
 };
 
-const FEATURES_PRIMARY: Feature[] = [
+const FEATURE_GROUPS: Array<{
+  id: string;
+  title: string;
+  desc: string;
+  items: Feature[];
+}> = [
   {
-    icon: BarChart3,
-    title: "Analytics qui font gagner du temps",
-    desc: "Suis qui ouvre, qui écoute, combien de temps, et qui télécharge — pour relancer au bon moment au lieu de “forcer au hasard”.",
+    id: "campaign",
+    title: "Campagne",
+    desc: "Transforme les emails en placements.",
+    items: [
+      {
+        icon: Mail,
+        title: "Envois ciblés",
+        desc: "Envoie des packs avec tracking propre et historique clair.",
+      },
+      {
+        icon: Sparkles,
+        title: "Relances au bon moment",
+        desc: "Suis les écoutes et relance quand ça compte.",
+      },
+    ],
   },
   {
-    icon: Mail,
-    title: "Envois & campagnes",
-    desc: "Crée des packs, envoie à tes contacts, et garde l’historique. Pro = mass send. Ultra = scheduling au meilleur moment + envois individuels dans une campagne.",
+    id: "library",
+    title: "Bibliothèque",
+    desc: "Organise et collabore.",
+    items: [
+      {
+        icon: Cloud,
+        title: "Bibliothèque privée",
+        desc: "Stocke tes beats, organise tes packs, garde les versions.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Collab fluide",
+        desc: "Partage en interne, récupère les retours, reste aligné.",
+      },
+    ],
   },
   {
-    icon: ShoppingBag,
-    title: "Vends tes drumkits & licences",
-    desc: "Paiements sécurisés via Stripe. Pro = 5% de frais vvault. Ultra = 0% de frais vvault (hors Stripe).",
+    id: "public-pages",
+    title: "Pages publiques",
+    desc: "Des liens qui font pro.",
+    items: [
+      {
+        icon: ShoppingBag,
+        title: "Vendre & gate",
+        desc: "Vends tes kits ou gate les downloads en un flow clean.",
+      },
+      {
+        icon: Sparkles,
+        title: "Pages custom",
+        desc: "Des pages publiques belles et rapides sur mobile.",
+      },
+    ],
   },
-];
-
-const FEATURES_SECONDARY: Feature[] = [
   {
-    icon: Cloud,
-    title: "Workspace privé (cloud)",
-    desc: "Stocke, organise, collabore. Free = 100MB. Pro/Ultra = usage sérieux (stockage large / illimité selon ta politique).",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Liens propres & pages publiques",
-    desc: "Partage tes packs avec une expérience clean. Ultra = domaine custom + couleur + QR auto + embed player.",
-  },
-  {
-    icon: Sparkles,
-    title: "Ultra = optimisation & scale",
-    desc: "Compare tes campagnes, export CSV, et (bientôt) cohortes. Ultra te donne les outils pour comprendre ce qui marche et doubler dessus.",
+    id: "analytics-contact",
+    title: "Analytics & contacts",
+    desc: "Suis les écoutes et garde le contexte.",
+    items: [
+      {
+        icon: BarChart3,
+        title: "Analytics profonds",
+        desc: "Opens, écoutes, downloads, tendances en un coup d’œil.",
+      },
+      {
+        icon: Mail,
+        title: "Contacts",
+        desc: "Centralise tes artistes et garde l’historique.",
+      },
+    ],
   },
 ];
 
@@ -126,8 +167,8 @@ function SectionTitle(props: {
       {props.kicker ? (
         <Badge variant="soft">{props.kicker}</Badge>
       ) : null}
-      <h2 className="mt-4 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-        {props.title}
+      <h2 className="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        <ShimmerText className="text-white">{props.title}</ShimmerText>
       </h2>
       {props.desc ? (
         <p className="mt-3 text-sm text-white/60 sm:text-base">{props.desc}</p>
@@ -244,7 +285,6 @@ export default function HomePage() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState<string | null>(null);
-  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
 
   // UI
   const [billing, setBilling] = useState<Billing>("annual");
@@ -262,30 +302,6 @@ export default function HomePage() {
     }),
     [prefersReducedMotion]
   );
-
-  // Count (optional social proof)
-  useEffect(() => {
-    let isMounted = true;
-
-    async function loadWaitlistCount() {
-      try {
-        const { count } = await supabase
-          .from("beta_waitlist")
-          .select("*", { count: "exact", head: true });
-
-        if (!isMounted) return;
-        if (typeof count === "number") setWaitlistCount(count);
-      } catch {
-        // silent
-      }
-    }
-
-    loadWaitlistCount();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   async function handleSubmitNewsletter(e: FormEvent) {
     e.preventDefault();
@@ -318,7 +334,6 @@ export default function HomePage() {
     setStatus("success");
     setMessage("Inscrit·e ✅ Tu recevras les updates et ressources.");
     setEmail("");
-    setWaitlistCount((prev) => (typeof prev === "number" ? prev + 1 : prev));
   }
 
   const proPrice =
@@ -424,23 +439,32 @@ export default function HomePage() {
             vvault
           </div>
 
-          <div className="hidden items-center gap-2 sm:flex">
-            <a
-              href="#features"
-              className="rounded-full px-3 py-2 text-xs font-semibold text-white/70 hover:text-white"
-            >
-              Fonctionnalités
-            </a>
-            <a
-              href="#pricing"
-              className="rounded-full px-3 py-2 text-xs font-semibold text-white/70 hover:text-white"
-            >
+          <div className="hidden items-center gap-3 sm:flex">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-white/40">
+              Features
+            </span>
+            <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
+              <a href="#campaign" className="hover:text-white">
+                Campagne
+              </a>
+              <span className="text-white/20">/</span>
+              <a href="#library" className="hover:text-white">
+                Bibliothèque
+              </a>
+              <span className="text-white/20">/</span>
+              <a href="#public-pages" className="hover:text-white">
+                Pages publiques
+              </a>
+              <span className="text-white/20">/</span>
+              <a href="#analytics-contact" className="hover:text-white">
+                Analytics & contacts
+              </a>
+            </div>
+            <span className="mx-1 h-4 w-px bg-white/10" />
+            <a href="#pricing" className="text-xs font-semibold text-white/70 hover:text-white">
               Prix
             </a>
-            <a
-              href="#faq"
-              className="rounded-full px-3 py-2 text-xs font-semibold text-white/70 hover:text-white"
-            >
+            <a href="#faq" className="text-xs font-semibold text-white/70 hover:text-white">
               FAQ
             </a>
           </div>
@@ -461,39 +485,23 @@ export default function HomePage() {
         <motion.div initial="hidden" animate="show" variants={heroVariants} className="w-full">
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex flex-wrap items-center justify-center gap-2">
-              <Badge className="text-[11px] normal-case" variant="accent">
-                <span className="relative mr-2 flex h-2 w-2">
+              <Badge className="text-[11px] normal-case text-white/60" variant="outline">
+                utilisé par 200+ producteurs
+                <span className="relative ml-2 flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                 </span>
-                Utilisé par plus de {(waitlistCount ?? 212).toLocaleString()} producteurs
               </Badge>
             </div>
 
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">
+            <h1 className="mt-4 text-4xl font-semibold tracking-tight sm:text-5xl">
               Arrête de te faire ghoster.
             </h1>
 
-            <MotionDiv
-              className="mt-3 text-base font-medium text-transparent sm:text-lg"
-              style={{
-                backgroundImage:
-                  "linear-gradient(90deg, rgba(255,255,255,0.85), rgba(255,255,255,0.45), rgba(255,255,255,0.85))",
-                backgroundSize: "200% 100%",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-              }}
-              animate={
-                prefersReducedMotion ? undefined : { backgroundPosition: ["0% 50%", "100% 50%"] }
-              }
-              transition={
-                prefersReducedMotion
-                  ? undefined
-                  : { duration: 18, ease: "linear", repeat: Infinity }
-              }
-            >
-              Envoie tes packs de beats via un seul lien, track écoutes & téléchargements, et relance au bon moment.
-            </MotionDiv>
+            <ShimmerText className="mt-3 block text-lg font-semibold leading-snug sm:text-2xl">
+              <span className="block">Envoie tes packs de beats via un seul lien,</span>
+              <span className="block">track écoutes & téléchargements, et relance au bon moment.</span>
+            </ShimmerText>
 
             <div className="mx-auto mt-6 flex max-w-xl flex-col gap-3 sm:flex-row sm:justify-center">
               <Button asChild size="lg" variant="accent" className="w-full sm:w-auto">
@@ -535,38 +543,43 @@ export default function HomePage() {
             id="features"
             kicker="Pensé pour les placements"
             title="Tout le workflow beatmaker, au même endroit"
-            desc="Arrête d’envoyer des Drive links au hasard. vvault te donne un process clair : envoyer, mesurer, relancer, closer."
+            desc="Tout est organisé par moment-clé."
           />
         </Reveal>
 
-        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
-          {FEATURES_PRIMARY.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Reveal key={feature.title} delay={0.1 + index * 0.08} className="h-full">
-                <FeatureCard
-                  icon={<Icon className="h-5 w-5" />}
-                  title={feature.title}
-                  desc={feature.desc}
-                />
-              </Reveal>
-            );
-          })}
-        </div>
+        <div className="mt-8 space-y-10">
+          {FEATURE_GROUPS.map((group, groupIndex) => (
+            <div key={group.id} id={group.id} className="scroll-mt-28">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <ShimmerText className="text-lg font-semibold text-white sm:text-xl">
+                    {group.title}
+                  </ShimmerText>
+                  <p className="mt-2 text-sm text-white/60">{group.desc}</p>
+                </div>
+                <div className="hidden h-px w-32 bg-white/10 sm:block" />
+              </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-3">
-          {FEATURES_SECONDARY.map((feature, index) => {
-            const Icon = feature.icon;
-            return (
-              <Reveal key={feature.title} delay={0.1 + index * 0.08} className="h-full">
-                <FeatureCard
-                  icon={<Icon className="h-5 w-5" />}
-                  title={feature.title}
-                  desc={feature.desc}
-                />
-              </Reveal>
-            );
-          })}
+              <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
+                {group.items.map((feature, index) => {
+                  const Icon = feature.icon;
+                  return (
+                    <Reveal
+                      key={feature.title}
+                      delay={0.1 + groupIndex * 0.06 + index * 0.05}
+                      className="h-full"
+                    >
+                      <FeatureCard
+                        icon={<Icon className="h-5 w-5" />}
+                        title={feature.title}
+                        desc={feature.desc}
+                      />
+                    </Reveal>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
