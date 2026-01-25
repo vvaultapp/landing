@@ -251,6 +251,7 @@ function FAQItem(props: { q: string; a: React.ReactNode }) {
 
 export default function HomePage() {
   const prefersReducedMotion = useReducedMotion();
+  const easeInOut: [number, number, number, number] = [0.42, 0, 0.58, 1];
 
   // Newsletter / updates
   const [email, setEmail] = useState("");
@@ -358,7 +359,7 @@ export default function HomePage() {
     ? undefined
     : {
         duration: 24,
-        ease: "easeInOut",
+        ease: easeInOut,
         repeat: Infinity,
         repeatType: "mirror" as const,
       };
@@ -372,7 +373,7 @@ export default function HomePage() {
     ? undefined
     : {
         duration: 28,
-        ease: "easeInOut",
+        ease: easeInOut,
         repeat: Infinity,
         repeatType: "mirror" as const,
       };
@@ -386,7 +387,7 @@ export default function HomePage() {
     ? undefined
     : {
         duration: 20,
-        ease: "easeInOut",
+        ease: easeInOut,
         repeat: Infinity,
         repeatType: "mirror" as const,
       };
