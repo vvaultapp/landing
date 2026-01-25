@@ -32,7 +32,6 @@ type Feature = {
 };
 
 const APP_BASE = "https://vvault.app";
-const BILLING_URL = "https://vvault.app/billing";
 
 /** 👇 Adjust here if needed */
 const PRICING = {
@@ -323,7 +322,7 @@ export default function HomePage() {
       const msg = (error.message || "").toLowerCase();
       if (error.code === "23505" || msg.includes("duplicate")) {
         setStatus("success");
-        setMessage("Already on the list ✅");
+        setMessage("Already subscribed ✅");
         return;
       }
       setStatus("error");
@@ -332,7 +331,7 @@ export default function HomePage() {
     }
 
     setStatus("success");
-    setMessage("You're in ✅ You'll receive updates and resources.");
+    setMessage("You're in ✅ You'll get updates + outreach templates.");
     setEmail("");
   }
 
@@ -469,10 +468,16 @@ export default function HomePage() {
             </a>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <a
+              href={buildAppUrl("/login")}
+              className="text-xs font-semibold text-white/70 hover:text-white"
+            >
+              Log in
+            </a>
             <Button asChild variant="accent" size="sm">
-              <a href={buildAppUrl("/login")}>
-                Log in
+              <a href={buildAppUrl("/signup", { plan: "free" })}>
+                Start free
                 <ArrowRight className="h-4 w-4" />
               </a>
             </Button>
@@ -499,20 +504,34 @@ export default function HomePage() {
             </h1>
 
             <ShimmerText className="mt-3 block text-lg font-semibold leading-snug sm:text-2xl">
-              <span className="block">Send beat packs in one link, track listens & downloads,</span>
-              <span className="block">and follow up at the right time.</span>
+              <span className="block">Share beat packs in one link.</span>
+              <span className="block">Pro trial unlocks sending + tracking so you follow up on time.</span>
             </ShimmerText>
+
+            <div className="mt-4 flex justify-center">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[11px] font-semibold text-white/70">
+                <ShoppingBag className="h-3.5 w-3.5 text-white/70" />
+                <span>Buy any kit, get 1 month Pro</span>
+              </div>
+            </div>
 
             <div className="mx-auto mt-6 flex max-w-xl flex-col gap-3 sm:flex-row sm:justify-center">
               <Button asChild size="lg" variant="accent" className="w-full sm:w-auto">
                 <a href={buildAppUrl("/signup", { plan: "free" })}>
-                  Create my account for free
+                  Start free
                   <ArrowRight className="h-4 w-4" />
                 </a>
               </Button>
             </div>
 
-            <div className="mt-6" />
+            <p className="mt-3 text-xs text-white/50">
+              <span className="block">
+                Start free — 7-day Pro trial included (sending + tracking).
+              </span>
+              <span className="block">
+                After the trial, you stay on Free unless you upgrade to keep sending + analytics.
+              </span>
+            </p>
           </div>
         </motion.div>
       </div>
@@ -590,7 +609,7 @@ export default function HomePage() {
             id="pricing"
             kicker="Simple & clear"
             title="Choose your plan — start free"
-            desc="Start on Free. Upgrade only if you want to send, track, or scale."
+            desc="Free gives you a workspace + shareable links. Your 7-day Pro trial unlocks sending + tracking; after the trial you stay on Free unless you upgrade."
           />
         </Reveal>
 
@@ -620,14 +639,14 @@ export default function HomePage() {
               priceLine="€0"
               subLine="Start free"
               features={[
-                "Chrome extension: open tracking (MailSuite-style)",
+                "Workspace + library",
                 "100MB storage",
                 "Full contacts list",
                 "Generate shareable links",
               ]}
               ctaLabel="Start free"
               ctaHref={buildAppUrl("/signup", { plan: "free" })}
-              footnote="Great to set up your workspace. Go Pro only if you want to go further."
+              footnote="Free = workspace + links. Pro trial unlocks sending + tracking."
             />
           </Reveal>
 
@@ -639,15 +658,16 @@ export default function HomePage() {
               subLine={proSubLine}
               highlight
               features={[
-                "Mass email campaigns",
+                "Campaign sends + link tracking",
+                "Open tracking extension (MailSuite-style)",
                 "Deep analytics",
                 "Email/subscribe gate before free download",
                 "vvault fees: 5% on sales (Stripe excluded)",
-                "Large storage (recommended: unlimited / fair use on paid)",
+                "Large storage (fair-use on paid)",
               ]}
               ctaLabel="Go Pro"
-              ctaHref={BILLING_URL}
-              footnote="Recommendation: keep the 100MB limit only on Free. On paid Pro, avoid blocking uploads."
+              ctaHref={buildAppUrl("/signup", { plan: "pro", billing })}
+              footnote="7-day Pro trial included. After the trial you stay on Free unless you upgrade."
             />
           </Reveal>
 
@@ -666,18 +686,12 @@ export default function HomePage() {
                 "Compare campaigns (sort + export) + CSV export",
               ]}
               ctaLabel="Go Ultra"
-              ctaHref={BILLING_URL}
-              footnote="Ultra is for teams who sell/send a lot and want to optimize with stats + automation."
+              ctaHref={buildAppUrl("/signup", { plan: "ultra", billing })}
+              footnote="Ultra is for producers who sell/send a lot and want to optimize with stats + automation."
             />
           </Reveal>
         </div>
 
-        <Reveal delay={0.2}>
-          <div className="mx-auto mt-6 max-w-3xl text-center text-xs text-white/45">
-            Prices are editable in the config at the top of the file.
-            Remember to mention “Stripe fees excluded” anywhere you show 0% fees.
-          </div>
-        </Reveal>
       </section>
 
       {/* FAQ */}
@@ -697,8 +711,8 @@ export default function HomePage() {
               q="Is the Free plan too limited?"
               a={
                 <>
-                  No. You can already centralize your packs, create clean links, and track basic
-                  signals. Upgrade only if you want industrial sending or advanced analytics.
+                  No. Free gives you a workspace + shareable links. Your 7-day Pro trial unlocks
+                  sending + tracking; after the trial you stay on Free unless you upgrade.
                 </>
               }
             />
@@ -720,7 +734,7 @@ export default function HomePage() {
               a={
                 <>
                   Yes. And you already put your kits on vvault — perfect.
-                  Bonus: offer 1 month of Pro to each buyer to convert them into subscribers.
+                  Buyers get 1 month of Pro, which helps convert them into subscribers.
                 </>
               }
             />
@@ -730,8 +744,7 @@ export default function HomePage() {
               q="Do I need a card to start?"
               a={
                 <>
-                  It depends on your setup. Without a card, you maximize signups. With a card,
-                  you reduce volume but increase quality.
+                  Start on Free. If you decide to keep Pro after the 7-day trial, you upgrade then.
                 </>
               }
             />
@@ -746,10 +759,10 @@ export default function HomePage() {
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div className="max-w-xl">
                 <div className="text-lg font-semibold text-white">
-                  Join the waiting list
+                  Get updates + outreach templates
                 </div>
                 <p className="mt-1 text-sm text-white/60">
-                  Early access, product updates, and resources to land more placements.
+                  Product updates and proven outreach templates to land more placements.
                 </p>
               </div>
 
@@ -769,7 +782,7 @@ export default function HomePage() {
                     className="whitespace-nowrap"
                     variant="accent"
                   >
-                    {isLoading ? "Working..." : "Join"}
+                    {isLoading ? "Working..." : "Get updates"}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </div>
@@ -811,7 +824,9 @@ export default function HomePage() {
           <div className="flex items-center justify-between gap-3">
             <div className="text-xs text-white/70">
               Start free
-              <div className="text-[11px] text-white/45">Upgrade only if needed</div>
+              <div className="text-[11px] text-white/45">
+                Free workspace + links. 7-day Pro trial included.
+              </div>
             </div>
             <Button asChild size="sm" variant="accent">
               <a href={buildAppUrl("/signup", { plan: "free" })}>
