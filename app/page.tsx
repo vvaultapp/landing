@@ -452,6 +452,7 @@ export default function HomePage() {
                 Features
                 <ChevronDown className="h-3.5 w-3.5 text-white/50 transition group-hover/features:text-white/80" />
               </a>
+              <span className="absolute left-0 top-full h-3 w-56" aria-hidden />
               <div className="pointer-events-none absolute left-0 top-full z-20 mt-2 w-56 translate-y-1 rounded-2xl border border-white/10 bg-black/90 p-2 opacity-0 shadow-[0_14px_55px_rgba(0,0,0,0.45)] backdrop-blur-xl transition group-hover/features:pointer-events-auto group-hover/features:translate-y-0 group-hover/features:opacity-100">
                 <a
                   href="#campaign"
@@ -521,7 +522,7 @@ export default function HomePage() {
 
             <ShimmerText className="mt-3 block text-lg font-medium leading-snug sm:text-2xl">
               <span className="block font-semibold">Turn beat packs into placements.</span>
-              <span className="block">
+              <span className="block text-sm font-medium text-white/70 sm:text-lg">
                 Track engagement and follow up when artists are actually listening.
               </span>
             </ShimmerText>
@@ -537,7 +538,7 @@ export default function HomePage() {
 
             <p className="mt-3 text-xs text-white/50">
               <span className="block">
-                Start free — 7-day Pro trial included (no credit card needed).
+                7-day Pro trial included (no credit card needed).
               </span>
             </p>
           </div>
