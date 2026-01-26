@@ -439,20 +439,20 @@ export default function HomePage() {
             vvault
           </div>
 
-          <div className="hidden items-center gap-3 sm:flex">
+          <div className="hidden items-center gap-5 sm:flex">
             <a href="#" className="text-xs font-semibold text-white/70 hover:text-white">
               Home
             </a>
-            <div className="relative group">
+            <div className="relative group/features">
               <a
                 href="#features"
                 className="flex items-center gap-1 text-xs font-semibold text-white/70 hover:text-white"
                 aria-haspopup="true"
               >
                 Features
-                <ChevronDown className="h-3.5 w-3.5 text-white/50 transition group-hover:text-white/80" />
+                <ChevronDown className="h-3.5 w-3.5 text-white/50 transition group-hover/features:text-white/80" />
               </a>
-              <div className="pointer-events-none absolute left-0 top-full z-20 mt-2 w-56 translate-y-1 rounded-2xl border border-white/10 bg-black/90 p-2 opacity-0 shadow-[0_14px_55px_rgba(0,0,0,0.45)] backdrop-blur-xl transition group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100">
+              <div className="pointer-events-none absolute left-0 top-full z-20 mt-2 w-56 translate-y-1 rounded-2xl border border-white/10 bg-black/90 p-2 opacity-0 shadow-[0_14px_55px_rgba(0,0,0,0.45)] backdrop-blur-xl transition group-hover/features:pointer-events-auto group-hover/features:translate-y-0 group-hover/features:opacity-100">
                 <a
                   href="#campaign"
                   className="block rounded-xl px-3 py-2 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white"
@@ -519,9 +519,11 @@ export default function HomePage() {
               Stop getting ghosted.
             </h1>
 
-            <ShimmerText className="mt-3 block text-lg font-semibold leading-snug sm:text-2xl">
-              <span className="block">Share beat packs in one link.</span>
-              <span className="block">Pro trial unlocks sending + tracking so you follow up on time.</span>
+            <ShimmerText className="mt-3 block text-lg font-medium leading-snug sm:text-2xl">
+              <span className="block font-semibold">Turn beat packs into placements.</span>
+              <span className="block">
+                Track engagement and follow up when artists are actually listening.
+              </span>
             </ShimmerText>
 
             <div className="mx-auto mt-6 flex max-w-xl flex-col gap-3 sm:flex-row sm:justify-center">
