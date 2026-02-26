@@ -33,6 +33,8 @@ type Feature = {
 
 const APP_BASE = "https://vvault.app";
 const BILLING_URL = "https://vvault.app/billing";
+const TERMS_URL = "https://get.vvault.app/terms";
+const PRIVACY_URL = "https://get.vvault.app/privacy";
 
 /** 👇 Ajuste ici si besoin */
 const PRICING = {
@@ -793,10 +795,10 @@ export default function HomePage() {
         <footer className="mt-10 flex flex-col items-center justify-between gap-3 text-xs text-white/45 sm:flex-row">
           <div>© {new Date().getFullYear()} vvault</div>
           <div className="flex items-center gap-4">
-            <a className="hover:text-white/70" href="/terms">
+            <a className="hover:text-white/70" href={TERMS_URL}>
               Conditions
             </a>
-            <a className="hover:text-white/70" href="/privacy">
+            <a className="hover:text-white/70" href={PRIVACY_URL}>
               Confidentialite
             </a>
             <a

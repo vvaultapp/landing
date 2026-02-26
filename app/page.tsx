@@ -17,6 +17,8 @@ type Status = "idle" | "loading" | "success" | "error";
 type Billing = "monthly" | "annual" | "lifetime";
 
 const APP_BASE = "https://vvault.app";
+const TERMS_URL = "https://get.vvault.app/terms";
+const PRIVACY_URL = "https://get.vvault.app/privacy";
 
 /** 👇 Adjust here if needed */
 const PRICING = {
@@ -545,10 +547,10 @@ export default function HomePage() {
         <footer className="mt-10 flex flex-col items-center justify-between gap-3 text-xs text-white/45 sm:flex-row">
           <div>© {new Date().getFullYear()} vvault</div>
           <div className="flex items-center gap-4">
-            <a className="hover:text-white/70" href="/terms">
+            <a className="hover:text-white/70" href={TERMS_URL}>
               Terms
             </a>
-            <a className="hover:text-white/70" href="/privacy">
+            <a className="hover:text-white/70" href={PRIVACY_URL}>
               Privacy
             </a>
             <a

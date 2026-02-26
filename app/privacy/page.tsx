@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 };
 
 const LAST_UPDATED = "February 26, 2026";
+const TERMS_URL = "https://get.vvault.app/terms";
 
 export default function PrivacyPage() {
   return (
@@ -20,9 +21,9 @@ export default function PrivacyPage() {
             vvault
           </Link>
           <div className="flex items-center gap-4 text-sm text-white/60">
-            <Link href="/terms" className="hover:text-white">
+            <a href={TERMS_URL} className="hover:text-white">
               Terms of Use
-            </Link>
+            </a>
           </div>
         </div>
 
