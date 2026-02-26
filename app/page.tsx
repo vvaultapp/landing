@@ -545,8 +545,19 @@ export default function HomePage() {
         <footer className="mt-10 flex flex-col items-center justify-between gap-3 text-xs text-white/45 sm:flex-row">
           <div>© {new Date().getFullYear()} vvault</div>
           <div className="flex items-center gap-4">
-            <a className="hover:text-white/70" href="https://vvault.app/legal">
-              Legal
+            <a className="hover:text-white/70" href="/terms">
+              Terms
+            </a>
+            <a className="hover:text-white/70" href="/privacy">
+              Privacy
+            </a>
+            <a
+              className="hover:text-white/70"
+              href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              EULA
             </a>
             <a className="hover:text-white/70" href={buildAppUrl("/login")}>
               Log in
