@@ -3,17 +3,7 @@
 import React, { FormEvent, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import {
-  ArrowRight,
-  BarChart3,
-  Cloud,
-  ChevronDown,
-  Mail,
-  ShieldCheck,
-  Sparkles,
-  BadgeCheck,
-  ShoppingBag,
-} from "lucide-react";
+import { ArrowRight, BadgeCheck } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -25,12 +15,6 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "loading" | "success" | "error";
 type Billing = "monthly" | "annual" | "lifetime";
-
-type Feature = {
-  icon: React.ComponentType<{ className?: string }>;
-  title: string;
-  desc: string;
-};
 
 const APP_BASE = "https://vvault.app";
 
@@ -48,81 +32,6 @@ const PRICING = {
   },
 };
 
-const FEATURE_GROUPS: Array<{
-  id: string;
-  title: string;
-  desc: string;
-  items: Feature[];
-}> = [
-  {
-    id: "campaign",
-    title: "Campaign",
-    desc: "Turn emails into placements.",
-    items: [
-      {
-        icon: Mail,
-        title: "Campaign sends",
-        desc: "Send targeted packs with clean tracking and delivery history.",
-      },
-      {
-        icon: Sparkles,
-        title: "Follow-up timing",
-        desc: "Know who listened and follow up when it matters.",
-      },
-    ],
-  },
-  {
-    id: "library",
-    title: "Library",
-    desc: "Organize and collab.",
-    items: [
-      {
-        icon: Cloud,
-        title: "Private library",
-        desc: "Store beats, organize packs, and keep versions in one place.",
-      },
-      {
-        icon: ShieldCheck,
-        title: "Collaboration-ready",
-        desc: "Share internally, collect feedback, and stay in sync.",
-      },
-    ],
-  },
-  {
-    id: "public-pages",
-    title: "Public pages",
-    desc: "Make every link feel premium.",
-    items: [
-      {
-        icon: ShoppingBag,
-        title: "Sell & gate",
-        desc: "Sell kits or gate downloads with a clean checkout flow.",
-      },
-      {
-        icon: Sparkles,
-        title: "Custom pages",
-        desc: "Public pages that look great on any device.",
-      },
-    ],
-  },
-  {
-    id: "analytics-contact",
-    title: "Analytics & contact",
-    desc: "Know who listens and keep context.",
-    items: [
-      {
-        icon: BarChart3,
-        title: "Deep analytics",
-        desc: "Opens, listens, downloads, and trends at a glance.",
-      },
-      {
-        icon: Mail,
-        title: "Contacts",
-        desc: "Centralize artists, track touches, and stay organized.",
-      },
-    ],
-  },
-];
 
 function euro(v: number) {
   return new Intl.NumberFormat("en-US", {
@@ -146,9 +55,6 @@ function buildAppUrl(path: string, params?: Record<string, string>) {
   url.searchParams.set("utm_source", "get.vvault.app");
   url.searchParams.set("utm_medium", "landing");
   url.searchParams.set("utm_campaign", "default");
-
-  // Onboarding parameter (optional)
-  url.searchParams.set("trial", "pro7");
 
   if (params) {
     for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
@@ -174,20 +80,6 @@ function SectionTitle(props: {
         <p className="mt-3 text-sm text-white/60 sm:text-base">{props.desc}</p>
       ) : null}
     </div>
-  );
-}
-
-function FeatureCard(props: { icon: React.ReactNode; title: string; desc: string }) {
-  return (
-    <Card className="p-6 shadow-[0_14px_55px_rgba(0,0,0,0.45)] transition hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.06]">
-      <div className="flex items-center gap-3">
-        <div className="grid h-10 w-10 place-items-center rounded-2xl border border-white/10 bg-black/40 text-white/80">
-          {props.icon}
-        </div>
-        <div className="text-base font-semibold text-white">{props.title}</div>
-      </div>
-      <p className="mt-3 text-sm leading-relaxed text-white/60">{props.desc}</p>
-    </Card>
   );
 }
 
@@ -260,20 +152,6 @@ function PlanCard(props: {
         ) : null}
       </div>
     </Card>
-  );
-}
-
-function FAQItem(props: { q: string; a: React.ReactNode }) {
-  return (
-    <details className="group rounded-3xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-xl transition hover:border-white/20">
-      <summary className="cursor-pointer list-none text-sm font-semibold text-white/90">
-        <div className="flex items-center justify-between gap-4">
-          <span>{props.q}</span>
-          <span className="text-white/40 transition group-open:rotate-45">+</span>
-        </div>
-      </summary>
-      <div className="mt-3 text-sm leading-relaxed text-white/60">{props.a}</div>
-    </details>
   );
 }
 
@@ -443,48 +321,8 @@ export default function HomePage() {
             <a href="#" className="text-xs font-semibold text-white/70 hover:text-white">
               Home
             </a>
-            <div className="relative group/features">
-              <a
-                href="#features"
-                className="flex items-center gap-1 text-xs font-semibold text-white/70 hover:text-white"
-                aria-haspopup="true"
-              >
-                Features
-                <ChevronDown className="h-3.5 w-3.5 text-white/50 transition group-hover/features:text-white/80" />
-              </a>
-              <span className="absolute left-0 top-full h-3 w-56" aria-hidden />
-              <div className="pointer-events-none absolute left-0 top-full z-20 mt-2 w-56 translate-y-1 rounded-2xl border border-white/10 bg-black/90 p-2 opacity-0 shadow-[0_14px_55px_rgba(0,0,0,0.45)] backdrop-blur-xl transition group-hover/features:pointer-events-auto group-hover/features:translate-y-0 group-hover/features:opacity-100">
-                <a
-                  href="#campaign"
-                  className="block rounded-xl px-3 py-2 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Campaign
-                </a>
-                <a
-                  href="#library"
-                  className="block rounded-xl px-3 py-2 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Library
-                </a>
-                <a
-                  href="#public-pages"
-                  className="block rounded-xl px-3 py-2 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Public pages
-                </a>
-                <a
-                  href="#analytics-contact"
-                  className="block rounded-xl px-3 py-2 text-xs font-semibold text-white/70 hover:bg-white/10 hover:text-white"
-                >
-                  Analytics & contact
-                </a>
-              </div>
-            </div>
             <a href="#pricing" className="text-xs font-semibold text-white/70 hover:text-white">
               Pricing
-            </a>
-            <a href="#faq" className="text-xs font-semibold text-white/70 hover:text-white">
-              FAQ
             </a>
             <a href="#updates" className="text-xs font-semibold text-white/70 hover:text-white">
               Get updates
@@ -508,7 +346,7 @@ export default function HomePage() {
           <div className="mx-auto max-w-3xl text-center">
             <div className="inline-flex flex-wrap items-center justify-center gap-2">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-1 text-[11px] font-semibold text-white/70">
-                <span>used by 200+ producers</span>
+                <span>used by 600+ producers</span>
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60 opacity-75" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
@@ -536,11 +374,6 @@ export default function HomePage() {
               </Button>
             </div>
 
-            <p className="mt-3 text-xs text-white/50">
-              <span className="block">
-                7-day Pro trial included (no credit card needed).
-              </span>
-            </p>
           </div>
         </motion.div>
       </div>
@@ -564,56 +397,6 @@ export default function HomePage() {
         </Reveal>
       </div>
 
-      {/* FEATURES */}
-      <section
-        id="updates"
-        className="relative z-10 mx-auto w-full max-w-6xl scroll-mt-28 px-5 pb-12"
-      >
-        <Reveal>
-          <SectionTitle
-            id="features"
-            kicker="Built for placements"
-            title="Your whole beatmaker workflow in one place"
-            desc="Everything is organized by the moment it matters."
-          />
-        </Reveal>
-
-        <div className="mt-8 space-y-10">
-          {FEATURE_GROUPS.map((group, groupIndex) => (
-            <div key={group.id} id={group.id} className="scroll-mt-28">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                  <ShimmerText className="text-lg font-semibold text-white sm:text-xl">
-                    {group.title}
-                  </ShimmerText>
-                  <p className="mt-2 text-sm text-white/60">{group.desc}</p>
-                </div>
-                <div className="hidden h-px w-32 bg-white/10 sm:block" />
-              </div>
-
-              <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2">
-                {group.items.map((feature, index) => {
-                  const Icon = feature.icon;
-                  return (
-                    <Reveal
-                      key={feature.title}
-                      delay={0.1 + groupIndex * 0.06 + index * 0.05}
-                      className="h-full"
-                    >
-                      <FeatureCard
-                        icon={<Icon className="h-5 w-5" />}
-                        title={feature.title}
-                        desc={feature.desc}
-                      />
-                    </Reveal>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* PRICING */}
       <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12">
         <Reveal>
@@ -621,7 +404,7 @@ export default function HomePage() {
             id="pricing"
             kicker="Simple & clear"
             title="Choose your plan — start free"
-            desc="Free gives you a workspace + shareable links. Your 7-day Pro trial unlocks sending + tracking; after the trial you stay on Free unless you upgrade."
+            desc="Free gives you a workspace + shareable links. Upgrade when you need sending + tracking."
           />
         </Reveal>
 
@@ -658,7 +441,7 @@ export default function HomePage() {
               ]}
               ctaLabel="Start free"
               ctaHref={buildAppUrl("/signup", { plan: "free" })}
-              footnote="Free = workspace + links. Pro trial unlocks sending + tracking."
+              footnote="Free = workspace + links."
             />
           </Reveal>
 
@@ -679,7 +462,7 @@ export default function HomePage() {
               ]}
               ctaLabel="Go Pro"
               ctaHref={buildAppUrl("/signup", { plan: "pro", billing })}
-              footnote="7-day Pro trial included. After the trial you stay on Free unless you upgrade."
+              footnote="Upgrade to Pro when you need sending + tracking."
             />
           </Reveal>
 
@@ -706,66 +489,11 @@ export default function HomePage() {
 
       </section>
 
-      {/* FAQ */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12">
-        <Reveal>
-          <SectionTitle
-            id="faq"
-            kicker="FAQ"
-            title="FAQ"
-            desc="The goal: save you time and improve your chances of placements."
-          />
-        </Reveal>
-
-        <div className="mt-8 grid grid-cols-1 gap-3 md:grid-cols-2">
-          <Reveal delay={0.05}>
-            <FAQItem
-              q="Is the Free plan too limited?"
-              a={
-                <>
-                  No. Free gives you a workspace + shareable links. Your 7-day Pro trial unlocks
-                  sending + tracking; after the trial you stay on Free unless you upgrade.
-                </>
-              }
-            />
-          </Reveal>
-          <Reveal delay={0.12}>
-            <FAQItem
-              q="What does 0% fees on Ultra mean?"
-              a={
-                <>
-                  It means 0% vvault marketplace fees on your sales.
-                  Stripe fees still apply (as everywhere).
-                </>
-              }
-            />
-          </Reveal>
-          <Reveal delay={0.18}>
-            <FAQItem
-              q="Can I sell drumkits?"
-              a={
-                <>
-                  Yes. And you already put your kits on vvault — perfect.
-                  Buyers get 1 month of Pro, which helps convert them into subscribers.
-                </>
-              }
-            />
-          </Reveal>
-          <Reveal delay={0.24}>
-            <FAQItem
-              q="Do I need a card to start?"
-              a={
-                <>
-                  Start on Free. If you decide to keep Pro after the 7-day trial, you upgrade then.
-                </>
-              }
-            />
-          </Reveal>
-        </div>
-      </section>
-
       {/* WAITING LIST */}
-      <section className="relative z-10 mx-auto w-full max-w-6xl px-5 pb-12">
+      <section
+        id="updates"
+        className="relative z-10 mx-auto w-full max-w-6xl scroll-mt-28 px-5 pb-12"
+      >
         <Reveal>
           <Card className="p-6">
             <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
@@ -837,7 +565,7 @@ export default function HomePage() {
             <div className="text-xs text-white/70">
               Start free
               <div className="text-[11px] text-white/45">
-                Free workspace + links. 7-day Pro trial included.
+                Free workspace + links.
               </div>
             </div>
             <Button asChild size="sm" variant="accent">
