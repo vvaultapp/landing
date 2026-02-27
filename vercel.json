@@ -1,0 +1,13 @@
+{
+  "routes": [
+    {
+      "src": "/landing\\.html",
+      "status": 308,
+      "headers": {
+        "Location": "/homepage"
+      }
+    },
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
