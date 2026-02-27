@@ -50,7 +50,7 @@ export function LandingNav() {
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
-            className="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             Login
           </LandingCtaLink>
@@ -59,7 +59,7 @@ export function LandingNav() {
         <LandingCtaLink
           loggedInHref="https://vvault.app/login"
           loggedOutHref="https://vvault.app/login"
-          className="ml-auto inline-flex items-center rounded-xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
+          className="ml-auto inline-flex items-center rounded-2xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
         >
           Login
         </LandingCtaLink>
@@ -112,7 +112,7 @@ export function LandingNav() {
                 loggedInHref="https://vvault.app/login"
                 loggedOutHref="https://vvault.app/login"
                 onClick={() => setMenuOpen(false)}
-                className="inline-flex items-center rounded-xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+                className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
                 Login
               </LandingCtaLink>
