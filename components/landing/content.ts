@@ -97,28 +97,29 @@ export const landingContent = {
   howItWorks: [
     {
       title: "Upload",
-      description: "Bring tracks into your private library with metadata, covers, and clean organization.",
-      detail: "Multi-file upload, ZIP extraction, and pack-ready structure out of the box.",
+      description: "Bring tracks into your private library with metadata, artwork, and clean file handling.",
+      detail: "Drag and drop multi-file uploads, ZIP support, and everything stays ready to use.",
     },
     {
-      title: "Package",
-      description: "Build packs and series so releases are grouped, repeatable, and easy to share.",
-      detail: "Create drop-ready bundles with clear access rules and pricing logic.",
+      title: "Organize",
+      description: "Sort everything into folders, packs, and series so your catalog stays clean and shareable.",
+      detail: "Build repeatable pack templates and keep every release structured.",
     },
     {
-      title: "Distribute",
-      description: "Send campaigns or share direct links across DMs, email, and public profile pages.",
-      detail: "Run delivery from one system instead of juggling tools.",
+      title: "Send",
+      description: "Email unlimited contacts in a few clicks with campaign sending built-in.",
+      detail: "No more manual attachments, messy threads, or juggling tools.",
     },
     {
       title: "Track",
-      description: "See what each contact does after delivery: opens, plays, clicks, and downloads.",
-      detail: "Spot high-intent listeners and follow up with timing that makes sense.",
+      description:
+        "See exactly what happens after you send: opens, clicks, plays (and how long), downloads, and saves.",
+      detail: "Identify high-intent listeners and follow up at the perfect moment.",
     },
     {
-      title: "Monetize",
-      description: "Turn attention into revenue with licenses, checkout, and secure fulfillment.",
-      detail: "Use billing-backed workflows instead of manual payment and file handoff.",
+      title: "Convert",
+      description: "Turn attention into placements or sales through a low-fee marketplace built for producers.",
+      detail: "Get paid fast with smooth delivery, without losing money to heavy platform cuts.",
     },
   ] as LandingStep[],
   updates: {

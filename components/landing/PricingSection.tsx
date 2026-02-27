@@ -89,7 +89,7 @@ export function PricingSection() {
         <Reveal className="mt-8 rounded-[18px] bg-[#dcdcdc] p-6 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">One Plan</p>
+              <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">Most popular</p>
               <h3 className="mt-2 text-2xl font-semibold text-[#0e0e0e]">{plan.name}</h3>
               <p className="mt-1 text-sm text-[#0e0e0e]/70">Annually /month {cadenceNote}</p>
             </div>
@@ -117,7 +117,7 @@ export function PricingSection() {
         <Reveal className="mt-6 rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.15em] text-white/70">Ultra Plan</p>
+              <p className="text-sm uppercase tracking-[0.15em] text-white/70">Best value</p>
               <h3 className="mt-2 text-2xl font-semibold text-white">{ai.title}</h3>
               <p className="mt-1 text-sm text-white/55">Annually /month {cadenceNote}</p>
             </div>
