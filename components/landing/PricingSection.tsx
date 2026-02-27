@@ -48,7 +48,7 @@ export function PricingSection() {
   const cadenceNote = annual ? "billed yearly" : "billed monthly";
 
   return (
-    <section id="pricing" className="pt-0">
+    <section id="pricing" className="pt-20 sm:pt-28">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
