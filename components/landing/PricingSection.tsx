@@ -39,12 +39,6 @@ function ComparisonCard({
   );
 }
 
-function FullBleedDivider() {
-  return (
-    <div className="relative left-1/2 my-40 w-screen -translate-x-1/2 border-t border-white/10" />
-  );
-}
-
 export function PricingSection() {
   const [annual, setAnnual] = useState(true);
   const { human, ai } = landingContent.pricingComparison;
@@ -141,8 +135,6 @@ export function PricingSection() {
             Upgrade to Ultra →
           </LandingCtaLink>
         </Reveal>
-
-        <FullBleedDivider />
 
         <Reveal>
           <div className="mx-auto max-w-[980px] text-center">
