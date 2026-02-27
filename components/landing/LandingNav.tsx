@@ -8,7 +8,7 @@ import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 export function LandingNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const mobileItems = landingContent.nav.filter((item) =>
-    ["Product", "Pricing", "Contact"].includes(item.label)
+    ["Product", "Workflow", "Pricing", "Testimonials", "Contact"].includes(item.label)
   );
   const systemItems = mobileItems.filter((item) => item.label !== "Contact");
   const contactItem = mobileItems.find((item) => item.label === "Contact");

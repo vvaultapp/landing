@@ -45,7 +45,9 @@ export const landingContent = {
   brand: "vvault",
   nav: [
     { label: "Product", href: "#product" },
+    { label: "Workflow", href: "#how-it-works" },
     { label: "Pricing", href: "#pricing" },
+    { label: "Testimonials", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
   ] as LandingNavItem[],
   hero: {

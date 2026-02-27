@@ -136,8 +136,8 @@ export function PricingSection() {
           </LandingCtaLink>
         </Reveal>
 
-        <Reveal>
-          <div className="mx-auto max-w-[980px] text-center">
+        <Reveal className="mt-20 sm:mt-24">
+          <div id="testimonials" className="mx-auto max-w-[980px] scroll-mt-32 text-center">
             <p className="text-xs uppercase tracking-[0.12em] text-white/44">Testimonials</p>
             <h3 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">Used daily by 600+ producers</h3>
             <p className="mt-2 text-sm text-white/62">
