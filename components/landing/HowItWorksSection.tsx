@@ -5,6 +5,13 @@ import { landingContent } from "@/components/landing/content";
 import { Reveal } from "@/components/landing/Reveal";
 
 export function HowItWorksSection() {
+  const stepImages = [
+    "/step-1-upload.jpg",
+    "/step-2-organize.jpg",
+    "/step-3-send.jpg",
+    null,
+  ] as const;
+
   return (
     <section id="how-it-works" className="pt-20 sm:pt-28">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
@@ -36,10 +43,10 @@ export function HowItWorksSection() {
                   </div>
 
                   <div className="relative min-h-[220px] h-full self-stretch overflow-hidden bg-[linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.04))]">
-                    {index === 0 ? (
+                    {stepImages[index] ? (
                       <Image
-                        src="/step-1-upload.jpg"
-                        alt="Step 1 upload interface"
+                        src={stepImages[index]}
+                        alt={`Step ${index + 1} interface`}
                         fill
                         className="object-cover"
                         sizes="(min-width: 768px) 50vw, 100vw"

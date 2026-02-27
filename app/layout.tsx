@@ -6,6 +6,10 @@ export const metadata: Metadata = {
   title: "vvault | The proper way to send your music",
   description:
     "Upload, share, track engagement, run campaigns, and sell your music in one vvault workflow.",
+  icons: {
+    icon: "/apple-touch-icon.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
