@@ -65,7 +65,7 @@ export function PricingSection() {
                 type="button"
                 aria-label="Toggle annual billing"
                 onClick={() => setAnnual((value) => !value)}
-                className={`relative h-7 w-12 rounded-full border ${annual ? "bg-white/15 border-white/30" : "bg-white/5 border-white/20"}`}
+                className={`relative h-7 w-12 rounded-full ${annual ? "bg-white/15" : "bg-white/5"}`}
               >
                 <span
                   className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${annual ? "left-6" : "left-1"}`}
