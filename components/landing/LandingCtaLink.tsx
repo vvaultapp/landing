@@ -12,7 +12,7 @@ type LandingCtaLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">
 export function LandingCtaLink({
   children,
   loggedInHref = "/dashboard",
-  loggedOutHref = "/book-call",
+  loggedOutHref = "https://vvault.app/login",
   ...anchorProps
 }: LandingCtaLinkProps) {
   const { user, loading } = useAuth();
@@ -24,4 +24,3 @@ export function LandingCtaLink({
     </a>
   );
 }
-

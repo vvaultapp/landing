@@ -10,7 +10,7 @@ export function FeatureGridSection() {
         <Reveal>
           <div className="max-w-[900px]">
             <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">
-              Built for inbox operations, not inbox chaos.
+              Built for music operations, not tool sprawl.
             </h2>
           </div>
         </Reveal>

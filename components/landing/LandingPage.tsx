@@ -18,7 +18,7 @@ function FullBleedDivider() {
 
 export function LandingPage() {
   useEffect(() => {
-    document.title = "Integrity | Revenue Operating System";
+    document.title = "vvault | The proper way to send your music";
   }, []);
 
   return (

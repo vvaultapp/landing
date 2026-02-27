@@ -10,8 +10,6 @@ const nextConfig: NextConfig = {
       { source: "/auth", destination: "/", permanent: false },
       { source: "/book-call", destination: "/", permanent: false },
       { source: "/dashboard", destination: "/", permanent: false },
-      { source: "/privacy", destination: "/", permanent: false },
-      { source: "/terms", destination: "/", permanent: false },
       { source: "/data-deletion", destination: "/", permanent: false },
       { source: "/messages", destination: "/", permanent: false },
       { source: "/outreach", destination: "/", permanent: false },

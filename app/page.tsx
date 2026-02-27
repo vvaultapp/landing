@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/LandingPage";
 
 export const metadata: Metadata = {
-  title: "Integrity | Revenue Operating System",
+  title: "vvault | The proper way to send your music",
 };
 
 export default function Homepage() {

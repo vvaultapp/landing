@@ -3,9 +3,9 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Integrity | Revenue Operating System",
+  title: "vvault | The proper way to send your music",
   description:
-    "Built to triage conversations fast, track lead stages, and automate your outreach with an AI setter.",
+    "Upload, share, track engagement, run campaigns, and sell your music in one vvault workflow.",
 };
 
 export default function RootLayout({

@@ -10,11 +10,11 @@ export function HowItWorksSection() {
         <Reveal>
           <div className="grid gap-8 py-14 lg:grid-cols-[1fr_1fr] lg:gap-16">
             <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">
-              Move each conversation through a clear operating path.
+              Move every release through a clear operating path.
             </h2>
             <p className="max-w-[620px] text-base leading-7 text-white/26 sm:text-lg">
-              Integrity keeps the pipeline readable: ingest, triage, assign, follow up, and convert. Every action
-              stays attached to the same lead record.
+              vvault keeps the workflow readable: upload, package, distribute, track, and monetize. Every action
+              stays attached to the same content and contact history.
             </p>
           </div>
         </Reveal>

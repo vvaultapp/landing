@@ -9,7 +9,7 @@ export function SocialProofSection() {
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="rounded-[20px] border border-white/10 bg-transparent p-5 sm:p-6">
-            <p className="text-xs uppercase tracking-[0.12em] text-white/44">Teams using Integrity</p>
+            <p className="text-xs uppercase tracking-[0.12em] text-white/44">Teams building with vvault</p>
             <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
               {landingContent.logoStrip.map((logo) => (
                 <div

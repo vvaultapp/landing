@@ -25,7 +25,7 @@ function HeroAppMock() {
       >
         <img
           src="/app%20show-off.png"
-          alt="Integrity app interface"
+          alt="vvault app interface"
           className="block h-auto w-full max-w-none select-none"
           loading="eager"
           decoding="async"

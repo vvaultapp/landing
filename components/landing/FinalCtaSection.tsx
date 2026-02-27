@@ -14,13 +14,15 @@ export function FinalCtaSection() {
           </h2>
           <div className="mt-20 flex flex-wrap justify-center gap-2">
             <LandingCtaLink
-              loggedInHref="/dashboard"
+              loggedInHref={landingContent.finalCta.primary.href}
+              loggedOutHref={landingContent.finalCta.primary.href}
               className="inline-flex items-center bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {landingContent.finalCta.primary.label}
             </LandingCtaLink>
             <LandingCtaLink
               loggedInHref={landingContent.finalCta.secondary.href}
+              loggedOutHref={landingContent.finalCta.secondary.href}
               className="rounded-md px-4 py-2.5 text-sm text-white/58 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {landingContent.finalCta.secondary.label}

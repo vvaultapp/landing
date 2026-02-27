@@ -42,77 +42,85 @@ export type LandingFooterLink = {
 };
 
 export const landingContent = {
-  brand: "Integrity",
+  brand: "vvault",
   nav: [
     { label: "Product", href: "#product" },
     { label: "Pricing", href: "#pricing" },
     { label: "Contact", href: "#contact" },
   ] as LandingNavItem[],
   hero: {
-    title: ["The lead conversion", "system for info-businesses"],
-    description: "Built to triage conversations fast, track lead stages, and automate your outreach with an AI setter.",
+    title: ["The proper way to send", "track, and sell your music"],
+    description:
+      "Upload once, build packs and series, send campaigns, and track every open, play, and download from one vvault workspace.",
   },
   heroStatement: {
     strong: "A new standard",
-    muted: "for inbox operations. Built for teams that need consistent triage, assignment, follow-up, and conversion tracking.",
+    muted:
+      "for music delivery operations. Built for producers and teams that need cleaner distribution, sharper analytics, and reliable monetization.",
   },
   features: [
     {
-      title: "Route inbound in real time",
-      description: "Sort every new conversation by phase, urgency, and ownership before it stalls.",
-      stat: "Avg triage under 90s",
+      title: "Upload and organize at speed",
+      description:
+        "Drop multiple files, auto-unpack ZIPs, and keep your library structured without breaking flow.",
+      stat: "ZIP auto-unpack",
     },
     {
-      title: "Run one-click lead decisions",
-      description: "Qualify, disqualify, remove, or assign from the same working surface.",
-      stat: "4 actions, 1 surface",
+      title: "Share links that convert",
+      description:
+        "Publish tracks, packs, and folders with private, tokenized, or public links built for fast listening.",
+      stat: "Track, pack, folder links",
     },
     {
-      title: "Keep setters aligned",
-      description: "Attach internal notes, ownership history, and next actions to each lead.",
-      stat: "Full lead context",
+      title: "Run campaigns in one place",
+      description:
+        "Create, schedule, and send campaigns directly from vvault while keeping contacts and history together.",
+      stat: "Send + schedule",
     },
     {
-      title: "Track link outcomes",
-      description: "See when a lead clicks, returns, and books so follow-up timing stays precise.",
-      stat: "Click to booked visibility",
+      title: "Track true engagement",
+      description:
+        "Measure opens, clicks, play duration, saves, downloads, and sales to see what actually moves.",
+      stat: "Full engagement visibility",
     },
     {
-      title: "Protect the priority inbox",
-      description: "Filter low-signal spam and surface leads with buying intent first.",
-      stat: "Priority-first workflow",
+      title: "Sell with Stripe checkout",
+      description:
+        "Offer licenses, secure paid downloads, and keep checkout tied to your content and analytics.",
+      stat: "Marketplace ready",
     },
     {
-      title: "Operate by phase",
-      description: "Move pipeline stages with clear rules instead of ad hoc status guessing.",
-      stat: "Phase-driven pipeline",
+      title: "Scale with Pro and Ultra",
+      description:
+        "Unlock CRM, automation, advanced scheduling, and branding controls as your volume grows.",
+      stat: "Upgrade when ready",
     },
   ] as LandingFeature[],
   howItWorks: [
     {
-      title: "Ingest",
-      description: "Bring inbound DMs into one stream with clean lead identity and timestamps.",
-      detail: "Source channels sync into a shared inbox timeline.",
+      title: "Upload",
+      description: "Bring tracks into your private library with metadata, covers, and clean organization.",
+      detail: "Multi-file upload, ZIP extraction, and pack-ready structure out of the box.",
     },
     {
-      title: "Triage",
-      description: "Apply phase and temperature quickly so the right leads rise immediately.",
-      detail: "Quick actions handle qualify, disqualify, remove, assign.",
+      title: "Package",
+      description: "Build packs and series so releases are grouped, repeatable, and easy to share.",
+      detail: "Create drop-ready bundles with clear access rules and pricing logic.",
     },
     {
-      title: "Assign",
-      description: "Route ownership to setters with context attached to every thread.",
-      detail: "Notes, tasks, and activity stay on the same lead record.",
+      title: "Distribute",
+      description: "Send campaigns or share direct links across DMs, email, and public profile pages.",
+      detail: "Run delivery from one system instead of juggling tools.",
     },
     {
-      title: "Follow up",
-      description: "Track the next action and keep time-based accountability visible.",
-      detail: "Lead-level reminders prevent stale conversations.",
+      title: "Track",
+      description: "See what each contact does after delivery: opens, plays, clicks, and downloads.",
+      detail: "Spot high-intent listeners and follow up with timing that makes sense.",
     },
     {
-      title: "Convert",
-      description: "Attribute clicks and booked calls back to the conversation that drove them.",
-      detail: "Pipeline quality ties directly to booked outcomes.",
+      title: "Monetize",
+      description: "Turn attention into revenue with licenses, checkout, and secure fulfillment.",
+      detail: "Use billing-backed workflows instead of manual payment and file handoff.",
     },
   ] as LandingStep[],
   updates: {
@@ -120,121 +128,122 @@ export const landingContent = {
     subtitle: "Recent product changes",
     items: [
       {
-        title: "Priority Queue Controls",
-        text: "Manual triage controls now persist instantly across owner and setter views.",
+        title: "Campaign Performance Clarity",
+        text: "Play-duration and engagement signals are now cleaner across campaign and link analytics.",
         date: "Feb 2026",
       },
       {
-        title: "Lead Detail Performance Pass",
-        text: "Client detail tabs and action panels now render with lower layout shift.",
+        title: "Marketplace Checkout Reliability",
+        text: "Purchase and delivery flow stability improved for paid licenses and secure downloads.",
         date: "Feb 2026",
       },
       {
-        title: "Link Attribution Refinement",
-        text: "Booked-call attribution now shows cleaner activity events for each lead.",
+        title: "Series Automation Controls",
+        text: "Ultra workflows now include tighter controls for recurring releases and timed access.",
         date: "Jan 2026",
       },
     ],
   },
-  logoStrip: ["Northline Ops", "Summit Systems", "Peakline Group", "Operator House", "Signal Partners", "Closeflow"],
+  logoStrip: ["Independent Producers", "Studios", "Managers", "A&R Teams", "Labels", "Creators"],
   pricingComparison: {
     human: {
-      title: "Human Setter",
-      symbol: "cross",
-      bullets: [
-        "Coverage depends on shifts and availability",
-        "Usually 20-35 active threads/day",
-        "Quality ramps over 6-10 weeks",
-        "Follow-up consistency varies by rep",
-        "Needs weekly management and QA overhead",
-      ],
-      cost: "$3000+/mo",
-      costNote: "base pay + commission + supervision",
-    },
-    ai: {
-      title: "AI Setter",
+      title: "Free",
       symbol: "check",
       bullets: [
-        "Runs continuously across every timezone",
-        "Handles 150+ concurrent active threads",
-        "Learns your playbook in under 72 hours",
-        "Applies the same phase logic every time",
-        "Escalates to humans only when needed",
+        "Upload up to 100MB",
+        "Generate links for tracks, packs, and folders",
+        "Full contact list",
+        "Collab packs and tracks",
+        "Receive splits from Pro sales",
       ],
-      cost: "$229/mo",
-      costNote: "flat subscription · no payroll overhead",
+      cost: "€0",
+      costNote: "no credit card",
+    },
+    ai: {
+      title: "Ultra",
+      symbol: "check",
+      bullets: [
+        "Everything in Pro",
+        "Series automations",
+        "Per-recipient best time scheduling",
+        "0% marketplace fees",
+        "Custom domain, branding, embeds, and QR",
+      ],
+      cost: "€24.99/mo",
+      costNote: "monthly · yearly available",
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
   singlePlan: {
-    name: "Integrity AI Setter",
-    price: "$229/mo",
-    note: "per month",
-    cta: "Get started",
+    name: "Pro",
+    price: "€8.99/mo",
+    note: "monthly · annual billing available (2 months free)",
+    cta: "Start Pro",
     bullets: [
-      "Inbox triage and lead routing",
-      "Phase movement with consistent logic",
-      "Always-on responses and follow-up",
-      "Setter handoff notes when needed",
-      "24/7 coverage across all timezones",
-      "Consistent follow-up cadence by default",
-      "High-volume thread handling without extra headcount",
+      "Everything in Free",
+      "Campaigns: create, send, schedule, and track",
+      "Tracking: opens, clicks, plays, saves, downloads, sales",
+      "Sell via Marketplace (5% commission)",
+      "Analytics: best time to send, funnels, dashboards",
+      "CRM: timeline, notes, tasks, scoring",
+      "Upgrade to Ultra for automations and 0% marketplace fees",
     ],
   } as LandingSinglePlan,
   faq: [
     {
-      question: "What channels does Integrity support?",
+      question: "What is vvault built for?",
       answer:
-        "Integrity is built around DM-style inbound workflows. You can centralize lead conversations and operate phases from one interface.",
+        "vvault is built for producers and teams who need one system for library, sharing, campaigns, analytics, and monetization.",
     },
     {
-      question: "Can setters work independently inside the system?",
+      question: "What do I get on the Free plan?",
       answer:
-        "Yes. Ownership, notes, and lead actions are setter-ready, with controls so managers can keep workflow quality tight.",
+        "Free includes up to 100MB upload, share links for tracks/packs/folders, full contacts, collaboration support, and split payouts from Pro sales.",
     },
     {
-      question: "How do phases and lead status stay consistent?",
+      question: "What changes on Pro and Ultra?",
       answer:
-        "Phase decisions are recorded at conversation level and mirrored in pipeline views so reports and actions stay aligned.",
+        "Pro unlocks campaigns, advanced tracking, CRM, analytics, and marketplace selling. Ultra adds automation, scheduling depth, custom branding, and 0% marketplace fees.",
     },
     {
-      question: "Do you track booked calls?",
+      question: "Can I send campaigns and track engagement?",
       answer:
-        "Yes. Integrity captures link and booking activity so teams can tie outreach effort to conversion outcomes.",
+        "Yes. vvault supports creating and scheduling campaigns, then tracking opens, clicks, play duration, downloads, saves, and sales in one workflow.",
     },
     {
-      question: "Is this only for coaches?",
+      question: "How do billing and payouts work?",
       answer:
-        "No. It is optimized for coaches and agencies, but any inbound-heavy sales workflow can use it.",
+        "Subscriptions, purchases, and payouts run through Stripe-backed billing flows so payment status and delivery stay connected.",
     },
     {
-      question: "Can we migrate without downtime?",
+      question: "Can I migrate gradually?",
       answer:
-        "Most teams start with one workspace and phase map, then shift setter operations once inbox flow is stable.",
+        "Yes. Most teams start by moving active packs and links first, then shift campaigns and monetization once performance tracking is in place.",
     },
   ] as LandingFaq[],
   finalCta: {
-    title: "For those who care about speed and quality",
-    description: "Set your routing rules once, keep the inbox clean, and move leads toward booked calls with less drag.",
-    primary: { label: "Get started", href: "/auth" },
-    secondary: { label: "Contact sales", href: "mailto:support@theacq.app" },
+    title: "Ship faster. Track what matters. Sell with confidence.",
+    description:
+      "Replace scattered tools with one focused workspace for delivery, engagement, and monetization.",
+    primary: { label: "Start free", href: "https://vvault.app/signup" },
+    secondary: { label: "Login", href: "https://vvault.app/login" },
   },
   footer: {
     columns: [
       {
         title: "Product",
         links: [
-          { label: "Homepage", href: "/homepage" },
-          { label: "Product", href: "/homepage#product" },
-          { label: "Pricing", href: "/homepage#pricing" },
-          { label: "Contact", href: "/homepage#contact" },
+          { label: "Homepage", href: "/" },
+          { label: "Product", href: "/#product" },
+          { label: "Pricing", href: "/#pricing" },
+          { label: "Contact", href: "/#contact" },
         ] as LandingFooterLink[],
       },
       {
         title: "Company",
         links: [
-          { label: "Get started", href: "/auth" },
-          { label: "Updates", href: "/homepage#updates" },
-          { label: "Support", href: "mailto:support@theacq.app" },
+          { label: "Start free", href: "https://vvault.app/signup" },
+          { label: "Updates", href: "/#updates" },
+          { label: "Support", href: "mailto:vvaultapp@gmail.com" },
         ] as LandingFooterLink[],
       },
       {
@@ -242,37 +251,37 @@ export const landingContent = {
         links: [
           { label: "Privacy", href: "/privacy" },
           { label: "Terms", href: "/terms" },
-          { label: "Data deletion", href: "/data-deletion" },
+          { label: "Billing", href: "https://vvault.app/billing" },
         ] as LandingFooterLink[],
       },
       {
         title: "Legal",
         links: [
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "Messages", href: "/messages" },
-          { label: "Leads", href: "/outreach" },
+          { label: "Login", href: "https://vvault.app/login" },
+          { label: "Pro", href: "https://vvault.app/billing" },
+          { label: "Ultra", href: "https://vvault.app/billing" },
         ] as LandingFooterLink[],
       },
     ],
     legalLinks: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
-      { label: "Data deletion", href: "/data-deletion" },
+      { label: "Contact", href: "mailto:vvaultapp@gmail.com" },
     ],
   },
   appMock: {
-    sidebar: ["Inbox", "Priority", "Phases", "Tasks", "Meetings", "Links", "Settings"],
+    sidebar: ["Library", "Campaigns", "Contacts", "Analytics", "Marketplace", "Billing", "Settings"],
     conversations: [
-      { name: "Nina - Fitness Brand", preview: "Can you send the booking link?", phase: "Qualified", time: "2m" },
-      { name: "Julian - Agency Owner", preview: "Need help with setter workflow.", phase: "In contact", time: "7m" },
-      { name: "Ana - Course Creator", preview: "Just clicked the offer page.", phase: "Priority", time: "11m" },
-      { name: "Corey - Consultant", preview: "What is included in onboarding?", phase: "New lead", time: "21m" },
+      { name: "Noah - A&R", preview: "Loved pack 07. Need alt stems.", phase: "Hot lead", time: "2m" },
+      { name: "Mila - Artist", preview: "Downloaded and shared with manager.", phase: "Engaged", time: "7m" },
+      { name: "Kai - Producer", preview: "Can you send WAV + tracked link?", phase: "Active", time: "11m" },
+      { name: "Lena - Label", preview: "Ready to buy exclusive license.", phase: "Deal", time: "21m" },
     ],
     feed: [
-      "Lead clicked booking link · 09:14",
-      "Setter assigned to Nina thread · 09:11",
-      "Phase moved to Qualified · 09:09",
-      "Call booked confirmation captured · 09:05",
+      "Pack link opened · 09:14",
+      "Playback reached 86% · 09:11",
+      "License checkout completed · 09:09",
+      "Download delivered securely · 09:05",
     ],
   },
 } as const;
