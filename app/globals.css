@@ -4,30 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "DomaineDispNar";
-  src: url("/fonts/DomaineDispNar-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Origin";
-  src: url("/fonts/DomaineDispNar-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "DomaineDispNar-Regular";
-  src: url("/fonts/DomaineDispNar-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 html,
 body {
   @apply antialiased;
@@ -62,8 +38,7 @@ html {
 }
 
 .landing-root .font-display {
-  font-family: "DomaineDispNar-Regular", "DomaineDispNar", serif !important;
-  font-weight: 400 !important;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
   letter-spacing: 0.004em;
 }
 

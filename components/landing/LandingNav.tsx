@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { landingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 
@@ -25,16 +26,9 @@ export function LandingNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#080808]/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
       <div className="mx-auto flex h-[74px] w-full max-w-[1320px] items-center gap-3 px-5 sm:h-[66px] sm:px-8 lg:px-10">
-        <a href="/homepage" className="shrink-0" aria-label="Integrity homepage">
-          <img
-            src="/Integrity%20Full%20Logo.png"
-            alt="Integrity"
-            className="h-[22px] w-auto object-contain select-none sm:h-[24px]"
-            loading="eager"
-            draggable={false}
-            onDragStart={(event) => event.preventDefault()}
-          />
-        </a>
+        <Link href="/" className="shrink-0 text-xl font-semibold tracking-tight text-white sm:text-2xl" aria-label="vvault homepage">
+          vvault
+        </Link>
 
         <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex">
           {landingContent.nav.map((item) => (
@@ -49,28 +43,21 @@ export function LandingNav() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <span className="text-sm text-white/30 select-none" aria-hidden="true">
-            |
-          </span>
-          <a
-            href="/auth"
-            className="rounded-md px-3 py-2 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-          >
-            Log in
-          </a>
           <LandingCtaLink
-            loggedInHref="/dashboard"
+            loggedInHref="https://vvault.app/login"
+            loggedOutHref="https://vvault.app/login"
             className="inline-flex items-center bg-white px-4 py-2 text-sm font-semibold text-black rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
-            Book a demo
+            Login
           </LandingCtaLink>
         </div>
 
         <LandingCtaLink
-          loggedInHref="/dashboard"
+          loggedInHref="https://vvault.app/login"
+          loggedOutHref="https://vvault.app/login"
           className="ml-auto inline-flex items-center bg-white px-3.5 py-2 text-[12px] font-semibold text-black rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
         >
-          Book a demo
+          Login
         </LandingCtaLink>
 
         <button
@@ -108,29 +95,22 @@ export function LandingNav() {
         >
           <div className="border-b border-white/10 pt-[env(safe-area-inset-top)]">
             <div className="mx-auto flex h-[74px] w-full max-w-[1320px] items-center gap-3 px-5 sm:px-8">
-              <a href="/homepage" onClick={() => setMenuOpen(false)} className="shrink-0" aria-label="Integrity homepage">
-                <img
-                  src="/Integrity%20Full%20Logo.png"
-                  alt="Integrity"
-                  className="h-[22px] w-auto object-contain select-none"
-                  loading="eager"
-                  draggable={false}
-                  onDragStart={(event) => event.preventDefault()}
-                />
-              </a>
-              <a
-                href="/auth"
+              <Link
+                href="/"
                 onClick={() => setMenuOpen(false)}
-                className="ml-auto rounded-md px-3 py-2 text-[12px] text-white/58 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/76"
+                className="shrink-0 text-xl font-semibold tracking-tight text-white"
+                aria-label="vvault homepage"
               >
-                Log in
-              </a>
+                vvault
+              </Link>
+              <div className="ml-auto" />
               <LandingCtaLink
-                loggedInHref="/dashboard"
+                loggedInHref="https://vvault.app/login"
+                loggedOutHref="https://vvault.app/login"
                 onClick={() => setMenuOpen(false)}
                 className="inline-flex items-center bg-white px-3.5 py-2 text-[12px] font-semibold text-black rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95"
               >
-                Book a demo
+                Login
               </LandingCtaLink>
               <button
                 type="button"

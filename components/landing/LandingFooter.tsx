@@ -1,6 +1,7 @@
 "use client";
 
 import { landingContent } from "@/components/landing/content";
+import Link from "next/link";
 
 export function LandingFooter() {
   return (
@@ -8,14 +9,9 @@ export function LandingFooter() {
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
-            <img
-              src="/Integrity%20Full%20Logo.png"
-              alt="Integrity"
-              className="h-7 w-auto object-contain opacity-95 select-none"
-              loading="lazy"
-              draggable={false}
-              onDragStart={(event) => event.preventDefault()}
-            />
+            <Link href="/" className="text-2xl font-semibold tracking-tight text-white/95" aria-label="vvault homepage">
+              vvault
+            </Link>
           </div>
 
           {landingContent.footer.columns.map((column) => (

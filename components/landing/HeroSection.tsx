@@ -59,12 +59,13 @@ export function HeroSection() {
             </p>
 
             <LandingCtaLink
-              loggedInHref="#pricing"
+              loggedInHref="https://onyx.vvault.app"
+              loggedOutHref="https://onyx.vvault.app"
               className="hero-seq-item hero-seq-item-late group hidden shrink-0 items-center gap-2 text-base lg:inline-flex"
               style={{ animationDelay: "1760ms" }}
             >
               <span className="font-semibold text-white">New</span>
-              <span className="text-white/42"> AI setter</span>
+              <span className="text-white/42"> Onyx YouTube Uploader</span>
               <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1">
                 <path d="M4 10h11M11 6l4 4-4 4" />
               </svg>
