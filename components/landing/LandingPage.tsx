@@ -9,12 +9,6 @@ import { PricingSection } from "@/components/landing/PricingSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 
-function FullBleedDivider() {
-  return (
-    <div className="relative left-1/2 my-40 w-screen -translate-x-1/2 border-t border-white/10" />
-  );
-}
-
 export function LandingPage() {
   useEffect(() => {
     document.title = "vvault | The proper way to send your music";
@@ -33,7 +27,6 @@ export function LandingPage() {
         <HeroSection />
         <HeroStatementSection />
         <HowItWorksSection />
-        <FullBleedDivider />
         <PricingSection />
         <FinalCtaSection />
       </main>

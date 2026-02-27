@@ -51,7 +51,7 @@ export const landingContent = {
     { label: "Contact", href: "#contact" },
   ] as LandingNavItem[],
   hero: {
-    title: ["The proper way to send", "track, and sell your music"],
+    title: ["From first send to final placement,", "run your entire release workflow in vvault."],
     description: "Turn emails into placements. Track opens, plays, downloads and more.",
   },
   heroStatement: {

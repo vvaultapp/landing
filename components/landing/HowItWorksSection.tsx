@@ -23,7 +23,7 @@ export function HowItWorksSection() {
         <div className="mt-10 grid gap-6">
           {landingContent.howItWorks.map((step, index) => (
             <Reveal key={step.title} delayMs={index * 36}>
-              <article className="landing-panel overflow-hidden rounded-[18px] border border-white/10 bg-transparent min-h-[280px] md:h-[320px] md:min-h-0">
+              <article className="landing-panel overflow-hidden rounded-[18px] border border-white/10 bg-transparent min-h-[260px] md:h-[280px] md:min-h-0">
                 <div className="grid h-full md:grid-cols-2 md:items-stretch">
                   <div className="p-6 sm:p-8">
                     <p className="text-[11px] uppercase tracking-[0.12em] text-white/50">Step {index + 1}</p>
