@@ -5,7 +5,6 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
 import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
-import { UpdatesSection } from "@/components/landing/UpdatesSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
@@ -34,8 +33,6 @@ export function LandingPage() {
         <HeroSection />
         <HeroStatementSection />
         <HowItWorksSection />
-        <FullBleedDivider />
-        <UpdatesSection />
         <FullBleedDivider />
         <PricingSection />
         <FinalCtaSection />

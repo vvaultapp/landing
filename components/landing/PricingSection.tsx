@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { landingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { Reveal } from "@/components/landing/Reveal";
@@ -45,15 +46,33 @@ function FullBleedDivider() {
 }
 
 export function PricingSection() {
-  const { human } = landingContent.pricingComparison;
+  const [annual, setAnnual] = useState(true);
+  const { human, ai } = landingContent.pricingComparison;
   const plan = landingContent.singlePlan;
+  const proPrice = annual ? "€7.49/mo" : "€8.99/mo";
+  const ultraPrice = annual ? "€20.75/mo" : "€24.99/mo";
+  const cadenceNote = annual ? "billed yearly" : "billed monthly";
 
   return (
     <section id="pricing" className="pt-0">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
-          <div className="max-w-[980px]">
+          <div className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="font-display text-3xl text-white sm:text-5xl">Simple plans that scale with your catalog.</h2>
+            <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] px-3 py-2">
+              <span className={`text-xs ${annual ? "text-white/45" : "text-white"}`}>Monthly</span>
+              <button
+                type="button"
+                aria-label="Toggle annual billing"
+                onClick={() => setAnnual((value) => !value)}
+                className={`relative h-7 w-12 rounded-full border ${annual ? "bg-white/15 border-white/30" : "bg-white/5 border-white/20"}`}
+              >
+                <span
+                  className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${annual ? "left-6" : "left-1"}`}
+                />
+              </button>
+              <span className={`text-xs ${annual ? "text-white" : "text-white/45"}`}>Annually</span>
+            </div>
           </div>
         </Reveal>
 
@@ -72,8 +91,9 @@ export function PricingSection() {
             <div>
               <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">One Plan</p>
               <h3 className="mt-2 text-2xl font-semibold text-[#0e0e0e]">{plan.name}</h3>
+              <p className="mt-1 text-sm text-[#0e0e0e]/70">Annually /month {cadenceNote}</p>
             </div>
-            <p className="text-4xl font-semibold text-[#0e0e0e]">{plan.price}</p>
+            <p className="text-4xl font-semibold text-[#0e0e0e]">{proPrice}</p>
           </div>
 
           <ul className="mt-6 grid gap-2 sm:grid-cols-2">
@@ -91,6 +111,34 @@ export function PricingSection() {
             className="mt-6 inline-flex items-center rounded-none bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
           >
             {plan.cta} →
+          </LandingCtaLink>
+        </Reveal>
+
+        <Reveal className="mt-6 rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-sm uppercase tracking-[0.15em] text-white/70">Ultra Plan</p>
+              <h3 className="mt-2 text-2xl font-semibold text-white">{ai.title}</h3>
+              <p className="mt-1 text-sm text-white/55">Annually /month {cadenceNote}</p>
+            </div>
+            <p className="text-4xl font-semibold text-white">{ultraPrice}</p>
+          </div>
+
+          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
+            {ai.bullets.map((bullet) => (
+              <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/76">
+                <span className="mt-[2px] inline-flex w-4 shrink-0 text-white">✓</span>
+                <span>{bullet}</span>
+              </li>
+            ))}
+          </ul>
+
+          <LandingCtaLink
+            loggedInHref="https://vvault.app/billing"
+            loggedOutHref="https://vvault.app/billing"
+            className="mt-6 inline-flex items-center rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+          >
+            Upgrade to Ultra →
           </LandingCtaLink>
         </Reveal>
 

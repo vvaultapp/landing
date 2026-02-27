@@ -242,7 +242,7 @@ export const landingContent = {
         title: "Company",
         links: [
           { label: "Start free", href: "https://vvault.app/signup" },
-          { label: "Updates", href: "/#updates" },
+          { label: "Pricing", href: "/#pricing" },
           { label: "Support", href: "mailto:vvaultapp@gmail.com" },
         ] as LandingFooterLink[],
       },
