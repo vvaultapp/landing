@@ -22,10 +22,10 @@ export function LandingPage() {
   }, []);
 
   return (
-    <div className="landing-root min-h-screen bg-[#080808] font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[#0e0e0e] font-sans text-[#f0f0f0]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-black"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-[#0e0e0e]"
       >
         Skip to content
       </a>

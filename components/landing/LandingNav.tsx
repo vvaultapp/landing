@@ -24,7 +24,7 @@ export function LandingNav() {
   }, [menuOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#080808]/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0e0e0e]/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
       <div className="mx-auto flex h-[74px] w-full max-w-[1320px] items-center gap-3 px-5 sm:h-[66px] sm:px-8 lg:px-10">
         <Link
           href="/"
@@ -50,7 +50,7 @@ export function LandingNav() {
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
-            className="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-md bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             Login
           </LandingCtaLink>
@@ -59,7 +59,7 @@ export function LandingNav() {
         <LandingCtaLink
           loggedInHref="https://vvault.app/login"
           loggedOutHref="https://vvault.app/login"
-          className="ml-auto inline-flex items-center rounded-full bg-white px-4 py-2 text-[12px] font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
+          className="ml-auto inline-flex items-center rounded-md bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
         >
           Login
         </LandingCtaLink>
@@ -88,7 +88,7 @@ export function LandingNav() {
         }`}
       >
         <div
-          className={`pointer-events-none absolute inset-0 z-0 bg-[#080808]/88 backdrop-blur-[22px] transition-opacity duration-300 ease-out ${
+          className={`pointer-events-none absolute inset-0 z-0 bg-[#0e0e0e]/88 backdrop-blur-[22px] transition-opacity duration-300 ease-out ${
             menuOpen ? "opacity-100" : "opacity-0"
           }`}
         />
@@ -112,7 +112,7 @@ export function LandingNav() {
                 loggedInHref="https://vvault.app/login"
                 loggedOutHref="https://vvault.app/login"
                 onClick={() => setMenuOpen(false)}
-                className="inline-flex items-center rounded-full bg-white px-4 py-2 text-[12px] font-semibold text-black transition-colors duration-200 hover:bg-white/90"
+                className="inline-flex items-center rounded-md bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
                 Login
               </LandingCtaLink>

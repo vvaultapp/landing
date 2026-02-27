@@ -15,7 +15,7 @@ export function FinalCtaSection() {
           <div className="mt-20 flex flex-wrap justify-center gap-2">
             <LandingCtaLink
               loggedInHref="/dashboard"
-              className="inline-flex items-center bg-white px-5 py-2.5 text-sm font-semibold text-black rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              className="inline-flex items-center bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {landingContent.finalCta.primary.label}
             </LandingCtaLink>

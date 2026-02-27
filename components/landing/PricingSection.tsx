@@ -70,16 +70,16 @@ export function PricingSection() {
         <Reveal className="mt-8 rounded-[18px] bg-[#dcdcdc] p-6 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.15em] text-[#080808]">One Plan</p>
-              <h3 className="mt-2 text-2xl font-semibold text-[#080808]">{plan.name}</h3>
+              <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">One Plan</p>
+              <h3 className="mt-2 text-2xl font-semibold text-[#0e0e0e]">{plan.name}</h3>
             </div>
-            <p className="text-4xl font-semibold text-[#080808]">{plan.price}</p>
+            <p className="text-4xl font-semibold text-[#0e0e0e]">{plan.price}</p>
           </div>
 
           <ul className="mt-6 grid gap-2 sm:grid-cols-2">
             {plan.bullets.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-2.5 text-sm text-[#080808]">
-                <span className="mt-[2px] inline-flex w-4 shrink-0 text-[#080808]">✓</span>
+              <li key={bullet} className="flex items-start gap-2.5 text-sm text-[#0e0e0e]">
+                <span className="mt-[2px] inline-flex w-4 shrink-0 text-[#0e0e0e]">✓</span>
                 <span>{bullet}</span>
               </li>
             ))}
@@ -87,7 +87,7 @@ export function PricingSection() {
 
           <LandingCtaLink
             loggedInHref="/dashboard"
-            className="mt-6 inline-flex items-center rounded-none bg-[#080808] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-[#080808]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30"
+            className="mt-6 inline-flex items-center rounded-none bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
           >
             {plan.cta} →
           </LandingCtaLink>
