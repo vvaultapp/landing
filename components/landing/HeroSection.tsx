@@ -77,19 +77,20 @@ export function HeroSection() {
           className="hero-seq-item mt-10 flex justify-center"
           style={{ animationDelay: "1360ms" }}
         >
-          <div className="inline-flex items-center gap-3 rounded-full bg-white px-4 py-2.5 text-[#0e0e0e]">
+          <div className="relative inline-flex items-center gap-2.5 rounded-full bg-white px-3.5 py-2 text-[#0e0e0e]">
             <div className="flex items-center">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white bg-[#d9d9d9] text-xs font-semibold text-[#0e0e0e]">
+              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-white bg-[#d9d9d9] text-[10px] font-medium text-[#0e0e0e]">
                 A
               </span>
-              <span className="-ml-2 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white bg-[#cfcfcf] text-xs font-semibold text-[#0e0e0e]">
+              <span className="-ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white bg-[#cfcfcf] text-[10px] font-medium text-[#0e0e0e]">
                 M
               </span>
-              <span className="-ml-2 inline-flex h-7 w-7 items-center justify-center rounded-full border border-white bg-[#bdbdbd] text-xs font-semibold text-[#0e0e0e]">
+              <span className="-ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white bg-[#bdbdbd] text-[10px] font-medium text-[#0e0e0e]">
                 J
               </span>
             </div>
-            <span className="text-sm font-semibold">Used daily by 700+ producers</span>
+            <span className="text-xs font-medium">Used daily by 700+ producers</span>
+            <div className="pointer-events-none absolute inset-x-2 bottom-0 h-3 rounded-b-full bg-gradient-to-b from-transparent to-[#d6d6d6]/80" />
           </div>
         </div>
 

@@ -50,8 +50,7 @@ export const landingContent = {
   ] as LandingNavItem[],
   hero: {
     title: ["The proper way to send", "track, and sell your music"],
-    description:
-      "Upload once, build packs and series, send campaigns, and track every open, play, and download from one vvault workspace.",
+    description: "Turn emails into placements. Track opens, plays, downloads and more.",
   },
   heroStatement: {
     strong: "A new standard",
