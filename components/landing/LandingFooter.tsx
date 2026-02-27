@@ -46,8 +46,6 @@ export function LandingFooter() {
             </a>
           ))}
         </div>
-
-        <div className="mt-6 text-sm text-white/45">© {new Date().getFullYear()} vvault</div>
       </div>
     </footer>
   );
