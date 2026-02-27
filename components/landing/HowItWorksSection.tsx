@@ -37,7 +37,7 @@ export function HowItWorksSection() {
                   <div className="relative min-h-[220px] self-stretch overflow-hidden bg-[linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.04))]">
                     {index === 0 ? (
                       <Image
-                        src="/step-1-upload.png"
+                        src="/step-1-upload.jpg"
                         alt="Step 1 upload interface"
                         fill
                         className="object-cover"

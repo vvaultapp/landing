@@ -144,7 +144,30 @@ export function PricingSection() {
 
         <FullBleedDivider />
 
-        <Reveal className="rounded-[20px] border border-white/10 bg-transparent p-5 sm:p-6">
+        <Reveal>
+          <div className="mx-auto max-w-[980px] text-center">
+            <p className="text-xs uppercase tracking-[0.12em] text-white/44">Testimonials</p>
+            <h3 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">Used daily by 600+ producers</h3>
+            <p className="mt-2 text-sm text-white/62">
+              Real creators showing how they use vvault to send, track, and convert.
+            </p>
+            <div className="mt-6 overflow-hidden rounded-[16px] border border-white/10 bg-[#090909]">
+              <div className="relative w-full pb-[56.25%]">
+                <iframe
+                  className="absolute inset-0 h-full w-full"
+                  src="https://www.youtube.com/embed/diDvzeYv_TE?start=21"
+                  title="vvault testimonial video"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-14 rounded-[20px] border border-white/10 bg-transparent p-5 sm:p-6">
           <h3 className="text-lg font-semibold text-white/88">FAQs</h3>
           <div className="mt-2 divide-y divide-white/10">
             {landingContent.faq.map((item) => (
