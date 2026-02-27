@@ -11,11 +11,12 @@ export function HowItWorksSection() {
         <Reveal>
           <div className="grid gap-8 py-14 lg:grid-cols-[1fr_1fr] lg:gap-16">
             <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">
-              Move every release through a clear operating path.
+              Know who’s ready before you follow up.
             </h2>
             <p className="max-w-[620px] text-base leading-7 text-white/26 sm:text-lg">
-              vvault keeps the workflow readable: upload, package, distribute, track, and monetize. Every action
-              stays attached to the same content and contact history.
+              Every send becomes measurable: opens, clicks, play duration, downloads, and saves. Build packs fast,
+              email unlimited contacts, and use real intent signals to follow up at the right time and land
+              placements or sales.
             </p>
           </div>
         </Reveal>
