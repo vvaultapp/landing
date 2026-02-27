@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { landingContent } from "@/components/landing/content";
 import { Reveal } from "@/components/landing/Reveal";
 
@@ -33,10 +34,20 @@ export function HowItWorksSection() {
                     </div>
                   </div>
 
-                  <div className="relative min-h-[220px] self-stretch bg-[linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.04))]">
-                    <div className="absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-[0.14em] text-white/45">
-                      Step image placeholder
-                    </div>
+                  <div className="relative min-h-[220px] self-stretch overflow-hidden bg-[linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.04))]">
+                    {index === 0 ? (
+                      <Image
+                        src="/step-1-upload.png"
+                        alt="Step 1 upload interface"
+                        fill
+                        className="object-cover"
+                        sizes="(min-width: 768px) 50vw, 100vw"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center text-[11px] uppercase tracking-[0.14em] text-white/45">
+                        Step image placeholder
+                      </div>
+                    )}
                     <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#0e0e0e] to-transparent" />
                   </div>
                 </div>
