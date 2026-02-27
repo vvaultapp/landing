@@ -108,7 +108,7 @@ export function PricingSection() {
           <LandingCtaLink
             loggedInHref="https://vvault.app/billing"
             loggedOutHref="https://vvault.app/billing"
-            className="mt-6 inline-flex items-center rounded-none bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
+            className="mt-6 inline-flex items-center rounded-xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
           >
             {plan.cta} →
           </LandingCtaLink>
@@ -136,7 +136,7 @@ export function PricingSection() {
           <LandingCtaLink
             loggedInHref="https://vvault.app/billing"
             loggedOutHref="https://vvault.app/billing"
-            className="mt-6 inline-flex items-center rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="mt-6 inline-flex items-center rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
           >
             Upgrade to Ultra →
           </LandingCtaLink>
