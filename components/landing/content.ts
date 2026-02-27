@@ -53,9 +53,8 @@ export const landingContent = {
     description: "Turn emails into placements. Track opens, plays, downloads and more.",
   },
   heroStatement: {
-    strong: "A new standard",
-    muted:
-      "for music delivery operations. Built for producers and teams that need cleaner distribution, sharper analytics, and reliable monetization.",
+    strong: "Know who’s really listening.",
+    muted: "Follow up faster, send better packs, and turn interest into placements and sales.",
   },
   features: [
     {

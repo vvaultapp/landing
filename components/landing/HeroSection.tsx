@@ -74,24 +74,11 @@ export function HeroSection() {
         </div>
 
         <div
-          className="hero-seq-item mt-10 flex justify-center"
+          className="hero-seq-item mt-5 flex items-center gap-2 sm:pl-4 lg:pl-8"
           style={{ animationDelay: "1360ms" }}
         >
-          <div className="relative inline-flex items-center gap-2.5 rounded-full bg-white px-3.5 py-2 text-[#0e0e0e]">
-            <div className="flex items-center">
-              <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-white bg-[#d9d9d9] text-[10px] font-medium text-[#0e0e0e]">
-                A
-              </span>
-              <span className="-ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white bg-[#cfcfcf] text-[10px] font-medium text-[#0e0e0e]">
-                M
-              </span>
-              <span className="-ml-2 inline-flex h-6 w-6 items-center justify-center rounded-full border border-white bg-[#bdbdbd] text-[10px] font-medium text-[#0e0e0e]">
-                J
-              </span>
-            </div>
-            <span className="text-xs font-medium">Used daily by 700+ producers</span>
-            <div className="pointer-events-none absolute inset-x-2 bottom-0 h-3 rounded-b-full bg-gradient-to-b from-transparent to-[#d6d6d6]/80" />
-          </div>
+          <span className="text-sm tracking-[0.08em] text-[#f2b84a]">★★★★★</span>
+          <span className="text-xs font-medium text-white/78 sm:text-sm">Used by 600+ producers daily</span>
         </div>
 
         <HeroAppMock />
