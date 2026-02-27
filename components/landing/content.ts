@@ -111,15 +111,11 @@ export const landingContent = {
       detail: "No more manual attachments, messy threads, or juggling tools.",
     },
     {
-      title: "Track",
+      title: "Track + Convert",
       description:
-        "See exactly what happens after you send: opens, clicks, plays (and how long), downloads, and saves.",
-      detail: "Identify high-intent listeners and follow up at the perfect moment.",
-    },
-    {
-      title: "Convert",
-      description: "Turn attention into placements or sales through a low-fee marketplace built for producers.",
-      detail: "Get paid fast with smooth delivery, without losing money to heavy platform cuts.",
+        "See exactly what happens after you send: opens, clicks, plays (and how long), downloads, and saves, then turn that momentum into placements or sales.",
+      detail:
+        "Identify high-intent listeners, follow up at the perfect moment, and convert through a low-fee marketplace built for producers.",
     },
   ] as LandingStep[],
   updates: {
