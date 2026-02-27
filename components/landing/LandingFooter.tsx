@@ -9,7 +9,11 @@ export function LandingFooter() {
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
-            <Link href="/" className="text-2xl font-semibold tracking-tight text-white/95" aria-label="vvault homepage">
+            <Link
+              href="/"
+              className="rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white/95"
+              aria-label="vvault homepage"
+            >
               vvault
             </Link>
           </div>

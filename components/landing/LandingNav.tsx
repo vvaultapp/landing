@@ -26,7 +26,11 @@ export function LandingNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#080808]/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
       <div className="mx-auto flex h-[74px] w-full max-w-[1320px] items-center gap-3 px-5 sm:h-[66px] sm:px-8 lg:px-10">
-        <Link href="/" className="shrink-0 text-xl font-semibold tracking-tight text-white sm:text-2xl" aria-label="vvault homepage">
+        <Link
+          href="/"
+          className="shrink-0 rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white"
+          aria-label="vvault homepage"
+        >
           vvault
         </Link>
 
@@ -46,7 +50,7 @@ export function LandingNav() {
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
-            className="inline-flex items-center bg-white px-4 py-2 text-sm font-semibold text-black rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             Login
           </LandingCtaLink>
@@ -55,7 +59,7 @@ export function LandingNav() {
         <LandingCtaLink
           loggedInHref="https://vvault.app/login"
           loggedOutHref="https://vvault.app/login"
-          className="ml-auto inline-flex items-center bg-white px-3.5 py-2 text-[12px] font-semibold text-black rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
+          className="ml-auto inline-flex items-center rounded-full bg-white px-4 py-2 text-[12px] font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
         >
           Login
         </LandingCtaLink>
@@ -98,7 +102,7 @@ export function LandingNav() {
               <Link
                 href="/"
                 onClick={() => setMenuOpen(false)}
-                className="shrink-0 text-xl font-semibold tracking-tight text-white"
+                className="shrink-0 rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white"
                 aria-label="vvault homepage"
               >
                 vvault
@@ -108,7 +112,7 @@ export function LandingNav() {
                 loggedInHref="https://vvault.app/login"
                 loggedOutHref="https://vvault.app/login"
                 onClick={() => setMenuOpen(false)}
-                className="inline-flex items-center bg-white px-3.5 py-2 text-[12px] font-semibold text-black rounded-none transition-[border-radius,background-color] duration-200 hover:rounded-md hover:bg-white/95"
+                className="inline-flex items-center rounded-full bg-white px-4 py-2 text-[12px] font-semibold text-black transition-colors duration-200 hover:bg-white/90"
               >
                 Login
               </LandingCtaLink>
