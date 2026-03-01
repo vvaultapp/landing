@@ -260,7 +260,7 @@ const landingContentEn = {
     },
   ] as LandingFaq[],
   finalCta: {
-    title: "Ship faster. Track what matters. Sell with confidence.",
+    title: "Send faster. Track every play. Land more placements.",
     description:
       "Replace scattered tools with one focused workspace for delivery, engagement, and monetization.",
     primary: { label: "Start free", href: "https://vvault.app/signup" },
@@ -347,10 +347,10 @@ const landingContentFr = {
   hero: {
     title: ["Envoie tes beats. Suis les resultats.", "Decroche des placements."],
     description:
-      "Transforme tes e-mails en placements. Suis les ouvertures, ecoutes, telechargements et plus.",
+      "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus.",
     newBadge: "Nouveau",
     onyxLabel: "Uploader YouTube ONYX",
-    ratingLabel: "Utilise par plus de 600 producteurs chaque jour",
+    ratingLabel: "Utilisé chaque jour par 600+ beatmakers",
   },
   heroStatement: {
     strong: "Sache qui ecoute vraiment.",
@@ -546,7 +546,7 @@ const landingContentFr = {
     },
   ] as LandingFaq[],
   finalCta: {
-    title: "Livrez plus vite. Suivez l'essentiel. Vendez en confiance.",
+    title: "Envoie plus vite. Suis chaque écoute. Décroche plus de placements.",
     description:
       "Remplace les outils disperses par un espace unique pour la diffusion, l'engagement et la monetisation.",
     primary: { label: "Commencer gratuitement", href: "https://vvault.app/signup" },
