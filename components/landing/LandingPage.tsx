@@ -20,7 +20,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
   useEffect(() => {
     document.title =
       locale === "fr"
-        ? "vvault | La bonne facon d'envoyer ta musique"
+        ? "vvault | La bonne façon d'envoyer ta musique"
         : "vvault | The proper way to send your music";
     document.documentElement.lang = locale;
   }, [locale]);

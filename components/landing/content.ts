@@ -329,7 +329,7 @@ const landingContentFr = {
   brand: "vvault",
   skipToContentLabel: "Aller au contenu",
   ui: {
-    homepageAriaLabel: "page d'accueil vvault",
+    homepageAriaLabel: "page d’accueil vvault",
     login: "Connexion",
     languageEnglish: "ENG",
     languageFrench: "FR",
@@ -341,11 +341,11 @@ const landingContentFr = {
     { label: "Produit", href: "#product" },
     { label: "Workflow", href: "#how-it-works" },
     { label: "Tarifs", href: "#pricing" },
-    { label: "Temoignages", href: "#testimonials" },
+    { label: "Témoignages", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
   ] as LandingNavItem[],
   hero: {
-    title: ["Envoie tes beats. Suis les resultats.", "Decroche des placements."],
+    title: ["Envoie tes beats. Suis les résultats.", "Décroche des placements."],
     description:
       "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus.",
     newBadge: "Nouveau",
@@ -353,53 +353,53 @@ const landingContentFr = {
     ratingLabel: "Utilisé chaque jour par 600+ beatmakers",
   },
   heroStatement: {
-    strong: "Sache qui ecoute vraiment.",
-    muted: "Relance plus vite, envoie de meilleurs packs, et transforme l'interet en placements et ventes.",
+    strong: "Sache qui écoute vraiment.",
+    muted: "Relance plus vite, envoie de meilleurs packs, et transforme l’intérêt en placements et ventes.",
     videoUrl: "https://www.youtube.com/embed/DOlLUSW9s2s?start=61",
-    videoTitle: "video demo vvault en francais",
+    videoTitle: "vidéo démo vvault en français",
   },
   howItWorksIntro: {
-    title: "Sache qui est pret avant de relancer.",
+    title: "Sache qui est prêt avant de relancer.",
     description:
-      "Chaque envoi devient mesurable: ouvertures, clics, duree d'ecoute, telechargements et sauvegardes. Cree tes packs rapidement, envoie a des contacts illimites, et utilise de vrais signaux d'intention pour relancer au bon moment et signer placements ou ventes.",
-    stepLabel: "Etape",
-    imagePlaceholder: "Visuel d'etape",
+      "Chaque envoi devient mesurable: ouvertures, clics, durée d’écoute, téléchargements et sauvegardes. Crée tes packs rapidement, envoie à des contacts illimités, et utilise de vrais signaux d’intention pour relancer au bon moment et signer placements ou ventes.",
+    stepLabel: "Étape",
+    imagePlaceholder: "Visuel d’étape",
   },
   features: [
     {
       title: "Upload et organisation rapide",
       description:
-        "Depose plusieurs fichiers, dezippe automatiquement les ZIP, et garde ta bibliotheque propre sans couper ton flow.",
-      stat: "Dezip auto ZIP",
+        "Dépose plusieurs fichiers, dézippe automatiquement les ZIP, et garde ta bibliothèque propre sans couper ton flow.",
+      stat: "Dézip auto ZIP",
     },
     {
       title: "Partage des liens qui convertissent",
       description:
-        "Publie des morceaux, packs et dossiers via des liens prives, tokenises ou publics, optimises pour l'ecoute rapide.",
+        "Publie des morceaux, packs et dossiers via des liens privés, tokenisés ou publics, optimisés pour l’écoute rapide.",
       stat: "Liens morceau, pack, dossier",
     },
     {
-      title: "Lance tes campagnes au meme endroit",
+      title: "Lance tes campagnes au même endroit",
       description:
-        "Cree, planifie et envoie des campagnes directement depuis vvault tout en gardant tes contacts et ton historique centralises.",
+        "Crée, planifie et envoie des campagnes directement depuis vvault tout en gardant tes contacts et ton historique centralisé.",
       stat: "Envoi + planification",
     },
     {
       title: "Suis le vrai engagement",
       description:
-        "Mesure les ouvertures, clics, duree d'ecoute, sauvegardes, telechargements et ventes pour voir ce qui performe vraiment.",
-      stat: "Visibilite engagement complete",
+        "Mesure les ouvertures, clics, durée d’écoute, sauvegardes, téléchargements et ventes pour voir ce qui performe vraiment.",
+      stat: "Visibilité engagement complète",
     },
     {
       title: "Vends avec Stripe checkout",
       description:
-        "Propose des licences, securise les telechargements payants, et garde le checkout connecte a ton contenu et tes analytics.",
+        "Propose des licences, sécurise les téléchargements payants, et garde le checkout connecté à ton contenu et tes analytics.",
       stat: "Marketplace ready",
     },
     {
-      title: "Passe a l'echelle avec Pro et Ultra",
+      title: "Passe à l’échelle avec Pro et Ultra",
       description:
-        "Debloque CRM, automatisations, planification avancee et controle de branding quand ton volume augmente.",
+        "Débloque CRM, automatisations, planification avancée et contrôle de branding quand ton volume augmente.",
       stat: "Upgrade quand tu veux",
     },
   ] as LandingFeature[],
@@ -407,60 +407,60 @@ const landingContentFr = {
     {
       title: "Upload",
       description:
-        "Ajoute tes morceaux dans ta bibliotheque privee avec metadata, artwork et gestion propre des fichiers.",
-      detail: "Drag-and-drop multi-fichiers, support ZIP, et tout reste pret a l'emploi.",
+        "Ajoute tes morceaux dans ta bibliothèque privée avec métadonnées, artwork et gestion propre des fichiers.",
+      detail: "Drag-and-drop multi-fichiers, support ZIP, et tout reste prêt à l’emploi.",
     },
     {
       title: "Organise",
       description:
-        "Classe tout en dossiers, packs et series pour garder ton catalogue propre et facile a partager.",
-      detail: "Cree des templates de packs reutilisables et structure chaque sortie.",
+        "Classe tout en dossiers, packs et séries pour garder ton catalogue propre et facile à partager.",
+      detail: "Crée des templates de packs réutilisables et structure chaque sortie.",
     },
     {
       title: "Envoie",
-      description: "Envoie des e-mails a des contacts illimites en quelques clics avec les campagnes integrees.",
-      detail: "Fini les pieces jointes manuelles, les threads brouillons et les outils disperses.",
+      description: "Envoie des e-mails à des contacts illimités en quelques clics avec les campagnes intégrées.",
+      detail: "Fini les pièces jointes manuelles, les threads brouillons et les outils dispersés.",
     },
     {
       title: "Suis + Convertis",
       description:
-        "Vois exactement ce qui se passe apres l'envoi: ouvertures, clics, ecoutes (et duree), telechargements et sauvegardes, puis convertis cette traction en placements ou ventes.",
+        "Vois exactement ce qui se passe après l’envoi: ouvertures, clics, écoutes (et durée), téléchargements et sauvegardes, puis convertis cette traction en placements ou ventes.",
       detail:
-        "Identifie les auditeurs les plus engages, relance au moment parfait, et convertis via un marketplace a faible commission pense pour les producteurs.",
+        "Identifie les auditeurs les plus engagés, relance au moment parfait, et convertis via un marketplace à faible commission pensé pour les producteurs.",
     },
   ] as LandingStep[],
   updates: {
-    title: "Mises a jour",
-    subtitle: "Changements produit recents",
+    title: "Mises à jour",
+    subtitle: "Changements produit récents",
     items: [
       {
-        title: "Visibilite des performances campagnes",
-        text: "Les signaux de duree d'ecoute et d'engagement sont plus precis dans les analytics campagnes et liens.",
-        date: "Fev 2026",
+        title: "Visibilité des performances campagnes",
+        text: "Les signaux de durée d’écoute et d’engagement sont plus précis dans les analytics campagnes et liens.",
+        date: "Fév 2026",
       },
       {
-        title: "Fiabilite du checkout marketplace",
-        text: "Le flux d'achat et de livraison est plus stable pour les licences payantes et telechargements securises.",
-        date: "Fev 2026",
+        title: "Fiabilité du checkout marketplace",
+        text: "Le flux d’achat et de livraison est plus stable pour les licences payantes et téléchargements sécurisés.",
+        date: "Fév 2026",
       },
       {
-        title: "Controles d'automatisation series",
-        text: "Les workflows Ultra incluent des controles plus fins pour les sorties recurrentes et acces planifies.",
+        title: "Contrôles d’automatisation séries",
+        text: "Les workflows Ultra incluent des contrôles plus fins pour les sorties récurrentes et accès planifiés.",
         date: "Jan 2026",
       },
     ],
   },
-  logoStrip: ["Producteurs independants", "Studios", "Managers", "Equipes A&R", "Labels", "Createurs"],
+  logoStrip: ["Producteurs indépendants", "Studios", "Managers", "Équipes A&R", "Labels", "Créateurs"],
   pricingComparison: {
     human: {
       title: "Free",
       symbol: "check",
       bullets: [
-        "Upload jusqu'a 100MB",
-        "Genere des liens pour morceaux, packs et dossiers",
-        "Liste de contacts complete",
+        "Upload jusqu’à 100MB",
+        "Génère des liens pour morceaux, packs et dossiers",
+        "Liste de contacts complète",
         "Packs et morceaux collaboratifs",
-        "Recois des splits sur les ventes Pro",
+        "Reçois des splits sur les ventes Pro",
       ],
       cost: "€0",
       costNote: "sans carte bancaire",
@@ -470,7 +470,7 @@ const landingContentFr = {
       symbol: "check",
       bullets: [
         "Tout ce qui est dans Pro",
-        "Automatisations de series",
+        "Automatisations de séries",
         "Planification optimale par destinataire",
         "0% de frais marketplace",
         "Domaine perso, branding, embeds et QR",
@@ -480,75 +480,75 @@ const landingContentFr = {
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
   pricingUi: {
-    title: "Des plans simples qui evoluent avec ton catalogue.",
+    title: "Des plans simples qui évoluent avec ton catalogue.",
     monthly: "Mensuel",
     annually: "Annuel",
     toggleBillingAriaLabel: "Activer la facturation annuelle",
     mostPopular: "Le plus populaire",
-    bestValue: "Meilleur rapport qualite-prix",
+    bestValue: "Meilleur rapport qualité-prix",
     annuallyPerMonth: "Annuel /mois",
-    billedYearly: "facture a l'annee",
-    billedMonthly: "facture au mois",
-    upgradeUltra: "Passer a Ultra",
-    testimonialsLabel: "Temoignages",
-    testimonialsTitle: "Utilise chaque jour par 600+ producteurs",
+    billedYearly: "facturé à l’année",
+    billedMonthly: "facturé au mois",
+    upgradeUltra: "Passer à Ultra",
+    testimonialsLabel: "Témoignages",
+    testimonialsTitle: "Utilisé chaque jour par 600+ producteurs",
     testimonialsDescription:
-      "Des createurs montrent concretement comment ils utilisent vvault pour envoyer, suivre et convertir.",
+      "Des créateurs montrent concrètement comment ils utilisent vvault pour envoyer, suivre et convertir.",
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",
-    testimonialVideoTitle: "video temoignage vvault",
+    testimonialVideoTitle: "vidéo témoignage vvault",
     faqTitle: "FAQ",
   },
   singlePlan: {
     name: "Pro",
     price: "€8.99/mo",
     note: "mensuel · annuel disponible (2 mois offerts)",
-    cta: "Demarrer Pro",
+    cta: "Démarrer Pro",
     bullets: [
       "Tout ce qui est dans Free",
-      "Campagnes: creer, envoyer, planifier et suivre",
-      "Tracking: ouvertures, clics, ecoutes, sauvegardes, telechargements, ventes",
+      "Campagnes: créer, envoyer, planifier et suivre",
+      "Tracking: ouvertures, clics, écoutes, sauvegardes, téléchargements, ventes",
       "Vente via marketplace (5% de commission)",
-      "Analytics: meilleur moment d'envoi, funnels, dashboards",
-      "CRM: timeline, notes, taches, scoring",
-      "Passe a Ultra pour les automatisations et 0% de frais marketplace",
+      "Analytics: meilleur moment d’envoi, funnels, dashboards",
+      "CRM: timeline, notes, tâches, scoring",
+      "Passe à Ultra pour les automatisations et 0% de frais marketplace",
     ],
   } as LandingSinglePlan,
   faq: [
     {
-      question: "A quoi sert vvault ?",
+      question: "À quoi sert vvault ?",
       answer:
-        "vvault est concu pour les producteurs et equipes qui ont besoin d'un seul systeme pour la bibliotheque, le partage, les campagnes, les analytics et la monetisation.",
+        "vvault est conçu pour les producteurs et équipes qui ont besoin d’un seul système pour la bibliothèque, le partage, les campagnes, les analytics et la monétisation.",
     },
     {
       question: "Que comprend le plan Free ?",
       answer:
-        "Free inclut jusqu'a 100MB d'upload, des liens de partage pour morceaux/packs/dossiers, des contacts complets, la collaboration, et les split payouts issus des ventes Pro.",
+        "Free inclut jusqu’à 100MB d’upload, des liens de partage pour morceaux/packs/dossiers, des contacts complets, la collaboration, et les split payouts issus des ventes Pro.",
     },
     {
       question: "Qu'est-ce qui change avec Pro et Ultra ?",
       answer:
-        "Pro debloque les campagnes, le tracking avance, le CRM, les analytics, et la vente marketplace. Ultra ajoute l'automatisation, une planification plus fine, du branding personnalise et 0% de frais marketplace.",
+        "Pro débloque les campagnes, le tracking avancé, le CRM, les analytics, et la vente marketplace. Ultra ajoute l’automatisation, une planification plus fine, du branding personnalisé et 0% de frais marketplace.",
     },
     {
       question: "Puis-je envoyer des campagnes et suivre l'engagement ?",
       answer:
-        "Oui. vvault permet de creer et planifier des campagnes, puis de suivre ouvertures, clics, duree d'ecoute, telechargements, sauvegardes et ventes dans un seul workflow.",
+        "Oui. vvault permet de créer et planifier des campagnes, puis de suivre ouvertures, clics, durée d’écoute, téléchargements, sauvegardes et ventes dans un seul workflow.",
     },
     {
       question: "Comment fonctionnent la facturation et les paiements ?",
       answer:
-        "Abonnements, achats et payouts passent par des flux Stripe pour garder le statut de paiement et la livraison relies.",
+        "Abonnements, achats et payouts passent par des flux Stripe pour garder le statut de paiement et la livraison reliés.",
     },
     {
       question: "Puis-je migrer progressivement ?",
       answer:
-        "Oui. La plupart des equipes deplacent d'abord les packs et liens actifs, puis migrent campagnes et monetisation une fois le tracking en place.",
+        "Oui. La plupart des équipes déplacent d’abord les packs et liens actifs, puis migrent campagnes et monétisation une fois le tracking en place.",
     },
   ] as LandingFaq[],
   finalCta: {
     title: "Envoie plus vite. Suis chaque écoute. Décroche plus de placements.",
     description:
-      "Remplace les outils disperses par un espace unique pour la diffusion, l'engagement et la monetisation.",
+      "Remplace les outils dispersés par un espace unique pour la diffusion, l’engagement et la monétisation.",
     primary: { label: "Commencer gratuitement", href: "https://vvault.app/signup" },
     secondary: { label: "Connexion", href: "https://vvault.app/login" },
   },
@@ -574,13 +574,13 @@ const landingContentFr = {
       {
         title: "Ressources",
         links: [
-          { label: "Confidentialite", href: "/privacy" },
+          { label: "Confidentialité", href: "/privacy" },
           { label: "Conditions", href: "/terms" },
           { label: "Facturation", href: "https://vvault.app/billing" },
         ] as LandingFooterLink[],
       },
       {
-        title: "Legal",
+        title: "Légal",
         links: [
           { label: "Connexion", href: "https://vvault.app/login" },
           { label: "Pro", href: "https://vvault.app/billing" },
@@ -589,32 +589,32 @@ const landingContentFr = {
       },
     ],
     legalLinks: [
-      { label: "Confidentialite", href: "/privacy" },
+      { label: "Confidentialité", href: "/privacy" },
       { label: "Conditions", href: "/terms" },
       { label: "Contact", href: "mailto:vvaultapp@gmail.com" },
     ],
   },
   appMock: {
     sidebar: [
-      "Bibliotheque",
+      "Bibliothèque",
       "Campagnes",
       "Contacts",
       "Analytics",
       "Marketplace",
       "Facturation",
-      "Parametres",
+      "Paramètres",
     ],
     conversations: [
-      { name: "Noah - A&R", preview: "Pack 07 adore. Besoin des stems alternatifs.", phase: "Lead chaud", time: "2m" },
-      { name: "Mila - Artiste", preview: "Telecharge et partage avec le manager.", phase: "Engage", time: "7m" },
-      { name: "Kai - Producteur", preview: "Tu peux envoyer WAV + lien tracke ?", phase: "Actif", time: "11m" },
-      { name: "Lena - Label", preview: "Pret a acheter la licence exclusive.", phase: "Deal", time: "21m" },
+      { name: "Noah - A&R", preview: "Pack 07 adoré. Besoin des stems alternatifs.", phase: "Lead chaud", time: "2m" },
+      { name: "Mila - Artiste", preview: "Téléchargé et partagé avec le manager.", phase: "Engagé", time: "7m" },
+      { name: "Kai - Producteur", preview: "Tu peux envoyer WAV + lien tracké ?", phase: "Actif", time: "11m" },
+      { name: "Lena - Label", preview: "Prêt à acheter la licence exclusive.", phase: "Deal", time: "21m" },
     ],
     feed: [
       "Lien pack ouvert · 09:14",
-      "Lecture a 86% · 09:11",
-      "Checkout licence complete · 09:09",
-      "Telechargement securise livre · 09:05",
+      "Lecture à 86% · 09:11",
+      "Checkout licence complété · 09:09",
+      "Téléchargement sécurisé livré · 09:05",
     ],
   },
 } as const;

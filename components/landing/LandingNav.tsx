@@ -20,13 +20,13 @@ function LanguageSwitch({
   onNavigate?: () => void;
 }) {
   const isEn = locale === "en";
-  const currentLanguage = isEn ? "English" : "Français";
+  const currentLanguage = isEn ? content.ui.languageEnglish : content.ui.languageFrench;
 
   return (
     <details className="relative">
       <summary
         aria-label={content.ui.languageSwitcherAriaLabel}
-        className="inline-flex list-none cursor-pointer items-center gap-1.5 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-1.5 text-[11px] font-semibold tracking-[0.06em] text-white/88 transition-colors hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 [&::-webkit-details-marker]:hidden"
+        className="inline-flex list-none cursor-pointer items-center gap-1.5 rounded-xl bg-white/[0.02] px-3 py-1.5 text-[11px] font-semibold tracking-[0.06em] text-white/88 transition-colors hover:bg-white/[0.05] focus:outline-none [&::-webkit-details-marker]:hidden"
       >
         <span>{currentLanguage}</span>
         <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.9] text-white/60">
@@ -34,7 +34,7 @@ function LanguageSwitch({
         </svg>
       </summary>
 
-      <div className="absolute right-0 z-20 mt-2 min-w-[130px] overflow-hidden rounded-xl border border-white/10 bg-[#111111] p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+      <div className="absolute right-0 z-20 mt-2 min-w-[130px] overflow-hidden rounded-xl bg-[#111111] p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
         <Link
           href="/?lang=en"
           onClick={onNavigate}
@@ -42,7 +42,7 @@ function LanguageSwitch({
             isEn ? "bg-white/[0.08] text-white" : "text-white/75 hover:bg-white/[0.06] hover:text-white"
           }`}
         >
-          English
+          {content.ui.languageEnglish}
         </Link>
         <Link
           href="/fr?lang=fr"
@@ -51,7 +51,7 @@ function LanguageSwitch({
             isEn ? "text-white/75 hover:bg-white/[0.06] hover:text-white" : "bg-white/[0.08] text-white"
           }`}
         >
-          Français
+          {content.ui.languageFrench}
         </Link>
       </div>
     </details>
