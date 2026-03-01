@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
@@ -13,71 +13,97 @@ type LandingNavProps = {
 function LanguageSwitch({
   locale,
   content,
-  onNavigate,
 }: {
   locale: Locale;
   content: LandingContent;
-  onNavigate?: () => void;
 }) {
   const isEn = locale === "en";
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement | null>(null);
   const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
-  const switchLocale = (nextLocale: Locale) => {
-    onNavigate?.();
+  useEffect(() => {
+    const onPointerDown = (event: MouseEvent) => {
+      if (!rootRef.current) return;
+      if (rootRef.current.contains(event.target as Node)) return;
+      setOpen(false);
+    };
 
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
+  const switchLocale = (nextLocale: Locale) => {
+    setOpen(false);
     const targetPath = nextLocale === "fr" ? "/fr" : "/";
     if (window.location.pathname === targetPath && locale === nextLocale) {
       return;
     }
 
     document.cookie = `vvault_locale=${nextLocale}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; samesite=lax`;
-    window.location.href = targetPath;
+    window.location.assign(targetPath);
   };
 
   return (
     <div
+      ref={rootRef}
       aria-label={content.ui.languageSwitcherAriaLabel}
-      className="inline-flex items-center gap-1 rounded-xl bg-white/[0.02] px-2 py-1.5"
+      className="relative"
     >
       <button
         type="button"
-        onClick={() => switchLocale("en")}
-        className={`rounded-md px-2 py-0.5 text-[11px] font-semibold tracking-[0.06em] transition-colors focus:outline-none ${
-          isEn ? "bg-white/[0.08] text-white" : "text-white/62 hover:text-white/84"
-        }`}
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-label={content.ui.languageSwitcherAriaLabel}
+        className="inline-flex items-center gap-1.5 rounded-xl bg-white/[0.02] px-3 py-1.5 text-[11px] font-semibold tracking-[0.06em] text-white/88 transition-colors hover:bg-white/[0.05] focus:outline-none"
       >
-        {content.ui.languageEnglish}
+        <span>{isEn ? content.ui.languageEnglish : content.ui.languageFrench}</span>
+        <svg
+          viewBox="0 0 20 20"
+          className={`h-3.5 w-3.5 fill-none stroke-current stroke-[1.9] text-white/60 transition-transform duration-200 ${
+            open ? "rotate-180" : ""
+          }`}
+        >
+          <path d="M5 8l5 5 5-5" />
+        </svg>
       </button>
-      <span className="text-white/30">/</span>
-      <button
-        type="button"
-        onClick={() => switchLocale("fr")}
-        className={`rounded-md px-2 py-0.5 text-[11px] font-semibold tracking-[0.06em] transition-colors focus:outline-none ${
-          isEn ? "text-white/62 hover:text-white/84" : "bg-white/[0.08] text-white"
-        }`}
-      >
-        {content.ui.languageFrench}
-      </button>
+
+      {open ? (
+        <div className="absolute right-0 z-20 mt-2 min-w-[112px] overflow-hidden rounded-xl bg-[#111111] p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+          <button
+            type="button"
+            onClick={() => switchLocale("en")}
+            className={`block w-full rounded-lg px-3 py-2 text-left text-[12px] font-medium transition-colors focus:outline-none ${
+              isEn ? "bg-white/[0.08] text-white" : "text-white/75 hover:bg-white/[0.06] hover:text-white"
+            }`}
+          >
+            {content.ui.languageEnglish}
+          </button>
+          <button
+            type="button"
+            onClick={() => switchLocale("fr")}
+            className={`mt-1 block w-full rounded-lg px-3 py-2 text-left text-[12px] font-medium transition-colors focus:outline-none ${
+              isEn ? "text-white/75 hover:bg-white/[0.06] hover:text-white" : "bg-white/[0.08] text-white"
+            }`}
+          >
+            {content.ui.languageFrench}
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
 
 export function LandingNav({ locale, content }: LandingNavProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const mobileItems = content.nav;
-  const systemItems = mobileItems.filter((item) => item.href !== "#contact");
-  const contactItem = mobileItems.find((item) => item.href === "#contact");
   const homeHref = locale === "fr" ? "/fr" : "/";
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const { body } = document;
-    const previousOverflow = body.style.overflow;
-    body.style.overflow = "hidden";
-    return () => {
-      body.style.overflow = previousOverflow;
-    };
-  }, [menuOpen]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0e0e0e]/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
@@ -95,7 +121,7 @@ export function LandingNav({ locale, content }: LandingNavProps) {
             <a
               key={item.label}
               href={item.href}
-              className="rounded-md px-2 py-1 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {item.label}
             </a>
@@ -124,103 +150,19 @@ export function LandingNav({ locale, content }: LandingNavProps) {
         >
           {content.ui.login}
         </LandingCtaLink>
-
-        <button
-          type="button"
-          aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((prev) => !prev)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-transparent text-white/74 transition-colors duration-200 hover:text-white/92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 lg:hidden"
-        >
-          <svg viewBox="0 0 20 20" className="h-[22px] w-[22px] fill-none stroke-current stroke-[1.8]">
-            {menuOpen ? (
-              <path d="M5 5l10 10M15 5L5 15" />
-            ) : (
-              <path d="M3.5 5.25h13M3.5 10h13M3.5 14.75h13" />
-            )}
-          </svg>
-        </button>
       </div>
 
-      <nav
-        aria-label="Mobile primary"
-        className={`fixed inset-0 z-[70] transition-[opacity,visibility] duration-300 ease-out lg:hidden ${
-          menuOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"
-        }`}
-      >
-        <div
-          className={`pointer-events-none absolute inset-0 z-0 bg-[#0e0e0e]/88 backdrop-blur-[22px] transition-opacity duration-300 ease-out ${
-            menuOpen ? "opacity-100" : "opacity-0"
-          }`}
-        />
-        <div
-          className={`relative z-10 flex h-full flex-col transition-[opacity,transform] duration-320 ease-out ${
-            menuOpen ? "translate-y-0 opacity-100" : "-translate-y-3 opacity-0"
-          }`}
-        >
-          <div className="border-b border-white/10 pt-[env(safe-area-inset-top)]">
-            <div className="mx-auto flex h-[74px] w-full max-w-[1320px] items-center gap-3 px-5 sm:px-8">
-              <Link
-                href={homeHref}
-                onClick={() => setMenuOpen(false)}
-                className="shrink-0 rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white"
-                aria-label={content.ui.homepageAriaLabel}
-              >
-                vvault
-              </Link>
-              <div className="ml-auto" />
-              <LanguageSwitch locale={locale} content={content} onNavigate={() => setMenuOpen(false)} />
-              <LandingCtaLink
-                loggedInHref="https://vvault.app/login"
-                loggedOutHref="https://vvault.app/login"
-                onClick={() => setMenuOpen(false)}
-                className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
-              >
-                {content.ui.login}
-              </LandingCtaLink>
-              <button
-                type="button"
-                aria-label="Close navigation menu"
-                onClick={() => setMenuOpen(false)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md bg-transparent text-white/74 transition-colors duration-200 hover:text-white/92 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-              >
-                <svg viewBox="0 0 20 20" className="h-[22px] w-[22px] fill-none stroke-current stroke-[1.8]">
-                  <path d="M5 5l10 10M15 5L5 15" />
-                </svg>
-              </button>
-            </div>
-          </div>
-
-          <div className="mx-auto flex w-full max-w-[1320px] flex-1 flex-col px-5 pb-[max(24px,env(safe-area-inset-bottom))] pt-8 sm:px-8">
-            <div>
-              <p className="text-[13px] uppercase tracking-[0.14em] text-white/34">{content.ui.mobileSystemLabel}</p>
-              <div className="mt-4 flex flex-col gap-4">
-                {systemItems.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-[3rem] leading-[1.02] tracking-tight text-white/92 transition-colors duration-200 hover:text-white"
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            {contactItem ? (
-              <div className="mt-10">
-                <p className="text-[13px] uppercase tracking-[0.14em] text-white/34">{content.ui.mobileResourcesLabel}</p>
-                <a
-                  href={contactItem.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="mt-4 block text-[3rem] leading-[1.02] tracking-tight text-white/92 transition-colors duration-200 hover:text-white"
-                >
-                  {contactItem.label}
-                </a>
-              </div>
-            ) : null}
-          </div>
+      <nav aria-label="Mobile primary" className="border-t border-white/10 lg:hidden">
+        <div className="mx-auto flex w-full max-w-[1320px] gap-2 overflow-x-auto px-5 py-3 sm:px-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+          {content.nav.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className="shrink-0 rounded-full px-3 py-1.5 text-xs text-white/64 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/84"
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
       </nav>
     </header>
