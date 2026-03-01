@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { landingContent } from "@/components/landing/content";
+import type { LandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { Reveal } from "@/components/landing/Reveal";
 
@@ -39,25 +39,29 @@ function ComparisonCard({
   );
 }
 
-export function PricingSection() {
+type PricingSectionProps = {
+  content: LandingContent;
+};
+
+export function PricingSection({ content }: PricingSectionProps) {
   const [annual, setAnnual] = useState(true);
-  const { human, ai } = landingContent.pricingComparison;
-  const plan = landingContent.singlePlan;
+  const { human, ai } = content.pricingComparison;
+  const plan = content.singlePlan;
   const proPrice = annual ? "€7.49/mo" : "€8.99/mo";
   const ultraPrice = annual ? "€20.75/mo" : "€24.99/mo";
-  const cadenceNote = annual ? "billed yearly" : "billed monthly";
+  const cadenceNote = annual ? content.pricingUi.billedYearly : content.pricingUi.billedMonthly;
 
   return (
     <section id="pricing" className="pt-20 sm:pt-28">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 className="font-display text-3xl text-white sm:text-5xl">Simple plans that scale with your catalog.</h2>
+            <h2 className="font-display text-3xl text-white sm:text-5xl">{content.pricingUi.title}</h2>
             <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] px-3 py-2">
-              <span className={`text-xs ${annual ? "text-white/45" : "text-white"}`}>Monthly</span>
+              <span className={`text-xs ${annual ? "text-white/45" : "text-white"}`}>{content.pricingUi.monthly}</span>
               <button
                 type="button"
-                aria-label="Toggle annual billing"
+                aria-label={content.pricingUi.toggleBillingAriaLabel}
                 onClick={() => setAnnual((value) => !value)}
                 className={`relative h-7 w-12 rounded-full ${annual ? "bg-white/15" : "bg-white/5"}`}
               >
@@ -65,7 +69,7 @@ export function PricingSection() {
                   className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${annual ? "left-6" : "left-1"}`}
                 />
               </button>
-              <span className={`text-xs ${annual ? "text-white" : "text-white/45"}`}>Annually</span>
+              <span className={`text-xs ${annual ? "text-white" : "text-white/45"}`}>{content.pricingUi.annually}</span>
             </div>
           </div>
         </Reveal>
@@ -83,9 +87,11 @@ export function PricingSection() {
         <Reveal className="mt-8 rounded-[18px] bg-[#dcdcdc] p-6 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">Most popular</p>
+              <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">{content.pricingUi.mostPopular}</p>
               <h3 className="mt-2 text-2xl font-semibold text-[#0e0e0e]">{plan.name}</h3>
-              <p className="mt-1 text-sm text-[#0e0e0e]/70">Annually /month {cadenceNote}</p>
+              <p className="mt-1 text-sm text-[#0e0e0e]/70">
+                {content.pricingUi.annuallyPerMonth} {cadenceNote}
+              </p>
             </div>
             <p className="text-4xl font-semibold text-[#0e0e0e]">{proPrice}</p>
           </div>
@@ -111,9 +117,11 @@ export function PricingSection() {
         <Reveal className="mt-6 rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="text-sm uppercase tracking-[0.15em] text-white/70">Best value</p>
+              <p className="text-sm uppercase tracking-[0.15em] text-white/70">{content.pricingUi.bestValue}</p>
               <h3 className="mt-2 text-2xl font-semibold text-white">{ai.title}</h3>
-              <p className="mt-1 text-sm text-white/55">Annually /month {cadenceNote}</p>
+              <p className="mt-1 text-sm text-white/55">
+                {content.pricingUi.annuallyPerMonth} {cadenceNote}
+              </p>
             </div>
             <p className="text-4xl font-semibold text-white">{ultraPrice}</p>
           </div>
@@ -132,23 +140,21 @@ export function PricingSection() {
             loggedOutHref="https://vvault.app/billing"
             className="mt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
           >
-            Upgrade to Ultra →
+            {content.pricingUi.upgradeUltra} →
           </LandingCtaLink>
         </Reveal>
 
         <Reveal className="mt-20 sm:mt-24">
           <div id="testimonials" className="mx-auto max-w-[980px] scroll-mt-32 text-center">
-            <p className="text-xs uppercase tracking-[0.12em] text-white/44">Testimonials</p>
-            <h3 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">Used daily by 600+ producers</h3>
-            <p className="mt-2 text-sm text-white/62">
-              Real creators showing how they use vvault to send, track, and convert.
-            </p>
+            <p className="text-xs uppercase tracking-[0.12em] text-white/44">{content.pricingUi.testimonialsLabel}</p>
+            <h3 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">{content.pricingUi.testimonialsTitle}</h3>
+            <p className="mt-2 text-sm text-white/62">{content.pricingUi.testimonialsDescription}</p>
             <div className="mt-6 overflow-hidden rounded-[16px] border border-white/10 bg-[#090909]">
               <div className="relative w-full pb-[56.25%]">
                 <iframe
                   className="absolute inset-0 h-full w-full"
-                  src="https://www.youtube.com/embed/diDvzeYv_TE?start=21"
-                  title="vvault testimonial video"
+                  src={content.pricingUi.testimonialVideoUrl}
+                  title={content.pricingUi.testimonialVideoTitle}
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -160,9 +166,9 @@ export function PricingSection() {
         </Reveal>
 
         <Reveal className="mt-14 rounded-[20px] border border-white/10 bg-transparent p-5 sm:p-6">
-          <h3 className="text-lg font-semibold text-white/88">FAQs</h3>
+          <h3 className="text-lg font-semibold text-white/88">{content.pricingUi.faqTitle}</h3>
           <div className="mt-2 divide-y divide-white/10">
-            {landingContent.faq.map((item) => (
+            {content.faq.map((item) => (
               <details key={item.question} className="group py-4">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm text-white/84 marker:content-none [&::-webkit-details-marker]:hidden">
                   <span>{item.question}</span>

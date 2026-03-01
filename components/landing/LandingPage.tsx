@@ -8,11 +8,22 @@ import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
+import { getLandingContent, type Locale } from "@/components/landing/content";
 
-export function LandingPage() {
+type LandingPageProps = {
+  locale?: Locale;
+};
+
+export function LandingPage({ locale = "en" }: LandingPageProps) {
+  const content = getLandingContent(locale);
+
   useEffect(() => {
-    document.title = "vvault | The proper way to send your music";
-  }, []);
+    document.title =
+      locale === "fr"
+        ? "vvault | La bonne facon d'envoyer ta musique"
+        : "vvault | The proper way to send your music";
+    document.documentElement.lang = locale;
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-[#0e0e0e] font-sans text-[#f0f0f0]">
@@ -20,17 +31,17 @@ export function LandingPage() {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-[#0e0e0e]"
       >
-        Skip to content
+        {content.skipToContentLabel}
       </a>
-      <LandingNav />
+      <LandingNav locale={locale} content={content} />
       <main id="main-content">
-        <HeroSection />
-        <HeroStatementSection />
-        <HowItWorksSection />
-        <PricingSection />
-        <FinalCtaSection />
+        <HeroSection content={content} />
+        <HeroStatementSection content={content} />
+        <HowItWorksSection content={content} />
+        <PricingSection content={content} />
+        <FinalCtaSection content={content} />
       </main>
-      <LandingFooter />
+      <LandingFooter locale={locale} content={content} />
     </div>
   );
 }

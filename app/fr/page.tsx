@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/LandingPage";
 
 export const metadata: Metadata = {
-  title: "vvault | The proper way to send your music",
+  title: "vvault | La bonne facon d'envoyer ta musique",
   alternates: {
     languages: {
       en: "/",
@@ -11,6 +11,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Homepage() {
-  return <LandingPage locale="en" />;
+export default function HomepageFr() {
+  return <LandingPage locale="fr" />;
 }
