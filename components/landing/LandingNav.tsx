@@ -20,41 +20,45 @@ function LanguageSwitch({
   onNavigate?: () => void;
 }) {
   const isEn = locale === "en";
-  const currentLanguage = isEn ? content.ui.languageEnglish : content.ui.languageFrench;
+  const LOCALE_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
+
+  const switchLocale = (nextLocale: Locale) => {
+    onNavigate?.();
+
+    const targetPath = nextLocale === "fr" ? "/fr" : "/";
+    if (window.location.pathname === targetPath && locale === nextLocale) {
+      return;
+    }
+
+    document.cookie = `vvault_locale=${nextLocale}; path=/; max-age=${LOCALE_COOKIE_MAX_AGE}; samesite=lax`;
+    window.location.href = targetPath;
+  };
 
   return (
-    <details className="relative">
-      <summary
-        aria-label={content.ui.languageSwitcherAriaLabel}
-        className="inline-flex list-none cursor-pointer items-center gap-1.5 rounded-xl bg-white/[0.02] px-3 py-1.5 text-[11px] font-semibold tracking-[0.06em] text-white/88 transition-colors hover:bg-white/[0.05] focus:outline-none [&::-webkit-details-marker]:hidden"
+    <div
+      aria-label={content.ui.languageSwitcherAriaLabel}
+      className="inline-flex items-center gap-1 rounded-xl bg-white/[0.02] px-2 py-1.5"
+    >
+      <button
+        type="button"
+        onClick={() => switchLocale("en")}
+        className={`rounded-md px-2 py-0.5 text-[11px] font-semibold tracking-[0.06em] transition-colors focus:outline-none ${
+          isEn ? "bg-white/[0.08] text-white" : "text-white/62 hover:text-white/84"
+        }`}
       >
-        <span>{currentLanguage}</span>
-        <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.9] text-white/60">
-          <path d="M5 8l5 5 5-5" />
-        </svg>
-      </summary>
-
-      <div className="absolute right-0 z-20 mt-2 min-w-[130px] overflow-hidden rounded-xl bg-[#111111] p-1.5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-        <Link
-          href="/?lang=en"
-          onClick={onNavigate}
-          className={`block rounded-lg px-3 py-2 text-[12px] font-medium transition-colors ${
-            isEn ? "bg-white/[0.08] text-white" : "text-white/75 hover:bg-white/[0.06] hover:text-white"
-          }`}
-        >
-          {content.ui.languageEnglish}
-        </Link>
-        <Link
-          href="/fr?lang=fr"
-          onClick={onNavigate}
-          className={`mt-1 block rounded-lg px-3 py-2 text-[12px] font-medium transition-colors ${
-            isEn ? "text-white/75 hover:bg-white/[0.06] hover:text-white" : "bg-white/[0.08] text-white"
-          }`}
-        >
-          {content.ui.languageFrench}
-        </Link>
-      </div>
-    </details>
+        {content.ui.languageEnglish}
+      </button>
+      <span className="text-white/30">/</span>
+      <button
+        type="button"
+        onClick={() => switchLocale("fr")}
+        className={`rounded-md px-2 py-0.5 text-[11px] font-semibold tracking-[0.06em] transition-colors focus:outline-none ${
+          isEn ? "text-white/62 hover:text-white/84" : "bg-white/[0.08] text-white"
+        }`}
+      >
+        {content.ui.languageFrench}
+      </button>
+    </div>
   );
 }
 

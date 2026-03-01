@@ -345,7 +345,7 @@ const landingContentFr = {
     { label: "Contact", href: "#contact" },
   ] as LandingNavItem[],
   hero: {
-    title: ["Envoie tes beats. Suis les résultats.", "Décroche des placements."],
+    title: ["Envoie tes beats. Track tes résultats.", "Décroche des placements."],
     description:
       "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus.",
     newBadge: "Nouveau",
