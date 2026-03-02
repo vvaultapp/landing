@@ -63,7 +63,7 @@ function LanguageSwitch({
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-label={content.ui.languageSwitcherAriaLabel}
-        className="inline-flex items-center gap-1.5 rounded-xl bg-white/[0.02] px-3 py-1.5 text-[11px] font-semibold tracking-[0.06em] text-white/88 transition-colors hover:bg-white/[0.05] focus:outline-none"
+        className="inline-flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-[11px] font-semibold tracking-[0.06em] text-white/88 transition-colors hover:text-white focus:outline-none"
       >
         <span>{isEn ? content.ui.languageEnglish : content.ui.languageFrench}</span>
         <svg
@@ -131,40 +131,39 @@ export function LandingNav({ locale, content }: LandingNavProps) {
         <div className="hidden items-center gap-3 lg:flex">
           <LanguageSwitch locale={locale} content={content} />
           <LandingCtaLink
+            loggedInHref="https://vvault.app/signup"
+            loggedOutHref="https://vvault.app/signup"
+            className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+          >
+            {content.ui.signup}
+          </LandingCtaLink>
+          <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
-            className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
           >
             {content.ui.login}
           </LandingCtaLink>
         </div>
 
-        <div className="ml-auto lg:hidden">
+        <div className="ml-auto flex items-center gap-2 lg:hidden">
           <LanguageSwitch locale={locale} content={content} />
+          <LandingCtaLink
+            loggedInHref="https://vvault.app/signup"
+            loggedOutHref="https://vvault.app/signup"
+            className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+          >
+            {content.ui.signup}
+          </LandingCtaLink>
+          <LandingCtaLink
+            loggedInHref="https://vvault.app/login"
+            loggedOutHref="https://vvault.app/login"
+            className="inline-flex items-center rounded-full px-3 py-1.5 text-xs text-white/64 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/84 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+          >
+            {content.ui.login}
+          </LandingCtaLink>
         </div>
-
-        <LandingCtaLink
-          loggedInHref="https://vvault.app/login"
-          loggedOutHref="https://vvault.app/login"
-          className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:hidden"
-        >
-          {content.ui.login}
-        </LandingCtaLink>
       </div>
-
-      <nav aria-label="Mobile primary" className="border-t border-white/10 lg:hidden">
-        <div className="mx-auto flex w-full max-w-[1320px] gap-2 overflow-x-auto px-5 py-3 sm:px-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {content.nav.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="shrink-0 rounded-full px-3 py-1.5 text-xs text-white/64 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/84"
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
-      </nav>
     </header>
   );
 }

@@ -49,6 +49,7 @@ const landingContentEn = {
   ui: {
     homepageAriaLabel: "vvault homepage",
     login: "Login",
+    signup: "Sign up",
     languageEnglish: "ENG",
     languageFrench: "FR",
     languageSwitcherAriaLabel: "Switch language",
@@ -331,6 +332,7 @@ const landingContentFr = {
   ui: {
     homepageAriaLabel: "page d’accueil vvault",
     login: "Connexion",
+    signup: "S'inscrire",
     languageEnglish: "ENG",
     languageFrench: "FR",
     languageSwitcherAriaLabel: "Changer de langue",
