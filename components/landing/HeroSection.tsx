@@ -19,17 +19,15 @@ function HeroAppMock() {
         <div className="mx-auto h-[clamp(72px,9vw,132px)] w-[clamp(360px,44vw,840px)] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.08)_42%,rgba(255,255,255,0)_78%)] blur-[10px]" />
       </div>
 
-      <div className="absolute inset-x-0 top-[112%] z-20 flex justify-center sm:top-[116%] lg:top-[104%]">
-        <div className="hero-seq-item inline-flex items-center gap-3 sm:gap-4" style={{ animationDelay: "980ms" }}>
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-5 sm:py-2.5"
-          >
-            Start free
-          </LandingCtaLink>
-          <span className="whitespace-nowrap text-xs font-medium text-white/72 sm:text-sm">Create your vvault today</span>
-        </div>
+      <div className="absolute inset-x-0 top-[112%] z-20 flex justify-center sm:top-[116%] lg:top-[100%]">
+        <LandingCtaLink
+          loggedInHref="https://vvault.app/signup"
+          loggedOutHref="https://vvault.app/signup"
+          className="hero-seq-item inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-5 sm:py-2.5"
+          style={{ animationDelay: "980ms" }}
+        >
+          Start free
+        </LandingCtaLink>
       </div>
 
       <div
