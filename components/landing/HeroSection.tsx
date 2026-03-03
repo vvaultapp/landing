@@ -19,7 +19,7 @@ function HeroAppMock() {
         <div className="mx-auto h-[clamp(72px,9vw,132px)] w-[clamp(360px,44vw,840px)] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.08)_42%,rgba(255,255,255,0)_78%)] blur-[10px]" />
       </div>
 
-      <div className="absolute inset-x-0 top-[220px] z-20 flex justify-center sm:top-[260px] lg:top-[320px]">
+      <div className="absolute inset-x-0 top-[72%] z-20 flex justify-center sm:top-[74%] lg:top-[76%]">
         <LandingCtaLink
           loggedInHref="https://vvault.app/signup"
           loggedOutHref="https://vvault.app/signup"
