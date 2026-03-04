@@ -27,10 +27,10 @@ function HeroAppMock() {
             className="hero-seq-item inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-5 sm:py-2.5"
             style={{ animationDelay: "980ms" }}
           >
-            Start free
+            {content.hero.primaryCtaLabel}
           </LandingCtaLink>
           <span className="hero-seq-item hidden text-sm font-medium text-white/82 lg:inline" style={{ animationDelay: "1040ms" }}>
-            create you vvault today
+            {content.hero.primaryCtaHint}
           </span>
         </div>
       </div>

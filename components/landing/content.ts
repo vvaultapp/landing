@@ -66,6 +66,8 @@ const landingContentEn = {
   hero: {
     title: ["Send beats. Track results.", "Get placements."],
     description: "Turn emails into placements. Track opens, plays, downloads and more.",
+    primaryCtaLabel: "Start free",
+    primaryCtaHint: "Create your vvault today",
     newBadge: "New",
     onyxLabel: "ONYX YouTube Uploader",
     ratingLabel: "Used by 600+ producers daily",
@@ -350,6 +352,8 @@ const landingContentFr = {
     title: ["Envoie tes beats. Track tes résultats.", "Décroche des placements."],
     description:
       "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus.",
+    primaryCtaLabel: "Commencer gratuitement",
+    primaryCtaHint: "Crée ton vvault aujourd'hui",
     newBadge: "Nouveau",
     onyxLabel: "Uploader YouTube ONYX",
     ratingLabel: "Utilisé chaque jour par 600+ beatmakers",

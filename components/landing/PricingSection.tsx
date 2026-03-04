@@ -6,26 +6,29 @@ import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { Reveal } from "@/components/landing/Reveal";
 
 function ComparisonCard({
+  eyebrow,
   title,
   bullets,
   cost,
-  costNote,
   symbol,
 }: {
+  eyebrow: string;
   title: string;
   bullets: string[];
   cost: string;
-  costNote: string;
   symbol: "check" | "cross";
 }) {
   const marker = symbol === "check" ? "✓" : "✕";
 
   return (
-    <article className="landing-panel rounded-[18px] border border-white/10 bg-transparent p-5 sm:p-6">
-      <p className="text-[13px] uppercase tracking-[0.2em] text-white/50">{title}</p>
-      <ul className="mt-5 space-y-2.5">
+    <article className="landing-panel h-full rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7 flex flex-col">
+      <div>
+        <p className="text-sm uppercase tracking-[0.15em] text-white/70">{eyebrow}</p>
+        <h3 className="mt-2 text-2xl font-semibold text-white">{title}</h3>
+      </div>
+      <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 flex-1">
         {bullets.map((bullet) => (
-          <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/66">
+          <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/76">
             <span className="mt-[2px] inline-flex w-4 shrink-0 text-white/72">{marker}</span>
             <span>{bullet}</span>
           </li>
@@ -33,7 +36,6 @@ function ComparisonCard({
       </ul>
       <div className="mt-6 border-t border-white/10 pt-5">
         <p className="text-4xl font-semibold text-white">{cost}</p>
-        <p className="mt-1 text-sm text-white/46">{costNote}</p>
       </div>
     </article>
   );
@@ -63,7 +65,7 @@ export function PricingSection({ content }: PricingSectionProps) {
                 type="button"
                 aria-label={content.pricingUi.toggleBillingAriaLabel}
                 onClick={() => setAnnual((value) => !value)}
-                className={`relative h-7 w-12 rounded-full ${annual ? "bg-white/15" : "bg-white/5"}`}
+                className={`relative h-7 w-12 rounded-full transition-colors duration-200 ${annual ? "bg-emerald-500/80" : "bg-white/5"}`}
               >
                 <span
                   className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${annual ? "left-6" : "left-1"}`}
@@ -77,15 +79,16 @@ export function PricingSection({ content }: PricingSectionProps) {
         <div className="mt-10 grid gap-6 lg:grid-cols-3 lg:items-stretch">
           <Reveal className="h-full">
             <ComparisonCard
+              eyebrow={human.costNote}
               title={human.title}
               bullets={human.bullets}
               cost={human.cost}
-              costNote={human.costNote}
               symbol={human.symbol}
             />
           </Reveal>
 
-          <Reveal className="h-full rounded-[18px] bg-[#dcdcdc] p-6 sm:p-7">
+          <Reveal className="relative h-full overflow-hidden rounded-[18px] bg-[#dcdcdc] p-6 sm:p-7 flex flex-col">
+            <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(226,171,56,0.42)_0%,rgba(226,171,56,0)_72%)] blur-2xl" />
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">{content.pricingUi.mostPopular}</p>
@@ -97,7 +100,7 @@ export function PricingSection({ content }: PricingSectionProps) {
               <p className="text-4xl font-semibold text-[#0e0e0e]">{proPrice}</p>
             </div>
 
-            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 flex-1">
               {plan.bullets.map((bullet) => (
                 <li key={bullet} className="flex items-start gap-2.5 text-sm text-[#0e0e0e]">
                   <span className="mt-[2px] inline-flex w-4 shrink-0 text-[#0e0e0e]">✓</span>
@@ -115,7 +118,8 @@ export function PricingSection({ content }: PricingSectionProps) {
             </LandingCtaLink>
           </Reveal>
 
-          <Reveal className="h-full rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7">
+          <Reveal className="relative h-full overflow-hidden rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7 flex flex-col">
+            <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(137,92,255,0.38)_0%,rgba(137,92,255,0)_72%)] blur-2xl" />
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-sm uppercase tracking-[0.15em] text-white/70">{content.pricingUi.bestValue}</p>
@@ -127,7 +131,7 @@ export function PricingSection({ content }: PricingSectionProps) {
               <p className="text-4xl font-semibold text-white">{ultraPrice}</p>
             </div>
 
-            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 flex-1">
               {ai.bullets.map((bullet) => (
                 <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/76">
                   <span className="mt-[2px] inline-flex w-4 shrink-0 text-white">✓</span>

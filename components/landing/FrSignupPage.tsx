@@ -19,49 +19,48 @@ export function FrSignupPage() {
 
   return (
     <div className="landing-root min-h-screen bg-[#0e0e0e] text-[#f0f0f0]">
-      <main className="relative overflow-hidden pb-40 pt-20 sm:pb-44 sm:pt-24">
-        <div className="pointer-events-none absolute -top-36 left-1/2 h-96 w-[min(92vw,900px)] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0)_72%)] blur-2xl" />
-        <div className="pointer-events-none absolute inset-x-0 top-[48%] mx-auto h-px w-[min(100%,1200px)] bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      <main className="pb-40 pt-32 sm:pb-44 sm:pt-40 lg:pt-48">
+        <section className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+          <div className="max-w-[1280px] sm:pl-4 lg:pl-8">
+            <h1 className="font-display text-[2.35rem] font-normal leading-[0.98] tracking-tight text-white sm:text-[3.35rem] lg:text-[4rem]">
+              <span className="hero-line-reveal" style={{ animationDelay: "80ms" }}>
+                Crée ton compte gratuit.
+              </span>
+            </h1>
+            <p className="mt-7 max-w-[980px] text-sm leading-6 text-white/30 sm:text-base sm:leading-7">
+              <span className="hero-line-reveal" style={{ animationDelay: "260ms" }}>
+                Envoie ta musique avec un lien pro, suis les écoutes en temps réel et relance les bons contacts plus
+                vite.
+              </span>
+            </p>
 
-        <section className="mx-auto w-full max-w-[1100px] px-5 sm:px-8">
-          <div className="rounded-[30px] border border-white/12 bg-white/[0.03] p-6 shadow-[0_18px_64px_rgba(0,0,0,0.35)] sm:p-10 lg:grid lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-10">
-            <div>
-              <h1 className="font-display text-[2.25rem] leading-[1.02] tracking-tight text-white sm:text-[3rem] lg:text-[3.55rem]">
-                Transforme tes envois en placements.
-              </h1>
-              <p className="mt-5 max-w-[54ch] text-sm leading-6 text-white/72 sm:text-base sm:leading-7">
-                Crée ton compte gratuit pour envoyer tes tracks avec un lien pro et savoir exactement qui écoute
-                vraiment.
-              </p>
+            <ul className="hero-seq-item mt-8 space-y-3 text-sm leading-6 text-white/84 sm:text-base sm:leading-7" style={{ animationDelay: "420ms" }}>
+              {benefits.map((benefit) => (
+                <li key={benefit} className="flex items-start gap-3">
+                  <span className="mt-2 inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-[#f2b84a]" />
+                  <span>{benefit}</span>
+                </li>
+              ))}
+            </ul>
 
-              <ul className="mt-7 space-y-3 text-sm leading-6 text-white/84 sm:text-base">
-                {benefits.map((benefit) => (
-                  <li key={benefit} className="flex items-start gap-3">
-                    <span className="mt-2 inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-[#f2b84a]" />
-                    <span>{benefit}</span>
-                  </li>
-                ))}
-              </ul>
+            <div className="hero-seq-item mt-7 flex items-center gap-2" style={{ animationDelay: "560ms" }}>
+              <span className="text-sm tracking-[0.08em] text-[#f2b84a]">★★★★★</span>
+              <span className="text-xs font-medium text-white/78 sm:text-sm">Used by 600+ producers daily</span>
+            </div>
+            <p className="hero-seq-item mt-2 text-sm text-white/56 sm:text-base" style={{ animationDelay: "640ms" }}>
+              “Finally one link that looks clean and tells me who is actually listening.”
+            </p>
 
-              <div className="mt-8 rounded-2xl border border-white/12 bg-black/25 p-4 sm:p-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/46">Preuve rapide</p>
-                <p className="mt-2 text-sm text-white/92 sm:text-base">
-                  Utilisé chaque jour par <span className="font-semibold">600+ producteurs</span>.
-                </p>
-                <p className="mt-1 text-sm text-white/60">Studios, managers et équipes A&amp;R.</p>
-              </div>
+            <div className="hero-seq-item mt-8 flex items-center gap-4" style={{ animationDelay: "760ms" }}>
+              <LandingCtaLink
+                loggedInHref="https://vvault.app/signup"
+                loggedOutHref="https://vvault.app/signup"
+                className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
+              >
+                Créer mon compte gratuit
+              </LandingCtaLink>
 
-              <div className="mt-7">
-                <LandingCtaLink
-                  loggedInHref="https://vvault.app/signup"
-                  loggedOutHref="https://vvault.app/signup"
-                  className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
-                >
-                  Créer mon compte gratuit
-                </LandingCtaLink>
-              </div>
-
-              <p className="mt-4 text-xs text-white/52 sm:text-sm">
+              <p className="text-xs text-white/52 sm:text-sm">
                 <LandingCtaLink
                   loggedInHref="https://vvault.app/login"
                   loggedOutHref="https://vvault.app/login"
@@ -71,19 +70,17 @@ export function FrSignupPage() {
                 </LandingCtaLink>
               </p>
             </div>
+          </div>
 
-            <div className="mt-10 lg:mt-0">
-              <div className="rounded-2xl border border-white/10 bg-[#111111] p-2 shadow-[0_24px_70px_rgba(0,0,0,0.45)]">
-                <Image
-                  src="/app show-off-cropped.png"
-                  alt="Apercu de l'application vvault"
-                  width={1620}
-                  height={880}
-                  priority
-                  className="block h-auto w-full rounded-xl"
-                />
-              </div>
-            </div>
+          <div className="hero-seq-item mt-14 -ml-[18px] w-[calc(100%+36px)] sm:-ml-[32px] sm:mt-16 sm:w-[calc(100%+64px)] lg:-ml-[72px] lg:w-[calc(100%+144px)]" style={{ animationDelay: "900ms" }}>
+            <Image
+              src="/app show-off.png"
+              alt="Aperçu de l'application vvault"
+              width={1800}
+              height={950}
+              priority
+              className="block h-auto w-full max-w-none"
+            />
           </div>
         </section>
       </main>
