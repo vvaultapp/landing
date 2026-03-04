@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
-import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent } from "@/components/landing/content";
@@ -30,7 +29,6 @@ export function FrSignupPage() {
       <main id="main-content">
         <HeroSection content={content} showOnyxUploader={false} />
         <HeroStatementSection content={content} />
-        <HowItWorksSection content={content} />
         <FinalCtaSection content={content} />
       </main>
       <LandingFooter locale="fr" content={content} />
