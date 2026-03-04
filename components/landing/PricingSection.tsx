@@ -74,75 +74,77 @@ export function PricingSection({ content }: PricingSectionProps) {
           </div>
         </Reveal>
 
-        <Reveal className="mt-10">
-          <ComparisonCard
-            title={human.title}
-            bullets={human.bullets}
-            cost={human.cost}
-            costNote={human.costNote}
-            symbol={human.symbol}
-          />
-        </Reveal>
+        <div className="mt-10 grid gap-6 lg:grid-cols-3 lg:items-stretch">
+          <Reveal className="h-full">
+            <ComparisonCard
+              title={human.title}
+              bullets={human.bullets}
+              cost={human.cost}
+              costNote={human.costNote}
+              symbol={human.symbol}
+            />
+          </Reveal>
 
-        <Reveal className="mt-8 rounded-[18px] bg-[#dcdcdc] p-6 sm:p-7">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">{content.pricingUi.mostPopular}</p>
-              <h3 className="mt-2 text-2xl font-semibold text-[#0e0e0e]">{plan.name}</h3>
-              <p className="mt-1 text-sm text-[#0e0e0e]/70">
-                {content.pricingUi.annuallyPerMonth} {cadenceNote}
-              </p>
+          <Reveal className="h-full rounded-[18px] bg-[#dcdcdc] p-6 sm:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">{content.pricingUi.mostPopular}</p>
+                <h3 className="mt-2 text-2xl font-semibold text-[#0e0e0e]">{plan.name}</h3>
+                <p className="mt-1 text-sm text-[#0e0e0e]/70">
+                  {content.pricingUi.annuallyPerMonth} {cadenceNote}
+                </p>
+              </div>
+              <p className="text-4xl font-semibold text-[#0e0e0e]">{proPrice}</p>
             </div>
-            <p className="text-4xl font-semibold text-[#0e0e0e]">{proPrice}</p>
-          </div>
 
-          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-            {plan.bullets.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-2.5 text-sm text-[#0e0e0e]">
-                <span className="mt-[2px] inline-flex w-4 shrink-0 text-[#0e0e0e]">✓</span>
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              {plan.bullets.map((bullet) => (
+                <li key={bullet} className="flex items-start gap-2.5 text-sm text-[#0e0e0e]">
+                  <span className="mt-[2px] inline-flex w-4 shrink-0 text-[#0e0e0e]">✓</span>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
 
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/billing"
-            loggedOutHref="https://vvault.app/billing"
-            className="mt-6 inline-flex items-center rounded-2xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
-          >
-            {plan.cta} →
-          </LandingCtaLink>
-        </Reveal>
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/billing"
+              loggedOutHref="https://vvault.app/billing"
+              className="mt-6 inline-flex items-center rounded-2xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
+            >
+              {plan.cta} →
+            </LandingCtaLink>
+          </Reveal>
 
-        <Reveal className="mt-6 rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-sm uppercase tracking-[0.15em] text-white/70">{content.pricingUi.bestValue}</p>
-              <h3 className="mt-2 text-2xl font-semibold text-white">{ai.title}</h3>
-              <p className="mt-1 text-sm text-white/55">
-                {content.pricingUi.annuallyPerMonth} {cadenceNote}
-              </p>
+          <Reveal className="h-full rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-sm uppercase tracking-[0.15em] text-white/70">{content.pricingUi.bestValue}</p>
+                <h3 className="mt-2 text-2xl font-semibold text-white">{ai.title}</h3>
+                <p className="mt-1 text-sm text-white/55">
+                  {content.pricingUi.annuallyPerMonth} {cadenceNote}
+                </p>
+              </div>
+              <p className="text-4xl font-semibold text-white">{ultraPrice}</p>
             </div>
-            <p className="text-4xl font-semibold text-white">{ultraPrice}</p>
-          </div>
 
-          <ul className="mt-6 grid gap-2 sm:grid-cols-2">
-            {ai.bullets.map((bullet) => (
-              <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/76">
-                <span className="mt-[2px] inline-flex w-4 shrink-0 text-white">✓</span>
-                <span>{bullet}</span>
-              </li>
-            ))}
-          </ul>
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
+              {ai.bullets.map((bullet) => (
+                <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/76">
+                  <span className="mt-[2px] inline-flex w-4 shrink-0 text-white">✓</span>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
 
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/billing"
-            loggedOutHref="https://vvault.app/billing"
-            className="mt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-          >
-            {content.pricingUi.upgradeUltra} →
-          </LandingCtaLink>
-        </Reveal>
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/billing"
+              loggedOutHref="https://vvault.app/billing"
+              className="mt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            >
+              {content.pricingUi.upgradeUltra} →
+            </LandingCtaLink>
+          </Reveal>
+        </div>
 
         <Reveal className="mt-20 sm:mt-24">
           <div id="testimonials" className="mx-auto max-w-[980px] scroll-mt-32 text-center">

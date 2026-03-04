@@ -12,8 +12,8 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
   const stepImages = [
     "/step-1-upload.jpg",
     "/step-2-organize.jpg",
-    "/step-3-send.jpg",
     null,
+    "/step-3-send.jpg",
   ] as const;
 
   return (

@@ -8,6 +8,8 @@ export type AttributionCookie = {
   anon_id: string;
   session_id: string;
   first_seen_at: string;
+  platform?: "web_landing" | "web_app" | "mobile_ios" | "mobile_android";
+  entry_point?: "landing_ads_page" | "direct" | "referral" | "unknown";
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
@@ -119,6 +121,33 @@ function pickParams(params: URLSearchParams) {
   return result;
 }
 
+function inferPlatform(sourceApp: SourceApp): AttributionCookie["platform"] {
+  if (sourceApp === "get") return "web_landing";
+  return "web_app";
+}
+
+function inferEntryPoint(
+  sourceApp: SourceApp,
+  params: URLSearchParams,
+  referrer: string
+): AttributionCookie["entry_point"] {
+  if (
+    params.get("utm_source") ||
+    params.get("utm_campaign") ||
+    params.get("fbclid") ||
+    params.get("meta_campaign_id") ||
+    params.get("meta_adset_id") ||
+    params.get("meta_ad_id")
+  ) {
+    return "landing_ads_page";
+  }
+  if (sourceApp === "get") return "landing_ads_page";
+  if (!referrer) return "direct";
+  const lowerRef = referrer.toLowerCase();
+  if (lowerRef.includes("vvault.app")) return "direct";
+  return "referral";
+}
+
 function getOrCreateAnonId() {
   if (typeof window === "undefined") return "";
   const fromLocal = safeStorageGet(window.localStorage, ANON_KEY);
@@ -158,6 +187,7 @@ export function ensureAttribution(sourceApp: SourceApp): AttributionCookie | nul
   const params = new URLSearchParams(window.location.search);
   const current = pickParams(params);
   const existing = readAttributionCookie();
+  const referrer = typeof document !== "undefined" ? document.referrer || "" : "";
 
   const merged: AttributionCookie = {
     v: 1,
@@ -165,6 +195,8 @@ export function ensureAttribution(sourceApp: SourceApp): AttributionCookie | nul
     anon_id: getOrCreateAnonId(),
     session_id: getOrCreateSessionId(),
     first_seen_at: existing?.first_seen_at || new Date().toISOString(),
+    platform: existing?.platform || inferPlatform(sourceApp),
+    entry_point: existing?.entry_point || inferEntryPoint(sourceApp, params, referrer),
   };
 
   ATTR_KEYS.forEach((key) => {
@@ -205,6 +237,13 @@ export function appendAttributionParams(rawHref: string, sourceApp: SourceApp) {
     url.searchParams.set("ref_app", sourceApp);
   }
 
+  if (source?.platform && !url.searchParams.get("platform")) {
+    url.searchParams.set("platform", source.platform);
+  }
+  if (source?.entry_point && !url.searchParams.get("entry_point")) {
+    url.searchParams.set("entry_point", source.entry_point);
+  }
+
   ATTR_KEYS.forEach((key) => {
     const fromCurrent = currentParams.get(key)?.trim();
     const fromCookie = source?.[key]?.trim();
@@ -225,6 +264,8 @@ export async function trackLandingView(sourceApp: SourceApp) {
   const payload = {
     event: "landing_view" as const,
     source_app: sourceApp,
+    platform: attribution.platform,
+    entry_point: attribution.entry_point,
     anon_id: attribution.anon_id,
     session_id: attribution.session_id,
     path: `${window.location.pathname}${window.location.search}`,
