@@ -190,6 +190,7 @@ const landingContentEn = {
         "Everything in Pro",
         "Series automations",
         "Per-recipient best time scheduling",
+        "Get highlighted in the browse section of the mobile app",
         "0% marketplace fees",
         "Custom domain, branding, embeds, and QR",
       ],
@@ -228,7 +229,6 @@ const landingContentEn = {
       "Sell via Marketplace (5% commission)",
       "Analytics: best time to send, funnels, dashboards",
       "CRM: timeline, notes, tasks, scoring",
-      "Upgrade to Ultra for automations and 0% marketplace fees",
     ],
   } as LandingSinglePlan,
   faq: [
@@ -479,6 +479,7 @@ const landingContentFr = {
         "Tout ce qui est dans Pro",
         "Automatisations de séries",
         "Planification optimale par destinataire",
+        "Mise en avant dans la section Browse de l'app mobile",
         "0% de frais marketplace",
         "Domaine perso, branding, embeds et QR",
       ],
@@ -518,7 +519,6 @@ const landingContentFr = {
       "Vente via marketplace (5% de commission)",
       "Analytics: meilleur moment d’envoi, funnels, dashboards",
       "CRM: timeline, notes, tâches, scoring",
-      "Passe à Ultra pour les automatisations et 0% de frais marketplace",
     ],
   } as LandingSinglePlan,
   faq: [

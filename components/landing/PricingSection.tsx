@@ -24,12 +24,11 @@ function ComparisonCard({
 
   return (
     <article className="landing-panel h-full rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7 flex flex-col">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
+      <div>
         <p className="text-sm uppercase tracking-[0.15em] text-white/70">{eyebrow}</p>
         <h3 className="mt-2 text-2xl font-semibold text-white">{title}</h3>
-        </div>
-        <p className="text-4xl font-semibold text-white">{cost}</p>
+        <p className="mt-1 text-sm text-white/55">&nbsp;</p>
+        <p className="mt-4 text-4xl font-semibold text-white">{cost}</p>
       </div>
       <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
         {bullets.map((bullet) => (
@@ -39,13 +38,15 @@ function ComparisonCard({
           </li>
         ))}
       </ul>
-      <LandingCtaLink
-        loggedInHref="https://vvault.app/signup"
-        loggedOutHref="https://vvault.app/signup"
-        className="mt-auto pt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-      >
-        {ctaLabel} →
-      </LandingCtaLink>
+      <div className="mt-auto pt-6">
+        <LandingCtaLink
+          loggedInHref="https://vvault.app/signup"
+          loggedOutHref="https://vvault.app/signup"
+          className="inline-flex w-full items-center justify-between rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+        >
+          {ctaLabel} →
+        </LandingCtaLink>
+      </div>
     </article>
   );
 }
@@ -119,13 +120,15 @@ export function PricingSection({ content }: PricingSectionProps) {
               ))}
             </ul>
 
-            <LandingCtaLink
-              loggedInHref="https://vvault.app/billing"
-              loggedOutHref="https://vvault.app/billing"
-              className="mt-auto pt-6 inline-flex items-center rounded-2xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
-            >
-              {plan.cta} →
-            </LandingCtaLink>
+            <div className="mt-auto pt-6">
+              <LandingCtaLink
+                loggedInHref="https://vvault.app/billing"
+                loggedOutHref="https://vvault.app/billing"
+                className="inline-flex w-full items-center justify-between rounded-2xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
+              >
+                {plan.cta} →
+              </LandingCtaLink>
+            </div>
           </Reveal>
 
           <Reveal className="relative h-full overflow-hidden rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7 flex flex-col">
@@ -150,13 +153,15 @@ export function PricingSection({ content }: PricingSectionProps) {
               ))}
             </ul>
 
-            <LandingCtaLink
-              loggedInHref="https://vvault.app/billing"
-              loggedOutHref="https://vvault.app/billing"
-              className="mt-auto pt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-            >
-              {content.pricingUi.upgradeUltra} →
-            </LandingCtaLink>
+            <div className="mt-auto pt-6">
+              <LandingCtaLink
+                loggedInHref="https://vvault.app/billing"
+                loggedOutHref="https://vvault.app/billing"
+                className="inline-flex w-full items-center justify-between rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              >
+                {content.pricingUi.upgradeUltra} →
+              </LandingCtaLink>
+            </div>
           </Reveal>
         </div>
 
