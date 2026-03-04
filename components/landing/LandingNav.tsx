@@ -8,6 +8,7 @@ import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 type LandingNavProps = {
   locale: Locale;
   content: LandingContent;
+  showPrimaryLinks?: boolean;
 };
 
 function LanguageSwitch({
@@ -102,7 +103,7 @@ function LanguageSwitch({
   );
 }
 
-export function LandingNav({ locale, content }: LandingNavProps) {
+export function LandingNav({ locale, content, showPrimaryLinks = true }: LandingNavProps) {
   const homeHref = locale === "fr" ? "/fr" : "/";
 
   return (
@@ -116,17 +117,21 @@ export function LandingNav({ locale, content }: LandingNavProps) {
           vvault
         </Link>
 
-        <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex">
-          {content.nav.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        {showPrimaryLinks ? (
+          <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex">
+            {content.nav.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        ) : (
+          <div className="ml-auto hidden lg:block" />
+        )}
 
         <div className="hidden items-center gap-3 lg:flex">
           <LanguageSwitch locale={locale} content={content} />

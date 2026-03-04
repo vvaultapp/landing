@@ -55,9 +55,10 @@ function HeroAppMock({ content }: { content: LandingContent }) {
 
 type HeroSectionProps = {
   content: LandingContent;
+  showOnyxUploader?: boolean;
 };
 
-export function HeroSection({ content }: HeroSectionProps) {
+export function HeroSection({ content, showOnyxUploader = true }: HeroSectionProps) {
   return (
     <section className="pb-20 pt-44 sm:pb-28 sm:pt-52 lg:pb-36 lg:pt-58">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
@@ -78,18 +79,20 @@ export function HeroSection({ content }: HeroSectionProps) {
               </span>
             </p>
 
-            <LandingCtaLink
-              loggedInHref="https://onyx.vvault.app"
-              loggedOutHref="https://onyx.vvault.app"
-              className="hero-seq-item hero-seq-item-late group hidden shrink-0 items-center gap-2 text-base lg:inline-flex"
-              style={{ animationDelay: "1760ms" }}
-            >
-              <span className="font-semibold text-white">{content.hero.newBadge}</span>
-              <span className="text-white/42"> {content.hero.onyxLabel}</span>
-              <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1">
-                <path d="M4 10h11M11 6l4 4-4 4" />
-              </svg>
-            </LandingCtaLink>
+            {showOnyxUploader ? (
+              <LandingCtaLink
+                loggedInHref="https://onyx.vvault.app"
+                loggedOutHref="https://onyx.vvault.app"
+                className="hero-seq-item hero-seq-item-late group hidden shrink-0 items-center gap-2 text-base lg:inline-flex"
+                style={{ animationDelay: "1760ms" }}
+              >
+                <span className="font-semibold text-white">{content.hero.newBadge}</span>
+                <span className="text-white/42"> {content.hero.onyxLabel}</span>
+                <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1">
+                  <path d="M4 10h11M11 6l4 4-4 4" />
+                </svg>
+              </LandingCtaLink>
+            ) : null}
           </div>
         </div>
 
