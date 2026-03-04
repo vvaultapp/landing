@@ -171,7 +171,7 @@ export function ensureAttribution(sourceApp: SourceApp): AttributionCookie | nul
   ATTR_KEYS.forEach((key) => {
     const value = current[key] || existing?.[key];
     if (value) {
-      (merged as Record<string, string>)[key] = value;
+      merged[key] = value;
     }
   });
 
