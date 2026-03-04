@@ -25,7 +25,6 @@ const COOKIE_NAME = "vv_attribution_v1";
 const STORAGE_KEY = "vv_attribution_v1";
 const ANON_KEY = "vv_anon_id";
 const SESSION_KEY = "vv_session_id";
-const LANDING_TRACKED_KEY = "vv_landing_tracked_get";
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
 const ATTR_KEYS = [
@@ -220,11 +219,6 @@ export function appendAttributionParams(rawHref: string, sourceApp: SourceApp) {
 
 export async function trackLandingView(sourceApp: SourceApp) {
   if (typeof window === "undefined") return false;
-
-  if (safeStorageGet(window.sessionStorage, LANDING_TRACKED_KEY)) {
-    return false;
-  }
-
   const attribution = ensureAttribution(sourceApp);
   if (!attribution) return false;
 
@@ -255,9 +249,7 @@ export async function trackLandingView(sourceApp: SourceApp) {
       body: JSON.stringify(payload),
       keepalive: true,
     });
-
     if (res.ok) {
-      safeStorageSet(window.sessionStorage, LANDING_TRACKED_KEY, new Date().toISOString());
       return true;
     }
 
