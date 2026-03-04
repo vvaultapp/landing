@@ -3,7 +3,7 @@
 import type { LandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 
-function HeroAppMock() {
+function HeroAppMock({ content }: { content: LandingContent }) {
   return (
     <div className="relative mt-14 sm:mt-16">
       <div
@@ -101,7 +101,7 @@ export function HeroSection({ content }: HeroSectionProps) {
           <span className="text-xs font-medium text-white/78 sm:text-sm">{content.hero.ratingLabel}</span>
         </div>
 
-        <HeroAppMock />
+        <HeroAppMock content={content} />
       </div>
     </section>
   );
