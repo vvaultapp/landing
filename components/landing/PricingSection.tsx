@@ -10,23 +10,28 @@ function ComparisonCard({
   title,
   bullets,
   cost,
+  ctaLabel,
   symbol,
 }: {
   eyebrow: string;
   title: string;
   bullets: string[];
   cost: string;
+  ctaLabel: string;
   symbol: "check" | "cross";
 }) {
   const marker = symbol === "check" ? "✓" : "✕";
 
   return (
     <article className="landing-panel h-full rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7 flex flex-col">
-      <div>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
         <p className="text-sm uppercase tracking-[0.15em] text-white/70">{eyebrow}</p>
         <h3 className="mt-2 text-2xl font-semibold text-white">{title}</h3>
+        </div>
+        <p className="text-4xl font-semibold text-white">{cost}</p>
       </div>
-      <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 flex-1">
+      <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
         {bullets.map((bullet) => (
           <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/76">
             <span className="mt-[2px] inline-flex w-4 shrink-0 text-white/72">{marker}</span>
@@ -34,9 +39,13 @@ function ComparisonCard({
           </li>
         ))}
       </ul>
-      <div className="mt-6 border-t border-white/10 pt-5">
-        <p className="text-4xl font-semibold text-white">{cost}</p>
-      </div>
+      <LandingCtaLink
+        loggedInHref="https://vvault.app/signup"
+        loggedOutHref="https://vvault.app/signup"
+        className="mt-auto pt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+      >
+        {ctaLabel} →
+      </LandingCtaLink>
     </article>
   );
 }
@@ -83,6 +92,7 @@ export function PricingSection({ content }: PricingSectionProps) {
               title={human.title}
               bullets={human.bullets}
               cost={human.cost}
+              ctaLabel={content.pricingUi.startFree}
               symbol={human.symbol}
             />
           </Reveal>
@@ -100,7 +110,7 @@ export function PricingSection({ content }: PricingSectionProps) {
               <p className="text-4xl font-semibold text-[#0e0e0e]">{proPrice}</p>
             </div>
 
-            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 flex-1">
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
               {plan.bullets.map((bullet) => (
                 <li key={bullet} className="flex items-start gap-2.5 text-sm text-[#0e0e0e]">
                   <span className="mt-[2px] inline-flex w-4 shrink-0 text-[#0e0e0e]">✓</span>
@@ -112,7 +122,7 @@ export function PricingSection({ content }: PricingSectionProps) {
             <LandingCtaLink
               loggedInHref="https://vvault.app/billing"
               loggedOutHref="https://vvault.app/billing"
-              className="mt-6 inline-flex items-center rounded-2xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
+              className="mt-auto pt-6 inline-flex items-center rounded-2xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
             >
               {plan.cta} →
             </LandingCtaLink>
@@ -131,7 +141,7 @@ export function PricingSection({ content }: PricingSectionProps) {
               <p className="text-4xl font-semibold text-white">{ultraPrice}</p>
             </div>
 
-            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 flex-1">
+            <ul className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-1">
               {ai.bullets.map((bullet) => (
                 <li key={bullet} className="flex items-start gap-2.5 text-sm text-white/76">
                   <span className="mt-[2px] inline-flex w-4 shrink-0 text-white">✓</span>
@@ -143,7 +153,7 @@ export function PricingSection({ content }: PricingSectionProps) {
             <LandingCtaLink
               loggedInHref="https://vvault.app/billing"
               loggedOutHref="https://vvault.app/billing"
-              className="mt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              className="mt-auto pt-6 inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {content.pricingUi.upgradeUltra} →
             </LandingCtaLink>
