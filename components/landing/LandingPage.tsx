@@ -9,6 +9,7 @@ import { PricingSection } from "@/components/landing/PricingSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent, type Locale } from "@/components/landing/content";
+import { trackLandingView } from "@/lib/analytics/client";
 
 type LandingPageProps = {
   locale?: Locale;
@@ -24,6 +25,10 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         : "vvault | The proper way to send your music";
     document.documentElement.lang = locale;
   }, [locale]);
+
+  useEffect(() => {
+    void trackLandingView("get");
+  }, []);
 
   return (
     <div className="landing-root min-h-screen bg-[#0e0e0e] font-sans text-[#f0f0f0]">

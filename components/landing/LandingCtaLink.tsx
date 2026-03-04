@@ -1,7 +1,9 @@
 "use client";
 
+import { useMemo } from "react";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { appendAttributionParams } from "@/lib/analytics/client";
 
 type LandingCtaLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
   children: ReactNode;
@@ -16,7 +18,8 @@ export function LandingCtaLink({
   ...anchorProps
 }: LandingCtaLinkProps) {
   const { user, loading } = useAuth();
-  const href = !loading && user ? loggedInHref : loggedOutHref;
+  const baseHref = !loading && user ? loggedInHref : loggedOutHref;
+  const href = useMemo(() => appendAttributionParams(baseHref, "get"), [baseHref]);
 
   return (
     <a {...anchorProps} href={href}>
