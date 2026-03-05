@@ -104,7 +104,7 @@ export function FrSignupPage() {
               <span className="text-xs font-medium text-white/86 sm:text-sm">Utilisé par 600+ beatmakers chaque jour</span>
             </div>
 
-            <div className="mt-7 space-y-3">
+            <div className="mt-7 space-y-3 lg:relative lg:left-1/2 lg:w-screen lg:-translate-x-1/2">
               <div className="signup-marquee-row">
                 <div className="signup-marquee-track" style={{ "--signup-marquee-duration": "72s" } as CSSProperties}>
                   {[...marqueeRowOne, ...marqueeRowOne].map((item, index) => (
@@ -131,7 +131,7 @@ export function FrSignupPage() {
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col items-center gap-3 text-center">
+            <div className="mt-7 flex flex-col items-center gap-3 text-center lg:relative lg:left-1/2 lg:w-screen lg:-translate-x-1/2">
               <LandingCtaLink
                 loggedInHref="https://vvault.app/signup"
                 loggedOutHref="https://vvault.app/signup"
