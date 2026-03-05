@@ -191,6 +191,42 @@ details[open] .faq-answer {
   stroke-linejoin: round;
 }
 
+@media (min-width: 1024px) {
+  .signup-marquee-row {
+    overflow: visible;
+    mask-image: none;
+  }
+
+  .signup-marquee-track {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: none;
+    transform: none;
+  }
+
+  .signup-pill-dup {
+    display: none;
+  }
+
+  .signup-pill {
+    transition:
+      border-color 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .signup-pill:hover {
+    border-color: rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 1);
+  }
+
+  .signup-pill:hover .signup-pill-icon {
+    stroke: rgba(255, 255, 255, 1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .landing-reveal {
     opacity: 1;

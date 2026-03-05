@@ -108,7 +108,10 @@ export function FrSignupPage() {
               <div className="signup-marquee-row">
                 <div className="signup-marquee-track" style={{ "--signup-marquee-duration": "72s" } as CSSProperties}>
                   {[...marqueeRowOne, ...marqueeRowOne].map((item, index) => (
-                    <span key={`row-1-${index}`} className="signup-pill">
+                    <span
+                      key={`row-1-${index}`}
+                      className={`signup-pill ${index >= marqueeRowOne.length ? "signup-pill-dup" : ""}`}
+                    >
                       <svg viewBox="0 0 20 20" className="signup-pill-icon" aria-hidden="true">
                         <PillIconGlyph icon={item.icon} />
                       </svg>
@@ -120,7 +123,10 @@ export function FrSignupPage() {
               <div className="signup-marquee-row">
                 <div className="signup-marquee-track" style={{ "--signup-marquee-duration": "58s" } as CSSProperties}>
                   {[...marqueeRowTwo, ...marqueeRowTwo].map((item, index) => (
-                    <span key={`row-2-${index}`} className="signup-pill">
+                    <span
+                      key={`row-2-${index}`}
+                      className={`signup-pill ${index >= marqueeRowTwo.length ? "signup-pill-dup" : ""}`}
+                    >
                       <svg viewBox="0 0 20 20" className="signup-pill-icon" aria-hidden="true">
                         <PillIconGlyph icon={item.icon} />
                       </svg>
@@ -131,7 +137,7 @@ export function FrSignupPage() {
               </div>
             </div>
 
-            <div className="mt-7 flex flex-col items-center gap-3 text-center lg:relative lg:left-1/2 lg:w-screen lg:-translate-x-1/2">
+            <div className="mt-7 flex flex-col items-center gap-3 text-center lg:hidden">
               <LandingCtaLink
                 loggedInHref="https://vvault.app/signup"
                 loggedOutHref="https://vvault.app/signup"
@@ -147,6 +153,23 @@ export function FrSignupPage() {
                 Déjà un compte ? Se connecter
               </LandingCtaLink>
             </div>
+          </div>
+
+          <div className="mt-8 hidden lg:flex lg:flex-col lg:items-center lg:gap-3 lg:text-center">
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/signup"
+              loggedOutHref="https://vvault.app/signup"
+              className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
+            >
+              Créer mon vvault
+            </LandingCtaLink>
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/login"
+              loggedOutHref="https://vvault.app/login"
+              className="text-[11px] text-white/42 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white/72 sm:text-xs"
+            >
+              Déjà un compte ? Se connecter
+            </LandingCtaLink>
           </div>
 
           <div className="mt-12 -ml-[18px] w-[calc(100%+36px)] sm:-ml-[32px] sm:w-[calc(100%+64px)] lg:-ml-[72px] lg:w-[calc(100%+144px)]">
