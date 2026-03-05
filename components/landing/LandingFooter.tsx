@@ -6,15 +6,16 @@ import Link from "next/link";
 type LandingFooterProps = {
   locale: Locale;
   content: LandingContent;
+  showColumns?: boolean;
 };
 
-export function LandingFooter({ locale, content }: LandingFooterProps) {
+export function LandingFooter({ locale, content, showColumns = true }: LandingFooterProps) {
   const homeHref = locale === "fr" ? "/fr" : "/";
 
   return (
     <footer className="mt-20 border-t border-white/10 pb-14 pt-10 sm:pt-12">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+        <div className={`grid gap-8 ${showColumns ? "sm:grid-cols-2 lg:grid-cols-5" : ""}`}>
           <div className="lg:col-span-1">
             <Link
               href={homeHref}
@@ -25,23 +26,25 @@ export function LandingFooter({ locale, content }: LandingFooterProps) {
             </Link>
           </div>
 
-          {content.footer.columns.map((column) => (
-            <div key={column.title}>
-              <h3 className="text-sm font-semibold text-white/80">{column.title}</h3>
-              <ul className="mt-4 space-y-2.5">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="rounded-md px-1 py-1 text-sm text-white/50 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {showColumns
+            ? content.footer.columns.map((column) => (
+                <div key={column.title}>
+                  <h3 className="text-sm font-semibold text-white/80">{column.title}</h3>
+                  <ul className="mt-4 space-y-2.5">
+                    {column.links.map((link) => (
+                      <li key={link.label}>
+                        <a
+                          href={link.href}
+                          className="rounded-md px-1 py-1 text-sm text-white/50 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                        >
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            : null}
         </div>
 
         <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-white/10 pt-6">

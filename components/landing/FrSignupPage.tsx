@@ -27,7 +27,7 @@ export function FrSignupPage() {
       <main id="main-content">
         <HeroSection content={content} showOnyxUploader={false} />
       </main>
-      <LandingFooter locale="fr" content={content} />
+      <LandingFooter locale="fr" content={content} showColumns={false} />
     </div>
   );
 }
