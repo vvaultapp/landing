@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
@@ -8,13 +9,15 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
 
-const benefits = [
+const benefitPills = [
   "Envoie tes morceaux avec un lien propre et pro.",
   "Suis qui ouvre, écoute et télécharge en temps réel.",
   "Relance les bons contacts plus vite pour closer plus de placements.",
 ];
 
 const frictionKillers = ["100% gratuit", "Sans carte bancaire", "30 sec pour commencer", "Annule quand tu veux"];
+const marqueeRowOne = [benefitPills[0], frictionKillers[0], benefitPills[1], frictionKillers[1], benefitPills[2]];
+const marqueeRowTwo = [frictionKillers[2], frictionKillers[3], benefitPills[1], benefitPills[0], benefitPills[2]];
 
 export function FrSignupPage() {
   const content = getLandingContent("fr");
@@ -33,14 +36,23 @@ export function FrSignupPage() {
         {content.skipToContentLabel}
       </a>
       <header className="border-b border-white/10">
-        <div className="mx-auto flex h-[70px] w-full max-w-[1320px] items-center px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto relative flex h-[70px] w-full max-w-[1320px] items-center px-5 sm:px-8 lg:px-10">
           <Link
             href="/fr"
-            className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white"
+            className="z-10 rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white"
             aria-label={content.ui.homepageAriaLabel}
           >
             vvault
           </Link>
+          <div className="absolute left-1/2 -translate-x-1/2">
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/signup"
+              loggedOutHref="https://vvault.app/signup"
+              className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-2 text-xs font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:px-5 sm:text-sm"
+            >
+              Créer mon compte gratuit
+            </LandingCtaLink>
+          </div>
         </div>
       </header>
 
@@ -59,24 +71,28 @@ export function FrSignupPage() {
               <span className="text-xs font-medium text-white/86 sm:text-sm">Used by 600+ producers daily</span>
             </div>
 
-            <ul className="mt-6 space-y-3 text-sm leading-6 text-white/88 sm:text-base sm:leading-7">
-              {benefits.map((benefit) => (
-                <li key={benefit} className="flex items-start gap-3">
-                  <span className="mt-2 inline-block h-2.5 w-2.5 shrink-0 rounded-full bg-[#f2b84a]" />
-                  <span>{benefit}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {frictionKillers.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/86 sm:text-sm"
+            <div className="mt-7 space-y-3">
+              <div className="signup-marquee-row">
+                <div className="signup-marquee-track" style={{ "--signup-marquee-duration": "34s" } as CSSProperties}>
+                  {[...marqueeRowOne, ...marqueeRowOne].map((item, index) => (
+                    <span key={`row-1-${index}`} className="signup-pill">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="signup-marquee-row">
+                <div
+                  className="signup-marquee-track is-reverse"
+                  style={{ "--signup-marquee-duration": "24s" } as CSSProperties}
                 >
-                  {item}
-                </span>
-              ))}
+                  {[...marqueeRowTwo, ...marqueeRowTwo].map((item, index) => (
+                    <span key={`row-2-${index}`} className="signup-pill">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
 
             <div className="mt-7 flex flex-wrap items-center gap-4">
@@ -109,18 +125,6 @@ export function FrSignupPage() {
           </div>
         </section>
       </main>
-
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/12 bg-[#0e0e0e]/94 px-4 py-3 backdrop-blur md:px-6">
-        <div className="mx-auto flex w-full max-w-[1100px] items-center justify-center">
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            className="inline-flex w-full max-w-[520px] items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:text-base"
-          >
-            Créer mon compte gratuit
-          </LandingCtaLink>
-        </div>
-      </div>
 
       <LandingFooter locale="fr" content={content} showColumns={false} />
     </div>
