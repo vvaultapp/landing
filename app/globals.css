@@ -195,12 +195,15 @@ details[open] .faq-answer {
   .signup-marquee-row {
     overflow: visible;
     mask-image: none;
+    display: flex;
+    justify-content: center;
   }
 
   .signup-marquee-track {
-    width: 100%;
-    margin-inline: 0;
-    justify-content: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    justify-content: center;
     flex-wrap: wrap;
     animation: none;
     transform: none;
