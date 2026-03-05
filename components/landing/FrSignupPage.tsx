@@ -27,7 +27,6 @@ const marqueeRowTwo: Pill[] = [
   { icon: "bolt", label: "Relances rapides" },
   { icon: "exit", label: "Annule quand tu veux" },
   { icon: "stats", label: "Ouvertures + écoutes" },
-  { icon: "send", label: "Envoi en 1 clic" },
 ];
 
 function PillIconGlyph({ icon }: { icon: PillIcon }) {
@@ -96,7 +95,7 @@ export function FrSignupPage() {
               Crée ton compte gratuit.
             </h1>
             <p className="mt-5 max-w-[70ch] text-base leading-7 text-white/82 sm:text-lg sm:leading-8">
-              Envoie ta musique, vois qui écoute vraiment, et transforme chaque envoi en opportunité concrète.
+              Envoie tes beats, vois qui écoute vraiment, et transforme chaque envoi en opportunité concrète.
             </p>
 
             <div className="mt-5 flex items-center gap-2">
