@@ -7,10 +7,43 @@ type LandingFooterProps = {
   locale: Locale;
   content: LandingContent;
   showColumns?: boolean;
+  inlineLegalWithBrand?: boolean;
 };
 
-export function LandingFooter({ locale, content, showColumns = true }: LandingFooterProps) {
+export function LandingFooter({
+  locale,
+  content,
+  showColumns = true,
+  inlineLegalWithBrand = false,
+}: LandingFooterProps) {
   const homeHref = locale === "fr" ? "/fr" : "/";
+
+  if (!showColumns && inlineLegalWithBrand) {
+    return (
+      <footer className="mt-8 border-t border-white/10 pb-10 pt-6">
+        <div className="mx-auto flex w-full max-w-[1320px] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
+          <Link
+            href={homeHref}
+            className="rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white/95"
+            aria-label={content.ui.homepageAriaLabel}
+          >
+            vvault
+          </Link>
+          <div className="flex flex-wrap items-center gap-3">
+            {content.footer.legalLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
+    );
+  }
 
   return (
     <footer className="mt-20 border-t border-white/10 pb-14 pt-10 sm:pt-12">

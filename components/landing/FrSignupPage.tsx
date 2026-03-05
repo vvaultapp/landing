@@ -86,17 +86,10 @@ export function FrSignupPage() {
           >
             vvault
           </Link>
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            className="ml-auto inline-flex items-center justify-center rounded-2xl bg-white px-4 py-2 text-xs font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:px-5 sm:text-sm"
-          >
-            Créer mon vvault
-          </LandingCtaLink>
         </div>
       </header>
 
-      <main id="main-content" className="pb-32 pt-12 sm:pt-16">
+      <main id="main-content" className="pb-12 pt-12 sm:pb-16 sm:pt-16">
         <section className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
           <div className="max-w-[980px]">
             <h1 className="font-display text-[2.3rem] leading-[1.02] tracking-tight text-white sm:text-[3.2rem] lg:text-[3.8rem]">
@@ -108,7 +101,7 @@ export function FrSignupPage() {
 
             <div className="mt-5 flex items-center gap-2">
               <span className="text-sm tracking-[0.08em] text-[#f2b84a]">★★★★★</span>
-              <span className="text-xs font-medium text-white/86 sm:text-sm">Used by 600+ producers daily</span>
+              <span className="text-xs font-medium text-white/86 sm:text-sm">Utilisé par 600+ beatmakers chaque jour</span>
             </div>
 
             <div className="mt-7 space-y-3">
@@ -149,7 +142,7 @@ export function FrSignupPage() {
               <LandingCtaLink
                 loggedInHref="https://vvault.app/login"
                 loggedOutHref="https://vvault.app/login"
-                className="text-xs text-white/62 underline decoration-white/28 underline-offset-4 transition-colors hover:text-white sm:text-sm"
+                className="text-[11px] text-white/42 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white/72 sm:text-xs"
               >
                 Déjà un compte ? Se connecter
               </LandingCtaLink>
@@ -169,7 +162,7 @@ export function FrSignupPage() {
         </section>
       </main>
 
-      <LandingFooter locale="fr" content={content} showColumns={false} />
+      <LandingFooter locale="fr" content={content} showColumns={false} inlineLegalWithBrand />
     </div>
   );
 }
