@@ -9,15 +9,57 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
 
-const benefitPills = [
-  "Envoie tes morceaux avec un lien propre et pro.",
-  "Suis qui ouvre, écoute et télécharge en temps réel.",
-  "Relance les bons contacts plus vite pour closer plus de placements.",
+type PillIcon = "send" | "stats" | "fire" | "free" | "card" | "time" | "exit" | "lock" | "bolt" | "pack";
+type Pill = { icon: PillIcon; label: string };
+
+const marqueeRowOne: Pill[] = [
+  { icon: "send", label: "Envoi pro" },
+  { icon: "stats", label: "Stats live" },
+  { icon: "free", label: "100% gratuit" },
+  { icon: "card", label: "Sans carte" },
+  { icon: "pack", label: "Packs rapides" },
+  { icon: "fire", label: "Plus de placements" },
 ];
 
-const frictionKillers = ["100% gratuit", "Sans carte bancaire", "30 sec pour commencer", "Annule quand tu veux"];
-const marqueeRowOne = [benefitPills[0], frictionKillers[0], benefitPills[1], frictionKillers[1], benefitPills[2]];
-const marqueeRowTwo = [frictionKillers[2], frictionKillers[3], benefitPills[1], benefitPills[0], benefitPills[2]];
+const marqueeRowTwo: Pill[] = [
+  { icon: "time", label: "Setup 30 sec" },
+  { icon: "lock", label: "Liens sécurisés" },
+  { icon: "bolt", label: "Relances rapides" },
+  { icon: "exit", label: "Annule quand tu veux" },
+  { icon: "stats", label: "Ouvertures + écoutes" },
+  { icon: "send", label: "Envoi en 1 clic" },
+];
+
+function PillIconGlyph({ icon }: { icon: PillIcon }) {
+  if (icon === "send") {
+    return <path d="M3 9.5L17 3l-4.8 14-2.4-4.3L3 9.5z" />;
+  }
+  if (icon === "stats") {
+    return <path d="M3 15h14M6 12V8m4 4V5m4 7V9" />;
+  }
+  if (icon === "fire") {
+    return <path d="M10 3c1.8 1.8 3.4 3.6 3.4 6.2A3.4 3.4 0 0 1 10 12.6 3.4 3.4 0 0 1 6.6 9.2c0-1.8.8-3.2 2.3-4.8.3 1.1.8 1.8 1.7 2.5" />;
+  }
+  if (icon === "free") {
+    return <path d="M4 10h12M4 6h12M4 14h8" />;
+  }
+  if (icon === "card") {
+    return <path d="M3 6h14v8H3zM3 9h14" />;
+  }
+  if (icon === "time") {
+    return <path d="M10 5v5l3 2M10 3a7 7 0 1 0 0 14 7 7 0 0 0 0-14z" />;
+  }
+  if (icon === "exit") {
+    return <path d="M4 4h7v12H4zM11 10h6m-2-2 2 2-2 2" />;
+  }
+  if (icon === "lock") {
+    return <path d="M5 9h10v7H5zM7 9V7a3 3 0 1 1 6 0v2" />;
+  }
+  if (icon === "bolt") {
+    return <path d="M11 3 5 11h4l-1 6 7-9h-4l0-5z" />;
+  }
+  return <path d="M3 6h14M3 10h14M3 14h8" />;
+}
 
 export function FrSignupPage() {
   const content = getLandingContent("fr");
@@ -36,23 +78,21 @@ export function FrSignupPage() {
         {content.skipToContentLabel}
       </a>
       <header className="border-b border-white/10">
-        <div className="mx-auto relative flex h-[70px] w-full max-w-[1320px] items-center px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex h-[70px] w-full max-w-[1320px] items-center px-5 sm:px-8 lg:px-10">
           <Link
             href="/fr"
-            className="z-10 rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white"
+            className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white"
             aria-label={content.ui.homepageAriaLabel}
           >
             vvault
           </Link>
-          <div className="absolute left-1/2 -translate-x-1/2">
-            <LandingCtaLink
-              loggedInHref="https://vvault.app/signup"
-              loggedOutHref="https://vvault.app/signup"
-              className="inline-flex items-center justify-center rounded-2xl bg-white px-4 py-2 text-xs font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:px-5 sm:text-sm"
-            >
-              Créer mon compte gratuit
-            </LandingCtaLink>
-          </div>
+          <LandingCtaLink
+            loggedInHref="https://vvault.app/signup"
+            loggedOutHref="https://vvault.app/signup"
+            className="ml-auto inline-flex items-center justify-center rounded-2xl bg-white px-4 py-2 text-xs font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:px-5 sm:text-sm"
+          >
+            Créer mon vvault
+          </LandingCtaLink>
         </div>
       </header>
 
@@ -73,35 +113,38 @@ export function FrSignupPage() {
 
             <div className="mt-7 space-y-3">
               <div className="signup-marquee-row">
-                <div className="signup-marquee-track" style={{ "--signup-marquee-duration": "34s" } as CSSProperties}>
+                <div className="signup-marquee-track" style={{ "--signup-marquee-duration": "72s" } as CSSProperties}>
                   {[...marqueeRowOne, ...marqueeRowOne].map((item, index) => (
                     <span key={`row-1-${index}`} className="signup-pill">
-                      {item}
+                      <svg viewBox="0 0 20 20" className="signup-pill-icon" aria-hidden="true">
+                        <PillIconGlyph icon={item.icon} />
+                      </svg>
+                      {item.label}
                     </span>
                   ))}
                 </div>
               </div>
               <div className="signup-marquee-row">
-                <div
-                  className="signup-marquee-track is-reverse"
-                  style={{ "--signup-marquee-duration": "24s" } as CSSProperties}
-                >
+                <div className="signup-marquee-track" style={{ "--signup-marquee-duration": "58s" } as CSSProperties}>
                   {[...marqueeRowTwo, ...marqueeRowTwo].map((item, index) => (
                     <span key={`row-2-${index}`} className="signup-pill">
-                      {item}
+                      <svg viewBox="0 0 20 20" className="signup-pill-icon" aria-hidden="true">
+                        <PillIconGlyph icon={item.icon} />
+                      </svg>
+                      {item.label}
                     </span>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center gap-4">
+            <div className="mt-7 flex flex-col items-center gap-3 text-center">
               <LandingCtaLink
                 loggedInHref="https://vvault.app/signup"
                 loggedOutHref="https://vvault.app/signup"
                 className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
               >
-                Créer mon compte gratuit
+                Créer mon vvault
               </LandingCtaLink>
               <LandingCtaLink
                 loggedInHref="https://vvault.app/login"

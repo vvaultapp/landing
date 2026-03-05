@@ -169,6 +169,7 @@ details[open] .faq-answer {
 .signup-pill {
   display: inline-flex;
   align-items: center;
+  gap: 0.4rem;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.04);
@@ -178,6 +179,16 @@ details[open] .faq-answer {
   font-weight: 500;
   line-height: 1;
   color: rgba(255, 255, 255, 0.88);
+}
+
+.signup-pill-icon {
+  height: 0.9rem;
+  width: 0.9rem;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.86);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 @media (prefers-reduced-motion: reduce) {
