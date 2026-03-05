@@ -195,10 +195,14 @@ details[open] .faq-answer {
   .signup-marquee-row {
     overflow: visible;
     mask-image: none;
+    display: flex;
+    justify-content: center;
   }
 
   .signup-marquee-track {
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
     justify-content: center;
     flex-wrap: wrap;
     animation: none;
@@ -210,16 +214,21 @@ details[open] .faq-answer {
   }
 
   .signup-pill {
+    cursor: default;
+    user-select: none;
+    transform: scale(1);
     transition:
       border-color 180ms ease,
       background-color 180ms ease,
-      color 180ms ease;
+      color 180ms ease,
+      transform 180ms ease;
   }
 
   .signup-pill:hover {
     border-color: rgba(255, 255, 255, 0.42);
     background: rgba(255, 255, 255, 0.12);
     color: rgba(255, 255, 255, 1);
+    transform: scale(1.04);
   }
 
   .signup-pill:hover .signup-pill-icon {
