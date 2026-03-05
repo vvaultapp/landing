@@ -32,8 +32,7 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
 
         <Reveal className="mt-2 sm:mt-4">
           <div className="mx-auto max-w-[1100px]">
-            <p className="text-center text-xs uppercase tracking-[0.12em] text-white/44">{content.pricingUi.sponsoredLabel}</p>
-            <h3 className="mt-2 text-center text-xl font-semibold text-white sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>
+            <h3 className="text-center text-xl font-semibold text-white sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>
             <p className="mt-2 text-center text-sm text-white/58">{content.pricingUi.sponsoredDescription}</p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -56,7 +55,7 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid gap-6">
+        <div className="mt-16 grid gap-6 sm:mt-20">
           {content.howItWorks.map((step, index) => (
             <Reveal key={step.title} delayMs={index * 36}>
               <article className="landing-panel overflow-hidden rounded-[18px] border border-white/10 bg-transparent min-h-[260px] md:h-[280px] md:min-h-0">
