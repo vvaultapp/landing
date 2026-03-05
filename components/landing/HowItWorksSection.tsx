@@ -30,6 +30,32 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
           </div>
         </Reveal>
 
+        <Reveal className="mt-2 sm:mt-4">
+          <div className="mx-auto max-w-[1100px]">
+            <p className="text-center text-xs uppercase tracking-[0.12em] text-white/44">{content.pricingUi.sponsoredLabel}</p>
+            <h3 className="mt-2 text-center text-xl font-semibold text-white sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>
+            <p className="mt-2 text-center text-sm text-white/58">{content.pricingUi.sponsoredDescription}</p>
+
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {content.pricingUi.sponsoredVideos.map((video) => (
+                <div key={video.url} className="overflow-hidden rounded-[14px] border border-white/10 bg-[#090909]">
+                  <div className="relative w-full pb-[56.25%]">
+                    <iframe
+                      className="absolute inset-0 h-full w-full"
+                      src={video.url}
+                      title={video.title}
+                      loading="lazy"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
         <div className="mt-10 grid gap-6">
           {content.howItWorks.map((step, index) => (
             <Reveal key={step.title} delayMs={index * 36}>
