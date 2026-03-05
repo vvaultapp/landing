@@ -215,6 +215,23 @@ const landingContentEn = {
     testimonialsDescription: "Real creators showing how they use vvault to send, track, and convert.",
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",
     testimonialVideoTitle: "vvault testimonial video",
+    sponsoredLabel: "Sponsored",
+    sponsoredTitle: "Sponsored videos",
+    sponsoredDescription: "Campaign highlights from creators using vvault.",
+    sponsoredVideos: [
+      {
+        url: "https://www.youtube.com/embed/gol6_KccRBY",
+        title: "Sponsored video 1",
+      },
+      {
+        url: "https://www.youtube.com/embed/An5tl-FVWdU?start=10",
+        title: "Sponsored video 2",
+      },
+      {
+        url: "https://www.youtube.com/embed/4bIAHdRbRYQ?start=45",
+        title: "Sponsored video 3",
+      },
+    ],
     faqTitle: "FAQs",
   },
   singlePlan: {
@@ -505,6 +522,23 @@ const landingContentFr = {
       "Des créateurs montrent concrètement comment ils utilisent vvault pour envoyer, suivre et convertir.",
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",
     testimonialVideoTitle: "vidéo témoignage vvault",
+    sponsoredLabel: "Sponsorisé",
+    sponsoredTitle: "Vidéos sponsorisées",
+    sponsoredDescription: "Highlights de campagnes publiées avec vvault.",
+    sponsoredVideos: [
+      {
+        url: "https://www.youtube.com/embed/gol6_KccRBY",
+        title: "Vidéo sponsorisée 1",
+      },
+      {
+        url: "https://www.youtube.com/embed/An5tl-FVWdU?start=10",
+        title: "Vidéo sponsorisée 2",
+      },
+      {
+        url: "https://www.youtube.com/embed/4bIAHdRbRYQ?start=45",
+        title: "Vidéo sponsorisée 3",
+      },
+    ],
     faqTitle: "FAQ",
   },
   singlePlan: {
