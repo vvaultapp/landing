@@ -152,38 +152,47 @@ function HeroTrustedBy({
 }) {
   const AVATAR_SLOT_COUNT = 5;
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-US"), []);
-  const [slotUrls, setSlotUrls] = useState<string[]>(Array.from({ length: AVATAR_SLOT_COUNT }, () => ""));
-  const [incomingBySlot, setIncomingBySlot] = useState<Record<number, string>>({});
-  const [fadingSlot, setFadingSlot] = useState<number | null>(null);
-  const swapTimeoutRef = useRef<number | null>(null);
+  const placeholderTones = [
+    "from-[#6ee7b7]/70 to-[#14b8a6]/60",
+    "from-[#93c5fd]/70 to-[#3b82f6]/60",
+    "from-[#fbcfe8]/70 to-[#f472b6]/60",
+    "from-[#fcd34d]/70 to-[#f59e0b]/60",
+    "from-[#d8b4fe]/70 to-[#a855f7]/60",
+  ];
+  const [slots, setSlots] = useState<Array<{ layerA: string; layerB: string; showA: boolean }>>(
+    Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
+  );
+  const rafRef = useRef<number | null>(null);
   const slotCursorRef = useRef(0);
   const avatarCursorRef = useRef(AVATAR_SLOT_COUNT);
 
   useEffect(() => {
-    const initTimeout = window.setTimeout(() => {
-      const initialSlots =
+    const initTimeoutId = window.setTimeout(() => {
+      const seeded =
         avatarUrls.length === 0
-          ? Array.from({ length: AVATAR_SLOT_COUNT }, () => "")
-          : Array.from({ length: AVATAR_SLOT_COUNT }, (_, idx) => avatarUrls[idx % avatarUrls.length] || "");
-      setSlotUrls(initialSlots);
-      setIncomingBySlot({});
-      setFadingSlot(null);
+          ? Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true }))
+          : Array.from({ length: AVATAR_SLOT_COUNT }, (_, idx) => {
+              const url = avatarUrls[idx % avatarUrls.length] || "";
+              return { layerA: url, layerB: url, showA: true };
+            });
+      setSlots(seeded);
       slotCursorRef.current = 0;
       avatarCursorRef.current = AVATAR_SLOT_COUNT;
     }, 0);
 
-    return () => clearTimeout(initTimeout);
+    return () => clearTimeout(initTimeoutId);
   }, [avatarUrls]);
 
   useEffect(() => {
     if (avatarUrls.length <= 1) return;
 
     const intervalId = window.setInterval(() => {
-      setSlotUrls((currentSlots) => {
+      setSlots((currentSlots) => {
         const slot =
           TRUSTED_SLOT_ROTATION_ORDER[slotCursorRef.current % TRUSTED_SLOT_ROTATION_ORDER.length];
         slotCursorRef.current += 1;
-        const currentUrl = currentSlots[slot] || "";
+        const currentSlot = currentSlots[slot];
+        const currentUrl = currentSlot.showA ? currentSlot.layerA : currentSlot.layerB;
 
         let nextUrl = avatarUrls[avatarCursorRef.current % avatarUrls.length] || "";
         avatarCursorRef.current += 1;
@@ -196,35 +205,30 @@ function HeroTrustedBy({
 
         if (!nextUrl || nextUrl === currentUrl) return currentSlots;
 
-        setIncomingBySlot((prev) => ({ ...prev, [slot]: nextUrl }));
-        setFadingSlot(slot);
+        const prepped = [...currentSlots];
+        prepped[slot] = currentSlot.showA
+          ? { ...currentSlot, layerB: nextUrl }
+          : { ...currentSlot, layerA: nextUrl };
 
-        if (swapTimeoutRef.current !== null) {
-          clearTimeout(swapTimeoutRef.current);
+        if (rafRef.current !== null) {
+          cancelAnimationFrame(rafRef.current);
         }
-        swapTimeoutRef.current = window.setTimeout(() => {
-          setSlotUrls((prevSlots) => {
+        rafRef.current = window.requestAnimationFrame(() => {
+          setSlots((prevSlots) => {
             const next = [...prevSlots];
-            next[slot] = nextUrl;
+            next[slot] = { ...next[slot], showA: !next[slot].showA };
             return next;
           });
-          setIncomingBySlot((prev) => {
-            const next = { ...prev };
-            delete next[slot];
-            return next;
-          });
-          setFadingSlot((prev) => (prev === slot ? null : prev));
-          swapTimeoutRef.current = null;
-        }, 420);
+        });
 
-        return currentSlots;
+        return prepped;
       });
     }, 1800);
 
     return () => {
       clearInterval(intervalId);
-      if (swapTimeoutRef.current !== null) {
-        clearTimeout(swapTimeoutRef.current);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
       }
     };
   }, [avatarUrls]);
@@ -233,19 +237,8 @@ function HeroTrustedBy({
     <div className="hero-seq-item mt-6 flex justify-center sm:justify-start sm:pl-4 lg:pl-8" style={{ animationDelay: "1360ms" }}>
       <div className="flex items-center gap-3">
         <div className="flex items-center">
-          {slotUrls.map((avatarUrl, idx) => {
-            const incomingUrl = incomingBySlot[idx] || "";
-            const isFading = fadingSlot === idx;
-            const placeholderTone =
-              idx % 5 === 0
-                ? "from-[#6ee7b7]/70 to-[#14b8a6]/60"
-                : idx % 5 === 1
-                  ? "from-[#93c5fd]/70 to-[#3b82f6]/60"
-                  : idx % 5 === 2
-                    ? "from-[#fbcfe8]/70 to-[#f472b6]/60"
-                    : idx % 5 === 3
-                      ? "from-[#fcd34d]/70 to-[#f59e0b]/60"
-                      : "from-[#d8b4fe]/70 to-[#a855f7]/60";
+          {slots.map((slotState, idx) => {
+            const tone = placeholderTones[idx % placeholderTones.length];
 
             return (
             <span
@@ -254,28 +247,34 @@ function HeroTrustedBy({
                 idx === 0 ? "ml-0" : "-ml-2.5"
               } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]`}
             >
-              {avatarUrl ? (
+              {slotState.layerA ? (
                 <span
-                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-500 ease-out ${
-                    isFading && incomingUrl ? "opacity-0" : "opacity-100"
+                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-700 ease-in-out ${
+                    slotState.showA ? "opacity-100" : "opacity-0"
                   }`}
-                  style={{ backgroundImage: `url("${avatarUrl}")` }}
+                  style={{ backgroundImage: `url("${slotState.layerA}")` }}
                 />
               ) : (
                 <span
-                  className={`absolute inset-0 block bg-gradient-to-br ${placeholderTone} transition-opacity duration-500 ease-out ${
-                    isFading && incomingUrl ? "opacity-0" : "opacity-100"
+                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transition-opacity duration-700 ease-in-out ${
+                    slotState.showA ? "opacity-100" : "opacity-0"
                   }`}
                 />
               )}
-              {incomingUrl ? (
+              {slotState.layerB ? (
                 <span
-                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-500 ease-out ${
-                    isFading ? "opacity-100" : "opacity-0"
+                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-700 ease-in-out ${
+                    slotState.showA ? "opacity-0" : "opacity-100"
                   }`}
-                  style={{ backgroundImage: `url("${incomingUrl}")` }}
+                  style={{ backgroundImage: `url("${slotState.layerB}")` }}
                 />
-              ) : null}
+              ) : (
+                <span
+                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transition-opacity duration-700 ease-in-out ${
+                    slotState.showA ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+              )}
             </span>
             );
           })}
