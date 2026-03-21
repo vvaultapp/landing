@@ -1,0 +1,86 @@
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
+type LandingManualStatsRow = {
+  money_paid_total_cents?: number | string | null;
+  app_store_review_label?: string | null;
+};
+
+const DEFAULT_MANUAL_STATS: { money_paid_total_cents: number; app_store_review_label: string } = {
+  money_paid_total_cents: 0,
+  app_store_review_label: "4.9/5",
+};
+
+function toPositiveInteger(value: unknown, fallback = 0): number {
+  const next = Number(value);
+  if (!Number.isFinite(next) || next < 0) return fallback;
+  return Math.floor(next);
+}
+
+export async function GET() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    return NextResponse.json({ error: "Supabase service environment variables are missing." }, { status: 500 });
+  }
+
+  const supabase = createClient(supabaseUrl, serviceRoleKey, {
+    auth: { persistSession: false },
+  });
+
+  const [profilesRes, tracksRes, emailsRes, manualRes] = await Promise.all([
+    supabase.from("profiles").select("id", { count: "exact", head: true }),
+    supabase.from("links").select("id", { count: "exact", head: true }).is("deleted_at", null),
+    supabase.from("email_sends").select("id", { count: "exact", head: true }),
+    supabase
+      .from("landing_manual_stats")
+      .select("money_paid_total_cents, app_store_review_label")
+      .eq("id", 1)
+      .maybeSingle(),
+  ]);
+
+  if (profilesRes.error) {
+    console.error("[landing-stats] profiles count failed:", profilesRes.error.message);
+  }
+  if (tracksRes.error) {
+    console.error("[landing-stats] tracks count failed:", tracksRes.error.message);
+  }
+  if (emailsRes.error) {
+    console.error("[landing-stats] email sends count failed:", emailsRes.error.message);
+  }
+
+  const manualStatsMissingTable = manualRes.error?.code === "PGRST205" || manualRes.status === 404;
+  if (manualRes.error && !manualStatsMissingTable) {
+    console.error("[landing-stats] manual stats query failed:", manualRes.error.message);
+  }
+
+  const manualStats = (manualRes.data ?? null) as LandingManualStatsRow | null;
+  const moneyPaidTotalCents = toPositiveInteger(
+    manualStats?.money_paid_total_cents,
+    DEFAULT_MANUAL_STATS.money_paid_total_cents,
+  );
+  const appStoreReviewLabel =
+    typeof manualStats?.app_store_review_label === "string" && manualStats.app_store_review_label.trim()
+      ? manualStats.app_store_review_label.trim()
+      : DEFAULT_MANUAL_STATS.app_store_review_label;
+
+  return NextResponse.json(
+    {
+      emailsSentTotal: toPositiveInteger(emailsRes.count, 0),
+      usersTotal: toPositiveInteger(profilesRes.count, 0),
+      tracksTotal: toPositiveInteger(tracksRes.count, 0),
+      moneyPaidTotalCents,
+      appStoreReviewLabel,
+    },
+    {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      },
+    },
+  );
+}

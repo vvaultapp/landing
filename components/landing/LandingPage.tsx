@@ -40,7 +40,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       </a>
       <LandingNav locale={locale} content={content} />
       <main id="main-content">
-        <HeroSection content={content} />
+        <HeroSection content={content} locale={locale} />
         <HeroStatementSection content={content} />
         <HowItWorksSection content={content} />
         <PricingSection content={content} />

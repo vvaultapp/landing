@@ -1,7 +1,133 @@
 "use client";
 
-import type { LandingContent } from "@/components/landing/content";
+import { useEffect, useMemo, useState } from "react";
+import type { LandingContent, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+
+type LandingStatsResponse = {
+  emailsSentTotal: number;
+  usersTotal: number;
+  tracksTotal: number;
+  moneyPaidTotalCents: number;
+  appStoreReviewLabel: string;
+};
+
+const LANDING_STATS_FALLBACK: LandingStatsResponse = {
+  emailsSentTotal: 0,
+  usersTotal: 0,
+  tracksTotal: 0,
+  moneyPaidTotalCents: 0,
+  appStoreReviewLabel: "4.9/5",
+};
+
+function toPositiveNumber(value: unknown, fallback = 0): number {
+  const next = Number(value);
+  if (!Number.isFinite(next) || next < 0) return fallback;
+  return Math.floor(next);
+}
+
+function HeroLiveStats({ locale }: { locale: Locale }) {
+  const [stats, setStats] = useState<LandingStatsResponse>(LANDING_STATS_FALLBACK);
+  const [loaded, setLoaded] = useState(false);
+
+  const numberFormatter = useMemo(
+    () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
+    [locale],
+  );
+  const moneyFormatter = useMemo(
+    () =>
+      new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", {
+        style: "currency",
+        currency: "EUR",
+        maximumFractionDigits: 0,
+      }),
+    [locale],
+  );
+
+  useEffect(() => {
+    let active = true;
+
+    const loadStats = async () => {
+      try {
+        const res = await fetch("/api/landing-stats", { cache: "no-store" });
+        if (!res.ok) return;
+
+        const payload = (await res.json()) as Partial<LandingStatsResponse>;
+        if (!active) return;
+
+        setStats({
+          emailsSentTotal: toPositiveNumber(payload.emailsSentTotal, LANDING_STATS_FALLBACK.emailsSentTotal),
+          usersTotal: toPositiveNumber(payload.usersTotal, LANDING_STATS_FALLBACK.usersTotal),
+          tracksTotal: toPositiveNumber(payload.tracksTotal, LANDING_STATS_FALLBACK.tracksTotal),
+          moneyPaidTotalCents: toPositiveNumber(
+            payload.moneyPaidTotalCents,
+            LANDING_STATS_FALLBACK.moneyPaidTotalCents,
+          ),
+          appStoreReviewLabel:
+            typeof payload.appStoreReviewLabel === "string" && payload.appStoreReviewLabel.trim()
+              ? payload.appStoreReviewLabel.trim()
+              : LANDING_STATS_FALLBACK.appStoreReviewLabel,
+        });
+      } catch {
+        // Keep fallback values when stats API is unavailable.
+      } finally {
+        if (active) setLoaded(true);
+      }
+    };
+
+    void loadStats();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const statCards = [
+    {
+      key: "emails",
+      label: locale === "fr" ? "Emails envoyés" : "Emails sent",
+      value: numberFormatter.format(stats.emailsSentTotal),
+    },
+    {
+      key: "users",
+      label: locale === "fr" ? "Users" : "Users",
+      value: numberFormatter.format(stats.usersTotal),
+    },
+    {
+      key: "tracks",
+      label: locale === "fr" ? "Tracks" : "Tracks",
+      value: numberFormatter.format(stats.tracksTotal),
+    },
+    {
+      key: "money",
+      label: locale === "fr" ? "Total payé" : "Money paid",
+      value: moneyFormatter.format(stats.moneyPaidTotalCents / 100),
+    },
+    {
+      key: "reviews",
+      label: locale === "fr" ? "Avis App Store" : "App Store review",
+      value: stats.appStoreReviewLabel,
+    },
+  ];
+
+  return (
+    <div className="hero-seq-item mt-5 sm:pl-4 lg:pl-8" style={{ animationDelay: "1480ms" }}>
+      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
+        {statCards.map((card) => (
+          <div
+            key={card.key}
+            className="relative overflow-hidden rounded-2xl border border-white/14 bg-[linear-gradient(125deg,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.04)_42%,rgba(242,184,74,0.22)_100%)] px-3 py-3 shadow-[0_1px_0_rgba(255,255,255,0.1)_inset,0_16px_30px_-24px_rgba(0,0,0,0.9)] backdrop-blur-sm sm:px-4"
+          >
+            <span className="block text-[10px] uppercase tracking-[0.16em] text-white/60">{card.label}</span>
+            <span className={`mt-1 block text-base font-semibold text-white sm:text-lg${loaded ? "" : " animate-pulse text-white/65"}`}>
+              {loaded ? card.value : "..."}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function HeroAppMock({ content }: { content: LandingContent }) {
   return (
@@ -55,10 +181,13 @@ function HeroAppMock({ content }: { content: LandingContent }) {
 
 type HeroSectionProps = {
   content: LandingContent;
+  locale?: Locale;
   showOnyxUploader?: boolean;
 };
 
-export function HeroSection({ content, showOnyxUploader = true }: HeroSectionProps) {
+export function HeroSection({ content, locale = "en", showOnyxUploader = true }: HeroSectionProps) {
+  const secondaryTitle = content.hero.title[1]?.trim();
+
   return (
     <section className="pb-20 pt-44 sm:pb-28 sm:pt-52 lg:pb-36 lg:pt-58">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
@@ -67,9 +196,11 @@ export function HeroSection({ content, showOnyxUploader = true }: HeroSectionPro
             <span className="hero-line-reveal" style={{ animationDelay: "80ms" }}>
               {content.hero.title[0]}
             </span>
-            <span className="hero-line-reveal" style={{ animationDelay: "280ms" }}>
-              {content.hero.title[1]}
-            </span>
+            {secondaryTitle ? (
+              <span className="hero-line-reveal" style={{ animationDelay: "280ms" }}>
+                {secondaryTitle}
+              </span>
+            ) : null}
           </h1>
 
           <div className="mt-7 flex items-end justify-between gap-6">
@@ -103,6 +234,8 @@ export function HeroSection({ content, showOnyxUploader = true }: HeroSectionPro
           <span className="text-sm tracking-[0.08em] text-[#f2b84a]">★★★★★</span>
           <span className="text-xs font-medium text-white/78 sm:text-sm">{content.hero.ratingLabel}</span>
         </div>
+
+        <HeroLiveStats locale={locale} />
 
         <HeroAppMock content={content} />
       </div>
