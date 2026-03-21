@@ -119,15 +119,20 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
 
         {showPrimaryLinks ? (
           <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex">
-            {content.nav.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-              >
-                {item.label}
-              </a>
-            ))}
+            {content.nav.map((item) => {
+              const isExternal = item.href.startsWith("http://") || item.href.startsWith("https://");
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noreferrer" : undefined}
+                  className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                >
+                  {item.label}
+                </a>
+              );
+            })}
           </nav>
         ) : (
           <div className="ml-auto hidden lg:block" />

@@ -165,27 +165,6 @@ export function PricingSection({ content }: PricingSectionProps) {
           </Reveal>
         </div>
 
-        <Reveal className="mt-20 sm:mt-24">
-          <div id="testimonials" className="mx-auto max-w-[980px] scroll-mt-32 text-center">
-            <p className="text-xs uppercase tracking-[0.12em] text-white/44">{content.pricingUi.testimonialsLabel}</p>
-            <h3 className="mt-3 text-2xl font-semibold text-white sm:text-3xl">{content.pricingUi.testimonialsTitle}</h3>
-            <p className="mt-2 text-sm text-white/62">{content.pricingUi.testimonialsDescription}</p>
-            <div className="mt-6 overflow-hidden rounded-[16px] border border-white/10 bg-[#090909]">
-              <div className="relative w-full pb-[56.25%]">
-                <iframe
-                  className="absolute inset-0 h-full w-full"
-                  src={content.pricingUi.testimonialVideoUrl}
-                  title={content.pricingUi.testimonialVideoTitle}
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
         <Reveal className="mt-14 rounded-[20px] border border-white/10 bg-transparent p-5 sm:p-6">
           <h3 className="text-lg font-semibold text-white/88">{content.pricingUi.faqTitle}</h3>
           <div className="mt-2 divide-y divide-white/10">

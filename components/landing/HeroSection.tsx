@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
-import { DollarSign, Music2 } from "lucide-react";
+import { DollarSign, Music2, Star } from "lucide-react";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 
@@ -27,6 +27,7 @@ const TRUSTED_SLOT_ROTATION_ORDER = [2, 0, 3, 1, 4] as const;
 const HERO_TURN_WORDS = ["emails", "DMs", "messages"] as const;
 const HERO_INTO_WORDS = ["sales", "placements"] as const;
 const HERO_TRACK_WORDS = ["opens", "clicks", "plays"] as const;
+const APP_STORE_URL = "https://apps.apple.com/us/app/vvault/id6759256796";
 
 function toPositiveNumber(value: unknown, fallback = 0): number {
   const next = Number(value);
@@ -223,7 +224,9 @@ function HeroAnimatedDescription({ locale, fallbackDescription }: { locale: Loca
         intervalMs={3200}
         delayMs={220}
       />
-      <span>. Track </span>
+      <span>. </span>
+      <span className="sm:hidden"><br /></span>
+      <span>Track </span>
       <RotatingWord
         words={HERO_TRACK_WORDS}
         intervalMs={2300}
@@ -312,6 +315,9 @@ function StatIcon({ statKey }: { statKey: string }) {
   if (statKey === "money") {
     return <DollarSign className="h-3.5 w-3.5 text-white/75" strokeWidth={1.9} />;
   }
+  if (statKey === "review") {
+    return <Star className="h-3.5 w-3.5 text-white/75" strokeWidth={1.9} />;
+  }
   return (
     <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-white/75" fill="none" stroke="currentColor" strokeWidth="1.7">
       <path d="m10 3 2.1 4.2 4.7.7-3.4 3.3.8 4.7-4.2-2.2-4.2 2.2.8-4.7L3.2 8l4.7-.7Z" />
@@ -320,10 +326,12 @@ function StatIcon({ statKey }: { statKey: string }) {
 }
 
 function HeroTrustedBy({
+  locale,
   usersTotal,
   loaded,
   avatarUrls,
 }: {
+  locale: Locale;
   usersTotal: number;
   loaded: boolean;
   avatarUrls: string[];
@@ -423,7 +431,7 @@ function HeroTrustedBy({
 
   return (
     <div className="hero-seq-item mt-10 flex justify-center" style={{ animationDelay: "1360ms" }}>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => {
             const tone = placeholderTones[idx % placeholderTones.length];
@@ -472,7 +480,8 @@ function HeroTrustedBy({
           <span className="font-extrabold text-white">
             {loaded ? numberFormatter.format(usersTotal) : "…"}
           </span>{" "}
-          artists & beatmakers
+          <span className="sm:hidden">{locale === "fr" ? "users" : "users"}</span>
+          <span className="hidden sm:inline">{locale === "fr" ? "artists & beatmakers" : "artists & beatmakers"}</span>
         </p>
       </div>
     </div>
@@ -503,7 +512,7 @@ function HeroLiveStats({
     [locale],
   );
 
-  const statCards = [
+  const statCards: Array<{ key: string; label: string; value: string; mobileOnly?: boolean }> = [
     {
       key: "emails",
       label: locale === "fr" ? "Emails envoyés" : "Emails sent",
@@ -519,6 +528,12 @@ function HeroLiveStats({
       label: locale === "fr" ? "Total payé" : "Money paid",
       value: moneyFormatter.format(stats.moneyPaidTotalCents / 100),
     },
+    {
+      key: "review",
+      label: locale === "fr" ? "Avis App Store" : "App Store review",
+      value: stats.appStoreReviewLabel,
+      mobileOnly: true,
+    },
   ];
 
   return (
@@ -526,7 +541,7 @@ function HeroLiveStats({
         <div className="flex justify-center">
         <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-7 text-center sm:grid-cols-3">
           {statCards.map((card) => (
-            <div key={card.key} className="flex flex-col items-center justify-center">
+            <div key={card.key} className={`flex flex-col items-center justify-center ${card.mobileOnly ? "sm:hidden" : ""}`}>
               <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-white/72">
                 {card.label}
                 <StatIcon statKey={card.key} />
@@ -592,6 +607,24 @@ function HeroAppMock({ content }: { content: LandingContent }) {
   );
 }
 
+function MobileAppStoreBar({ locale }: { locale: Locale }) {
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-[80] border-t border-white/10 bg-[#0b0b0b]/95 backdrop-blur-md sm:hidden">
+      <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-3 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3">
+        <p className="text-[11px] font-medium leading-4 text-white/82">
+          {locale === "fr" ? "Télécharge l’app sur l’App Store" : "Download the app on the App Store"}
+        </p>
+        <a
+          href={APP_STORE_URL}
+          className="inline-flex shrink-0 items-center rounded-xl bg-white px-3.5 py-2 text-xs font-semibold text-[#0d0d0d] transition-colors duration-200 hover:bg-white/92"
+        >
+          Download on the App Store
+        </a>
+      </div>
+    </div>
+  );
+}
+
 type HeroSectionProps = {
   content: LandingContent;
   locale?: Locale;
@@ -603,7 +636,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
   const { stats, loaded } = useLandingStats();
 
   return (
-    <section className="pb-20 pt-44 sm:pb-28 sm:pt-52 lg:pb-36 lg:pt-58">
+    <section className="pb-24 pt-44 sm:pb-28 sm:pt-52 lg:pb-36 lg:pt-58">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[1280px] text-center">
           {showOnyxUploader ? (
@@ -644,12 +677,13 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           </div>
         </div>
 
-        <HeroTrustedBy usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
+        <HeroTrustedBy locale={locale} usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
 
         <HeroLiveStats locale={locale} stats={stats} loaded={loaded} />
 
         <HeroAppMock content={content} />
       </div>
+      <MobileAppStoreBar locale={locale} />
     </section>
   );
 }

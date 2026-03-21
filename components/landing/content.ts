@@ -57,11 +57,12 @@ const landingContentEn = {
     mobileResourcesLabel: "Resources",
   },
   nav: [
-    { label: "Product", href: "#product" },
-    { label: "Workflow", href: "#how-it-works" },
+    { label: "Workflow", href: "#workflow-video" },
+    { label: "Sponsored", href: "#sponsored" },
     { label: "Pricing", href: "#pricing" },
     { label: "Testimonials", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
+    { label: "vvault Studio", href: "https://onyx.vvault.app" },
   ] as LandingNavItem[],
   hero: {
     title: ["The proper way to", "send your music."],
@@ -360,11 +361,12 @@ const landingContentFr = {
     mobileResourcesLabel: "Ressources",
   },
   nav: [
-    { label: "Produit", href: "#product" },
-    { label: "Workflow", href: "#how-it-works" },
+    { label: "Workflow", href: "#workflow-video" },
+    { label: "Sponsorisé", href: "#sponsored" },
     { label: "Tarifs", href: "#pricing" },
     { label: "Témoignages", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
+    { label: "vvault Studio", href: "https://onyx.vvault.app" },
   ] as LandingNavItem[],
   hero: {
     title: ["Envoie tes beats. Track tes résultats.", "Décroche des placements."],

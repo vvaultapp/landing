@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
-import { HowItWorksSection } from "@/components/landing/HowItWorksSection";
 import { PricingSection } from "@/components/landing/PricingSection";
+import { ContactSection } from "@/components/landing/ContactSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent, type Locale } from "@/components/landing/content";
@@ -39,11 +39,11 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         {content.skipToContentLabel}
       </a>
       <LandingNav locale={locale} content={content} />
-      <main id="main-content">
+      <main id="main-content" className="pb-20 sm:pb-0">
         <HeroSection content={content} locale={locale} />
         <HeroStatementSection content={content} />
-        <HowItWorksSection content={content} />
         <PricingSection content={content} />
+        <ContactSection locale={locale} />
         <FinalCtaSection content={content} />
       </main>
       <LandingFooter locale={locale} content={content} />
