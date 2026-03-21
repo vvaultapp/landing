@@ -430,7 +430,7 @@ function HeroTrustedBy({
   }, [avatarsKey]);
 
   return (
-    <div className="hero-seq-item mt-10 flex justify-center" style={{ animationDelay: "1360ms" }}>
+    <div className="hero-seq-item mt-6 flex justify-center" style={{ animationDelay: "1360ms" }}>
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => {
@@ -512,7 +512,7 @@ function HeroLiveStats({
     [locale],
   );
 
-  const statCards: Array<{ key: string; label: string; value: string; mobileOnly?: boolean }> = [
+  const statCards: Array<{ key: string; label: string; value: string }> = [
     {
       key: "emails",
       label: locale === "fr" ? "Emails envoyés" : "Emails sent",
@@ -532,16 +532,15 @@ function HeroLiveStats({
       key: "review",
       label: locale === "fr" ? "Avis App Store" : "App Store review",
       value: stats.appStoreReviewLabel,
-      mobileOnly: true,
     },
   ];
 
   return (
-    <div className="hero-seq-item mt-4 mb-16 py-4 sm:py-6" style={{ animationDelay: "1480ms" }}>
+    <div className="hero-seq-item mt-56 mb-4 py-4 sm:py-6" style={{ animationDelay: "1480ms" }}>
         <div className="flex justify-center">
-        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-7 text-center sm:grid-cols-3">
+        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-7 text-center sm:grid-cols-4">
           {statCards.map((card) => (
-            <div key={card.key} className={`flex flex-col items-center justify-center ${card.mobileOnly ? "sm:hidden" : ""}`}>
+            <div key={card.key} className="flex flex-col items-center justify-center">
               <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-white/72">
                 {card.label}
                 <StatIcon statKey={card.key} />
@@ -557,7 +556,7 @@ function HeroLiveStats({
   );
 }
 
-function HeroAppMock({ content }: { content: LandingContent }) {
+function HeroAppMock() {
   return (
     <div className="relative mt-14 sm:mt-16">
       <div
@@ -571,22 +570,6 @@ function HeroAppMock({ content }: { content: LandingContent }) {
         style={{ animationDelay: "760ms" }}
       >
         <div className="mx-auto h-[clamp(72px,9vw,132px)] w-[clamp(360px,44vw,840px)] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.08)_42%,rgba(255,255,255,0)_78%)] blur-[10px]" />
-      </div>
-
-      <div className="absolute inset-x-0 top-[112%] z-20 flex justify-center sm:top-[116%] lg:top-[100%]">
-        <div className="flex items-center gap-4">
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            className="hero-seq-item inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-5 sm:py-2.5"
-            style={{ animationDelay: "980ms" }}
-          >
-            {content.hero.primaryCtaLabel}
-          </LandingCtaLink>
-          <span className="hero-seq-item hidden text-sm font-medium text-white/82 lg:inline" style={{ animationDelay: "1040ms" }}>
-            {content.hero.primaryCtaHint}
-          </span>
-        </div>
       </div>
 
       <div
@@ -636,7 +619,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
   const { stats, loaded } = useLandingStats();
 
   return (
-    <section className="pb-24 pt-44 sm:pb-28 sm:pt-52 lg:pb-36 lg:pt-58">
+    <section className="pb-8 pt-44 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[1280px] text-center">
           {showOnyxUploader ? (
@@ -679,9 +662,19 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
 
         <HeroTrustedBy locale={locale} usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
 
-        <HeroLiveStats locale={locale} stats={stats} loaded={loaded} />
+        <div className="hero-seq-item mt-7 flex justify-center" style={{ animationDelay: "1480ms" }}>
+          <LandingCtaLink
+            loggedInHref="https://vvault.app/signup"
+            loggedOutHref="https://vvault.app/signup"
+            className="inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:text-base"
+          >
+            Start for free
+          </LandingCtaLink>
+        </div>
 
-        <HeroAppMock content={content} />
+        <HeroAppMock />
+
+        <HeroLiveStats locale={locale} stats={stats} loaded={loaded} />
       </div>
       <MobileAppStoreBar locale={locale} />
     </section>

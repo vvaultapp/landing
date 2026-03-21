@@ -9,7 +9,7 @@ type HeroStatementSectionProps = {
 
 export function HeroStatementSection({ content }: HeroStatementSectionProps) {
   return (
-    <section id="how-it-works" className="pt-20 sm:pt-28">
+    <section id="how-it-works" className="pt-8 sm:pt-12">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div id="sponsored" className="mx-auto max-w-[1100px] scroll-mt-28">

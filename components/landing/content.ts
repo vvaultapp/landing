@@ -58,7 +58,7 @@ const landingContentEn = {
   },
   nav: [
     { label: "Workflow", href: "#workflow-video" },
-    { label: "Sponsored", href: "#sponsored" },
+    { label: "They talk about us", href: "#sponsored" },
     { label: "Pricing", href: "#pricing" },
     { label: "Testimonials", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
@@ -217,7 +217,7 @@ const landingContentEn = {
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",
     testimonialVideoTitle: "vvault testimonial video",
     sponsoredLabel: "Sponsored",
-    sponsoredTitle: "Sponsored videos",
+    sponsoredTitle: "They talk about us",
     sponsoredDescription: "Campaign highlights from creators using vvault.",
     sponsoredVideos: [
       {
@@ -362,7 +362,7 @@ const landingContentFr = {
   },
   nav: [
     { label: "Workflow", href: "#workflow-video" },
-    { label: "Sponsorisé", href: "#sponsored" },
+    { label: "They talk about us", href: "#sponsored" },
     { label: "Tarifs", href: "#pricing" },
     { label: "Témoignages", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
@@ -525,7 +525,7 @@ const landingContentFr = {
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",
     testimonialVideoTitle: "vidéo témoignage vvault",
     sponsoredLabel: "Sponsorisé",
-    sponsoredTitle: "Vidéos sponsorisées",
+    sponsoredTitle: "They talk about us",
     sponsoredDescription: "Highlights de campagnes publiées avec vvault.",
     sponsoredVideos: [
       {
