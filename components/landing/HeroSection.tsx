@@ -22,16 +22,12 @@ const LANDING_STATS_FALLBACK: LandingStatsResponse = {
   appStoreReviewLabel: "4.9/5",
   avatarUrls: [],
 };
+const TRUSTED_SLOT_ROTATION_ORDER = [2, 0, 3, 1, 4] as const;
 
 function toPositiveNumber(value: unknown, fallback = 0): number {
   const next = Number(value);
   if (!Number.isFinite(next) || next < 0) return fallback;
   return Math.floor(next);
-}
-
-function randomInt(maxExclusive: number): number {
-  if (maxExclusive <= 1) return 0;
-  return Math.floor(Math.random() * maxExclusive);
 }
 
 function normalizeAvatarUrls(value: unknown): string[] {
@@ -160,16 +156,20 @@ function HeroTrustedBy({
   const [incomingBySlot, setIncomingBySlot] = useState<Record<number, string>>({});
   const [fadingSlot, setFadingSlot] = useState<number | null>(null);
   const swapTimeoutRef = useRef<number | null>(null);
+  const slotCursorRef = useRef(0);
+  const avatarCursorRef = useRef(AVATAR_SLOT_COUNT);
 
   useEffect(() => {
     const initTimeout = window.setTimeout(() => {
       const initialSlots =
         avatarUrls.length === 0
           ? Array.from({ length: AVATAR_SLOT_COUNT }, () => "")
-          : Array.from({ length: AVATAR_SLOT_COUNT }, () => avatarUrls[randomInt(avatarUrls.length)] || "");
+          : Array.from({ length: AVATAR_SLOT_COUNT }, (_, idx) => avatarUrls[idx % avatarUrls.length] || "");
       setSlotUrls(initialSlots);
       setIncomingBySlot({});
       setFadingSlot(null);
+      slotCursorRef.current = 0;
+      avatarCursorRef.current = AVATAR_SLOT_COUNT;
     }, 0);
 
     return () => clearTimeout(initTimeout);
@@ -180,13 +180,17 @@ function HeroTrustedBy({
 
     const intervalId = window.setInterval(() => {
       setSlotUrls((currentSlots) => {
-        const slot = randomInt(AVATAR_SLOT_COUNT);
+        const slot =
+          TRUSTED_SLOT_ROTATION_ORDER[slotCursorRef.current % TRUSTED_SLOT_ROTATION_ORDER.length];
+        slotCursorRef.current += 1;
         const currentUrl = currentSlots[slot] || "";
 
-        let nextUrl = avatarUrls[randomInt(avatarUrls.length)] || "";
+        let nextUrl = avatarUrls[avatarCursorRef.current % avatarUrls.length] || "";
+        avatarCursorRef.current += 1;
         let guard = 0;
         while (nextUrl === currentUrl && guard < 6) {
-          nextUrl = avatarUrls[randomInt(avatarUrls.length)] || "";
+          nextUrl = avatarUrls[avatarCursorRef.current % avatarUrls.length] || "";
+          avatarCursorRef.current += 1;
           guard += 1;
         }
 
@@ -215,7 +219,7 @@ function HeroTrustedBy({
 
         return currentSlots;
       });
-    }, 1700);
+    }, 1800);
 
     return () => {
       clearInterval(intervalId);
@@ -415,7 +419,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
     <section className="pb-20 pt-44 sm:pb-28 sm:pt-52 lg:pb-36 lg:pt-58">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <div className="max-w-[1280px] sm:pl-4 lg:pl-8">
-          <h1 className="font-display text-[2.95rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[4.25rem] lg:text-[5.35rem]">
+          <h1 className="font-display text-[2.55rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
             <span className="hero-line-reveal" style={{ animationDelay: "80ms" }}>
               {content.hero.title[0]}
             </span>
