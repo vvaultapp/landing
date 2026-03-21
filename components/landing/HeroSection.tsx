@@ -152,6 +152,8 @@ function HeroTrustedBy({
 }) {
   const AVATAR_SLOT_COUNT = 5;
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-US"), []);
+  const avatarsKey = useMemo(() => avatarUrls.join("|"), [avatarUrls]);
+  const avatarPoolRef = useRef<string[]>(avatarUrls);
   const placeholderTones = [
     "from-[#6ee7b7]/70 to-[#14b8a6]/60",
     "from-[#93c5fd]/70 to-[#3b82f6]/60",
@@ -167,12 +169,17 @@ function HeroTrustedBy({
   const avatarCursorRef = useRef(AVATAR_SLOT_COUNT);
 
   useEffect(() => {
+    avatarPoolRef.current = avatarUrls;
+  }, [avatarUrls]);
+
+  useEffect(() => {
     const initTimeoutId = window.setTimeout(() => {
+      const pool = avatarPoolRef.current;
       const seeded =
-        avatarUrls.length === 0
+        pool.length === 0
           ? Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true }))
           : Array.from({ length: AVATAR_SLOT_COUNT }, (_, idx) => {
-              const url = avatarUrls[idx % avatarUrls.length] || "";
+              const url = pool[idx % pool.length] || "";
               return { layerA: url, layerB: url, showA: true };
             });
       setSlots(seeded);
@@ -181,24 +188,27 @@ function HeroTrustedBy({
     }, 0);
 
     return () => clearTimeout(initTimeoutId);
-  }, [avatarUrls]);
+  }, [avatarsKey]);
 
   useEffect(() => {
-    if (avatarUrls.length <= 1) return;
+    if (avatarPoolRef.current.length <= 1) return;
 
     const intervalId = window.setInterval(() => {
       setSlots((currentSlots) => {
+        const pool = avatarPoolRef.current;
+        if (pool.length <= 1) return currentSlots;
+
         const slot =
           TRUSTED_SLOT_ROTATION_ORDER[slotCursorRef.current % TRUSTED_SLOT_ROTATION_ORDER.length];
         slotCursorRef.current += 1;
         const currentSlot = currentSlots[slot];
         const currentUrl = currentSlot.showA ? currentSlot.layerA : currentSlot.layerB;
 
-        let nextUrl = avatarUrls[avatarCursorRef.current % avatarUrls.length] || "";
+        let nextUrl = pool[avatarCursorRef.current % pool.length] || "";
         avatarCursorRef.current += 1;
         let guard = 0;
         while (nextUrl === currentUrl && guard < 6) {
-          nextUrl = avatarUrls[avatarCursorRef.current % avatarUrls.length] || "";
+          nextUrl = pool[avatarCursorRef.current % pool.length] || "";
           avatarCursorRef.current += 1;
           guard += 1;
         }
@@ -231,10 +241,10 @@ function HeroTrustedBy({
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [avatarUrls]);
+  }, [avatarsKey]);
 
   return (
-    <div className="hero-seq-item mt-6 flex justify-center sm:justify-start sm:pl-4 lg:pl-8" style={{ animationDelay: "1360ms" }}>
+    <div className="hero-seq-item mt-6 flex justify-center" style={{ animationDelay: "1360ms" }}>
       <div className="flex items-center gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => {
