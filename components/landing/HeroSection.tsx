@@ -29,6 +29,11 @@ function toPositiveNumber(value: unknown, fallback = 0): number {
   return Math.floor(next);
 }
 
+function randomInt(maxExclusive: number): number {
+  if (maxExclusive <= 1) return 0;
+  return Math.floor(Math.random() * maxExclusive);
+}
+
 function normalizeAvatarUrls(value: unknown): string[] {
   if (!Array.isArray(value)) return [];
 
@@ -151,55 +156,82 @@ function HeroTrustedBy({
 }) {
   const AVATAR_SLOT_COUNT = 5;
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-US"), []);
-  const [updateCount, setUpdateCount] = useState(0);
+  const [slotUrls, setSlotUrls] = useState<string[]>(Array.from({ length: AVATAR_SLOT_COUNT }, () => ""));
+  const [incomingBySlot, setIncomingBySlot] = useState<Record<number, string>>({});
   const [fadingSlot, setFadingSlot] = useState<number | null>(null);
-  const updateCountRef = useRef(0);
   const swapTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
-    if (avatarUrls.length <= AVATAR_SLOT_COUNT) return;
+    const initTimeout = window.setTimeout(() => {
+      const initialSlots =
+        avatarUrls.length === 0
+          ? Array.from({ length: AVATAR_SLOT_COUNT }, () => "")
+          : Array.from({ length: AVATAR_SLOT_COUNT }, () => avatarUrls[randomInt(avatarUrls.length)] || "");
+      setSlotUrls(initialSlots);
+      setIncomingBySlot({});
+      setFadingSlot(null);
+    }, 0);
 
-    let active = true;
+    return () => clearTimeout(initTimeout);
+  }, [avatarUrls]);
+
+  useEffect(() => {
+    if (avatarUrls.length <= 1) return;
+
     const intervalId = window.setInterval(() => {
-      const slot = updateCountRef.current % AVATAR_SLOT_COUNT;
-      setFadingSlot(slot);
+      setSlotUrls((currentSlots) => {
+        const slot = randomInt(AVATAR_SLOT_COUNT);
+        const currentUrl = currentSlots[slot] || "";
 
-      const timeoutId = window.setTimeout(() => {
-        if (!active) return;
-        updateCountRef.current += 1;
-        setUpdateCount(updateCountRef.current);
-        setFadingSlot(null);
-      }, 320);
+        let nextUrl = avatarUrls[randomInt(avatarUrls.length)] || "";
+        let guard = 0;
+        while (nextUrl === currentUrl && guard < 6) {
+          nextUrl = avatarUrls[randomInt(avatarUrls.length)] || "";
+          guard += 1;
+        }
 
-      swapTimeoutRef.current = timeoutId;
-    }, 1800);
+        if (!nextUrl || nextUrl === currentUrl) return currentSlots;
+
+        setIncomingBySlot((prev) => ({ ...prev, [slot]: nextUrl }));
+        setFadingSlot(slot);
+
+        if (swapTimeoutRef.current !== null) {
+          clearTimeout(swapTimeoutRef.current);
+        }
+        swapTimeoutRef.current = window.setTimeout(() => {
+          setSlotUrls((prevSlots) => {
+            const next = [...prevSlots];
+            next[slot] = nextUrl;
+            return next;
+          });
+          setIncomingBySlot((prev) => {
+            const next = { ...prev };
+            delete next[slot];
+            return next;
+          });
+          setFadingSlot((prev) => (prev === slot ? null : prev));
+          swapTimeoutRef.current = null;
+        }, 420);
+
+        return currentSlots;
+      });
+    }, 1700);
 
     return () => {
-      active = false;
       clearInterval(intervalId);
       if (swapTimeoutRef.current !== null) {
         clearTimeout(swapTimeoutRef.current);
       }
     };
-  }, [avatarUrls.length]);
-
-  const avatarIndexForSlot = (slot: number) => {
-    if (avatarUrls.length === 0) return null;
-    if (avatarUrls.length <= AVATAR_SLOT_COUNT) return slot % avatarUrls.length;
-
-    const updatesForSlot =
-      updateCount > slot ? Math.floor((updateCount - slot - 1) / AVATAR_SLOT_COUNT) + 1 : 0;
-    const rawIndex = slot + updatesForSlot * AVATAR_SLOT_COUNT;
-    return rawIndex % avatarUrls.length;
-  };
+  }, [avatarUrls]);
 
   return (
     <div className="hero-seq-item mt-6 flex justify-center sm:justify-start sm:pl-4 lg:pl-8" style={{ animationDelay: "1360ms" }}>
       <div className="flex items-center gap-3">
         <div className="flex items-center">
-          {Array.from({ length: AVATAR_SLOT_COUNT }, (_, idx) => {
-            const avatarIndex = avatarIndexForSlot(idx);
-            const avatarUrl = avatarIndex === null ? null : avatarUrls[avatarIndex];
+          {slotUrls.map((avatarUrl, idx) => {
+            const incomingUrl = incomingBySlot[idx] || "";
+            const isFading = fadingSlot === idx;
             const placeholderTone =
               idx % 5 === 0
                 ? "from-[#6ee7b7]/70 to-[#14b8a6]/60"
@@ -216,18 +248,30 @@ function HeroTrustedBy({
               key={`trusted-avatar-${idx}`}
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
-              } inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-white/35 shadow-[0_0_0_1px_rgba(14,14,14,0.45)] transition-opacity duration-300 ${
-                fadingSlot === idx ? "opacity-0" : "opacity-100"
-              }`}
+              } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]`}
             >
               {avatarUrl ? (
                 <span
-                  className="block h-full w-full bg-cover bg-center"
+                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-500 ease-out ${
+                    isFading && incomingUrl ? "opacity-0" : "opacity-100"
+                  }`}
                   style={{ backgroundImage: `url("${avatarUrl}")` }}
                 />
               ) : (
-                <span className={`block h-full w-full bg-gradient-to-br ${placeholderTone}`} />
+                <span
+                  className={`absolute inset-0 block bg-gradient-to-br ${placeholderTone} transition-opacity duration-500 ease-out ${
+                    isFading && incomingUrl ? "opacity-0" : "opacity-100"
+                  }`}
+                />
               )}
+              {incomingUrl ? (
+                <span
+                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-500 ease-out ${
+                    isFading ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{ backgroundImage: `url("${incomingUrl}")` }}
+                />
+              ) : null}
             </span>
             );
           })}
