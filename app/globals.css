@@ -112,6 +112,19 @@ html {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@keyframes hero-stat-roll {
+  0% {
+    opacity: 0;
+    transform: translateY(58%);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
 .faq-answer {
   display: grid;
   grid-template-rows: 0fr;

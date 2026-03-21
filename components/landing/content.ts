@@ -64,12 +64,12 @@ const landingContentEn = {
     { label: "Contact", href: "#contact" },
   ] as LandingNavItem[],
   hero: {
-    title: ["the properway to send your beats.", ""],
+    title: ["The proper way to send", "your music."],
     description: "Turn emails into placements. Track opens, plays, downloads and more.",
     primaryCtaLabel: "Start free",
     primaryCtaHint: "Create your vvault today",
     newBadge: "New",
-    onyxLabel: "ONYX YouTube Uploader",
+    onyxLabel: "vvault Studio",
     ratingLabel: "Used by 600+ producers daily",
   },
   heroStatement: {
@@ -373,7 +373,7 @@ const landingContentFr = {
     primaryCtaLabel: "Commencer gratuitement",
     primaryCtaHint: "Crée ton vvault aujourd'hui",
     newBadge: "Nouveau",
-    onyxLabel: "Uploader YouTube ONYX",
+    onyxLabel: "vvault Studio",
     ratingLabel: "Utilisé chaque jour par 600+ beatmakers",
   },
   heroStatement: {
