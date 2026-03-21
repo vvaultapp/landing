@@ -19,6 +19,56 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: "vvault",
+              url: "https://get.vvault.app",
+              applicationCategory: "MusicApplication",
+              operatingSystem: "Web, iOS",
+              description:
+                "vvault is the professional workspace for music producers, artists, managers and labels to organize, send, and track music with opens, plays, downloads, saves and purchase tracking.",
+              offers: [
+                {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "EUR",
+                  name: "Free",
+                },
+                {
+                  "@type": "Offer",
+                  price: "7.49",
+                  priceCurrency: "EUR",
+                  priceSpecification: {
+                    "@type": "UnitPriceSpecification",
+                    billingDuration: "P1M",
+                  },
+                  name: "Pro",
+                },
+                {
+                  "@type": "Offer",
+                  price: "20.75",
+                  priceCurrency: "EUR",
+                  priceSpecification: {
+                    "@type": "UnitPriceSpecification",
+                    billingDuration: "P1M",
+                  },
+                  name: "Ultra",
+                },
+              ],
+              creator: {
+                "@type": "Organization",
+                name: "vvault",
+                url: "https://get.vvault.app",
+              },
+            }),
+          }}
+        />
+      </head>
       <body className="min-h-full bg-[#0e0e0e] text-[#f0f0f0] font-sans">
         {children}
         <Analytics />

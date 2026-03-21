@@ -62,6 +62,7 @@ const landingContentEn = {
     { label: "Pricing", href: "#pricing" },
     { label: "Testimonials", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
+    { label: "Blog", href: "/blog" },
     { label: "vvault Studio", href: "https://onyx.vvault.app" },
   ] as LandingNavItem[],
   hero: {
@@ -310,6 +311,11 @@ const landingContentEn = {
       {
         title: "Resources",
         links: [
+          { label: "Blog", href: "/blog" },
+          { label: "For Producers", href: "/for/producers" },
+          { label: "For Artists", href: "/for/artists" },
+          { label: "For Managers & Labels", href: "/for/managers-and-labels" },
+          { label: "Compare", href: "/compare" },
           { label: "Privacy", href: "/privacy" },
           { label: "Terms", href: "/terms" },
           { label: "Billing", href: "https://vvault.app/billing" },
@@ -366,6 +372,7 @@ const landingContentFr = {
     { label: "Tarifs", href: "#pricing" },
     { label: "Témoignages", href: "#testimonials" },
     { label: "Contact", href: "#contact" },
+    { label: "Blog", href: "/blog" },
     { label: "vvault Studio", href: "https://onyx.vvault.app" },
   ] as LandingNavItem[],
   hero: {
@@ -618,6 +625,11 @@ const landingContentFr = {
       {
         title: "Ressources",
         links: [
+          { label: "Blog", href: "/blog" },
+          { label: "For Producers", href: "/for/producers" },
+          { label: "For Artists", href: "/for/artists" },
+          { label: "For Managers & Labels", href: "/for/managers-and-labels" },
+          { label: "Compare", href: "/compare" },
           { label: "Confidentialité", href: "/privacy" },
           { label: "Conditions", href: "/terms" },
           { label: "Facturation", href: "https://vvault.app/billing" },
