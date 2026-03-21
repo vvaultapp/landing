@@ -64,7 +64,7 @@ const landingContentEn = {
     { label: "Contact", href: "#contact" },
   ] as LandingNavItem[],
   hero: {
-    title: ["The proper way to send", "your music."],
+    title: ["The proper way to", "send your music."],
     description: "Turn emails into placements. Track opens, plays, downloads and more.",
     primaryCtaLabel: "Start free",
     primaryCtaHint: "Create your vvault today",

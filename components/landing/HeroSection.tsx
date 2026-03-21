@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { motion, useAnimationControls } from "framer-motion";
 import { DollarSign, Music2 } from "lucide-react";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
@@ -23,6 +24,9 @@ const LANDING_STATS_FALLBACK: LandingStatsResponse = {
   avatarUrls: [],
 };
 const TRUSTED_SLOT_ROTATION_ORDER = [2, 0, 3, 1, 4] as const;
+const HERO_TURN_WORDS = ["emails", "DMs", "messages"] as const;
+const HERO_INTO_WORDS = ["sales", "placements"] as const;
+const HERO_TRACK_WORDS = ["opens", "clicks", "plays"] as const;
 
 function toPositiveNumber(value: unknown, fallback = 0): number {
   const next = Number(value);
@@ -53,6 +57,180 @@ function RollingValue({ value, loaded }: { value: string; loaded: boolean }) {
     <span className="inline-block tabular-nums motion-safe:[animation:hero-stat-roll_520ms_cubic-bezier(0.22,1,0.36,1)]">
       {value}
     </span>
+  );
+}
+
+function RotatingWord({
+  words,
+  intervalMs,
+  delayMs = 0,
+  className,
+}: {
+  words: readonly string[];
+  intervalMs: number;
+  delayMs?: number;
+  className?: string;
+}) {
+  const controls = useAnimationControls();
+  const [index, setIndex] = useState(0);
+  const [widthIndex, setWidthIndex] = useState(0);
+  const [wordWidths, setWordWidths] = useState<number[]>([]);
+  const measureRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const indexRef = useRef(0);
+  const animatingRef = useRef(false);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    controls.set({ opacity: 1, y: "0%", rotateX: 0, scale: 1 });
+    return () => {
+      mountedRef.current = false;
+    };
+  }, [controls]);
+
+  useLayoutEffect(() => {
+    const measure = () => {
+      const widths = words.map((_, idx) => {
+        const node = measureRefs.current[idx];
+        if (!node) return 0;
+        return Math.ceil(node.getBoundingClientRect().width);
+      });
+      setWordWidths(widths);
+    };
+
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [words, className]);
+
+  useEffect(() => {
+    indexRef.current = index;
+  }, [index]);
+
+  useEffect(() => {
+    if (words.length <= 1) return;
+
+    const rotateOutMs = 330;
+    const rotateInMs = 430;
+    let intervalId: number | undefined;
+    const runTransition = async () => {
+      if (animatingRef.current || !mountedRef.current) return;
+
+      const next = (indexRef.current + 1) % words.length;
+      animatingRef.current = true;
+      if (mountedRef.current) {
+        setWidthIndex(next);
+      }
+
+      await controls.start({
+        opacity: 0.22,
+        y: "-20%",
+        rotateX: -40,
+        scale: 0.994,
+        transition: { duration: rotateOutMs / 1000, ease: [0.35, 0, 1, 1] },
+      });
+
+      if (!mountedRef.current) {
+        animatingRef.current = false;
+        return;
+      }
+
+      indexRef.current = next;
+      setIndex(next);
+      controls.set({ opacity: 0.22, y: "20%", rotateX: 40, scale: 0.994 });
+
+      await controls.start({
+        opacity: 1,
+        y: "0%",
+        rotateX: 0,
+        scale: 1,
+        transition: { duration: rotateInMs / 1000, ease: [0.16, 1, 0.3, 1] },
+      });
+
+      animatingRef.current = false;
+    };
+
+    const timeoutId = window.setTimeout(() => {
+      void runTransition();
+      intervalId = window.setInterval(() => {
+        void runTransition();
+      }, intervalMs);
+    }, delayMs + intervalMs);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+      animatingRef.current = false;
+    };
+  }, [controls, delayMs, intervalMs, words.length]);
+
+  const current = words[index] ?? words[0] ?? "";
+  const targetWidth = wordWidths[widthIndex] ?? wordWidths[index];
+  const tokenClass = className ?? "font-inherit text-inherit";
+
+  return (
+    <span className="relative inline-flex h-[1.24em] items-center align-baseline">
+      <span className="pointer-events-none absolute -z-10 select-none opacity-0" aria-hidden="true">
+        {words.map((word, idx) => (
+          <span
+            key={`measure-${word}-${idx}`}
+            ref={(node) => {
+              measureRefs.current[idx] = node;
+            }}
+            className={`absolute left-0 top-0 inline-block whitespace-nowrap ${tokenClass}`}
+          >
+            {word}
+          </span>
+        ))}
+      </span>
+      <motion.span
+        className="relative inline-block overflow-visible align-baseline leading-[1.15]"
+        animate={typeof targetWidth === "number" && targetWidth > 0 ? { width: targetWidth } : undefined}
+        transition={{ type: "spring", stiffness: 170, damping: 30, mass: 1 }}
+      >
+        <span className={`invisible inline-block whitespace-nowrap ${tokenClass}`}>{current}</span>
+        <motion.span
+          animate={controls}
+          initial={false}
+          className={`absolute left-0 top-0 inline-block whitespace-nowrap ${tokenClass}`}
+          style={{ transformPerspective: 640, transformOrigin: "50% 50%" }}
+        >
+          {current}
+        </motion.span>
+      </motion.span>
+    </span>
+  );
+}
+
+function HeroAnimatedDescription({ locale, fallbackDescription }: { locale: Locale; fallbackDescription: string }) {
+  if (locale !== "en") {
+    return <span className="hero-line-reveal">{fallbackDescription}</span>;
+  }
+
+  return (
+    <motion.span
+      layout
+      transition={{ layout: { type: "spring", stiffness: 220, damping: 28, mass: 0.82 } }}
+      className="hero-line-reveal inline text-white/38 sm:whitespace-nowrap"
+    >
+      <span>Turn </span>
+      <RotatingWord
+        words={HERO_TURN_WORDS}
+        intervalMs={2600}
+      />
+      <span> into </span>
+      <RotatingWord
+        words={HERO_INTO_WORDS}
+        intervalMs={3200}
+        delayMs={220}
+      />
+      <span>. Track </span>
+      <RotatingWord
+        words={HERO_TRACK_WORDS}
+        intervalMs={2300}
+        delayMs={420}
+      />
+      <span>, downloads and more.</span>
+    </motion.span>
   );
 }
 
@@ -244,7 +422,7 @@ function HeroTrustedBy({
   }, [avatarsKey]);
 
   return (
-    <div className="hero-seq-item mt-6 flex justify-center" style={{ animationDelay: "1360ms" }}>
+    <div className="hero-seq-item mt-10 flex justify-center" style={{ animationDelay: "1360ms" }}>
       <div className="flex items-center gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => {
@@ -344,7 +522,7 @@ function HeroLiveStats({
   ];
 
   return (
-    <div className="hero-seq-item mt-14 mb-16 py-4 sm:py-6" style={{ animationDelay: "1480ms" }}>
+    <div className="hero-seq-item mt-4 mb-16 py-4 sm:py-6" style={{ animationDelay: "1480ms" }}>
         <div className="flex justify-center">
         <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-7 text-center sm:grid-cols-3">
           {statCards.map((card) => (
@@ -427,7 +605,27 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
   return (
     <section className="pb-20 pt-44 sm:pb-28 sm:pt-52 lg:pb-36 lg:pt-58">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="max-w-[1280px] sm:pl-4 lg:pl-8">
+        <div className="mx-auto max-w-[1280px] text-center">
+          {showOnyxUploader ? (
+            <div className="hero-seq-item mb-6 flex justify-center sm:mb-7" style={{ animationDelay: "60ms" }}>
+              <LandingCtaLink
+                loggedInHref="https://onyx.vvault.app"
+                loggedOutHref="https://onyx.vvault.app"
+                className="group inline-flex items-center gap-2 text-xs sm:text-sm"
+              >
+                <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+                <span className="font-semibold text-white">{content.hero.newBadge}</span>
+                <span className="text-white/72">{content.hero.onyxLabel}</span>
+                <svg
+                  viewBox="0 0 20 20"
+                  className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1"
+                >
+                  <path d="M4 10h11M11 6l4 4-4 4" />
+                </svg>
+              </LandingCtaLink>
+            </div>
+          ) : null}
+
           <h1 className="font-display text-[2.55rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
             <span className="hero-line-reveal" style={{ animationDelay: "80ms" }}>
               {content.hero.title[0]}
@@ -439,27 +637,10 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
             ) : null}
           </h1>
 
-          <div className="mt-7 flex items-end justify-between gap-6">
+          <div className="mt-7 flex flex-col items-center gap-4">
             <p className="max-w-[980px] text-sm leading-6 text-white/30 sm:text-base sm:leading-7">
-              <span className="hero-line-reveal sm:whitespace-nowrap" style={{ animationDelay: "500ms" }}>
-                {content.hero.description}
-              </span>
+              <HeroAnimatedDescription locale={locale} fallbackDescription={content.hero.description} />
             </p>
-
-            {showOnyxUploader ? (
-              <LandingCtaLink
-                loggedInHref="https://onyx.vvault.app"
-                loggedOutHref="https://onyx.vvault.app"
-                className="hero-seq-item hero-seq-item-late group hidden shrink-0 items-center gap-2 text-base lg:inline-flex"
-                style={{ animationDelay: "1760ms" }}
-              >
-                <span className="font-semibold text-white">{content.hero.newBadge}</span>
-                <span className="text-white/42"> {content.hero.onyxLabel}</span>
-                <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1">
-                  <path d="M4 10h11M11 6l4 4-4 4" />
-                </svg>
-              </LandingCtaLink>
-            ) : null}
           </div>
         </div>
 
