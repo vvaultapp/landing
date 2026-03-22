@@ -36,18 +36,7 @@ export function HeroStatementSection({ content }: HeroStatementSectionProps) {
           </div>
         </Reveal>
 
-        <Reveal className="mt-16 sm:mt-20">
-          <div className="grid gap-8 py-16 sm:py-24 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:py-28">
-            <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">
-              {content.howItWorksIntro.title}
-            </h2>
-            <p className="max-w-[620px] text-base leading-7 text-white/26 sm:text-lg">
-              {content.howItWorksIntro.description}
-            </p>
-          </div>
-        </Reveal>
-
-        <Reveal className="mt-12 sm:mt-14">
+        <Reveal className="mt-14 sm:mt-16">
           <div id="workflow-video" className="mx-auto w-full max-w-[980px] scroll-mt-28">
             <div className="relative w-full overflow-hidden rounded-[18px] border border-white/10 pb-[56.25%]">
               <iframe
@@ -59,6 +48,17 @@ export function HeroStatementSection({ content }: HeroStatementSectionProps) {
                 allowFullScreen
               />
             </div>
+          </div>
+        </Reveal>
+
+        <Reveal className="mt-16 sm:mt-20">
+          <div className="grid gap-8 py-16 sm:py-24 lg:grid-cols-[1fr_1fr] lg:gap-16 lg:py-28">
+            <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">
+              {content.howItWorksIntro.title}
+            </h2>
+            <p className="max-w-[620px] text-base leading-7 text-white/26 sm:text-lg">
+              {content.howItWorksIntro.description}
+            </p>
           </div>
         </Reveal>
 
