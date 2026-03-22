@@ -15,6 +15,8 @@ const DEFAULT_MANUAL_STATS: { money_paid_total_cents: number; app_store_review_l
   app_store_review_label: "4.9/5",
 };
 
+const AVATAR_PAGE_SIZE = 1000;
+
 function toPositiveInteger(value: unknown, fallback = 0): number {
   const next = Number(value);
   if (!Number.isFinite(next) || next < 0) return fallback;
@@ -33,7 +35,7 @@ export async function GET() {
     auth: { persistSession: false },
   });
 
-  const [profilesRes, tracksRes, emailsRes, manualRes, avatarsRes] = await Promise.all([
+  const [profilesRes, tracksRes, emailsRes, manualRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
     supabase.from("links").select("id", { count: "exact", head: true }).is("deleted_at", null),
     supabase.from("email_sends").select("id", { count: "exact", head: true }),
@@ -43,13 +45,6 @@ export async function GET() {
       .order("updated_at", { ascending: false })
       .limit(1)
       .maybeSingle(),
-    supabase
-      .from("profiles")
-      .select("picture")
-      .not("picture", "is", null)
-      .neq("picture", "")
-      .order("updated_at", { ascending: false })
-      .limit(140),
   ]);
 
   if (profilesRes.error) {
@@ -61,8 +56,27 @@ export async function GET() {
   if (emailsRes.error) {
     console.error("[landing-stats] email sends count failed:", emailsRes.error.message);
   }
-  if (avatarsRes.error) {
-    console.error("[landing-stats] avatars query failed:", avatarsRes.error.message);
+  const avatarRows: Array<{ picture?: string | null }> = [];
+  let from = 0;
+
+  for (;;) {
+    const to = from + AVATAR_PAGE_SIZE - 1;
+    const avatarsRes = await supabase
+      .from("profiles")
+      .select("picture")
+      .not("picture", "is", null)
+      .neq("picture", "")
+      .range(from, to);
+
+    if (avatarsRes.error) {
+      console.error("[landing-stats] avatars query failed:", avatarsRes.error.message);
+      break;
+    }
+
+    const rows = (avatarsRes.data ?? []) as Array<{ picture?: string | null }>;
+    avatarRows.push(...rows);
+    if (rows.length < AVATAR_PAGE_SIZE) break;
+    from += AVATAR_PAGE_SIZE;
   }
 
   const manualStatsMissingTable = manualRes.error?.code === "PGRST205" || manualRes.status === 404;
@@ -79,13 +93,14 @@ export async function GET() {
     typeof manualStats?.app_store_review_label === "string" && manualStats.app_store_review_label.trim()
       ? manualStats.app_store_review_label.trim()
       : DEFAULT_MANUAL_STATS.app_store_review_label;
+
   const avatarUrls = Array.from(
     new Set(
-      (avatarsRes.data ?? [])
+      avatarRows
         .map((row) => (typeof row?.picture === "string" ? row.picture.trim() : ""))
         .filter((value) => value.length > 0),
     ),
-  ).slice(0, 120);
+  );
 
   return NextResponse.json(
     {

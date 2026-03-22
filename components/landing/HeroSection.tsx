@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DollarSign, Music2, Star } from "lucide-react";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
@@ -23,10 +22,8 @@ const LANDING_STATS_FALLBACK: LandingStatsResponse = {
   appStoreReviewLabel: "4.9/5",
   avatarUrls: [],
 };
-const TRUSTED_SLOT_ROTATION_ORDER = [2, 0, 3, 1, 4] as const;
-const HERO_TURN_WORDS = ["emails", "DMs", "messages"] as const;
-const HERO_INTO_WORDS = ["sales", "placements"] as const;
-const HERO_TRACK_WORDS = ["opens", "clicks", "plays"] as const;
+const AVATAR_PRELOAD_PARALLEL = 10;
+const AVATAR_PRELOAD_PARALLEL_SLOW = 4;
 const APP_STORE_URL = "https://apps.apple.com/us/app/vvault/id6759256796";
 
 function toPositiveNumber(value: unknown, fallback = 0): number {
@@ -46,7 +43,70 @@ function normalizeAvatarUrls(value: unknown): string[] {
     unique.add(cleaned);
   }
 
-  return Array.from(unique).slice(0, 120);
+  return Array.from(unique);
+}
+
+function toFastAvatarUrl(rawUrl: string): string {
+  try {
+    const parsed = new URL(rawUrl);
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname;
+
+    if (parsed.searchParams.has("token")) return rawUrl;
+
+    if (path.includes("/storage/v1/object/public/")) {
+      parsed.searchParams.set("width", "48");
+      parsed.searchParams.set("height", "48");
+      parsed.searchParams.set("quality", "18");
+      parsed.searchParams.set("resize", "cover");
+      return parsed.toString();
+    }
+
+    if (host.includes("googleusercontent.com")) {
+      parsed.searchParams.set("sz", "48");
+      return parsed.toString();
+    }
+
+    if (host.includes("gravatar.com")) {
+      parsed.searchParams.set("s", "48");
+      return parsed.toString();
+    }
+  } catch {
+    return rawUrl;
+  }
+
+  return rawUrl;
+}
+
+function shuffleStrings(values: string[]): string[] {
+  const next = [...values];
+  for (let idx = next.length - 1; idx > 0; idx -= 1) {
+    const swapIdx = Math.floor(Math.random() * (idx + 1));
+    [next[idx], next[swapIdx]] = [next[swapIdx], next[idx]];
+  }
+  return next;
+}
+
+function preloadAvatar(url: string): Promise<void> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.loading = "eager";
+    let settled = false;
+    const done = () => {
+      if (settled) return;
+      settled = true;
+      img.onload = null;
+      img.onerror = null;
+      clearTimeout(timeoutId);
+      resolve();
+    };
+    const timeoutId = window.setTimeout(done, 4500);
+    img.onload = done;
+    img.onerror = done;
+    img.src = url;
+    if (img.complete) done();
+  });
 }
 
 function RollingValue({ value, loaded }: { value: string; loaded: boolean }) {
@@ -58,182 +118,6 @@ function RollingValue({ value, loaded }: { value: string; loaded: boolean }) {
     <span className="inline-block tabular-nums motion-safe:[animation:hero-stat-roll_520ms_cubic-bezier(0.22,1,0.36,1)]">
       {value}
     </span>
-  );
-}
-
-function RotatingWord({
-  words,
-  intervalMs,
-  delayMs = 0,
-  className,
-}: {
-  words: readonly string[];
-  intervalMs: number;
-  delayMs?: number;
-  className?: string;
-}) {
-  const controls = useAnimationControls();
-  const [index, setIndex] = useState(0);
-  const [widthIndex, setWidthIndex] = useState(0);
-  const [wordWidths, setWordWidths] = useState<number[]>([]);
-  const measureRefs = useRef<Array<HTMLSpanElement | null>>([]);
-  const indexRef = useRef(0);
-  const animatingRef = useRef(false);
-  const mountedRef = useRef(true);
-
-  useEffect(() => {
-    controls.set({ opacity: 1, y: "0%", rotateX: 0, scale: 1 });
-    return () => {
-      mountedRef.current = false;
-    };
-  }, [controls]);
-
-  useLayoutEffect(() => {
-    const measure = () => {
-      const widths = words.map((_, idx) => {
-        const node = measureRefs.current[idx];
-        if (!node) return 0;
-        return Math.ceil(node.getBoundingClientRect().width);
-      });
-      setWordWidths(widths);
-    };
-
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [words, className]);
-
-  useEffect(() => {
-    indexRef.current = index;
-  }, [index]);
-
-  useEffect(() => {
-    if (words.length <= 1) return;
-
-    const rotateOutMs = 330;
-    const rotateInMs = 430;
-    let intervalId: number | undefined;
-    const runTransition = async () => {
-      if (animatingRef.current || !mountedRef.current) return;
-
-      const next = (indexRef.current + 1) % words.length;
-      animatingRef.current = true;
-      if (mountedRef.current) {
-        setWidthIndex(next);
-      }
-
-      await controls.start({
-        opacity: 0.22,
-        y: "-20%",
-        rotateX: -40,
-        scale: 0.994,
-        transition: { duration: rotateOutMs / 1000, ease: [0.35, 0, 1, 1] },
-      });
-
-      if (!mountedRef.current) {
-        animatingRef.current = false;
-        return;
-      }
-
-      indexRef.current = next;
-      setIndex(next);
-      controls.set({ opacity: 0.22, y: "20%", rotateX: 40, scale: 0.994 });
-
-      await controls.start({
-        opacity: 1,
-        y: "0%",
-        rotateX: 0,
-        scale: 1,
-        transition: { duration: rotateInMs / 1000, ease: [0.16, 1, 0.3, 1] },
-      });
-
-      animatingRef.current = false;
-    };
-
-    const timeoutId = window.setTimeout(() => {
-      void runTransition();
-      intervalId = window.setInterval(() => {
-        void runTransition();
-      }, intervalMs);
-    }, delayMs + intervalMs);
-
-    return () => {
-      clearTimeout(timeoutId);
-      if (intervalId) clearInterval(intervalId);
-      animatingRef.current = false;
-    };
-  }, [controls, delayMs, intervalMs, words.length]);
-
-  const current = words[index] ?? words[0] ?? "";
-  const targetWidth = wordWidths[widthIndex] ?? wordWidths[index];
-  const tokenClass = className ?? "font-inherit text-inherit";
-
-  return (
-    <span className="relative inline-flex h-[1.24em] items-center align-baseline">
-      <span className="pointer-events-none absolute -z-10 select-none opacity-0" aria-hidden="true">
-        {words.map((word, idx) => (
-          <span
-            key={`measure-${word}-${idx}`}
-            ref={(node) => {
-              measureRefs.current[idx] = node;
-            }}
-            className={`absolute left-0 top-0 inline-block whitespace-nowrap ${tokenClass}`}
-          >
-            {word}
-          </span>
-        ))}
-      </span>
-      <motion.span
-        className="relative inline-block overflow-visible align-baseline leading-[1.15]"
-        animate={typeof targetWidth === "number" && targetWidth > 0 ? { width: targetWidth } : undefined}
-        transition={{ type: "spring", stiffness: 170, damping: 30, mass: 1 }}
-      >
-        <span className={`invisible inline-block whitespace-nowrap ${tokenClass}`}>{current}</span>
-        <motion.span
-          animate={controls}
-          initial={false}
-          className={`absolute left-0 top-0 inline-block whitespace-nowrap ${tokenClass}`}
-          style={{ transformPerspective: 640, transformOrigin: "50% 50%" }}
-        >
-          {current}
-        </motion.span>
-      </motion.span>
-    </span>
-  );
-}
-
-function HeroAnimatedDescription({ locale, fallbackDescription }: { locale: Locale; fallbackDescription: string }) {
-  if (locale !== "en") {
-    return <span className="hero-line-reveal">{fallbackDescription}</span>;
-  }
-
-  return (
-    <motion.span
-      layout
-      transition={{ layout: { type: "spring", stiffness: 220, damping: 28, mass: 0.82 } }}
-      className="hero-line-reveal inline text-white/38 sm:whitespace-nowrap"
-    >
-      <span>Turn </span>
-      <RotatingWord
-        words={HERO_TURN_WORDS}
-        intervalMs={2600}
-      />
-      <span> into </span>
-      <RotatingWord
-        words={HERO_INTO_WORDS}
-        intervalMs={3200}
-        delayMs={220}
-      />
-      <span>. </span>
-      <span className="sm:hidden"><br /></span>
-      <span>Track </span>
-      <RotatingWord
-        words={HERO_TRACK_WORDS}
-        intervalMs={2300}
-        delayMs={420}
-      />
-      <span>, downloads and more.</span>
-    </motion.span>
   );
 }
 
@@ -338,8 +222,19 @@ function HeroTrustedBy({
 }) {
   const AVATAR_SLOT_COUNT = 5;
   const numberFormatter = useMemo(() => new Intl.NumberFormat("en-US"), []);
-  const avatarsKey = useMemo(() => avatarUrls.join("|"), [avatarUrls]);
-  const avatarPoolRef = useRef<string[]>(avatarUrls);
+  const optimizedAvatarUrls = useMemo(() => {
+    const unique = new Set<string>();
+    for (const source of avatarUrls) {
+      const cleaned = source.trim();
+      if (!cleaned) continue;
+      unique.add(toFastAvatarUrl(cleaned));
+    }
+    return Array.from(unique).sort((left, right) => left.localeCompare(right));
+  }, [avatarUrls]);
+  const optimizedAvatarsKey = useMemo(() => optimizedAvatarUrls.join("|"), [optimizedAvatarUrls]);
+  const avatarPoolRef = useRef<string[]>(optimizedAvatarUrls);
+  const shuffledPoolRef = useRef<string[]>([]);
+  const shuffleCursorRef = useRef(0);
   const placeholderTones = [
     "from-[#6ee7b7]/70 to-[#14b8a6]/60",
     "from-[#93c5fd]/70 to-[#3b82f6]/60",
@@ -351,12 +246,76 @@ function HeroTrustedBy({
     Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
   );
   const rafRef = useRef<number | null>(null);
-  const slotCursorRef = useRef(0);
-  const avatarCursorRef = useRef(AVATAR_SLOT_COUNT);
+  const refillShuffledPool = useCallback(() => {
+    shuffledPoolRef.current = shuffleStrings(avatarPoolRef.current);
+    shuffleCursorRef.current = 0;
+  }, []);
+
+  const pickNextAvatar = useCallback(
+    (blocked: Set<string>) => {
+      const pool = avatarPoolRef.current;
+      if (pool.length === 0) return "";
+      if (pool.length === 1) return pool[0] ?? "";
+
+      const maxAttempts = pool.length * 2;
+      for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+        if (shuffleCursorRef.current >= shuffledPoolRef.current.length) {
+          refillShuffledPool();
+        }
+
+        const candidate = shuffledPoolRef.current[shuffleCursorRef.current] ?? "";
+        shuffleCursorRef.current += 1;
+        if (!candidate) continue;
+        if (blocked.has(candidate) && attempt < maxAttempts - 1) continue;
+        return candidate;
+      }
+
+      for (const candidate of pool) {
+        if (!blocked.has(candidate)) return candidate;
+      }
+
+      return pool[Math.floor(Math.random() * pool.length)] ?? "";
+    },
+    [refillShuffledPool],
+  );
 
   useEffect(() => {
-    avatarPoolRef.current = avatarUrls;
-  }, [avatarUrls]);
+    let cancelled = false;
+    avatarPoolRef.current = optimizedAvatarUrls;
+    refillShuffledPool();
+
+    if (optimizedAvatarUrls.length === 0) {
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const connection = (navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } })
+      .connection;
+    const isSlow =
+      Boolean(connection?.saveData) ||
+      connection?.effectiveType === "slow-2g" ||
+      connection?.effectiveType === "2g";
+    const preloadQueue = shuffleStrings(optimizedAvatarUrls);
+    const preloadParallel = Math.min(
+      preloadQueue.length,
+      isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL,
+    );
+
+    const workers = Array.from({ length: preloadParallel }, async () => {
+      while (!cancelled) {
+        const next = preloadQueue.pop();
+        if (!next) break;
+        await preloadAvatar(next);
+      }
+    });
+
+    void Promise.allSettled(workers);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [optimizedAvatarsKey, optimizedAvatarUrls, refillShuffledPool]);
 
   useEffect(() => {
     const initTimeoutId = window.setTimeout(() => {
@@ -364,17 +323,20 @@ function HeroTrustedBy({
       const seeded =
         pool.length === 0
           ? Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true }))
-          : Array.from({ length: AVATAR_SLOT_COUNT }, (_, idx) => {
-              const url = pool[idx % pool.length] || "";
-              return { layerA: url, layerB: url, showA: true };
-            });
+          : (() => {
+              const seededUrls = new Set<string>();
+              return Array.from({ length: AVATAR_SLOT_COUNT }, () => {
+                const blocked = new Set(seededUrls);
+                const url = pickNextAvatar(blocked);
+                if (url) seededUrls.add(url);
+                return { layerA: url, layerB: url, showA: true };
+              });
+            })();
       setSlots(seeded);
-      slotCursorRef.current = 0;
-      avatarCursorRef.current = AVATAR_SLOT_COUNT;
     }, 0);
 
     return () => clearTimeout(initTimeoutId);
-  }, [avatarsKey]);
+  }, [optimizedAvatarsKey, pickNextAvatar]);
 
   useEffect(() => {
     if (avatarPoolRef.current.length <= 1) return;
@@ -384,42 +346,32 @@ function HeroTrustedBy({
         const pool = avatarPoolRef.current;
         if (pool.length <= 1) return currentSlots;
 
-        const slot =
-          TRUSTED_SLOT_ROTATION_ORDER[slotCursorRef.current % TRUSTED_SLOT_ROTATION_ORDER.length];
-        slotCursorRef.current += 1;
-        const currentSlot = currentSlots[slot];
-        const currentUrl = currentSlot.showA ? currentSlot.layerA : currentSlot.layerB;
+        const usedInFrame = new Set<string>();
+        const prepped = currentSlots.map((currentSlot) => {
+          const currentUrl = currentSlot.showA ? currentSlot.layerA : currentSlot.layerB;
+          const blocked = new Set(usedInFrame);
+          if (currentUrl) blocked.add(currentUrl);
+          const nextUrl = pickNextAvatar(blocked);
+          if (nextUrl) usedInFrame.add(nextUrl);
 
-        let nextUrl = pool[avatarCursorRef.current % pool.length] || "";
-        avatarCursorRef.current += 1;
-        let guard = 0;
-        while (nextUrl === currentUrl && guard < 6) {
-          nextUrl = pool[avatarCursorRef.current % pool.length] || "";
-          avatarCursorRef.current += 1;
-          guard += 1;
-        }
-
-        if (!nextUrl || nextUrl === currentUrl) return currentSlots;
-
-        const prepped = [...currentSlots];
-        prepped[slot] = currentSlot.showA
-          ? { ...currentSlot, layerB: nextUrl }
-          : { ...currentSlot, layerA: nextUrl };
+          if (!nextUrl || nextUrl === currentUrl) return currentSlot;
+          return currentSlot.showA
+            ? { ...currentSlot, layerB: nextUrl }
+            : { ...currentSlot, layerA: nextUrl };
+        });
 
         if (rafRef.current !== null) {
           cancelAnimationFrame(rafRef.current);
         }
         rafRef.current = window.requestAnimationFrame(() => {
           setSlots((prevSlots) => {
-            const next = [...prevSlots];
-            next[slot] = { ...next[slot], showA: !next[slot].showA };
-            return next;
+            return prevSlots.map((slotState) => ({ ...slotState, showA: !slotState.showA }));
           });
         });
 
         return prepped;
       });
-    }, 1800);
+    }, 3500);
 
     return () => {
       clearInterval(intervalId);
@@ -427,48 +379,54 @@ function HeroTrustedBy({
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, [avatarsKey]);
+  }, [optimizedAvatarsKey, pickNextAvatar]);
 
   return (
-    <div className="hero-seq-item mt-6 flex justify-center" style={{ animationDelay: "1360ms" }}>
+    <div className="hero-seq-item mt-12 flex justify-center" style={{ animationDelay: "1360ms" }}>
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => {
             const tone = placeholderTones[idx % placeholderTones.length];
+            const staggerDelayMs = idx * 58;
 
             return (
             <span
               key={`trusted-avatar-${idx}`}
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
-              } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]`}
+              } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] transform-gpu transition-transform duration-[980ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
+                slotState.showA ? "scale-[1.03]" : "scale-100"
+              }`}
+              style={{ transitionDelay: `${staggerDelayMs}ms` }}
             >
               {slotState.layerA ? (
                 <span
-                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-700 ease-in-out ${
-                    slotState.showA ? "opacity-100" : "opacity-0"
+                  className={`absolute inset-0 block bg-gradient-to-br ${tone} bg-cover bg-center transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
+                    slotState.showA ? "opacity-100 scale-100" : "opacity-0 scale-[0.92]"
                   }`}
-                  style={{ backgroundImage: `url("${slotState.layerA}")` }}
+                  style={{ backgroundImage: `url("${slotState.layerA}")`, transitionDelay: `${staggerDelayMs}ms` }}
                 />
               ) : (
                 <span
-                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transition-opacity duration-700 ease-in-out ${
-                    slotState.showA ? "opacity-100" : "opacity-0"
+                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
+                    slotState.showA ? "opacity-100 scale-100" : "opacity-0 scale-[0.92]"
                   }`}
+                  style={{ transitionDelay: `${staggerDelayMs}ms` }}
                 />
               )}
               {slotState.layerB ? (
                 <span
-                  className={`absolute inset-0 block bg-cover bg-center transition-opacity duration-700 ease-in-out ${
-                    slotState.showA ? "opacity-0" : "opacity-100"
+                  className={`absolute inset-0 block bg-gradient-to-br ${tone} bg-cover bg-center transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
+                    slotState.showA ? "opacity-0 scale-[0.92]" : "opacity-100 scale-100"
                   }`}
-                  style={{ backgroundImage: `url("${slotState.layerB}")` }}
+                  style={{ backgroundImage: `url("${slotState.layerB}")`, transitionDelay: `${staggerDelayMs}ms` }}
                 />
               ) : (
                 <span
-                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transition-opacity duration-700 ease-in-out ${
-                    slotState.showA ? "opacity-0" : "opacity-100"
+                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
+                    slotState.showA ? "opacity-0 scale-[0.92]" : "opacity-100 scale-100"
                   }`}
+                  style={{ transitionDelay: `${staggerDelayMs}ms` }}
                 />
               )}
             </span>
@@ -482,6 +440,7 @@ function HeroTrustedBy({
           </span>{" "}
           <span className="sm:hidden">{locale === "fr" ? "users" : "users"}</span>
           <span className="hidden sm:inline">{locale === "fr" ? "artists & beatmakers" : "artists & beatmakers"}</span>
+          <span className="ml-1 text-white/55">you probably know</span>
         </p>
       </div>
     </div>
@@ -653,11 +612,6 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
             ) : null}
           </h1>
 
-          <div className="mt-7 flex flex-col items-center gap-4">
-            <p className="max-w-[980px] text-sm leading-6 text-white/30 sm:text-base sm:leading-7">
-              <HeroAnimatedDescription locale={locale} fallbackDescription={content.hero.description} />
-            </p>
-          </div>
         </div>
 
         <HeroTrustedBy locale={locale} usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
