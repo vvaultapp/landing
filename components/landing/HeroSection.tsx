@@ -536,7 +536,7 @@ function HeroAppMock() {
         style={{ animationDelay: "1080ms" }}
       >
         <img
-          src="/app%20show-off.png"
+          src="/showcase-phone.png"
           alt="vvault app interface"
           className="block h-auto w-full max-w-none select-none"
           loading="eager"
