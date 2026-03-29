@@ -205,17 +205,16 @@ function HeroTrustedBy({
   const avatarPoolRef = useRef<string[]>(optimizedAvatarUrls);
   const shuffledPoolRef = useRef<string[]>([]);
   const shuffleCursorRef = useRef(0);
-  const placeholderTones = [
-    "from-[#6ee7b7]/70 to-[#14b8a6]/60",
-    "from-[#93c5fd]/70 to-[#3b82f6]/60",
-    "from-[#fbcfe8]/70 to-[#f472b6]/60",
-    "from-[#fcd34d]/70 to-[#f59e0b]/60",
-    "from-[#d8b4fe]/70 to-[#a855f7]/60",
+  const placeholderGradients = [
+    "linear-gradient(to bottom right, rgba(110,231,183,0.7), rgba(20,184,166,0.6))",
+    "linear-gradient(to bottom right, rgba(147,197,253,0.7), rgba(59,130,246,0.6))",
+    "linear-gradient(to bottom right, rgba(251,207,232,0.7), rgba(244,114,182,0.6))",
+    "linear-gradient(to bottom right, rgba(252,211,77,0.7), rgba(245,158,11,0.6))",
+    "linear-gradient(to bottom right, rgba(216,180,254,0.7), rgba(168,85,247,0.6))",
   ];
   const [slots, setSlots] = useState<Array<{ layerA: string; layerB: string; showA: boolean }>>(
     Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
   );
-  const rafRef = useRef<number | null>(null);
   const refillShuffledPool = useCallback(() => {
     shuffledPoolRef.current = shuffleStrings(avatarPoolRef.current);
     shuffleCursorRef.current = 0;
@@ -288,24 +287,17 @@ function HeroTrustedBy({
   }, [optimizedAvatarsKey, optimizedAvatarUrls, refillShuffledPool]);
 
   useEffect(() => {
-    const initTimeoutId = window.setTimeout(() => {
-      const pool = avatarPoolRef.current;
-      const seeded =
-        pool.length === 0
-          ? Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true }))
-          : (() => {
-              const seededUrls = new Set<string>();
-              return Array.from({ length: AVATAR_SLOT_COUNT }, () => {
-                const blocked = new Set(seededUrls);
-                const url = pickNextAvatar(blocked);
-                if (url) seededUrls.add(url);
-                return { layerA: url, layerB: url, showA: true };
-              });
-            })();
-      setSlots(seeded);
-    }, 0);
+    const pool = avatarPoolRef.current;
+    if (pool.length === 0) return;
 
-    return () => clearTimeout(initTimeoutId);
+    const seededUrls = new Set<string>();
+    const seeded = Array.from({ length: AVATAR_SLOT_COUNT }, () => {
+      const blocked = new Set(seededUrls);
+      const url = pickNextAvatar(blocked);
+      if (url) seededUrls.add(url);
+      return { layerA: url, layerB: url, showA: true };
+    });
+    setSlots(seeded);
   }, [optimizedAvatarsKey, pickNextAvatar]);
 
   useEffect(() => {
@@ -317,86 +309,60 @@ function HeroTrustedBy({
         if (pool.length <= 1) return currentSlots;
 
         const usedInFrame = new Set<string>();
-        const prepped = currentSlots.map((currentSlot) => {
+        return currentSlots.map((currentSlot) => {
           const currentUrl = currentSlot.showA ? currentSlot.layerA : currentSlot.layerB;
           const blocked = new Set(usedInFrame);
           if (currentUrl) blocked.add(currentUrl);
           const nextUrl = pickNextAvatar(blocked);
           if (nextUrl) usedInFrame.add(nextUrl);
 
-          if (!nextUrl || nextUrl === currentUrl) return currentSlot;
-          return currentSlot.showA
-            ? { ...currentSlot, layerB: nextUrl }
-            : { ...currentSlot, layerA: nextUrl };
-        });
+          if (!nextUrl || nextUrl === currentUrl) {
+            return { ...currentSlot, showA: !currentSlot.showA };
+          }
 
-        if (rafRef.current !== null) {
-          cancelAnimationFrame(rafRef.current);
-        }
-        rafRef.current = window.requestAnimationFrame(() => {
-          setSlots((prevSlots) => {
-            return prevSlots.map((slotState) => ({ ...slotState, showA: !slotState.showA }));
-          });
+          // Load next image into the hidden layer, then flip
+          const updated = currentSlot.showA
+            ? { layerA: currentSlot.layerA, layerB: nextUrl, showA: false }
+            : { layerA: nextUrl, layerB: currentSlot.layerB, showA: true };
+          return updated;
         });
-
-        return prepped;
       });
-    }, 3500);
+    }, 4000);
 
-    return () => {
-      clearInterval(intervalId);
-      if (rafRef.current !== null) {
-        cancelAnimationFrame(rafRef.current);
-      }
-    };
+    return () => clearInterval(intervalId);
   }, [optimizedAvatarsKey, pickNextAvatar]);
 
   return (
-    <div className="hero-seq-item mt-12 flex justify-center" style={{ animationDelay: "1360ms" }}>
+    <div className="hero-seq-item mt-12 flex justify-center" style={{ animationDelay: "380ms" }}>
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => {
-            const tone = placeholderTones[idx % placeholderTones.length];
-            const staggerDelayMs = idx * 58;
+            const gradient = placeholderGradients[idx % placeholderGradients.length];
 
             return (
             <span
               key={`trusted-avatar-${idx}`}
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
-              } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)] transform-gpu transition-transform duration-[980ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
-                slotState.showA ? "scale-[1.03]" : "scale-100"
-              }`}
-              style={{ transitionDelay: `${staggerDelayMs}ms` }}
+              } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30`}
+              style={{ background: gradient }}
             >
-              {slotState.layerA ? (
+              {/* Layer A */}
+              {slotState.layerA && (
                 <span
-                  className={`absolute inset-0 block bg-gradient-to-br ${tone} bg-cover bg-center transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
-                    slotState.showA ? "opacity-100 scale-100" : "opacity-0 scale-[0.92]"
+                  className={`absolute inset-0 block bg-cover bg-center transform-gpu transition-opacity duration-700 ease-out ${
+                    slotState.showA ? "opacity-100" : "opacity-0"
                   }`}
-                  style={{ backgroundImage: `url("${slotState.layerA}")`, transitionDelay: `${staggerDelayMs}ms` }}
-                />
-              ) : (
-                <span
-                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
-                    slotState.showA ? "opacity-100 scale-100" : "opacity-0 scale-[0.92]"
-                  }`}
-                  style={{ transitionDelay: `${staggerDelayMs}ms` }}
+                  style={{ backgroundImage: `url("${slotState.layerA}")` }}
                 />
               )}
-              {slotState.layerB ? (
+              {/* Layer B */}
+              {slotState.layerB && (
                 <span
-                  className={`absolute inset-0 block bg-gradient-to-br ${tone} bg-cover bg-center transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
-                    slotState.showA ? "opacity-0 scale-[0.92]" : "opacity-100 scale-100"
+                  className={`absolute inset-0 block bg-cover bg-center transform-gpu transition-opacity duration-700 ease-out ${
+                    slotState.showA ? "opacity-0" : "opacity-100"
                   }`}
-                  style={{ backgroundImage: `url("${slotState.layerB}")`, transitionDelay: `${staggerDelayMs}ms` }}
-                />
-              ) : (
-                <span
-                  className={`absolute inset-0 block bg-gradient-to-br ${tone} transform-gpu will-change-[opacity,transform] transition-[opacity,transform] duration-[860ms] ease-[cubic-bezier(0.22,1.12,0.36,1)] ${
-                    slotState.showA ? "opacity-0 scale-[0.92]" : "opacity-100 scale-100"
-                  }`}
-                  style={{ transitionDelay: `${staggerDelayMs}ms` }}
+                  style={{ backgroundImage: `url("${slotState.layerB}")` }}
                 />
               )}
             </span>
@@ -418,66 +384,58 @@ function HeroTrustedBy({
 }
 
 function StatEmblemIcon({ statKey }: { statKey: string }) {
-  const sw = "0.18";
+  const iconClass = "h-10 w-10 sm:h-12 sm:w-12";
+  const gradId = `icon-grad-${statKey}`;
+
+  const grad = (
+    <defs>
+      <linearGradient id={gradId} x1="0" y1="0" x2="0.5" y2="1">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+        <stop offset="100%" stopColor="rgba(180,190,220,0.55)" />
+      </linearGradient>
+    </defs>
+  );
 
   if (statKey === "emails") {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
-        <defs>
-          <linearGradient id="icon-grad-emails" x1="0" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
-          </linearGradient>
-        </defs>
-        <path d="M0.1875 0.545h2.625v1.90875h-2.625Z" fill="none" stroke="url(#icon-grad-emails)" strokeMiterlimit="10" strokeWidth={sw} />
-        <path d="M0.1875 0.545 1.5 1.8575l1.3125-1.3125" fill="none" stroke="url(#icon-grad-emails)" strokeMiterlimit="10" strokeWidth={sw} />
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
+        {grad}
+        <path fill={`url(#${gradId})`} d="M0 4a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2H2a2 2 0 0 1 -2 -2zm2 -1a1 1 0 0 0 -1 1v0.217l7 4.2 7 -4.2V4a1 1 0 0 0 -1 -1zm13 2.383 -4.708 2.825L15 11.105zm-0.034 6.876 -5.64 -3.471L8 9.583l-1.326 -0.795 -5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 0.966 -0.741M1 11.105l4.708 -2.897L1 5.383z" />
       </svg>
     );
   }
   if (statKey === "tracks") {
+    const maskId = `mask-${statKey}`;
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
         <defs>
-          <linearGradient id="icon-grad-tracks" x1="0" y1="0" x2="0.5" y2="1">
+          <linearGradient id={gradId} x1="0" y1="0" x2="0.5" y2="1">
             <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
+            <stop offset="100%" stopColor="rgba(180,190,220,0.55)" />
           </linearGradient>
+          <mask id={maskId}>
+            <path fill="white" d="M6 13c0 1.105 -1.12 2 -2.5 2S1 14.105 1 13s1.12 -2 2.5 -2 2.5 0.896 2.5 2m9 -2c0 1.105 -1.12 2 -2.5 2s-2.5 -0.895 -2.5 -2 1.12 -2 2.5 -2 2.5 0.895 2.5 2" />
+            <path fill="white" fillRule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z" />
+            <path fill="white" d="M5 2.905a1 1 0 0 1 0.9 -0.995l8 -0.8a1 1 0 0 1 1.1 0.995V3L5 4z" />
+          </mask>
         </defs>
-        <path d="m0.545 0.78375 0.35875 0" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
-        <path d="M1.5 0.4425V1.125a1.47625 1.47625 0 0 1-0.73375 0.25625 0.545 0.545 0 0 1-0.10125-0.00625v1.4375H0.1875V0.78375A0.5875 0.5875 0 0 1 0.76625 0.1875 1.47375 1.47375 0 0 1 1.5 0.4425Z" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
-        <path d="m2.455 2.21625-0.35875 0" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
-        <path d="M1.5 2.5575V1.875a1.47625 1.47625 0 0 1 0.73375-0.25 0.545 0.545 0 0 1 0.10125 0.01V0.1875h0.4775v2.02875a0.5875 0.5875 0 0 1-0.57875 0.59625A1.47375 1.47375 0 0 1 1.5 2.5575Z" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
+        <rect x="0" y="0" width="16" height="16" fill={`url(#${gradId})`} mask={`url(#${maskId})`} />
       </svg>
     );
   }
   if (statKey === "money") {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
-        <defs>
-          <linearGradient id="icon-grad-money" x1="0" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
-          </linearGradient>
-        </defs>
-        <path d="M1.125 2.1875h0.4375A0.1875 0.1875 0 0 0 1.75 2a0.1875 0.1875 0 0 0-0.1875-0.1875h-0.125A0.1875 0.1875 0 0 1 1.25 1.625a0.1875 0.1875 0 0 1 0.1875-0.1875H1.875" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
-        <path d="m1.5 1.1875 0 0.25" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
-        <path d="m1.5 2.1875 0 0.25" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
-        <path d="m2.625 1.3125-1.125-1.125-1.125 1.125 0.375 0 0 1.5 1.5 0 0-1.5 0.375 0z" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
+        {grad}
+        <path fill={`url(#${gradId})`} d="M4 10.781c0.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27 -0.179 3.678 -1.438 3.678 -3.3 0 -1.59 -0.947 -2.51 -2.956 -3.028l-0.722 -0.187V3.467c1.122 0.11 1.879 0.714 2.07 1.616h1.47c-0.166 -1.6 -1.54 -2.748 -3.54 -2.875V1H7.591v1.233c-1.939 0.23 -3.27 1.472 -3.27 3.156 0 1.454 0.966 2.483 2.661 2.917l0.61 0.162v4.031c-1.149 -0.17 -1.94 -0.8 -2.131 -1.718zm3.391 -3.836c-1.043 -0.263 -1.6 -0.825 -1.6 -1.616 0 -0.944 0.704 -1.641 1.8 -1.828v3.495l-0.2 -0.05zm1.591 1.872c1.287 0.323 1.852 0.859 1.852 1.769 0 1.097 -0.826 1.828 -2.2 1.939V8.73z" />
       </svg>
     );
   }
   if (statKey === "review") {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
-        <defs>
-          <linearGradient id="icon-grad-review" x1="0" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
-          </linearGradient>
-        </defs>
-        <path stroke="url(#icon-grad-review)" strokeLinecap="square" strokeMiterlimit="10" d="M2.3747125 1.5000125c-0.0015 0.200575-0.0724125 0.39445-0.2006625 0.548675-0.1282625 0.1542125-0.3059625 0.2592625-0.5029125 0.2973-0.19695 0.038025-0.4009875 0.0067-0.57744625-0.088675-0.17645875-0.0953875-0.31445-0.2489125-0.3905225-0.4345125-0.07607375-0.1856-0.085535-0.3918125-0.02677875-0.58360375 0.0587575-0.19178625 0.18210875-0.35731125 0.34909125-0.46844625 0.16698375-0.111135 0.36729375-0.16102375 0.56689375-0.1411875s0.3861875 0.1081725 0.528025 0.24999875c0.0811125 0.08161125 0.145325 0.17842375 0.1889625 0.28489125 0.0436375 0.1064725 0.06585 0.2204975 0.06535 0.33556Z" strokeWidth={sw} />
-        <path stroke="url(#icon-grad-review)" strokeLinecap="square" strokeMiterlimit="10" d="M2.875 1.5c0 0.1178625-0.14405 0.2147625-0.1728625 0.3221375-0.0288 0.1073875 0.0458375 0.2684625-0.010475 0.3653625-0.0563 0.0969-0.2317875 0.1113125-0.3116625 0.1925-0.079875 0.0811875-0.092975 0.25405-0.1925 0.3103625-0.099525 0.0563-0.25405-0.0183375-0.3653625 0.011775C1.7108375 2.7322625 1.61655 2.875 1.5 2.875c-0.11655 0-0.21345-0.14405-0.3221425-0.1728625-0.10869125-0.0288-0.261905 0.0458375-0.3653575-0.011775-0.1034525-0.057625-0.11131-0.2304875-0.1925-0.3103625-0.08119-0.079875-0.2540475-0.0942875-0.31166625-0.1925-0.05762-0.0982125 0.0196425-0.2527375-0.01047625-0.3653625C0.2677375 1.709525 0.125 1.6178625 0.125 1.5c0-0.1178625 0.1440475-0.2147625 0.1728575-0.3221425 0.02880875-0.10738125-0.04583375-0.261905 0.01047625-0.3653575 0.05630875-0.1034525 0.23047625-0.11131 0.31166625-0.1925 0.08119-0.08119 0.09428625-0.2540475 0.1925-0.31166625 0.09821375-0.05762 0.25273875 0.0196425 0.3653575-0.01047625C1.290475 0.2677375 1.3821375 0.125 1.5 0.125c0.1178625 0 0.2147625 0.1440475 0.3221375 0.1728575 0.1073875 0.02880875 0.2619125-0.04583375 0.3653625 0.01047625 0.10345 0.05630875 0.1113125 0.23047625 0.1925 0.31166625 0.0811875 0.08119 0.25405 0.09428625 0.3116625 0.1925 0.057625 0.09821375-0.0196375 0.25273875 0.010475 0.3653575C2.7322625 1.290475 2.875 1.3821375 2.875 1.5Z" strokeWidth={sw} />
-        <path fill="url(#icon-grad-review)" d="m1.5 0.96569875 0.1545125 0.32213875 0.345725 0.0523875-0.250125 0.251425 0.058925 0.3548875L1.5 1.7789125l-0.30905375 0.167625 0.05892875-0.3548875-0.25011875-0.251425 0.34571875-0.0523875L1.5 0.96569875Z" strokeWidth={sw} />
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className={iconClass}>
+        {grad}
+        <path fill={`url(#${gradId})`} fillRule="evenodd" d="M10.58 1.87a1.25 1.25 0 1 0 -2.16 1.26l2.133 3.656 -4.354 7.464H2a1.25 1.25 0 1 0 0 2.5h4.884l0.063 0H13a1.25 1.25 0 1 0 0 -2.5H9.093l3.973 -6.811 0.026 -0.044L15.58 3.13a1.25 1.25 0 1 0 -2.16 -1.26L12 4.305 10.58 1.87Zm4.5 7.714 2.72 4.666H22a1.25 1.25 0 1 1 0 2.5h-2.74l1.82 3.12a1.25 1.25 0 1 1 -2.16 1.26l-2.887 -4.95a1.228 1.228 0 0 1 -0.06 -0.104l-3.053 -5.232a1.25 1.25 0 1 1 2.16 -1.26Zm-9 9.832a1.25 1.25 0 0 0 -2.16 -1.26l-1 1.714a1.25 1.25 0 0 0 2.16 1.26l1 -1.714Z" clipRule="evenodd" />
       </svg>
     );
   }
@@ -487,7 +445,7 @@ function StatEmblemIcon({ statKey }: { statKey: string }) {
 function StatEmblem({ statKey }: { statKey: string }) {
   return (
     <div
-      className="relative flex h-[88px] w-[88px] items-center justify-center overflow-hidden rounded-[22px] sm:h-[100px] sm:w-[100px] sm:rounded-[24px]"
+      className="relative flex h-[90px] w-[90px] items-center justify-center overflow-hidden rounded-[22px] sm:h-[110px] sm:w-[110px] sm:rounded-[26px]"
       style={{
         background: "linear-gradient(160deg, rgba(30,30,35,0.6) 0%, rgba(8,8,10,0.95) 35%, rgba(0,0,0,1) 100%)",
         boxShadow: [
@@ -513,7 +471,7 @@ function StatEmblem({ statKey }: { statKey: string }) {
       <div
         className="pointer-events-none absolute left-0 top-0 h-[60%] w-[70%]"
         style={{
-          background: "radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.06) 0%, transparent 60%)",
+          background: "radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.03) 0%, transparent 60%)",
           borderRadius: "inherit",
         }}
       />
@@ -547,7 +505,7 @@ function StatEmblem({ statKey }: { statKey: string }) {
         }}
       />
       {/* Icon with drop shadow for depth */}
-      <div className="relative z-10" style={{ filter: "drop-shadow(0 0 6px rgba(200,210,255,0.15))" }}>
+      <div className="relative z-10">
         <StatEmblemIcon statKey={statKey} />
       </div>
     </div>
@@ -602,7 +560,7 @@ function HeroLiveStats({
   ];
 
   return (
-    <div className="hero-seq-item pt-52 pb-16 sm:pt-64 sm:pb-20 lg:pt-80 lg:pb-24" style={{ animationDelay: "1480ms" }}>
+    <div className="hero-seq-item pt-40 pb-16 sm:pt-48 sm:pb-20 lg:pt-56 lg:pb-24" style={{ animationDelay: "1480ms" }}>
       <div className="flex justify-center">
         <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-14 text-center sm:grid-cols-4 sm:gap-y-7">
           {statCards.map((card) => (
@@ -611,14 +569,8 @@ function HeroLiveStats({
               <span className="mt-3.5 text-[10px] tracking-[0.08em] text-white/50 sm:text-[11px]">
                 {card.label}
               </span>
-              <div
-                className="relative mt-1"
-                style={{
-                  maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
-                }}
-              >
-                <span className="block text-[1.5rem] font-semibold leading-none text-white sm:text-[1.9rem]">
+              <div className="relative mt-1">
+                <span className="block text-[2rem] font-semibold leading-none text-white sm:text-[2.6rem]">
                   <RollingValue key={`${card.key}-${card.value}`} value={card.value} loaded={loaded} />
                 </span>
               </div>
@@ -655,8 +607,61 @@ type HeroSectionProps = {
   showOnyxUploader?: boolean;
 };
 
+const HERO_HEADLINES_EN = [
+  "send your music.",
+  "store your packs.",
+  "sell your music.",
+  "track your sends.",
+  "get placements.",
+];
+
+const HERO_HEADLINES_FR = [
+  "envoyer ta musique.",
+  "stocker tes packs.",
+  "vendre ta musique.",
+  "tracker tes envois.",
+  "décrocher des placements.",
+];
+
+function RotatingHeadline({ locale }: { locale: Locale }) {
+  const headlines = locale === "fr" ? HERO_HEADLINES_FR : HERO_HEADLINES_EN;
+  const [index, setIndex] = useState(0);
+  const [state, setState] = useState<"visible" | "exiting" | "entering">("visible");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setState("exiting");
+      setTimeout(() => {
+        setIndex((prev) => (prev + 1) % headlines.length);
+        setState("entering");
+        setTimeout(() => {
+          setState("visible");
+        }, 50);
+      }, 400);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [headlines.length]);
+
+  return (
+    <span
+      className="inline-block transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+      style={{
+        opacity: state === "visible" ? 1 : 0,
+        filter: state === "visible" ? "blur(0px)" : "blur(6px)",
+        transform:
+          state === "entering"
+            ? "translateY(8px)"
+            : state === "exiting"
+              ? "translateY(-8px)"
+              : "translateY(0)",
+      }}
+    >
+      {headlines[index]}
+    </span>
+  );
+}
+
 export function HeroSection({ content, locale = "en", showOnyxUploader = true }: HeroSectionProps) {
-  const secondaryTitle = content.hero.title[1]?.trim();
   const { stats, loaded } = useLandingStats();
 
   return (
@@ -678,7 +683,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
         <div className="relative z-10 mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
           <div className="mx-auto max-w-[1280px] text-center">
             {showOnyxUploader ? (
-              <div className="hero-seq-item mb-6 flex justify-center sm:mb-7" style={{ animationDelay: "60ms" }}>
+              <div className="hero-seq-item mb-6 flex justify-center sm:mb-7" style={{ animationDelay: "1200ms" }}>
                 <LandingCtaLink
                   loggedInHref="https://onyx.vvault.app"
                   loggedOutHref="https://onyx.vvault.app"
@@ -698,21 +703,19 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
             ) : null}
 
             <h1 className="font-display text-[2.55rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
-              <span className="hero-line-reveal" style={{ animationDelay: "80ms" }}>
+              <span className="hero-line-reveal" style={{ animationDelay: "60ms" }}>
                 {content.hero.title[0]}
               </span>
-              {secondaryTitle ? (
-                <span className="hero-line-reveal" style={{ animationDelay: "280ms" }}>
-                  {secondaryTitle}
-                </span>
-              ) : null}
+              <span className="hero-line-reveal block" style={{ animationDelay: "120ms" }}>
+                <RotatingHeadline locale={locale} />
+              </span>
             </h1>
 
           </div>
 
           <HeroTrustedBy locale={locale} usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
 
-          <div className="hero-seq-item mt-7 flex justify-center" style={{ animationDelay: "1480ms" }}>
+          <div className="hero-seq-item mt-7 flex justify-center" style={{ animationDelay: "520ms" }}>
             <LandingCtaLink
               loggedInHref="https://vvault.app/signup"
               loggedOutHref="https://vvault.app/signup"

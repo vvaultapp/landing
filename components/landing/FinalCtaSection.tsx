@@ -10,7 +10,7 @@ type FinalCtaSectionProps = {
 
 export function FinalCtaSection({ content }: FinalCtaSectionProps) {
   return (
-    <section id="final-cta" className="pt-56 sm:pt-72">
+    <section id="final-cta" className="pt-44 sm:pt-64">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal className="px-6 py-2 text-center sm:px-10">
           <h2 className="font-display mx-auto max-w-[680px] text-[3rem] leading-[0.98] text-white sm:text-[5rem]">

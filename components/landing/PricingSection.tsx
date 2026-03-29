@@ -64,7 +64,7 @@ export function PricingSection({ content }: PricingSectionProps) {
   const cadenceNote = annual ? content.pricingUi.billedYearly : content.pricingUi.billedMonthly;
 
   return (
-    <section id="pricing" className="pt-20 sm:pt-28">
+    <section id="pricing" className="pt-36 sm:pt-52">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">

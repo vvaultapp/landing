@@ -3,7 +3,10 @@
 import { useEffect } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";
+import { SocialProofSection } from "@/components/landing/SocialProofSection";
+import { FeatureShowcase } from "@/components/landing/FeatureShowcase";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
+import { CertificateTeaser } from "@/components/landing/CertificateTeaser";
 import { PricingSection } from "@/components/landing/PricingSection";
 import { ContactSection } from "@/components/landing/ContactSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
@@ -41,7 +44,10 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       <LandingNav locale={locale} content={content} />
       <main id="main-content" className="pb-20 sm:pb-0">
         <HeroSection content={content} locale={locale} />
+        <SocialProofSection />
+        <FeatureShowcase />
         <HeroStatementSection content={content} />
+        <CertificateTeaser />
         <PricingSection content={content} />
         <ContactSection locale={locale} />
         <FinalCtaSection content={content} />

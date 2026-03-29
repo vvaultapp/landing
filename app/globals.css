@@ -10,6 +10,12 @@ body {
   color-scheme: dark;
 }
 
+/* Grey selection highlight */
+.landing-root ::selection {
+  background: rgba(255, 255, 255, 0.15);
+  color: inherit;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -77,6 +83,21 @@ html {
 .landing-reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+@keyframes nav-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-enter {
+  animation: nav-slide-in 1800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes hero-line-in {
@@ -288,6 +309,12 @@ details[open] .faq-answer {
 
   .signup-marquee-track {
     animation: none;
+    transform: none;
+  }
+
+  .nav-enter {
+    animation: none;
+    opacity: 1;
     transform: none;
   }
 }

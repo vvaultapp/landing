@@ -27,7 +27,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
 
   return (
     <header
-      className="fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
+      className="nav-enter fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
         borderColor: `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
         backgroundColor: `rgba(0, 0, 0, ${0.55 * scrollProgress})`,
@@ -39,7 +39,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
       <div className="mx-auto flex h-[62px] w-full max-w-[1320px] items-center px-5 sm:h-[56px] sm:px-8 lg:px-10">
         <Link
           href={homeHref}
-          className="shrink-0 rounded-xl text-[14px] font-semibold tracking-[0.18em] uppercase text-white"
+          className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-white"
           aria-label={content.ui.homepageAriaLabel}
         >
           vvault
@@ -55,7 +55,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
                   href={item.href}
                   target={isExternal ? "_blank" : undefined}
                   rel={isExternal ? "noreferrer" : undefined}
-                  className="whitespace-nowrap rounded-full px-3 py-1.5 text-[14px] font-medium text-white/60 transition-colors duration-200 hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                  className="whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
                 >
                   {item.label}
                 </a>
@@ -70,7 +70,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
-            className="inline-flex items-center px-3 py-1.5 text-[14px] font-medium text-white/70 transition-colors duration-200 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="inline-flex items-center rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
           >
             Log In
           </LandingCtaLink>
@@ -87,7 +87,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
-            className="inline-flex items-center px-3 py-1.5 text-[13px] font-medium text-white/70 transition-colors duration-200 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="inline-flex items-center rounded-xl px-3 py-1.5 text-[13px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
           >
             Log In
           </LandingCtaLink>

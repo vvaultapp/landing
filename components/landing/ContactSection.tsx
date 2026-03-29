@@ -9,7 +9,7 @@ type ContactSectionProps = {
 
 export function ContactSection({ locale }: ContactSectionProps) {
   return (
-    <section id="contact" className="pt-24 sm:pt-32">
+    <section id="contact" className="pt-36 sm:pt-52">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal className="relative mx-auto max-w-[980px] px-6 text-center sm:px-10">
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-40 w-[86%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.12)_0%,rgba(255,255,255,0.05)_35%,rgba(255,255,255,0)_72%)] blur-2xl" />

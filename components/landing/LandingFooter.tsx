@@ -24,7 +24,7 @@ export function LandingFooter({
         <div className="mx-auto flex w-full max-w-[1320px] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
           <Link
             href={homeHref}
-            className="rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white/95"
+            className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white/95"
             aria-label={content.ui.homepageAriaLabel}
           >
             vvault
@@ -34,7 +34,7 @@ export function LandingFooter({
               <a
                 key={item.label}
                 href={item.href}
-                className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                className="inline-block rounded-xl px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
               >
                 {item.label}
               </a>
@@ -52,7 +52,7 @@ export function LandingFooter({
           <div className="lg:col-span-1">
             <Link
               href={homeHref}
-              className="rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white/95"
+              className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white/95"
               aria-label={content.ui.homepageAriaLabel}
             >
               vvault
@@ -68,7 +68,7 @@ export function LandingFooter({
                       <li key={link.label}>
                         <a
                           href={link.href}
-                          className="rounded-md px-1 py-1 text-sm text-white/50 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                          className="inline-block rounded-xl px-2 py-1 text-sm text-white/50 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
                         >
                           {link.label}
                         </a>
@@ -80,16 +80,46 @@ export function LandingFooter({
             : null}
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-white/10 pt-6">
-          {content.footer.legalLinks.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
+          <div className="flex flex-wrap items-center gap-3">
+            {content.footer.legalLinks.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="inline-block rounded-xl px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Language selector */}
+          <div
+            className="flex items-center gap-1 rounded-lg border border-white/10 px-1 py-0.5"
+            role="group"
+            aria-label={content.ui.languageSwitcherAriaLabel}
+          >
+            <Link
+              href="/"
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
+                locale === "en"
+                  ? "bg-white/10 text-white/90"
+                  : "text-white/40 hover:text-white/70"
+              }`}
             >
-              {item.label}
-            </a>
-          ))}
+              {content.ui.languageEnglish}
+            </Link>
+            <Link
+              href="/fr"
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
+                locale === "fr"
+                  ? "bg-white/10 text-white/90"
+                  : "text-white/40 hover:text-white/70"
+              }`}
+            >
+              {content.ui.languageFrench}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
