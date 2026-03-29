@@ -241,6 +241,10 @@ const landingContentEn = {
         url: "https://www.youtube.com/embed/xYW81irl5AE",
         title: "Sponsored video 5",
       },
+      {
+        url: "https://www.youtube.com/embed/DOlLUSW9s2s",
+        title: "Sponsored video 6",
+      },
     ],
     faqTitle: "FAQs",
   },
@@ -562,6 +566,10 @@ const landingContentFr = {
       {
         url: "https://www.youtube.com/embed/xYW81irl5AE",
         title: "Vidéo sponsorisée 5",
+      },
+      {
+        url: "https://www.youtube.com/embed/DOlLUSW9s2s",
+        title: "Vidéo sponsorisée 6",
       },
     ],
     faqTitle: "FAQ",
