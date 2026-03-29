@@ -80,22 +80,23 @@ function Emblem() {
       <svg width="0" height="0" className="absolute">
         <defs>
           <linearGradient id="chrome-cert-hero" x1="0.5" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.55)" />
-            <stop offset="25%" stopColor="rgba(200,210,230,0.75)" />
-            <stop offset="45%" stopColor="rgba(140,150,170,0.45)" />
-            <stop offset="65%" stopColor="rgba(180,190,210,0.65)" />
-            <stop offset="85%" stopColor="rgba(250,204,21,0.7)" />
-            <stop offset="100%" stopColor="rgba(250,204,21,0.5)" />
+            <stop offset="0%" stopColor="rgba(255,255,255,0.7)" />
+            <stop offset="18%" stopColor="rgba(215,220,235,0.65)" />
+            <stop offset="38%" stopColor="rgba(150,160,185,0.35)" />
+            <stop offset="55%" stopColor="rgba(180,190,215,0.5)" />
+            <stop offset="72%" stopColor="rgba(250,204,21,0.35)" />
+            <stop offset="88%" stopColor="rgba(250,204,21,0.55)" />
+            <stop offset="100%" stopColor="rgba(250,204,21,0.4)" />
           </linearGradient>
         </defs>
       </svg>
       <CheckBadgeIcon className="relative z-10 h-14 w-14 sm:h-16 sm:w-16" gradId="chrome-cert-hero" />
       {/* Bottom accent glow — yellow */}
       <div
-        className="pointer-events-none absolute bottom-[-6px] left-1/2 -translate-x-1/2 h-[35%] w-[55%]"
+        className="pointer-events-none absolute bottom-[-18px] left-1/2 -translate-x-1/2 h-[70%] w-[110%]"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(250,204,21,0.25) 0%, transparent 70%)",
-          filter: "blur(10px)",
+          background: "radial-gradient(ellipse 100% 60% at 50% 80%, rgba(250,204,21,0.12) 0%, transparent 70%)",
+          filter: "blur(20px)",
         }}
       />
       {/* Bottom edge accent line — yellow */}

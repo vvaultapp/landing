@@ -345,7 +345,7 @@ function HeroTrustedBy({
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
               } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30`}
-              style={{ background: gradient }}
+              style={{ background: "rgba(30,30,35,1)" }}
             >
               {/* Layer A */}
               {slotState.layerA && (
@@ -389,9 +389,13 @@ function StatEmblemIcon({ statKey }: { statKey: string }) {
 
   const grad = (
     <defs>
-      <linearGradient id={gradId} x1="0" y1="0" x2="0.5" y2="1">
-        <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-        <stop offset="100%" stopColor="rgba(180,190,220,0.55)" />
+      <linearGradient id={gradId} x1="0.5" y1="0" x2="0.5" y2="1">
+        <stop offset="0%" stopColor="rgba(255,255,255,0.85)" />
+        <stop offset="20%" stopColor="rgba(220,225,240,0.7)" />
+        <stop offset="40%" stopColor="rgba(160,170,195,0.4)" />
+        <stop offset="60%" stopColor="rgba(190,200,220,0.55)" />
+        <stop offset="80%" stopColor="rgba(210,215,230,0.65)" />
+        <stop offset="100%" stopColor="rgba(180,190,210,0.45)" />
       </linearGradient>
     </defs>
   );
@@ -409,9 +413,13 @@ function StatEmblemIcon({ statKey }: { statKey: string }) {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
         <defs>
-          <linearGradient id={gradId} x1="0" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
-            <stop offset="100%" stopColor="rgba(180,190,220,0.55)" />
+          <linearGradient id={gradId} x1="0.5" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.85)" />
+            <stop offset="20%" stopColor="rgba(220,225,240,0.7)" />
+            <stop offset="40%" stopColor="rgba(160,170,195,0.4)" />
+            <stop offset="60%" stopColor="rgba(190,200,220,0.55)" />
+            <stop offset="80%" stopColor="rgba(210,215,230,0.65)" />
+            <stop offset="100%" stopColor="rgba(180,190,210,0.45)" />
           </linearGradient>
           <mask id={maskId}>
             <path fill="white" d="M6 13c0 1.105 -1.12 2 -2.5 2S1 14.105 1 13s1.12 -2 2.5 -2 2.5 0.896 2.5 2m9 -2c0 1.105 -1.12 2 -2.5 2s-2.5 -0.895 -2.5 -2 1.12 -2 2.5 -2 2.5 0.895 2.5 2" />
@@ -484,10 +492,10 @@ function StatEmblem({ statKey }: { statKey: string }) {
       />
       {/* Bottom glow — soft diffused spill */}
       <div
-        className="pointer-events-none absolute bottom-[-4px] left-1/2 -translate-x-1/2 h-[28%] w-[50%]"
+        className="pointer-events-none absolute bottom-[-18px] left-1/2 -translate-x-1/2 h-[70%] w-[110%]"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(190,200,255,0.12) 0%, transparent 70%)",
-          filter: "blur(10px)",
+          background: "radial-gradient(ellipse 100% 60% at 50% 80%, rgba(190,200,255,0.12) 0%, transparent 70%)",
+          filter: "blur(20px)",
         }}
       />
       {/* Bottom edge glow line — thin and smooth */}

@@ -70,11 +70,11 @@ function SectionEmblem({
       />
       {/* Bottom accent glow — soft diffused spill */}
       <div
-        className="pointer-events-none absolute bottom-[-10px] left-1/2 -translate-x-1/2 h-[45%] w-[65%]"
+        className="pointer-events-none absolute bottom-[-18px] left-1/2 -translate-x-1/2 h-[70%] w-[110%]"
         style={{
-          background: `radial-gradient(ellipse at center, ${accentColor} 0%, transparent 70%)`,
-          opacity: 0.18,
-          filter: "blur(14px)",
+          background: `radial-gradient(ellipse 100% 60% at 50% 80%, ${accentColor} 0%, transparent 70%)`,
+          opacity: 0.12,
+          filter: "blur(20px)",
         }}
       />
       {/* Bottom edge accent line — thin, smooth */}
@@ -96,12 +96,13 @@ function SectionEmblem({
         <svg width="0" height="0" className="absolute">
           <defs>
             <linearGradient id={`chrome-${id}`} x1="0.5" y1="0" x2="0.5" y2="1">
-              <stop offset="0%" stopColor="rgba(255,255,255,0.55)" />
-              <stop offset="25%" stopColor="rgba(200,210,230,0.75)" />
-              <stop offset="45%" stopColor="rgba(140,150,170,0.45)" />
-              <stop offset="65%" stopColor="rgba(180,190,210,0.65)" />
-              <stop offset="85%" stopColor={accentColor} stopOpacity="0.7" />
-              <stop offset="100%" stopColor={accentColor} stopOpacity="0.5" />
+              <stop offset="0%" stopColor="rgba(255,255,255,0.7)" />
+              <stop offset="18%" stopColor="rgba(215,220,235,0.65)" />
+              <stop offset="38%" stopColor="rgba(150,160,185,0.35)" />
+              <stop offset="55%" stopColor="rgba(180,190,215,0.5)" />
+              <stop offset="72%" stopColor={accentColor} stopOpacity="0.35" />
+              <stop offset="88%" stopColor={accentColor} stopOpacity="0.55" />
+              <stop offset="100%" stopColor={accentColor} stopOpacity="0.4" />
             </linearGradient>
           </defs>
         </svg>
@@ -152,18 +153,15 @@ function LayersIcon({ gradId }: { gradId?: string }) {
 }
 
 function MoneyIcon({ gradId }: { gradId?: string }) {
+  const fillColor = gradId ? `url(#${gradId})` : "currentColor";
   return (
     <svg
-      viewBox="0 0 24 24"
-      className="h-9 w-9 sm:h-10 sm:w-10"
-      fill="none"
-      stroke={gradId ? `url(#${gradId})` : "currentColor"}
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      viewBox="0 0 16 16"
+      className="h-10 w-10 sm:h-11 sm:w-11"
+      fill={fillColor}
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <path d="M12 1v22" />
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+      <path d="M4 10.781c0.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27 -0.179 3.678 -1.438 3.678 -3.3 0 -1.59 -0.947 -2.51 -2.956 -3.028l-0.722 -0.187V3.467c1.122 0.11 1.879 0.714 2.07 1.616h1.47c-0.166 -1.6 -1.54 -2.748 -3.54 -2.875V1H7.591v1.233c-1.939 0.23 -3.27 1.472 -3.27 3.156 0 1.454 0.966 2.483 2.661 2.917l0.61 0.162v4.031c-1.149 -0.17 -1.94 -0.8 -2.131 -1.718zm3.391 -3.836c-1.043 -0.263 -1.6 -0.825 -1.6 -1.616 0 -0.944 0.704 -1.641 1.8 -1.828v3.495l-0.2 -0.05zm1.591 1.872c1.287 0.323 1.852 0.859 1.852 1.769 0 1.097 -0.826 1.828 -2.2 1.939V8.73z" />
     </svg>
   );
 }

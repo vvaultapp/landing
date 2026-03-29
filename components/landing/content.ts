@@ -201,7 +201,8 @@ const landingContentEn = {
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
   pricingUi: {
-    title: "Simple plans that scale with your catalog.",
+    title: "Pricing",
+    subtitle: "Start for free, no credit card required.",
     monthly: "Monthly",
     annually: "Annually",
     startFree: "Start Free",
@@ -211,7 +212,7 @@ const landingContentEn = {
     annuallyPerMonth: "Annually /month",
     billedYearly: "billed yearly",
     billedMonthly: "billed monthly",
-    upgradeUltra: "Upgrade to Ultra",
+    upgradeUltra: "Start Ultra",
     testimonialsLabel: "Testimonials",
     testimonialsTitle: "Used daily by 600+ producers",
     testimonialsDescription: "Real creators showing how they use vvault to send, track, and convert.",
@@ -264,42 +265,51 @@ const landingContentEn = {
   } as LandingSinglePlan,
   faq: [
     {
-      question: "What is vvault built for?",
+      question: "Is vvault really free?",
       answer:
-        "vvault is built for producers and teams who need one system for library, sharing, campaigns, analytics, and monetization.",
+        "Yes. The Free plan costs nothing and doesn't require a credit card. You can upload up to 100 MB, generate share links, manage contacts, and collaborate on packs — no trial, no expiration.",
     },
     {
-      question: "What do I get on the Free plan?",
+      question: "Can I cancel or change plans anytime?",
       answer:
-        "Free includes up to 100MB upload, share links for tracks/packs/folders, full contacts, collaboration support, and split payouts from Pro sales.",
+        "Absolutely. You can upgrade, downgrade, or cancel at any time from your billing settings. There are no contracts or cancellation fees.",
     },
     {
-      question: "What changes on Pro and Ultra?",
+      question: "How does beat tracking work?",
       answer:
-        "Pro unlocks campaigns, advanced tracking, CRM, analytics, and marketplace selling. Ultra adds automation, scheduling depth, custom branding, and 0% marketplace fees.",
+        "Every time you send a pack or share a link, vvault tracks opens, clicks, play duration, downloads, saves, and sales in real time. You'll know exactly who listened, for how long, and what they did next.",
     },
     {
-      question: "Can I send campaigns and track engagement?",
+      question: "What's the difference between Pro and Ultra?",
       answer:
-        "Yes. vvault supports creating and scheduling campaigns, then tracking opens, clicks, play duration, downloads, saves, and sales in one workflow.",
+        "Pro unlocks unlimited storage, campaigns, full analytics, CRM, and marketplace selling at 5% commission. Ultra adds series automations, per-recipient best-time scheduling, custom domain, embeds, and drops marketplace fees to 0%.",
     },
     {
-      question: "How do billing and payouts work?",
+      question: "Can I send beats through my own email?",
       answer:
-        "Subscriptions, purchases, and payouts run through Stripe-backed billing flows so payment status and delivery stay connected.",
+        "Yes. You can connect your Gmail account and send campaigns directly from your own address, so recipients see your name instead of a generic sender.",
     },
     {
-      question: "Can I migrate gradually?",
+      question: "How do I sell beats and get paid?",
       answer:
-        "Yes. Most teams start by moving active packs and links first, then shift campaigns and monetization once performance tracking is in place.",
+        "Connect your Stripe account, set prices and license types (MP3 lease, WAV, stems, exclusive), and list on the marketplace or your public profile. Payouts go straight to your bank.",
+    },
+    {
+      question: "What file types can I upload?",
+      answer:
+        "vvault supports all common audio formats. You can upload individual tracks or full packs with cover art, BPM, key tags, and co-author credits.",
+    },
+    {
+      question: "How is vvault different from Dropbox or Google Drive?",
+      answer:
+        "Generic cloud storage has no tracking, no campaigns, and no music-specific features. vvault is built specifically for producers — it combines file management, email sending, analytics, CRM, and sales in one place.",
     },
   ] as LandingFaq[],
   finalCta: {
-    title: "Send faster. Track every play. Land more placements.",
-    description:
-      "Replace scattered tools with one focused workspace for delivery, engagement, and monetization.",
-    primary: { label: "Start free", href: "https://vvault.app/signup" },
-    secondary: { label: "Login", href: "https://vvault.app/login" },
+    title: "Music reimagined. Available today.",
+    description: "",
+    primary: { label: "Get Started", href: "https://vvault.app/signup" },
+    secondary: { label: "Contact Us", href: "/#contact" },
   },
   footer: {
     columns: [
@@ -307,38 +317,33 @@ const landingContentEn = {
         title: "Product",
         links: [
           { label: "Homepage", href: "/" },
-          { label: "Product", href: "/#product" },
           { label: "Pricing", href: "/#pricing" },
+          { label: "Blog", href: "/blog" },
           { label: "Contact", href: "/#contact" },
-        ] as LandingFooterLink[],
-      },
-      {
-        title: "Company",
-        links: [
-          { label: "Start free", href: "https://vvault.app/signup" },
-          { label: "Pricing", href: "/#pricing" },
-          { label: "Support", href: "https://www.vvault.app/support" },
         ] as LandingFooterLink[],
       },
       {
         title: "Resources",
         links: [
-          { label: "Blog", href: "/blog" },
           { label: "For Producers", href: "/for/producers" },
           { label: "For Artists", href: "/for/artists" },
           { label: "For Managers & Labels", href: "/for/managers-and-labels" },
           { label: "Compare", href: "/compare" },
-          { label: "Privacy", href: "/privacy" },
-          { label: "Terms", href: "/terms" },
+        ] as LandingFooterLink[],
+      },
+      {
+        title: "Company",
+        links: [
+          { label: "Support", href: "https://www.vvault.app/support" },
+          { label: "Login", href: "https://vvault.app/login" },
           { label: "Billing", href: "https://vvault.app/billing" },
         ] as LandingFooterLink[],
       },
       {
         title: "Legal",
         links: [
-          { label: "Login", href: "https://vvault.app/login" },
-          { label: "Pro", href: "https://vvault.app/billing" },
-          { label: "Ultra", href: "https://vvault.app/billing" },
+          { label: "Privacy", href: "/privacy" },
+          { label: "Terms", href: "/terms" },
         ] as LandingFooterLink[],
       },
     ],
@@ -526,7 +531,8 @@ const landingContentFr = {
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
   pricingUi: {
-    title: "Des plans simples qui évoluent avec ton catalogue.",
+    title: "Pricing",
+    subtitle: "Commence gratuitement, sans carte bancaire.",
     monthly: "Mensuel",
     annually: "Annuel",
     startFree: "Commencer gratuitement",
@@ -536,7 +542,7 @@ const landingContentFr = {
     annuallyPerMonth: "Annuel /mois",
     billedYearly: "facturé à l’année",
     billedMonthly: "facturé au mois",
-    upgradeUltra: "Passer à Ultra",
+    upgradeUltra: "Start Ultra",
     testimonialsLabel: "Témoignages",
     testimonialsTitle: "Utilisé chaque jour par 600+ producteurs",
     testimonialsDescription:
@@ -590,42 +596,51 @@ const landingContentFr = {
   } as LandingSinglePlan,
   faq: [
     {
-      question: "À quoi sert vvault ?",
+      question: "Est-ce que vvault est vraiment gratuit ?",
       answer:
-        "vvault est conçu pour les producteurs et équipes qui ont besoin d’un seul système pour la bibliothèque, le partage, les campagnes, les analytics et la monétisation.",
+        "Oui. Le plan Free ne coûte rien et ne demande pas de carte bancaire. Tu peux uploader jusqu’à 100 Mo, générer des liens de partage, gérer tes contacts et collaborer sur des packs — sans essai, sans expiration.",
     },
     {
-      question: "Que comprend le plan Free ?",
+      question: "Je peux annuler ou changer de plan à tout moment ?",
       answer:
-        "Free inclut jusqu’à 100MB d’upload, des liens de partage pour morceaux/packs/dossiers, des contacts complets, la collaboration, et les split payouts issus des ventes Pro.",
+        "Absolument. Tu peux upgrader, downgrader ou annuler quand tu veux depuis tes paramètres de facturation. Aucun contrat, aucun frais d’annulation.",
     },
     {
-      question: "Qu'est-ce qui change avec Pro et Ultra ?",
+      question: "Comment fonctionne le tracking des beats ?",
       answer:
-        "Pro débloque les campagnes, le tracking avancé, le CRM, les analytics, et la vente marketplace. Ultra ajoute l’automatisation, une planification plus fine, du branding personnalisé et 0% de frais marketplace.",
+        "À chaque envoi de pack ou partage de lien, vvault traque en temps réel les ouvertures, clics, durées d’écoute, téléchargements, sauvegardes et ventes. Tu sauras exactement qui a écouté, combien de temps, et ce qu’il a fait ensuite.",
     },
     {
-      question: "Puis-je envoyer des campagnes et suivre l'engagement ?",
+      question: "Quelle est la différence entre Pro et Ultra ?",
       answer:
-        "Oui. vvault permet de créer et planifier des campagnes, puis de suivre ouvertures, clics, durée d’écoute, téléchargements, sauvegardes et ventes dans un seul workflow.",
+        "Pro débloque le stockage illimité, les campagnes, les analytics complètes, le CRM et la vente marketplace à 5% de commission. Ultra ajoute les séries automatisées, la planification par destinataire, le domaine personnalisé, les embeds, et passe les frais marketplace à 0%.",
     },
     {
-      question: "Comment fonctionnent la facturation et les paiements ?",
+      question: "Je peux envoyer mes beats depuis mon propre email ?",
       answer:
-        "Abonnements, achats et payouts passent par des flux Stripe pour garder le statut de paiement et la livraison reliés.",
+        "Oui. Tu peux connecter ton compte Gmail et envoyer tes campagnes directement depuis ta propre adresse, pour que les destinataires voient ton nom au lieu d’un expéditeur générique.",
     },
     {
-      question: "Puis-je migrer progressivement ?",
+      question: "Comment vendre mes beats et être payé ?",
       answer:
-        "Oui. La plupart des équipes déplacent d’abord les packs et liens actifs, puis migrent campagnes et monétisation une fois le tracking en place.",
+        "Connecte ton compte Stripe, définis tes prix et types de licences (MP3 lease, WAV, stems, exclusive), et publie sur le marketplace ou ton profil public. Les paiements arrivent directement sur ton compte bancaire.",
+    },
+    {
+      question: "Quels formats de fichiers puis-je uploader ?",
+      answer:
+        "vvault supporte tous les formats audio courants. Tu peux uploader des morceaux individuels ou des packs complets avec pochette, BPM, tags de tonalité et crédits de co-auteurs.",
+    },
+    {
+      question: "En quoi vvault est différent de Dropbox ou Google Drive ?",
+      answer:
+        "Le stockage cloud classique n’a ni tracking, ni campagnes, ni fonctionnalités spécifiques à la musique. vvault est conçu spécifiquement pour les producteurs — il combine gestion de fichiers, envoi d’emails, analytics, CRM et ventes en un seul endroit.",
     },
   ] as LandingFaq[],
   finalCta: {
-    title: "Envoie plus vite. Suis chaque écoute. Décroche plus de placements.",
-    description:
-      "Remplace les outils dispersés par un espace unique pour la diffusion, l’engagement et la monétisation.",
+    title: "Music reimagined. Available today.",
+    description: "",
     primary: { label: "Commencer gratuitement", href: "https://vvault.app/signup" },
-    secondary: { label: "Connexion", href: "https://vvault.app/login" },
+    secondary: { label: "Contact", href: "/fr#contact" },
   },
   footer: {
     columns: [
@@ -633,38 +648,33 @@ const landingContentFr = {
         title: "Produit",
         links: [
           { label: "Accueil", href: "/fr" },
-          { label: "Produit", href: "/fr#product" },
           { label: "Tarifs", href: "/fr#pricing" },
+          { label: "Blog", href: "/blog" },
           { label: "Contact", href: "/fr#contact" },
-        ] as LandingFooterLink[],
-      },
-      {
-        title: "Entreprise",
-        links: [
-          { label: "Commencer gratuitement", href: "https://vvault.app/signup" },
-          { label: "Tarifs", href: "/fr#pricing" },
-          { label: "Support", href: "https://www.vvault.app/support" },
         ] as LandingFooterLink[],
       },
       {
         title: "Ressources",
         links: [
-          { label: "Blog", href: "/blog" },
-          { label: "For Producers", href: "/for/producers" },
-          { label: "For Artists", href: "/for/artists" },
-          { label: "For Managers & Labels", href: "/for/managers-and-labels" },
-          { label: "Compare", href: "/compare" },
-          { label: "Confidentialité", href: "/privacy" },
-          { label: "Conditions", href: "/terms" },
+          { label: "Pour les Producteurs", href: "/for/producers" },
+          { label: "Pour les Artistes", href: "/for/artists" },
+          { label: "Pour les Managers & Labels", href: "/for/managers-and-labels" },
+          { label: "Comparer", href: "/compare" },
+        ] as LandingFooterLink[],
+      },
+      {
+        title: "Entreprise",
+        links: [
+          { label: "Support", href: "https://www.vvault.app/support" },
+          { label: "Connexion", href: "https://vvault.app/login" },
           { label: "Facturation", href: "https://vvault.app/billing" },
         ] as LandingFooterLink[],
       },
       {
         title: "Légal",
         links: [
-          { label: "Connexion", href: "https://vvault.app/login" },
-          { label: "Pro", href: "https://vvault.app/billing" },
-          { label: "Ultra", href: "https://vvault.app/billing" },
+          { label: "Confidentialité", href: "/privacy" },
+          { label: "Conditions", href: "/terms" },
         ] as LandingFooterLink[],
       },
     ],

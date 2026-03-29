@@ -79,12 +79,12 @@ export function CertificateTeaser() {
               />
               {/* Bottom accent glow — prominent diffused spill */}
               <div
-                className="pointer-events-none absolute bottom-[-8px] left-1/2 -translate-x-1/2 h-[40%] w-[60%]"
+                className="pointer-events-none absolute bottom-[-18px] left-1/2 -translate-x-1/2 h-[70%] w-[110%]"
                 style={{
                   background:
-                    "radial-gradient(ellipse at center, #34d399 0%, transparent 70%)",
-                  opacity: 0.18,
-                  filter: "blur(14px)",
+                    "radial-gradient(ellipse 100% 60% at 50% 80%, #facc15 0%, transparent 70%)",
+                  opacity: 0.12,
+                  filter: "blur(20px)",
                 }}
               />
               {/* Bottom edge accent line */}
@@ -92,7 +92,7 @@ export function CertificateTeaser() {
                 className="pointer-events-none absolute inset-x-[18%] bottom-0 h-[0.5px]"
                 style={{
                   background:
-                    "linear-gradient(90deg, transparent 0%, #34d39940 30%, #34d39970 50%, #34d39940 70%, transparent 100%)",
+                    "linear-gradient(90deg, transparent 0%, #facc1540 30%, #facc1570 50%, #facc1540 70%, transparent 100%)",
                 }}
               />
               {/* Left edge subtle highlight */}
@@ -100,7 +100,7 @@ export function CertificateTeaser() {
                 className="pointer-events-none absolute inset-y-[15%] left-0 w-px"
                 style={{
                   background:
-                    "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, #34d39920 80%, transparent 100%)",
+                    "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, #facc1520 80%, transparent 100%)",
                 }}
               />
               {/* Icon with chrome gradient */}
@@ -108,12 +108,13 @@ export function CertificateTeaser() {
                 <svg width="0" height="0" className="absolute">
                   <defs>
                     <linearGradient id="chrome-cert-teaser" x1="0.5" y1="0" x2="0.5" y2="1">
-                      <stop offset="0%" stopColor="rgba(255,255,255,0.55)" />
-                      <stop offset="25%" stopColor="rgba(200,210,230,0.75)" />
-                      <stop offset="45%" stopColor="rgba(140,150,170,0.45)" />
-                      <stop offset="65%" stopColor="rgba(180,190,210,0.65)" />
-                      <stop offset="85%" stopColor="rgba(52,211,153,0.7)" />
-                      <stop offset="100%" stopColor="rgba(52,211,153,0.5)" />
+                      <stop offset="0%" stopColor="rgba(255,255,255,0.7)" />
+                      <stop offset="18%" stopColor="rgba(215,220,235,0.65)" />
+                      <stop offset="38%" stopColor="rgba(150,160,185,0.35)" />
+                      <stop offset="55%" stopColor="rgba(180,190,215,0.5)" />
+                      <stop offset="72%" stopColor="rgba(250,204,21,0.35)" />
+                      <stop offset="88%" stopColor="rgba(250,204,21,0.55)" />
+                      <stop offset="100%" stopColor="rgba(250,204,21,0.4)" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -132,6 +133,20 @@ export function CertificateTeaser() {
               certificate &mdash; a tamper-proof legal document that
               establishes anteriority and protects your rights.
             </p>
+            <div className="mt-5 flex justify-center">
+              <Link
+                href="/certificate"
+                className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+              >
+                View new feature
+                <svg
+                  viewBox="0 0 20 20"
+                  className="h-4 w-4 fill-none stroke-current stroke-[1.8]"
+                >
+                  <path d="M4 10h11M11 6l4 4-4 4" />
+                </svg>
+              </Link>
+            </div>
           </div>
 
           {/* Fully revealed certificate preview */}
@@ -178,11 +193,11 @@ export function CertificateTeaser() {
                   <div
                     className="flex h-10 w-10 items-center justify-center rounded-2xl"
                     style={{
-                      background: "rgba(52,211,153,0.08)",
-                      border: "1px solid rgba(52,211,153,0.15)",
+                      background: "rgba(250,204,21,0.08)",
+                      border: "1px solid rgba(250,204,21,0.15)",
                     }}
                   >
-                    <CheckBadgeIcon className="h-5 w-5 text-emerald-400/80" />
+                    <CheckBadgeIcon className="h-5 w-5 text-yellow-400/80" />
                   </div>
                   <div>
                     <p className="text-[14px] font-semibold text-white/85">
@@ -223,8 +238,8 @@ export function CertificateTeaser() {
 
                 {/* Seal */}
                 <div className="mt-6 flex items-center justify-center gap-2">
-                  <CheckBadgeIcon className="h-4 w-4 text-emerald-400/60" />
-                  <span className="text-[11px] font-medium text-emerald-400/50">
+                  <CheckBadgeIcon className="h-4 w-4 text-yellow-400/60" />
+                  <span className="text-[11px] font-medium text-yellow-400/50">
                     Verified by vvault
                   </span>
                 </div>
@@ -240,21 +255,6 @@ export function CertificateTeaser() {
               />
             </div>
 
-            {/* CTA button below card */}
-            <div className="mt-6 flex justify-center">
-              <Link
-                href="/certificate"
-                className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
-              >
-                View new feature
-                <svg
-                  viewBox="0 0 20 20"
-                  className="h-4 w-4 fill-none stroke-current stroke-[1.8]"
-                >
-                  <path d="M4 10h11M11 6l4 4-4 4" />
-                </svg>
-              </Link>
-            </div>
           </div>
         </Reveal>
       </div>
