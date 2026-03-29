@@ -96,7 +96,7 @@ const termsSections: Array<{ title: string; paragraphs: string[]; link?: { href:
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-[#0e0e0e] text-white">
+    <main className="min-h-screen bg-black text-white">
       <div className="mx-auto w-full max-w-4xl px-5 py-14 sm:py-18">
         <div className="mb-10 flex flex-wrap items-center justify-between gap-3">
           <Link

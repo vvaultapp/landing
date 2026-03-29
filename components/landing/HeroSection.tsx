@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { DollarSign, Music2, Star } from "lucide-react";
+import dynamic from "next/dynamic";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+
+const Beams = dynamic(() => import("@/components/landing/Beams"), { ssr: false });
 
 type LandingStatsResponse = {
   emailsSentTotal: number;
@@ -176,38 +178,6 @@ function useLandingStats() {
   return { stats, loaded };
 }
 
-function StatIcon({ statKey }: { statKey: string }) {
-  if (statKey === "emails") {
-    return (
-      <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-white/75" fill="none" stroke="currentColor" strokeWidth="1.7">
-        <rect x="2.5" y="4.5" width="15" height="11" rx="2.3" />
-        <path d="M3.5 6.2 10 11l6.5-4.8" />
-      </svg>
-    );
-  }
-  if (statKey === "users") {
-    return (
-      <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-white/75" fill="none" stroke="currentColor" strokeWidth="1.7">
-        <circle cx="10" cy="7" r="3.1" />
-        <path d="M4.3 16c1.2-2.4 3.2-3.6 5.7-3.6S14.5 13.6 15.7 16" />
-      </svg>
-    );
-  }
-  if (statKey === "tracks") {
-    return <Music2 className="h-3.5 w-3.5 text-white/75" strokeWidth={1.9} />;
-  }
-  if (statKey === "money") {
-    return <DollarSign className="h-3.5 w-3.5 text-white/75" strokeWidth={1.9} />;
-  }
-  if (statKey === "review") {
-    return <Star className="h-3.5 w-3.5 text-white/75" strokeWidth={1.9} />;
-  }
-  return (
-    <svg viewBox="0 0 20 20" className="h-3.5 w-3.5 text-white/75" fill="none" stroke="currentColor" strokeWidth="1.7">
-      <path d="m10 3 2.1 4.2 4.7.7-3.4 3.3.8 4.7-4.2-2.2-4.2 2.2.8-4.7L3.2 8l4.7-.7Z" />
-    </svg>
-  );
-}
 
 function HeroTrustedBy({
   locale,
@@ -447,6 +417,143 @@ function HeroTrustedBy({
   );
 }
 
+function StatEmblemIcon({ statKey }: { statKey: string }) {
+  const sw = "0.18";
+
+  if (statKey === "emails") {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
+        <defs>
+          <linearGradient id="icon-grad-emails" x1="0" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
+          </linearGradient>
+        </defs>
+        <path d="M0.1875 0.545h2.625v1.90875h-2.625Z" fill="none" stroke="url(#icon-grad-emails)" strokeMiterlimit="10" strokeWidth={sw} />
+        <path d="M0.1875 0.545 1.5 1.8575l1.3125-1.3125" fill="none" stroke="url(#icon-grad-emails)" strokeMiterlimit="10" strokeWidth={sw} />
+      </svg>
+    );
+  }
+  if (statKey === "tracks") {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
+        <defs>
+          <linearGradient id="icon-grad-tracks" x1="0" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
+          </linearGradient>
+        </defs>
+        <path d="m0.545 0.78375 0.35875 0" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
+        <path d="M1.5 0.4425V1.125a1.47625 1.47625 0 0 1-0.73375 0.25625 0.545 0.545 0 0 1-0.10125-0.00625v1.4375H0.1875V0.78375A0.5875 0.5875 0 0 1 0.76625 0.1875 1.47375 1.47375 0 0 1 1.5 0.4425Z" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
+        <path d="m2.455 2.21625-0.35875 0" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
+        <path d="M1.5 2.5575V1.875a1.47625 1.47625 0 0 1 0.73375-0.25 0.545 0.545 0 0 1 0.10125 0.01V0.1875h0.4775v2.02875a0.5875 0.5875 0 0 1-0.57875 0.59625A1.47375 1.47375 0 0 1 1.5 2.5575Z" fill="none" stroke="url(#icon-grad-tracks)" strokeMiterlimit="10" strokeWidth={sw} />
+      </svg>
+    );
+  }
+  if (statKey === "money") {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
+        <defs>
+          <linearGradient id="icon-grad-money" x1="0" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
+          </linearGradient>
+        </defs>
+        <path d="M1.125 2.1875h0.4375A0.1875 0.1875 0 0 0 1.75 2a0.1875 0.1875 0 0 0-0.1875-0.1875h-0.125A0.1875 0.1875 0 0 1 1.25 1.625a0.1875 0.1875 0 0 1 0.1875-0.1875H1.875" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
+        <path d="m1.5 1.1875 0 0.25" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
+        <path d="m1.5 2.1875 0 0.25" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
+        <path d="m2.625 1.3125-1.125-1.125-1.125 1.125 0.375 0 0 1.5 1.5 0 0-1.5 0.375 0z" fill="none" stroke="url(#icon-grad-money)" strokeMiterlimit="10" strokeWidth={sw} />
+      </svg>
+    );
+  }
+  if (statKey === "review") {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="-0.1 -0.1 3.2 3.2" className="h-9 w-9 sm:h-10 sm:w-10">
+        <defs>
+          <linearGradient id="icon-grad-review" x1="0" y1="0" x2="0.5" y2="1">
+            <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+            <stop offset="100%" stopColor="rgba(180,190,220,0.5)" />
+          </linearGradient>
+        </defs>
+        <path stroke="url(#icon-grad-review)" strokeLinecap="square" strokeMiterlimit="10" d="M2.3747125 1.5000125c-0.0015 0.200575-0.0724125 0.39445-0.2006625 0.548675-0.1282625 0.1542125-0.3059625 0.2592625-0.5029125 0.2973-0.19695 0.038025-0.4009875 0.0067-0.57744625-0.088675-0.17645875-0.0953875-0.31445-0.2489125-0.3905225-0.4345125-0.07607375-0.1856-0.085535-0.3918125-0.02677875-0.58360375 0.0587575-0.19178625 0.18210875-0.35731125 0.34909125-0.46844625 0.16698375-0.111135 0.36729375-0.16102375 0.56689375-0.1411875s0.3861875 0.1081725 0.528025 0.24999875c0.0811125 0.08161125 0.145325 0.17842375 0.1889625 0.28489125 0.0436375 0.1064725 0.06585 0.2204975 0.06535 0.33556Z" strokeWidth={sw} />
+        <path stroke="url(#icon-grad-review)" strokeLinecap="square" strokeMiterlimit="10" d="M2.875 1.5c0 0.1178625-0.14405 0.2147625-0.1728625 0.3221375-0.0288 0.1073875 0.0458375 0.2684625-0.010475 0.3653625-0.0563 0.0969-0.2317875 0.1113125-0.3116625 0.1925-0.079875 0.0811875-0.092975 0.25405-0.1925 0.3103625-0.099525 0.0563-0.25405-0.0183375-0.3653625 0.011775C1.7108375 2.7322625 1.61655 2.875 1.5 2.875c-0.11655 0-0.21345-0.14405-0.3221425-0.1728625-0.10869125-0.0288-0.261905 0.0458375-0.3653575-0.011775-0.1034525-0.057625-0.11131-0.2304875-0.1925-0.3103625-0.08119-0.079875-0.2540475-0.0942875-0.31166625-0.1925-0.05762-0.0982125 0.0196425-0.2527375-0.01047625-0.3653625C0.2677375 1.709525 0.125 1.6178625 0.125 1.5c0-0.1178625 0.1440475-0.2147625 0.1728575-0.3221425 0.02880875-0.10738125-0.04583375-0.261905 0.01047625-0.3653575 0.05630875-0.1034525 0.23047625-0.11131 0.31166625-0.1925 0.08119-0.08119 0.09428625-0.2540475 0.1925-0.31166625 0.09821375-0.05762 0.25273875 0.0196425 0.3653575-0.01047625C1.290475 0.2677375 1.3821375 0.125 1.5 0.125c0.1178625 0 0.2147625 0.1440475 0.3221375 0.1728575 0.1073875 0.02880875 0.2619125-0.04583375 0.3653625 0.01047625 0.10345 0.05630875 0.1113125 0.23047625 0.1925 0.31166625 0.0811875 0.08119 0.25405 0.09428625 0.3116625 0.1925 0.057625 0.09821375-0.0196375 0.25273875 0.010475 0.3653575C2.7322625 1.290475 2.875 1.3821375 2.875 1.5Z" strokeWidth={sw} />
+        <path fill="url(#icon-grad-review)" d="m1.5 0.96569875 0.1545125 0.32213875 0.345725 0.0523875-0.250125 0.251425 0.058925 0.3548875L1.5 1.7789125l-0.30905375 0.167625 0.05892875-0.3548875-0.25011875-0.251425 0.34571875-0.0523875L1.5 0.96569875Z" strokeWidth={sw} />
+      </svg>
+    );
+  }
+  return null;
+}
+
+function StatEmblem({ statKey }: { statKey: string }) {
+  return (
+    <div
+      className="relative flex h-[88px] w-[88px] items-center justify-center overflow-hidden rounded-[22px] sm:h-[100px] sm:w-[100px] sm:rounded-[24px]"
+      style={{
+        background: "linear-gradient(160deg, rgba(30,30,35,0.6) 0%, rgba(8,8,10,0.95) 35%, rgba(0,0,0,1) 100%)",
+        boxShadow: [
+          "inset 0 1px 0 0 rgba(255,255,255,0.07)",
+          "inset 0 -1px 0 0 rgba(0,0,0,0.4)",
+          "inset 1px 0 0 0 rgba(255,255,255,0.03)",
+          "inset -1px 0 0 0 rgba(0,0,0,0.15)",
+          "0 8px 32px -6px rgba(0,0,0,0.7)",
+          "0 2px 8px 0 rgba(0,0,0,0.4)",
+        ].join(", "),
+        border: "0.5px solid rgba(255,255,255,0.08)",
+      }}
+    >
+      {/* Noise/grain texture overlay */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+          borderRadius: "inherit",
+        }}
+      />
+      {/* Top-left specular highlight */}
+      <div
+        className="pointer-events-none absolute left-0 top-0 h-[60%] w-[70%]"
+        style={{
+          background: "radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.06) 0%, transparent 60%)",
+          borderRadius: "inherit",
+        }}
+      />
+      {/* Top edge highlight line */}
+      <div
+        className="pointer-events-none absolute inset-x-[15%] top-0 h-px"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.1) 70%, transparent 100%)",
+        }}
+      />
+      {/* Bottom glow — soft diffused spill */}
+      <div
+        className="pointer-events-none absolute bottom-[-4px] left-1/2 -translate-x-1/2 h-[28%] w-[50%]"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(190,200,255,0.12) 0%, transparent 70%)",
+          filter: "blur(10px)",
+        }}
+      />
+      {/* Bottom edge glow line — thin and smooth */}
+      <div
+        className="pointer-events-none absolute inset-x-[18%] bottom-0 h-[0.5px]"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, rgba(190,200,255,0.1) 30%, rgba(190,200,255,0.16) 50%, rgba(190,200,255,0.1) 70%, transparent 100%)",
+        }}
+      />
+      {/* Left edge subtle highlight */}
+      <div
+        className="pointer-events-none absolute inset-y-[15%] left-0 w-px"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(190,200,255,0.08) 80%, transparent 100%)",
+        }}
+      />
+      {/* Icon with drop shadow for depth */}
+      <div className="relative z-10" style={{ filter: "drop-shadow(0 0 6px rgba(200,210,255,0.15))" }}>
+        <StatEmblemIcon statKey={statKey} />
+      </div>
+    </div>
+  );
+}
+
 function HeroLiveStats({
   locale,
   stats,
@@ -495,18 +602,26 @@ function HeroLiveStats({
   ];
 
   return (
-    <div className="hero-seq-item mt-56 mb-4 py-4 sm:py-6" style={{ animationDelay: "1480ms" }}>
-        <div className="flex justify-center">
-        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-7 text-center sm:grid-cols-4">
+    <div className="hero-seq-item pt-52 pb-16 sm:pt-64 sm:pb-20 lg:pt-80 lg:pb-24" style={{ animationDelay: "1480ms" }}>
+      <div className="flex justify-center">
+        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-14 text-center sm:grid-cols-4 sm:gap-y-7">
           {statCards.map((card) => (
             <div key={card.key} className="flex flex-col items-center justify-center">
-              <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-[0.16em] text-white/72">
+              <StatEmblem statKey={card.key} />
+              <span className="mt-3.5 text-[10px] tracking-[0.08em] text-white/50 sm:text-[11px]">
                 {card.label}
-                <StatIcon statKey={card.key} />
               </span>
-              <span className="mt-1 text-[1.7rem] font-black leading-none text-white sm:text-[2.15rem]">
-                <RollingValue key={`${card.key}-${card.value}`} value={card.value} loaded={loaded} />
-              </span>
+              <div
+                className="relative mt-1"
+                style={{
+                  maskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+                  WebkitMaskImage: "linear-gradient(to bottom, black 50%, transparent 100%)",
+                }}
+              >
+                <span className="block text-[1.5rem] font-semibold leading-none text-white sm:text-[1.9rem]">
+                  <RollingValue key={`${card.key}-${card.value}`} value={card.value} loaded={loaded} />
+                </span>
+              </div>
             </div>
           ))}
         </div>
@@ -515,39 +630,6 @@ function HeroLiveStats({
   );
 }
 
-function HeroAppMock() {
-  return (
-    <div className="relative mt-14 sm:mt-16">
-      <div
-        className="pointer-events-none absolute left-[calc(50%-50vw)] top-[-142px] bottom-[-104px] z-0 w-screen overflow-hidden hero-seq-item"
-        style={{ animationDelay: "760ms" }}
-      >
-        <div className="h-full w-full rounded-b-[18px] bg-[linear-gradient(to_bottom,rgba(160,169,179,0)_0%,rgba(160,169,179,0.012)_16%,rgba(159,168,178,0.05)_33%,rgba(157,166,176,0.14)_52%,rgba(153,162,172,0.27)_72%,rgba(149,159,169,0.40)_88%,rgba(145,155,166,0.50)_100%)]" />
-      </div>
-      <div
-        className="pointer-events-none absolute left-[calc(50%-50vw)] bottom-[-34px] z-[1] w-screen hero-seq-item"
-        style={{ animationDelay: "760ms" }}
-      >
-        <div className="mx-auto h-[clamp(72px,9vw,132px)] w-[clamp(360px,44vw,840px)] rounded-full bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.2)_0%,rgba(255,255,255,0.08)_42%,rgba(255,255,255,0)_78%)] blur-[10px]" />
-      </div>
-
-      <div
-        className="relative z-10 -ml-[18px] w-[calc(100%+36px)] sm:-ml-[32px] sm:w-[calc(100%+64px)] lg:-ml-[72px] lg:w-[calc(100%+144px)] hero-seq-item"
-        style={{ animationDelay: "1080ms" }}
-      >
-        <img
-          src="/showcase-phone.png"
-          alt="vvault app interface"
-          className="block h-auto w-full max-w-none select-none"
-          loading="eager"
-          decoding="async"
-          draggable={false}
-          onDragStart={(event) => event.preventDefault()}
-        />
-      </div>
-    </div>
-  );
-}
 
 function MobileAppStoreBar({ locale }: { locale: Locale }) {
   return (
@@ -578,59 +660,72 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
   const { stats, loaded } = useLandingStats();
 
   return (
-    <section className="pb-8 pt-44 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <div className="mx-auto max-w-[1280px] text-center">
-          {showOnyxUploader ? (
-            <div className="hero-seq-item mb-6 flex justify-center sm:mb-7" style={{ animationDelay: "60ms" }}>
-              <LandingCtaLink
-                loggedInHref="https://onyx.vvault.app"
-                loggedOutHref="https://onyx.vvault.app"
-                className="group inline-flex items-center gap-2 text-xs sm:text-sm"
-              >
-                <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-                <span className="font-semibold text-white">{content.hero.newBadge}</span>
-                <span className="text-white/72">{content.hero.onyxLabel}</span>
-                <svg
-                  viewBox="0 0 20 20"
-                  className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1"
+    <>
+      <section className="relative pb-8 pt-48 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
+        <div className="pointer-events-none absolute top-0 left-0 z-0 h-screen w-screen opacity-40">
+          <Beams
+            beamWidth={1.7}
+            beamHeight={25}
+            beamNumber={26}
+            lightColor="#a6a6a6"
+            speed={1.2}
+            noiseIntensity={2.05}
+            scale={0.2}
+            rotation={30}
+          />
+          <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-black to-transparent" />
+        </div>
+        <div className="relative z-10 mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+          <div className="mx-auto max-w-[1280px] text-center">
+            {showOnyxUploader ? (
+              <div className="hero-seq-item mb-6 flex justify-center sm:mb-7" style={{ animationDelay: "60ms" }}>
+                <LandingCtaLink
+                  loggedInHref="https://onyx.vvault.app"
+                  loggedOutHref="https://onyx.vvault.app"
+                  className="group inline-flex items-center gap-2 text-xs sm:text-sm"
                 >
-                  <path d="M4 10h11M11 6l4 4-4 4" />
-                </svg>
-              </LandingCtaLink>
-            </div>
-          ) : null}
-
-          <h1 className="font-display text-[2.55rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
-            <span className="hero-line-reveal" style={{ animationDelay: "80ms" }}>
-              {content.hero.title[0]}
-            </span>
-            {secondaryTitle ? (
-              <span className="hero-line-reveal" style={{ animationDelay: "280ms" }}>
-                {secondaryTitle}
-              </span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+                  <span className="font-semibold text-white">{content.hero.newBadge}</span>
+                  <span className="text-white/72">{content.hero.onyxLabel}</span>
+                  <svg
+                    viewBox="0 0 20 20"
+                    className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1"
+                  >
+                    <path d="M4 10h11M11 6l4 4-4 4" />
+                  </svg>
+                </LandingCtaLink>
+              </div>
             ) : null}
-          </h1>
 
+            <h1 className="font-display text-[2.55rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
+              <span className="hero-line-reveal" style={{ animationDelay: "80ms" }}>
+                {content.hero.title[0]}
+              </span>
+              {secondaryTitle ? (
+                <span className="hero-line-reveal" style={{ animationDelay: "280ms" }}>
+                  {secondaryTitle}
+                </span>
+              ) : null}
+            </h1>
+
+          </div>
+
+          <HeroTrustedBy locale={locale} usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
+
+          <div className="hero-seq-item mt-7 flex justify-center" style={{ animationDelay: "1480ms" }}>
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/signup"
+              loggedOutHref="https://vvault.app/signup"
+              className="inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:text-base"
+            >
+              Start for free
+            </LandingCtaLink>
+          </div>
         </div>
+        <MobileAppStoreBar locale={locale} />
+      </section>
 
-        <HeroTrustedBy locale={locale} usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
-
-        <div className="hero-seq-item mt-7 flex justify-center" style={{ animationDelay: "1480ms" }}>
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            className="inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:text-base"
-          >
-            Start for free
-          </LandingCtaLink>
-        </div>
-
-        <HeroAppMock />
-
-        <HeroLiveStats locale={locale} stats={stats} loaded={loaded} />
-      </div>
-      <MobileAppStoreBar locale={locale} />
-    </section>
+      <HeroLiveStats locale={locale} stats={stats} loaded={loaded} />
+    </>
   );
 }

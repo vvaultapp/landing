@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function BlogNav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-[#0e0e0e]/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
       <div className="mx-auto flex h-[74px] w-full max-w-[1320px] items-center gap-3 px-5 sm:h-[66px] sm:px-8 lg:px-10">
         <Link
           href="/"
@@ -159,7 +159,7 @@ export function BlogFooter() {
 
 export function BottomCta() {
   return (
-    <div className="sticky bottom-0 z-40 border-t border-white/10 bg-[#0e0e0e]/95 backdrop-blur-[12px]">
+    <div className="sticky bottom-0 z-40 border-t border-white/10 bg-black/95 backdrop-blur-[12px]">
       <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:px-10">
         <p className="text-sm text-white/70">Ready to send music like a pro?</p>
         <a

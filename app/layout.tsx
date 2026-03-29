@@ -69,7 +69,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full bg-[#0e0e0e] text-[#f0f0f0] font-sans">
+      <body className="min-h-full bg-black text-[#f0f0f0] font-sans">
         {children}
         <Analytics />
       </body>

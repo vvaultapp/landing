@@ -25,7 +25,7 @@ function ComparisonCard({
   return (
     <article className="landing-panel h-full rounded-[18px] border border-white/10 bg-transparent p-6 sm:p-7 flex flex-col">
       <div>
-        <p className="text-sm uppercase tracking-[0.15em] text-white/70">{eyebrow}</p>
+        <p className="text-sm tracking-[0.15em] text-white/70">{eyebrow}</p>
         <h3 className="mt-2 text-2xl font-semibold text-white">{title}</h3>
         <p className="mt-1 text-sm text-white/55">&nbsp;</p>
         <p className="mt-4 text-4xl font-semibold text-white">{cost}</p>
@@ -102,7 +102,7 @@ export function PricingSection({ content }: PricingSectionProps) {
             <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(226,171,56,0.42)_0%,rgba(226,171,56,0)_72%)] blur-2xl" />
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-[0.15em] text-[#0e0e0e]">{content.pricingUi.mostPopular}</p>
+                <p className="text-sm tracking-[0.15em] text-[#0e0e0e]">{content.pricingUi.mostPopular}</p>
                 <h3 className="mt-2 text-2xl font-semibold text-[#0e0e0e]">{plan.name}</h3>
                 <p className="mt-1 text-sm text-[#0e0e0e]/70">
                   {content.pricingUi.annuallyPerMonth} {cadenceNote}
@@ -124,7 +124,7 @@ export function PricingSection({ content }: PricingSectionProps) {
               <LandingCtaLink
                 loggedInHref="https://vvault.app/billing"
                 loggedOutHref="https://vvault.app/billing"
-                className="inline-flex w-full items-center justify-between rounded-2xl bg-[#0e0e0e] px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-[#0e0e0e]/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
+                className="inline-flex w-full items-center justify-between rounded-2xl bg-black px-5 py-2.5 text-sm font-semibold text-[#dcdcdc] transition-colors duration-200 hover:bg-black/94 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/30"
               >
                 {plan.cta} →
               </LandingCtaLink>
@@ -135,7 +135,7 @@ export function PricingSection({ content }: PricingSectionProps) {
             <div className="pointer-events-none absolute -right-12 -top-16 h-44 w-44 rounded-full bg-[radial-gradient(circle,rgba(137,92,255,0.38)_0%,rgba(137,92,255,0)_72%)] blur-2xl" />
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-[0.15em] text-white/70">{content.pricingUi.bestValue}</p>
+                <p className="text-sm tracking-[0.15em] text-white/70">{content.pricingUi.bestValue}</p>
                 <h3 className="mt-2 text-2xl font-semibold text-white">{ai.title}</h3>
                 <p className="mt-1 text-sm text-white/55">
                   {content.pricingUi.annuallyPerMonth} {cadenceNote}

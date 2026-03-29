@@ -24,7 +24,7 @@ export function FeatureGridSection() {
                 </span>
                 <h3 className="mt-4 text-lg font-semibold text-white/90">{feature.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-white/58">{feature.description}</p>
-                <p className="mt-4 text-xs font-medium uppercase tracking-[0.1em] text-white/48">{feature.stat}</p>
+                <p className="mt-4 text-xs font-medium tracking-[0.1em] text-white/48">{feature.stat}</p>
               </article>
             </Reveal>
           ))}

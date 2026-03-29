@@ -30,7 +30,7 @@ export function UpdatesSection() {
           {landingContent.updates.items.map((item, index) => (
             <Reveal key={item.title} delayMs={index * 34}>
               <article className="landing-panel rounded-[18px] border border-white/10 bg-transparent p-5">
-                <p className="text-xs uppercase tracking-[0.1em] text-white/42">{item.date}</p>
+                <p className="text-xs tracking-[0.1em] text-white/42">{item.date}</p>
                 <h3 className="mt-3 text-lg font-semibold text-white/88">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-white/58">{item.text}</p>
               </article>

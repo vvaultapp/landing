@@ -15,7 +15,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        sans: ["Geist", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
         display: ["DomaineDispNar-Regular", "DomaineDispNar", "serif"],
         origin: ['DomaineDispNar-Regular', 'DomaineDispNar', 'serif'],
         'inter-tight': ['Inter Tight', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
