@@ -233,6 +233,14 @@ const landingContentEn = {
         url: "https://www.youtube.com/embed/4bIAHdRbRYQ?start=45",
         title: "Sponsored video 3",
       },
+      {
+        url: "https://www.youtube.com/embed/jQkjH3_-PgY",
+        title: "Sponsored video 4",
+      },
+      {
+        url: "https://www.youtube.com/embed/xYW81irl5AE",
+        title: "Sponsored video 5",
+      },
     ],
     faqTitle: "FAQs",
   },
@@ -546,6 +554,14 @@ const landingContentFr = {
       {
         url: "https://www.youtube.com/embed/4bIAHdRbRYQ?start=45",
         title: "Vidéo sponsorisée 3",
+      },
+      {
+        url: "https://www.youtube.com/embed/jQkjH3_-PgY",
+        title: "Vidéo sponsorisée 4",
+      },
+      {
+        url: "https://www.youtube.com/embed/xYW81irl5AE",
+        title: "Vidéo sponsorisée 5",
       },
     ],
     faqTitle: "FAQ",
