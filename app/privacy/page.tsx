@@ -82,15 +82,21 @@ export default function PrivacyPage() {
   return (
     <main className="min-h-screen bg-black text-white">
       <div className="mx-auto w-full max-w-4xl px-5 py-14 sm:py-18">
+        {/* Top nav bar */}
         <div className="mb-10 flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white/90 hover:text-white"
+            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-white/60 transition-colors hover:text-white"
           >
-            vvault
+            <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M10 3L5 8l5 5" />
+            </svg>
+            <span className="tracking-[0.18em] font-semibold uppercase text-white/90 group-hover:text-white">
+              vvault
+            </span>
           </Link>
           <div className="flex items-center gap-4 text-sm text-white/60">
-            <Link href="/terms" className="hover:text-white">
+            <Link href="/terms" className="hover:text-white transition-colors">
               Terms of Use
             </Link>
           </div>

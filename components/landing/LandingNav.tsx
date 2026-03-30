@@ -11,6 +11,21 @@ type LandingNavProps = {
   showPrimaryLinks?: boolean;
 };
 
+/* Inline SVG icons matching each feature page's emblem — viewBox 0 0 24 24 */
+const DROPDOWN_ICONS: Record<string, React.ReactNode> = {
+  "All Features": <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>,
+  "Library": <><path d="M3.75 9.75V5.25a1.5 1.5 0 0 1 1.5-1.5h4.19a1.5 1.5 0 0 1 1.06.44l1.06 1.06a1.5 1.5 0 0 0 1.06.44h5.63a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V9.75Z" /><path d="M14.25 11.25v5.25" /><path d="M14.25 11.25l2.25-.75" /><circle cx="12.75" cy="16.5" r="1.5" /></>,
+  "Analytics": <><path d="M3 21h18" /><path d="M5 21V7h3v14M10 21V3h3v18M15 21v-8h3v8" /></>,
+  "Campaigns": <><path d="M21.75 2.25 10.5 13.5" /><path d="M21.75 2.25l-6.75 19.5-3.75-8.25L3 9l18.75-6.75z" /></>,
+  "Contacts": <path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />,
+  "Opportunities": <><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /><path d="M12 2v4M12 18v4M2 12h4M18 12h4" strokeLinecap="round" /></>,
+  "Sales": <><circle cx="12" cy="12" r="10" /><path d="M15 9.5c0-1.38-1.34-2.5-3-2.5S9 8.12 9 9.5s1.34 2.5 3 2.5 3 1.12 3 2.5-1.34 2.5-3 2.5-3-1.12-3-2.5M12 5v2m0 10v2" strokeLinecap="round" strokeLinejoin="round" /></>,
+  "Profile": <><circle cx="12" cy="8" r="4" /><path d="M5.338 18.32C5.999 15.528 8.772 14 12 14s6.001 1.528 6.662 4.32c.09.38.135.57.045.738a.55.55 0 0 1-.24.243C18.296 19.4 18.1 19.4 17.706 19.4H6.294c-.394 0-.59 0-.76-.099a.55.55 0 0 1-.241-.243c-.09-.168-.046-.358.045-.738Z" /></>,
+  "Link in Bio": <><path d="M13.544 10.456a4.368 4.368 0 0 0-6.176 0l-3.089 3.088a4.367 4.367 0 1 0 6.176 6.176l1.544-1.544" strokeLinecap="round" strokeLinejoin="round" /><path d="M10.456 13.544a4.368 4.368 0 0 0 6.176 0l3.089-3.088a4.367 4.367 0 1 0-6.176-6.176l-1.544 1.544" strokeLinecap="round" strokeLinejoin="round" /></>,
+  "Studio": <path d="M3.375 19.5h17.25m-17.25 0A1.125 1.125 0 0 1 2.25 18.375M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-12.75A1.125 1.125 0 0 1 3.375 4.5h7.5c.621 0 1.125.504 1.125 1.125m0 12.75v-12.75m0 12.75h5.25c.621 0 1.125-.504 1.125-1.125V8.625m0 0-.75-.75m.75.75h3c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-3L17.25 5.25" strokeLinecap="round" strokeLinejoin="round" />,
+  "Certificate": <><path d="M15.75 9.749 11.769 15.057a.726.726 0 0 1-.241.208.726.726 0 0 1-.306.09.737.737 0 0 1-.315-.046.727.727 0 0 1-.268-.172L8.25 12.749" /><path d="M10.73 1.357a1.75 1.75 0 0 1 2.54 0l1.512 1.881c.171.213.393.38.646.485.253.105.528.144.8.115l2.4-.261a1.75 1.75 0 0 1 1.72 1.72l-.261 2.4c-.03.272.01.547.115.8.105.253.272.475.485.646l1.881 1.512a1.75 1.75 0 0 1 0 2.54l-1.887 1.505a1.75 1.75 0 0 0-.6 1.447l.261 2.4a1.75 1.75 0 0 1-1.72 1.72l-2.4-.261a1.75 1.75 0 0 0-1.446.6L13.27 22.64a1.75 1.75 0 0 1-2.54 0l-1.511-1.88a1.75 1.75 0 0 0-1.447-.6l-2.4.261a1.75 1.75 0 0 1-1.72-1.72l.261-2.4a1.75 1.75 0 0 0-.6-1.447l-1.88-1.511a1.75 1.75 0 0 1 0-2.54l1.88-1.512a1.75 1.75 0 0 0 .6-1.446l-.261-2.4a1.75 1.75 0 0 1 1.72-1.72l2.4.261a1.75 1.75 0 0 0 1.447-.6l1.511-1.869Z" /></>,
+};
+
 function NavDropdown({
   item,
   open,
@@ -78,10 +93,7 @@ function NavDropdown({
         <div
           className="relative overflow-hidden rounded-2xl shadow-2xl shadow-black/80"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(8,8,10,0.98) 0%, rgba(4,4,5,1) 100%)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
+            background: "#000",
             opacity: open ? 1 : 0,
             transform: open ? "translateY(0) scale(1)" : "translateY(-4px) scale(0.98)",
             filter: open ? "blur(0px)" : "blur(4px)",
@@ -135,13 +147,19 @@ function NavDropdown({
                     rel: child.href.startsWith("mailto:") ? undefined : "noreferrer",
                   }
                 : {};
+              const icon = DROPDOWN_ICONS[child.label];
               return (
                 <Tag
                   key={child.label}
                   href={child.href}
                   {...extraProps}
-                  className="flex flex-col gap-0.5 rounded-xl px-3 py-2 transition-colors duration-150 hover:bg-white/[0.05]"
+                  className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors duration-150 hover:bg-white/[0.06]"
                 >
+                  {icon && (
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-[1.5]" style={{ color: "#666", stroke: "#666" }}>
+                      {icon}
+                    </svg>
+                  )}
                   <span className="text-[13px] font-medium text-white/75">
                     {child.label}
                     {child.external && (
@@ -153,11 +171,6 @@ function NavDropdown({
                       </svg>
                     )}
                   </span>
-                  {child.description && (
-                    <span className="text-[11px] text-white/28">
-                      {child.description}
-                    </span>
-                  )}
                 </Tag>
               );
             })}

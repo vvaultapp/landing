@@ -74,7 +74,7 @@ const landingContentEn = {
         { label: "Analytics", href: "/features/analytics", description: "Track opens, plays, and more" },
         { label: "Campaigns", href: "/features/campaigns", description: "Send and schedule emails" },
         { label: "Contacts", href: "/features/contacts", description: "CRM and contact management" },
-        { label: "Opportunities", href: "/features/opportunities", description: "Pipeline and deal tracking" },
+        { label: "Opportunities", href: "/features/opportunities", description: "Artist requests and submissions" },
         { label: "Sales", href: "/features/sales", description: "Marketplace and Stripe checkout" },
         { label: "Profile", href: "/features/profile", description: "Public page and branding" },
         { label: "Link in Bio", href: "/features/link-in-bio", description: "One link for everything" },
@@ -114,13 +114,15 @@ const landingContentEn = {
       ],
     },
     {
-      label: "Contact",
-      href: "/contact",
+      label: "Docs",
+      href: "/docs",
       children: [
-        { label: "Contact Us", href: "/contact", description: "Get in touch" },
-        { label: "Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Join the community", external: true },
-        { label: "Instagram", href: "https://instagram.com/vvault.app", description: "Follow us", external: true },
-        { label: "Email", href: "mailto:vvaultapp@gmail.com", description: "vvaultapp@gmail.com" },
+        { label: "Introduction", href: "/docs/introduction" },
+        { label: "Quickstart", href: "/docs/quickstart" },
+        { label: "Library", href: "/docs/library" },
+        { label: "Campaigns", href: "/docs/campaigns" },
+        { label: "Sales", href: "/docs/sales" },
+        { label: "Plans & Pricing", href: "/docs/plans" },
       ],
     },
     {
@@ -141,7 +143,7 @@ const landingContentEn = {
     primaryCtaHint: "Create your vvault today",
     newBadge: "New",
     onyxLabel: "vvault Studio",
-    ratingLabel: "Used by 600+ producers daily",
+    ratingLabel: "Used by 1,300+ producers daily",
   },
   heroStatement: {
     strong: "Know who’s really listening.",
@@ -152,7 +154,7 @@ const landingContentEn = {
   howItWorksIntro: {
     title: "Know who’s ready before you follow up.",
     description:
-      "Every send becomes measurable: opens, clicks, play duration, downloads, and saves. Build packs fast, email unlimited contacts, and use real intent signals to follow up at the right time and land placements or sales.",
+      "Every send becomes measurable: opens, clicks, play duration, downloads, and saves. Build packs fast, email your contacts, and use real intent signals to follow up at the right time and land placements or sales.",
     stepLabel: "Step",
     imagePlaceholder: "Step image placeholder",
   },
@@ -207,7 +209,7 @@ const landingContentEn = {
     },
     {
       title: "Send",
-      description: "Email unlimited contacts in a few clicks with campaign sending built-in.",
+      description: "Email your contacts in a few clicks with campaign sending built-in.",
       detail: "No more manual attachments, messy threads, or juggling tools.",
     },
     {
@@ -283,7 +285,7 @@ const landingContentEn = {
     billedMonthly: "billed monthly",
     upgradeUltra: "Start Ultra",
     testimonialsLabel: "Testimonials",
-    testimonialsTitle: "Used daily by 600+ producers",
+    testimonialsTitle: "Used daily by 1,300+ producers",
     testimonialsDescription: "Real creators showing how they use vvault to send, track, and convert.",
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",
     testimonialVideoTitle: "vvault testimonial video",
@@ -464,7 +466,7 @@ const landingContentFr = {
         { label: "Analytics", href: "/features/analytics", description: "Suis ouvertures, écoutes et plus" },
         { label: "Campagnes", href: "/features/campaigns", description: "Envoie et planifie tes emails" },
         { label: "Contacts", href: "/features/contacts", description: "CRM et gestion de contacts" },
-        { label: "Opportunités", href: "/features/opportunities", description: "Pipeline et suivi de deals" },
+        { label: "Opportunités", href: "/features/opportunities", description: "Demandes artistes et soumissions" },
         { label: "Ventes", href: "/features/sales", description: "Marketplace et checkout Stripe" },
         { label: "Profil", href: "/features/profile", description: "Page publique et branding" },
         { label: "Link in Bio", href: "/features/link-in-bio", description: "Un lien pour tout" },
@@ -504,13 +506,15 @@ const landingContentFr = {
       ],
     },
     {
-      label: "Contact",
-      href: "/contact",
+      label: "Docs",
+      href: "/docs",
       children: [
-        { label: "Nous contacter", href: "/contact", description: "Écris-nous" },
-        { label: "Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Rejoins la communauté", external: true },
-        { label: "Instagram", href: "https://instagram.com/vvault.app", description: "Suis-nous", external: true },
-        { label: "Email", href: "mailto:vvaultapp@gmail.com", description: "vvaultapp@gmail.com" },
+        { label: "Introduction", href: "/docs/introduction" },
+        { label: "Quickstart", href: "/docs/quickstart" },
+        { label: "Library", href: "/docs/library" },
+        { label: "Campaigns", href: "/docs/campaigns" },
+        { label: "Sales", href: "/docs/sales" },
+        { label: "Plans & Pricing", href: "/docs/plans" },
       ],
     },
     {
@@ -532,7 +536,7 @@ const landingContentFr = {
     primaryCtaHint: "Crée ton vvault aujourd'hui",
     newBadge: "Nouveau",
     onyxLabel: "vvault Studio",
-    ratingLabel: "Utilisé chaque jour par 600+ beatmakers",
+    ratingLabel: "Utilisé chaque jour par 1 300+ beatmakers",
   },
   heroStatement: {
     strong: "Sache qui écoute vraiment.",
@@ -543,7 +547,7 @@ const landingContentFr = {
   howItWorksIntro: {
     title: "Sache qui est prêt avant de relancer.",
     description:
-      "Chaque envoi devient mesurable: ouvertures, clics, durée d’écoute, téléchargements et sauvegardes. Crée tes packs rapidement, envoie à des contacts illimités, et utilise de vrais signaux d’intention pour relancer au bon moment et signer placements ou ventes.",
+      "Chaque envoi devient mesurable: ouvertures, clics, durée d’écoute, téléchargements et sauvegardes. Crée tes packs rapidement, envoie à tes contacts, et utilise de vrais signaux d’intention pour relancer au bon moment et signer placements ou ventes.",
     stepLabel: "Étape",
     imagePlaceholder: "Visuel d’étape",
   },
@@ -600,7 +604,7 @@ const landingContentFr = {
     },
     {
       title: "Envoie",
-      description: "Envoie des e-mails à des contacts illimités en quelques clics avec les campagnes intégrées.",
+      description: "Envoie des e-mails à tes contacts en quelques clics avec les campagnes intégrées.",
       detail: "Fini les pièces jointes manuelles, les threads brouillons et les outils dispersés.",
     },
     {
@@ -676,7 +680,7 @@ const landingContentFr = {
     billedMonthly: "facturé au mois",
     upgradeUltra: "Start Ultra",
     testimonialsLabel: "Témoignages",
-    testimonialsTitle: "Utilisé chaque jour par 600+ producteurs",
+    testimonialsTitle: "Utilisé chaque jour par 1 300+ producteurs",
     testimonialsDescription:
       "Des créateurs montrent concrètement comment ils utilisent vvault pour envoyer, suivre et convertir.",
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",

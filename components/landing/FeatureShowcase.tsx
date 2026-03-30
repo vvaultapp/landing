@@ -798,10 +798,10 @@ function SellCard() {
         </div>
         <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
           Sell your music.{" "}
-          <span className="text-white/40">No fees.</span>
+          <span className="text-white/40">Keep more.</span>
         </h3>
         <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-          Set your price, sell directly to your audience, and keep every cent.
+          Set your price, sell directly to your audience. 5% platform fee on Pro, 0% on Ultra.
         </p>
       </div>
       <div className="mt-8 sm:mt-10">
@@ -863,7 +863,7 @@ function SellCard() {
                 }}
               >
                 <span className="text-[10px] font-medium leading-none text-emerald-400/70">
-                  0% fees
+                  0% on Ultra
                 </span>
               </div>
 

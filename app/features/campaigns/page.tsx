@@ -708,16 +708,16 @@ export default function FeatureCampaignsPage() {
                 desc: "Send from your own address. Recipients see your name, reply directly to you, and your emails avoid the promotions tab entirely.",
               },
               {
-                title: "A/B testing",
-                desc: "Test different subject lines and send times. Small tweaks can double your open rates and get more beats heard.",
+                title: "Multi-channel outreach",
+                desc: "Send campaigns via email, Instagram, or messages. Reach contacts on the channel they actually check.",
               },
               {
-                title: "Template library",
-                desc: "Save your best-performing layouts and reuse them. Create templates for new packs, exclusives, or seasonal promotions.",
+                title: "Smart link tracking",
+                desc: "Every campaign generates tracked links. See exactly who opened, clicked, played, and downloaded your beats.",
               },
               {
-                title: "Follow-up campaigns",
-                desc: "Automatically re-engage recipients who opened but did not download. Turn interest into action without lifting a finger.",
+                title: "Pack attachments",
+                desc: "Attach packs, tracks, or folders directly to your campaigns. Recipients get a clean, branded listening experience.",
               },
             ].map((item) => (
               <div

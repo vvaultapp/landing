@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+
+const Plasma = dynamic(() => import("@/components/landing/Plasma"), { ssr: false });
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -215,6 +218,28 @@ export default function PricingPage() {
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
       <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+
+      {/* Plasma hero background — white accent */}
+      <div
+        className="pointer-events-none fixed inset-x-0 top-0 z-0 h-screen"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
+        }}
+      >
+        <div className="absolute inset-0 opacity-[0.25]">
+          <Plasma
+            color="#ffffff"
+            speed={0.3}
+            direction="forward"
+            scale={1.2}
+            opacity={0.5}
+            mouseInteractive={false}
+          />
+        </div>
+      </div>
 
       <main className="relative z-10 pb-32 pt-40 sm:pt-48">
         <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">

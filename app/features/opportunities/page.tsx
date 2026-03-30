@@ -429,8 +429,8 @@ export default function FeatureOpportunitiesPage() {
                 desc: "Every accepted submission puts your name in front of a new audience. Build your reputation one placement at a time.",
               },
               {
-                title: "Ultra benefits",
-                desc: "Ultra members get priority placement in submissions, early access to new requests, and a featured badge on their profile.",
+                title: "Paid submissions",
+                desc: "Request owners can set a price per submission. Submit free or paid — each opportunity defines its own rules and upload limits.",
               },
             ].map((item) => (
               <div

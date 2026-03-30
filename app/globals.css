@@ -36,6 +36,37 @@ html {
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Light scrollbar for docs pages */
+.docs-root {
+  color-scheme: light;
+}
+.docs-root ::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+.docs-root ::-webkit-scrollbar-track {
+  background: transparent;
+}
+.docs-root ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+.docs-root ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.18);
+}
+.docs-root h2[id] {
+  scroll-margin-top: 2rem;
+}
+
+/* Hide scrollbar on main content — keeps scroll functional, removes visual bar */
+.docs-root main {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE/Edge */
+}
+.docs-root main::-webkit-scrollbar {
+  display: none;                  /* Chrome/Safari */
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

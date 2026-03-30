@@ -373,7 +373,7 @@ export default function FeatureSalesPage() {
             Flexible license tiers
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Define unlimited license types with custom pricing and terms. Buyers
+            Offer Basic, Premium, Stems, Exclusive, Unlimited, and Sound Kit licenses with custom pricing. Buyers
             pick their tier at checkout and receive the correct files
             automatically.
           </p>
@@ -405,7 +405,7 @@ export default function FeatureSalesPage() {
             {[
               {
                 title: "Stripe integration",
-                desc: "Payments powered by Stripe. Accept cards, Apple Pay, Google Pay with full PCI compliance and instant settlement.",
+                desc: "Payments powered by Stripe. Accept cards, Apple Pay, Google Pay with full PCI compliance. Payouts after a 7-day hold.",
               },
               {
                 title: "License flexibility",

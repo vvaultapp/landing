@@ -1,13 +1,60 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
 
+type LandingStats = {
+  emailsSentTotal: number;
+  usersTotal: number;
+  tracksTotal: number;
+  moneyPaidTotalCents: number;
+  appStoreReviewLabel: string;
+};
+
+function useLandingStats() {
+  const [stats, setStats] = useState<LandingStats | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    const load = async () => {
+      try {
+        const res = await fetch("/api/landing-stats", { cache: "no-store" });
+        if (!res.ok || !active) return;
+        const data = await res.json();
+        if (!active) return;
+        setStats({
+          emailsSentTotal: Math.max(0, Math.floor(Number(data.emailsSentTotal) || 0)),
+          usersTotal: Math.max(0, Math.floor(Number(data.usersTotal) || 0)),
+          tracksTotal: Math.max(0, Math.floor(Number(data.tracksTotal) || 0)),
+          moneyPaidTotalCents: Math.max(0, Math.floor(Number(data.moneyPaidTotalCents) || 0)),
+          appStoreReviewLabel:
+            typeof data.appStoreReviewLabel === "string" && data.appStoreReviewLabel.trim()
+              ? data.appStoreReviewLabel.trim()
+              : "4.9/5",
+        });
+      } catch {
+        // keep null — show loading state
+      }
+    };
+    void load();
+    const id = setInterval(() => void load(), 30_000);
+    return () => { active = false; clearInterval(id); };
+  }, []);
+
+  return stats;
+}
+
+function fmt(n: number): string {
+  return new Intl.NumberFormat("en-US").format(n);
+}
+
 export default function TestimonialsPage() {
   const content = getLandingContent("en");
+  const stats = useLandingStats();
+
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = "vvault | Testimonials";
@@ -15,6 +62,17 @@ export default function TestimonialsPage() {
 
   const sponsoredVideos = content.pricingUi.sponsoredVideos;
   const testimonialVideoUrl = content.pricingUi.testimonialVideoUrl;
+
+  const numberItems = stats
+    ? [
+        { stat: `${fmt(stats.usersTotal)}+`, label: "Producers on the platform" },
+        { stat: fmt(stats.tracksTotal), label: "Tracks uploaded" },
+        { stat: fmt(stats.emailsSentTotal), label: "Campaigns emails sent" },
+        { stat: stats.appStoreReviewLabel, label: "App Store rating" },
+        { stat: "0%", label: "Marketplace fees on Ultra" },
+        { stat: "100%", label: "Free to start, no credit card" },
+      ]
+    : null;
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
@@ -35,8 +93,9 @@ export default function TestimonialsPage() {
             They talk about us
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Used daily by 600+ producers. Watch real creators share how they use
-            vvault to send, track, and convert.
+            {stats
+              ? `Used by ${fmt(stats.usersTotal)}+ producers. Watch real creators share how they use vvault to send, track, and convert.`
+              : "Watch real creators share how they use vvault to send, track, and convert."}
           </p>
         </Reveal>
 
@@ -95,31 +154,42 @@ export default function TestimonialsPage() {
             </p>
           </Reveal>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              { stat: "600+", label: "Producers using vvault daily" },
-              { stat: "1,355+", label: "Artists and beatmakers on the platform" },
-              { stat: "3", label: "Plans to fit every stage" },
-              { stat: "6", label: "Video reviews and counting" },
-              { stat: "0%", label: "Marketplace fees on Ultra" },
-              { stat: "100%", label: "Free to start, no credit card" },
-            ].map((item, i) => (
-              <Reveal key={i} delayMs={i * 40}>
-                <div
-                  className="rounded-2xl p-6 text-center"
-                  style={{
-                    border: "1px solid rgba(255,255,255,0.04)",
-                    background: "rgba(255,255,255,0.01)",
-                  }}
-                >
-                  <p className="text-2xl font-semibold text-white">
-                    {item.stat}
-                  </p>
-                  <p className="mt-1.5 text-[13px] text-white/40">
-                    {item.label}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+            {numberItems
+              ? numberItems.map((item, i) => (
+                  <Reveal key={i} delayMs={i * 40}>
+                    <div
+                      className="rounded-2xl p-6 text-center"
+                      style={{
+                        border: "1px solid rgba(255,255,255,0.04)",
+                        background: "rgba(255,255,255,0.01)",
+                      }}
+                    >
+                      <p className="text-2xl font-semibold tabular-nums text-white">
+                        {item.stat}
+                      </p>
+                      <p className="mt-1.5 text-[13px] text-white/40">
+                        {item.label}
+                      </p>
+                    </div>
+                  </Reveal>
+                ))
+              : Array.from({ length: 6 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="rounded-2xl p-6 text-center"
+                    style={{
+                      border: "1px solid rgba(255,255,255,0.04)",
+                      background: "rgba(255,255,255,0.01)",
+                    }}
+                  >
+                    <p className="text-2xl font-semibold text-white/30 animate-pulse">
+                      &hellip;
+                    </p>
+                    <p className="mt-1.5 text-[13px] text-white/20 animate-pulse">
+                      Loading
+                    </p>
+                  </div>
+                ))}
           </div>
         </section>
 
@@ -130,8 +200,9 @@ export default function TestimonialsPage() {
               Join the community
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and see why 600+ producers trust vvault every
-              day.
+              {stats
+                ? `Sign up for free and see why ${fmt(stats.usersTotal)}+ producers trust vvault every day.`
+                : "Sign up for free and start sending today."}
             </p>
             <div className="mt-6 flex justify-center gap-3">
               <a
