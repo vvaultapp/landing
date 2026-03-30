@@ -359,10 +359,12 @@ function AnalyticsSection() {
           <SectionEmblem accentColor="#60a5fa" icon={(g) => <AnalyticsIcon gradId={g} />} id="analytics" />
         </div>
         <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
-          See who{" "}
-          <span className="text-white/40">opened.</span> Who{" "}
-          <span className="text-white/40">played.</span> Who{" "}
-          <span className="text-white/40">downloaded.</span>
+          <span className="text-white/40">See who</span>{" "}
+          opened.{" "}
+          <span className="text-white/40">Who</span>{" "}
+          played.{" "}
+          <span className="text-white/40">Who</span>{" "}
+          downloaded.
         </h3>
         <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
           Real-time analytics on every send.
@@ -394,14 +396,16 @@ function AnalyticsSection() {
                 <KpiCard
                   icon={
                     <svg
-                      viewBox="0 0 16 16"
+                      viewBox="0 0 24 24"
                       className="h-3.5 w-3.5 text-emerald-400/70"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="1.5"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      <circle cx="8" cy="8" r="3" />
-                      <circle cx="8" cy="8" r="6.5" />
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                      <circle cx="12" cy="12" r="3" />
                     </svg>
                   }
                   label="Opens"

@@ -13,18 +13,51 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
     <section id="final-cta" className="pt-44 sm:pt-64">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal className="text-center">
-          <h2
-            className="font-display mx-auto max-w-[680px] text-[1.8rem] leading-[1.1] tracking-tight sm:text-[2.6rem] lg:text-[3.2rem]"
-            style={{
-              backgroundImage:
-                "linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.28) 100%)",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
-          >
-            {content.finalCta.title}
-          </h2>
+          {/* Layered text for bevel/emboss chrome effect */}
+          <div className="relative mx-auto max-w-[480px] sm:max-w-[580px] lg:max-w-[660px]">
+            {/* Shadow layer — dark drop shadow behind */}
+            <h2
+              className="font-display text-[2.6rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.8rem] lg:text-[4.6rem]"
+              aria-hidden="true"
+              style={{
+                color: "transparent",
+                textShadow: "0 4px 8px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.5)",
+                WebkitTextStroke: "1px rgba(0,0,0,0.3)",
+                position: "absolute",
+                inset: 0,
+              }}
+            >
+              {content.finalCta.title}
+            </h2>
+            {/* Main text — silver/grey with gradient */}
+            <h2
+              className="font-display relative text-[2.6rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.8rem] lg:text-[4.6rem]"
+              style={{
+                backgroundImage: "linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(180,180,190,0.35) 40%, rgba(140,140,155,0.25) 70%, rgba(160,160,175,0.3) 100%)",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                color: "transparent",
+                WebkitTextStroke: "0.5px rgba(255,255,255,0.12)",
+              }}
+            >
+              {content.finalCta.title}
+            </h2>
+            {/* Highlight layer — white top edge */}
+            <h2
+              className="font-display text-[2.6rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.8rem] lg:text-[4.6rem]"
+              aria-hidden="true"
+              style={{
+                color: "transparent",
+                textShadow: "0 -1px 0 rgba(255,255,255,0.18), 0 -2px 2px rgba(255,255,255,0.06)",
+                WebkitTextStroke: "0.5px rgba(255,255,255,0.06)",
+                position: "absolute",
+                inset: 0,
+                mixBlendMode: "screen",
+              }}
+            >
+              {content.finalCta.title}
+            </h2>
+          </div>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:mt-12">
             <LandingCtaLink
               loggedInHref={content.finalCta.primary.href}

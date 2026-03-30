@@ -68,34 +68,34 @@ export function LandingFooter({
   }
 
   return (
-    <footer className="relative mt-20 overflow-hidden pb-14 pt-10 sm:pt-12">
-      {/* Top glow line */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.14) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
-        }}
-      />
-      {/* Top center glow orb */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[140px] w-[520px]"
-        style={{
-          background: "radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* Giant watermark logo */}
-      <div className="pointer-events-none select-none overflow-hidden" aria-hidden="true">
+    <>
+      {/* Giant watermark logo — sits above footer, bottom ~20% hidden behind footer */}
+      <div className="pointer-events-none relative z-0 -mb-[3rem] select-none sm:-mb-[5rem] lg:-mb-[7rem]" aria-hidden="true">
         <p
-          className="text-center font-display text-[8rem] font-bold uppercase leading-none tracking-[0.06em] sm:text-[14rem] lg:text-[18rem]"
+          className="text-center text-[10rem] font-semibold uppercase leading-[0.82] tracking-[0.18em] sm:text-[16rem] lg:text-[22rem]"
           style={{
-            color: "transparent",
-            WebkitTextStroke: "1px rgba(255,255,255,0.04)",
+            color: "rgba(255,255,255,0.04)",
           }}
         >
           vvault
         </p>
       </div>
+
+      <footer className="relative z-[1] overflow-hidden bg-black pb-20 pt-14 sm:pb-28 sm:pt-16">
+      {/* Top glow line */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 10%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.06) 90%, transparent 100%)",
+        }}
+      />
+      {/* Top center glow orb */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[180px] w-[600px]"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%)",
+        }}
+      />
 
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
@@ -152,7 +152,7 @@ export function LandingFooter({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.06] pt-6">
+        <div className="mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.06] pt-6 sm:mt-28">
           <div className="flex flex-wrap items-center gap-3">
             {content.footer.legalLinks.map((item) => (
               <a
@@ -195,5 +195,6 @@ export function LandingFooter({
         </div>
       </div>
     </footer>
+    </>
   );
 }

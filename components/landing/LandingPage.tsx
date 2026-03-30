@@ -41,7 +41,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       >
         {content.skipToContentLabel}
       </a>
-      <LandingNav locale={locale} content={content} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main id="main-content" className="pb-20 sm:pb-0">
         <HeroSection content={content} locale={locale} />
         <SocialProofSection />

@@ -84,7 +84,7 @@ function ContactCard({
       href={href}
       target={href.startsWith("mailto:") ? undefined : "_blank"}
       rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-      className="group relative flex flex-col items-center gap-4 overflow-hidden rounded-2xl px-6 py-8 text-center transition-colors duration-200 sm:px-8 sm:py-10"
+      className="group relative flex flex-col items-center gap-4 overflow-hidden rounded-2xl px-6 py-8 text-center transition-all duration-300 sm:px-8 sm:py-10 hover:brightness-125"
       style={{
         background: "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
       }}

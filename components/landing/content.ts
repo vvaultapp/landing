@@ -1,6 +1,14 @@
+export type LandingNavChild = {
+  label: string;
+  href: string;
+  description?: string;
+  external?: boolean;
+};
+
 export type LandingNavItem = {
   label: string;
   href: string;
+  children?: LandingNavChild[];
 };
 
 export type LandingFeature = {
@@ -57,13 +65,74 @@ const landingContentEn = {
     mobileResourcesLabel: "Resources",
   },
   nav: [
-    { label: "Features", href: "#features" },
-    { label: "Testimonials", href: "#testimonials" },
-    { label: "Company", href: "#company" },
-    { label: "Resources", href: "#resources" },
-    { label: "Contact", href: "#contact" },
-    { label: "Help", href: "#help" },
-    { label: "Pricing", href: "#pricing" },
+    {
+      label: "Features",
+      href: "/features",
+      children: [
+        { label: "All Features", href: "/features", description: "Everything vvault offers" },
+        { label: "Library", href: "/features/library", description: "Upload, organize, and manage" },
+        { label: "Analytics", href: "/features/analytics", description: "Track opens, plays, and more" },
+        { label: "Campaigns", href: "/features/campaigns", description: "Send and schedule emails" },
+        { label: "Contacts", href: "/features/contacts", description: "CRM and contact management" },
+        { label: "Opportunities", href: "/features/opportunities", description: "Pipeline and deal tracking" },
+        { label: "Sales", href: "/features/sales", description: "Marketplace and Stripe checkout" },
+        { label: "Profile", href: "/features/profile", description: "Public page and branding" },
+        { label: "Link in Bio", href: "/features/link-in-bio", description: "One link for everything" },
+        { label: "Studio", href: "/features/studio", description: "Automated video posting" },
+        { label: "Certificate", href: "/certificate", description: "Protect your music" },
+      ],
+    },
+    {
+      label: "Testimonials",
+      href: "/testimonials",
+      children: [
+        { label: "Customer Stories", href: "/testimonials", description: "How producers use vvault" },
+        { label: "Video Reviews", href: "/testimonials#videos", description: "Watch real testimonials" },
+        { label: "Wall of Love", href: "/testimonials#wall-of-love", description: "What they're saying" },
+      ],
+    },
+    {
+      label: "Company",
+      href: "/about",
+      children: [
+        { label: "About", href: "/about", description: "Our story and mission" },
+        { label: "Blog", href: "/blog", description: "Articles and guides" },
+        { label: "Changelog", href: "/changelog", description: "Product updates" },
+        { label: "Privacy", href: "/privacy", description: "Privacy policy" },
+        { label: "Terms", href: "/terms", description: "Terms of service" },
+      ],
+    },
+    {
+      label: "Resources",
+      href: "/for/producers",
+      children: [
+        { label: "For Producers", href: "/for/producers", description: "Built for beatmakers" },
+        { label: "For Artists", href: "/for/artists", description: "Receive and review music" },
+        { label: "For Managers & Labels", href: "/for/managers-and-labels", description: "Manage your roster" },
+        { label: "Compare", href: "/compare", description: "vvault vs alternatives" },
+        { label: "Blog", href: "/blog", description: "Guides and tutorials" },
+      ],
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+      children: [
+        { label: "Contact Us", href: "/contact", description: "Get in touch" },
+        { label: "Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Join the community", external: true },
+        { label: "Instagram", href: "https://instagram.com/vvault.app", description: "Follow us", external: true },
+        { label: "Email", href: "mailto:vvaultapp@gmail.com", description: "vvaultapp@gmail.com" },
+      ],
+    },
+    {
+      label: "Help",
+      href: "/help",
+      children: [
+        { label: "FAQ", href: "/help", description: "Common questions" },
+        { label: "Support", href: "https://www.vvault.app/support", description: "Get help", external: true },
+        { label: "Discord Community", href: "https://discord.gg/QGGEZR5KhB", description: "Ask the community", external: true },
+      ],
+    },
+    { label: "Pricing", href: "/pricing" },
   ] as LandingNavItem[],
   hero: {
     title: ["The proper way to", "send your music."],
@@ -194,7 +263,7 @@ const landingContentEn = {
         "Per-recipient best time scheduling",
         "Get highlighted in the browse section of the mobile app",
         "0% marketplace fees",
-        "Custom domain, branding, embeds, and QR",
+        "Advanced theme customization",
       ],
       cost: "€24.99/mo",
       costNote: "monthly · yearly available",
@@ -282,7 +351,7 @@ const landingContentEn = {
     {
       question: "What's the difference between Pro and Ultra?",
       answer:
-        "Pro unlocks unlimited storage, campaigns, full analytics, CRM, and marketplace selling at 5% commission. Ultra adds series automations, per-recipient best-time scheduling, custom domain, embeds, and drops marketplace fees to 0%.",
+        "Pro unlocks unlimited storage, campaigns, full analytics, CRM, and marketplace selling at 5% commission. Ultra adds series automations, per-recipient best-time scheduling, advanced theme customization, browse section highlight, and drops marketplace fees to 0%.",
     },
     {
       question: "Can I send beats through my own email?",
@@ -316,10 +385,10 @@ const landingContentEn = {
       {
         title: "Product",
         links: [
-          { label: "Homepage", href: "/" },
-          { label: "Pricing", href: "/#pricing" },
-          { label: "Blog", href: "/blog" },
-          { label: "Contact", href: "/#contact" },
+          { label: "Features", href: "/features" },
+          { label: "Pricing", href: "/pricing" },
+          { label: "Changelog", href: "/changelog" },
+          { label: "Certificate", href: "/certificate" },
         ] as LandingFooterLink[],
       },
       {
@@ -329,14 +398,16 @@ const landingContentEn = {
           { label: "For Artists", href: "/for/artists" },
           { label: "For Managers & Labels", href: "/for/managers-and-labels" },
           { label: "Compare", href: "/compare" },
+          { label: "Blog", href: "/blog" },
         ] as LandingFooterLink[],
       },
       {
         title: "Company",
         links: [
-          { label: "Support", href: "https://www.vvault.app/support" },
-          { label: "Login", href: "https://vvault.app/login" },
-          { label: "Billing", href: "https://vvault.app/billing" },
+          { label: "About", href: "/about" },
+          { label: "Contact", href: "/contact" },
+          { label: "Testimonials", href: "/testimonials" },
+          { label: "Help", href: "/help" },
         ] as LandingFooterLink[],
       },
       {
@@ -384,13 +455,74 @@ const landingContentFr = {
     mobileResourcesLabel: "Ressources",
   },
   nav: [
-    { label: "Features", href: "#features" },
-    { label: "Témoignages", href: "#testimonials" },
-    { label: "Entreprise", href: "#company" },
-    { label: "Ressources", href: "#resources" },
-    { label: "Contact", href: "#contact" },
-    { label: "Aide", href: "#help" },
-    { label: "Tarifs", href: "#pricing" },
+    {
+      label: "Features",
+      href: "/features",
+      children: [
+        { label: "Toutes les features", href: "/features", description: "Tout ce que vvault propose" },
+        { label: "Bibliothèque", href: "/features/library", description: "Upload, organise et gère" },
+        { label: "Analytics", href: "/features/analytics", description: "Suis ouvertures, écoutes et plus" },
+        { label: "Campagnes", href: "/features/campaigns", description: "Envoie et planifie tes emails" },
+        { label: "Contacts", href: "/features/contacts", description: "CRM et gestion de contacts" },
+        { label: "Opportunités", href: "/features/opportunities", description: "Pipeline et suivi de deals" },
+        { label: "Ventes", href: "/features/sales", description: "Marketplace et checkout Stripe" },
+        { label: "Profil", href: "/features/profile", description: "Page publique et branding" },
+        { label: "Link in Bio", href: "/features/link-in-bio", description: "Un lien pour tout" },
+        { label: "Studio", href: "/features/studio", description: "Publication vidéo automatique" },
+        { label: "Certificat", href: "/certificate", description: "Protège ta musique" },
+      ],
+    },
+    {
+      label: "Témoignages",
+      href: "/testimonials",
+      children: [
+        { label: "Histoires clients", href: "/testimonials", description: "Comment les producteurs utilisent vvault" },
+        { label: "Vidéos", href: "/testimonials#videos", description: "Regarde de vrais témoignages" },
+        { label: "Wall of Love", href: "/testimonials#wall-of-love", description: "Ce qu'ils en disent" },
+      ],
+    },
+    {
+      label: "Entreprise",
+      href: "/about",
+      children: [
+        { label: "À propos", href: "/about", description: "Notre histoire et mission" },
+        { label: "Blog", href: "/blog", description: "Articles et guides" },
+        { label: "Changelog", href: "/changelog", description: "Mises à jour produit" },
+        { label: "Confidentialité", href: "/privacy", description: "Politique de confidentialité" },
+        { label: "Conditions", href: "/terms", description: "Conditions d'utilisation" },
+      ],
+    },
+    {
+      label: "Ressources",
+      href: "/for/producers",
+      children: [
+        { label: "Pour les Producteurs", href: "/for/producers", description: "Conçu pour les beatmakers" },
+        { label: "Pour les Artistes", href: "/for/artists", description: "Reçois et écoute la musique" },
+        { label: "Pour Managers & Labels", href: "/for/managers-and-labels", description: "Gère ton roster" },
+        { label: "Comparer", href: "/compare", description: "vvault vs alternatives" },
+        { label: "Blog", href: "/blog", description: "Guides et tutoriels" },
+      ],
+    },
+    {
+      label: "Contact",
+      href: "/contact",
+      children: [
+        { label: "Nous contacter", href: "/contact", description: "Écris-nous" },
+        { label: "Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Rejoins la communauté", external: true },
+        { label: "Instagram", href: "https://instagram.com/vvault.app", description: "Suis-nous", external: true },
+        { label: "Email", href: "mailto:vvaultapp@gmail.com", description: "vvaultapp@gmail.com" },
+      ],
+    },
+    {
+      label: "Aide",
+      href: "/help",
+      children: [
+        { label: "FAQ", href: "/help", description: "Questions fréquentes" },
+        { label: "Support", href: "https://www.vvault.app/support", description: "Obtenir de l'aide", external: true },
+        { label: "Communauté Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Demande à la communauté", external: true },
+      ],
+    },
+    { label: "Tarifs", href: "/pricing" },
   ] as LandingNavItem[],
   hero: {
     title: ["Envoie tes beats. Track tes résultats.", "Décroche des placements."],
@@ -524,7 +656,7 @@ const landingContentFr = {
         "Planification optimale par destinataire",
         "Mise en avant dans la section Browse de l'app mobile",
         "0% de frais marketplace",
-        "Domaine perso, branding, embeds et QR",
+        "Personnalisation avancée du thème",
       ],
       cost: "€24.99/mo",
       costNote: "mensuel · annuel disponible",
@@ -613,7 +745,7 @@ const landingContentFr = {
     {
       question: "Quelle est la différence entre Pro et Ultra ?",
       answer:
-        "Pro débloque le stockage illimité, les campagnes, les analytics complètes, le CRM et la vente marketplace à 5% de commission. Ultra ajoute les séries automatisées, la planification par destinataire, le domaine personnalisé, les embeds, et passe les frais marketplace à 0%.",
+        "Pro débloque le stockage illimité, les campagnes, les analytics complètes, le CRM et la vente marketplace à 5% de commission. Ultra ajoute les séries automatisées, la planification par destinataire, la personnalisation avancée du thème, la mise en avant dans Browse, et passe les frais marketplace à 0%.",
     },
     {
       question: "Je peux envoyer mes beats depuis mon propre email ?",
@@ -647,10 +779,10 @@ const landingContentFr = {
       {
         title: "Produit",
         links: [
-          { label: "Accueil", href: "/fr" },
-          { label: "Tarifs", href: "/fr#pricing" },
-          { label: "Blog", href: "/blog" },
-          { label: "Contact", href: "/fr#contact" },
+          { label: "Features", href: "/features" },
+          { label: "Tarifs", href: "/pricing" },
+          { label: "Changelog", href: "/changelog" },
+          { label: "Certificat", href: "/certificate" },
         ] as LandingFooterLink[],
       },
       {
@@ -660,14 +792,16 @@ const landingContentFr = {
           { label: "Pour les Artistes", href: "/for/artists" },
           { label: "Pour les Managers & Labels", href: "/for/managers-and-labels" },
           { label: "Comparer", href: "/compare" },
+          { label: "Blog", href: "/blog" },
         ] as LandingFooterLink[],
       },
       {
         title: "Entreprise",
         links: [
-          { label: "Support", href: "https://www.vvault.app/support" },
-          { label: "Connexion", href: "https://vvault.app/login" },
-          { label: "Facturation", href: "https://vvault.app/billing" },
+          { label: "À propos", href: "/about" },
+          { label: "Contact", href: "/contact" },
+          { label: "Témoignages", href: "/testimonials" },
+          { label: "Aide", href: "/help" },
         ] as LandingFooterLink[],
       },
       {

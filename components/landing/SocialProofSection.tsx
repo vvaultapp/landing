@@ -165,7 +165,7 @@ export function SocialProofSection() {
               </a>
 
               {/* Review cards */}
-              <div className="mt-8 grid min-h-[140px] grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+              <div className="mt-8 grid h-[180px] grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
                 {currentPair.map((review) => (
                   <ReviewCard key={`${pairIndex}-${review.name}`} review={review} state={state} />
                 ))}

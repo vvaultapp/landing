@@ -23,7 +23,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 
   return (
     <div
-      className="relative overflow-hidden rounded-2xl"
+      className="relative overflow-hidden rounded-2xl transition-all duration-300 hover:brightness-125"
       style={{
         background: "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
       }}

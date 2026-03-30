@@ -390,12 +390,10 @@ function StatEmblemIcon({ statKey }: { statKey: string }) {
   const grad = (
     <defs>
       <linearGradient id={gradId} x1="0.5" y1="0" x2="0.5" y2="1">
-        <stop offset="0%" stopColor="rgba(255,255,255,0.85)" />
-        <stop offset="20%" stopColor="rgba(220,225,240,0.7)" />
-        <stop offset="40%" stopColor="rgba(160,170,195,0.4)" />
-        <stop offset="60%" stopColor="rgba(190,200,220,0.55)" />
-        <stop offset="80%" stopColor="rgba(210,215,230,0.65)" />
-        <stop offset="100%" stopColor="rgba(180,190,210,0.45)" />
+        <stop offset="0%" stopColor="rgba(255,255,255,0.45)" />
+        <stop offset="40%" stopColor="rgba(200,205,215,0.32)" />
+        <stop offset="70%" stopColor="rgba(160,165,180,0.22)" />
+        <stop offset="100%" stopColor="rgba(140,145,160,0.18)" />
       </linearGradient>
     </defs>
   );
@@ -414,12 +412,10 @@ function StatEmblemIcon({ statKey }: { statKey: string }) {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
         <defs>
           <linearGradient id={gradId} x1="0.5" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.85)" />
-            <stop offset="20%" stopColor="rgba(220,225,240,0.7)" />
-            <stop offset="40%" stopColor="rgba(160,170,195,0.4)" />
-            <stop offset="60%" stopColor="rgba(190,200,220,0.55)" />
-            <stop offset="80%" stopColor="rgba(210,215,230,0.65)" />
-            <stop offset="100%" stopColor="rgba(180,190,210,0.45)" />
+            <stop offset="0%" stopColor="rgba(255,255,255,0.45)" />
+            <stop offset="40%" stopColor="rgba(200,205,215,0.32)" />
+            <stop offset="70%" stopColor="rgba(160,165,180,0.22)" />
+            <stop offset="100%" stopColor="rgba(140,145,160,0.18)" />
           </linearGradient>
           <mask id={maskId}>
             <path fill="white" d="M6 13c0 1.105 -1.12 2 -2.5 2S1 14.105 1 13s1.12 -2 2.5 -2 2.5 0.896 2.5 2m9 -2c0 1.105 -1.12 2 -2.5 2s-2.5 -0.895 -2.5 -2 1.12 -2 2.5 -2 2.5 0.895 2.5 2" />
