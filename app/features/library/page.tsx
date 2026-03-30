@@ -299,7 +299,7 @@ function MockStoragePanelCard() {
     { title: "Velvet Shadows.wav", date: "Mar 27", bpm: 138, key: "F#m", visibility: "Public" },
     { title: "Neon Drift.mp3", date: "Mar 26", bpm: 155, key: "Am", visibility: "Private" },
     { title: "Hollow Crown.wav", date: "Mar 25", bpm: 130, key: "Dm", visibility: "Public" },
-    { title: "stems_ghost_protocol.zip", date: "Mar 24", bpm: 148, key: "Gm", visibility: "Unlisted" },
+    { title: "stems_ghost_protocol.zip", date: "Mar 24", bpm: 148, key: "Gm", visibility: "Link" },
   ];
 
   return (
@@ -350,13 +350,13 @@ function MockStoragePanelCard() {
                       ? "rgba(52,211,153,0.1)"
                       : f.visibility === "Private"
                       ? "rgba(239,68,68,0.1)"
-                      : "rgba(96,165,250,0.08)",
+                      : "rgba(96,165,250,0.06)",
                   color:
                     f.visibility === "Public"
                       ? "rgba(52,211,153,0.7)"
                       : f.visibility === "Private"
                       ? "rgba(239,68,68,0.6)"
-                      : "rgba(96,165,250,0.6)",
+                      : "rgba(96,165,250,0.55)",
                 }}
               >
                 {f.visibility}

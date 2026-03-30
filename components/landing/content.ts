@@ -361,7 +361,7 @@ const landingContentEn = {
     {
       question: "How do I sell beats and get paid?",
       answer:
-        "Connect your Stripe account, set prices and license types (MP3 lease, WAV, stems, exclusive), and list on the marketplace or your public profile. Payouts go straight to your bank.",
+        "Connect your Stripe account, set prices and license types (basic, premium, stems, exclusive), and list on the marketplace or your public profile. Payouts go straight to your bank after a 7-day hold.",
     },
     {
       question: "What file types can I upload?",
@@ -755,7 +755,7 @@ const landingContentFr = {
     {
       question: "Comment vendre mes beats et être payé ?",
       answer:
-        "Connecte ton compte Stripe, définis tes prix et types de licences (MP3 lease, WAV, stems, exclusive), et publie sur le marketplace ou ton profil public. Les paiements arrivent directement sur ton compte bancaire.",
+        "Connecte ton compte Stripe, définis tes prix et types de licences (basic, premium, stems, exclusive), et publie sur le marketplace ou ton profil public. Les paiements arrivent sur ton compte bancaire après un délai de 7 jours.",
     },
     {
       question: "Quels formats de fichiers puis-je uploader ?",

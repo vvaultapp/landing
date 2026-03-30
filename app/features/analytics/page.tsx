@@ -400,6 +400,12 @@ function MockLeaderboardCard() {
     { rank: 3, name: "Monthly Digest", metric: "9 opens" },
   ];
 
+  const topPacks = [
+    { rank: 1, name: "Dark Melodies Vol.3", metric: "89 plays" },
+    { rank: 2, name: "808 Essentials", metric: "64 plays" },
+    { rank: 3, name: "Lo-fi Textures", metric: "41 plays" },
+  ];
+
   const hotContacts = [
     { name: "Noah", score: 87 },
     { name: "Lena", score: 91 },
@@ -414,6 +420,37 @@ function MockLeaderboardCard() {
         </p>
         <div className="mt-5 space-y-2">
           {topCampaigns.map((t) => (
+            <div
+              key={t.rank}
+              className="flex items-center justify-between rounded-2xl px-4 py-3 transition-colors duration-200 hover:bg-white/[0.03]"
+              style={{
+                border: "1px solid rgba(255,255,255,0.04)",
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <span
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold tabular-nums text-white/60"
+                  style={{
+                    background: t.rank === 1 ? "rgba(59,130,246,0.12)" : "rgba(255,255,255,0.04)",
+                    border: t.rank === 1 ? "1px solid rgba(59,130,246,0.2)" : "1px solid rgba(255,255,255,0.04)",
+                  }}
+                >
+                  {t.rank}
+                </span>
+                <p className="text-[13px] font-medium text-white/75">{t.name}</p>
+              </div>
+              <span className="text-[12px] tabular-nums text-white/40">
+                {t.metric}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <p className="mt-6 text-[11px] font-semibold text-white/25">
+          Top packs
+        </p>
+        <div className="mt-3 space-y-2">
+          {topPacks.map((t) => (
             <div
               key={t.rank}
               className="flex items-center justify-between rounded-2xl px-4 py-3 transition-colors duration-200 hover:bg-white/[0.03]"

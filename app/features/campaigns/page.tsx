@@ -530,6 +530,21 @@ function MockTimelineCard() {
       color: "text-amber-400/70",
       dotColor: "bg-amber-400/70",
     },
+    {
+      action: "Mila saved to library",
+      time: "15:10",
+      icon: (
+        <svg
+          viewBox="0 0 16 16"
+          className="h-3.5 w-3.5"
+          fill="currentColor"
+        >
+          <path d="M8 1.5l2 4.5h5l-4 3 1.5 5L8 11.5 3.5 14 5 9 1 6h5z" />
+        </svg>
+      ),
+      color: "text-pink-400/70",
+      dotColor: "bg-pink-400/70",
+    },
   ];
 
   return (
@@ -622,8 +637,8 @@ export default function FeatureCampaignsPage() {
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
             Professional email campaigns built for music producers. Attach
-            beats, track plays, and send from your own Gmail &mdash; straight
-            to the primary inbox.
+            beats, track plays, and send from Gmail or your vvault address
+            &mdash; straight to the primary inbox.
           </p>
 
           <div className="mt-8 flex justify-center">
