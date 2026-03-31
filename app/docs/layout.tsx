@@ -735,7 +735,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       <div className="mx-auto flex w-full min-h-0 flex-1 max-w-[1440px] px-2 sm:px-0">
         {/* Left sidebar — scrolls independently */}
         <aside
-          className={`docs-mobile-sidebar fixed top-14 z-40 flex w-60 shrink-0 flex-col bg-[#fafafa] transition-transform duration-200 ease-in-out lg:relative lg:top-0 lg:translate-x-0 ${
+          className={`docs-mobile-sidebar fixed left-0 top-14 z-40 flex w-60 shrink-0 flex-col bg-[#fafafa] transition-transform duration-200 ease-in-out lg:relative lg:left-auto lg:top-0 lg:translate-x-0 ${
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
