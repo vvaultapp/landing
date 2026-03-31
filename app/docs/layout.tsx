@@ -160,6 +160,7 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     Dark: "Dark",
     English: "English",
     French: "French",
+    Homepage: "Homepage",
   },
   fr: {
     "Getting started": "Pour commencer",
@@ -187,6 +188,7 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     Dark: "Sombre",
     English: "Anglais",
     French: "Français",
+    Homepage: "Accueil",
   },
 };
 
@@ -650,7 +652,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       {/* -------- Top bar (fixed height) -------- */}
       <header className="z-50 shrink-0 bg-[#fafafa]">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between">
-          <div className="flex w-60 shrink-0 items-center gap-3 pl-[18px]">
+          <div className="flex shrink-0 items-center gap-3 pl-[18px] lg:w-60">
             {/* Mobile hamburger */}
             <button type="button" className="lg:hidden" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle navigation">
               <MenuIcon open={mobileOpen} />
@@ -694,17 +696,27 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
 
-          <div className="flex flex-1 items-center justify-end gap-1.5 px-6">
+          {/* Desktop: all buttons */}
+          <div className="hidden flex-1 items-center justify-end gap-1.5 px-6 lg:flex">
             <LinksMenu />
             <LanguageSelector lang={lang} setLang={setLang} />
             <a
-              href="https://www.vvault.app/auth"
+              href="https://vvault.app/login"
               className="rounded-xl px-3 py-1.5 text-[13px] text-[#666] transition-colors hover:text-[#111]"
             >
               {t("Log in", lang)}
             </a>
             <a
-              href="https://www.vvault.app/auth"
+              href="https://vvault.app/signup"
+              className="rounded-xl bg-[#111] px-3.5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#333]"
+            >
+              {t("Sign up", lang)}
+            </a>
+          </div>
+          {/* Mobile: sign up + hamburger only */}
+          <div className="flex flex-1 items-center justify-end gap-2 px-4 lg:hidden">
+            <a
+              href="https://vvault.app/signup"
               className="rounded-xl bg-[#111] px-3.5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#333]"
             >
               {t("Sign up", lang)}
@@ -731,6 +743,21 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             <SearchBar lang={lang} />
           </div>
           <Sidebar pathname={pathname} onNavigate={closeMobile} lang={lang} />
+
+          {/* Mobile-only: language selector + homepage link at bottom of sidebar */}
+          <div className="mt-6 flex items-center gap-2 border-t border-[#e5e5e5] pt-4 lg:hidden">
+            <LanguageSelector lang={lang} setLang={setLang} />
+            <a
+              href="/"
+              className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-[13px] text-[#666] transition-colors hover:text-[#111]"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              {t("Homepage", lang)}
+            </a>
+          </div>
         </aside>
 
         {/* Main content — scrolls internally, rounded corners stay */}

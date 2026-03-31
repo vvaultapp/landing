@@ -104,8 +104,6 @@ function MobileMenu({
 
           <a
             href="https://apps.apple.com/app/vvault/id6499137813"
-            target="_blank"
-            rel="noreferrer"
             className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14px] font-medium transition-colors ${
               isIOS
                 ? "text-white/70 hover:text-white"
