@@ -138,7 +138,7 @@ const landingContentEn = {
   ] as LandingNavItem[],
   hero: {
     title: ["The proper way to", "send your music."],
-    description: "Turn emails into placements. Track opens, plays, downloads and more — all from a secure, private workspace.",
+    description: "Turn emails into placements. Track opens, plays, downloads and more — all from a beautifully crafted, secure workspace designed to feel effortless.",
     primaryCtaLabel: "Start free",
     primaryCtaHint: "Create your vvault today",
     newBadge: "New",
@@ -147,14 +147,14 @@ const landingContentEn = {
   },
   heroStatement: {
     strong: "Know who’s really listening.",
-    muted: "Follow up faster, send better packs, and turn interest into placements and sales.",
+    muted: "Follow up faster, send better packs, and turn interest into placements and sales — all through an interface that feels refined at every step.",
     videoUrl: "https://www.youtube.com/embed/nKfITo6LLts",
     videoTitle: "vvault demo video",
   },
   howItWorksIntro: {
     title: "Know who’s ready before you follow up.",
     description:
-      "Every send becomes measurable: opens, clicks, play duration, downloads, and saves. Build packs fast, email your contacts, and use real intent signals to follow up at the right time and land placements or sales.",
+      "Every send becomes measurable: opens, clicks, play duration, downloads, and saves. Build packs fast, email your contacts, and use real intent signals to follow up at the right time. Leave timestamped comments on tracks to share precise feedback — and land placements or sales.",
     stepLabel: "Step",
     imagePlaceholder: "Step image placeholder",
   },
@@ -162,25 +162,25 @@ const landingContentEn = {
     {
       title: "Upload and organize at speed",
       description:
-        "Drop multiple files into your private library, auto-unpack ZIPs, and keep everything structured without breaking flow.",
+        "Drop multiple files into your private library, auto-unpack ZIPs, and keep everything structured without breaking flow. A clean, intuitive interface that makes catalog management feel effortless.",
       stat: "Private by default",
     },
     {
       title: "Share links that convert",
       description:
-        "Publish tracks, packs, and folders with private, tokenized, or public links — each one encrypted and built for safe, fast listening.",
+        "Publish tracks, packs, and folders with private, tokenized, or public links — each one encrypted and built for a polished, distraction-free listening experience.",
       stat: "Secure tokenized links",
     },
     {
       title: "Run campaigns in one place",
       description:
-        "Create, schedule, and send campaigns directly from vvault while keeping contacts and history together.",
+        "Create, schedule, and send campaigns directly from vvault while keeping contacts and history together. Every step feels smooth and intentional.",
       stat: "Send + schedule",
     },
     {
       title: "Track true engagement",
       description:
-        "Measure opens, clicks, play duration, saves, downloads, and sales to see what actually moves.",
+        "Measure opens, clicks, play duration, saves, downloads, and sales to see what actually moves. Leave timestamped comments on any track to give or receive precise feedback on specific moments.",
       stat: "Full engagement visibility",
     },
     {
@@ -215,7 +215,7 @@ const landingContentEn = {
     {
       title: "Track + Convert",
       description:
-        "See exactly what happens after you send: opens, clicks, plays (and how long), downloads, and saves, then turn that momentum into placements or sales.",
+        "See exactly what happens after you send: opens, clicks, plays (and how long), downloads, and saves. Drop timestamped comments on any track to discuss specific sections, then turn that momentum into placements or sales.",
       detail:
         "Identify high-intent listeners, follow up at the perfect moment, and convert through a low-fee marketplace built for producers.",
     },
@@ -376,14 +376,19 @@ const landingContentEn = {
         "vvault supports all common audio formats. You can upload individual tracks or full packs with cover art, BPM, key tags, and co-author credits.",
     },
     {
+      question: "Can I leave comments on specific timestamps?",
+      answer:
+        "Yes. You can drop timestamped comments on any track to point out specific sections — perfect for giving feedback, discussing arrangements with collaborators, or marking the exact moment you want an artist to hear. It makes collaboration precise and frictionless.",
+    },
+    {
       question: "How is vvault different from Dropbox or Google Drive?",
       answer:
-        "Generic cloud storage has no tracking, no campaigns, and no music-specific features. vvault is built specifically for producers — it combines secure file management, email sending, analytics, CRM, and sales in one place, with privacy controls designed for unreleased music.",
+        "Generic cloud storage has no tracking, no campaigns, and no music-specific features. vvault is built specifically for producers — it combines secure file management, email sending, analytics, CRM, timestamped comments, and sales in one beautifully designed workspace, with privacy controls made for unreleased music.",
     },
   ] as LandingFaq[],
   finalCta: {
-    title: "Music reimagined. Available today.",
-    description: "",
+    title: "Crafted for music. Available today.",
+    description: "A workspace that looks and feels as good as the music you make.",
     primary: { label: "Get Started", href: "https://vvault.app/signup" },
     secondary: { label: "Contact Us", href: "/#contact" },
   },
@@ -536,7 +541,7 @@ const landingContentFr = {
   hero: {
     title: ["La bonne façon", "d'envoyer ta musique."],
     description:
-      "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus — le tout depuis un espace privé et sécurisé.",
+      "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus — le tout depuis un espace soigné, sécurisé et pensé pour être agréable à chaque étape.",
     primaryCtaLabel: "Commencer gratuitement",
     primaryCtaHint: "Crée ton vvault aujourd'hui",
     newBadge: "Nouveau",
@@ -545,14 +550,14 @@ const landingContentFr = {
   },
   heroStatement: {
     strong: "Sache qui écoute vraiment.",
-    muted: "Relance plus vite, envoie de meilleurs packs, et transforme l’intérêt en placements et ventes.",
+    muted: "Relance plus vite, envoie de meilleurs packs, et transforme l’intérêt en placements et ventes — le tout dans une interface soignée jusque dans les moindres détails.",
     videoUrl: "https://www.youtube.com/embed/DOlLUSW9s2s?start=61",
     videoTitle: "vidéo démo vvault en français",
   },
   howItWorksIntro: {
     title: "Sache qui est prêt avant de relancer.",
     description:
-      "Chaque envoi devient mesurable: ouvertures, clics, durée d’écoute, téléchargements et sauvegardes. Crée tes packs rapidement, envoie à tes contacts, et utilise de vrais signaux d’intention pour relancer au bon moment et signer placements ou ventes.",
+      "Chaque envoi devient mesurable: ouvertures, clics, durée d’écoute, téléchargements et sauvegardes. Crée tes packs rapidement, envoie à tes contacts, et utilise de vrais signaux d’intention pour relancer au bon moment. Laisse des commentaires horodatés sur tes tracks pour un feedback précis — et signe placements ou ventes.",
     stepLabel: "Étape",
     imagePlaceholder: "Visuel d’étape",
   },
@@ -560,25 +565,25 @@ const landingContentFr = {
     {
       title: "Upload et organisation rapide",
       description:
-        "Dépose plusieurs fichiers dans ta bibliothèque privée, dézippe automatiquement les ZIP, et garde tout structuré sans couper ton flow.",
+        "Dépose plusieurs fichiers dans ta bibliothèque privée, dézippe automatiquement les ZIP, et garde tout structuré sans couper ton flow. Une interface claire et intuitive qui rend la gestion de ton catalogue naturelle.",
       stat: "Privé par défaut",
     },
     {
       title: "Partage des liens qui convertissent",
       description:
-        "Publie des morceaux, packs et dossiers via des liens privés, tokenisés ou publics — chacun chiffré et conçu pour une écoute rapide et sécurisée.",
+        "Publie des morceaux, packs et dossiers via des liens privés, tokenisés ou publics — chacun chiffré et conçu pour une expérience d’écoute épurée et sans distraction.",
       stat: "Liens tokenisés sécurisés",
     },
     {
       title: "Lance tes campagnes au même endroit",
       description:
-        "Crée, planifie et envoie des campagnes directement depuis vvault tout en gardant tes contacts et ton historique centralisé.",
+        "Crée, planifie et envoie des campagnes directement depuis vvault tout en gardant tes contacts et ton historique centralisé. Chaque étape est fluide et pensée.",
       stat: "Envoi + planification",
     },
     {
       title: "Suis le vrai engagement",
       description:
-        "Mesure les ouvertures, clics, durée d’écoute, sauvegardes, téléchargements et ventes pour voir ce qui performe vraiment.",
+        "Mesure les ouvertures, clics, durée d’écoute, sauvegardes, téléchargements et ventes pour voir ce qui performe vraiment. Laisse des commentaires horodatés sur tes tracks pour donner ou recevoir du feedback précis sur des passages spécifiques.",
       stat: "Visibilité engagement complète",
     },
     {
@@ -615,7 +620,7 @@ const landingContentFr = {
     {
       title: "Suis + Convertis",
       description:
-        "Vois exactement ce qui se passe après l’envoi: ouvertures, clics, écoutes (et durée), téléchargements et sauvegardes, puis convertis cette traction en placements ou ventes.",
+        "Vois exactement ce qui se passe après l’envoi: ouvertures, clics, écoutes (et durée), téléchargements et sauvegardes. Pose des commentaires horodatés sur n’importe quel track pour discuter de passages précis, puis convertis cette traction en placements ou ventes.",
       detail:
         "Identifie les auditeurs les plus engagés, relance au moment parfait, et convertis via un marketplace à faible commission pensé pour les producteurs.",
     },
@@ -777,14 +782,19 @@ const landingContentFr = {
         "vvault supporte tous les formats audio courants. Tu peux uploader des morceaux individuels ou des packs complets avec pochette, BPM, tags de tonalité et crédits de co-auteurs.",
     },
     {
+      question: "Je peux laisser des commentaires sur des timestamps précis ?",
+      answer:
+        "Oui. Tu peux poser des commentaires horodatés sur n’importe quel track pour pointer des passages spécifiques — parfait pour donner du feedback, discuter d’arrangements avec des collaborateurs, ou marquer le moment exact que tu veux faire écouter à un artiste. Ça rend la collaboration précise et fluide.",
+    },
+    {
       question: "En quoi vvault est différent de Dropbox ou Google Drive ?",
       answer:
-        "Le stockage cloud classique n’a ni tracking, ni campagnes, ni fonctionnalités spécifiques à la musique. vvault est conçu spécifiquement pour les producteurs — il combine gestion sécurisée de fichiers, envoi d’emails, analytics, CRM et ventes en un seul endroit, avec des contrôles de confidentialité pensés pour la musique non publiée.",
+        "Le stockage cloud classique n’a ni tracking, ni campagnes, ni fonctionnalités spécifiques à la musique. vvault est conçu spécifiquement pour les producteurs — il combine gestion sécurisée de fichiers, envoi d’emails, analytics, CRM, commentaires horodatés et ventes dans un seul espace de travail soigné, avec des contrôles de confidentialité pensés pour la musique non publiée.",
     },
   ] as LandingFaq[],
   finalCta: {
-    title: "Music reimagined. Available today.",
-    description: "",
+    title: "Pensé pour la musique. Disponible maintenant.",
+    description: "Un espace de travail aussi soigné que la musique que tu crées.",
     primary: { label: "Commencer gratuitement", href: "https://vvault.app/signup" },
     secondary: { label: "Contact", href: "/fr#contact" },
   },

@@ -641,8 +641,8 @@ export default function FeatureCampaignsPage() {
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
             {locale === "fr"
-              ? "Des campagnes email pro pensées pour les producteurs. Attache tes beats, suis les écoutes, et envoie depuis Gmail ou ton adresse vvault — direct en boîte principale."
-              : "Professional email campaigns built for music producers. Attach beats, track plays, and send from Gmail or your vvault address — straight to the primary inbox."}
+              ? "Des campagnes email pro pensées pour les producteurs. Attache tes beats, suis les écoutes, et envoie depuis Gmail ou ton adresse vvault — direct en boîte principale. Une expérience fluide et soignée du premier clic à l'envoi."
+              : "Professional email campaigns built for music producers. Attach beats, track plays, and send from Gmail or your vvault address — straight to the primary inbox. A smooth, polished experience from first click to send."}
           </p>
 
           <div className="mt-8 flex justify-center">

@@ -625,8 +625,8 @@ function PacksCard({ locale }: { locale: Locale }) {
         </p>
         <p className="mt-1 text-[13px] leading-relaxed text-white/35">
           {locale === "fr"
-            ? "Organise tes beats en packs propres et pro. Tag, cherche et gère ton catalogue depuis un seul endroit."
-            : "Organize your beats into clean, professional packs. Tag, search, and manage your catalog from one place."}
+            ? "Organise tes beats en packs propres et pro. Tag, cherche et gère ton catalogue depuis un seul endroit. Laisse des commentaires horodatés sur tes tracks pour un feedback précis."
+            : "Organize your beats into clean, professional packs. Tag, search, and manage your catalog from one place. Leave timestamped comments on tracks for precise feedback."}
         </p>
       </div>
     </div>

@@ -15,8 +15,8 @@ export default function LibraryDocPage() {
       </h1>
       <p className="text-[15px] text-[#999] mb-8">
         {locale === "fr"
-          ? "Importe, organise et gère ton catalogue musical. Tous les fichiers sont stockés sur une infrastructure chiffrée et restent privés par défaut."
-          : "Upload, organize, and manage your music catalog. All files are stored on encrypted infrastructure and remain private by default."}
+          ? "Importe, organise et gère ton catalogue musical dans une interface épurée et agréable à utiliser. Tous les fichiers sont stockés sur une infrastructure chiffrée et restent privés par défaut."
+          : "Upload, organize, and manage your music catalog in a clean, delightful interface. All files are stored on encrypted infrastructure and remain private by default."}
       </p>
 
       {/* Uploading files */}
@@ -237,6 +237,21 @@ export default function LibraryDocPage() {
             is enabled, @handles found in filenames are automatically added as co-authors. A maximum of 3 co-authors can be added per track.
           </>
         )}
+      </p>
+
+      {/* Timestamped comments */}
+      <h2 id="comments" className="text-lg font-semibold text-[#111] mt-12 mb-3">
+        {locale === "fr" ? "Commentaires horodatés" : "Timestamped comments"}
+      </h2>
+      <p className="text-[14px] leading-relaxed text-[#666] mb-4">
+        {locale === "fr"
+          ? "Laisse des commentaires sur des moments précis de n'importe quel track. Clique sur la forme d'onde pour marquer un timestamp, tape ton commentaire, et il apparaîtra ancré à ce passage. Les collaborateurs et contacts qui écoutent le track verront tes commentaires en temps réel."
+          : "Drop comments on specific moments of any track. Click the waveform to mark a timestamp, type your comment, and it will appear anchored to that moment. Collaborators and contacts listening to the track will see your comments in real time."}
+      </p>
+      <p className="text-[14px] leading-relaxed text-[#666] mb-4">
+        {locale === "fr"
+          ? "Les commentaires horodatés sont parfaits pour donner du feedback sur un arrangement, pointer un passage clé à un artiste ou un A&R, ou simplement discuter de sections spécifiques avec tes co-auteurs."
+          : "Timestamped comments are perfect for giving feedback on an arrangement, pointing an artist or A&R to a key section, or simply discussing specific parts with your co-authors."}
       </p>
 
       {/* Folders */}

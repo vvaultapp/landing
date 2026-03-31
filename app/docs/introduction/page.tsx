@@ -98,8 +98,8 @@ export default function DocsIntroductionPage() {
       {/* Intro paragraph */}
       <p className="mt-4 text-[15px] leading-relaxed text-[#777]">
         {locale === "fr"
-          ? "vvault est une plateforme sécurisée conçue pour les producteurs de musique et les beatmakers pour importer, envoyer, suivre et vendre leur musique. Elle combine une bibliothèque privée et chiffrée, des campagnes email avec analytics, un CRM, une marketplace et la publication automatisée sur les réseaux sociaux — le tout dans une seule app."
-          : "vvault is a secure platform built for music producers and beatmakers to upload, send, track, and sell their music. It combines a private, encrypted library, email campaigns with analytics, a CRM, a marketplace, and automated social posting — all in one app."}
+          ? "vvault est une plateforme sécurisée conçue pour les producteurs de musique et les beatmakers pour importer, envoyer, suivre et vendre leur musique. Elle combine une bibliothèque privée et chiffrée, des campagnes email avec analytics, des commentaires horodatés sur les tracks, un CRM, une marketplace et la publication automatisée sur les réseaux sociaux — le tout dans une app à l'interface soignée et agréable à utiliser."
+          : "vvault is a secure platform built for music producers and beatmakers to upload, send, track, and sell their music. It combines a private, encrypted library, email campaigns with analytics, timestamped comments on tracks, a CRM, a marketplace, and automated social posting — all in one beautifully designed app."}
       </p>
 
       {/* ------------------------------------------------------------ */}
@@ -116,8 +116,8 @@ export default function DocsIntroductionPage() {
         </p>
         <p className="mt-3 text-[14px] leading-relaxed text-[#666]">
           {locale === "fr"
-            ? "Disponible en tant qu'application web, vvault offre aux producteurs une boîte à outils professionnelle pour gérer leur catalogue, développer leur audience et monétiser leurs beats sans jongler entre plusieurs services."
-            : "Available as a web app, vvault gives producers a professional toolkit to manage their catalog, grow their audience, and monetize their beats without juggling multiple services."}
+            ? "Disponible en tant qu'application web et mobile, vvault offre aux producteurs une boîte à outils professionnelle au design soigné pour gérer leur catalogue, développer leur audience et monétiser leurs beats — sans jongler entre plusieurs services. Laisse des commentaires horodatés sur les tracks pour collaborer avec précision."
+            : "Available as a web and mobile app, vvault gives producers a professionally designed toolkit to manage their catalog, grow their audience, and monetize their beats — without juggling multiple services. Leave timestamped comments on tracks to collaborate with precision."}
         </p>
       </section>
 

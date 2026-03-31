@@ -103,7 +103,7 @@ function MobileMenu({
           </LandingCtaLink>
 
           <a
-            href="https://apps.apple.com/app/vvault/id6499137813"
+            href="https://apps.apple.com/app/id6759256796"
             className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14px] font-medium transition-colors ${
               isIOS
                 ? "text-white/70 hover:text-white"

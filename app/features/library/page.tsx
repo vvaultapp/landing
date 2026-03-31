@@ -536,8 +536,8 @@ export default function FeatureLibraryPage() {
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
             {locale === "fr"
-              ? "Upload, organise et gère ton catalogue entier au même endroit. Chaque beat, pack et stem — toujours accessible, toujours à toi."
-              : "Upload, organize, and manage your entire catalog in one place. Every beat, pack, and stem\u00a0\u2014 always accessible, always yours."}
+              ? "Upload, organise et gère ton catalogue entier au même endroit. Chaque beat, pack et stem — toujours accessible, toujours à toi. Une interface épurée pensée pour te laisser te concentrer sur ta musique."
+              : "Upload, organize, and manage your entire catalog in one place. Every beat, pack, and stem\u00a0\u2014 always accessible, always yours. A refined interface designed to let you focus on your music."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -625,6 +625,12 @@ export default function FeatureLibraryPage() {
                 desc: locale === "fr"
                   ? "Génère des liens trackés pour n'importe quel pack ou dossier. Sache exactement qui l'a ouvert, écouté et téléchargé — en temps réel."
                   : "Generate tracked links for any pack or folder. Know exactly who opened it, listened, and downloaded\u00a0\u2014 in real time.",
+              },
+              {
+                title: locale === "fr" ? "Commentaires horodatés" : "Timestamped comments",
+                desc: locale === "fr"
+                  ? "Laisse des commentaires sur des passages précis de tes tracks. Idéal pour donner du feedback, discuter avec des collaborateurs ou pointer un moment clé à un artiste."
+                  : "Drop comments on specific moments of your tracks. Perfect for giving feedback, discussing arrangements with collaborators, or pointing an artist to a key section.",
               },
             ].map((item) => (
               <div
