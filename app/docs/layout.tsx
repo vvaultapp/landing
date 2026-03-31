@@ -653,11 +653,6 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       <header className="z-50 shrink-0 bg-[#fafafa]">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between">
           <div className="flex shrink-0 items-center gap-3 pl-[18px] lg:w-60">
-            {/* Mobile hamburger */}
-            <button type="button" className="lg:hidden" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle navigation">
-              <MenuIcon open={mobileOpen} />
-            </button>
-
             {/* Logo with hover "Back to home" on the left */}
             <div
               className="relative flex items-center"
@@ -713,7 +708,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               {t("Sign up", lang)}
             </a>
           </div>
-          {/* Mobile: sign up + hamburger only */}
+          {/* Mobile: sign up + hamburger */}
           <div className="flex flex-1 items-center justify-end gap-2 px-4 lg:hidden">
             <a
               href="https://vvault.app/signup"
@@ -721,6 +716,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             >
               {t("Sign up", lang)}
             </a>
+            <button type="button" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle navigation" className="flex h-9 w-9 items-center justify-center rounded-xl text-[#666] transition-colors hover:text-[#111]">
+              <MenuIcon open={mobileOpen} />
+            </button>
           </div>
         </div>
       </header>
@@ -734,29 +732,34 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       <div className="mx-auto flex w-full min-h-0 flex-1 max-w-[1440px]">
         {/* Left sidebar — scrolls independently */}
         <aside
-          className={`fixed top-14 z-40 h-[calc(100vh-3.5rem)] w-60 shrink-0 overflow-y-auto bg-[#fafafa] pl-[18px] pr-2 pb-10 pt-5 transition-transform duration-200 ease-in-out lg:relative lg:top-0 lg:h-auto lg:translate-x-0 ${
+          className={`fixed top-14 z-40 flex h-[calc(100vh-3.5rem)] w-60 shrink-0 flex-col bg-[#fafafa] transition-transform duration-200 ease-in-out lg:relative lg:top-0 lg:h-auto lg:translate-x-0 ${
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          {/* Search bar in sidebar */}
-          <div className="mb-5">
-            <SearchBar lang={lang} />
+          {/* Scrollable nav content */}
+          <div className="flex-1 overflow-y-auto pl-[18px] pr-2 pb-4 pt-5">
+            {/* Search bar in sidebar */}
+            <div className="mb-5">
+              <SearchBar lang={lang} />
+            </div>
+            <Sidebar pathname={pathname} onNavigate={closeMobile} lang={lang} />
           </div>
-          <Sidebar pathname={pathname} onNavigate={closeMobile} lang={lang} />
 
-          {/* Mobile-only: language selector + homepage link at bottom of sidebar */}
-          <div className="mt-6 flex items-center gap-2 border-t border-[#e5e5e5] pt-4 lg:hidden">
-            <LanguageSelector lang={lang} setLang={setLang} />
-            <a
-              href="/"
-              className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-[13px] text-[#666] transition-colors hover:text-[#111]"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                <polyline points="9 22 9 12 15 12 15 22" />
-              </svg>
-              {t("Homepage", lang)}
-            </a>
+          {/* Mobile-only: pinned bottom bar with language + homepage */}
+          <div className="shrink-0 border-t border-[#e5e5e5] bg-[#fafafa] px-[18px] py-3 lg:hidden">
+            <div className="flex items-center gap-2">
+              <LanguageSelector lang={lang} setLang={setLang} />
+              <a
+                href="/"
+                className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-[13px] text-[#666] transition-colors hover:text-[#111]"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                  <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                {t("Homepage", lang)}
+              </a>
+            </div>
           </div>
         </aside>
 
