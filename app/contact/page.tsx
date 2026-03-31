@@ -5,11 +5,12 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
-const contactCards = [
+const contactCards = (fr: boolean) => [
   {
     title: "Discord",
-    description: "Join our community. Ask questions, share feedback, and connect with other producers.",
+    description: fr ? "Rejoins notre communauté. Pose tes questions, partage tes retours et connecte-toi avec d'autres producteurs." : "Join our community. Ask questions, share feedback, and connect with other producers.",
     href: "https://discord.gg/QGGEZR5KhB",
     external: true,
     icon: (
@@ -23,7 +24,7 @@ const contactCards = [
   },
   {
     title: "Instagram",
-    description: "Follow us for updates, tips, and behind-the-scenes content.",
+    description: fr ? "Suis-nous pour les actualités, conseils et coulisses." : "Follow us for updates, tips, and behind-the-scenes content.",
     href: "https://instagram.com/vvault.app",
     external: true,
     icon: (
@@ -37,7 +38,7 @@ const contactCards = [
   },
   {
     title: "Email",
-    description: "Send us an email. We typically respond within 24 hours.",
+    description: fr ? "Envoie-nous un email. On répond généralement sous 24 heures." : "Send us an email. We typically respond within 24 hours.",
     href: "mailto:vvaultapp@gmail.com",
     external: false,
     icon: (
@@ -49,15 +50,19 @@ const contactCards = [
 ];
 
 export default function ContactPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
+  const fr = locale === "fr";
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Contact Us";
-  }, []);
+    document.title = fr ? "vvault | Nous contacter" : "vvault | Contact Us";
+  }, [fr]);
+
+  const cards = contactCards(fr);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main className="relative z-10 mx-auto max-w-[720px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Header */}
         <Reveal>
@@ -71,16 +76,16 @@ export default function ContactPage() {
               backgroundClip: "text",
             }}
           >
-            Contact Us
+            {fr ? "Nous contacter" : "Contact Us"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            We&apos;d love to hear from you.
+            {fr ? "On serait ravis d'avoir de tes nouvelles." : "We\u0027d love to hear from you."}
           </p>
         </Reveal>
 
         {/* Contact Cards */}
         <div className="mt-16 space-y-4">
-          {contactCards.map((card, i) => (
+          {cards.map((card, i) => (
             <Reveal key={i} delayMs={i * 80}>
               <a
                 href={card.href}
@@ -121,7 +126,7 @@ export default function ContactPage() {
           ))}
         </div>
       </main>
-      <LandingFooter locale="en" content={content} showColumns={false} inlineLegalWithBrand />
+      <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
     </div>
   );
 }

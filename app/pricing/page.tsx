@@ -7,6 +7,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), { ssr: false });
 
@@ -86,71 +87,75 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 /* Comparison table data */
-const comparisonSections = [
-  {
-    title: "Core Features",
-    rows: [
-      { label: "Storage", free: "100 MB", pro: "Unlimited", ultra: "Unlimited" },
-      { label: "Share links (track, pack, folder)", free: true, pro: true, ultra: true },
-      { label: "Contact list", free: true, pro: true, ultra: true },
-      { label: "Collab packs and tracks", free: true, pro: true, ultra: true },
-      { label: "Receive splits from Pro sales", free: true, pro: true, ultra: true },
-      { label: "Link in Bio page", free: true, pro: true, ultra: true },
-      { label: "Certificate of deposit", free: true, pro: true, ultra: true },
-    ],
-  },
-  {
-    title: "Campaigns & Outreach",
-    rows: [
-      { label: "Create campaigns", free: "1/day", pro: "Unlimited", ultra: "Unlimited" },
-      { label: "Schedule sends", free: false, pro: true, ultra: true },
-      { label: "Gmail integration", free: false, pro: true, ultra: true },
-      { label: "Custom email subject & body", free: false, pro: true, ultra: true },
-      { label: "Per-recipient best time scheduling", free: false, pro: false, ultra: true },
-      { label: "Series automations", free: false, pro: false, ultra: true },
-    ],
-  },
-  {
-    title: "Analytics & Tracking",
-    rows: [
-      { label: "Opens tracking", free: false, pro: true, ultra: true },
-      { label: "Clicks tracking", free: false, pro: true, ultra: true },
-      { label: "Play duration tracking", free: false, pro: true, ultra: true },
-      { label: "Downloads & saves", free: false, pro: true, ultra: true },
-      { label: "Sales tracking", free: false, pro: true, ultra: true },
-      { label: "Best time to send analysis", free: false, pro: true, ultra: true },
-      { label: "Engagement funnels", free: false, pro: true, ultra: true },
-    ],
-  },
-  {
-    title: "CRM & Pipeline",
-    rows: [
-      { label: "Contact timeline", free: false, pro: true, ultra: true },
-      { label: "Contact groups & tags", free: false, pro: true, ultra: true },
-      { label: "Lead scoring", free: false, pro: true, ultra: true },
-      { label: "Opportunities & request board", free: false, pro: true, ultra: true },
-    ],
-  },
-  {
-    title: "Sales & Marketplace",
-    rows: [
-      { label: "Stripe checkout", free: false, pro: true, ultra: true },
-      { label: "License types (basic, premium, stems, exclusive)", free: false, pro: true, ultra: true },
-      { label: "Marketplace listing", free: false, pro: true, ultra: true },
-      { label: "Marketplace commission", free: "\u2013", pro: "5%", ultra: "0%" },
-    ],
-  },
-  {
-    title: "Branding & Customization",
-    rows: [
-      { label: "Public profile", free: true, pro: true, ultra: true },
-      { label: "Theme customization", free: false, pro: true, ultra: true },
-      { label: "Placement credits", free: true, pro: true, ultra: true },
-      { label: "Social links (IG, YT, TT)", free: true, pro: true, ultra: true },
-      { label: "Browse section highlight", free: false, pro: false, ultra: true },
-    ],
-  },
-];
+function getComparisonSections(locale: "en" | "fr") {
+  const fr = locale === "fr";
+  const unlimited = fr ? "Illimité" : "Unlimited";
+  return [
+    {
+      title: fr ? "Fonctionnalités principales" : "Core Features",
+      rows: [
+        { label: fr ? "Stockage" : "Storage", free: "100 MB", pro: unlimited, ultra: unlimited },
+        { label: fr ? "Liens de partage (track, pack, dossier)" : "Share links (track, pack, folder)", free: true, pro: true, ultra: true },
+        { label: fr ? "Liste de contacts" : "Contact list", free: true, pro: true, ultra: true },
+        { label: fr ? "Packs et tracks en collab" : "Collab packs and tracks", free: true, pro: true, ultra: true },
+        { label: fr ? "Recevoir des splits des ventes Pro" : "Receive splits from Pro sales", free: true, pro: true, ultra: true },
+        { label: fr ? "Page Link in Bio" : "Link in Bio page", free: true, pro: true, ultra: true },
+        { label: fr ? "Certificat de dépôt" : "Certificate of deposit", free: true, pro: true, ultra: true },
+      ],
+    },
+    {
+      title: fr ? "Campagnes & Outreach" : "Campaigns & Outreach",
+      rows: [
+        { label: fr ? "Créer des campagnes" : "Create campaigns", free: fr ? "1/jour" : "1/day", pro: unlimited, ultra: unlimited },
+        { label: fr ? "Envois programmés" : "Schedule sends", free: false, pro: true, ultra: true },
+        { label: fr ? "Intégration Gmail" : "Gmail integration", free: false, pro: true, ultra: true },
+        { label: fr ? "Objet & corps d'email personnalisés" : "Custom email subject & body", free: false, pro: true, ultra: true },
+        { label: fr ? "Horaire optimal par destinataire" : "Per-recipient best time scheduling", free: false, pro: false, ultra: true },
+        { label: fr ? "Automatisations en séries" : "Series automations", free: false, pro: false, ultra: true },
+      ],
+    },
+    {
+      title: fr ? "Analytics & Suivi" : "Analytics & Tracking",
+      rows: [
+        { label: fr ? "Suivi des ouvertures" : "Opens tracking", free: false, pro: true, ultra: true },
+        { label: fr ? "Suivi des clics" : "Clicks tracking", free: false, pro: true, ultra: true },
+        { label: fr ? "Durée d'écoute" : "Play duration tracking", free: false, pro: true, ultra: true },
+        { label: fr ? "Téléchargements & sauvegardes" : "Downloads & saves", free: false, pro: true, ultra: true },
+        { label: fr ? "Suivi des ventes" : "Sales tracking", free: false, pro: true, ultra: true },
+        { label: fr ? "Analyse du meilleur moment pour envoyer" : "Best time to send analysis", free: false, pro: true, ultra: true },
+        { label: fr ? "Funnels d'engagement" : "Engagement funnels", free: false, pro: true, ultra: true },
+      ],
+    },
+    {
+      title: fr ? "CRM & Pipeline" : "CRM & Pipeline",
+      rows: [
+        { label: fr ? "Timeline de contact" : "Contact timeline", free: false, pro: true, ultra: true },
+        { label: fr ? "Groupes & tags de contacts" : "Contact groups & tags", free: false, pro: true, ultra: true },
+        { label: fr ? "Scoring d'engagement" : "Lead scoring", free: false, pro: true, ultra: true },
+        { label: fr ? "Opportunités & tableau de demandes" : "Opportunities & request board", free: false, pro: true, ultra: true },
+      ],
+    },
+    {
+      title: fr ? "Ventes & Marketplace" : "Sales & Marketplace",
+      rows: [
+        { label: fr ? "Checkout Stripe" : "Stripe checkout", free: false, pro: true, ultra: true },
+        { label: fr ? "Types de licences (basic, premium, stems, exclusive)" : "License types (basic, premium, stems, exclusive)", free: false, pro: true, ultra: true },
+        { label: fr ? "Listing Marketplace" : "Marketplace listing", free: false, pro: true, ultra: true },
+        { label: fr ? "Commission Marketplace" : "Marketplace commission", free: "\u2013", pro: "5%", ultra: "0%" },
+      ],
+    },
+    {
+      title: fr ? "Branding & Personnalisation" : "Branding & Customization",
+      rows: [
+        { label: fr ? "Profil public" : "Public profile", free: true, pro: true, ultra: true },
+        { label: fr ? "Personnalisation du thème" : "Theme customization", free: false, pro: true, ultra: true },
+        { label: fr ? "Crédits de placement" : "Placement credits", free: true, pro: true, ultra: true },
+        { label: fr ? "Liens sociaux (IG, YT, TT)" : "Social links (IG, YT, TT)", free: true, pro: true, ultra: true },
+        { label: fr ? "Mise en avant section Browse" : "Browse section highlight", free: false, pro: false, ultra: true },
+      ],
+    },
+  ];
+}
 
 function CellValue({ value }: { value: boolean | string }) {
   if (typeof value === "string") {
@@ -174,15 +179,16 @@ function CellValue({ value }: { value: boolean | string }) {
 }
 
 export default function PricingPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
   const [annual, setAnnual] = useState(true);
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
   const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Pricing";
-  }, []);
+    document.title = locale === "fr" ? "vvault | Tarifs" : "vvault | Pricing";
+  }, [locale]);
 
   const plans = [
     {
@@ -217,7 +223,7 @@ export default function PricingPage() {
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — white accent */}
       <div
@@ -256,10 +262,10 @@ export default function PricingPage() {
                   backgroundClip: "text",
                 }}
               >
-                Pricing
+                {locale === "fr" ? "Tarifs" : "Pricing"}
               </h1>
               <p className="mt-3 text-[15px] text-white/45 sm:text-base">
-                Start for free and scale as you grow.
+                {locale === "fr" ? "Commence gratuitement et grandis \u00e0 ton rythme." : "Start for free and scale as you grow."}
               </p>
 
               {/* Toggle */}
@@ -388,7 +394,7 @@ export default function PricingPage() {
                     </LandingCtaLink>
                     {p.period && (
                       <p className="mt-2.5 text-center text-[11px] text-white/25">
-                        Cancel anytime
+                        {locale === "fr" ? "Annule quand tu veux" : "Cancel anytime"}
                       </p>
                     )}
                   </div>
@@ -401,14 +407,14 @@ export default function PricingPage() {
           <div className="mt-28 sm:mt-36">
             <Reveal>
               <h2 className="text-center text-2xl font-semibold text-white sm:text-3xl">
-                Compare plans
+                {locale === "fr" ? "Comparer les plans" : "Compare plans"}
               </h2>
               <p className="mt-3 text-center text-[15px] text-white/40">
-                See exactly what&apos;s included in each plan.
+                {locale === "fr" ? "Vois exactement ce que chaque plan inclut." : "See exactly what\u0027s included in each plan."}
               </p>
             </Reveal>
 
-            {comparisonSections.map((section) => (
+            {getComparisonSections(locale).map((section) => (
               <Reveal key={section.title} className="mt-14">
                 <h3 className="mb-4 text-lg font-semibold text-white/80">
                   {section.title}
@@ -476,17 +482,19 @@ export default function PricingPage() {
           <Reveal className="mt-28 sm:mt-36">
             <div className="text-center">
               <h2 className="text-2xl font-medium text-white sm:text-3xl">
-                Ready to start?
+                {locale === "fr" ? "Pr\u00eat \u00e0 te lancer ?" : "Ready to start?"}
               </h2>
               <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-                Sign up for free and start sending your music professionally today.
+                {locale === "fr"
+                  ? "Inscris-toi gratuitement et commence \u00e0 envoyer ta musique comme un pro d\u00e8s aujourd\u0027hui. Tes fichiers restent priv\u00e9s, tes donn\u00e9es t\u0027appartiennent."
+                  : "Sign up for free and start sending your music professionally today. Your files stay private, your data stays yours."}
               </p>
               <div className="mt-6 flex justify-center">
                 <a
                   href="https://vvault.app/signup"
                   className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
                 >
-                  Start for free
+                  {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
                 </a>
               </div>
             </div>
@@ -494,7 +502,7 @@ export default function PricingPage() {
         </div>
       </main>
 
-      <LandingFooter locale="en" content={content} showColumns={false} inlineLegalWithBrand />
+      <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -585,16 +586,19 @@ function MockTimelineCard() {
 /*  Page                                                              */
 /* ------------------------------------------------------------------ */
 export default function FeatureCampaignsPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Email campaigns for music";
-  }, []);
+    document.title = locale === "fr"
+      ? "vvault | Campagnes email pour la musique"
+      : "vvault | Email campaigns for music";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background -- purple accent */}
       <div
@@ -633,12 +637,12 @@ export default function FeatureCampaignsPage() {
               backgroundClip: "text",
             }}
           >
-            Send campaigns that land
+            {locale === "fr" ? "Envoie des campagnes qui arrivent" : "Send campaigns that land"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Professional email campaigns built for music producers. Attach
-            beats, track plays, and send from Gmail or your vvault address
-            &mdash; straight to the primary inbox.
+            {locale === "fr"
+              ? "Des campagnes email pro pensées pour les producteurs. Attache tes beats, suis les écoutes, et envoie depuis Gmail ou ton adresse vvault — direct en boîte principale."
+              : "Professional email campaigns built for music producers. Attach beats, track plays, and send from Gmail or your vvault address — straight to the primary inbox."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -646,7 +650,7 @@ export default function FeatureCampaignsPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -654,12 +658,12 @@ export default function FeatureCampaignsPage() {
         {/* Section 1: Campaign builder */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Build your campaign in minutes
+            {locale === "fr" ? "Crée ta campagne en quelques minutes" : "Build your campaign in minutes"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Pick your audience, attach tracks, write your subject line, and
-            hit send. Every email goes from your own Gmail address so it
-            lands in primary inboxes &mdash; not promotions or spam.
+            {locale === "fr"
+              ? "Choisis ton audience, attache tes tracks, écris ton objet, et envoie. Chaque email part de ta propre adresse Gmail via OAuth sécurisé — on ne stocke jamais ton mot de passe. Atterrit en boîte principale, pas dans les promotions ou le spam."
+              : "Pick your audience, attach tracks, write your subject line, and hit send. Every email goes from your own Gmail address via secure OAuth — we never store your password. Lands in primary inboxes, not promotions or spam."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockCampaignBuilderCard />
@@ -669,12 +673,12 @@ export default function FeatureCampaignsPage() {
         {/* Section 2: Stats */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Know exactly what happened
+            {locale === "fr" ? "Sache exactement ce qui s'est passé" : "Know exactly what happened"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Real-time stats for every campaign. See who opened, who played
-            your beats, who downloaded, and who clicked through. No
-            guesswork &mdash; just data you can act on.
+            {locale === "fr"
+              ? "Des stats en temps réel pour chaque campagne. Vois qui a ouvert, qui a écouté tes beats, qui a téléchargé, et qui a cliqué. Pas de devinettes — juste des données sur lesquelles agir."
+              : "Real-time stats for every campaign. See who opened, who played your beats, who downloaded, and who clicked through. No guesswork — just data you can act on."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockCampaignStatsCard />
@@ -684,12 +688,12 @@ export default function FeatureCampaignsPage() {
         {/* Section 3: Timeline */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Follow every interaction
+            {locale === "fr" ? "Suis chaque interaction" : "Follow every interaction"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            A live activity feed shows you exactly what each recipient did
-            and when. Know the moment someone plays your beat or downloads
-            your pack so you can follow up at the right time.
+            {locale === "fr"
+              ? "Un fil d'activité en direct te montre exactement ce que chaque destinataire a fait et quand. Sache à la seconde quand quelqu'un écoute ton beat ou télécharge ton pack pour relancer au bon moment."
+              : "A live activity feed shows you exactly what each recipient did and when. Know the moment someone plays your beat or downloads your pack so you can follow up at the right time."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockTimelineCard />
@@ -699,25 +703,33 @@ export default function FeatureCampaignsPage() {
         {/* Section 4: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Gmail integration",
-                desc: "Send from your own address. Recipients see your name, reply directly to you, and your emails avoid the promotions tab entirely.",
+                title: locale === "fr" ? "Intégration Gmail" : "Gmail integration",
+                desc: locale === "fr"
+                  ? "Envoie depuis ta propre adresse. Les destinataires voient ton nom, te répondent directement, et tes emails évitent l'onglet promotions."
+                  : "Send from your own address. Recipients see your name, reply directly to you, and your emails avoid the promotions tab entirely.",
               },
               {
-                title: "Multi-channel outreach",
-                desc: "Send campaigns via email, Instagram, or messages. Reach contacts on the channel they actually check.",
+                title: locale === "fr" ? "Multi-canal" : "Multi-channel outreach",
+                desc: locale === "fr"
+                  ? "Envoie tes campagnes par email, Instagram ou messages. Atteins tes contacts sur le canal qu'ils consultent vraiment."
+                  : "Send campaigns via email, Instagram, or messages. Reach contacts on the channel they actually check.",
               },
               {
-                title: "Smart link tracking",
-                desc: "Every campaign generates tracked links. See exactly who opened, clicked, played, and downloaded your beats.",
+                title: locale === "fr" ? "Suivi de liens intelligent" : "Smart link tracking",
+                desc: locale === "fr"
+                  ? "Chaque campagne génère des liens trackés. Vois exactement qui a ouvert, cliqué, écouté et téléchargé tes beats."
+                  : "Every campaign generates tracked links. See exactly who opened, clicked, played, and downloaded your beats.",
               },
               {
-                title: "Pack attachments",
-                desc: "Attach packs, tracks, or folders directly to your campaigns. Recipients get a clean, branded listening experience.",
+                title: locale === "fr" ? "Pièces jointes" : "Pack attachments",
+                desc: locale === "fr"
+                  ? "Attache des packs, tracks ou dossiers directement à tes campagnes. Les destinataires reçoivent une expérience d'écoute propre et brandée."
+                  : "Attach packs, tracks, or folders directly to your campaigns. Recipients get a clean, branded listening experience.",
               },
             ].map((item) => (
               <div
@@ -743,18 +755,19 @@ export default function FeatureCampaignsPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Start sending campaigns
+              {locale === "fr" ? "Commence à envoyer des campagnes" : "Start sending campaigns"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and start reaching your audience with
-              campaigns that actually get opened and played.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et commence à toucher ton audience avec des campagnes qui sont vraiment ouvertes et écoutées."
+                : "Sign up for free and start reaching your audience with campaigns that actually get opened and played."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -762,7 +775,7 @@ export default function FeatureCampaignsPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

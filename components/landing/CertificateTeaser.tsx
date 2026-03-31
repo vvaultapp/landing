@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Reveal } from "@/components/landing/Reveal";
+import type { Locale } from "@/components/landing/content";
 
 function CheckBadgeIcon({ className = "", gradId }: { className?: string; gradId?: string }) {
   const strokeColor = gradId ? `url(#${gradId})` : "currentColor";
@@ -30,7 +31,7 @@ function CheckBadgeIcon({ className = "", gradId }: { className?: string; gradId
   );
 }
 
-export function CertificateTeaser() {
+export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
   return (
     <section className="pt-36 sm:pt-52">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
@@ -125,20 +126,29 @@ export function CertificateTeaser() {
 
           <div className="text-center">
             <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
-              Protect your music.{" "}
-              <span className="text-white/40">Legally.</span>
+              {locale === "fr" ? (
+                <>
+                  Protège ta musique.{" "}
+                  <span className="text-white/40">Légalement.</span>
+                </>
+              ) : (
+                <>
+                  Protect your music.{" "}
+                  <span className="text-white/40">Legally.</span>
+                </>
+              )}
             </h3>
             <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Every track you upload gets a hash-certified deposit
-              certificate &mdash; a tamper-proof legal document that
-              establishes anteriority and protects your rights.
+              {locale === "fr"
+                ? "Chaque track que tu uploades reçoit un certificat de dépôt certifié par hash \u2014 un document légal infalsifiable qui établit l'antériorité et protège tes droits."
+                : <>Every track you upload gets a hash-certified deposit certificate &mdash; a tamper-proof legal document that establishes anteriority and protects your rights.</>}
             </p>
             <div className="mt-5 flex justify-center">
               <Link
                 href="/certificate"
                 className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                View new feature
+                {locale === "fr" ? "Découvrir la fonctionnalité" : "View new feature"}
                 <svg
                   viewBox="0 0 20 20"
                   className="h-4 w-4 fill-none stroke-current stroke-[1.8]"

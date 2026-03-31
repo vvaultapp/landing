@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -501,16 +502,19 @@ function MockLeaderboardCard() {
 }
 
 export default function FeatureAnalyticsPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Analytics — Track true engagement";
-  }, []);
+    document.title = locale === "fr"
+      ? "vvault | Analytics — Mesure le vrai engagement"
+      : "vvault | Analytics — Track true engagement";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — fixed, full-width, blue accent */}
       <div
@@ -549,10 +553,12 @@ export default function FeatureAnalyticsPage() {
               backgroundClip: "text",
             }}
           >
-            Track true engagement
+            {locale === "fr" ? "Mesure le vrai engagement" : "Track true engagement"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Know who is really listening, what they play, how long they stay, and when they come back to buy.
+            {locale === "fr"
+              ? "Sache qui écoute vraiment, ce qu'ils jouent, combien de temps ils restent, et quand ils reviennent acheter."
+              : "Know who is really listening, what they play, how long they stay, and when they come back to buy."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -560,7 +566,7 @@ export default function FeatureAnalyticsPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -568,13 +574,12 @@ export default function FeatureAnalyticsPage() {
         {/* Section 1: Dashboard */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Everything at a glance
+            {locale === "fr" ? "Tout en un coup d'oeil" : "Everything at a glance"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Most platforms stop at opens and clicks. vvault tracks the full
-            journey &mdash; from email open to beat play to download to
-            purchase &mdash; so you see exactly which campaigns and tracks
-            drive real results.
+            {locale === "fr"
+              ? "La plupart des plateformes s'arrêtent aux ouvertures et clics. vvault trace le parcours complet — de l'ouverture de l'email à l'écoute du beat, au téléchargement, à l'achat — pour que tu voies exactement quelles campagnes et tracks génèrent de vrais résultats."
+              : "Most platforms stop at opens and clicks. vvault tracks the full journey — from email open to beat play to download to purchase — so you see exactly which campaigns and tracks drive real results."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockDashboardCard />
@@ -584,12 +589,12 @@ export default function FeatureAnalyticsPage() {
         {/* Section 2: Activity Feed */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Real-time activity feed
+            {locale === "fr" ? "Fil d'activité en temps réel" : "Real-time activity feed"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Watch engagement happen live. Every open, play, download, and
-            purchase appears the moment it happens &mdash; so you can follow
-            up while the interest is fresh.
+            {locale === "fr"
+              ? "Regarde l'engagement se produire en direct. Chaque ouverture, écoute, téléchargement et achat apparaît au moment où ça arrive — pour que tu puisses relancer tant que l'intérêt est frais."
+              : "Watch engagement happen live. Every open, play, download, and purchase appears the moment it happens — so you can follow up while the interest is fresh."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockActivityFeedCard />
@@ -599,12 +604,12 @@ export default function FeatureAnalyticsPage() {
         {/* Section 3: Heatmap */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Find the perfect send time
+            {locale === "fr" ? "Trouve le moment parfait pour envoyer" : "Find the perfect send time"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            vvault analyzes when your audience actually engages and surfaces
-            the optimal day and hour to send your next campaign. Stop
-            guessing &mdash; let the data decide.
+            {locale === "fr"
+              ? "vvault analyse quand ton audience s'engage vraiment et te donne le jour et l'heure optimaux pour ta prochaine campagne. Arrête de deviner — laisse les données décider."
+              : "vvault analyzes when your audience actually engages and surfaces the optimal day and hour to send your next campaign. Stop guessing — let the data decide."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockHeatmapCard />
@@ -614,12 +619,12 @@ export default function FeatureAnalyticsPage() {
         {/* Section 4: Leaderboards */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Know your top performers
+            {locale === "fr" ? "Connais tes meilleurs performers" : "Know your top performers"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            See which campaigns drive the most engagement and which contacts
-            are your hottest leads. Leaderboards for top campaigns, top packs,
-            and hot contacts &mdash; all in one place.
+            {locale === "fr"
+              ? "Vois quelles campagnes génèrent le plus d'engagement et quels contacts sont tes leads les plus chauds. Classements des meilleures campagnes, meilleurs packs, et contacts les plus actifs — tout au même endroit."
+              : "See which campaigns drive the most engagement and which contacts are your hottest leads. Leaderboards for top campaigns, top packs, and hot contacts — all in one place."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockLeaderboardCard />
@@ -629,25 +634,33 @@ export default function FeatureAnalyticsPage() {
         {/* Section 5: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Beyond vanity metrics",
-                desc: "Opens mean nothing if nobody listens. vvault connects every metric to actual engagement so you know what is working.",
+                title: locale === "fr" ? "Au-delà des vanity metrics" : "Beyond vanity metrics",
+                desc: locale === "fr"
+                  ? "Les ouvertures ne veulent rien dire si personne n'écoute. vvault connecte chaque métrique à l'engagement réel pour que tu saches ce qui marche."
+                  : "Opens mean nothing if nobody listens. vvault connects every metric to actual engagement so you know what is working.",
               },
               {
-                title: "Per-recipient scoring",
-                desc: "Every contact gets an engagement score based on their activity. Instantly identify your most engaged listeners and serious buyers.",
+                title: locale === "fr" ? "Scoring par destinataire" : "Per-recipient scoring",
+                desc: locale === "fr"
+                  ? "Chaque contact reçoit un score d'engagement basé sur son activité. Identifie instantanément tes auditeurs les plus engagés et tes acheteurs sérieux."
+                  : "Every contact gets an engagement score based on their activity. Instantly identify your most engaged listeners and serious buyers.",
               },
               {
-                title: "Funnel visibility",
-                desc: "See the full journey from email open to beat play to purchase. Identify where listeners drop off and optimize your flow.",
+                title: locale === "fr" ? "Visibilité du funnel" : "Funnel visibility",
+                desc: locale === "fr"
+                  ? "Vois le parcours complet de l'ouverture de l'email à l'écoute du beat jusqu'à l'achat. Identifie où les auditeurs décrochent et optimise ton flow."
+                  : "See the full journey from email open to beat play to purchase. Identify where listeners drop off and optimize your flow.",
               },
               {
-                title: "Actionable insights",
-                desc: "Raw data becomes clear recommendations — when to send, who to follow up with, and which beats to push.",
+                title: locale === "fr" ? "Insights actionnables" : "Actionable insights",
+                desc: locale === "fr"
+                  ? "Les données brutes deviennent des recommandations claires — quand envoyer, qui relancer, et quels beats pousser."
+                  : "Raw data becomes clear recommendations — when to send, who to follow up with, and which beats to push.",
               },
             ].map((item) => (
               <div
@@ -673,18 +686,19 @@ export default function FeatureAnalyticsPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Start tracking what matters
+              {locale === "fr" ? "Commence à tracker ce qui compte" : "Start tracking what matters"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and see exactly how your audience engages
-              with every beat you send.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et vois exactement comment ton audience interagit avec chaque beat que tu envoies."
+                : "Sign up for free and see exactly how your audience engages with every beat you send."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -692,7 +706,7 @@ export default function FeatureAnalyticsPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -312,16 +313,17 @@ function MockScheduledPostsCard() {
 
 /* ── Page ── */
 export default function FeatureStudioPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Studio";
-  }, []);
+    document.title = locale === "fr" ? "vvault | Studio" : "vvault | Studio";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background */}
       <div
@@ -363,8 +365,9 @@ export default function FeatureStudioPage() {
             vvault Studio
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Automated video posting for your beats. Set a schedule, customize
-            templates, and let Studio publish videos from your packs on autopilot.
+            {locale === "fr"
+              ? "Publication automatique de vidéos pour tes beats. Définis un planning, personnalise tes templates, et laisse Studio publier les vidéos de tes packs en autopilote."
+              : "Automated video posting for your beats. Set a schedule, customize templates, and let Studio publish videos from your packs on autopilot."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -372,7 +375,7 @@ export default function FeatureStudioPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -380,13 +383,12 @@ export default function FeatureStudioPage() {
         {/* Section 1: Auto-Video Config */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Set it and forget it
+            {locale === "fr" ? "Configure et oublie" : "Set it and forget it"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Configure Studio on any pack to automatically generate and post
-            videos for each track. Choose your schedule, set a template with
-            dynamic tokens like BPM, key, and social links &mdash; Studio
-            handles the rest.
+            {locale === "fr"
+              ? "Configure Studio sur n'importe quel pack pour générer et publier automatiquement des vidéos pour chaque track. Choisis ton planning, définis un template avec des tokens dynamiques comme le BPM, la tonalité et tes liens sociaux — Studio s'occupe du reste."
+              : "Configure Studio on any pack to automatically generate and post videos for each track. Choose your schedule, set a template with dynamic tokens like BPM, key, and social links \u2014 Studio handles the rest."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockAutoVideoCard />
@@ -396,11 +398,12 @@ export default function FeatureStudioPage() {
         {/* Section 2: Scheduled Posts */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Your posting queue
+            {locale === "fr" ? "Ta file de publication" : "Your posting queue"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Studio queues up videos from your pack and posts them on your
-            schedule. Track what&apos;s been posted and what&apos;s coming next.
+            {locale === "fr"
+              ? "Studio met en file d'attente les vidéos de ton pack et les publie selon ton planning. Suis ce qui a été posté et ce qui arrive."
+              : "Studio queues up videos from your pack and posts them on your schedule. Track what\u2019s been posted and what\u2019s coming next."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockScheduledPostsCard />
@@ -410,25 +413,33 @@ export default function FeatureStudioPage() {
         {/* Section 3: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Automated posting",
-                desc: "No more manual video creation. Studio generates 1280×720 videos from your tracks and posts them on schedule.",
+                title: locale === "fr" ? "Publication automatique" : "Automated posting",
+                desc: locale === "fr"
+                  ? "Plus besoin de créer des vidéos à la main. Studio génère des vidéos 1280×720 à partir de tes tracks et les publie selon ton planning."
+                  : "No more manual video creation. Studio generates 1280×720 videos from your tracks and posts them on schedule.",
               },
               {
-                title: "Smart templates",
-                desc: "Dynamic tokens auto-fill BPM, key, purchase links, and your social handles into every video title and description.",
+                title: locale === "fr" ? "Templates intelligents" : "Smart templates",
+                desc: locale === "fr"
+                  ? "Les tokens dynamiques remplissent automatiquement le BPM, la tonalité, les liens d'achat et tes réseaux dans chaque titre et description de vidéo."
+                  : "Dynamic tokens auto-fill BPM, key, purchase links, and your social handles into every video title and description.",
               },
               {
-                title: "Flexible scheduling",
-                desc: "Post multiple times per day or once a week. Set the exact time and timezone that works for your audience.",
+                title: locale === "fr" ? "Planning flexible" : "Flexible scheduling",
+                desc: locale === "fr"
+                  ? "Publie plusieurs fois par jour ou une fois par semaine. Définis l'heure exacte et le fuseau horaire qui conviennent à ton audience."
+                  : "Post multiple times per day or once a week. Set the exact time and timezone that works for your audience.",
               },
               {
-                title: "Cover art control",
-                desc: "Choose how cover art is selected: use the track artwork, the pack default, or a custom fallback for every video.",
+                title: locale === "fr" ? "Contrôle de la cover" : "Cover art control",
+                desc: locale === "fr"
+                  ? "Choisis comment la cover est sélectionnée : utilise l'artwork de la track, celui par défaut du pack, ou un fallback personnalisé pour chaque vidéo."
+                  : "Choose how cover art is selected: use the track artwork, the pack default, or a custom fallback for every video.",
               },
             ].map((item) => (
               <div
@@ -454,18 +465,19 @@ export default function FeatureStudioPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Try Studio today
+              {locale === "fr" ? "Essaie Studio aujourd'hui" : "Try Studio today"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Set up automated video posting and let Studio handle your content
-              schedule while you focus on making music.
+              {locale === "fr"
+                ? "Configure la publication automatique de vidéos et laisse Studio gérer ton calendrier de contenu pendant que tu te concentres sur la musique."
+                : "Set up automated video posting and let Studio handle your content schedule while you focus on making music."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -473,7 +485,7 @@ export default function FeatureStudioPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

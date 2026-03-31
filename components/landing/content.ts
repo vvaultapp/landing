@@ -138,7 +138,7 @@ const landingContentEn = {
   ] as LandingNavItem[],
   hero: {
     title: ["The proper way to", "send your music."],
-    description: "Turn emails into placements. Track opens, plays, downloads and more.",
+    description: "Turn emails into placements. Track opens, plays, downloads and more — all from a secure, private workspace.",
     primaryCtaLabel: "Start free",
     primaryCtaHint: "Create your vvault today",
     newBadge: "New",
@@ -162,14 +162,14 @@ const landingContentEn = {
     {
       title: "Upload and organize at speed",
       description:
-        "Drop multiple files, auto-unpack ZIPs, and keep your library structured without breaking flow.",
-      stat: "ZIP auto-unpack",
+        "Drop multiple files into your private library, auto-unpack ZIPs, and keep everything structured without breaking flow.",
+      stat: "Private by default",
     },
     {
       title: "Share links that convert",
       description:
-        "Publish tracks, packs, and folders with private, tokenized, or public links built for fast listening.",
-      stat: "Track, pack, folder links",
+        "Publish tracks, packs, and folders with private, tokenized, or public links — each one encrypted and built for safe, fast listening.",
+      stat: "Secure tokenized links",
     },
     {
       title: "Run campaigns in one place",
@@ -184,10 +184,10 @@ const landingContentEn = {
       stat: "Full engagement visibility",
     },
     {
-      title: "Sell with Stripe checkout",
+      title: "Sell with secure Stripe checkout",
       description:
-        "Offer licenses, secure paid downloads, and keep checkout tied to your content and analytics.",
-      stat: "Marketplace ready",
+        "Offer licenses, process payments through Stripe's bank-grade security, and keep checkout tied to your content and analytics.",
+      stat: "PCI-compliant payments",
     },
     {
       title: "Scale with Pro and Ultra",
@@ -199,13 +199,13 @@ const landingContentEn = {
   howItWorks: [
     {
       title: "Upload",
-      description: "Bring tracks into your private library with metadata, artwork, and clean file handling.",
-      detail: "Drag and drop multi-file uploads, ZIP support, and everything stays ready to use.",
+      description: "Bring tracks into your private, secure library with metadata, artwork, and clean file handling.",
+      detail: "Drag and drop multi-file uploads, ZIP support, and everything stays encrypted and ready to use.",
     },
     {
       title: "Organize",
       description: "Sort everything into folders, packs, and series so your catalog stays clean and shareable.",
-      detail: "Build repeatable pack templates and keep every release structured.",
+      detail: "Build repeatable pack templates and keep every release structured. Nothing is public unless you decide it is.",
     },
     {
       title: "Send",
@@ -366,6 +366,11 @@ const landingContentEn = {
         "Connect your Stripe account, set prices and license types (basic, premium, stems, exclusive), and list on the marketplace or your public profile. Payouts go straight to your bank after a 7-day hold.",
     },
     {
+      question: "Is my music safe on vvault?",
+      answer:
+        "Yes. Your files are stored on encrypted infrastructure, share links use unique tokens that you control, and all payments go through Stripe's PCI-compliant checkout. We never access, sell, or share your data. You own everything you upload.",
+    },
+    {
       question: "What file types can I upload?",
       answer:
         "vvault supports all common audio formats. You can upload individual tracks or full packs with cover art, BPM, key tags, and co-author credits.",
@@ -373,7 +378,7 @@ const landingContentEn = {
     {
       question: "How is vvault different from Dropbox or Google Drive?",
       answer:
-        "Generic cloud storage has no tracking, no campaigns, and no music-specific features. vvault is built specifically for producers — it combines file management, email sending, analytics, CRM, and sales in one place.",
+        "Generic cloud storage has no tracking, no campaigns, and no music-specific features. vvault is built specifically for producers — it combines secure file management, email sending, analytics, CRM, and sales in one place, with privacy controls designed for unreleased music.",
     },
   ] as LandingFaq[],
   finalCta: {
@@ -529,9 +534,9 @@ const landingContentFr = {
     { label: "Tarifs", href: "/pricing" },
   ] as LandingNavItem[],
   hero: {
-    title: ["Envoie tes beats. Track tes résultats.", "Décroche des placements."],
+    title: ["La bonne façon", "d'envoyer ta musique."],
     description:
-      "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus.",
+      "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus — le tout depuis un espace privé et sécurisé.",
     primaryCtaLabel: "Commencer gratuitement",
     primaryCtaHint: "Crée ton vvault aujourd'hui",
     newBadge: "Nouveau",
@@ -555,14 +560,14 @@ const landingContentFr = {
     {
       title: "Upload et organisation rapide",
       description:
-        "Dépose plusieurs fichiers, dézippe automatiquement les ZIP, et garde ta bibliothèque propre sans couper ton flow.",
-      stat: "Dézip auto ZIP",
+        "Dépose plusieurs fichiers dans ta bibliothèque privée, dézippe automatiquement les ZIP, et garde tout structuré sans couper ton flow.",
+      stat: "Privé par défaut",
     },
     {
       title: "Partage des liens qui convertissent",
       description:
-        "Publie des morceaux, packs et dossiers via des liens privés, tokenisés ou publics, optimisés pour l’écoute rapide.",
-      stat: "Liens morceau, pack, dossier",
+        "Publie des morceaux, packs et dossiers via des liens privés, tokenisés ou publics — chacun chiffré et conçu pour une écoute rapide et sécurisée.",
+      stat: "Liens tokenisés sécurisés",
     },
     {
       title: "Lance tes campagnes au même endroit",
@@ -577,10 +582,10 @@ const landingContentFr = {
       stat: "Visibilité engagement complète",
     },
     {
-      title: "Vends avec Stripe checkout",
+      title: "Vends avec un checkout Stripe sécurisé",
       description:
-        "Propose des licences, sécurise les téléchargements payants, et garde le checkout connecté à ton contenu et tes analytics.",
-      stat: "Marketplace ready",
+        "Propose des licences, encaisse les paiements via la sécurité bancaire de Stripe, et garde le checkout connecté à ton contenu et tes analytics.",
+      stat: "Paiements conformes PCI",
     },
     {
       title: "Passe à l’échelle avec Pro et Ultra",
@@ -593,14 +598,14 @@ const landingContentFr = {
     {
       title: "Upload",
       description:
-        "Ajoute tes morceaux dans ta bibliothèque privée avec métadonnées, artwork et gestion propre des fichiers.",
-      detail: "Drag-and-drop multi-fichiers, support ZIP, et tout reste prêt à l’emploi.",
+        "Ajoute tes morceaux dans ta bibliothèque privée et sécurisée avec métadonnées, artwork et gestion propre des fichiers.",
+      detail: "Drag-and-drop multi-fichiers, support ZIP, et tout reste chiffré et prêt à l’emploi.",
     },
     {
       title: "Organise",
       description:
         "Classe tout en dossiers, packs et séries pour garder ton catalogue propre et facile à partager.",
-      detail: "Crée des templates de packs réutilisables et structure chaque sortie.",
+      detail: "Crée des templates de packs réutilisables et structure chaque sortie. Rien n’est public à moins que tu ne le décides.",
     },
     {
       title: "Envoie",
@@ -762,6 +767,11 @@ const landingContentFr = {
         "Connecte ton compte Stripe, définis tes prix et types de licences (basic, premium, stems, exclusive), et publie sur le marketplace ou ton profil public. Les paiements arrivent sur ton compte bancaire après un délai de 7 jours.",
     },
     {
+      question: "Ma musique est-elle en sécurité sur vvault ?",
+      answer:
+        "Oui. Tes fichiers sont stockés sur une infrastructure chiffrée, les liens de partage utilisent des tokens uniques que tu contrôles, et tous les paiements passent par le checkout conforme PCI de Stripe. On n'accède jamais à tes données, on ne les vend ni ne les partage. Tu es propriétaire de tout ce que tu uploades.",
+    },
+    {
       question: "Quels formats de fichiers puis-je uploader ?",
       answer:
         "vvault supporte tous les formats audio courants. Tu peux uploader des morceaux individuels ou des packs complets avec pochette, BPM, tags de tonalité et crédits de co-auteurs.",
@@ -769,7 +779,7 @@ const landingContentFr = {
     {
       question: "En quoi vvault est différent de Dropbox ou Google Drive ?",
       answer:
-        "Le stockage cloud classique n’a ni tracking, ni campagnes, ni fonctionnalités spécifiques à la musique. vvault est conçu spécifiquement pour les producteurs — il combine gestion de fichiers, envoi d’emails, analytics, CRM et ventes en un seul endroit.",
+        "Le stockage cloud classique n’a ni tracking, ni campagnes, ni fonctionnalités spécifiques à la musique. vvault est conçu spécifiquement pour les producteurs — il combine gestion sécurisée de fichiers, envoi d’emails, analytics, CRM et ventes en un seul endroit, avec des contrôles de confidentialité pensés pour la musique non publiée.",
     },
   ] as LandingFaq[],
   finalCta: {

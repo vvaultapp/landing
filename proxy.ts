@@ -63,12 +63,20 @@ export function proxy(request: NextRequest) {
     return setLocaleCookie(redirected, queryLocale);
   }
 
-  // Auto-detection only applies to the EN root route.
+  const cookieLocale = normalizeLocale(request.cookies.get(LOCALE_COOKIE)?.value);
+
+  // For non-root paths: just ensure the locale cookie is set (for docs IP detection)
   if (pathname !== "/") {
-    return NextResponse.next();
+    if (cookieLocale) return NextResponse.next();
+    // No cookie yet — detect locale and set cookie (no redirect for sub-pages)
+    const ipCountry = request.headers.get("x-vercel-ip-country");
+    const acceptLocale = preferredLocaleFromAcceptLanguage(request.headers.get("accept-language"));
+    const detected = ipCountry === "FR" ? "fr" : acceptLocale ?? "en";
+    const response = NextResponse.next();
+    return setLocaleCookie(response, detected);
   }
 
-  const cookieLocale = normalizeLocale(request.cookies.get(LOCALE_COOKIE)?.value);
+  // Root route: redirect to /fr if French detected
   if (cookieLocale === "fr") {
     return NextResponse.redirect(new URL("/fr", request.url));
   }
@@ -76,6 +84,14 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Check Vercel's IP country header (works on Vercel deployment)
+  const ipCountry = request.headers.get("x-vercel-ip-country");
+  if (ipCountry === "FR") {
+    const redirected = NextResponse.redirect(new URL("/fr", request.url));
+    return setLocaleCookie(redirected, "fr");
+  }
+
+  // Fallback: check Accept-Language header
   const acceptLanguageLocale = preferredLocaleFromAcceptLanguage(request.headers.get("accept-language"));
   if (acceptLanguageLocale === "fr") {
     const redirected = NextResponse.redirect(new URL("/fr", request.url));

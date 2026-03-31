@@ -27,6 +27,11 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         ? "vvault | La bonne façon d'envoyer ta musique"
         : "vvault | The proper way to send your music";
     document.documentElement.lang = locale;
+    // Persist locale so sub-pages and docs can read it
+    try {
+      localStorage.setItem("vvault-locale", locale);
+      localStorage.setItem("vvault-docs-lang", locale);
+    } catch {}
   }, [locale]);
 
   useEffect(() => {
@@ -44,11 +49,11 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main id="main-content" className="pb-20 sm:pb-0">
         <HeroSection content={content} locale={locale} />
-        <SocialProofSection />
-        <FeatureShowcase />
+        <SocialProofSection locale={locale} />
+        <FeatureShowcase locale={locale} />
         <HeroStatementSection content={content} />
-        <CertificateTeaser />
-        <PricingSection content={content} />
+        <CertificateTeaser locale={locale} />
+        <PricingSection content={content} locale={locale} />
         <ContactSection locale={locale} />
         <FinalCtaSection content={content} />
       </main>

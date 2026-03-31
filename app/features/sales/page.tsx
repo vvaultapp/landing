@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -289,16 +290,19 @@ function MockRevenueByLicenseCard() {
 /*  Page                                                               */
 /* ================================================================== */
 export default function FeatureSalesPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Sell your music";
-  }, []);
+    document.title = locale === "fr"
+      ? "vvault | Vends ta musique"
+      : "vvault | Sell your music";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — fixed, full-width, green accent */}
       <div
@@ -337,10 +341,12 @@ export default function FeatureSalesPage() {
               backgroundClip: "text",
             }}
           >
-            Sell your music
+            {locale === "fr" ? "Vends ta musique" : "Sell your music"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Marketplace and Stripe checkout built for producers.
+            {locale === "fr"
+              ? "Marketplace sécurisée et paiement Stripe conforme PCI, pensés pour les producteurs."
+              : "Secure marketplace and PCI-compliant Stripe checkout built for producers."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -348,7 +354,7 @@ export default function FeatureSalesPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -356,11 +362,12 @@ export default function FeatureSalesPage() {
         {/* Section 1: Revenue Dashboard */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Your revenue at a glance
+            {locale === "fr" ? "Tes revenus en un coup d'oeil" : "Your revenue at a glance"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Track total revenue, net earnings after fees, and monthly order
-            volume &mdash; all connected directly to your Stripe account.
+            {locale === "fr"
+              ? "Suis ton chiffre d'affaires total, tes gains nets après frais, et le volume de commandes mensuelles — le tout connecté directement à ton compte Stripe."
+              : "Track total revenue, net earnings after fees, and monthly order volume — all connected directly to your Stripe account."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockRevenueDashboardCard />
@@ -370,12 +377,12 @@ export default function FeatureSalesPage() {
         {/* Section 2: License Types */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Flexible license tiers
+            {locale === "fr" ? "Des licences flexibles" : "Flexible license tiers"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Offer Basic, Premium, Stems, Exclusive, Unlimited, and Sound Kit licenses with custom pricing. Buyers
-            pick their tier at checkout and receive the correct files
-            automatically.
+            {locale === "fr"
+              ? "Propose des licences Basic, Premium, Stems, Exclusive, Unlimited et Sound Kit avec des prix personnalisés. Les acheteurs choisissent leur tier au checkout et reçoivent les bons fichiers automatiquement."
+              : "Offer Basic, Premium, Stems, Exclusive, Unlimited, and Sound Kit licenses with custom pricing. Buyers pick their tier at checkout and receive the correct files automatically."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockLicenseTypesCard />
@@ -385,11 +392,12 @@ export default function FeatureSalesPage() {
         {/* Section 3: Revenue by License */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Understand your revenue
+            {locale === "fr" ? "Comprends tes revenus" : "Understand your revenue"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            See which license types drive the most income. Use the breakdown to
-            optimize your pricing strategy and maximize earnings.
+            {locale === "fr"
+              ? "Vois quels types de licences génèrent le plus de revenus. Utilise le détail pour optimiser ta stratégie de prix et maximiser tes gains."
+              : "See which license types drive the most income. Use the breakdown to optimize your pricing strategy and maximize earnings."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockRevenueByLicenseCard />
@@ -399,25 +407,33 @@ export default function FeatureSalesPage() {
         {/* Section 4: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Stripe integration",
-                desc: "Payments powered by Stripe. Accept cards, Apple Pay, Google Pay with full PCI compliance. Payouts after a 7-day hold.",
+                title: locale === "fr" ? "Intégration Stripe" : "Stripe integration",
+                desc: locale === "fr"
+                  ? "Paiements propulsés par Stripe. Accepte les cartes, Apple Pay, Google Pay en toute conformité PCI. Versements après 7 jours."
+                  : "Payments powered by Stripe. Accept cards, Apple Pay, Google Pay with full PCI compliance. Payouts after a 7-day hold.",
               },
               {
-                title: "License flexibility",
-                desc: "Basic, Premium, Stems, Exclusive. Each tier delivers the right file formats automatically at checkout.",
+                title: locale === "fr" ? "Licences flexibles" : "License flexibility",
+                desc: locale === "fr"
+                  ? "Basic, Premium, Stems, Exclusive. Chaque tier livre les bons formats de fichiers automatiquement au checkout."
+                  : "Basic, Premium, Stems, Exclusive. Each tier delivers the right file formats automatically at checkout.",
               },
               {
-                title: "5% Pro / 0% Ultra fees",
-                desc: "Pro sellers pay 5% per sale. Ultra pays 0% platform commission. Both only pay Stripe processing fees.",
+                title: locale === "fr" ? "5% Pro / 0% Ultra" : "5% Pro / 0% Ultra fees",
+                desc: locale === "fr"
+                  ? "Les vendeurs Pro paient 5% par vente. Ultra paie 0% de commission. Les deux ne paient que les frais Stripe."
+                  : "Pro sellers pay 5% per sale. Ultra pays 0% platform commission. Both only pay Stripe processing fees.",
               },
               {
-                title: "Stripe-powered payouts",
-                desc: "Earnings are paid out via Stripe with a 7-day hold. Multi-currency support for EUR, USD, and GBP.",
+                title: locale === "fr" ? "Versements via Stripe" : "Stripe-powered payouts",
+                desc: locale === "fr"
+                  ? "Les gains sont versés via Stripe avec un délai de 7 jours. Support multi-devises pour EUR, USD et GBP."
+                  : "Earnings are paid out via Stripe with a 7-day hold. Multi-currency support for EUR, USD, and GBP.",
               },
             ].map((item) => (
               <div
@@ -443,17 +459,19 @@ export default function FeatureSalesPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Start selling your music
+              {locale === "fr" ? "Commence à vendre ta musique" : "Start selling your music"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and connect your Stripe account in minutes.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et connecte ton compte Stripe en quelques minutes."
+                : "Sign up for free and connect your Stripe account in minutes."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -461,7 +479,7 @@ export default function FeatureSalesPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

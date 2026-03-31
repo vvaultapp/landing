@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -315,16 +316,19 @@ function MockSubmissionCard() {
 /*  Page                                                               */
 /* ================================================================== */
 export default function FeatureOpportunitiesPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Find opportunities";
-  }, []);
+    document.title = locale === "fr"
+      ? "vvault | Trouve des opportunités"
+      : "vvault | Find opportunities";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — fixed, full-width, rose accent */}
       <div
@@ -363,10 +367,12 @@ export default function FeatureOpportunitiesPage() {
               backgroundClip: "text",
             }}
           >
-            Find opportunities
+            {locale === "fr" ? "Trouve des opportunités" : "Find opportunities"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Community-driven request board where artists post what they need.
+            {locale === "fr"
+              ? "Un tableau de demandes communautaire où les artistes postent ce dont ils ont besoin."
+              : "Community-driven request board where artists post what they need."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -374,7 +380,7 @@ export default function FeatureOpportunitiesPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -382,12 +388,12 @@ export default function FeatureOpportunitiesPage() {
         {/* Section 1: Request Board */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Browse what artists need
+            {locale === "fr" ? "Parcours ce que les artistes recherchent" : "Browse what artists need"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Artists post requests for the sounds they&rsquo;re looking for &mdash;
-            loops, one-shots, full beats, vocal packs. Browse the board, find
-            requests that match your style, and submit your work directly.
+            {locale === "fr"
+              ? "Les artistes postent des demandes pour les sons qu'ils recherchent — loops, one-shots, beats complets, packs de vocals. Parcours le tableau, trouve les demandes qui correspondent à ton style, et soumets ton travail directement."
+              : "Artists post requests for the sounds they\u2019re looking for \u2014 loops, one-shots, full beats, vocal packs. Browse the board, find requests that match your style, and submit your work directly."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockRequestBoardCard />
@@ -397,12 +403,12 @@ export default function FeatureOpportunitiesPage() {
         {/* Section 2: Submission */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Submit and get discovered
+            {locale === "fr" ? "Soumets et fais-toi découvrir" : "Submit and get discovered"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Package your sounds and submit them to open requests. Track the
-            status of every submission &mdash; from review to accepted &mdash;
-            all in one place.
+            {locale === "fr"
+              ? "Package tes sons et soumets-les aux demandes ouvertes. Suis le statut de chaque soumission — de la review à l'acceptation — tout au même endroit."
+              : "Package your sounds and submit them to open requests. Track the status of every submission — from review to accepted — all in one place."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockSubmissionCard />
@@ -412,25 +418,33 @@ export default function FeatureOpportunitiesPage() {
         {/* Section 3: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Discover what artists need",
-                desc: "Stop guessing what sells. See real requests from real artists and create sounds you know people are looking for.",
+                title: locale === "fr" ? "Découvre ce que les artistes veulent" : "Discover what artists need",
+                desc: locale === "fr"
+                  ? "Arrête de deviner ce qui se vend. Vois de vraies demandes de vrais artistes et crée des sons que les gens recherchent."
+                  : "Stop guessing what sells. See real requests from real artists and create sounds you know people are looking for.",
               },
               {
-                title: "Submit directly",
-                desc: "No middlemen, no gatekeepers. Submit your packs straight to the artist who requested them and start a conversation.",
+                title: locale === "fr" ? "Soumets directement" : "Submit directly",
+                desc: locale === "fr"
+                  ? "Pas d'intermédiaires, pas de gatekeepers. Soumets tes packs directement à l'artiste qui les a demandés et lance la conversation."
+                  : "No middlemen, no gatekeepers. Submit your packs straight to the artist who requested them and start a conversation.",
               },
               {
-                title: "Get discovered",
-                desc: "Every accepted submission puts your name in front of a new audience. Build your reputation one placement at a time.",
+                title: locale === "fr" ? "Fais-toi découvrir" : "Get discovered",
+                desc: locale === "fr"
+                  ? "Chaque soumission acceptée met ton nom devant une nouvelle audience. Construis ta réputation un placement à la fois."
+                  : "Every accepted submission puts your name in front of a new audience. Build your reputation one placement at a time.",
               },
               {
-                title: "Paid submissions",
-                desc: "Request owners can set a price per submission. Submit free or paid — each opportunity defines its own rules and upload limits.",
+                title: locale === "fr" ? "Soumissions payantes" : "Paid submissions",
+                desc: locale === "fr"
+                  ? "Les créateurs de demandes peuvent fixer un prix par soumission. Soumets gratuitement ou en payant — chaque opportunité définit ses propres règles."
+                  : "Request owners can set a price per submission. Submit free or paid — each opportunity defines its own rules and upload limits.",
               },
             ].map((item) => (
               <div
@@ -456,17 +470,19 @@ export default function FeatureOpportunitiesPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Start finding opportunities
+              {locale === "fr" ? "Commence à trouver des opportunités" : "Start finding opportunities"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and browse the request board today.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et parcours le tableau de demandes dès aujourd'hui."
+                : "Sign up for free and browse the request board today."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -474,7 +490,7 @@ export default function FeatureOpportunitiesPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

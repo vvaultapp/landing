@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -57,17 +58,19 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export default function HelpPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
+  const fr = locale === "fr";
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Help Center";
-  }, []);
+    document.title = fr ? "vvault | Centre d'aide" : "vvault | Help Center";
+  }, [fr]);
 
   const faqItems = content.faq;
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main className="relative z-10 mx-auto max-w-[720px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Header */}
         <Reveal>
@@ -81,10 +84,10 @@ export default function HelpPage() {
               backgroundClip: "text",
             }}
           >
-            Help Center
+            {fr ? "Centre d'aide" : "Help Center"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Find answers to common questions.
+            {fr ? "Trouve les réponses aux questions les plus courantes." : "Find answers to common questions."}
           </p>
         </Reveal>
 
@@ -100,9 +103,9 @@ export default function HelpPage() {
         {/* Still need help? */}
         <Reveal delayMs={200}>
           <div className="mt-20 text-center">
-            <h2 className="text-xl font-medium text-white sm:text-2xl">Still need help?</h2>
+            <h2 className="text-xl font-medium text-white sm:text-2xl">{fr ? "Encore besoin d'aide ?" : "Still need help?"}</h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Can&apos;t find what you&apos;re looking for? Reach out directly or ask the community.
+              {fr ? "Tu n'as pas trouvé ce que tu cherches ? Contacte-nous directement ou demande à la communauté." : "Can\u0027t find what you\u0027re looking for? Reach out directly or ask the community."}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <a
@@ -143,7 +146,7 @@ export default function HelpPage() {
           </div>
         </Reveal>
       </main>
-      <LandingFooter locale="en" content={content} showColumns={false} inlineLegalWithBrand />
+      <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
     </div>
   );
 }

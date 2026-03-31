@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -493,16 +494,19 @@ function MockGroupsCard() {
 /*  Page                                                              */
 /* ================================================================== */
 export default function FeatureContactsPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Contacts — Know your network";
-  }, []);
+    document.title = locale === "fr"
+      ? "vvault | Contacts — Connais ton réseau"
+      : "vvault | Contacts — Know your network";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — fixed, full-width, amber accent */}
       <div
@@ -541,10 +545,12 @@ export default function FeatureContactsPage() {
               backgroundClip: "text",
             }}
           >
-            Know your contacts
+            {locale === "fr" ? "Connais tes contacts" : "Know your contacts"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            A CRM built for the music industry. Manage every relationship, track engagement, and never let a connection go cold.
+            {locale === "fr"
+              ? "Un CRM pensé pour l'industrie musicale. Gère chaque relation, suis l'engagement, et ne laisse jamais un contact refroidir."
+              : "A CRM built for the music industry. Manage every relationship, track engagement, and never let a connection go cold."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -552,7 +558,7 @@ export default function FeatureContactsPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -560,12 +566,12 @@ export default function FeatureContactsPage() {
         {/* Section 1: Contact detail */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Every contact, fully profiled
+            {locale === "fr" ? "Chaque contact, entièrement profilé" : "Every contact, fully profiled"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Each contact has a rich profile with engagement scoring, interaction
-            stats, and tags. Know at a glance who is engaged, what they have
-            listened to, and when to follow up.
+            {locale === "fr"
+              ? "Chaque contact a un profil riche avec un score d'engagement, des stats d'interaction et des tags. Vois en un coup d'oeil qui est engagé, ce qu'ils ont écouté, et quand relancer."
+              : "Each contact has a rich profile with engagement scoring, interaction stats, and tags. Know at a glance who is engaged, what they have listened to, and when to follow up."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockContactDetailCard />
@@ -575,12 +581,12 @@ export default function FeatureContactsPage() {
         {/* Section 2: Timeline */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Full activity timeline
+            {locale === "fr" ? "Timeline d'activité complète" : "Full activity timeline"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Every open, play, download, and click is logged automatically. See
-            exactly how each contact interacts with your music &mdash; no manual
-            tracking required.
+            {locale === "fr"
+              ? "Chaque ouverture, écoute, téléchargement et clic est logué automatiquement. Vois exactement comment chaque contact interagit avec ta musique — sans tracking manuel."
+              : "Every open, play, download, and click is logged automatically. See exactly how each contact interacts with your music — no manual tracking required."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockContactTimelineCard />
@@ -590,11 +596,12 @@ export default function FeatureContactsPage() {
         {/* Section 3: Contact list */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Your network at a glance
+            {locale === "fr" ? "Ton réseau en un coup d'oeil" : "Your network at a glance"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Search, filter, and segment your contacts by engagement score, role,
-            or custom tags. Find the right people for every campaign in seconds.
+            {locale === "fr"
+              ? "Cherche, filtre et segmente tes contacts par score d'engagement, rôle ou tags personnalisés. Trouve les bonnes personnes pour chaque campagne en quelques secondes."
+              : "Search, filter, and segment your contacts by engagement score, role, or custom tags. Find the right people for every campaign in seconds."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockContactListCard />
@@ -604,11 +611,12 @@ export default function FeatureContactsPage() {
         {/* Section 4: Groups */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Organize with groups
+            {locale === "fr" ? "Organise avec des groupes" : "Organize with groups"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Tag contacts with custom groups and colors. Filter by group to
-            quickly find the right audience for your next campaign.
+            {locale === "fr"
+              ? "Tague tes contacts avec des groupes et des couleurs personnalisés. Filtre par groupe pour trouver rapidement la bonne audience pour ta prochaine campagne."
+              : "Tag contacts with custom groups and colors. Filter by group to quickly find the right audience for your next campaign."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockGroupsCard />
@@ -618,25 +626,33 @@ export default function FeatureContactsPage() {
         {/* Section 5: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Engagement scoring",
-                desc: "Contacts are scored automatically based on opens, plays, downloads, and clicks. Focus on the people who are actually listening.",
+                title: locale === "fr" ? "Scoring d'engagement" : "Engagement scoring",
+                desc: locale === "fr"
+                  ? "Les contacts sont scorés automatiquement selon les ouvertures, écoutes, téléchargements et clics. Concentre-toi sur ceux qui écoutent vraiment."
+                  : "Contacts are scored automatically based on opens, plays, downloads, and clicks. Focus on the people who are actually listening.",
               },
               {
-                title: "Smart segmentation",
-                desc: "Group contacts with custom tags and colors. Filter by engagement level, group, or activity to send the right music to the right people.",
+                title: locale === "fr" ? "Segmentation intelligente" : "Smart segmentation",
+                desc: locale === "fr"
+                  ? "Groupe tes contacts avec des tags et couleurs personnalisés. Filtre par niveau d'engagement, groupe ou activité pour envoyer la bonne musique aux bonnes personnes."
+                  : "Group contacts with custom tags and colors. Filter by engagement level, group, or activity to send the right music to the right people.",
               },
               {
-                title: "Automatic tracking",
-                desc: "Every interaction is logged without lifting a finger. Opens, plays, downloads, and clicks build a complete picture over time.",
+                title: locale === "fr" ? "Tracking automatique" : "Automatic tracking",
+                desc: locale === "fr"
+                  ? "Chaque interaction est loguée sans lever le petit doigt. Ouvertures, écoutes, téléchargements et clics construisent une image complète au fil du temps."
+                  : "Every interaction is logged without lifting a finger. Opens, plays, downloads, and clicks build a complete picture over time.",
               },
               {
-                title: "Built for music",
-                desc: "This is not a generic CRM. Every feature is designed around how producers, labels, and artists actually manage relationships.",
+                title: locale === "fr" ? "Pensé pour la musique" : "Built for music",
+                desc: locale === "fr"
+                  ? "Ce n'est pas un CRM générique. Chaque fonctionnalité est pensée autour de la façon dont les producteurs, labels et artistes gèrent vraiment leurs relations."
+                  : "This is not a generic CRM. Every feature is designed around how producers, labels, and artists actually manage relationships.",
               },
             ].map((item) => (
               <div
@@ -662,18 +678,19 @@ export default function FeatureContactsPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Start building relationships
+              {locale === "fr" ? "Commence à construire tes relations" : "Start building relationships"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and turn your contact list into a real music
-              industry CRM.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et transforme ta liste de contacts en un vrai CRM de l'industrie musicale."
+                : "Sign up for free and turn your contact list into a real music industry CRM."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -681,7 +698,7 @@ export default function FeatureContactsPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

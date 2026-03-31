@@ -5,6 +5,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const entries = [
   {
@@ -52,15 +53,17 @@ const entries = [
 ];
 
 export default function ChangelogPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
+  const fr = locale === "fr";
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Changelog";
-  }, []);
+    document.title = fr ? "vvault | Journal des mises à jour" : "vvault | Changelog";
+  }, [fr]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main className="relative z-10 mx-auto max-w-[720px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Header */}
         <Reveal>
@@ -74,10 +77,10 @@ export default function ChangelogPage() {
               backgroundClip: "text",
             }}
           >
-            Changelog
+            {fr ? "Journal des mises à jour" : "Changelog"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            What&apos;s new in vvault.
+            {fr ? "Les nouveautés de vvault." : "What\u0027s new in vvault."}
           </p>
         </Reveal>
 
@@ -109,7 +112,7 @@ export default function ChangelogPage() {
           ))}
         </div>
       </main>
-      <LandingFooter locale="en" content={content} showColumns={false} inlineLegalWithBrand />
+      <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
     </div>
   );
 }

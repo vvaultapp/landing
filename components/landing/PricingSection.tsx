@@ -7,6 +7,7 @@ import { Reveal } from "@/components/landing/Reveal";
 
 type PricingSectionProps = {
   content: LandingContent;
+  locale?: "en" | "fr";
 };
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
@@ -73,7 +74,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
-export function PricingSection({ content }: PricingSectionProps) {
+export function PricingSection({ content, locale = "en" }: PricingSectionProps) {
   const [annual, setAnnual] = useState(true);
   const { human, ai } = content.pricingComparison;
   const plan = content.singlePlan;
@@ -95,7 +96,7 @@ export function PricingSection({ content }: PricingSectionProps) {
       name: plan.name,
       eyebrow: content.pricingUi.mostPopular,
       price: proPrice,
-      period: "/mo",
+      period: locale === "fr" ? "/mois" : "/mo",
 
       bullets: plan.bullets,
       cta: plan.cta,
@@ -246,7 +247,7 @@ export function PricingSection({ content }: PricingSectionProps) {
                   </LandingCtaLink>
                   {p.period && (
                     <p className="mt-2.5 text-center text-[11px] text-white/25">
-                      Cancel anytime
+                      {locale === "fr" ? "Annule quand tu veux" : "Cancel anytime"}
                     </p>
                   )}
                 </div>

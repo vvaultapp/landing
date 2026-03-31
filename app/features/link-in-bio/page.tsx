@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -280,16 +281,17 @@ function MockPlacementsCard() {
 
 /* ── Page ── */
 export default function FeatureLinkInBioPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Link in Bio";
-  }, []);
+    document.title = locale === "fr" ? "vvault | Lien en bio" : "vvault | Link in Bio";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background */}
       <div
@@ -328,10 +330,12 @@ export default function FeatureLinkInBioPage() {
               backgroundClip: "text",
             }}
           >
-            Link in Bio
+            {locale === "fr" ? "Lien en bio" : "Link in Bio"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Your public profile with packs, soundkits, tracks, and placements.
+            {locale === "fr"
+              ? "Ton profil public avec tes packs, soundkits, tracks et placements."
+              : "Your public profile with packs, soundkits, tracks, and placements."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -339,7 +343,7 @@ export default function FeatureLinkInBioPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -347,12 +351,12 @@ export default function FeatureLinkInBioPage() {
         {/* Section 1: Bio Page Preview */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Your page, your brand
+            {locale === "fr" ? "Ta page, ta marque" : "Your page, your brand"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Your public profile at vvault.app/@handle showcases your packs,
-            soundkits, tracks, and placement credits. Share one link everywhere
-            &mdash; visitors can preview, stream, and purchase directly.
+            {locale === "fr"
+              ? "Ton profil public sur vvault.app/@pseudo met en avant tes packs, soundkits, tracks et crédits de placement. Partage un seul lien partout — les visiteurs peuvent écouter, streamer et acheter directement."
+              : "Your public profile at vvault.app/@handle showcases your packs, soundkits, tracks, and placement credits. Share one link everywhere \u2014 visitors can preview, stream, and purchase directly."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockBioPreviewCard />
@@ -362,12 +366,12 @@ export default function FeatureLinkInBioPage() {
         {/* Section 2: Placements */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Showcase your placements
+            {locale === "fr" ? "Mets en avant tes placements" : "Showcase your placements"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Display your credits and placements directly on your profile.
-            Link to Spotify, Apple Music, YouTube, and SoundCloud so visitors
-            can hear your work in context.
+            {locale === "fr"
+              ? "Affiche tes crédits et placements directement sur ton profil. Lie vers Spotify, Apple Music, YouTube et SoundCloud pour que les visiteurs puissent écouter ton travail en contexte."
+              : "Display your credits and placements directly on your profile. Link to Spotify, Apple Music, YouTube, and SoundCloud so visitors can hear your work in context."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockPlacementsCard />
@@ -377,25 +381,33 @@ export default function FeatureLinkInBioPage() {
         {/* Section 3: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "One link for everything",
-                desc: "Your vvault profile shows packs, soundkits, tracks, and placements in a single branded page. Share one link everywhere.",
+                title: locale === "fr" ? "Un seul lien pour tout" : "One link for everything",
+                desc: locale === "fr"
+                  ? "Ton profil vvault affiche tes packs, soundkits, tracks et placements sur une seule page brandée. Partage un seul lien partout."
+                  : "Your vvault profile shows packs, soundkits, tracks, and placements in a single branded page. Share one link everywhere.",
               },
               {
-                title: "Built-in audio player",
-                desc: "Visitors can preview your beats directly on your profile. No external links needed to hear your work.",
+                title: locale === "fr" ? "Lecteur audio intégré" : "Built-in audio player",
+                desc: locale === "fr"
+                  ? "Les visiteurs peuvent écouter tes beats directement sur ton profil. Pas besoin de liens externes pour découvrir ton travail."
+                  : "Visitors can preview your beats directly on your profile. No external links needed to hear your work.",
               },
               {
-                title: "Theme customization",
-                desc: "Pick from theme presets or customize colors and backgrounds to match your artist brand.",
+                title: locale === "fr" ? "Personnalisation du thème" : "Theme customization",
+                desc: locale === "fr"
+                  ? "Choisis parmi des thèmes prédéfinis ou personnalise les couleurs et arrière-plans pour coller à ton image d'artiste."
+                  : "Pick from theme presets or customize colors and backgrounds to match your artist brand.",
               },
               {
-                title: "Placement credits",
-                desc: "Show your credits with links to Spotify, Apple Music, YouTube, and SoundCloud. Let your work speak for itself.",
+                title: locale === "fr" ? "Crédits de placement" : "Placement credits",
+                desc: locale === "fr"
+                  ? "Affiche tes crédits avec des liens vers Spotify, Apple Music, YouTube et SoundCloud. Laisse ton travail parler de lui-même."
+                  : "Show your credits with links to Spotify, Apple Music, YouTube, and SoundCloud. Let your work speak for itself.",
               },
             ].map((item) => (
               <div
@@ -421,18 +433,19 @@ export default function FeatureLinkInBioPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Claim your link page
+              {locale === "fr" ? "Réclame ta page" : "Claim your link page"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and start sharing all your content from one
-              beautiful page.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et commence à partager tout ton contenu depuis une seule page."
+                : "Sign up for free and start sharing all your content from one beautiful page."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -440,7 +453,7 @@ export default function FeatureLinkInBioPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

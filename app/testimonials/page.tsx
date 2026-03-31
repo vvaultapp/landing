@@ -5,6 +5,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 type LandingStats = {
   emailsSentTotal: number;
@@ -52,31 +53,33 @@ function fmt(n: number): string {
 }
 
 export default function TestimonialsPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
   const stats = useLandingStats();
+  const fr = locale === "fr";
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Testimonials";
-  }, []);
+    document.title = fr ? "vvault | Témoignages" : "vvault | Testimonials";
+  }, [fr]);
 
   const sponsoredVideos = content.pricingUi.sponsoredVideos;
   const testimonialVideoUrl = content.pricingUi.testimonialVideoUrl;
 
   const numberItems = stats
     ? [
-        { stat: `${fmt(stats.usersTotal)}+`, label: "Producers on the platform" },
-        { stat: fmt(stats.tracksTotal), label: "Tracks uploaded" },
-        { stat: fmt(stats.emailsSentTotal), label: "Campaigns emails sent" },
-        { stat: stats.appStoreReviewLabel, label: "App Store rating" },
-        { stat: "0%", label: "Marketplace fees on Ultra" },
-        { stat: "100%", label: "Free to start, no credit card" },
+        { stat: `${fmt(stats.usersTotal)}+`, label: fr ? "Producteurs sur la plateforme" : "Producers on the platform" },
+        { stat: fmt(stats.tracksTotal), label: fr ? "Tracks uploadés" : "Tracks uploaded" },
+        { stat: fmt(stats.emailsSentTotal), label: fr ? "Emails de campagne envoyés" : "Campaigns emails sent" },
+        { stat: stats.appStoreReviewLabel, label: fr ? "Note App Store" : "App Store rating" },
+        { stat: "0%", label: fr ? "Frais marketplace sur Ultra" : "Marketplace fees on Ultra" },
+        { stat: "100%", label: fr ? "Gratuit, sans carte bancaire" : "Free to start, no credit card" },
       ]
     : null;
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main className="relative z-10 mx-auto max-w-[900px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Header */}
         <Reveal>
@@ -90,22 +93,26 @@ export default function TestimonialsPage() {
               backgroundClip: "text",
             }}
           >
-            They talk about us
+            {fr ? "Ils parlent de nous" : "They talk about us"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
             {stats
-              ? `Used by ${fmt(stats.usersTotal)}+ producers. Watch real creators share how they use vvault to send, track, and convert.`
-              : "Watch real creators share how they use vvault to send, track, and convert."}
+              ? (fr
+                  ? `Utilisé par ${fmt(stats.usersTotal)}+ producteurs. Regarde de vrais créateurs partager comment ils utilisent vvault pour envoyer, tracker et convertir.`
+                  : `Used by ${fmt(stats.usersTotal)}+ producers. Watch real creators share how they use vvault to send, track, and convert.`)
+              : (fr
+                  ? "Regarde de vrais créateurs partager comment ils utilisent vvault pour envoyer, tracker et convertir."
+                  : "Watch real creators share how they use vvault to send, track, and convert.")}
           </p>
         </Reveal>
 
         {/* Featured testimonial video */}
         <Reveal className="mt-16">
           <h2 className="text-xl font-medium text-white sm:text-2xl">
-            Featured Review
+            {fr ? "Avis à la une" : "Featured Review"}
           </h2>
           <p className="mt-2 text-[14px] text-white/40">
-            A full walkthrough from a real vvault user.
+            {fr ? "Un walkthrough complet par un vrai utilisateur de vvault." : "A full walkthrough from a real vvault user."}
           </p>
           <div className="mt-6 aspect-video overflow-hidden rounded-2xl">
             <iframe
@@ -121,10 +128,10 @@ export default function TestimonialsPage() {
         <section id="videos" className="mt-24">
           <Reveal>
             <h2 className="text-xl font-medium text-white sm:text-2xl">
-              Community Videos
+              {fr ? "Vidéos de la communauté" : "Community Videos"}
             </h2>
             <p className="mt-2 text-[14px] text-white/40">
-              Campaign highlights and reviews from creators using vvault.
+              {fr ? "Highlights de campagnes et reviews de créateurs qui utilisent vvault." : "Campaign highlights and reviews from creators using vvault."}
             </p>
           </Reveal>
           <div className="mt-8 grid gap-6 sm:grid-cols-2">
@@ -147,10 +154,10 @@ export default function TestimonialsPage() {
         <section id="wall-of-love" className="mt-24">
           <Reveal>
             <h2 className="text-xl font-medium text-white sm:text-2xl">
-              vvault in numbers
+              {fr ? "vvault en chiffres" : "vvault in numbers"}
             </h2>
             <p className="mt-2 text-[14px] text-white/40">
-              Real usage data from the platform.
+              {fr ? "Données d'utilisation réelles de la plateforme." : "Real usage data from the platform."}
             </p>
           </Reveal>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -186,7 +193,7 @@ export default function TestimonialsPage() {
                       &hellip;
                     </p>
                     <p className="mt-1.5 text-[13px] text-white/20 animate-pulse">
-                      Loading
+                      {fr ? "Chargement" : "Loading"}
                     </p>
                   </div>
                 ))}
@@ -197,19 +204,23 @@ export default function TestimonialsPage() {
         <Reveal className="mt-24">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Join the community
+              {fr ? "Rejoins la communauté" : "Join the community"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
               {stats
-                ? `Sign up for free and see why ${fmt(stats.usersTotal)}+ producers trust vvault every day.`
-                : "Sign up for free and start sending today."}
+                ? (fr
+                    ? `Inscris-toi gratuitement et découvre pourquoi ${fmt(stats.usersTotal)}+ producteurs font confiance à vvault chaque jour.`
+                    : `Sign up for free and see why ${fmt(stats.usersTotal)}+ producers trust vvault every day.`)
+                : (fr
+                    ? "Inscris-toi gratuitement et commence à envoyer dès aujourd'hui."
+                    : "Sign up for free and start sending today.")}
             </p>
             <div className="mt-6 flex justify-center gap-3">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {fr ? "Commencer gratuitement" : "Start for free"}
               </a>
               <a
                 href="https://discord.gg/QGGEZR5KhB"
@@ -217,14 +228,14 @@ export default function TestimonialsPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center rounded-2xl bg-white/[0.06] px-6 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white/[0.1]"
               >
-                Join Discord
+                {fr ? "Rejoindre Discord" : "Join Discord"}
               </a>
             </div>
           </div>
         </Reveal>
       </main>
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

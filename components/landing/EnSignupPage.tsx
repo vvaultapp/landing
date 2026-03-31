@@ -27,6 +27,7 @@ const marqueeRowTwo: Pill[] = [
   { icon: "bolt", label: "Faster follow-ups" },
   { icon: "exit", label: "Cancel anytime" },
   { icon: "stats", label: "Opens + plays" },
+  { icon: "lock", label: "Encrypted storage" },
 ];
 
 function PillIconGlyph({ icon }: { icon: PillIcon }) {

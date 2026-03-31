@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -480,16 +481,19 @@ function MockOrganizationCard() {
 /* ------------------------------------------------------------------ */
 
 export default function FeatureLibraryPage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Your music library";
-  }, []);
+    document.title = locale === "fr"
+      ? "vvault | Ta bibliothèque musicale"
+      : "vvault | Your music library";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — fixed, full-width, emerald accent */}
       <div
@@ -528,10 +532,12 @@ export default function FeatureLibraryPage() {
               backgroundClip: "text",
             }}
           >
-            Your music library
+            {locale === "fr" ? "Ta bibliothèque musicale" : "Your music library"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Upload, organize, and manage your entire catalog in one place. Every beat, pack, and stem&nbsp;&mdash; always accessible, always yours.
+            {locale === "fr"
+              ? "Upload, organise et gère ton catalogue entier au même endroit. Chaque beat, pack et stem — toujours accessible, toujours à toi."
+              : "Upload, organize, and manage your entire catalog in one place. Every beat, pack, and stem\u00a0\u2014 always accessible, always yours."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -539,7 +545,7 @@ export default function FeatureLibraryPage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -547,12 +553,12 @@ export default function FeatureLibraryPage() {
         {/* Section 1: Pack View */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Packs that look professional
+            {locale === "fr" ? "Des packs qui ont un look pro" : "Packs that look professional"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Group your tracks into packs with cover art, metadata, and track
-            listings. Each pack gets its own page with BPM, key, and release
-            date for every track&nbsp;&mdash; ready to share with one click.
+            {locale === "fr"
+              ? "Regroupe tes tracks en packs avec cover art, métadonnées et tracklist. Chaque pack a sa propre page avec BPM, tonalité et date de sortie pour chaque track — prêt à partager en un clic."
+              : "Group your tracks into packs with cover art, metadata, and track listings. Each pack gets its own page with BPM, key, and release date for every track\u00a0\u2014 ready to share with one click."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockPackViewCard />
@@ -562,12 +568,12 @@ export default function FeatureLibraryPage() {
         {/* Section 2: Storage Panel */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            All your files, at a glance
+            {locale === "fr" ? "Tous tes fichiers, en un coup d'oeil" : "All your files, at a glance"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            See every file you have uploaded with format, metadata, and
-            visibility status. Control what is public, private, or still in
-            draft&nbsp;&mdash; and track how much storage you are using.
+            {locale === "fr"
+              ? "Vois chaque fichier uploadé avec son format, ses métadonnées et son statut de visibilité. Contrôle ce qui est public, privé ou encore en brouillon — et suis ton utilisation de stockage."
+              : "See every file you have uploaded with format, metadata, and visibility status. Control what is public, private, or still in draft\u00a0\u2014 and track how much storage you are using."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockStoragePanelCard />
@@ -577,12 +583,12 @@ export default function FeatureLibraryPage() {
         {/* Section 3: Organization */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Organize everything your way
+            {locale === "fr" ? "Organise tout à ta façon" : "Organize everything your way"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Nest folders inside folders. Group beats into packs, sound kits, or
-            ongoing series. vvault mirrors the way you actually think about
-            your catalog&nbsp;&mdash; not the way a file system does.
+            {locale === "fr"
+              ? "Imbrique des dossiers dans des dossiers. Regroupe tes beats en packs, sound kits ou séries en cours. vvault reflète la façon dont tu penses vraiment ton catalogue — pas la façon dont un système de fichiers fonctionne."
+              : "Nest folders inside folders. Group beats into packs, sound kits, or ongoing series. vvault mirrors the way you actually think about your catalog\u00a0\u2014 not the way a file system does."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockOrganizationCard />
@@ -592,25 +598,33 @@ export default function FeatureLibraryPage() {
         {/* Section 4: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Multi-format upload",
-                desc: "Drop MP3, WAV, stems, or full ZIPs. vvault accepts everything and stores it on a global CDN for instant playback worldwide.",
+                title: locale === "fr" ? "Upload multi-format" : "Multi-format upload",
+                desc: locale === "fr"
+                  ? "Dépose des MP3, WAV, stems ou ZIPs complets. vvault accepte tout et stocke sur un CDN global pour une lecture instantanée partout dans le monde."
+                  : "Drop MP3, WAV, stems, or full ZIPs. vvault accepts everything and stores it on a global CDN for instant playback worldwide.",
               },
               {
-                title: "Auto-organization",
-                desc: "ZIP files are auto-unpacked and organized. Folder structure is preserved so your packs arrive ready to publish.",
+                title: locale === "fr" ? "Organisation automatique" : "Auto-organization",
+                desc: locale === "fr"
+                  ? "Les fichiers ZIP sont dézippés et organisés automatiquement. La structure de dossiers est préservée pour que tes packs arrivent prêts à publier."
+                  : "ZIP files are auto-unpacked and organized. Folder structure is preserved so your packs arrive ready to publish.",
               },
               {
-                title: "Rich metadata",
-                desc: "BPM, key, tags, cover art, and co-authors per track. Everything your listeners and collaborators need, attached to every file.",
+                title: locale === "fr" ? "Métadonnées riches" : "Rich metadata",
+                desc: locale === "fr"
+                  ? "BPM, tonalité, tags, cover art et co-auteurs par track. Tout ce dont tes auditeurs et collaborateurs ont besoin, attaché à chaque fichier."
+                  : "BPM, key, tags, cover art, and co-authors per track. Everything your listeners and collaborators need, attached to every file.",
               },
               {
-                title: "Instant sharing",
-                desc: "Generate tracked links for any pack or folder. Know exactly who opened it, listened, and downloaded&nbsp;&mdash; in real time.",
+                title: locale === "fr" ? "Partage instantané" : "Instant sharing",
+                desc: locale === "fr"
+                  ? "Génère des liens trackés pour n'importe quel pack ou dossier. Sache exactement qui l'a ouvert, écouté et téléchargé — en temps réel."
+                  : "Generate tracked links for any pack or folder. Know exactly who opened it, listened, and downloaded\u00a0\u2014 in real time.",
               },
             ].map((item) => (
               <div
@@ -637,18 +651,19 @@ export default function FeatureLibraryPage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Start building your library
+              {locale === "fr" ? "Commence à construire ta Library" : "Start building your library"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and upload your first pack in minutes. Your
-              catalog deserves a proper home.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et upload ton premier pack en quelques minutes. Ton catalogue mérite un vrai chez-soi."
+                : "Sign up for free and upload your first pack in minutes. Your catalog deserves a proper home."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -656,7 +671,7 @@ export default function FeatureLibraryPage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

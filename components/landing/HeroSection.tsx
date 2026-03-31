@@ -26,7 +26,6 @@ const LANDING_STATS_FALLBACK: LandingStatsResponse = {
 };
 const AVATAR_PRELOAD_PARALLEL = 10;
 const AVATAR_PRELOAD_PARALLEL_SLOW = 4;
-const APP_STORE_URL = "https://apps.apple.com/us/app/vvault/id6759256796";
 
 function toPositiveNumber(value: unknown, fallback = 0): number {
   const next = Number(value);
@@ -370,13 +369,13 @@ function HeroTrustedBy({
           })}
         </div>
         <p className="text-sm text-white/85 sm:text-base">
-          Trusted by{" "}
+          {locale === "fr" ? "Utilisé par" : "Trusted by"}{" "}
           <span className="font-extrabold text-white">
             {loaded ? numberFormatter.format(usersTotal) : "…"}
           </span>{" "}
-          <span className="sm:hidden">{locale === "fr" ? "users" : "users"}</span>
+          <span className="sm:hidden">{locale === "fr" ? "utilisateurs" : "users"}</span>
           <span className="hidden sm:inline">{locale === "fr" ? "artists & beatmakers" : "artists & beatmakers"}</span>
-          <span className="ml-1 text-white/55">you probably know</span>
+          <span className="ml-1 text-white/55">{locale === "fr" ? "que tu connais sûrement" : "you probably know"}</span>
         </p>
       </div>
     </div>
@@ -587,23 +586,6 @@ function HeroLiveStats({
 }
 
 
-function MobileAppStoreBar({ locale }: { locale: Locale }) {
-  return (
-    <div className="fixed inset-x-0 bottom-0 z-[80] border-t border-white/10 bg-[#0b0b0b]/95 backdrop-blur-md sm:hidden">
-      <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-3 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3">
-        <p className="text-[11px] font-medium leading-4 text-white/82">
-          {locale === "fr" ? "Télécharge l’app sur l’App Store" : "Download the app on the App Store"}
-        </p>
-        <a
-          href={APP_STORE_URL}
-          className="inline-flex shrink-0 items-center rounded-xl bg-white px-3.5 py-2 text-xs font-semibold text-[#0d0d0d] transition-colors duration-200 hover:bg-white/92"
-        >
-          Download on the App Store
-        </a>
-      </div>
-    </div>
-  );
-}
 
 type HeroSectionProps = {
   content: LandingContent;
@@ -620,11 +602,11 @@ const HERO_HEADLINES_EN = [
 ];
 
 const HERO_HEADLINES_FR = [
-  "envoyer ta musique.",
-  "stocker tes packs.",
-  "vendre ta musique.",
-  "tracker tes envois.",
-  "décrocher des placements.",
+  "d'envoyer ta musique.",
+  "de stocker tes packs.",
+  "de vendre ta musique.",
+  "de tracker tes envois.",
+  "de décrocher des placements.",
 ];
 
 function RotatingHeadline({ locale }: { locale: Locale }) {
@@ -725,11 +707,10 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
               loggedOutHref="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:text-base"
             >
-              Start for free
+              {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
             </LandingCtaLink>
           </div>
         </div>
-        <MobileAppStoreBar locale={locale} />
       </section>
 
       <HeroLiveStats locale={locale} stats={stats} loaded={loaded} />

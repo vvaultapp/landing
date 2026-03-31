@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -314,16 +315,19 @@ function MockCreditsCard() {
 /*  Page                                                               */
 /* ================================================================== */
 export default function FeatureProfilePage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Your public page";
-  }, []);
+    document.title = locale === "fr"
+      ? "vvault | Ta page publique"
+      : "vvault | Your public page";
+  }, [locale]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — fixed, full-width, violet accent */}
       <div
@@ -362,10 +366,12 @@ export default function FeatureProfilePage() {
               backgroundClip: "text",
             }}
           >
-            Your public page
+            {locale === "fr" ? "Ta page publique" : "Your public page"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            A professional storefront for your music.
+            {locale === "fr"
+              ? "Une vitrine professionnelle pour ta musique."
+              : "A professional storefront for your music."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -373,7 +379,7 @@ export default function FeatureProfilePage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {locale === "fr" ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -381,12 +387,12 @@ export default function FeatureProfilePage() {
         {/* Section 1: Profile Preview */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Your brand, front and center
+            {locale === "fr" ? "Ta marque, au premier plan" : "Your brand, front and center"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            A polished public profile with your banner, avatar, bio, stats, and
-            social links. Artists who visit see a professional page that builds
-            credibility and makes buying easy.
+            {locale === "fr"
+              ? "Un profil public soigné avec ta bannière, ton avatar, ta bio, tes stats et tes liens sociaux. Les artistes qui visitent voient une page pro qui inspire confiance et facilite l'achat."
+              : "A polished public profile with your banner, avatar, bio, stats, and social links. Artists who visit see a professional page that builds credibility and makes buying easy."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockProfilePreviewCard />
@@ -396,12 +402,12 @@ export default function FeatureProfilePage() {
         {/* Section 2: Latest Packs */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Showcase your catalog
+            {locale === "fr" ? "Mets en avant ton catalogue" : "Showcase your catalog"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Your latest packs displayed in a visual grid with cover art, track
-            counts, and pricing. Visitors can browse and buy without leaving
-            your page.
+            {locale === "fr"
+              ? "Tes derniers packs affichés dans une grille visuelle avec cover art, nombre de tracks et prix. Les visiteurs peuvent parcourir et acheter sans quitter ta page."
+              : "Your latest packs displayed in a visual grid with cover art, track counts, and pricing. Visitors can browse and buy without leaving your page."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockLatestPacksCard />
@@ -411,11 +417,12 @@ export default function FeatureProfilePage() {
         {/* Section 3: Credits */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Display your credits
+            {locale === "fr" ? "Affiche tes crédits" : "Display your credits"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Show your producer and recording credits with linked releases. Build
-            trust by proving your track record right on your profile.
+            {locale === "fr"
+              ? "Montre tes crédits de producteur et d'enregistrement avec des releases liées. Construis la confiance en prouvant ton track record directement sur ton profil."
+              : "Show your producer and recording credits with linked releases. Build trust by proving your track record right on your profile."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockCreditsCard />
@@ -425,25 +432,33 @@ export default function FeatureProfilePage() {
         {/* Section 4: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {locale === "fr" ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Theme customization",
-                desc: "Pick from theme presets or customize accent colors and backgrounds to match your brand identity.",
+                title: locale === "fr" ? "Personnalisation du thème" : "Theme customization",
+                desc: locale === "fr"
+                  ? "Choisis parmi des presets de thèmes ou personnalise les couleurs et fonds pour correspondre à ton identité de marque."
+                  : "Pick from theme presets or customize accent colors and backgrounds to match your brand identity.",
               },
               {
-                title: "Packs, kits, and series",
-                desc: "Showcase your full catalog on one page. Packs, soundkits, series, and individual tracks all organized beautifully.",
+                title: locale === "fr" ? "Packs, kits et séries" : "Packs, kits, and series",
+                desc: locale === "fr"
+                  ? "Affiche ton catalogue complet sur une page. Packs, soundkits, séries et tracks individuelles, le tout organisé avec soin."
+                  : "Showcase your full catalog on one page. Packs, soundkits, series, and individual tracks all organized beautifully.",
               },
               {
-                title: "Placement credits",
-                desc: "Display your producer and recording credits with linked releases on Spotify, YouTube, SoundCloud, and Apple Music.",
+                title: locale === "fr" ? "Crédits de placement" : "Placement credits",
+                desc: locale === "fr"
+                  ? "Affiche tes crédits de producteur et d'enregistrement avec des releases liées sur Spotify, YouTube, SoundCloud et Apple Music."
+                  : "Display your producer and recording credits with linked releases on Spotify, YouTube, SoundCloud, and Apple Music.",
               },
               {
-                title: "Social links",
-                desc: "Connect your Instagram, YouTube, and TikTok so visitors can follow you everywhere from one page.",
+                title: locale === "fr" ? "Liens sociaux" : "Social links",
+                desc: locale === "fr"
+                  ? "Connecte ton Instagram, YouTube et TikTok pour que les visiteurs puissent te suivre partout depuis une seule page."
+                  : "Connect your Instagram, YouTube, and TikTok so visitors can follow you everywhere from one page.",
               },
             ].map((item) => (
               <div
@@ -469,17 +484,19 @@ export default function FeatureProfilePage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Build your public page
+              {locale === "fr" ? "Crée ta page publique" : "Build your public page"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and create a professional storefront for your music.
+              {locale === "fr"
+                ? "Inscris-toi gratuitement et crée une vitrine professionnelle pour ta musique."
+                : "Sign up for free and create a professional storefront for your music."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -487,7 +504,7 @@ export default function FeatureProfilePage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

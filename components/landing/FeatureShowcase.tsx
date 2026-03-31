@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Reveal } from "@/components/landing/Reveal";
+import type { Locale } from "@/components/landing/content";
 
 /* ------------------------------------------------------------------ */
 /*  Pack cover gradients (matching the 4 images provided)              */
@@ -306,7 +307,7 @@ function KpiCard({
   );
 }
 
-function AnalyticsSection() {
+function AnalyticsSection({ locale }: { locale: Locale }) {
   const activities = [
     {
       name: "Metro Boomin",
@@ -359,15 +360,28 @@ function AnalyticsSection() {
           <SectionEmblem accentColor="#60a5fa" icon={(g) => <AnalyticsIcon gradId={g} />} id="analytics" />
         </div>
         <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
-          <span className="text-white/40">See who</span>{" "}
-          opened.{" "}
-          <span className="text-white/40">Who</span>{" "}
-          played.{" "}
-          <span className="text-white/40">Who</span>{" "}
-          downloaded.
+          {locale === "fr" ? (
+            <>
+              <span className="text-white/40">Vois qui a</span>{" "}
+              ouvert.{" "}
+              <span className="text-white/40">Qui a</span>{" "}
+              écouté.{" "}
+              <span className="text-white/40">Qui a</span>{" "}
+              téléchargé.
+            </>
+          ) : (
+            <>
+              <span className="text-white/40">See who</span>{" "}
+              opened.{" "}
+              <span className="text-white/40">Who</span>{" "}
+              played.{" "}
+              <span className="text-white/40">Who</span>{" "}
+              downloaded.
+            </>
+          )}
         </h3>
         <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-          Real-time analytics on every send.
+          {locale === "fr" ? "Des analytics en temps réel sur chaque envoi." : "Real-time analytics on every send."}
         </p>
       </div>
       <div className="mt-8 sm:mt-10">
@@ -536,7 +550,7 @@ function PackCard({
   );
 }
 
-function PacksCard() {
+function PacksCard({ locale }: { locale: Locale }) {
   const [searchValue, setSearchValue] = useState("");
   const [activeTab, setActiveTab] = useState("All");
 
@@ -607,18 +621,19 @@ function PacksCard() {
       {/* Label overlapping card bottom — pulled up */}
       <div className="relative z-10 mt-5 px-1 sm:mt-6">
         <p className="text-[14px] font-semibold text-white/80 sm:text-[15px]">
-          Your library
+          {locale === "fr" ? "Ta bibliothèque" : "Your library"}
         </p>
         <p className="mt-1 text-[13px] leading-relaxed text-white/35">
-          Organize your beats into clean, professional packs. Tag, search, and
-          manage your catalog from one place.
+          {locale === "fr"
+            ? "Organise tes beats en packs propres et pro. Tag, cherche et gère ton catalogue depuis un seul endroit."
+            : "Organize your beats into clean, professional packs. Tag, search, and manage your catalog from one place."}
         </p>
       </div>
     </div>
   );
 }
 
-function ComposeCard() {
+function ComposeCard({ locale }: { locale: Locale }) {
   const [subjectValue, setSubjectValue] = useState(
     "New pack: Dark Melodies Vol.3"
   );
@@ -772,11 +787,12 @@ function ComposeCard() {
       {/* Label overlapping card bottom — pulled up */}
       <div className="relative z-10 mt-5 px-1 sm:mt-6">
         <p className="text-[14px] font-semibold text-white/80 sm:text-[15px]">
-          Personal at scale
+          {locale === "fr" ? "Personnel, à grande échelle" : "Personal at scale"}
         </p>
         <p className="mt-1 text-[13px] leading-relaxed text-white/35">
-          Send to one contact or your whole list. Each one feels like it was
-          crafted just for them.
+          {locale === "fr"
+            ? "Envoie à un contact ou à toute ta liste. Chaque envoi donne l'impression d'avoir été fait juste pour eux."
+            : "Send to one contact or your whole list. Each one feels like it was crafted just for them."}
         </p>
       </div>
     </div>
@@ -787,7 +803,7 @@ function ComposeCard() {
 /*  3. Sell — track row card (matching real app style)                  */
 /* ------------------------------------------------------------------ */
 
-function SellCard() {
+function SellCard({ locale }: { locale: Locale }) {
   const [purchased, setPurchased] = useState(false);
 
   return (
@@ -797,11 +813,22 @@ function SellCard() {
           <SectionEmblem accentColor="#34d399" icon={(g) => <MoneyIcon gradId={g} />} id="money" />
         </div>
         <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
-          Sell your music.{" "}
-          <span className="text-white/40">Keep more.</span>
+          {locale === "fr" ? (
+            <>
+              Vends ta musique.{" "}
+              <span className="text-white/40">Garde plus.</span>
+            </>
+          ) : (
+            <>
+              Sell your music.{" "}
+              <span className="text-white/40">Keep more.</span>
+            </>
+          )}
         </h3>
         <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-          Set your price, sell directly to your audience. 5% platform fee on Pro, 0% on Ultra.
+          {locale === "fr"
+            ? "Fixe ton prix, vends directement à ton audience via un checkout Stripe sécurisé. 5% de frais sur Pro, 0% sur Ultra."
+            : "Set your price, sell directly to your audience through secure Stripe checkout. 5% platform fee on Pro, 0% on Ultra."}
         </p>
       </div>
       <div className="mt-8 sm:mt-10">
@@ -940,12 +967,12 @@ function SellCard() {
 /*  Export                                                              */
 /* ------------------------------------------------------------------ */
 
-export function FeatureShowcase() {
+export function FeatureShowcase({ locale = "en" }: { locale?: Locale }) {
   return (
     <section className="pt-32 sm:pt-44">
       <div className="mx-auto w-full max-w-[1320px] space-y-36 px-5 sm:space-y-52 sm:px-8 lg:px-10">
         {/* 1 — Analytics: full-width */}
-        <AnalyticsSection />
+        <AnalyticsSection locale={locale} />
 
         {/* 2 — Packs + Send: Resend-style */}
         <Reveal>
@@ -954,24 +981,34 @@ export function FeatureShowcase() {
               <SectionEmblem accentColor="#a78bfa" icon={(g) => <LayersIcon gradId={g} />} id="layers" />
             </div>
             <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
-              Build clean packs.
-              <br />
-              <span className="text-white/40">Send them personally.</span>
+              {locale === "fr" ? (
+                <>
+                  Crée des packs propres.
+                  <br />
+                  <span className="text-white/40">Envoie-les personnellement.</span>
+                </>
+              ) : (
+                <>
+                  Build clean packs.
+                  <br />
+                  <span className="text-white/40">Send them personally.</span>
+                </>
+              )}
             </h3>
             <p className="mx-auto mt-4 max-w-xl text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              We built the tools we always wished we had as producers &mdash;
-              a place to organize your catalog and reach your audience, where
-              every send feels like it was made just for them.
+              {locale === "fr"
+                ? "On a construit les outils qu'on a toujours voulu avoir en tant que producteurs \u2014 un endroit pour organiser ton catalogue et toucher ton audience, où chaque envoi semble fait juste pour eux."
+                : <>We built the tools we always wished we had as producers &mdash; a place to organize your catalog and reach your audience, where every send feels like it was made just for them.</>}
             </p>
           </div>
           <div className="mt-10 grid gap-5 sm:mt-14 lg:grid-cols-2 lg:gap-4">
-            <PacksCard />
-            <ComposeCard />
+            <PacksCard locale={locale} />
+            <ComposeCard locale={locale} />
           </div>
         </Reveal>
 
         {/* 3 — Sell: track row card */}
-        <SellCard />
+        <SellCard locale={locale} />
       </div>
     </section>
   );

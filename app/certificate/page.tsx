@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
@@ -358,16 +359,18 @@ function MockSplitsCard() {
 }
 
 export default function CertificatePage() {
-  const content = getLandingContent("en");
+  const [locale] = useLocale();
+  const content = getLandingContent(locale);
+  const fr = locale === "fr";
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    document.title = "vvault | Music protection certificates";
-  }, []);
+    document.title = fr ? "vvault | Certificats de protection musicale" : "vvault | Music protection certificates";
+  }, [fr]);
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
+      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Plasma hero background — fixed, full-width, yellow accent */}
       <div
@@ -406,10 +409,12 @@ export default function CertificatePage() {
               backgroundClip: "text",
             }}
           >
-            Protect your music
+            {fr ? "Protège ta musique" : "Protect your music"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
-            Hash-certified deposit certificates that prove ownership and establish anteriority from day one.
+            {fr
+              ? "Des certificats de dépôt certifiés par hash qui prouvent la propriété et établissent l'antériorité dès le premier jour."
+              : "Hash-certified deposit certificates that prove ownership and establish anteriority from day one."}
           </p>
 
           <div className="mt-8 flex justify-center">
@@ -417,7 +422,7 @@ export default function CertificatePage() {
               href="https://vvault.app/signup"
               className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
-              Get started
+              {fr ? "Commencer" : "Get started"}
             </a>
           </div>
         </Reveal>
@@ -425,14 +430,12 @@ export default function CertificatePage() {
         {/* Section 1: Certificate card */}
         <Reveal className="mt-40 sm:mt-52">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            A legal certificate for every track
+            {fr ? "Un certificat légal pour chaque track" : "A legal certificate for every track"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            When you upload a track, vvault generates a SHA-256 hash of your
-            file and locks it in a certificate with a precise timestamp. This
-            creates an unalterable record that proves you held the file at that
-            exact date &mdash; your anteriority is established, and the
-            certificate can never be modified.
+            {fr
+              ? "Quand tu uploades un track, vvault génère un hash SHA-256 de ton fichier et le verrouille dans un certificat avec un horodatage précis. Ça crée un enregistrement inaltérable qui prouve que tu détenais le fichier à cette date exacte — ton antériorité est établie, et le certificat ne peut jamais être modifié."
+              : "When you upload a track, vvault generates a SHA-256 hash of your file and locks it in a certificate with a precise timestamp. This creates an unalterable record that proves you held the file at that exact date \u2014 your anteriority is established, and the certificate can never be modified."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockCertificateCard />
@@ -442,12 +445,12 @@ export default function CertificatePage() {
         {/* Section 2: Timeline */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Instant certification
+            {fr ? "Certification instantanée" : "Instant certification"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            The entire process happens the moment you upload. Your file is
-            hashed, timestamped, and a downloadable PDF certificate is
-            generated automatically &mdash; no extra steps.
+            {fr
+              ? "Tout le processus se passe au moment de l'upload. Ton fichier est hashé, horodaté, et un certificat PDF téléchargeable est généré automatiquement — aucune étape supplémentaire."
+              : "The entire process happens the moment you upload. Your file is hashed, timestamped, and a downloadable PDF certificate is generated automatically \u2014 no extra steps."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockTimelineCard />
@@ -457,12 +460,12 @@ export default function CertificatePage() {
         {/* Section 3: Splits & rights */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Manage splits and rights
+            {fr ? "Gère les splits et les droits" : "Manage splits and rights"}
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-center text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-            Attach collaborators, define royalty splits, add your SACEM or
-            collecting society IDs, and upload DAW project files or screenshots
-            as additional proof &mdash; all stored alongside your certificate.
+            {fr
+              ? "Ajoute des collaborateurs, définis les splits de royalties, renseigne tes identifiants SACEM ou société de gestion, et uploade des fichiers de projet DAW ou des captures d'écran comme preuve supplémentaire — le tout stocké avec ton certificat."
+              : "Attach collaborators, define royalty splits, add your SACEM or collecting society IDs, and upload DAW project files or screenshots as additional proof \u2014 all stored alongside your certificate."}
           </p>
           <div className="mt-8 sm:mt-10">
             <MockSplitsCard />
@@ -472,27 +475,47 @@ export default function CertificatePage() {
         {/* Section 4: Why it matters */}
         <Reveal className="mt-24 sm:mt-32">
           <h2 className="text-center text-xl font-medium text-white sm:text-2xl">
-            Why it matters
+            {fr ? "Pourquoi c'est important" : "Why it matters"}
           </h2>
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            {[
-              {
-                title: "Prove anteriority",
-                desc: "Your certificate timestamp legally establishes when you created or deposited the file. If a dispute arises, you have proof.",
-              },
-              {
-                title: "Tamper-proof records",
-                desc: "SHA-256 hashing ensures the file cannot be altered after deposit. Any change would invalidate the hash.",
-              },
-              {
-                title: "Downloadable PDF",
-                desc: "Each certificate is a proper legal document you can download, print, and present to labels, publishers, or in legal proceedings.",
-              },
-              {
-                title: "Fully automatic",
-                desc: "No forms to fill, no extra steps. Every upload is certified the moment it hits vvault.",
-              },
-            ].map((item) => (
+            {(fr
+              ? [
+                  {
+                    title: "Prouve l'antériorité",
+                    desc: "L'horodatage de ton certificat établit légalement quand tu as créé ou déposé le fichier. En cas de litige, tu as la preuve.",
+                  },
+                  {
+                    title: "Enregistrements infalsifiables",
+                    desc: "Le hashage SHA-256 garantit que le fichier ne peut pas être modifié après le dépôt. Toute modification invaliderait le hash.",
+                  },
+                  {
+                    title: "PDF téléchargeable",
+                    desc: "Chaque certificat est un vrai document légal que tu peux télécharger, imprimer et présenter à des labels, éditeurs ou en procédure juridique.",
+                  },
+                  {
+                    title: "Entièrement automatique",
+                    desc: "Pas de formulaire à remplir, pas d'étape supplémentaire. Chaque upload est certifié dès qu'il arrive sur vvault.",
+                  },
+                ]
+              : [
+                  {
+                    title: "Prove anteriority",
+                    desc: "Your certificate timestamp legally establishes when you created or deposited the file. If a dispute arises, you have proof.",
+                  },
+                  {
+                    title: "Tamper-proof records",
+                    desc: "SHA-256 hashing ensures the file cannot be altered after deposit. Any change would invalidate the hash.",
+                  },
+                  {
+                    title: "Downloadable PDF",
+                    desc: "Each certificate is a proper legal document you can download, print, and present to labels, publishers, or in legal proceedings.",
+                  },
+                  {
+                    title: "Fully automatic",
+                    desc: "No forms to fill, no extra steps. Every upload is certified the moment it hits vvault.",
+                  },
+                ]
+            ).map((item) => (
               <div
                 key={item.title}
                 className="rounded-2xl px-5 py-5 transition-colors duration-200 hover:bg-white/[0.02]"
@@ -516,18 +539,19 @@ export default function CertificatePage() {
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
             <h2 className="text-2xl font-medium text-white sm:text-3xl">
-              Start protecting your music
+              {fr ? "Commence à protéger ta musique" : "Start protecting your music"}
             </h2>
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
-              Sign up for free and get automatic hash-certified deposit
-              certificates on every track you upload.
+              {fr
+                ? "Inscris-toi gratuitement et obtiens des certificats de dépôt certifiés par hash automatiquement sur chaque track que tu uploades."
+                : "Sign up for free and get automatic hash-certified deposit certificates on every track you upload."}
             </p>
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
                 className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
-                Start for free
+                {fr ? "Commencer gratuitement" : "Start for free"}
               </a>
             </div>
           </div>
@@ -535,7 +559,7 @@ export default function CertificatePage() {
       </main>
 
       <LandingFooter
-        locale="en"
+        locale={locale}
         content={content}
         showColumns={false}
         inlineLegalWithBrand

@@ -2,8 +2,9 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Reveal } from "@/components/landing/Reveal";
+import type { Locale } from "@/components/landing/content";
 
-const REVIEWS = [
+const REVIEWS_EN = [
   {
     name: "Hugo",
     body: "Best beat selling / stocking / sending app. Game changer.",
@@ -46,6 +47,49 @@ const REVIEWS = [
   },
 ];
 
+const REVIEWS_FR = [
+  {
+    name: "Hugo",
+    body: "La meilleure app pour vendre / stocker / envoyer ses beats. Un game changer.",
+    rating: 5,
+  },
+  {
+    name: "la croix",
+    body: "C'est la meilleure plateforme pour les producteurs. Elle permet de faire écouter et vendre ses prods.",
+    rating: 5,
+  },
+  {
+    name: "Adrien D.",
+    body: "Une app pour les beatmakers, conçue par un beatmaker ! Je recommande vivement.",
+    rating: 5,
+  },
+  {
+    name: "Alexandre G.",
+    body: "Une super app pour gérer tes beats et envoyer tes track mails. 10/10 !",
+    rating: 5,
+  },
+  {
+    name: "Sacha S.",
+    body: "La meilleure app. Je l'utilise tout le temps, tous les jours.",
+    rating: 5,
+  },
+  {
+    name: "Miko",
+    body: "La meilleure app pour les beatmakers.",
+    rating: 5,
+  },
+  {
+    name: "Saili",
+    body: "Cette app est super utile pour avoir tous tes beats et morceaux au même endroit. Ça m'aide à planifier et envoyer mes beats aux artistes plus facilement.",
+    rating: 5,
+  },
+  {
+    name: "Prostel A.",
+    body: "C'est une bonne app. Je pense que c'est la meilleure du marché.",
+    rating: 5,
+  },
+];
+
 function Stars({ count }: { count: number }) {
   return (
     <div className="flex gap-0.5">
@@ -58,7 +102,7 @@ function Stars({ count }: { count: number }) {
   );
 }
 
-function ReviewCard({ review, state }: { review: typeof REVIEWS[0]; state: "entering" | "visible" | "exiting" }) {
+function ReviewCard({ review, state }: { review: typeof REVIEWS_EN[0]; state: "entering" | "visible" | "exiting" }) {
   return (
     <div
       className="flex w-full flex-col items-center gap-3 rounded-2xl px-6 py-5 text-center transition-all duration-700 ease-in-out sm:px-8 sm:py-6"
@@ -79,7 +123,8 @@ function ReviewCard({ review, state }: { review: typeof REVIEWS[0]; state: "ente
   );
 }
 
-export function SocialProofSection() {
+export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
+  const REVIEWS = locale === "fr" ? REVIEWS_FR : REVIEWS_EN;
   const [pairIndex, setPairIndex] = useState(0);
   const [state, setState] = useState<"visible" | "exiting" | "entering">("visible");
   const [trustpilotScore, setTrustpilotScore] = useState("4.4");
@@ -157,7 +202,7 @@ export function SocialProofSection() {
                   <path fill="#005128" d="M194.7 181.8l-7.2-22.3-51.8 37.6z"/>
                 </svg>
                 <span className="text-sm text-white/50 transition-colors duration-200 group-hover:text-white group-hover:underline sm:text-base">
-                  Loved on Trustpilot
+                  {locale === "fr" ? "Adoré sur Trustpilot" : "Loved on Trustpilot"}
                 </span>
                 <span className="text-sm font-semibold text-white/50 sm:text-base">
                   {trustpilotScore}/5

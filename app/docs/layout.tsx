@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { DocsLocaleContext } from "./DocsLocaleContext";
 
 /* ------------------------------------------------------------------ */
 /*  Sidebar navigation data                                           */
@@ -52,6 +53,7 @@ const SEARCH_INDEX: SearchEntry[] = [
   { title: "What is vvault?", section: "Introduction", href: "/docs/introduction#what-is-vvault", keywords: ["what", "vvault", "about", "platform"] },
   { title: "Key features", section: "Introduction", href: "/docs/introduction#key-features", keywords: ["features", "key", "overview"] },
   { title: "Plans", section: "Introduction", href: "/docs/introduction#plans", keywords: ["plans", "pricing", "free", "pro", "ultra"] },
+  { title: "Security & privacy", section: "Introduction", href: "/docs/introduction#security", keywords: ["security", "privacy", "encryption", "safe", "secure", "data", "private"] },
   { title: "Getting help", section: "Introduction", href: "/docs/introduction#getting-help", keywords: ["help", "support", "contact"] },
   // Quickstart
   { title: "Quickstart", section: "Getting started", href: "/docs/quickstart", keywords: ["quickstart", "start", "begin", "setup", "guide"] },
@@ -579,21 +581,42 @@ function LinksMenu() {
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const mainRef = useRef<HTMLElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoHovered, setLogoHovered] = useState(false);
   const [lang, setLang] = useState<Lang>("en");
 
-  /* Detect language from landing page (stored in localStorage) */
+  /* Detect language from landing page (localStorage), cookie (IP detection), or browser */
   useEffect(() => {
     try {
+      // 1. Check localStorage (set by landing page or docs language selector)
+      const shared = localStorage.getItem("vvault-locale") as Lang | null;
       const stored = localStorage.getItem("vvault-docs-lang") as Lang | null;
-      if (stored === "en" || stored === "fr") setLang(stored);
+      const fromStorage = shared ?? stored;
+      if (fromStorage === "en" || fromStorage === "fr") {
+        setLang(fromStorage);
+        return;
+      }
+      // 2. Check cookie set by proxy (IP-based detection)
+      const cookieMatch = document.cookie.match(/(?:^|;\s*)vvault_locale=(en|fr)/);
+      if (cookieMatch) {
+        setLang(cookieMatch[1] as Lang);
+        return;
+      }
+      // 3. Check browser language
+      const browserLang = navigator.language.toLowerCase();
+      if (browserLang.startsWith("fr")) {
+        setLang("fr");
+      }
     } catch {}
   }, []);
 
-  /* Persist language */
+  /* Persist language to both keys */
   useEffect(() => {
-    try { localStorage.setItem("vvault-docs-lang", lang); } catch {}
+    try {
+      localStorage.setItem("vvault-docs-lang", lang);
+      localStorage.setItem("vvault-locale", lang);
+    } catch {}
   }, [lang]);
 
   /* Force light scrollbar + background on docs pages */
@@ -610,6 +633,9 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     setMobileOpen(false);
+    requestAnimationFrame(() => {
+      if (mainRef.current) mainRef.current.scrollTop = 0;
+    });
   }, [pathname]);
 
   useEffect(() => {
@@ -708,10 +734,12 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         </aside>
 
         {/* Main content — scrolls internally, rounded corners stay */}
-        <main className="min-w-0 flex-1 overflow-y-auto rounded-t-2xl border border-b-0 border-[#e5e5e5] bg-white">
+        <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto rounded-t-2xl border border-b-0 border-[#e5e5e5] bg-white">
           <div className="px-6 pb-24 pt-8 sm:px-10 lg:px-16">
             <div id="docs-content" className="mx-auto max-w-[720px]">
-              {children}
+              <DocsLocaleContext.Provider value={lang}>
+                {children}
+              </DocsLocaleContext.Provider>
             </div>
           </div>
         </main>
