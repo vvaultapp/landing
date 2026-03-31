@@ -587,6 +587,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoHovered, setLogoHovered] = useState(false);
   const [lang, setLang] = useState<Lang>("en");
+  const [mounted, setMounted] = useState(false);
 
   /* Detect language from landing page (localStorage), cookie (IP detection), or browser */
   useEffect(() => {
@@ -597,29 +598,31 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       const fromStorage = shared ?? stored;
       if (fromStorage === "en" || fromStorage === "fr") {
         setLang(fromStorage);
-        return;
-      }
-      // 2. Check cookie set by proxy (IP-based detection)
-      const cookieMatch = document.cookie.match(/(?:^|;\s*)vvault_locale=(en|fr)/);
-      if (cookieMatch) {
-        setLang(cookieMatch[1] as Lang);
-        return;
-      }
-      // 3. Check browser language
-      const browserLang = navigator.language.toLowerCase();
-      if (browserLang.startsWith("fr")) {
-        setLang("fr");
+      } else {
+        // 2. Check cookie set by proxy (IP-based detection)
+        const cookieMatch = document.cookie.match(/(?:^|;\s*)vvault_locale=(en|fr)/);
+        if (cookieMatch) {
+          setLang(cookieMatch[1] as Lang);
+        } else {
+          // 3. Check browser language
+          const browserLang = navigator.language.toLowerCase();
+          if (browserLang.startsWith("fr")) {
+            setLang("fr");
+          }
+        }
       }
     } catch {}
+    setMounted(true);
   }, []);
 
   /* Persist language to both keys */
   useEffect(() => {
+    if (!mounted) return;
     try {
       localStorage.setItem("vvault-docs-lang", lang);
       localStorage.setItem("vvault-locale", lang);
     } catch {}
-  }, [lang]);
+  }, [lang, mounted]);
 
   /* Force light scrollbar + background on docs pages */
   useEffect(() => {
@@ -648,7 +651,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
   return (
-    <div className="docs-root flex h-screen flex-col bg-[#fafafa] font-sans text-[#1a1a1a]">
+    <div className="docs-root flex h-screen flex-col bg-[#fafafa] font-sans text-[#1a1a1a]" suppressHydrationWarning>
       {/* -------- Top bar (fixed height) -------- */}
       <header className="z-50 shrink-0 bg-[#fafafa]">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between">
@@ -767,9 +770,13 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto rounded-t-2xl border border-b-0 border-[#e5e5e5] bg-white">
           <div className="px-6 pb-24 pt-8 sm:px-10 lg:px-16">
             <div id="docs-content" className="mx-auto max-w-[720px]">
-              <DocsLocaleContext.Provider value={lang}>
-                {children}
-              </DocsLocaleContext.Provider>
+              {mounted ? (
+                <DocsLocaleContext.Provider value={lang}>
+                  {children}
+                </DocsLocaleContext.Provider>
+              ) : (
+                <div className="h-96" />
+              )}
             </div>
           </div>
         </main>
