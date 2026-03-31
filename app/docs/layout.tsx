@@ -729,7 +729,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       )}
 
       {/* -------- Three-column body (fills remaining height) -------- */}
-      <div className="mx-auto flex w-full min-h-0 flex-1 max-w-[1440px]">
+      <div className="mx-auto flex w-full min-h-0 flex-1 max-w-[1440px] px-2 sm:px-0">
         {/* Left sidebar — scrolls independently */}
         <aside
           className={`fixed top-14 z-40 flex h-[calc(100vh-3.5rem)] w-60 shrink-0 flex-col bg-[#fafafa] transition-transform duration-200 ease-in-out lg:relative lg:top-0 lg:h-auto lg:translate-x-0 ${
