@@ -67,8 +67,12 @@ html {
   display: none;                  /* Chrome/Safari */
 }
 
-/* Mobile sidebar — visible scrollbar for natural scroll feel */
+/* Mobile sidebar — use dvh for iOS Safari, visible scrollbar */
 @media (max-width: 1023px) {
+  .docs-mobile-sidebar {
+    height: calc(100vh - 3.5rem);
+    height: calc(100dvh - 3.5rem);
+  }
   .docs-root aside .docs-sidebar-scroll {
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
@@ -84,6 +88,13 @@ html {
   .docs-root aside .docs-sidebar-scroll::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15);
     border-radius: 2px;
+  }
+}
+
+/* Desktop sidebar — auto height, no fixed positioning constraints */
+@media (min-width: 1024px) {
+  .docs-mobile-sidebar {
+    height: auto !important;
   }
 }
 
