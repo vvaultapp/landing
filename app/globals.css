@@ -67,6 +67,26 @@ html {
   display: none;                  /* Chrome/Safari */
 }
 
+/* Mobile sidebar — visible scrollbar for natural scroll feel */
+@media (max-width: 1023px) {
+  .docs-root aside .docs-sidebar-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+    -webkit-overflow-scrolling: touch;
+  }
+  .docs-root aside .docs-sidebar-scroll::-webkit-scrollbar {
+    width: 4px;
+    display: block;
+  }
+  .docs-root aside .docs-sidebar-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .docs-root aside .docs-sidebar-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

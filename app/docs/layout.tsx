@@ -736,8 +736,8 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          {/* Scrollable nav content */}
-          <div className="flex-1 overflow-y-auto pl-[18px] pr-2 pb-4 pt-5">
+          {/* Scrollable nav content — native scroll with visible indicator */}
+          <div className="docs-sidebar-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pl-[18px] pr-2 pb-4 pt-5">
             {/* Search bar in sidebar */}
             <div className="mb-5">
               <SearchBar lang={lang} />
@@ -747,17 +747,17 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
 
           {/* Mobile-only: pinned bottom bar with language + homepage */}
           <div className="shrink-0 border-t border-[#e5e5e5] bg-[#fafafa] px-[18px] py-3 lg:hidden">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between">
               <LanguageSelector lang={lang} setLang={setLang} />
               <a
                 href="/"
-                className="flex items-center gap-1.5 rounded-xl px-2 py-1.5 text-[13px] text-[#666] transition-colors hover:text-[#111]"
+                className="flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-[13px] font-medium text-[#555] transition-colors hover:text-[#111]"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
-                {t("Homepage", lang)}
+                {t("Back to home", lang)}
               </a>
             </div>
           </div>
