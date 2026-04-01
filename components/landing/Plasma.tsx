@@ -45,7 +45,7 @@ void mainImage(out vec4 o, vec2 C) {
   float i, d, z, T = iTime * uSpeed * uDirection;
   vec3 O, p, S;
 
-  for (vec2 r = iResolution.xy, Q; ++i < 35.; O += o.w/d*o.xyz) {
+  for (vec2 r = iResolution.xy, Q; ++i < 45.; O += o.w/d*o.xyz) {
     p = z*normalize(vec3(C-.5*r,r.y));
     p.z -= 4.;
     S = p;
@@ -57,7 +57,7 @@ void mainImage(out vec4 o, vec2 C) {
     o = 1.+sin(S.y+p.z*.5+S.z-length(S-p)+vec4(2,1,0,8));
   }
 
-  o.xyz = tanh(O/1e4);
+  o.xyz = tanh(O/5e3);
 }
 
 bool finite1(float x){ return !(isnan(x) || isinf(x)); }
