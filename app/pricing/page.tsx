@@ -198,6 +198,7 @@ export default function PricingPage() {
       bullets: content.pricingComparison.human.bullets,
       cta: content.pricingUi.startFree,
       href: "https://vvault.app/signup",
+      loggedOutHref: "https://vvault.app/signup",
       featured: false,
     },
     {
@@ -208,6 +209,7 @@ export default function PricingPage() {
       bullets: content.singlePlan.bullets,
       cta: content.singlePlan.cta,
       href: "https://vvault.app/billing",
+      loggedOutHref: "https://vvault.app/signup?plan=pro",
       featured: true,
     },
     {
@@ -217,6 +219,7 @@ export default function PricingPage() {
       bullets: content.pricingComparison.ai.bullets,
       cta: content.pricingUi.upgradeUltra,
       href: "https://vvault.app/billing",
+      loggedOutHref: "https://vvault.app/signup?plan=ultra",
       featured: false,
     },
   ];
@@ -383,7 +386,7 @@ export default function PricingPage() {
                   <div className="mt-auto pt-8">
                     <LandingCtaLink
                       loggedInHref={p.href}
-                      loggedOutHref={p.href}
+                      loggedOutHref={p.loggedOutHref || p.href}
                       className={`inline-flex w-full items-center justify-center rounded-2xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                         p.featured
                           ? "bg-white text-[#0e0e0e] hover:bg-white/90 focus-visible:ring-white/35"

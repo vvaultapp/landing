@@ -118,19 +118,19 @@ export default function StudioDocPage() {
       <p className="text-[14px] leading-relaxed text-[#666] mb-4">
         {locale === "fr" ? (
           <>
-            Pour commencer avec Studio, passe au plan Ultra depuis tes paramètres de facturation à{" "}
-            <a href="https://vvault.app/billing" className="text-emerald-600 underline underline-offset-2">
-              vvault.app/billing
-            </a>
-            .
+            Pour commencer avec Studio,{" "}
+            <a href="https://vvault.app/signup?plan=ultra" className="text-emerald-600 underline underline-offset-2">
+              crée un compte
+            </a>{" "}
+            ou passe au plan Ultra depuis tes paramètres de facturation.
           </>
         ) : (
           <>
-            To get started with Studio, upgrade to Ultra from your billing settings at{" "}
-            <a href="https://vvault.app/billing" className="text-emerald-600 underline underline-offset-2">
-              vvault.app/billing
-            </a>
-            .
+            To get started with Studio,{" "}
+            <a href="https://vvault.app/signup?plan=ultra" className="text-emerald-600 underline underline-offset-2">
+              sign up
+            </a>{" "}
+            or upgrade to Ultra from your billing settings.
           </>
         )}
       </p>
