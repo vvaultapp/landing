@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     "Upload, share, track engagement, run campaigns, and sell your music in one vvault workflow.",
   icons: {
-    icon: "/apple-touch-icon.png",
+    icon: "/favicon.png",
     apple: "/apple-touch-icon.png",
   },
 };
