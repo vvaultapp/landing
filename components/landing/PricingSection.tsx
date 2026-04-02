@@ -166,8 +166,10 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                 className="relative flex h-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
                 style={{
                   background: p.featured
-                    ? "linear-gradient(180deg, rgba(18,18,22,1) 0%, rgba(8,8,10,1) 100%)"
-                    : "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
+                    ? "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(10,10,13,1) 100%)"
+                    : p.name === ai.title
+                      ? "linear-gradient(180deg, rgba(16,12,24,0.98) 0%, rgba(6,4,10,1) 100%)"
+                      : "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
                 }}
               >
                 {/* Border overlay — no bottom, sides fade out */}
@@ -175,8 +177,10 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   className="pointer-events-none absolute inset-0 rounded-[inherit]"
                   style={{
                     border: p.featured
-                      ? "1px solid rgba(255,255,255,0.12)"
-                      : "1px solid rgba(255,255,255,0.06)",
+                      ? "1px solid rgba(255,255,255,0.18)"
+                      : p.name === ai.title
+                        ? "1px solid rgba(168,130,255,0.12)"
+                        : "1px solid rgba(255,255,255,0.06)",
                     borderBottom: "none",
                     maskImage: "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
                     WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
@@ -187,16 +191,27 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   className="pointer-events-none absolute inset-x-0 top-0 h-px"
                   style={{
                     background: p.featured
-                      ? "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 15%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.06) 85%, transparent 100%)"
-                      : "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
+                      ? "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 15%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.1) 85%, transparent 100%)"
+                      : p.name === ai.title
+                        ? "linear-gradient(90deg, transparent 0%, rgba(168,130,255,0.08) 15%, rgba(168,130,255,0.25) 50%, rgba(168,130,255,0.08) 85%, transparent 100%)"
+                        : "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
                   }}
                 />
-                {/* Top center glow orb for featured */}
+                {/* Pro glow — bright white */}
                 {p.featured && (
                   <div
-                    className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[120px] w-[400px]"
+                    className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[200px] w-[500px]"
                     style={{
-                      background: "radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%)",
+                      background: "radial-gradient(ellipse at center, rgba(255,255,255,0.09) 0%, transparent 70%)",
+                    }}
+                  />
+                )}
+                {/* Ultra glow — purple accent */}
+                {p.name === ai.title && (
+                  <div
+                    className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[160px] w-[420px]"
+                    style={{
+                      background: "radial-gradient(ellipse at center, rgba(168,130,255,0.07) 0%, transparent 70%)",
                     }}
                   />
                 )}
