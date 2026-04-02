@@ -113,12 +113,12 @@ export function Plasma({
 
     const directionMultiplier = direction === 'reverse' ? -1.0 : 1.0;
 
-    // Detect mobile for performance tuning — match desktop quality, save GPU via lower FPS
+    // Mobile: low-res canvas + high-contrast shader = detailed patterns without GPU strain
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
     const iterations = 45.0;
-    const brightness = 5e3;
-    const dpr = 1;
-    const targetFps = isMobile ? 10 : 30;
+    const brightness = isMobile ? 2e3 : 5e3; // brighter shader on mobile to preserve detail at low CSS opacity
+    const dpr = isMobile ? 0.4 : 1; // ~160px wide canvas — detail preserved by iterations, blur hides low-res
+    const targetFps = isMobile ? 24 : 30;
 
     const renderer = new Renderer({
       webgl: 2,
