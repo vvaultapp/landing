@@ -115,10 +115,10 @@ export function Plasma({
 
     // Detect mobile for performance tuning
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-    const iterations = isMobile ? 25.0 : 45.0;
-    const brightness = isMobile ? 2e3 : 5e3;
-    const dpr = isMobile ? 0.5 : 1;
-    const targetFps = isMobile ? 20 : 30;
+    const iterations = isMobile ? 35.0 : 45.0;
+    const brightness = isMobile ? 3.5e3 : 5e3;
+    const dpr = isMobile ? 0.75 : 1;
+    const targetFps = isMobile ? 15 : 30;
 
     const renderer = new Renderer({
       webgl: 2,
