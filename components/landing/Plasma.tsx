@@ -113,12 +113,12 @@ export function Plasma({
 
     const directionMultiplier = direction === 'reverse' ? -1.0 : 1.0;
 
-    // Detect mobile for performance tuning
+    // Detect mobile for performance tuning — match desktop quality, save GPU via lower FPS
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-    const iterations = isMobile ? 35.0 : 45.0;
-    const brightness = isMobile ? 3.5e3 : 5e3;
-    const dpr = isMobile ? 0.75 : 1;
-    const targetFps = isMobile ? 15 : 30;
+    const iterations = 45.0;
+    const brightness = 5e3;
+    const dpr = 1;
+    const targetFps = isMobile ? 10 : 30;
 
     const renderer = new Renderer({
       webgl: 2,

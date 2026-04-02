@@ -610,7 +610,7 @@ export default function FeatureCampaignsPage() {
             "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
         }}
       >
-        <div className="absolute inset-0 opacity-[0.55] max-lg:opacity-[0.25]">
+        <div className="absolute inset-0 opacity-[0.55] max-lg:opacity-[0.15]">
           <Plasma
             color="#8b5cf6"
             speed={0.3}
