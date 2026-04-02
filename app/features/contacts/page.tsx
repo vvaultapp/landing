@@ -518,7 +518,7 @@ export default function FeatureContactsPage() {
             "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
         }}
       >
-        <div className="absolute inset-0 opacity-[0.3]">
+        <div className="absolute inset-0 opacity-[0.55]">
           <Plasma
             color="#f59e0b"
             speed={0.3}
