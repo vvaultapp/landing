@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "How to Send Beats to Artists Professionally in 2026 — VVAULT",
+  title: "How to Send Beats to Artists Professionally in 2026 — vvault",
   description:
     "The complete guide to sending beats to artists, rappers, and labels. Learn how to build beat packs, write outreach emails, track who listened, and follow up at the right time.",
   openGraph: {
-    title: "How to Send Beats to Artists Professionally in 2026 — VVAULT",
+    title: "How to Send Beats to Artists Professionally in 2026 — vvault",
     description:
       "The complete guide to sending beats to artists, rappers, and labels. Learn how to build beat packs, write outreach emails, track who listened, and follow up at the right time.",
     url: "https://get.vvault.app/blog/how-to-send-beats-to-artists",

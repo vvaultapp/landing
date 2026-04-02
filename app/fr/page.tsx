@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/LandingPage";
 
 export const metadata: Metadata = {
-  title: "VVAULT | La bonne façon d'envoyer ta musique",
+  title: "vvault | La bonne façon d'envoyer ta musique",
   alternates: {
     languages: {
       en: "/",

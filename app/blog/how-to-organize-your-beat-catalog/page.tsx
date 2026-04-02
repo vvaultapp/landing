@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "How to Organize Your Beat Catalog Like a Pro — VVAULT",
+  title: "How to Organize Your Beat Catalog Like a Pro — vvault",
   description:
     "A messy catalog makes you slower and less professional. Learn how to organize beats into folders, packs, and series so your music is always ready to send.",
   openGraph: {
-    title: "How to Organize Your Beat Catalog Like a Pro — VVAULT",
+    title: "How to Organize Your Beat Catalog Like a Pro — vvault",
     description:
       "A messy catalog makes you slower and less professional. Learn how to organize beats into folders, packs, and series so your music is always ready to send.",
     url: "https://get.vvault.app/blog/how-to-organize-your-beat-catalog",

@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "How to Get More Placements as a Producer in 2026 — VVAULT",
+  title: "How to Get More Placements as a Producer in 2026 — vvault",
   description:
     "Placements come from process, not luck. Learn the full system for landing more placements: catalog preparation, targeted outreach, tracked sending, and smart follow-up.",
   openGraph: {
-    title: "How to Get More Placements as a Producer in 2026 — VVAULT",
+    title: "How to Get More Placements as a Producer in 2026 — vvault",
     description:
       "Placements come from process, not luck. Learn the full system for landing more placements: catalog preparation, targeted outreach, tracked sending, and smart follow-up.",
     url: "https://get.vvault.app/blog/how-to-get-more-placements-as-a-producer",
