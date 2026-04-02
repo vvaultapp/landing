@@ -33,6 +33,8 @@ uniform float uScale;
 uniform float uOpacity;
 uniform vec2 uMouse;
 uniform float uMouseInteractive;
+uniform float uIterations;
+uniform float uBrightness;
 out vec4 fragColor;
 
 void mainImage(out vec4 o, vec2 C) {
@@ -45,7 +47,7 @@ void mainImage(out vec4 o, vec2 C) {
   float i, d, z, T = iTime * uSpeed * uDirection;
   vec3 O, p, S;
 
-  for (vec2 r = iResolution.xy, Q; ++i < 45.; O += o.w/d*o.xyz) {
+  for (vec2 r = iResolution.xy, Q; ++i < uIterations; O += o.w/d*o.xyz) {
     p = z*normalize(vec3(C-.5*r,r.y));
     p.z -= 4.;
     S = p;
@@ -57,7 +59,7 @@ void mainImage(out vec4 o, vec2 C) {
     o = 1.+sin(S.y+p.z*.5+S.z-length(S-p)+vec4(2,1,0,8));
   }
 
-  o.xyz = tanh(O/5e3);
+  o.xyz = tanh(O/uBrightness);
 }
 
 bool finite1(float x){ return !(isnan(x) || isinf(x)); }
@@ -111,11 +113,18 @@ export function Plasma({
 
     const directionMultiplier = direction === 'reverse' ? -1.0 : 1.0;
 
+    // Detect mobile for performance tuning
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+    const iterations = isMobile ? 25.0 : 45.0;
+    const brightness = isMobile ? 2e3 : 5e3;
+    const dpr = isMobile ? 0.5 : 1;
+    const targetFps = isMobile ? 20 : 30;
+
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: 1, // Cap at 1 — plasma is a blurred/masked background, retina resolution is wasted GPU
+      dpr, // Lower on mobile for performance
     });
     const gl = renderer.gl;
     const canvas = gl.canvas as HTMLCanvasElement;
@@ -140,6 +149,8 @@ export function Plasma({
         uOpacity: { value: opacity },
         uMouse: { value: new Float32Array([0, 0]) },
         uMouseInteractive: { value: mouseInteractive ? 1.0 : 0.0 },
+        uIterations: { value: iterations },
+        uBrightness: { value: brightness },
       },
     });
 
@@ -176,7 +187,7 @@ export function Plasma({
 
     let raf = 0;
     const t0 = performance.now();
-    const FRAME_INTERVAL = 1000 / 30; // Throttle to ~30fps — smooth enough for ambient bg
+    const FRAME_INTERVAL = 1000 / targetFps;
     let lastFrameTime = 0;
     const loop = (t: number) => {
       raf = requestAnimationFrame(loop);
