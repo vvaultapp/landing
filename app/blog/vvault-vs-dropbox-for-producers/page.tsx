@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "vvault vs Dropbox for Music Producers — Storage vs Tracked Sending",
+  title: "VVAULT vs Dropbox for Music Producers — Storage vs Tracked Sending",
   description:
     "Dropbox stores files and shares links. vvault organizes your music, sends it professionally, and shows you who actually listened. Full comparison for producers.",
   openGraph: {
-    title: "vvault vs Dropbox for Music Producers — Storage vs Tracked Sending",
+    title: "VVAULT vs Dropbox for Music Producers — Storage vs Tracked Sending",
     description:
       "Dropbox stores files and shares links. vvault organizes your music, sends it professionally, and shows you who actually listened. Full comparison for producers.",
     url: "https://get.vvault.app/blog/vvault-vs-dropbox-for-producers",
