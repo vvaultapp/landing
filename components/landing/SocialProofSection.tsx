@@ -102,10 +102,10 @@ function Stars({ count }: { count: number }) {
   );
 }
 
-function ReviewCard({ review, state }: { review: typeof REVIEWS_EN[0]; state: "entering" | "visible" | "exiting" }) {
+function ReviewCard({ review, state, className = "" }: { review: typeof REVIEWS_EN[0]; state: "entering" | "visible" | "exiting"; className?: string }) {
   return (
     <div
-      className="flex w-full flex-col items-center gap-3 rounded-2xl px-6 py-5 text-center transition-all duration-700 ease-in-out sm:px-8 sm:py-6"
+      className={`flex w-full flex-col items-center gap-3 rounded-2xl px-6 py-5 text-center transition-all duration-700 ease-in-out sm:px-8 sm:py-6 ${className}`}
       style={{
         opacity: state === "visible" ? 1 : 0,
         filter: state === "visible" ? "blur(0px)" : "blur(8px)",
@@ -210,9 +210,9 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
               </a>
 
               {/* Review cards */}
-              <div className="mt-8 grid h-[180px] grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
-                {currentPair.map((review) => (
-                  <ReviewCard key={`${pairIndex}-${review.name}`} review={review} state={state} />
+              <div className="mt-8 grid h-[140px] grid-cols-1 gap-4 sm:h-[180px] sm:grid-cols-3 sm:gap-6">
+                {currentPair.map((review, i) => (
+                  <ReviewCard key={`${pairIndex}-${review.name}`} review={review} state={state} className={i > 0 ? "hidden sm:flex" : ""} />
                 ))}
               </div>
 
