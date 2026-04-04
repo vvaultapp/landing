@@ -133,30 +133,32 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
             </p>
 
             {/* Toggle */}
-            <div className="relative mt-8 flex items-center justify-center gap-3">
-              <span className={`text-sm ${annual ? "text-white/40" : "text-white"}`}>
-                {content.pricingUi.monthly}
-              </span>
-              <button
-                type="button"
-                aria-label={content.pricingUi.toggleBillingAriaLabel}
-                onClick={() => setAnnual((v) => !v)}
-                className={`relative h-7 w-12 rounded-full transition-colors duration-200 ${
-                  annual ? "bg-emerald-500/80" : "bg-white/10"
-                }`}
-              >
-                <span
-                  className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
-                    annual ? "left-6" : "left-1"
+            <div className="relative mt-8 flex flex-col items-center gap-2">
+              <div className="flex items-center justify-center gap-3">
+                <span className={`text-sm ${annual ? "text-white/40" : "text-white"}`}>
+                  {content.pricingUi.monthly}
+                </span>
+                <button
+                  type="button"
+                  aria-label={content.pricingUi.toggleBillingAriaLabel}
+                  onClick={() => setAnnual((v) => !v)}
+                  className={`relative h-7 w-12 rounded-full transition-colors duration-200 ${
+                    annual ? "bg-emerald-500/80" : "bg-white/10"
                   }`}
-                />
-              </button>
-              <span className={`text-sm ${annual ? "text-white" : "text-white/40"}`}>
-                {content.pricingUi.annually}
-              </span>
+                >
+                  <span
+                    className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
+                      annual ? "left-6" : "left-1"
+                    }`}
+                  />
+                </button>
+                <span className={`text-sm ${annual ? "text-white" : "text-white/40"}`}>
+                  {content.pricingUi.annually}
+                </span>
+              </div>
               {annual && (
                 <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-400 whitespace-nowrap">
-                  17%
+                  {locale === "fr" ? "17% d'économies" : "17% Savings"}
                 </span>
               )}
             </div>

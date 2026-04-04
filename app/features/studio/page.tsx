@@ -75,7 +75,7 @@ function Emblem() {
       />
       {/* Chrome effect on logo image */}
       <div
-        className="relative z-10 h-[52px] w-[52px] sm:h-[62px] sm:w-[62px]"
+        className="relative z-10 h-[68px] w-[68px] sm:h-[80px] sm:w-[80px]"
         style={{
           WebkitMaskImage: "url('/vvault-studio-logo.png')",
           maskImage: "url('/vvault-studio-logo.png')",

@@ -45,86 +45,86 @@ const NAV_SECTIONS: NavSection[] = [
 /*  Search index                                                      */
 /* ------------------------------------------------------------------ */
 
-type SearchEntry = { title: string; section: string; href: string; keywords: string[] };
+type SearchEntry = { title: string; titleFr: string; section: string; sectionFr: string; href: string; keywords: string[] };
 
 const SEARCH_INDEX: SearchEntry[] = [
   // Introduction
-  { title: "Introduction", section: "Getting started", href: "/docs/introduction", keywords: ["introduction", "what is vvault", "overview", "getting started"] },
-  { title: "What is vvault?", section: "Introduction", href: "/docs/introduction#what-is-vvault", keywords: ["what", "vvault", "about", "platform"] },
-  { title: "Key features", section: "Introduction", href: "/docs/introduction#key-features", keywords: ["features", "key", "overview"] },
-  { title: "Plans", section: "Introduction", href: "/docs/introduction#plans", keywords: ["plans", "pricing", "free", "pro", "ultra"] },
-  { title: "Security & privacy", section: "Introduction", href: "/docs/introduction#security", keywords: ["security", "privacy", "encryption", "safe", "secure", "data", "private"] },
-  { title: "Getting help", section: "Introduction", href: "/docs/introduction#getting-help", keywords: ["help", "support", "contact"] },
+  { title: "Introduction", titleFr: "Introduction", section: "Getting started", sectionFr: "Pour commencer", href: "/docs/introduction", keywords: ["introduction", "what is vvault", "overview", "getting started", "qu'est-ce que", "présentation", "commencer"] },
+  { title: "What is vvault?", titleFr: "Qu'est-ce que vvault ?", section: "Introduction", sectionFr: "Introduction", href: "/docs/introduction#what-is-vvault", keywords: ["what", "vvault", "about", "platform", "qu'est-ce", "plateforme", "à propos"] },
+  { title: "Key features", titleFr: "Fonctionnalités clés", section: "Introduction", sectionFr: "Introduction", href: "/docs/introduction#key-features", keywords: ["features", "key", "overview", "fonctionnalités", "clés"] },
+  { title: "Plans", titleFr: "Plans", section: "Introduction", sectionFr: "Introduction", href: "/docs/introduction#plans", keywords: ["plans", "pricing", "free", "pro", "ultra", "tarifs", "gratuit"] },
+  { title: "Security & privacy", titleFr: "Sécurité & confidentialité", section: "Introduction", sectionFr: "Introduction", href: "/docs/introduction#security", keywords: ["security", "privacy", "encryption", "safe", "secure", "data", "private", "sécurité", "confidentialité", "chiffrement", "données", "privé"] },
+  { title: "Getting help", titleFr: "Obtenir de l'aide", section: "Introduction", sectionFr: "Introduction", href: "/docs/introduction#getting-help", keywords: ["help", "support", "contact", "aide"] },
   // Quickstart
-  { title: "Quickstart", section: "Getting started", href: "/docs/quickstart", keywords: ["quickstart", "start", "begin", "setup", "guide"] },
-  { title: "Create your account", section: "Quickstart", href: "/docs/quickstart#create-account", keywords: ["account", "create", "sign up", "register"] },
-  { title: "Upload your first tracks", section: "Quickstart", href: "/docs/quickstart#upload-tracks", keywords: ["upload", "tracks", "first", "files", "music"] },
-  { title: "Create a pack", section: "Quickstart", href: "/docs/quickstart#create-pack", keywords: ["pack", "create", "bundle"] },
-  { title: "Send your first campaign", section: "Quickstart", href: "/docs/quickstart#send-campaign", keywords: ["campaign", "send", "first", "email"] },
-  { title: "Track engagement", section: "Quickstart", href: "/docs/quickstart#track-engagement", keywords: ["track", "engagement", "analytics"] },
-  { title: "Next steps", section: "Quickstart", href: "/docs/quickstart#next-steps", keywords: ["next", "steps", "continue"] },
+  { title: "Quickstart", titleFr: "Démarrage rapide", section: "Getting started", sectionFr: "Pour commencer", href: "/docs/quickstart", keywords: ["quickstart", "start", "begin", "setup", "guide", "démarrage", "rapide", "commencer"] },
+  { title: "Create your account", titleFr: "Crée ton compte", section: "Quickstart", sectionFr: "Démarrage rapide", href: "/docs/quickstart#create-account", keywords: ["account", "create", "sign up", "register", "compte", "créer", "inscription"] },
+  { title: "Upload your first tracks", titleFr: "Upload tes premiers morceaux", section: "Quickstart", sectionFr: "Démarrage rapide", href: "/docs/quickstart#upload-tracks", keywords: ["upload", "tracks", "first", "files", "music", "morceaux", "fichiers", "musique"] },
+  { title: "Create a pack", titleFr: "Crée un pack", section: "Quickstart", sectionFr: "Démarrage rapide", href: "/docs/quickstart#create-pack", keywords: ["pack", "create", "bundle", "créer"] },
+  { title: "Send your first campaign", titleFr: "Envoie ta première campagne", section: "Quickstart", sectionFr: "Démarrage rapide", href: "/docs/quickstart#send-campaign", keywords: ["campaign", "send", "first", "email", "campagne", "envoyer", "première"] },
+  { title: "Track engagement", titleFr: "Suis l'engagement", section: "Quickstart", sectionFr: "Démarrage rapide", href: "/docs/quickstart#track-engagement", keywords: ["track", "engagement", "analytics", "suivre"] },
+  { title: "Next steps", titleFr: "Étapes suivantes", section: "Quickstart", sectionFr: "Démarrage rapide", href: "/docs/quickstart#next-steps", keywords: ["next", "steps", "continue", "suivant", "étapes"] },
   // Library
-  { title: "Library", section: "Features", href: "/docs/library", keywords: ["library", "files", "tracks", "audio", "music"] },
-  { title: "Uploading files", section: "Library", href: "/docs/library#uploading", keywords: ["upload", "files", "import", "add"] },
-  { title: "Storage limits", section: "Library", href: "/docs/library#storage", keywords: ["storage", "limits", "space", "capacity", "gb"] },
-  { title: "Packs", section: "Library", href: "/docs/library#packs", keywords: ["packs", "bundle", "collection", "group"] },
-  { title: "Metadata", section: "Library", href: "/docs/library#metadata", keywords: ["metadata", "tags", "bpm", "key", "genre", "info"] },
-  { title: "Folders", section: "Library", href: "/docs/library#folders", keywords: ["folders", "organize", "directory"] },
+  { title: "Library", titleFr: "Bibliothèque", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/library", keywords: ["library", "files", "tracks", "audio", "music", "bibliothèque", "fichiers", "morceaux", "musique"] },
+  { title: "Uploading files", titleFr: "Upload de fichiers", section: "Library", sectionFr: "Bibliothèque", href: "/docs/library#uploading", keywords: ["upload", "files", "import", "add", "fichiers", "importer", "ajouter"] },
+  { title: "Storage limits", titleFr: "Limites de stockage", section: "Library", sectionFr: "Bibliothèque", href: "/docs/library#storage", keywords: ["storage", "limits", "space", "capacity", "gb", "stockage", "limites", "espace"] },
+  { title: "Packs", titleFr: "Packs", section: "Library", sectionFr: "Bibliothèque", href: "/docs/library#packs", keywords: ["packs", "bundle", "collection", "group"] },
+  { title: "Metadata", titleFr: "Métadonnées", section: "Library", sectionFr: "Bibliothèque", href: "/docs/library#metadata", keywords: ["metadata", "tags", "bpm", "key", "genre", "info", "métadonnées"] },
+  { title: "Folders", titleFr: "Dossiers", section: "Library", sectionFr: "Bibliothèque", href: "/docs/library#folders", keywords: ["folders", "organize", "directory", "dossiers", "organiser"] },
   // Campaigns
-  { title: "Campaigns", section: "Features", href: "/docs/campaigns", keywords: ["campaigns", "email", "send", "outreach", "marketing"] },
-  { title: "Channels", section: "Campaigns", href: "/docs/campaigns#channels", keywords: ["channels", "email", "instagram", "messages", "sms", "dm"] },
-  { title: "Creating a campaign", section: "Campaigns", href: "/docs/campaigns#creating", keywords: ["create", "campaign", "compose", "write"] },
-  { title: "Sending limits", section: "Campaigns", href: "/docs/campaigns#limits", keywords: ["limits", "sending", "daily", "recipients", "quota"] },
-  { title: "Gmail integration", section: "Campaigns", href: "/docs/campaigns#gmail", keywords: ["gmail", "integration", "google", "connect", "oauth"] },
-  { title: "Scheduling", section: "Campaigns", href: "/docs/campaigns#scheduling", keywords: ["scheduling", "schedule", "later", "time", "date"] },
+  { title: "Campaigns", titleFr: "Campagnes", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/campaigns", keywords: ["campaigns", "email", "send", "outreach", "marketing", "campagnes", "envoyer"] },
+  { title: "Channels", titleFr: "Canaux", section: "Campaigns", sectionFr: "Campagnes", href: "/docs/campaigns#channels", keywords: ["channels", "email", "instagram", "messages", "sms", "dm", "canaux"] },
+  { title: "Creating a campaign", titleFr: "Créer une campagne", section: "Campaigns", sectionFr: "Campagnes", href: "/docs/campaigns#creating", keywords: ["create", "campaign", "compose", "write", "créer", "campagne", "rédiger"] },
+  { title: "Sending limits", titleFr: "Limites d'envoi", section: "Campaigns", sectionFr: "Campagnes", href: "/docs/campaigns#limits", keywords: ["limits", "sending", "daily", "recipients", "quota", "limites", "envoi", "destinataires"] },
+  { title: "Gmail integration", titleFr: "Intégration Gmail", section: "Campaigns", sectionFr: "Campagnes", href: "/docs/campaigns#gmail", keywords: ["gmail", "integration", "google", "connect", "oauth", "intégration", "connecter"] },
+  { title: "Scheduling", titleFr: "Planification", section: "Campaigns", sectionFr: "Campagnes", href: "/docs/campaigns#scheduling", keywords: ["scheduling", "schedule", "later", "time", "date", "planification", "planifier", "programmer"] },
   // Analytics
-  { title: "Analytics", section: "Features", href: "/docs/analytics", keywords: ["analytics", "stats", "data", "metrics", "tracking"] },
-  { title: "KPI metrics", section: "Analytics", href: "/docs/analytics#kpis", keywords: ["kpi", "metrics", "opens", "clicks", "plays", "downloads"] },
-  { title: "Dashboard", section: "Analytics", href: "/docs/analytics#dashboard", keywords: ["dashboard", "overview", "summary", "charts"] },
-  { title: "Engagement funnel", section: "Analytics", href: "/docs/analytics#funnel", keywords: ["funnel", "engagement", "conversion"] },
-  { title: "Best time to send", section: "Analytics", href: "/docs/analytics#best-time", keywords: ["best time", "send", "optimal", "timing"] },
+  { title: "Analytics", titleFr: "Analytiques", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/analytics", keywords: ["analytics", "stats", "data", "metrics", "tracking", "analytiques", "statistiques", "données", "métriques", "suivi"] },
+  { title: "KPI metrics", titleFr: "Métriques KPI", section: "Analytics", sectionFr: "Analytiques", href: "/docs/analytics#kpis", keywords: ["kpi", "metrics", "opens", "clicks", "plays", "downloads", "métriques", "ouvertures", "clics", "écoutes", "téléchargements"] },
+  { title: "Dashboard", titleFr: "Tableau de bord", section: "Analytics", sectionFr: "Analytiques", href: "/docs/analytics#dashboard", keywords: ["dashboard", "overview", "summary", "charts", "tableau de bord", "résumé", "graphiques"] },
+  { title: "Engagement funnel", titleFr: "Funnel d'engagement", section: "Analytics", sectionFr: "Analytiques", href: "/docs/analytics#funnel", keywords: ["funnel", "engagement", "conversion"] },
+  { title: "Best time to send", titleFr: "Meilleur moment pour envoyer", section: "Analytics", sectionFr: "Analytiques", href: "/docs/analytics#best-time", keywords: ["best time", "send", "optimal", "timing", "meilleur moment", "envoyer", "optimal"] },
   // Contacts
-  { title: "Contacts", section: "Features", href: "/docs/contacts", keywords: ["contacts", "crm", "people", "recipients", "audience"] },
-  { title: "Managing contacts", section: "Contacts", href: "/docs/contacts#managing", keywords: ["managing", "add", "import", "create", "contact"] },
-  { title: "Groups and tags", section: "Contacts", href: "/docs/contacts#groups", keywords: ["groups", "tags", "segment", "label", "organize"] },
-  { title: "Engagement scoring", section: "Contacts", href: "/docs/contacts#scoring", keywords: ["scoring", "engagement", "score", "hot", "warm", "cold"] },
-  { title: "Contact timeline", section: "Contacts", href: "/docs/contacts#timeline", keywords: ["timeline", "activity", "history", "log"] },
+  { title: "Contacts", titleFr: "Contacts", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/contacts", keywords: ["contacts", "crm", "people", "recipients", "audience", "destinataires"] },
+  { title: "Managing contacts", titleFr: "Gérer les contacts", section: "Contacts", sectionFr: "Contacts", href: "/docs/contacts#managing", keywords: ["managing", "add", "import", "create", "contact", "gérer", "ajouter", "importer"] },
+  { title: "Groups and tags", titleFr: "Groupes et tags", section: "Contacts", sectionFr: "Contacts", href: "/docs/contacts#groups", keywords: ["groups", "tags", "segment", "label", "organize", "groupes", "organiser"] },
+  { title: "Engagement scoring", titleFr: "Scoring d'engagement", section: "Contacts", sectionFr: "Contacts", href: "/docs/contacts#scoring", keywords: ["scoring", "engagement", "score", "hot", "warm", "cold"] },
+  { title: "Contact timeline", titleFr: "Timeline de contact", section: "Contacts", sectionFr: "Contacts", href: "/docs/contacts#timeline", keywords: ["timeline", "activity", "history", "log", "activité", "historique"] },
   // Sales
-  { title: "Sales & Marketplace", section: "Features", href: "/docs/sales", keywords: ["sales", "marketplace", "sell", "store", "commerce"] },
-  { title: "License types", section: "Sales", href: "/docs/sales#licenses", keywords: ["license", "types", "basic", "premium", "stems", "exclusive", "unlimited", "sound kit"] },
-  { title: "Pricing", section: "Sales", href: "/docs/sales#pricing", keywords: ["pricing", "price", "cost", "set price"] },
-  { title: "Commission", section: "Sales", href: "/docs/sales#commission", keywords: ["commission", "fee", "percentage", "5%", "0%"] },
-  { title: "Payouts", section: "Sales", href: "/docs/sales#payouts", keywords: ["payouts", "payout", "withdrawal", "money", "payment", "7-day"] },
-  { title: "Checkout flow", section: "Sales", href: "/docs/sales#checkout", keywords: ["checkout", "flow", "purchase", "buy"] },
+  { title: "Sales & Marketplace", titleFr: "Ventes & Marketplace", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/sales", keywords: ["sales", "marketplace", "sell", "store", "commerce", "ventes", "vendre", "boutique"] },
+  { title: "License types", titleFr: "Types de licences", section: "Sales", sectionFr: "Ventes", href: "/docs/sales#licenses", keywords: ["license", "types", "basic", "premium", "stems", "exclusive", "unlimited", "sound kit", "licences"] },
+  { title: "Pricing", titleFr: "Tarification", section: "Sales", sectionFr: "Ventes", href: "/docs/sales#pricing", keywords: ["pricing", "price", "cost", "set price", "tarifs", "prix"] },
+  { title: "Commission", titleFr: "Commission", section: "Sales", sectionFr: "Ventes", href: "/docs/sales#commission", keywords: ["commission", "fee", "percentage", "5%", "0%", "frais"] },
+  { title: "Payouts", titleFr: "Paiements", section: "Sales", sectionFr: "Ventes", href: "/docs/sales#payouts", keywords: ["payouts", "payout", "withdrawal", "money", "payment", "7-day", "paiements", "retrait", "argent"] },
+  { title: "Checkout flow", titleFr: "Flux de paiement", section: "Sales", sectionFr: "Ventes", href: "/docs/sales#checkout", keywords: ["checkout", "flow", "purchase", "buy", "paiement", "achat", "acheter"] },
   // Opportunities
-  { title: "Opportunities", section: "Features", href: "/docs/opportunities", keywords: ["opportunities", "placements", "submissions", "requests"] },
-  { title: "How it works", section: "Opportunities", href: "/docs/opportunities#how-it-works", keywords: ["how", "works", "process"] },
-  { title: "Categories", section: "Opportunities", href: "/docs/opportunities#categories", keywords: ["categories", "types", "genres"] },
-  { title: "Submissions", section: "Opportunities", href: "/docs/opportunities#submissions", keywords: ["submissions", "submit", "apply", "send"] },
-  { title: "Paid submissions", section: "Opportunities", href: "/docs/opportunities#paid", keywords: ["paid", "submissions", "premium", "cost"] },
+  { title: "Opportunities", titleFr: "Opportunités", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/opportunities", keywords: ["opportunities", "placements", "submissions", "requests", "opportunités", "soumissions", "demandes"] },
+  { title: "How it works", titleFr: "Comment ça marche", section: "Opportunities", sectionFr: "Opportunités", href: "/docs/opportunities#how-it-works", keywords: ["how", "works", "process", "comment", "marche", "processus"] },
+  { title: "Categories", titleFr: "Catégories", section: "Opportunities", sectionFr: "Opportunités", href: "/docs/opportunities#categories", keywords: ["categories", "types", "genres", "catégories"] },
+  { title: "Submissions", titleFr: "Soumissions", section: "Opportunities", sectionFr: "Opportunités", href: "/docs/opportunities#submissions", keywords: ["submissions", "submit", "apply", "send", "soumissions", "soumettre", "envoyer"] },
+  { title: "Paid submissions", titleFr: "Soumissions payantes", section: "Opportunities", sectionFr: "Opportunités", href: "/docs/opportunities#paid", keywords: ["paid", "submissions", "premium", "cost", "payantes", "coût"] },
   // Profile
-  { title: "Profile", section: "Features", href: "/docs/profile", keywords: ["profile", "page", "public", "artist"] },
-  { title: "Public page", section: "Profile", href: "/docs/profile#public-page", keywords: ["public", "page", "profile", "visible"] },
-  { title: "Placements", section: "Profile", href: "/docs/profile#placements", keywords: ["placements", "credits", "work"] },
-  { title: "Social links", section: "Profile", href: "/docs/profile#social", keywords: ["social", "links", "instagram", "spotify", "youtube"] },
-  { title: "Theme customization", section: "Profile", href: "/docs/profile#themes", keywords: ["theme", "customization", "colors", "appearance", "design"] },
+  { title: "Profile", titleFr: "Profil", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/profile", keywords: ["profile", "page", "public", "artist", "profil", "artiste"] },
+  { title: "Public page", titleFr: "Page publique", section: "Profile", sectionFr: "Profil", href: "/docs/profile#public-page", keywords: ["public", "page", "profile", "visible", "publique", "profil"] },
+  { title: "Placements", titleFr: "Placements", section: "Profile", sectionFr: "Profil", href: "/docs/profile#placements", keywords: ["placements", "credits", "work", "crédits"] },
+  { title: "Social links", titleFr: "Liens sociaux", section: "Profile", sectionFr: "Profil", href: "/docs/profile#social", keywords: ["social", "links", "instagram", "spotify", "youtube", "liens", "sociaux"] },
+  { title: "Theme customization", titleFr: "Personnalisation du thème", section: "Profile", sectionFr: "Profil", href: "/docs/profile#themes", keywords: ["theme", "customization", "colors", "appearance", "design", "thème", "personnalisation", "couleurs", "apparence"] },
   // Link in Bio
-  { title: "Link in Bio", section: "Features", href: "/docs/link-in-bio", keywords: ["link in bio", "bio", "linktree", "links", "landing"] },
-  { title: "Overview", section: "Link in Bio", href: "/docs/link-in-bio#overview", keywords: ["overview", "about"] },
-  { title: "What's included", section: "Link in Bio", href: "/docs/link-in-bio#included", keywords: ["included", "features", "what"] },
+  { title: "Link in Bio", titleFr: "Lien en Bio", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/link-in-bio", keywords: ["link in bio", "bio", "linktree", "links", "landing", "lien"] },
+  { title: "Overview", titleFr: "Aperçu", section: "Link in Bio", sectionFr: "Lien en Bio", href: "/docs/link-in-bio#overview", keywords: ["overview", "about", "aperçu", "à propos"] },
+  { title: "What's included", titleFr: "Ce qui est inclus", section: "Link in Bio", sectionFr: "Lien en Bio", href: "/docs/link-in-bio#included", keywords: ["included", "features", "what", "inclus", "fonctionnalités"] },
   // Studio
-  { title: "Studio", section: "Features", href: "/docs/studio", keywords: ["studio", "video", "content", "create"] },
-  { title: "Video specs", section: "Studio", href: "/docs/studio#specs", keywords: ["video", "specs", "specifications", "format", "resolution"] },
-  { title: "Availability", section: "Studio", href: "/docs/studio#availability", keywords: ["availability", "available", "access"] },
+  { title: "Studio", titleFr: "Studio", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/studio", keywords: ["studio", "video", "content", "create", "vidéo", "contenu", "créer"] },
+  { title: "Video specs", titleFr: "Spécifications vidéo", section: "Studio", sectionFr: "Studio", href: "/docs/studio#specs", keywords: ["video", "specs", "specifications", "format", "resolution", "vidéo", "spécifications", "résolution"] },
+  { title: "Availability", titleFr: "Disponibilité", section: "Studio", sectionFr: "Studio", href: "/docs/studio#availability", keywords: ["availability", "available", "access", "disponibilité", "disponible", "accès"] },
   // Certificate
-  { title: "Certificate", section: "Features", href: "/docs/certificate", keywords: ["certificate", "verification", "proof", "authenticity"] },
-  { title: "Protection", section: "Certificate", href: "/docs/certificate#protection", keywords: ["protection", "copyright", "ownership"] },
+  { title: "Certificate", titleFr: "Certificat", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/certificate", keywords: ["certificate", "verification", "proof", "authenticity", "certificat", "vérification", "preuve", "authenticité"] },
+  { title: "Protection", titleFr: "Protection", section: "Certificate", sectionFr: "Certificat", href: "/docs/certificate#protection", keywords: ["protection", "copyright", "ownership", "droits", "propriété"] },
   // Plans
-  { title: "Plans & Pricing", section: "Account", href: "/docs/plans", keywords: ["plans", "pricing", "subscription", "cost", "free", "pro", "ultra"] },
-  { title: "Free plan", section: "Plans", href: "/docs/plans#free", keywords: ["free", "plan", "starter", "basic"] },
-  { title: "Pro plan", section: "Plans", href: "/docs/plans#pro", keywords: ["pro", "plan", "8.99", "paid"] },
-  { title: "Ultra plan", section: "Plans", href: "/docs/plans#ultra", keywords: ["ultra", "plan", "24.99", "premium", "top"] },
-  { title: "Comparison table", section: "Plans", href: "/docs/plans#comparison", keywords: ["comparison", "compare", "table", "differences"] },
+  { title: "Plans & Pricing", titleFr: "Plans & Tarifs", section: "Account", sectionFr: "Compte", href: "/docs/plans", keywords: ["plans", "pricing", "subscription", "cost", "free", "pro", "ultra", "tarifs", "abonnement", "coût", "gratuit"] },
+  { title: "Free plan", titleFr: "Plan Free", section: "Plans", sectionFr: "Plans", href: "/docs/plans#free", keywords: ["free", "plan", "starter", "basic", "gratuit"] },
+  { title: "Pro plan", titleFr: "Plan Pro", section: "Plans", sectionFr: "Plans", href: "/docs/plans#pro", keywords: ["pro", "plan", "8.99", "paid", "payant"] },
+  { title: "Ultra plan", titleFr: "Plan Ultra", section: "Plans", sectionFr: "Plans", href: "/docs/plans#ultra", keywords: ["ultra", "plan", "24.99", "premium", "top"] },
+  { title: "Comparison table", titleFr: "Tableau comparatif", section: "Plans", sectionFr: "Plans", href: "/docs/plans#comparison", keywords: ["comparison", "compare", "table", "differences", "comparaison", "comparer", "tableau", "différences"] },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -208,23 +208,29 @@ function SearchBar({ lang }: { lang: Lang }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  const isFr = lang === "fr";
   const results = useMemo(() => {
     if (!query.trim()) return [];
     const q = query.toLowerCase().trim();
     const scored = SEARCH_INDEX.map((entry) => {
+      const displayTitle = isFr ? entry.titleFr : entry.title;
+      const displaySection = isFr ? entry.sectionFr : entry.section;
       let score = 0;
-      if (entry.title.toLowerCase().includes(q)) score += 10;
-      if (entry.title.toLowerCase().startsWith(q)) score += 5;
-      if (entry.section.toLowerCase().includes(q)) score += 3;
+      if (displayTitle.toLowerCase().includes(q)) score += 10;
+      if (displayTitle.toLowerCase().startsWith(q)) score += 5;
+      if (entry.title.toLowerCase().includes(q)) score += 8;
+      if (entry.title.toLowerCase().startsWith(q)) score += 4;
+      if (displaySection.toLowerCase().includes(q)) score += 3;
+      if (entry.section.toLowerCase().includes(q)) score += 2;
       for (const kw of entry.keywords) {
         if (kw.includes(q)) score += 4;
         if (kw.startsWith(q)) score += 2;
       }
-      return { ...entry, score };
+      return { ...entry, displayTitle, displaySection, score };
     }).filter((e) => e.score > 0);
     scored.sort((a, b) => b.score - a.score);
     return scored.slice(0, 8);
-  }, [query]);
+  }, [query, isFr]);
 
   useEffect(() => setSelectedIndex(-1), [results]);
 
@@ -314,8 +320,8 @@ function SearchBar({ lang }: { lang: Lang }) {
                 <path d="M9 12h6M9 16h6M9 8h6M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
               </svg>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-medium text-[#111]">{r.title}</p>
-                <p className="truncate text-[12px] text-[#999]">{r.section}</p>
+                <p className="truncate font-medium text-[#111]">{r.displayTitle}</p>
+                <p className="truncate text-[12px] text-[#999]">{r.displaySection}</p>
               </div>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ccc" strokeWidth="2" strokeLinecap="round" className="shrink-0">
                 <path d="M9 18l6-6-6-6" />
@@ -663,7 +669,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               onMouseLeave={() => setLogoHovered(false)}
             >
               <Link
-                href="/"
+                href={lang === "fr" ? "/fr" : "/"}
                 className="flex items-center gap-1.5 transition-transform duration-300 ease-out"
                 style={{ transform: logoHovered ? "translateX(24px)" : "translateX(0)" }}
               >
@@ -677,7 +683,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
 
               {/* "Back to home" arrow — centered with logo */}
               <Link
-                href="/"
+                href={lang === "fr" ? "/fr" : "/"}
                 className="absolute left-0 top-1/2 flex items-center whitespace-nowrap rounded-xl text-[#999] transition-all duration-300 ease-out hover:text-[#111]"
                 style={{
                   transform: logoHovered ? "translateY(calc(-50% + 2px)) translateX(0)" : "translateY(calc(-50% + 2px)) translateX(12px)",
@@ -753,7 +759,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             <div className="flex items-center justify-between">
               <LanguageSelector lang={lang} setLang={setLang} />
               <a
-                href="/"
+                href={lang === "fr" ? "/fr" : "/"}
                 className="flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-[13px] font-medium text-[#555] transition-colors hover:text-[#111]"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
