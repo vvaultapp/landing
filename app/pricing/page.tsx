@@ -297,6 +297,11 @@ export default function PricingPage() {
                 >
                   {content.pricingUi.annually}
                 </span>
+                {annual && (
+                  <span className="ml-2 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-400">
+                    17% Savings
+                  </span>
+                )}
               </div>
             </div>
           </Reveal>
