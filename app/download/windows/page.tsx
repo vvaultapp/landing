@@ -12,7 +12,7 @@ const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
 });
 
 const WINDOWS_URL =
-  "https://drive.google.com/uc?export=download&id=1-Lmqxkx1q9xBnrkfLW5y7qQoRmq8INvf";
+  "https://drive.usercontent.google.com/download?id=1-Lmqxkx1q9xBnrkfLW5y7qQoRmq8INvf&export=download&confirm=t";
 
 export default function DownloadWindowsPage() {
   const [locale] = useLocale();
@@ -81,14 +81,11 @@ export default function DownloadWindowsPage() {
           <div className="mt-10 flex flex-col items-center gap-3">
             <a
               href={WINDOWS_URL}
-              className="inline-flex items-center gap-2.5 rounded-2xl bg-white px-6 py-3 text-[15px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:bg-white/90"
+              className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:opacity-90"
               style={{
+                background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
                 boxShadow:
                   "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
-                maskImage:
-                  "linear-gradient(to bottom, black 60%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, black 60%, transparent 100%)",
               }}
             >
               <svg

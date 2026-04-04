@@ -704,11 +704,10 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           <div className="hero-seq-item mt-7 flex flex-col items-center gap-3" style={{ animationDelay: "520ms" }}>
             <a
               href="https://vvault.app/auth/google"
-              className="inline-flex items-center gap-2.5 rounded-2xl bg-white px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:bg-white/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
+              className="inline-flex items-center gap-2.5 rounded-2xl px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
               style={{
+                background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
                 boxShadow: "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
-                maskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, black 60%, transparent 100%)",
               }}
             >
               <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none">
