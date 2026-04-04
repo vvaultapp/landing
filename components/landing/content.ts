@@ -105,8 +105,8 @@ const landingContentEn = {
       label: "Download",
       href: "#download",
       children: [
-        { label: "Download for macOS", href: "https://vvault.app/download/macos", description: "Desktop app for Mac" },
-        { label: "Download for Windows", href: "https://vvault.app/download/windows", description: "Desktop app for Windows" },
+        { label: "Download for macOS", href: "/download", description: "Desktop app for Mac" },
+        { label: "Download for Windows", href: "/download", description: "Desktop app for Windows" },
         { label: "Download on App Store", href: "https://apps.apple.com/app/id6759256796", description: "Mobile app for iPhone", external: true },
       ],
     },
@@ -503,8 +503,8 @@ const landingContentFr = {
       label: "Télécharger",
       href: "#download",
       children: [
-        { label: "Télécharger pour macOS", href: "https://vvault.app/download/macos", description: "App de bureau pour Mac" },
-        { label: "Télécharger pour Windows", href: "https://vvault.app/download/windows", description: "App de bureau pour Windows" },
+        { label: "Télécharger pour macOS", href: "/download", description: "App de bureau pour Mac" },
+        { label: "Télécharger pour Windows", href: "/download", description: "App de bureau pour Windows" },
         { label: "Télécharger sur l'App Store", href: "https://apps.apple.com/app/id6759256796", description: "App mobile pour iPhone", external: true },
       ],
     },
