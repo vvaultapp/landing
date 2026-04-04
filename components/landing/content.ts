@@ -88,29 +88,26 @@ const landingContentEn = {
       children: [
         { label: "Customer Stories", href: "/testimonials", description: "How producers use vvault" },
         { label: "Video Reviews", href: "/testimonials#videos", description: "Watch real testimonials" },
-        { label: "Wall of Love", href: "/testimonials#wall-of-love", description: "What they're saying" },
       ],
     },
     {
-      label: "Company",
+      label: "About",
       href: "/about",
       children: [
-        { label: "About", href: "/about", description: "Our story and mission" },
+        { label: "Company", href: "/about", description: "Our story and mission" },
         { label: "Blog", href: "/blog", description: "Articles and guides" },
-        { label: "Changelog", href: "/changelog", description: "Product updates" },
+        { label: "Compare", href: "/compare", description: "vvault vs alternatives" },
         { label: "Privacy", href: "/privacy", description: "Privacy policy" },
         { label: "Terms", href: "/terms", description: "Terms of service" },
       ],
     },
     {
-      label: "Resources",
-      href: "/for/producers",
+      label: "Download",
+      href: "#download",
       children: [
-        { label: "For Producers", href: "/for/producers", description: "Built for beatmakers" },
-        { label: "For Artists", href: "/for/artists", description: "Receive and review music" },
-        { label: "For Managers & Labels", href: "/for/managers-and-labels", description: "Manage your roster" },
-        { label: "Compare", href: "/compare", description: "vvault vs alternatives" },
-        { label: "Blog", href: "/blog", description: "Guides and tutorials" },
+        { label: "Download for macOS", href: "https://vvault.app/download/macos", description: "Desktop app for Mac" },
+        { label: "Download for Windows", href: "https://vvault.app/download/windows", description: "Desktop app for Windows" },
+        { label: "Download on App Store", href: "https://apps.apple.com/app/id6759256796", description: "Mobile app for iPhone", external: true },
       ],
     },
     {
@@ -399,7 +396,6 @@ const landingContentEn = {
         links: [
           { label: "Features", href: "/features" },
           { label: "Pricing", href: "/pricing" },
-          { label: "Changelog", href: "/changelog" },
           { label: "Certificate", href: "/certificate" },
         ] as LandingFooterLink[],
       },
@@ -490,29 +486,26 @@ const landingContentFr = {
       children: [
         { label: "Histoires clients", href: "/testimonials", description: "Comment les producteurs utilisent vvault" },
         { label: "Vidéos", href: "/testimonials#videos", description: "Regarde de vrais témoignages" },
-        { label: "Wall of Love", href: "/testimonials#wall-of-love", description: "Ce qu'ils en disent" },
       ],
     },
     {
-      label: "Entreprise",
+      label: "À propos",
       href: "/about",
       children: [
-        { label: "À propos", href: "/about", description: "Notre histoire et mission" },
+        { label: "Entreprise", href: "/about", description: "Notre histoire et mission" },
         { label: "Blog", href: "/blog", description: "Articles et guides" },
-        { label: "Changelog", href: "/changelog", description: "Mises à jour produit" },
+        { label: "Comparer", href: "/compare", description: "vvault vs alternatives" },
         { label: "Confidentialité", href: "/privacy", description: "Politique de confidentialité" },
         { label: "Conditions", href: "/terms", description: "Conditions d'utilisation" },
       ],
     },
     {
-      label: "Ressources",
-      href: "/for/producers",
+      label: "Télécharger",
+      href: "#download",
       children: [
-        { label: "Pour les Producteurs", href: "/for/producers", description: "Conçu pour les beatmakers" },
-        { label: "Pour les Artistes", href: "/for/artists", description: "Reçois et écoute la musique" },
-        { label: "Pour Managers & Labels", href: "/for/managers-and-labels", description: "Gère ton roster" },
-        { label: "Comparer", href: "/compare", description: "vvault vs alternatives" },
-        { label: "Blog", href: "/blog", description: "Guides et tutoriels" },
+        { label: "Télécharger pour macOS", href: "https://vvault.app/download/macos", description: "App de bureau pour Mac" },
+        { label: "Télécharger pour Windows", href: "https://vvault.app/download/windows", description: "App de bureau pour Windows" },
+        { label: "Télécharger sur l'App Store", href: "https://apps.apple.com/app/id6759256796", description: "App mobile pour iPhone", external: true },
       ],
     },
     {
@@ -805,7 +798,6 @@ const landingContentFr = {
         links: [
           { label: "Features", href: "/features" },
           { label: "Tarifs", href: "/pricing" },
-          { label: "Changelog", href: "/changelog" },
           { label: "Certificat", href: "/certificate" },
         ] as LandingFooterLink[],
       },

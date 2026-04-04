@@ -239,6 +239,22 @@ const DROPDOWN_ICONS: Record<string, React.ReactNode> = {
   "Certificat": _ICON_CERTIFICATE,
 };
 
+function useIsMac() {
+  const [isMac, setIsMac] = useState(false);
+  useEffect(() => {
+    setIsMac(/Mac|iPhone|iPad|iPod/i.test(navigator.userAgent));
+  }, []);
+  return isMac;
+}
+
+function useIsWindows() {
+  const [isWin, setIsWin] = useState(false);
+  useEffect(() => {
+    setIsWin(/Win/i.test(navigator.userAgent));
+  }, []);
+  return isWin;
+}
+
 function NavDropdown({
   item,
   open,
@@ -252,7 +268,27 @@ function NavDropdown({
   onLeave: () => void;
   onClick: () => void;
 }) {
+  const isMac = useIsMac();
+  const isWindows = useIsWindows();
   const hasChildren = item.children && item.children.length > 0;
+
+  // Reorder download children based on platform
+  const children = (() => {
+    if (!hasChildren) return item.children;
+    const isDownload = item.label === "Download" || item.label === "Télécharger";
+    if (!isDownload) return item.children;
+    const sorted = [...item.children!];
+    if (isWindows) {
+      // Put Windows first
+      sorted.sort((a, b) => {
+        const aWin = a.label.toLowerCase().includes("windows") ? -1 : 0;
+        const bWin = b.label.toLowerCase().includes("windows") ? -1 : 0;
+        return aWin - bWin;
+      });
+    }
+    // macOS/iPhone is already first by default
+    return sorted;
+  })();
 
   if (!hasChildren) {
     const isExternal =
@@ -308,10 +344,9 @@ function NavDropdown({
           style={{
             background: "#000",
             opacity: open ? 1 : 0,
-            transform: open ? "translateY(0) scale(1)" : "translateY(-4px) scale(0.98)",
-            filter: open ? "blur(0px)" : "blur(4px)",
+            transform: open ? "translateY(0)" : "translateY(-4px)",
             transition:
-              "opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease",
+              "opacity 0.15s ease, transform 0.15s ease",
           }}
         >
           {/* Border overlay with fade mask — same as GlowCard */}
@@ -346,12 +381,12 @@ function NavDropdown({
             className="p-2"
             style={{
               display: "grid",
-              gridTemplateColumns: item.children!.length > 6 ? "1fr 1fr" : "1fr",
-              minWidth: item.children!.length > 6 ? "420px" : "220px",
+              gridTemplateColumns: children!.length > 6 ? "1fr 1fr" : "1fr",
+              minWidth: children!.length > 6 ? "420px" : "220px",
               gap: "0px",
             }}
           >
-            {item.children!.map((child) => {
+            {children!.map((child) => {
               const isExternal = child.external || child.href.startsWith("http://") || child.href.startsWith("https://") || child.href.startsWith("mailto:");
               const Tag = isExternal ? "a" : Link;
               const extraProps = isExternal

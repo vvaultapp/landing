@@ -704,9 +704,9 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           <div className="hero-seq-item mt-7 flex flex-col items-center gap-3" style={{ animationDelay: "520ms" }}>
             <a
               href="https://vvault.app/signup"
-              className="inline-flex items-center gap-2.5 rounded-2xl bg-white px-6 py-3 text-[15px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-7 sm:py-3 sm:text-base"
+              className="inline-flex items-center gap-2.5 rounded-[20px] bg-white px-6 py-3 text-[15px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:brightness-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-7 sm:py-3.5 sm:text-base"
               style={{
-                boxShadow: "inset 0 1.5px 0 0 rgba(255,255,255,0.95), inset 0 -1.5px 2px 0 rgba(0,0,0,0.08), 0 0 8px 0 rgba(255,255,255,0.12), 0 1px 3px 0 rgba(255,255,255,0.1)",
+                boxShadow: "inset 0 2px 0 0 rgba(255,255,255,1), inset 0 -2px 4px 0 rgba(0,0,0,0.1), 0 0 16px 2px rgba(255,255,255,0.15), 0 0 40px 4px rgba(255,255,255,0.06), 0 2px 4px 0 rgba(255,255,255,0.12)",
               }}
             >
               <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none">
