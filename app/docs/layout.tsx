@@ -12,34 +12,37 @@ import { DocsLocaleContext } from "./DocsLocaleContext";
 type NavItem = { label: string; href: string };
 type NavSection = { title: string; items: NavItem[] };
 
-const NAV_SECTIONS: NavSection[] = [
-  {
-    title: "Getting started",
-    items: [
-      { label: "Introduction", href: "/docs/introduction" },
-      { label: "Quickstart", href: "/docs/quickstart" },
-    ],
-  },
-  {
-    title: "Features",
-    items: [
-      { label: "Library", href: "/docs/library" },
-      { label: "Campaigns", href: "/docs/campaigns" },
-      { label: "Analytics", href: "/docs/analytics" },
-      { label: "Contacts", href: "/docs/contacts" },
-      { label: "Sales & Marketplace", href: "/docs/sales" },
-      { label: "Opportunities", href: "/docs/opportunities" },
-      { label: "Profile", href: "/docs/profile" },
-      { label: "Link in Bio", href: "/docs/link-in-bio" },
-      { label: "Studio", href: "/docs/studio" },
-      { label: "Certificate", href: "/docs/certificate" },
-    ],
-  },
-  {
-    title: "Account",
-    items: [{ label: "Plans & Pricing", href: "/docs/plans" }],
-  },
-];
+function getNavSections(lang: Lang): NavSection[] {
+  const fr = lang === "fr";
+  return [
+    {
+      title: fr ? "Pour commencer" : "Getting started",
+      items: [
+        { label: "Introduction", href: "/docs/introduction" },
+        { label: fr ? "Démarrage rapide" : "Quickstart", href: "/docs/quickstart" },
+      ],
+    },
+    {
+      title: fr ? "Fonctionnalités" : "Features",
+      items: [
+        { label: fr ? "Bibliothèque" : "Library", href: "/docs/library" },
+        { label: fr ? "Campagnes" : "Campaigns", href: "/docs/campaigns" },
+        { label: fr ? "Analytiques" : "Analytics", href: "/docs/analytics" },
+        { label: "Contacts", href: "/docs/contacts" },
+        { label: fr ? "Ventes & Marketplace" : "Sales & Marketplace", href: "/docs/sales" },
+        { label: fr ? "Opportunités" : "Opportunities", href: "/docs/opportunities" },
+        { label: fr ? "Profil" : "Profile", href: "/docs/profile" },
+        { label: fr ? "Lien en Bio" : "Link in Bio", href: "/docs/link-in-bio" },
+        { label: "Studio", href: "/docs/studio" },
+        { label: fr ? "Certificat" : "Certificate", href: "/docs/certificate" },
+      ],
+    },
+    {
+      title: fr ? "Compte" : "Account",
+      items: [{ label: fr ? "Plans & Tarifs" : "Plans & Pricing", href: "/docs/plans" }],
+    },
+  ];
+}
 
 /* ------------------------------------------------------------------ */
 /*  Search index                                                      */
@@ -341,10 +344,10 @@ function SearchBar({ lang }: { lang: Lang }) {
 function Sidebar({ pathname, onNavigate, lang }: { pathname: string; onNavigate?: () => void; lang: Lang }) {
   return (
     <nav className="flex flex-col gap-6">
-      {NAV_SECTIONS.map((section) => (
+      {getNavSections(lang).map((section) => (
         <div key={section.title}>
           <p className="mb-1.5 text-[13px] font-semibold text-[#1a1a1a]">
-            {t(section.title, lang)}
+            {section.title}
           </p>
           <ul className="flex flex-col gap-0.5">
             {section.items.map((item) => {
@@ -360,7 +363,7 @@ function Sidebar({ pathname, onNavigate, lang }: { pathname: string; onNavigate?
                         : "text-[#666] hover:bg-[#f5f5f5] hover:text-[#222]"
                     }`}
                   >
-                    {t(item.label, lang)}
+                    {item.label}
                   </Link>
                 </li>
               );

@@ -702,16 +702,9 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           <HeroTrustedBy locale={locale} usersTotal={stats.usersTotal} loaded={loaded} avatarUrls={stats.avatarUrls} />
 
           <div className="hero-seq-item mt-7 flex flex-col items-center gap-3" style={{ animationDelay: "520ms" }}>
-            <LandingCtaLink
-              loggedInHref="https://vvault.app/signup"
-              loggedOutHref="https://vvault.app/signup"
-              className="inline-flex items-center rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:text-base"
-            >
-              {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
-            </LandingCtaLink>
             <a
               href="https://vvault.app/auth/google"
-              className="inline-flex items-center gap-2.5 rounded-2xl border border-white/[0.08] bg-white/[0.04] px-5 py-2.5 text-sm font-medium text-white/70 transition-colors duration-200 hover:bg-white/[0.08] hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 sm:px-6 sm:text-base"
+              className="inline-flex items-center gap-2.5 rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:text-base"
             >
               <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -721,6 +714,13 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
               </svg>
               {locale === "fr" ? "Continuer avec Google" : "Continue with Google"}
             </a>
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/signup"
+              loggedOutHref="https://vvault.app/signup"
+              className="inline-flex items-center text-sm font-medium text-white/50 transition-colors duration-200 hover:text-white/80 focus-visible:outline-none sm:text-base"
+            >
+              {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
+            </LandingCtaLink>
           </div>
         </div>
       </section>

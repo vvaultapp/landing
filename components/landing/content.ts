@@ -520,11 +520,11 @@ const landingContentFr = {
       href: "/docs",
       children: [
         { label: "Introduction", href: "/docs/introduction" },
-        { label: "Quickstart", href: "/docs/quickstart" },
-        { label: "Library", href: "/docs/library" },
-        { label: "Campaigns", href: "/docs/campaigns" },
-        { label: "Sales", href: "/docs/sales" },
-        { label: "Plans & Pricing", href: "/docs/plans" },
+        { label: "Démarrage rapide", href: "/docs/quickstart" },
+        { label: "Bibliothèque", href: "/docs/library" },
+        { label: "Campagnes", href: "/docs/campaigns" },
+        { label: "Ventes", href: "/docs/sales" },
+        { label: "Plans & Tarifs", href: "/docs/plans" },
       ],
     },
     {

@@ -182,19 +182,19 @@ export default function QuickstartPage() {
       <ul className="text-[14px] text-[#666] mb-4 list-disc pl-5 space-y-1">
         <li>
           <Link href="/docs/library" className="text-emerald-600 underline underline-offset-2">
-            Library
+            {locale === "fr" ? "Bibliothèque" : "Library"}
           </Link>{" "}
           &mdash; {locale === "fr" ? "Paramètres d'import avancés, dossiers et métadonnées" : "Advanced upload settings, folders, and metadata"}
         </li>
         <li>
           <Link href="/docs/campaigns" className="text-emerald-600 underline underline-offset-2">
-            Campaigns
+            {locale === "fr" ? "Campagnes" : "Campaigns"}
           </Link>{" "}
           &mdash; {locale === "fr" ? "Intégration Gmail, programmation et relances" : "Gmail integration, scheduling, and follow-ups"}
         </li>
         <li>
           <Link href="/docs/analytics" className="text-emerald-600 underline underline-offset-2">
-            Analytics
+            {locale === "fr" ? "Analytiques" : "Analytics"}
           </Link>{" "}
           &mdash; {locale === "fr" ? "Funnels d'engagement, heatmaps et analyse du meilleur moment d'envoi" : "Engagement funnels, heatmaps, and best-time analysis"}
         </li>

@@ -12,21 +12,21 @@ export default function DocsIntroductionPage() {
 
   const features = [
     {
-      name: "Library",
+      name: locale === "fr" ? "Bibliothèque" : "Library",
       description: locale === "fr"
         ? "Importe et organise tes morceaux, packs et sound kits"
         : "Upload and organize your tracks, packs, and sound kits",
       href: "/docs/library",
     },
     {
-      name: "Campaigns",
+      name: locale === "fr" ? "Campagnes" : "Campaigns",
       description: locale === "fr"
         ? "Envoie ta musique par email, Instagram ou messages"
         : "Send music via email, Instagram, or messages",
       href: "/docs/campaigns",
     },
     {
-      name: "Analytics",
+      name: locale === "fr" ? "Analytiques" : "Analytics",
       description: locale === "fr"
         ? "Suis les ouvertures, clics, lectures, téléchargements et favoris"
         : "Track opens, clicks, plays, downloads, and saves",
@@ -40,28 +40,28 @@ export default function DocsIntroductionPage() {
       href: "/docs/contacts",
     },
     {
-      name: "Sales",
+      name: locale === "fr" ? "Ventes" : "Sales",
       description: locale === "fr"
         ? "Vends tes beats et packs avec un checkout Stripe"
         : "Sell beats and packs with Stripe-powered checkout",
       href: "/docs/sales",
     },
     {
-      name: "Opportunities",
+      name: locale === "fr" ? "Opportunités" : "Opportunities",
       description: locale === "fr"
         ? "Parcours les demandes d'artistes et soumets ta musique"
         : "Browse and submit to artist requests",
       href: "/docs/opportunities",
     },
     {
-      name: "Profile",
+      name: locale === "fr" ? "Profil" : "Profile",
       description: locale === "fr"
         ? "Ta page publique avec ton branding personnalisé"
         : "Your public page with custom branding",
       href: "/docs/profile",
     },
     {
-      name: "Link in Bio",
+      name: locale === "fr" ? "Lien en Bio" : "Link in Bio",
       description: locale === "fr"
         ? "Un lien unique pour tout ton contenu"
         : "One smart link for all your content",
@@ -75,7 +75,7 @@ export default function DocsIntroductionPage() {
       href: "/docs/studio",
     },
     {
-      name: "Certificate",
+      name: locale === "fr" ? "Certificat" : "Certificate",
       description: locale === "fr"
         ? "Protège la propriété de ta musique"
         : "Protect ownership of your music",

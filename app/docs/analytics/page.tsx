@@ -15,7 +15,7 @@ export default function AnalyticsDocPage() {
         {locale === "fr" ? "Fonctionnalités" : "Features"}
       </p>
       <h1 className="mt-4 text-[1.75rem] font-semibold text-[#111] mb-1">
-        Analytics
+        {locale === "fr" ? "Analytiques" : "Analytics"}
       </h1>
       <p className="text-[15px] text-[#999] mb-8">
         {locale === "fr"
