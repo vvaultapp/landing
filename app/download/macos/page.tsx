@@ -12,7 +12,7 @@ const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
 });
 
 const MACOS_URL =
-  "https://drive.usercontent.google.com/download?id=1whlyYxL4aAEp-jIdn7m3SUeKO-3oBHeq&export=download&confirm=t";
+  "https://github.com/vvaultapp/landing/releases/download/v0.1.0/vvault-0.1.0.dmg";
 
 export default function DownloadMacOSPage() {
   const [locale] = useLocale();
