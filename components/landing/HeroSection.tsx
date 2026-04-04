@@ -703,7 +703,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
 
           <div className="hero-seq-item mt-7 flex flex-col items-center gap-3" style={{ animationDelay: "520ms" }}>
             <a
-              href="https://vvault.app/auth/google"
+              href="https://vvault.app/signup"
               className="inline-flex items-center gap-2.5 rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:text-base"
             >
               <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none">
