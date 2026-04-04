@@ -73,20 +73,25 @@ function Emblem() {
             "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.1) 70%, transparent 100%)",
         }}
       />
-      <svg width="0" height="0" className="absolute">
-        <defs>
-          <linearGradient id="chrome-studio-hero" x1="0.5" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.7)" />
-            <stop offset="18%" stopColor="rgba(215,220,235,0.65)" />
-            <stop offset="38%" stopColor="rgba(150,160,185,0.35)" />
-            <stop offset="55%" stopColor="rgba(180,190,215,0.5)" />
-            <stop offset="72%" stopColor="rgba(6,182,212,0.35)" />
-            <stop offset="88%" stopColor="rgba(6,182,212,0.55)" />
-            <stop offset="100%" stopColor="rgba(6,182,212,0.4)" />
-          </linearGradient>
-        </defs>
-      </svg>
-      <VideoIcon className="relative z-10 h-14 w-14 sm:h-16 sm:w-16" gradId="chrome-studio-hero" />
+      {/* Chrome effect on logo image */}
+      <div
+        className="relative z-10 h-14 w-14 sm:h-16 sm:w-16"
+        style={{
+          backgroundImage: "url('/vvault-studio-logo.png')",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          WebkitMaskImage: "url('/vvault-studio-logo.png')",
+          maskImage: "url('/vvault-studio-logo.png')",
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(215,220,235,0.65) 18%, rgba(150,160,185,0.35) 38%, rgba(180,190,215,0.5) 55%, rgba(6,182,212,0.4) 72%, rgba(6,182,212,0.6) 88%, rgba(6,182,212,0.45) 100%)",
+        }}
+      />
       {/* Bottom accent glow */}
       <div
         className="pointer-events-none absolute bottom-[-18px] left-1/2 -translate-x-1/2 h-[70%] w-[110%]"

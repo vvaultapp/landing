@@ -10,7 +10,7 @@ type FinalCtaSectionProps = {
 
 export function FinalCtaSection({ content }: FinalCtaSectionProps) {
   return (
-    <section id="final-cta" className="pt-44 pb-32 sm:pt-64 sm:pb-44">
+    <section id="final-cta" className="pt-44 pb-44 sm:pt-64 sm:pb-56">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal className="text-center">
           {/* Clean gradient text */}

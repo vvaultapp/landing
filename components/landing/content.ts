@@ -468,10 +468,10 @@ const landingContentFr = {
   },
   nav: [
     {
-      label: "Features",
+      label: "Fonctionnalités",
       href: "/features",
       children: [
-        { label: "Toutes les features", href: "/features", description: "Tout ce que vvault propose" },
+        { label: "Toutes les fonctionnalités", href: "/features", description: "Tout ce que vvault propose" },
         { label: "Bibliothèque", href: "/features/library", description: "Upload, organise et gère" },
         { label: "Analytics", href: "/features/analytics", description: "Suis ouvertures, écoutes et plus" },
         { label: "Campagnes", href: "/features/campaigns", description: "Envoie et planifie tes emails" },
@@ -677,7 +677,7 @@ const landingContentFr = {
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
   pricingUi: {
-    title: "Pricing",
+    title: "Tarifs",
     subtitle: "Commence gratuitement, sans carte bancaire.",
     monthly: "Mensuel",
     annually: "Annuel",
@@ -688,7 +688,7 @@ const landingContentFr = {
     annuallyPerMonth: "Annuel /mois",
     billedYearly: "facturé à l’année",
     billedMonthly: "facturé au mois",
-    upgradeUltra: "Start Ultra",
+    upgradeUltra: "Démarrer Ultra",
     testimonialsLabel: "Témoignages",
     testimonialsTitle: "Utilisé chaque jour par 1 300+ producteurs",
     testimonialsDescription:
@@ -696,8 +696,8 @@ const landingContentFr = {
     testimonialVideoUrl: "https://www.youtube.com/embed/diDvzeYv_TE?start=21",
     testimonialVideoTitle: "vidéo témoignage vvault",
     sponsoredLabel: "Sponsorisé",
-    sponsoredTitle: "They talk about us",
-    sponsoredDescription: "Highlights de campagnes publiées avec vvault.",
+    sponsoredTitle: "Ils parlent de nous",
+    sponsoredDescription: "Des créateurs partagent leur expérience avec vvault.",
     sponsoredVideos: [
       {
         url: "https://www.youtube.com/embed/gol6_KccRBY",

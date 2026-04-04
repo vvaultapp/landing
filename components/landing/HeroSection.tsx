@@ -671,8 +671,8 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
             {showOnyxUploader ? (
               <div className="hero-seq-item mb-6 flex justify-center sm:mb-7" style={{ animationDelay: "1200ms" }}>
                 <LandingCtaLink
-                  loggedInHref="https://onyx.vvault.app"
-                  loggedOutHref="https://onyx.vvault.app"
+                  loggedInHref="/features/studio"
+                  loggedOutHref="/features/studio"
                   className="group inline-flex items-center gap-2 text-xs sm:text-sm"
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />

@@ -230,6 +230,7 @@ const DROPDOWN_ICONS: Record<string, React.ReactNode> = {
   "Certificate": _ICON_CERTIFICATE,
   /* French */
   "Toutes les features": _ICON_ALL,
+  "Toutes les fonctionnalités": _ICON_ALL,
   "Bibliothèque": _ICON_LIBRARY,
   "Campagnes": _ICON_CAMPAIGNS,
   "Opportunités": _ICON_OPPORTUNITIES,
@@ -438,7 +439,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
   }, []);
 
   const handleClick = useCallback((index: number) => {
-    setOpenIndex((prev) => (prev === index ? null : index));
+    setOpenIndex(index);
   }, []);
 
   return (
