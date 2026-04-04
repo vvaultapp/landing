@@ -12,7 +12,7 @@ const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
 });
 
 const WINDOWS_URL =
-  "https://github.com/vvaultapp/landing/releases/download/v0.1.0/vvault-0.1.0-x64-Setup.exe";
+  "/api/download/windows";
 
 export default function DownloadWindowsPage() {
   const [locale] = useLocale();

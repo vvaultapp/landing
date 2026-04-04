@@ -13,9 +13,9 @@ const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
 });
 
 const MACOS_URL =
-  "https://github.com/vvaultapp/landing/releases/download/v0.1.0/vvault-0.1.0.dmg";
+  "/api/download/macos";
 const WINDOWS_URL =
-  "https://github.com/vvaultapp/landing/releases/download/v0.1.0/vvault-0.1.0-x64-Setup.exe";
+  "/api/download/windows";
 const APPSTORE_URL = "https://apps.apple.com/app/id6759256796";
 
 function useIsMac() {
