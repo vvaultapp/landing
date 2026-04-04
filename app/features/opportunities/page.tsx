@@ -151,31 +151,31 @@ function GlowCard({
 /* ------------------------------------------------------------------ */
 /*  Mock: Request Board Card                                           */
 /* ------------------------------------------------------------------ */
-function MockRequestBoardCard() {
+function MockRequestBoardCard({ locale }: { locale: "en" | "fr" }) {
   const requests = [
     {
-      title: "Looking for dark trap loops",
+      title: locale === "fr" ? "Recherche des loops trap sombres" : "Looking for dark trap loops",
       author: "@nvzion",
       tags: ["Beats", "Loops"],
       submissions: 12,
       status: "open" as const,
     },
     {
-      title: "Need R&B vocal chops pack",
+      title: locale === "fr" ? "Besoin d'un pack de vocal chops R&B" : "Need R&B vocal chops pack",
       author: "@melodiqa",
       tags: ["Vocals", "R&B"],
       submissions: 8,
       status: "open" as const,
     },
     {
-      title: "808 slide bass one-shots",
+      title: locale === "fr" ? "808 slide bass one-shots" : "808 slide bass one-shots",
       author: "@prxdbykai",
       tags: ["One-shots", "808s"],
       submissions: 23,
       status: "closed" as const,
     },
     {
-      title: "Ambient pad textures for lo-fi",
+      title: locale === "fr" ? "Textures de pads ambient pour lo-fi" : "Ambient pad textures for lo-fi",
       author: "@snoozegod",
       tags: ["Loops", "Lo-fi"],
       submissions: 5,
@@ -197,8 +197,8 @@ function MockRequestBoardCard() {
             <TargetIcon className="h-5 w-5 text-rose-400/80" />
           </div>
           <div>
-            <p className="text-[14px] font-semibold text-white/85">Request board</p>
-            <p className="text-[11px] text-white/35">Community requests &middot; Open submissions</p>
+            <p className="text-[14px] font-semibold text-white/85">{locale === "fr" ? "Tableau de demandes" : "Request board"}</p>
+            <p className="text-[11px] text-white/35">{locale === "fr" ? "Demandes communautaires" : "Community requests"} &middot; {locale === "fr" ? "Soumissions ouvertes" : "Open submissions"}</p>
           </div>
         </div>
 
@@ -219,7 +219,7 @@ function MockRequestBoardCard() {
                         : "bg-white/5 text-white/25"
                     }`}
                   >
-                    {r.status}
+                    {locale === "fr" ? (r.status === "open" ? "ouvert" : "fermé") : r.status}
                   </span>
                 </div>
                 <div className="mt-1 flex items-center gap-2">
@@ -237,7 +237,7 @@ function MockRequestBoardCard() {
               </div>
               <div className="ml-4 shrink-0 text-right">
                 <span className="text-[13px] font-semibold tabular-nums text-white/50">{r.submissions}</span>
-                <p className="text-[10px] text-white/25">submissions</p>
+                <p className="text-[10px] text-white/25">{locale === "fr" ? "soumissions" : "submissions"}</p>
               </div>
             </div>
           ))}
@@ -250,11 +250,11 @@ function MockRequestBoardCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock: Submission Card                                              */
 /* ------------------------------------------------------------------ */
-function MockSubmissionCard() {
+function MockSubmissionCard({ locale }: { locale: "en" | "fr" }) {
   return (
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
-        <p className="text-[11px] font-semibold text-white/25">Your submission</p>
+        <p className="text-[11px] font-semibold text-white/25">{locale === "fr" ? "Ta soumission" : "Your submission"}</p>
 
         <div className="mt-5 rounded-2xl px-4 py-4" style={{ border: "1px solid rgba(255,255,255,0.04)", background: "rgba(255,255,255,0.01)" }}>
           <div className="flex items-center justify-between">
@@ -266,17 +266,17 @@ function MockSubmissionCard() {
               </div>
               <div>
                 <p className="text-[13px] font-medium text-white/75">Dark Melody Kit Vol.2</p>
-                <p className="text-[11px] text-white/30">Submitted to &ldquo;Looking for dark trap loops&rdquo;</p>
+                <p className="text-[11px] text-white/30">{locale === "fr" ? "Soumis à" : "Submitted to"} &ldquo;{locale === "fr" ? "Recherche des loops trap sombres" : "Looking for dark trap loops"}&rdquo;</p>
               </div>
             </div>
             <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400/70">
-              Submitted
+              {locale === "fr" ? "Soumis" : "Submitted"}
             </span>
           </div>
           <div className="mt-3 flex items-center gap-4 border-t border-white/[0.04] pt-3">
-            <span className="text-[11px] text-white/25">14 tracks</span>
+            <span className="text-[11px] text-white/25">14 {locale === "fr" ? "pistes" : "tracks"}</span>
             <span className="text-[11px] text-white/15">&middot;</span>
-            <span className="text-[11px] text-white/25">Submitted 2h ago</span>
+            <span className="text-[11px] text-white/25">{locale === "fr" ? "Soumis il y a 2h" : "Submitted 2h ago"}</span>
             <span className="text-[11px] text-white/15">&middot;</span>
             <span className="text-[11px] text-white/25">by @kodaa</span>
           </div>
@@ -292,17 +292,17 @@ function MockSubmissionCard() {
               </div>
               <div>
                 <p className="text-[13px] font-medium text-white/75">Lo-fi Textures Pack</p>
-                <p className="text-[11px] text-white/30">Submitted to &ldquo;Ambient pad textures for lo-fi&rdquo;</p>
+                <p className="text-[11px] text-white/30">{locale === "fr" ? "Soumis à" : "Submitted to"} &ldquo;{locale === "fr" ? "Textures de pads ambient pour lo-fi" : "Ambient pad textures for lo-fi"}&rdquo;</p>
               </div>
             </div>
             <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400/70">
-              Submitted
+              {locale === "fr" ? "Soumis" : "Submitted"}
             </span>
           </div>
           <div className="mt-3 flex items-center gap-4 border-t border-white/[0.04] pt-3">
-            <span className="text-[11px] text-white/25">8 tracks</span>
+            <span className="text-[11px] text-white/25">8 {locale === "fr" ? "pistes" : "tracks"}</span>
             <span className="text-[11px] text-white/15">&middot;</span>
-            <span className="text-[11px] text-white/25">Submitted 1d ago</span>
+            <span className="text-[11px] text-white/25">{locale === "fr" ? "Soumis il y a 1j" : "Submitted 1d ago"}</span>
             <span className="text-[11px] text-white/15">&middot;</span>
             <span className="text-[11px] text-white/25">by @kodaa</span>
           </div>
@@ -396,7 +396,7 @@ export default function FeatureOpportunitiesPage() {
               : "Artists post requests for the sounds they\u2019re looking for \u2014 loops, one-shots, full beats, vocal packs. Browse the board, find requests that match your style, and submit your work directly."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockRequestBoardCard />
+            <MockRequestBoardCard locale={locale} />
           </div>
         </Reveal>
 
@@ -411,7 +411,7 @@ export default function FeatureOpportunitiesPage() {
               : "Package your sounds and submit them to open requests. Track the status of every submission — from review to accepted — all in one place."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockSubmissionCard />
+            <MockSubmissionCard locale={locale} />
           </div>
         </Reveal>
 

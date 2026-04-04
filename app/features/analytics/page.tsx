@@ -156,15 +156,15 @@ function GlowCard({
   );
 }
 
-function MockDashboardCard() {
+function MockDashboardCard({ locale }: { locale: string }) {
   const metrics = [
-    { label: "Emails sent", value: "1,247", trend: "+12%", up: true },
-    { label: "Opens", value: "892", sub: "71.5%", trend: "+8%", up: true },
-    { label: "Clicks", value: "634", trend: "+23%", up: true },
-    { label: "Plays", value: "1,089", trend: "+17%", up: true },
-    { label: "Downloads", value: "312", trend: "-3%", up: false },
-    { label: "Saves", value: "187", trend: "+5%", up: true },
-    { label: "Purchases", value: "24", trend: "+42%", up: true },
+    { label: locale === "fr" ? "Emails envoyés" : "Emails sent", value: "1,247", trend: "+12%", up: true },
+    { label: locale === "fr" ? "Ouvertures" : "Opens", value: "892", sub: "71.5%", trend: "+8%", up: true },
+    { label: locale === "fr" ? "Clics" : "Clicks", value: "634", trend: "+23%", up: true },
+    { label: locale === "fr" ? "Écoutes" : "Plays", value: "1,089", trend: "+17%", up: true },
+    { label: locale === "fr" ? "Téléchargements" : "Downloads", value: "312", trend: "-3%", up: false },
+    { label: locale === "fr" ? "Sauvegardes" : "Saves", value: "187", trend: "+5%", up: true },
+    { label: locale === "fr" ? "Achats" : "Purchases", value: "24", trend: "+42%", up: true },
   ];
 
   return (
@@ -182,10 +182,10 @@ function MockDashboardCard() {
           </div>
           <div>
             <p className="text-[14px] font-semibold text-white/85">
-              Campaign overview
+              {locale === "fr" ? "Vue d'ensemble des campagnes" : "Campaign overview"}
             </p>
             <p className="text-[11px] text-white/35">
-              Last 30 days &middot; All campaigns
+              {locale === "fr" ? "30 derniers jours · Toutes les campagnes" : "Last 30 days · All campaigns"}
             </p>
           </div>
         </div>
@@ -239,11 +239,11 @@ function MockDashboardCard() {
   );
 }
 
-function MockActivityFeedCard() {
+function MockActivityFeedCard({ locale }: { locale: string }) {
   const events = [
     {
       name: "Noah",
-      action: "opened Pack 07",
+      action: locale === "fr" ? "a ouvert Pack 07" : "opened Pack 07",
       time: "2m ago",
       icon: (
         <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -255,7 +255,7 @@ function MockActivityFeedCard() {
     },
     {
       name: "Mila",
-      action: "played Midnight Chase",
+      action: locale === "fr" ? "a écouté Midnight Chase" : "played Midnight Chase",
       time: "7m ago",
       icon: (
         <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="currentColor">
@@ -267,7 +267,7 @@ function MockActivityFeedCard() {
     },
     {
       name: "Kai",
-      action: "downloaded Dark Melodies Vol.3",
+      action: locale === "fr" ? "a téléchargé Dark Melodies Vol.3" : "downloaded Dark Melodies Vol.3",
       time: "11m ago",
       icon: (
         <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -280,7 +280,7 @@ function MockActivityFeedCard() {
     },
     {
       name: "Lena",
-      action: "saved Neon Pulse to favorites",
+      action: locale === "fr" ? "a sauvegardé Neon Pulse dans ses favoris" : "saved Neon Pulse to favorites",
       time: "21m ago",
       icon: (
         <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="currentColor">
@@ -296,7 +296,7 @@ function MockActivityFeedCard() {
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <p className="text-[11px] font-semibold text-white/25">
-          Real-time activity
+          {locale === "fr" ? "Activité en temps réel" : "Real-time activity"}
         </p>
         <div className="mt-5 space-y-0">
           {events.map((e, i) => (
@@ -325,8 +325,8 @@ function MockActivityFeedCard() {
   );
 }
 
-function MockHeatmapCard() {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+function MockHeatmapCard({ locale }: { locale: string }) {
+  const days = locale === "fr" ? ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"] : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
   const hours = ["9AM", "12PM", "3PM", "6PM", "9PM"];
 
   // Opacity values for each cell [day][hour] — simulates engagement intensity
@@ -344,7 +344,7 @@ function MockHeatmapCard() {
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <p className="text-[11px] font-semibold text-white/25">
-          Opens by hour
+          {locale === "fr" ? "Ouvertures par heure" : "Opens by hour"}
         </p>
         <div className="mt-5 overflow-x-auto">
           <div className="min-w-[320px]">
@@ -386,7 +386,7 @@ function MockHeatmapCard() {
             <path d="M8 4v4l3 2" />
           </svg>
           <span className="text-[11px] font-medium text-blue-400/50">
-            Best time to send: Tuesday 2:00 PM
+            {locale === "fr" ? "Meilleur moment pour envoyer : Mardi 14h00" : "Best time to send: Tuesday 2:00 PM"}
           </span>
         </div>
       </div>
@@ -394,17 +394,17 @@ function MockHeatmapCard() {
   );
 }
 
-function MockLeaderboardCard() {
+function MockLeaderboardCard({ locale }: { locale: string }) {
   const topCampaigns = [
-    { rank: 1, name: "Pack 07 Release", metric: "14 opens" },
-    { rank: 2, name: "Dark Melodies Vol.3", metric: "11 opens" },
-    { rank: 3, name: "Monthly Digest", metric: "9 opens" },
+    { rank: 1, name: "Pack 07 Release", metric: locale === "fr" ? "14 ouvertures" : "14 opens" },
+    { rank: 2, name: "Dark Melodies Vol.3", metric: locale === "fr" ? "11 ouvertures" : "11 opens" },
+    { rank: 3, name: "Monthly Digest", metric: locale === "fr" ? "9 ouvertures" : "9 opens" },
   ];
 
   const topPacks = [
-    { rank: 1, name: "Dark Melodies Vol.3", metric: "89 plays" },
-    { rank: 2, name: "808 Essentials", metric: "64 plays" },
-    { rank: 3, name: "Lo-fi Textures", metric: "41 plays" },
+    { rank: 1, name: "Dark Melodies Vol.3", metric: locale === "fr" ? "89 écoutes" : "89 plays" },
+    { rank: 2, name: "808 Essentials", metric: locale === "fr" ? "64 écoutes" : "64 plays" },
+    { rank: 3, name: "Lo-fi Textures", metric: locale === "fr" ? "41 écoutes" : "41 plays" },
   ];
 
   const hotContacts = [
@@ -417,7 +417,7 @@ function MockLeaderboardCard() {
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <p className="text-[11px] font-semibold text-white/25">
-          Top campaigns
+          {locale === "fr" ? "Meilleures campagnes" : "Top campaigns"}
         </p>
         <div className="mt-5 space-y-2">
           {topCampaigns.map((t) => (
@@ -448,7 +448,7 @@ function MockLeaderboardCard() {
         </div>
 
         <p className="mt-6 text-[11px] font-semibold text-white/25">
-          Top packs
+          {locale === "fr" ? "Meilleurs packs" : "Top packs"}
         </p>
         <div className="mt-3 space-y-2">
           {topPacks.map((t) => (
@@ -479,7 +479,7 @@ function MockLeaderboardCard() {
         </div>
 
         <p className="mt-6 text-[11px] font-semibold text-white/25">
-          Hot contacts
+          {locale === "fr" ? "Contacts actifs" : "Hot contacts"}
         </p>
         <div className="mt-3 flex gap-3">
           {hotContacts.map((c) => (
@@ -582,7 +582,7 @@ export default function FeatureAnalyticsPage() {
               : "Most platforms stop at opens and clicks. vvault tracks the full journey — from email open to beat play to download to purchase — so you see exactly which campaigns and tracks drive real results."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockDashboardCard />
+            <MockDashboardCard locale={locale} />
           </div>
         </Reveal>
 
@@ -597,7 +597,7 @@ export default function FeatureAnalyticsPage() {
               : "Watch engagement happen live. Every open, play, download, and purchase appears the moment it happens — so you can follow up while the interest is fresh."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockActivityFeedCard />
+            <MockActivityFeedCard locale={locale} />
           </div>
         </Reveal>
 
@@ -612,7 +612,7 @@ export default function FeatureAnalyticsPage() {
               : "vvault analyzes when your audience actually engages and surfaces the optimal day and hour to send your next campaign. Stop guessing — let the data decide."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockHeatmapCard />
+            <MockHeatmapCard locale={locale} />
           </div>
         </Reveal>
 
@@ -627,7 +627,7 @@ export default function FeatureAnalyticsPage() {
               : "See which campaigns drive the most engagement and which contacts are your hottest leads. Leaderboards for top campaigns, top packs, and hot contacts — all in one place."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockLeaderboardCard />
+            <MockLeaderboardCard locale={locale} />
           </div>
         </Reveal>
 

@@ -153,10 +153,10 @@ function GlowCard({
 /* ------------------------------------------------------------------ */
 /*  Mock: Profile Preview Card                                         */
 /* ------------------------------------------------------------------ */
-function MockProfilePreviewCard() {
+function MockProfilePreviewCard({ locale }: { locale: "en" | "fr" }) {
   const stats = [
     { label: "Packs", value: "47" },
-    { label: "Tracks", value: "312" },
+    { label: locale === "fr" ? "Pistes" : "Tracks", value: "312" },
     { label: "Kits", value: "8" },
   ];
 
@@ -233,7 +233,7 @@ function MockProfilePreviewCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock: Latest Packs Grid Card                                       */
 /* ------------------------------------------------------------------ */
-function MockLatestPacksCard() {
+function MockLatestPacksCard({ locale }: { locale: "en" | "fr" }) {
   const packs = [
     { title: "Dark Melodies Vol.3", tracks: 14, price: "\u20ac24.99", hue: 280 },
     { title: "808 Essentials", tracks: 22, price: "\u20ac19.99", hue: 220 },
@@ -243,7 +243,7 @@ function MockLatestPacksCard() {
   return (
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
-        <p className="text-[11px] font-semibold text-white/25">Latest packs</p>
+        <p className="text-[11px] font-semibold text-white/25">{locale === "fr" ? "Derniers packs" : "Latest packs"}</p>
 
         <div className="mt-5 grid grid-cols-3 gap-3">
           {packs.map((p, i) => (
@@ -258,7 +258,7 @@ function MockLatestPacksCard() {
               />
               <p className="mt-2 truncate text-[12px] font-medium text-white/60">{p.title}</p>
               <div className="flex items-center justify-between">
-                <span className="text-[10px] text-white/25">{p.tracks} tracks</span>
+                <span className="text-[10px] text-white/25">{p.tracks} {locale === "fr" ? "pistes" : "tracks"}</span>
                 <span className="text-[11px] font-semibold tabular-nums text-violet-400/60">{p.price}</span>
               </div>
             </div>
@@ -272,19 +272,19 @@ function MockLatestPacksCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock: Credits Card                                                 */
 /* ------------------------------------------------------------------ */
-function MockCreditsCard() {
+function MockCreditsCard({ locale }: { locale: "en" | "fr" }) {
   const credits = [
-    { title: "Midnight Drive", artist: "Jay Loren", role: "Producer", source: "Spotify", year: "2025" },
-    { title: "Neon Lights EP", artist: "Melo", role: "Producer", source: "Apple Music", year: "2025" },
-    { title: "Echoes", artist: "Snoozegod", role: "Mix engineer", source: "SoundCloud", year: "2025" },
-    { title: "Westside Tape", artist: "ProdByKai", role: "Producer", source: "YouTube", year: "2024" },
-    { title: "Velvet Room", artist: "nvzion", role: "Co-producer", source: "Spotify", year: "2024" },
+    { title: "Midnight Drive", artist: "Jay Loren", role: locale === "fr" ? "Producteur" : "Producer", source: "Spotify", year: "2025" },
+    { title: "Neon Lights EP", artist: "Melo", role: locale === "fr" ? "Producteur" : "Producer", source: "Apple Music", year: "2025" },
+    { title: "Echoes", artist: "Snoozegod", role: locale === "fr" ? "Ingénieur mix" : "Mix engineer", source: "SoundCloud", year: "2025" },
+    { title: "Westside Tape", artist: "ProdByKai", role: locale === "fr" ? "Producteur" : "Producer", source: "YouTube", year: "2024" },
+    { title: "Velvet Room", artist: "nvzion", role: locale === "fr" ? "Co-producteur" : "Co-producer", source: "Spotify", year: "2024" },
   ];
 
   return (
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
-        <p className="text-[11px] font-semibold text-white/25">Credits</p>
+        <p className="text-[11px] font-semibold text-white/25">{locale === "fr" ? "Crédits" : "Credits"}</p>
 
         <div className="mt-5 space-y-0">
           {credits.map((c, i) => (
@@ -395,7 +395,7 @@ export default function FeatureProfilePage() {
               : "A polished public profile with your banner, avatar, bio, stats, and social links. Artists who visit see a professional page that builds credibility and makes buying easy."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockProfilePreviewCard />
+            <MockProfilePreviewCard locale={locale} />
           </div>
         </Reveal>
 
@@ -410,7 +410,7 @@ export default function FeatureProfilePage() {
               : "Your latest packs displayed in a visual grid with cover art, track counts, and pricing. Visitors can browse and buy without leaving your page."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockLatestPacksCard />
+            <MockLatestPacksCard locale={locale} />
           </div>
         </Reveal>
 
@@ -425,7 +425,7 @@ export default function FeatureProfilePage() {
               : "Show your producer and recording credits with linked releases. Build trust by proving your track record right on your profile."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockCreditsCard />
+            <MockCreditsCard locale={locale} />
           </div>
         </Reveal>
 

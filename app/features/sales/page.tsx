@@ -155,12 +155,12 @@ function GlowCard({
 /* ------------------------------------------------------------------ */
 /*  Mock: Revenue Dashboard Card                                       */
 /* ------------------------------------------------------------------ */
-function MockRevenueDashboardCard() {
+function MockRevenueDashboardCard({ locale }: { locale: "en" | "fr" }) {
   const stats = [
-    { label: "Total revenue", value: "\u20ac3,240", accent: true },
-    { label: "Net after fees", value: "\u20ac2,971" },
-    { label: "Platform fee (5%)", value: "\u20ac162" },
-    { label: "Orders this month", value: "18" },
+    { label: locale === "fr" ? "Revenu total" : "Total revenue", value: "\u20ac3,240", accent: true },
+    { label: locale === "fr" ? "Net après frais" : "Net after fees", value: "\u20ac2,971" },
+    { label: locale === "fr" ? "Frais plateforme (5%)" : "Platform fee (5%)", value: "\u20ac162" },
+    { label: locale === "fr" ? "Commandes ce mois" : "Orders this month", value: "18" },
   ];
 
   return (
@@ -177,8 +177,8 @@ function MockRevenueDashboardCard() {
             <DollarIcon className="h-5 w-5 text-emerald-400/80" />
           </div>
           <div>
-            <p className="text-[14px] font-semibold text-white/85">Revenue dashboard</p>
-            <p className="text-[11px] text-white/35">Real-time earnings &middot; Stripe connected</p>
+            <p className="text-[14px] font-semibold text-white/85">{locale === "fr" ? "Tableau des revenus" : "Revenue dashboard"}</p>
+            <p className="text-[11px] text-white/35">{locale === "fr" ? "Revenus en temps réel" : "Real-time earnings"} &middot; Stripe {locale === "fr" ? "connecté" : "connected"}</p>
           </div>
         </div>
 
@@ -204,18 +204,18 @@ function MockRevenueDashboardCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock: License Types Card                                           */
 /* ------------------------------------------------------------------ */
-function MockLicenseTypesCard() {
+function MockLicenseTypesCard({ locale }: { locale: "en" | "fr" }) {
   const licenses = [
-    { name: "Basic", price: "\u20ac29.99", desc: "MP3 format" },
-    { name: "Premium", price: "\u20ac49.99", desc: "MP3 + WAV formats" },
+    { name: "Basic", price: "\u20ac29.99", desc: locale === "fr" ? "Format MP3" : "MP3 format" },
+    { name: "Premium", price: "\u20ac49.99", desc: locale === "fr" ? "Formats MP3 + WAV" : "MP3 + WAV formats" },
     { name: "Stems", price: "\u20ac79.99", desc: "MP3 + WAV + STEMS" },
-    { name: "Exclusive", price: "\u20ac299.99", desc: "All formats, full rights" },
+    { name: "Exclusive", price: "\u20ac299.99", desc: locale === "fr" ? "Tous les formats, droits complets" : "All formats, full rights" },
   ];
 
   return (
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
-        <p className="text-[11px] font-semibold text-white/25">License types</p>
+        <p className="text-[11px] font-semibold text-white/25">{locale === "fr" ? "Types de licences" : "License types"}</p>
 
         <div className="mt-5 space-y-2">
           {licenses.map((l, i) => (
@@ -242,7 +242,7 @@ function MockLicenseTypesCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock: Revenue by License Chart Card                                */
 /* ------------------------------------------------------------------ */
-function MockRevenueByLicenseCard() {
+function MockRevenueByLicenseCard({ locale }: { locale: "en" | "fr" }) {
   const bars = [
     { label: "Basic", amount: 870, max: 1400, color: "rgba(34,197,94,0.5)" },
     { label: "Premium", amount: 1400, max: 1400, color: "rgba(34,197,94,0.7)" },
@@ -253,7 +253,7 @@ function MockRevenueByLicenseCard() {
   return (
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
-        <p className="text-[11px] font-semibold text-white/25">Revenue by license</p>
+        <p className="text-[11px] font-semibold text-white/25">{locale === "fr" ? "Revenu par licence" : "Revenue by license"}</p>
 
         <div className="mt-5 space-y-4">
           {bars.map((b, i) => (
@@ -278,7 +278,7 @@ function MockRevenueByLicenseCard() {
         </div>
 
         <div className="mt-5 flex items-center justify-between border-t border-white/[0.04] pt-4">
-          <span className="text-[12px] text-white/35">Total revenue</span>
+          <span className="text-[12px] text-white/35">{locale === "fr" ? "Revenu total" : "Total revenue"}</span>
           <span className="text-[14px] font-semibold tabular-nums text-emerald-400/70">{"\u20ac"}3,240</span>
         </div>
       </div>
@@ -370,7 +370,7 @@ export default function FeatureSalesPage() {
               : "Track total revenue, net earnings after fees, and monthly order volume — all connected directly to your Stripe account."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockRevenueDashboardCard />
+            <MockRevenueDashboardCard locale={locale} />
           </div>
         </Reveal>
 
@@ -385,7 +385,7 @@ export default function FeatureSalesPage() {
               : "Offer Basic, Premium, Stems, Exclusive, Unlimited, and Sound Kit licenses with custom pricing. Buyers pick their tier at checkout and receive the correct files automatically."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockLicenseTypesCard />
+            <MockLicenseTypesCard locale={locale} />
           </div>
         </Reveal>
 
@@ -400,7 +400,7 @@ export default function FeatureSalesPage() {
               : "See which license types drive the most income. Use the breakdown to optimize your pricing strategy and maximize earnings."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockRevenueByLicenseCard />
+            <MockRevenueByLicenseCard locale={locale} />
           </div>
         </Reveal>
 

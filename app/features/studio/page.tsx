@@ -75,12 +75,8 @@ function Emblem() {
       />
       {/* Chrome effect on logo image */}
       <div
-        className="relative z-10 h-14 w-14 sm:h-16 sm:w-16"
+        className="relative z-10 h-[52px] w-[52px] sm:h-[62px] sm:w-[62px]"
         style={{
-          backgroundImage: "url('/vvault-studio-logo.png')",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
           WebkitMaskImage: "url('/vvault-studio-logo.png')",
           maskImage: "url('/vvault-studio-logo.png')",
           WebkitMaskSize: "contain",
@@ -158,7 +154,7 @@ function GlowCard({
 }
 
 /* ── Mock Auto-Video Config Card ── */
-function MockAutoVideoCard() {
+function MockAutoVideoCard({ locale }: { locale: string }) {
   return (
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
@@ -178,10 +174,10 @@ function MockAutoVideoCard() {
             </div>
             <div>
               <p className="text-[14px] font-semibold text-white/85">
-                Auto-video posting
+                {locale === "fr" ? "Publication vidéo automatique" : "Auto-video posting"}
               </p>
               <p className="text-[11px] text-white/35">
-                Pack: Summer Vibes Vol.2
+                {locale === "fr" ? "Pack : Summer Vibes Vol.2" : "Pack: Summer Vibes Vol.2"}
               </p>
             </div>
           </div>
@@ -192,17 +188,17 @@ function MockAutoVideoCard() {
               border: "1px solid rgba(52,211,153,0.15)",
             }}
           >
-            Active
+            {locale === "fr" ? "Actif" : "Active"}
           </span>
         </div>
 
         {/* Schedule settings */}
         <div className="mt-6 space-y-3">
           {[
-            { label: "Frequency", value: "Every 1 day" },
-            { label: "Post time", value: "10:00 AM (UTC)" },
-            { label: "Resolution", value: "1280 × 720 @ 30fps" },
-            { label: "Cover mode", value: "Track artwork → Pack default" },
+            { label: locale === "fr" ? "Fréquence" : "Frequency", value: locale === "fr" ? "Tous les jours" : "Every 1 day" },
+            { label: locale === "fr" ? "Heure de publication" : "Post time", value: "10:00 AM (UTC)" },
+            { label: locale === "fr" ? "Résolution" : "Resolution", value: "1280 × 720 @ 30fps" },
+            { label: locale === "fr" ? "Mode de couverture" : "Cover mode", value: locale === "fr" ? "Artwork du track → Pack par défaut" : "Track artwork → Pack default" },
           ].map((row) => (
             <div
               key={row.label}
@@ -221,7 +217,7 @@ function MockAutoVideoCard() {
         {/* Template preview */}
         <div className="mt-5">
           <p className="text-[11px] font-semibold text-white/25">
-            Video template
+            {locale === "fr" ? "Template vidéo" : "Video template"}
           </p>
           <div
             className="mt-3 rounded-xl px-4 py-3.5"
@@ -231,13 +227,13 @@ function MockAutoVideoCard() {
             }}
           >
             <p className="text-[12px] font-medium text-white/60">
-              Title: <span className="text-cyan-400/60">{"{name}"}</span>
+              {locale === "fr" ? "Titre :" : "Title:"} <span className="text-cyan-400/60">{"{name}"}</span>
             </p>
             <p className="mt-2 text-[11px] leading-relaxed text-white/30">
-              Download and purchase this beat here : <span className="text-cyan-400/50">{"<link>"}</span>
-              <br />BPM: <span className="text-cyan-400/50">{"<bpm>"}</span> &middot; Key: <span className="text-cyan-400/50">{"<key>"}</span>
-              <br />Follow me on Instagram: <span className="text-cyan-400/50">{"<ig>"}</span>
-              <br />Follow me on YouTube: <span className="text-cyan-400/50">{"<ytb>"}</span>
+              {locale === "fr" ? "Télécharge et achète ce beat ici :" : "Download and purchase this beat here :"} <span className="text-cyan-400/50">{"<link>"}</span>
+              <br />BPM: <span className="text-cyan-400/50">{"<bpm>"}</span> &middot; {locale === "fr" ? "Tonalité :" : "Key:"} <span className="text-cyan-400/50">{"<key>"}</span>
+              <br />{locale === "fr" ? "Suis-moi sur Instagram :" : "Follow me on Instagram:"} <span className="text-cyan-400/50">{"<ig>"}</span>
+              <br />{locale === "fr" ? "Suis-moi sur YouTube :" : "Follow me on YouTube:"} <span className="text-cyan-400/50">{"<ytb>"}</span>
             </p>
           </div>
         </div>
@@ -247,13 +243,13 @@ function MockAutoVideoCard() {
 }
 
 /* ── Mock Scheduled Posts Card ── */
-function MockScheduledPostsCard() {
+function MockScheduledPostsCard({ locale }: { locale: string }) {
   const posts = [
-    { track: "Midnight Chase", time: "Today, 10:00 AM", status: "Scheduled", dotColor: "bg-cyan-400/70" },
-    { track: "Dark Melodies", time: "Tomorrow, 10:00 AM", status: "Scheduled", dotColor: "bg-cyan-400/70" },
-    { track: "Summer Breeze", time: "Mar 28, 10:00 AM", status: "Scheduled", dotColor: "bg-cyan-400/70" },
-    { track: "Neon Lights", time: "Mar 25, 10:00 AM", status: "Posted", dotColor: "bg-emerald-400/70" },
-    { track: "Late Night Drive", time: "Mar 24, 10:00 AM", status: "Posted", dotColor: "bg-emerald-400/70" },
+    { track: "Midnight Chase", time: locale === "fr" ? "Aujourd'hui, 10h00" : "Today, 10:00 AM", status: locale === "fr" ? "Programmé" : "Scheduled", dotColor: "bg-cyan-400/70", statusKey: "scheduled" },
+    { track: "Dark Melodies", time: locale === "fr" ? "Demain, 10h00" : "Tomorrow, 10:00 AM", status: locale === "fr" ? "Programmé" : "Scheduled", dotColor: "bg-cyan-400/70", statusKey: "scheduled" },
+    { track: "Summer Breeze", time: locale === "fr" ? "28 mars, 10h00" : "Mar 28, 10:00 AM", status: locale === "fr" ? "Programmé" : "Scheduled", dotColor: "bg-cyan-400/70", statusKey: "scheduled" },
+    { track: "Neon Lights", time: locale === "fr" ? "25 mars, 10h00" : "Mar 25, 10:00 AM", status: locale === "fr" ? "Publié" : "Posted", dotColor: "bg-emerald-400/70", statusKey: "posted" },
+    { track: "Late Night Drive", time: locale === "fr" ? "24 mars, 10h00" : "Mar 24, 10:00 AM", status: locale === "fr" ? "Publié" : "Posted", dotColor: "bg-emerald-400/70", statusKey: "posted" },
   ];
 
   return (
@@ -274,10 +270,10 @@ function MockScheduledPostsCard() {
           </div>
           <div>
             <p className="text-[14px] font-semibold text-white/85">
-              Scheduled videos
+              {locale === "fr" ? "Vidéos programmées" : "Scheduled videos"}
             </p>
             <p className="text-[11px] text-white/35">
-              Auto-generated from your pack tracks
+              {locale === "fr" ? "Générées automatiquement depuis les tracks de ton pack" : "Auto-generated from your pack tracks"}
             </p>
           </div>
         </div>
@@ -298,11 +294,11 @@ function MockScheduledPostsCard() {
                 </div>
                 <span
                   className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                    item.status === "Posted" ? "text-emerald-400/60" : "text-white/40"
+                    item.statusKey === "posted" ? "text-emerald-400/60" : "text-white/40"
                   }`}
                   style={{
-                    background: item.status === "Posted" ? "rgba(52,211,153,0.06)" : "rgba(255,255,255,0.03)",
-                    border: `1px solid ${item.status === "Posted" ? "rgba(52,211,153,0.1)" : "rgba(255,255,255,0.05)"}`,
+                    background: item.statusKey === "posted" ? "rgba(52,211,153,0.06)" : "rgba(255,255,255,0.03)",
+                    border: `1px solid ${item.statusKey === "posted" ? "rgba(52,211,153,0.1)" : "rgba(255,255,255,0.05)"}`,
                   }}
                 >
                   {item.status}
@@ -396,7 +392,7 @@ export default function FeatureStudioPage() {
               : "Configure Studio on any pack to automatically generate and post videos for each track. Choose your schedule, set a template with dynamic tokens like BPM, key, and social links \u2014 Studio handles the rest."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockAutoVideoCard />
+            <MockAutoVideoCard locale={locale} />
           </div>
         </Reveal>
 
@@ -411,7 +407,7 @@ export default function FeatureStudioPage() {
               : "Studio queues up videos from your pack and posts them on your schedule. Track what\u2019s been posted and what\u2019s coming next."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockScheduledPostsCard />
+            <MockScheduledPostsCard locale={locale} />
           </div>
         </Reveal>
 

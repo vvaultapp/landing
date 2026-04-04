@@ -374,7 +374,7 @@ function HeroTrustedBy({
             {loaded ? numberFormatter.format(usersTotal) : "…"}
           </span>{" "}
           <span className="sm:hidden">{locale === "fr" ? "utilisateurs" : "users"}</span>
-          <span className="hidden sm:inline">{locale === "fr" ? "artists & beatmakers" : "artists & beatmakers"}</span>
+          <span className="hidden sm:inline">{locale === "fr" ? "artistes & beatmakers" : "artists & beatmakers"}</span>
           <span className="ml-1 text-white/55">{locale === "fr" ? "que tu connais sûrement" : "you probably know"}</span>
         </p>
       </div>

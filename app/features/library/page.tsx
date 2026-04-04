@@ -193,7 +193,7 @@ function GlowCard({
 /*  Mock Pack View Card                                                */
 /* ------------------------------------------------------------------ */
 
-function MockPackViewCard() {
+function MockPackViewCard({ locale }: { locale: "en" | "fr" }) {
   const tracks = [
     { title: "Midnight Chase", bpm: 142, key: "Cm", date: "Mar 28, 2026" },
     { title: "Velvet Shadows", bpm: 138, key: "F#m", date: "Mar 27, 2026" },
@@ -219,20 +219,20 @@ function MockPackViewCard() {
               Dark Melodies Vol.3
             </p>
             <p className="text-[11px] text-white/35">
-              Melody Pack &middot; 5 tracks &middot; by Kodaa
+              Melody Pack &middot; 5 {locale === "fr" ? "pistes" : "tracks"} &middot; by Kodaa
             </p>
             <div className="mt-2 flex gap-2">
               <span
                 className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-medium"
                 style={{ background: "rgba(52,211,153,0.1)", color: "rgba(52,211,153,0.7)" }}
               >
-                Published
+                {locale === "fr" ? "Publié" : "Published"}
               </span>
               <span
                 className="inline-flex items-center rounded-full px-2.5 py-0.5 text-[10px] font-medium"
                 style={{ background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.35)" }}
               >
-                Tracked link
+                {locale === "fr" ? "Lien tracké" : "Tracked link"}
               </span>
             </div>
           </div>
@@ -241,14 +241,14 @@ function MockPackViewCard() {
         {/* Track list header */}
         <div className="mt-6 flex items-center justify-between border-b border-white/[0.06] pb-2">
           <span className="text-[10px] font-medium uppercase tracking-wider text-white/20">
-            Track
+            {locale === "fr" ? "Piste" : "Track"}
           </span>
           <div className="flex gap-8">
             <span className="text-[10px] font-medium uppercase tracking-wider text-white/20 w-12 text-right">
               BPM
             </span>
             <span className="text-[10px] font-medium uppercase tracking-wider text-white/20 w-10 text-right">
-              Key
+              {locale === "fr" ? "Ton" : "Key"}
             </span>
             <span className="hidden text-[10px] font-medium uppercase tracking-wider text-white/20 sm:block w-20 text-right">
               Date
@@ -294,7 +294,11 @@ function MockPackViewCard() {
 /*  Mock Storage Panel Card                                            */
 /* ------------------------------------------------------------------ */
 
-function MockStoragePanelCard() {
+function MockStoragePanelCard({ locale }: { locale: "en" | "fr" }) {
+  const visibilityLabels: Record<string, string> = locale === "fr"
+    ? { Public: "Public", Private: "Privé", Link: "Lien" }
+    : { Public: "Public", Private: "Private", Link: "Link" };
+
   const files = [
     { title: "Midnight Chase.wav", date: "Mar 28", bpm: 142, key: "Cm", visibility: "Public" },
     { title: "Velvet Shadows.wav", date: "Mar 27", bpm: 138, key: "F#m", visibility: "Public" },
@@ -308,15 +312,15 @@ function MockStoragePanelCard() {
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <div className="flex items-center justify-between">
           <p className="text-[11px] font-semibold uppercase tracking-wider text-white/25">
-            Uploaded files
+            {locale === "fr" ? "Fichiers uploadés" : "Uploaded files"}
           </p>
           <div className="flex items-center gap-3">
             <span className="text-[11px] text-white/30">
-              24 files
+              24 {locale === "fr" ? "fichiers" : "files"}
             </span>
             <span className="text-[11px] text-white/20">&middot;</span>
             <span className="text-[11px] text-white/30">
-              1.8 GB used
+              1.8 GB {locale === "fr" ? "utilisés" : "used"}
             </span>
           </div>
         </div>
@@ -360,7 +364,7 @@ function MockStoragePanelCard() {
                       : "rgba(96,165,250,0.55)",
                 }}
               >
-                {f.visibility}
+                {visibilityLabels[f.visibility]}
               </span>
             </div>
           ))}
@@ -369,8 +373,8 @@ function MockStoragePanelCard() {
         {/* Storage bar */}
         <div className="mt-5">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] text-white/25">Storage</span>
-            <span className="text-[10px] text-white/30">1.8 GB &middot; Unlimited (Pro)</span>
+            <span className="text-[10px] text-white/25">{locale === "fr" ? "Stockage" : "Storage"}</span>
+            <span className="text-[10px] text-white/30">1.8 GB &middot; {locale === "fr" ? "Illimité (Pro)" : "Unlimited (Pro)"}</span>
           </div>
           <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-white/[0.06]">
             <div
@@ -391,9 +395,9 @@ function MockStoragePanelCard() {
 /*  Mock Organization Card                                             */
 /* ------------------------------------------------------------------ */
 
-function MockOrganizationCard() {
+function MockOrganizationCard({ locale }: { locale: "en" | "fr" }) {
   const tree = [
-    { name: "My Library", type: "root", depth: 0, icon: "folder" },
+    { name: locale === "fr" ? "Ma bibliothèque" : "My Library", type: "root", depth: 0, icon: "folder" },
     { name: "Melody Packs", type: "Folder", depth: 1, icon: "folder" },
     { name: "Dark Melodies Vol.1", type: "Pack", depth: 2, icon: "pack" },
     { name: "Dark Melodies Vol.2", type: "Pack", depth: 2, icon: "pack" },
@@ -419,7 +423,7 @@ function MockOrganizationCard() {
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-white/25">
-          Library structure
+          {locale === "fr" ? "Structure de la bibliothèque" : "Library structure"}
         </p>
         <div className="mt-5 space-y-0.5">
           {tree.map((node, i) => (
@@ -561,7 +565,7 @@ export default function FeatureLibraryPage() {
               : "Group your tracks into packs with cover art, metadata, and track listings. Each pack gets its own page with BPM, key, and release date for every track\u00a0\u2014 ready to share with one click."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockPackViewCard />
+            <MockPackViewCard locale={locale} />
           </div>
         </Reveal>
 
@@ -576,7 +580,7 @@ export default function FeatureLibraryPage() {
               : "See every file you have uploaded with format, metadata, and visibility status. Control what is public, private, or still in draft\u00a0\u2014 and track how much storage you are using."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockStoragePanelCard />
+            <MockStoragePanelCard locale={locale} />
           </div>
         </Reveal>
 
@@ -591,7 +595,7 @@ export default function FeatureLibraryPage() {
               : "Nest folders inside folders. Group beats into packs, sound kits, or ongoing series. vvault mirrors the way you actually think about your catalog\u00a0\u2014 not the way a file system does."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockOrganizationCard />
+            <MockOrganizationCard locale={locale} />
           </div>
         </Reveal>
 

@@ -212,13 +212,13 @@ function ScoreBadge({ score }: { score: number }) {
 /* ------------------------------------------------------------------ */
 /*  Mock Contact Detail Card                                          */
 /* ------------------------------------------------------------------ */
-function MockContactDetailCard() {
+function MockContactDetailCard({ locale }: { locale: "en" | "fr" }) {
   const stats = [
-    { label: "Opens", value: 42 },
-    { label: "Clicks", value: 28 },
-    { label: "Plays", value: 67 },
-    { label: "Saves", value: 15 },
-    { label: "Downloads", value: 12 },
+    { label: locale === "fr" ? "Ouvertures" : "Opens", value: 42 },
+    { label: locale === "fr" ? "Clics" : "Clicks", value: 28 },
+    { label: locale === "fr" ? "Écoutes" : "Plays", value: 67 },
+    { label: locale === "fr" ? "Sauvegardes" : "Saves", value: 15 },
+    { label: locale === "fr" ? "Téléchargements" : "Downloads", value: 12 },
   ];
   const groups = ["#french", "#ar", "#priority"];
 
@@ -258,8 +258,8 @@ function MockContactDetailCard() {
 
         {/* Meta */}
         <div className="mt-5 flex items-center justify-between border-t border-white/[0.04] pt-4">
-          <span className="text-[11px] text-white/30">Last active</span>
-          <span className="text-[12px] font-medium text-white/50">2 hours ago</span>
+          <span className="text-[11px] text-white/30">{locale === "fr" ? "Dernière activité" : "Last active"}</span>
+          <span className="text-[12px] font-medium text-white/50">{locale === "fr" ? "Il y a 2 heures" : "2 hours ago"}</span>
         </div>
 
         {/* Groups */}
@@ -285,11 +285,11 @@ function MockContactDetailCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock Contact Timeline Card                                        */
 /* ------------------------------------------------------------------ */
-function MockContactTimelineCard() {
+function MockContactTimelineCard({ locale }: { locale: "en" | "fr" }) {
   const events = [
     {
-      action: "Opened Pack 07 campaign",
-      time: "Today 14:23",
+      action: locale === "fr" ? "A ouvert la campagne Pack 07" : "Opened Pack 07 campaign",
+      time: locale === "fr" ? "Aujourd'hui 14:23" : "Today 14:23",
       dotColor: "bg-amber-400/70",
       color: "text-amber-400/70",
       icon: (
@@ -301,8 +301,8 @@ function MockContactTimelineCard() {
       ),
     },
     {
-      action: "Played Midnight Chase (full play)",
-      time: "Today 14:25",
+      action: locale === "fr" ? "A écouté Midnight Chase (écoute complète)" : "Played Midnight Chase (full play)",
+      time: locale === "fr" ? "Aujourd'hui 14:25" : "Today 14:25",
       dotColor: "bg-emerald-400/70",
       color: "text-emerald-400/70",
       icon: (
@@ -312,8 +312,8 @@ function MockContactTimelineCard() {
       ),
     },
     {
-      action: "Downloaded Dark Melodies Vol.3",
-      time: "Yesterday",
+      action: locale === "fr" ? "A téléchargé Dark Melodies Vol.3" : "Downloaded Dark Melodies Vol.3",
+      time: locale === "fr" ? "Hier" : "Yesterday",
       dotColor: "bg-blue-400/70",
       color: "text-blue-400/70",
       icon: (
@@ -324,8 +324,8 @@ function MockContactTimelineCard() {
       ),
     },
     {
-      action: "Opened Vol.2 campaign",
-      time: "3 days ago",
+      action: locale === "fr" ? "A ouvert la campagne Vol.2" : "Opened Vol.2 campaign",
+      time: locale === "fr" ? "Il y a 3 jours" : "3 days ago",
       dotColor: "bg-amber-400/50",
       color: "text-amber-400/50",
       icon: (
@@ -337,8 +337,8 @@ function MockContactTimelineCard() {
       ),
     },
     {
-      action: "Played 4 tracks (avg 1:42)",
-      time: "3 days ago",
+      action: locale === "fr" ? "A écouté 4 pistes (moy. 1:42)" : "Played 4 tracks (avg 1:42)",
+      time: locale === "fr" ? "Il y a 3 jours" : "3 days ago",
       dotColor: "bg-emerald-400/50",
       color: "text-emerald-400/50",
       icon: (
@@ -353,7 +353,7 @@ function MockContactTimelineCard() {
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-white/25">
-          Activity timeline
+          {locale === "fr" ? "Fil d'activité" : "Activity timeline"}
         </p>
         <div className="mt-5 space-y-0">
           {events.map((e, i) => (
@@ -384,13 +384,13 @@ function MockContactTimelineCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock Contact List Card                                            */
 /* ------------------------------------------------------------------ */
-function MockContactListCard() {
+function MockContactListCard({ locale }: { locale: "en" | "fr" }) {
   const contacts = [
-    { name: "Noah", email: "noah@label.com", score: 87, time: "2h ago", color: "hsl(25,60%,28%)" },
-    { name: "Mila", email: "mila@gmail.com", score: 72, time: "7h ago", color: "hsl(280,45%,30%)" },
-    { name: "Kai", email: "kai@beats.io", score: 65, time: "1d ago", color: "hsl(200,50%,28%)" },
-    { name: "Lena", email: "lena@studio.co", score: 91, time: "3h ago", color: "hsl(340,45%,30%)" },
-    { name: "Marcus", email: "marc@mgmt.com", score: 58, time: "2d ago", color: "hsl(160,40%,25%)" },
+    { name: "Noah", email: "noah@label.com", score: 87, time: locale === "fr" ? "il y a 2h" : "2h ago", color: "hsl(25,60%,28%)" },
+    { name: "Mila", email: "mila@gmail.com", score: 72, time: locale === "fr" ? "il y a 7h" : "7h ago", color: "hsl(280,45%,30%)" },
+    { name: "Kai", email: "kai@beats.io", score: 65, time: locale === "fr" ? "il y a 1j" : "1d ago", color: "hsl(200,50%,28%)" },
+    { name: "Lena", email: "lena@studio.co", score: 91, time: locale === "fr" ? "il y a 3h" : "3h ago", color: "hsl(340,45%,30%)" },
+    { name: "Marcus", email: "marc@mgmt.com", score: 58, time: locale === "fr" ? "il y a 2j" : "2d ago", color: "hsl(160,40%,25%)" },
   ];
 
   return (
@@ -412,7 +412,7 @@ function MockContactListCard() {
             <circle cx="7" cy="7" r="5" />
             <path d="M11 11l3 3" />
           </svg>
-          <span className="text-[12px] text-white/20">Search contacts...</span>
+          <span className="text-[12px] text-white/20">{locale === "fr" ? "Rechercher des contacts..." : "Search contacts..."}</span>
         </div>
 
         {/* Contact rows */}
@@ -447,7 +447,7 @@ function MockContactListCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock Groups Card                                                  */
 /* ------------------------------------------------------------------ */
-function MockGroupsCard() {
+function MockGroupsCard({ locale }: { locale: "en" | "fr" }) {
   const groups = [
     { label: "#french", count: 19, color: "hsl(220,60%,55%)" },
     { label: "#ar", count: 7, color: "hsl(280,55%,50%)" },
@@ -460,7 +460,7 @@ function MockGroupsCard() {
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <p className="text-[11px] font-semibold uppercase tracking-wider text-white/25">
-          Groups
+          {locale === "fr" ? "Groupes" : "Groups"}
         </p>
         <div className="mt-5 space-y-2">
           {groups.map((g) => (
@@ -482,6 +482,7 @@ function MockGroupsCard() {
               <span className="text-[12px] tabular-nums text-white/30">
                 {g.count} contacts
               </span>
+
             </div>
           ))}
         </div>
@@ -574,7 +575,7 @@ export default function FeatureContactsPage() {
               : "Each contact has a rich profile with engagement scoring, interaction stats, and tags. Know at a glance who is engaged, what they have listened to, and when to follow up."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockContactDetailCard />
+            <MockContactDetailCard locale={locale} />
           </div>
         </Reveal>
 
@@ -589,7 +590,7 @@ export default function FeatureContactsPage() {
               : "Every open, play, download, and click is logged automatically. See exactly how each contact interacts with your music — no manual tracking required."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockContactTimelineCard />
+            <MockContactTimelineCard locale={locale} />
           </div>
         </Reveal>
 
@@ -604,7 +605,7 @@ export default function FeatureContactsPage() {
               : "Search, filter, and segment your contacts by engagement score, role, or custom tags. Find the right people for every campaign in seconds."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockContactListCard />
+            <MockContactListCard locale={locale} />
           </div>
         </Reveal>
 
@@ -619,7 +620,7 @@ export default function FeatureContactsPage() {
               : "Tag contacts with custom groups and colors. Filter by group to quickly find the right audience for your next campaign."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockGroupsCard />
+            <MockGroupsCard locale={locale} />
           </div>
         </Reveal>
 

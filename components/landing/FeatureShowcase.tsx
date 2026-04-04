@@ -308,47 +308,48 @@ function KpiCard({
 }
 
 function AnalyticsSection({ locale }: { locale: Locale }) {
+  const fr = locale === "fr";
   const activities = [
     {
       name: "Metro Boomin",
-      action: "opened",
+      action: fr ? "a ouvert" : "opened",
       track: "Dark Melody Vol. 3",
-      time: "2m ago",
+      time: fr ? "il y a 2m" : "2m ago",
       dot: "#34d399",
     },
     {
       name: "Southside",
-      action: "played",
+      action: fr ? "a écouté" : "played",
       track: "808 Rage Kit",
-      time: "4m ago",
+      time: fr ? "il y a 4m" : "4m ago",
       dot: "#60a5fa",
     },
     {
       name: "Wheezy",
-      action: "downloaded",
+      action: fr ? "a téléchargé" : "downloaded",
       track: "Flute Type Beat",
-      time: "12m ago",
+      time: fr ? "il y a 12m" : "12m ago",
       dot: "#c084fc",
     },
     {
       name: "TM88",
-      action: "saved",
+      action: fr ? "a sauvegardé" : "saved",
       track: "Trap Soul Pack",
-      time: "18m ago",
+      time: fr ? "il y a 18m" : "18m ago",
       dot: "#fbbf24",
     },
     {
       name: "Pi'erre Bourne",
-      action: "opened",
+      action: fr ? "a ouvert" : "opened",
       track: "Synth Wave",
-      time: "24m ago",
+      time: fr ? "il y a 24m" : "24m ago",
       dot: "#34d399",
     },
     {
       name: "Murda Beatz",
-      action: "played",
+      action: fr ? "a écouté" : "played",
       track: "Hard Knock",
-      time: "31m ago",
+      time: fr ? "il y a 31m" : "31m ago",
       dot: "#60a5fa",
     },
   ];
@@ -403,9 +404,9 @@ function AnalyticsSection({ locale }: { locale: Locale }) {
                       <path d="M11 4h4v4" />
                     </svg>
                   }
-                  label="Emails sent"
+                  label={fr ? "Emails envoyés" : "Emails sent"}
                   value="1,247"
-                  sub="Open rate: 76%"
+                  sub={fr ? "Taux d'ouverture : 76%" : "Open rate: 76%"}
                 />
                 <KpiCard
                   icon={
@@ -422,9 +423,9 @@ function AnalyticsSection({ locale }: { locale: Locale }) {
                       <circle cx="12" cy="12" r="3" />
                     </svg>
                   }
-                  label="Opens"
+                  label={fr ? "Ouvertures" : "Opens"}
                   value="943"
-                  sub="+12% vs last month"
+                  sub={fr ? "+12% vs mois dernier" : "+12% vs last month"}
                 />
                 <KpiCard
                   icon={
@@ -436,7 +437,7 @@ function AnalyticsSection({ locale }: { locale: Locale }) {
                       <path d="M4.5 3v10l8-5z" />
                     </svg>
                   }
-                  label="Plays"
+                  label={fr ? "Écoutes" : "Plays"}
                   value="612"
                   sub="+24%"
                 />
@@ -453,7 +454,7 @@ function AnalyticsSection({ locale }: { locale: Locale }) {
                       <path d="M2 12v2h12v-2" />
                     </svg>
                   }
-                  label="Downloads"
+                  label={fr ? "Téléchargements" : "Downloads"}
                   value="89"
                   sub="+7%"
                 />
@@ -462,7 +463,7 @@ function AnalyticsSection({ locale }: { locale: Locale }) {
               {/* Activity feed */}
               <div className="mt-6 sm:mt-8">
                 <p className="px-3 text-[10px] font-semibold text-white/25 sm:text-[11px]">
-                  Live activity
+                  {fr ? "Activité en direct" : "Live activity"}
                 </p>
                 <div className="mt-2 space-y-0.5">
                   {activities.map((a, i) => (
@@ -502,10 +503,12 @@ function PackCard({
   name,
   tracks,
   coverSrc,
+  locale = "en",
 }: {
   name: string;
   tracks: number;
   coverSrc: string;
+  locale?: Locale;
 }) {
   return (
     <div className="group flex w-full cursor-default flex-col select-none transition-transform duration-200 hover:-translate-y-0.5">
@@ -525,7 +528,7 @@ function PackCard({
             <p className="text-base font-semibold tabular-nums text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)]">
               {tracks}
             </p>
-            <p className="text-[9px] tracking-wide text-white/70">tracks</p>
+            <p className="text-[9px] tracking-wide text-white/70">{locale === "fr" ? "pistes" : "tracks"}</p>
           </div>
           <div className="flex justify-end">
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-black opacity-0 shadow-[0_6px_18px_rgba(0,0,0,0.7)] transition-opacity duration-200 group-hover:opacity-100">
@@ -544,7 +547,7 @@ function PackCard({
         <p className="truncate text-[13px] font-semibold text-white/80">
           {name}
         </p>
-        <p className="text-[11px] text-white/35">{tracks} tracks</p>
+        <p className="text-[11px] text-white/35">{tracks} {locale === "fr" ? "pistes" : "tracks"}</p>
       </div>
     </div>
   );
@@ -589,11 +592,15 @@ function PacksCard({ locale }: { locale: Locale }) {
                   type="text"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
-                  placeholder="Search packs…"
+                  placeholder={locale === "fr" ? "Chercher des packs…" : "Search packs…"}
                   className="w-full bg-transparent text-[11px] text-white/60 outline-none placeholder:text-white/20"
                 />
               </div>
-              {["All", "Packs", "Series"].map((tab) => (
+              {(["All", "Packs", "Series"] as const).map((tab) => {
+                const tabLabel = locale === "fr"
+                  ? { All: "Tout", Packs: "Packs", Series: "Séries" }[tab]
+                  : tab;
+                return (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
@@ -603,15 +610,16 @@ function PacksCard({ locale }: { locale: Locale }) {
                       : "text-white/25 hover:bg-white/[0.04] hover:text-white/40"
                   }`}
                 >
-                  {tab}
+                  {tabLabel}
                 </button>
-              ))}
+                );
+              })}
             </div>
 
             {/* pack grid */}
             <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
               {packs.map((p) => (
-                <PackCard key={p.name} {...p} />
+                <PackCard key={p.name} {...p} locale={locale} />
               ))}
             </div>
           </div>
@@ -634,12 +642,12 @@ function PacksCard({ locale }: { locale: Locale }) {
 }
 
 function ComposeCard({ locale }: { locale: Locale }) {
-  const [subjectValue, setSubjectValue] = useState(
-    "New pack: Dark Melodies Vol.3"
-  );
-  const [messageValue, setMessageValue] = useState(
-    "Hey, just dropped a new pack I think you'll love. Let me know what you think!"
-  );
+  const defaultSubject = locale === "fr" ? "Nouveau pack : Dark Melodies Vol.3" : "New pack: Dark Melodies Vol.3";
+  const defaultMessage = locale === "fr"
+    ? "Hey, je viens de sortir un nouveau pack qui devrait te plaire. Dis-moi ce que t'en penses !"
+    : "Hey, just dropped a new pack I think you'll love. Let me know what you think!";
+  const [subjectValue, setSubjectValue] = useState(defaultSubject);
+  const [messageValue, setMessageValue] = useState(defaultMessage);
   const [activeChannel, setActiveChannel] = useState("email");
 
   const recipients = [
@@ -675,7 +683,7 @@ function ComposeCard({ locale }: { locale: Locale }) {
                   </svg>
                 </div>
                 <span className="text-[12px] font-semibold text-white/70">
-                  New campaign
+                  {locale === "fr" ? "Nouvelle campagne" : "New campaign"}
                 </span>
               </div>
               <div className="flex gap-1">
@@ -703,7 +711,7 @@ function ComposeCard({ locale }: { locale: Locale }) {
               {/* To field */}
               <div>
                 <label className="mb-1 block text-[10px] font-medium text-white/30">
-                  To
+                  {locale === "fr" ? "À" : "To"}
                 </label>
                 <div
                   className="flex flex-wrap items-center gap-1.5 rounded-xl px-3 py-2"
@@ -729,14 +737,14 @@ function ComposeCard({ locale }: { locale: Locale }) {
                       </span>
                     </span>
                   ))}
-                  <span className="text-[10px] text-white/25">+12 more</span>
+                  <span className="text-[10px] text-white/25">{locale === "fr" ? "+12 autres" : "+12 more"}</span>
                 </div>
               </div>
 
               {/* Subject field */}
               <div>
                 <label className="mb-1 block text-[10px] font-medium text-white/30">
-                  Subject
+                  {locale === "fr" ? "Objet" : "Subject"}
                 </label>
                 <input
                   type="text"
@@ -773,11 +781,11 @@ function ComposeCard({ locale }: { locale: Locale }) {
               <div className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70" />
                 <span className="text-[10px] text-white/30">
-                  Ready to send
+                  {locale === "fr" ? "Prêt à envoyer" : "Ready to send"}
                 </span>
               </div>
               <button className="rounded-full bg-white px-4 py-1.5 text-[11px] font-semibold text-black transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)]">
-                Send campaign
+                {locale === "fr" ? "Envoyer" : "Send campaign"}
               </button>
             </div>
           </div>
@@ -890,7 +898,7 @@ function SellCard({ locale }: { locale: Locale }) {
                 }}
               >
                 <span className="text-[10px] font-medium leading-none text-emerald-400/70">
-                  0% on Ultra
+                  {locale === "fr" ? "0% sur Ultra" : "0% on Ultra"}
                 </span>
               </div>
 

@@ -185,7 +185,7 @@ function GlowCard({
 /* ------------------------------------------------------------------ */
 /*  Mock Campaign Builder Card                                        */
 /* ------------------------------------------------------------------ */
-function MockCampaignBuilderCard() {
+function MockCampaignBuilderCard({ locale }: { locale: string }) {
   const tracks = [
     { name: "Midnight Chase.wav", size: "4.2 MB" },
     { name: "Velvet Haze.wav", size: "3.8 MB" },
@@ -210,13 +210,13 @@ function MockCampaignBuilderCard() {
             <p className="text-[14px] font-semibold text-white/85">
               Pack 07 Release
             </p>
-            <p className="text-[11px] text-white/35">Draft campaign</p>
+            <p className="text-[11px] text-white/35">{locale === "fr" ? "Brouillon de campagne" : "Draft campaign"}</p>
           </div>
         </div>
 
         {/* Channel selector */}
         <div className="mt-6">
-          <p className="text-[11px] font-medium text-white/25">CHANNEL</p>
+          <p className="text-[11px] font-medium text-white/25">{locale === "fr" ? "CANAL" : "CHANNEL"}</p>
           <div className="mt-2 flex gap-2">
             {[
               { label: "Email", active: true },
@@ -247,8 +247,8 @@ function MockCampaignBuilderCard() {
         {/* Form fields */}
         <div className="mt-5 space-y-0">
           {[
-            { label: "Campaign name", value: "Pack 07 Release" },
-            { label: "Subject", value: "New Pack: Dark Melodies Vol.3" },
+            { label: locale === "fr" ? "Nom de campagne" : "Campaign name", value: "Pack 07 Release" },
+            { label: locale === "fr" ? "Objet" : "Subject", value: locale === "fr" ? "Nouveau Pack : Dark Melodies Vol.3" : "New Pack: Dark Melodies Vol.3" },
           ].map((row, i) => (
             <div
               key={i}
@@ -263,7 +263,7 @@ function MockCampaignBuilderCard() {
 
           {/* Recipients row with avatars */}
           <div className="flex items-center justify-between border-b border-white/[0.04] py-3">
-            <span className="text-[12px] text-white/35">Recipients</span>
+            <span className="text-[12px] text-white/35">{locale === "fr" ? "Destinataires" : "Recipients"}</span>
             <div className="flex items-center gap-2.5">
               <div className="flex -space-x-1.5">
                 {["N", "M", "K", "A"].map((initial, i) => (
@@ -284,7 +284,7 @@ function MockCampaignBuilderCard() {
                 ))}
               </div>
               <span className="text-[13px] font-medium text-white/70">
-                French Contacts (19)
+                {locale === "fr" ? "Contacts français (19)" : "French Contacts (19)"}
               </span>
             </div>
           </div>
@@ -293,7 +293,7 @@ function MockCampaignBuilderCard() {
         {/* Attached tracks */}
         <div className="mt-5">
           <p className="text-[11px] font-medium text-white/25">
-            CONTENT
+            {locale === "fr" ? "CONTENU" : "CONTENT"}
           </p>
           <div className="mt-2.5 space-y-1.5">
             {tracks.map((t, i) => (
@@ -335,7 +335,7 @@ function MockCampaignBuilderCard() {
               color: "rgba(167,139,250,0.9)",
             }}
           >
-            Send campaign
+            {locale === "fr" ? "Envoyer la campagne" : "Send campaign"}
           </span>
           <span
             className="rounded-xl px-5 py-2.5 text-center text-[13px] font-medium text-white/40"
@@ -344,7 +344,7 @@ function MockCampaignBuilderCard() {
               background: "rgba(255,255,255,0.02)",
             }}
           >
-            Save draft
+            {locale === "fr" ? "Sauvegarder" : "Save draft"}
           </span>
         </div>
       </div>
@@ -355,20 +355,20 @@ function MockCampaignBuilderCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock Campaign Stats Card                                          */
 /* ------------------------------------------------------------------ */
-function MockCampaignStatsCard() {
+function MockCampaignStatsCard({ locale }: { locale: string }) {
   const stats = [
-    { label: "Recipients", value: 19, max: 19, color: "rgba(139,92,246,0.5)" },
-    { label: "Opens", value: 14, max: 19, color: "rgba(96,165,250,0.5)" },
-    { label: "Clicks", value: 9, max: 19, color: "rgba(52,211,153,0.5)" },
-    { label: "Plays", value: 23, max: 23, color: "rgba(251,191,36,0.5)" },
+    { label: locale === "fr" ? "Destinataires" : "Recipients", value: 19, max: 19, color: "rgba(139,92,246,0.5)" },
+    { label: locale === "fr" ? "Ouvertures" : "Opens", value: 14, max: 19, color: "rgba(96,165,250,0.5)" },
+    { label: locale === "fr" ? "Clics" : "Clicks", value: 9, max: 19, color: "rgba(52,211,153,0.5)" },
+    { label: locale === "fr" ? "Écoutes" : "Plays", value: 23, max: 23, color: "rgba(251,191,36,0.5)" },
     {
-      label: "Downloads",
+      label: locale === "fr" ? "Téléchargements" : "Downloads",
       value: 6,
       max: 19,
       color: "rgba(244,114,182,0.5)",
     },
     {
-      label: "Saves",
+      label: locale === "fr" ? "Sauvegardes" : "Saves",
       value: 4,
       max: 19,
       color: "rgba(251,146,60,0.5)",
@@ -383,7 +383,7 @@ function MockCampaignStatsCard() {
             <p className="text-[14px] font-semibold text-white/85">
               Pack 07 Release
             </p>
-            <p className="text-[11px] text-white/35">Sent 2 days ago</p>
+            <p className="text-[11px] text-white/35">{locale === "fr" ? "Envoyé il y a 2 jours" : "Sent 2 days ago"}</p>
           </div>
           <span
             className="rounded-lg px-2.5 py-1 text-[10px] font-semibold"
@@ -393,7 +393,7 @@ function MockCampaignStatsCard() {
               color: "rgba(52,211,153,0.7)",
             }}
           >
-            Sent
+            {locale === "fr" ? "Envoyé" : "Sent"}
           </span>
         </div>
 
@@ -442,10 +442,10 @@ function MockCampaignStatsCard() {
 /* ------------------------------------------------------------------ */
 /*  Mock Timeline Card                                                */
 /* ------------------------------------------------------------------ */
-function MockTimelineCard() {
+function MockTimelineCard({ locale }: { locale: string }) {
   const events = [
     {
-      action: "Noah opened",
+      action: locale === "fr" ? "Noah a ouvert" : "Noah opened",
       time: "14:23",
       icon: (
         <svg
@@ -463,7 +463,7 @@ function MockTimelineCard() {
       dotColor: "bg-blue-400/70",
     },
     {
-      action: "Noah played Midnight Chase (2:14)",
+      action: locale === "fr" ? "Noah a écouté Midnight Chase (2:14)" : "Noah played Midnight Chase (2:14)",
       time: "14:25",
       icon: (
         <svg
@@ -478,7 +478,7 @@ function MockTimelineCard() {
       dotColor: "bg-violet-400/70",
     },
     {
-      action: "Mila opened",
+      action: locale === "fr" ? "Mila a ouvert" : "Mila opened",
       time: "14:31",
       icon: (
         <svg
@@ -496,7 +496,7 @@ function MockTimelineCard() {
       dotColor: "bg-blue-400/70",
     },
     {
-      action: "Mila downloaded full pack",
+      action: locale === "fr" ? "Mila a téléchargé le pack complet" : "Mila downloaded full pack",
       time: "14:35",
       icon: (
         <svg
@@ -514,7 +514,7 @@ function MockTimelineCard() {
       dotColor: "bg-emerald-400/70",
     },
     {
-      action: "Kai clicked link",
+      action: locale === "fr" ? "Kai a cliqué sur le lien" : "Kai clicked link",
       time: "15:02",
       icon: (
         <svg
@@ -532,7 +532,7 @@ function MockTimelineCard() {
       dotColor: "bg-amber-400/70",
     },
     {
-      action: "Mila saved to library",
+      action: locale === "fr" ? "Mila a sauvegardé dans sa bibliothèque" : "Mila saved to library",
       time: "15:10",
       icon: (
         <svg
@@ -552,7 +552,7 @@ function MockTimelineCard() {
     <GlowCard>
       <div className="select-none cursor-default px-6 py-8 sm:px-10 sm:py-10">
         <p className="text-[11px] font-semibold text-white/25">
-          Campaign activity
+          {locale === "fr" ? "Activité de la campagne" : "Campaign activity"}
         </p>
         <div className="mt-5 space-y-0">
           {events.map((e, i) => (
@@ -666,7 +666,7 @@ export default function FeatureCampaignsPage() {
               : "Pick your audience, attach tracks, write your subject line, and hit send. Every email goes from your own Gmail address via secure OAuth — we never store your password. Lands in primary inboxes, not promotions or spam."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockCampaignBuilderCard />
+            <MockCampaignBuilderCard locale={locale} />
           </div>
         </Reveal>
 
@@ -681,7 +681,7 @@ export default function FeatureCampaignsPage() {
               : "Real-time stats for every campaign. See who opened, who played your beats, who downloaded, and who clicked through. No guesswork — just data you can act on."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockCampaignStatsCard />
+            <MockCampaignStatsCard locale={locale} />
           </div>
         </Reveal>
 
@@ -696,7 +696,7 @@ export default function FeatureCampaignsPage() {
               : "A live activity feed shows you exactly what each recipient did and when. Know the moment someone plays your beat or downloads your pack so you can follow up at the right time."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockTimelineCard />
+            <MockTimelineCard locale={locale} />
           </div>
         </Reveal>
 

@@ -160,12 +160,12 @@ function GlowCard({
 }
 
 /* ── Mock Bio Page Preview Card ── */
-function MockBioPreviewCard() {
+function MockBioPreviewCard({ locale }: { locale: "en" | "fr" }) {
   const items = [
-    { label: "Dark Melodies Vol.3", sub: "14 tracks", kind: "pack" },
+    { label: "Dark Melodies Vol.3", sub: locale === "fr" ? "14 pistes" : "14 tracks", kind: "pack" },
     { label: "808 Essentials Kit", sub: "Sound kit", kind: "kit" },
-    { label: "Summer Vibes Vol.2", sub: "22 tracks", kind: "pack" },
-    { label: "Lo-fi Textures", sub: "8 tracks", kind: "pack" },
+    { label: "Summer Vibes Vol.2", sub: locale === "fr" ? "22 pistes" : "22 tracks", kind: "pack" },
+    { label: "Lo-fi Textures", sub: locale === "fr" ? "8 pistes" : "8 tracks", kind: "pack" },
   ];
 
   return (
@@ -242,7 +242,7 @@ function MockBioPreviewCard() {
 }
 
 /* ── Mock Placements Card ── */
-function MockPlacementsCard() {
+function MockPlacementsCard({ locale }: { locale: "en" | "fr" }) {
   const placements = [
     { title: "Midnight Drive", artist: "Jay Loren", platform: "Spotify", year: "2025" },
     { title: "Neon Lights EP", artist: "Melo", platform: "Apple Music", year: "2025" },
@@ -257,6 +257,7 @@ function MockPlacementsCard() {
           Placements
         </p>
 
+
         <div className="mt-5 space-y-0">
           {placements.map((p, i) => (
             <div
@@ -265,7 +266,7 @@ function MockPlacementsCard() {
             >
               <div>
                 <span className="text-[13px] font-medium text-white/70">{p.title}</span>
-                <span className="ml-2 text-[11px] text-white/30">by {p.artist}</span>
+                <span className="ml-2 text-[11px] text-white/30">{locale === "fr" ? "par" : "by"} {p.artist}</span>
               </div>
               <div className="flex items-center gap-2.5">
                 <span className="text-[11px] text-white/25">{p.platform}</span>
@@ -359,7 +360,7 @@ export default function FeatureLinkInBioPage() {
               : "Your public profile at vvault.app/@handle showcases your packs, soundkits, tracks, and placement credits. Share one link everywhere \u2014 visitors can preview, stream, and purchase directly."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockBioPreviewCard />
+            <MockBioPreviewCard locale={locale} />
           </div>
         </Reveal>
 
@@ -374,7 +375,7 @@ export default function FeatureLinkInBioPage() {
               : "Display your credits and placements directly on your profile. Link to Spotify, Apple Music, YouTube, and SoundCloud so visitors can hear your work in context."}
           </p>
           <div className="mt-8 sm:mt-10">
-            <MockPlacementsCard />
+            <MockPlacementsCard locale={locale} />
           </div>
         </Reveal>
 

@@ -1,16 +1,20 @@
 "use client";
 
-import { landingContent } from "@/components/landing/content";
+import { getLandingContent, type Locale } from "@/components/landing/content";
 import { Reveal } from "@/components/landing/Reveal";
 
-export function FeatureGridSection() {
+export function FeatureGridSection({ locale }: { locale: Locale }) {
+  const landingContent = getLandingContent(locale);
+
   return (
     <section id="product" className="pt-14 sm:pt-20">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="max-w-[900px]">
             <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">
-              Built for music operations, not tool sprawl.
+              {locale === "fr"
+                ? "Conçu pour la musique, pas pour l'accumulation d'outils."
+                : "Built for music operations, not tool sprawl."}
             </h2>
           </div>
         </Reveal>

@@ -211,10 +211,10 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
                   </div>
                   <div>
                     <p className="text-[14px] font-semibold text-white/85">
-                      Certificate of deposit
+                      {locale === "fr" ? "Certificat de dépôt" : "Certificate of deposit"}
                     </p>
                     <p className="text-[11px] text-white/35">
-                      Hash-certified &middot; Tamper-proof &middot; Timestamped
+                      {locale === "fr" ? "Certifié par hash · Infalsifiable · Horodaté" : <>Hash-certified &middot; Tamper-proof &middot; Timestamped</>}
                     </p>
                   </div>
                 </div>
@@ -222,10 +222,10 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
                 {/* Certificate body */}
                 <div className="mt-6 space-y-0">
                   {[
-                    { label: "Track", value: "Dark Melodies Vol.3 — Melody Pack" },
-                    { label: "File hash (SHA-256)", value: "a7f3...9b2e", mono: true },
-                    { label: "Deposited at", value: "Mar 28, 2026 · 2:14 PM" },
-                    { label: "Rights holder", value: "Kodaa" },
+                    { label: locale === "fr" ? "Morceau" : "Track", value: "Dark Melodies Vol.3 — Melody Pack" },
+                    { label: locale === "fr" ? "Hash du fichier (SHA-256)" : "File hash (SHA-256)", value: "a7f3...9b2e", mono: true },
+                    { label: locale === "fr" ? "Déposé le" : "Deposited at", value: locale === "fr" ? "28 mars 2026 · 14h14" : "Mar 28, 2026 · 2:14 PM" },
+                    { label: locale === "fr" ? "Titulaire des droits" : "Rights holder", value: "Kodaa" },
                     { label: "Splits", value: "100% — Kodaa" },
                   ].map((row, i) => (
                     <div
@@ -250,7 +250,7 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
                 <div className="mt-6 flex items-center justify-center gap-2">
                   <CheckBadgeIcon className="h-4 w-4 text-yellow-400/60" />
                   <span className="text-[11px] font-medium text-yellow-400/50">
-                    Verified by vvault
+                    {locale === "fr" ? "Vérifié par vvault" : "Verified by vvault"}
                   </span>
                 </div>
               </div>
