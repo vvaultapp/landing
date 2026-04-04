@@ -10,49 +10,18 @@ type FinalCtaSectionProps = {
 
 export function FinalCtaSection({ content }: FinalCtaSectionProps) {
   return (
-    <section id="final-cta" className="pt-44 sm:pt-64">
+    <section id="final-cta" className="pt-44 pb-32 sm:pt-64 sm:pb-44">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal className="text-center">
-          {/* Layered text for bevel/emboss chrome effect */}
+          {/* Clean gradient text */}
           <div className="relative mx-auto max-w-[480px] sm:max-w-[580px] lg:max-w-[660px]">
-            {/* Shadow layer — dark drop shadow behind */}
-            <h2
-              className="font-display text-[2.6rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.8rem] lg:text-[4.6rem]"
-              aria-hidden="true"
-              style={{
-                color: "transparent",
-                textShadow: "0 4px 8px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.5)",
-                WebkitTextStroke: "1px rgba(0,0,0,0.3)",
-                position: "absolute",
-                inset: 0,
-              }}
-            >
-              {content.finalCta.title}
-            </h2>
-            {/* Main text — silver/grey with gradient */}
             <h2
               className="font-display relative text-[2.6rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.8rem] lg:text-[4.6rem]"
               style={{
-                backgroundImage: "linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(180,180,190,0.35) 40%, rgba(140,140,155,0.25) 70%, rgba(160,160,175,0.3) 100%)",
+                backgroundImage: "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(180,180,190,0.38) 50%, rgba(150,150,165,0.28) 100%)",
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 color: "transparent",
-                WebkitTextStroke: "0.5px rgba(255,255,255,0.12)",
-              }}
-            >
-              {content.finalCta.title}
-            </h2>
-            {/* Highlight layer — white top edge */}
-            <h2
-              className="font-display text-[2.6rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.8rem] lg:text-[4.6rem]"
-              aria-hidden="true"
-              style={{
-                color: "transparent",
-                textShadow: "0 -1px 0 rgba(255,255,255,0.18), 0 -2px 2px rgba(255,255,255,0.06)",
-                WebkitTextStroke: "0.5px rgba(255,255,255,0.06)",
-                position: "absolute",
-                inset: 0,
-                mixBlendMode: "screen",
               }}
             >
               {content.finalCta.title}

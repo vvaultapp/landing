@@ -272,7 +272,7 @@ export default function PricingPage() {
               </p>
 
               {/* Toggle */}
-              <div className="mt-8 flex items-center justify-center gap-3">
+              <div className="relative mt-8 flex items-center justify-center gap-3">
                 <span
                   className={`text-sm ${annual ? "text-white/40" : "text-white"}`}
                 >
@@ -293,15 +293,15 @@ export default function PricingPage() {
                   />
                 </button>
                 <span
-                  className={`text-sm ${annual ? "text-white" : "text-white/40"}`}
+                  className={`relative text-sm ${annual ? "text-white" : "text-white/40"}`}
                 >
                   {content.pricingUi.annually}
+                  {annual && (
+                    <span className="absolute -right-2 -top-5 translate-x-full rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-400 whitespace-nowrap">
+                      17% Savings
+                    </span>
+                  )}
                 </span>
-                {annual && (
-                  <span className="ml-2 rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-400">
-                    17% Savings
-                  </span>
-                )}
               </div>
             </div>
           </Reveal>
@@ -316,7 +316,7 @@ export default function PricingPage() {
                     background: p.featured
                       ? "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(10,10,13,1) 100%)"
                       : p.name === "Ultra"
-                        ? "linear-gradient(180deg, rgba(16,12,24,0.98) 0%, rgba(6,4,10,1) 100%)"
+                        ? "linear-gradient(180deg, rgba(24,20,12,0.98) 0%, rgba(10,8,4,1) 100%)"
                         : "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
                   }}
                 >
@@ -326,7 +326,7 @@ export default function PricingPage() {
                       border: p.featured
                         ? "1px solid rgba(255,255,255,0.18)"
                         : p.name === "Ultra"
-                          ? "1px solid rgba(168,130,255,0.12)"
+                          ? "1px solid rgba(212,175,55,0.12)"
                           : "1px solid rgba(255,255,255,0.06)",
                       borderBottom: "none",
                       maskImage:
@@ -341,7 +341,7 @@ export default function PricingPage() {
                       background: p.featured
                         ? "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 15%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.1) 85%, transparent 100%)"
                         : p.name === "Ultra"
-                          ? "linear-gradient(90deg, transparent 0%, rgba(168,130,255,0.08) 15%, rgba(168,130,255,0.25) 50%, rgba(168,130,255,0.08) 85%, transparent 100%)"
+                          ? "linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.08) 15%, rgba(212,175,55,0.25) 50%, rgba(212,175,55,0.08) 85%, transparent 100%)"
                           : "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
                     }}
                   />
@@ -361,7 +361,7 @@ export default function PricingPage() {
                       className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[160px] w-[420px]"
                       style={{
                         background:
-                          "radial-gradient(ellipse at center, rgba(168,130,255,0.07) 0%, transparent 70%)",
+                          "radial-gradient(ellipse at center, rgba(212,175,55,0.07) 0%, transparent 70%)",
                       }}
                     />
                   )}
@@ -405,7 +405,7 @@ export default function PricingPage() {
                     ))}
                   </ul>
 
-                  <div className="mt-auto pt-8">
+                  <div className="mt-auto pt-10">
                     <LandingCtaLink
                       loggedInHref={p.href}
                       loggedOutHref={p.loggedOutHref || p.href}
@@ -417,11 +417,11 @@ export default function PricingPage() {
                     >
                       {p.cta} <span className="ml-1.5">&rarr;</span>
                     </LandingCtaLink>
-                    {p.period && (
-                      <p className="mt-2.5 text-center text-[11px] text-white/25">
-                        {locale === "fr" ? "Annule quand tu veux" : "Cancel anytime"}
-                      </p>
-                    )}
+                    <p className="mt-2.5 text-center text-[11px] text-white/25">
+                      {p.period
+                        ? (locale === "fr" ? "Annule quand tu veux" : "Cancel anytime")
+                        : (locale === "fr" ? "Aucune carte requise" : "No credit card required")}
+                    </p>
                   </div>
                 </div>
               </Reveal>
