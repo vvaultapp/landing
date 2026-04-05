@@ -108,7 +108,7 @@ export default function DownloadWindowsPage() {
             <div className="rounded-2xl border border-white/[0.06] bg-white/[0.02] p-5">
               <div className="flex items-center gap-2">
                 <svg viewBox="0 0 24 24" className="h-5 w-5 fill-current text-white/40">
-                  <path d="M3 5.548l7.286-1.004v7.03H3V5.548zm0 12.904l7.286 1.004v-6.88H3v5.876zm8.143 1.129L21 21v-7.424h-9.857v6.005zM21 3L11.143 4.424v5.95H21V3z" />
+                  <path d="M3 12V6.5l8-1.1V12H3zm9-6.8V12h9V3L12 5.2zM12 13v6.7L21 22v-9H12zm-1 0H3v5.5l8 1.1V13z" />
                 </svg>
                 <h3 className="text-[14px] font-semibold text-white/70">Windows</h3>
               </div>
