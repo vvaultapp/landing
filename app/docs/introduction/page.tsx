@@ -122,6 +122,21 @@ export default function DocsIntroductionPage() {
       </section>
 
       {/* ------------------------------------------------------------ */}
+      {/*  Video                                                        */}
+      {/* ------------------------------------------------------------ */}
+      <div className="mt-10 overflow-hidden rounded-2xl border border-[#e5e5e5]">
+        <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+          <iframe
+            className="absolute inset-0 h-full w-full"
+            src="https://www.youtube.com/embed/m2WPJvKnCzU"
+            title="vvault demo"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </div>
+
+      {/* ------------------------------------------------------------ */}
       {/*  Key features                                                 */}
       {/* ------------------------------------------------------------ */}
       <section className="mt-14">
