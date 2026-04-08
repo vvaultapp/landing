@@ -56,9 +56,14 @@ function toFastAvatarUrl(rawUrl: string): string {
     if (parsed.searchParams.has("token")) return rawUrl;
 
     if (path.includes("/storage/v1/object/public/")) {
+      const renderPath = path.replace(
+        "/storage/v1/object/public/",
+        "/storage/v1/render/image/public/",
+      );
+      parsed.pathname = renderPath;
       parsed.searchParams.set("width", "48");
       parsed.searchParams.set("height", "48");
-      parsed.searchParams.set("quality", "18");
+      parsed.searchParams.set("quality", "60");
       parsed.searchParams.set("resize", "cover");
       return parsed.toString();
     }
