@@ -93,25 +93,25 @@ function shuffleStrings(values: string[]): string[] {
   return next;
 }
 
-function preloadAvatar(url: string): Promise<void> {
+function preloadAvatar(url: string): Promise<boolean> {
   return new Promise((resolve) => {
     const img = new Image();
     img.decoding = "async";
     img.loading = "eager";
     let settled = false;
-    const done = () => {
+    const done = (success: boolean) => {
       if (settled) return;
       settled = true;
       img.onload = null;
       img.onerror = null;
       clearTimeout(timeoutId);
-      resolve();
+      resolve(success);
     };
-    const timeoutId = window.setTimeout(done, 4500);
-    img.onload = done;
-    img.onerror = done;
+    const timeoutId = window.setTimeout(() => done(false), 4500);
+    img.onload = () => done(true);
+    img.onerror = () => done(false);
     img.src = url;
-    if (img.complete) done();
+    if (img.complete && img.naturalWidth > 0) done(true);
   });
 }
 
@@ -275,15 +275,25 @@ function HeroTrustedBy({
       isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL,
     );
 
+    const failedUrls = new Set<string>();
     const workers = Array.from({ length: preloadParallel }, async () => {
       while (!cancelled) {
         const next = preloadQueue.pop();
         if (!next) break;
-        await preloadAvatar(next);
+        const ok = await preloadAvatar(next);
+        if (!ok) failedUrls.add(next);
       }
     });
 
-    void Promise.allSettled(workers);
+    void Promise.allSettled(workers).then(() => {
+      if (cancelled || failedUrls.size === 0) return;
+      // Remove broken URLs from the pool so they never appear
+      const cleaned = avatarPoolRef.current.filter((u) => !failedUrls.has(u));
+      if (cleaned.length > 0) {
+        avatarPoolRef.current = cleaned;
+        refillShuffledPool();
+      }
+    });
 
     return () => {
       cancelled = true;
@@ -331,7 +341,7 @@ function HeroTrustedBy({
           return updated;
         });
       });
-    }, 4000);
+    }, 3000);
 
     return () => clearInterval(intervalId);
   }, [optimizedAvatarsKey, pickNextAvatar]);
