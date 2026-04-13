@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms of Use | vvault",
-  description: "Terms of Use for vvault.",
+  title: "Terms of Service | vvault",
+  description: "Read vvault's terms of service. Understand the rules and guidelines for using the beat selling platform for producers and beatmakers.",
 };
 
 const LAST_UPDATED = "February 26, 2026";

@@ -4,15 +4,15 @@ import { BlogFooter, BottomCta } from "@/components/blog/BlogShell";
 import { LandingNavWrapper } from "@/components/landing/LandingNavWrapper";
 
 export const metadata: Metadata = {
-  title: "vvault for Producers — Organize, Send, and Track Your Beats",
+  title: "Beat Selling Platform for Producers | vvault",
   description:
-    "vvault is the professional workspace built for music producers. Organize your catalog, send packs professionally, track who listened, and land more placements.",
+    "The producer workspace to organize beats, send packs to labels & artists, track who listened, sell online, and land more placements. Free to start.",
   alternates: { canonical: "https://get.vvault.app/for/producers" },
   openGraph: {
     type: "website",
-    title: "vvault for Producers — Organize, Send, and Track Your Beats",
+    title: "Beat Selling Platform for Producers | vvault",
     description:
-      "vvault is the professional workspace built for music producers. Organize your catalog, send packs professionally, track who listened, and land more placements.",
+      "The producer workspace to organize beats, send packs to labels & artists, track who listened, sell online, and land more placements. Free to start.",
     url: "https://get.vvault.app/for/producers",
   },
 };

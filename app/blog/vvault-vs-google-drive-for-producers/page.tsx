@@ -3,13 +3,13 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "vvault vs Google Drive for Music Producers — Which One Should You Use?",
+  title: "vvault vs Google Drive for Producers | vvault",
   description:
-    "Google Drive stores files. vvault helps you organize, send, track, and follow up on your music. Here is a detailed comparison for producers who want more than storage.",
+    "Google Drive stores files. vvault helps you organize, send, track, and follow up on your beats. Detailed comparison for producers who want more.",
   openGraph: {
-    title: "vvault vs Google Drive for Music Producers — Which One Should You Use?",
+    title: "vvault vs Google Drive for Producers | vvault",
     description:
-      "Google Drive stores files. vvault helps you organize, send, track, and follow up on your music. Here is a detailed comparison for producers who want more than storage.",
+      "Google Drive stores files. vvault helps you organize, send, track, and follow up on your beats. Detailed comparison for producers who want more.",
     url: "https://get.vvault.app/blog/vvault-vs-google-drive-for-producers",
     type: "article",
   },

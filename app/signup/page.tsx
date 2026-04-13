@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { EnSignupPage } from "@/components/landing/EnSignupPage";
 
 export const metadata: Metadata = {
-  title: "vvault | Create a free account",
+  title: "Sign Up Free — Start Selling Beats | vvault",
   description:
-    "Create your free vvault account to send beats with a pro link and track who is really listening.",
+    "Create your free vvault account. Upload beats, send to labels & artists with a pro link, track who listens, and start selling online in minutes.",
   alternates: {
     languages: {
       en: "/signup",

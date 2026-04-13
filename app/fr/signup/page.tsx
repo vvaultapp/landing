@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { FrSignupPage } from "@/components/landing/FrSignupPage";
 
 export const metadata: Metadata = {
-  title: "vvault | Créer un compte gratuit",
+  title: "Inscription Gratuite — Vends tes Beats | vvault",
   description:
-    "Crée ton compte vvault gratuit pour envoyer ta musique avec un lien pro et suivre qui écoute vraiment.",
+    "Crée ton compte vvault gratuit. Envoie tes prods aux labels et artistes, suis les écoutes en temps réel et commence à vendre en quelques minutes.",
   alternates: {
     languages: {
       en: "/",

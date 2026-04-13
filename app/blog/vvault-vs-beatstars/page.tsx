@@ -3,13 +3,13 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "vvault vs BeatStars — Selling Beats vs Sending Beats Professionally",
+  title: "vvault vs BeatStars — Full Comparison | vvault",
   description:
-    "BeatStars is a beat marketplace. vvault is a professional sending and tracking workspace. Here is when to use each — and why most serious producers need both.",
+    "BeatStars is a beat marketplace. vvault is a professional sending and tracking workspace. When to use each — and why serious producers need both.",
   openGraph: {
-    title: "vvault vs BeatStars — Selling Beats vs Sending Beats Professionally",
+    title: "vvault vs BeatStars — Full Comparison | vvault",
     description:
-      "BeatStars is a beat marketplace. vvault is a professional sending and tracking workspace. Here is when to use each — and why most serious producers need both.",
+      "BeatStars is a beat marketplace. vvault is a professional sending and tracking workspace. When to use each — and why serious producers need both.",
     url: "https://get.vvault.app/blog/vvault-vs-beatstars",
     type: "article",
   },

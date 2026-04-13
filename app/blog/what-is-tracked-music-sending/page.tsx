@@ -3,13 +3,13 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "What Is Tracked Music Sending and Why Producers Need It — vvault",
+  title: "What Is Tracked Music Sending? | vvault",
   description:
-    "Tracked music sending replaces blind file sharing with engagement data. Learn what it means, how it works, and why it changes how producers follow up and land placements.",
+    "Tracked sending replaces blind file sharing with engagement data. Learn what it means, how it works, and why it helps producers land more placements.",
   openGraph: {
-    title: "What Is Tracked Music Sending and Why Producers Need It — vvault",
+    title: "What Is Tracked Music Sending? | vvault",
     description:
-      "Tracked music sending replaces blind file sharing with engagement data. Learn what it means, how it works, and why it changes how producers follow up and land placements.",
+      "Tracked sending replaces blind file sharing with engagement data. Learn what it means, how it works, and why it helps producers land more placements.",
     url: "https://get.vvault.app/blog/what-is-tracked-music-sending",
     type: "article",
   },

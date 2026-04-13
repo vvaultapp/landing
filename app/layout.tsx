@@ -4,9 +4,9 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "vvault | The proper way to send your music",
+  title: "vvault — Send, Sell & Track Your Beats",
   description:
-    "Upload, share, track engagement, run campaigns, and sell your music in one vvault workflow.",
+    "The beat selling platform for producers. Upload beats, send to labels & artists, track opens and plays, run campaigns, and sell with instant checkout.",
   icons: {
     icon: "/favicon.png",
     apple: "/apple-touch-icon.png",

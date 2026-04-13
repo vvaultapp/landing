@@ -3,13 +3,13 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "How to Follow Up After Sending Beats — Without Being Annoying",
+  title: "How to Follow Up After Sending Beats | vvault",
   description:
-    "Following up is where placements happen. Learn when to follow up, what to say, and how to use engagement data to time your follow-ups perfectly.",
+    "Follow-ups are where placements happen. Learn when to follow up, what to say, and how to use beat engagement data to time your messages perfectly.",
   openGraph: {
-    title: "How to Follow Up After Sending Beats — Without Being Annoying",
+    title: "How to Follow Up After Sending Beats | vvault",
     description:
-      "Following up is where placements happen. Learn when to follow up, what to say, and how to use engagement data to time your follow-ups perfectly.",
+      "Follow-ups are where placements happen. Learn when to follow up, what to say, and how to use beat engagement data to time your messages perfectly.",
     url: "https://get.vvault.app/blog/how-to-follow-up-after-sending-beats",
     type: "article",
   },

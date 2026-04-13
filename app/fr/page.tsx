@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { LandingPage } from "@/components/landing/LandingPage";
 
 export const metadata: Metadata = {
-  title: "vvault | La bonne façon d'envoyer ta musique",
+  title: "vvault — Envoie, Vends et Suis tes Prods",
+  description:
+    "La plateforme pour beatmakers et producteurs. Envoie tes beats aux labels et artistes, suis les écoutes, lance des campagnes et vends en ligne.",
   alternates: {
     languages: {
       en: "/",

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | vvault",
-  description: "Privacy Policy for vvault.",
+  description: "Read vvault's privacy policy. Learn how we protect your data, beats, and personal information on our beat selling platform for producers.",
 };
 
 const LAST_UPDATED = "February 26, 2026";

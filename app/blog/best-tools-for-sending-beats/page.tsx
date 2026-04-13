@@ -3,13 +3,13 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "Best Tools for Sending Beats to Artists in 2026 — Compared",
+  title: "Best Tools for Sending Beats to Artists | vvault",
   description:
-    "A ranked comparison of the best tools producers use to send beats in 2026, from Google Drive and Dropbox to vvault, BeatStars, email, and more.",
+    "Ranked comparison of the best tools producers use to send beats. Compare Google Drive, Dropbox, vvault, BeatStars, email, and more for beatmakers.",
   openGraph: {
-    title: "Best Tools for Sending Beats to Artists in 2026 — Compared",
+    title: "Best Tools for Sending Beats to Artists | vvault",
     description:
-      "A ranked comparison of the best tools producers use to send beats in 2026, from Google Drive and Dropbox to vvault, BeatStars, email, and more.",
+      "Ranked comparison of the best tools producers use to send beats. Compare Google Drive, Dropbox, vvault, BeatStars, email, and more for beatmakers.",
     url: "https://get.vvault.app/blog/best-tools-for-sending-beats",
     type: "article",
   },

@@ -4,17 +4,15 @@ import { BlogFooter, BottomCta } from "@/components/blog/BlogShell";
 import { LandingNavWrapper } from "@/components/landing/LandingNavWrapper";
 
 export const metadata: Metadata = {
-  title:
-    "vvault for Managers and Labels — Centralize Music, Contacts, and Campaigns",
+  title: "Music Management for Labels & Managers | vvault",
   description:
-    "vvault helps managers and labels organize music across artists and projects, send it professionally to contacts, and track engagement across every campaign.",
+    "Centralize music across artists, send to contacts professionally, run campaigns, and track engagement. The workspace built for managers and labels.",
   alternates: { canonical: "https://get.vvault.app/for/managers-and-labels" },
   openGraph: {
     type: "website",
-    title:
-      "vvault for Managers and Labels — Centralize Music, Contacts, and Campaigns",
+    title: "Music Management for Labels & Managers | vvault",
     description:
-      "vvault helps managers and labels organize music across artists and projects, send it professionally to contacts, and track engagement across every campaign.",
+      "Centralize music across artists, send to contacts professionally, run campaigns, and track engagement. The workspace built for managers and labels.",
     url: "https://get.vvault.app/for/managers-and-labels",
   },
 };

@@ -4,17 +4,15 @@ import { BlogFooter, BottomCta } from "@/components/blog/BlogShell";
 import { LandingNavWrapper } from "@/components/landing/LandingNavWrapper";
 
 export const metadata: Metadata = {
-  title:
-    "vvault for Artists — Organize Releases, Collaborate, and Share Music Professionally",
+  title: "Music Sharing & Collaboration for Artists | vvault",
   description:
-    "vvault helps artists organize releases, collaborate with producers, share music with their team, and track who is engaging with their work.",
+    "Organize releases, collaborate with producers, share music professionally, and track who engages with your work. Built for independent artists.",
   alternates: { canonical: "https://get.vvault.app/for/artists" },
   openGraph: {
     type: "website",
-    title:
-      "vvault for Artists — Organize Releases, Collaborate, and Share Music Professionally",
+    title: "Music Sharing & Collaboration for Artists | vvault",
     description:
-      "vvault helps artists organize releases, collaborate with producers, share music with their team, and track who is engaging with their work.",
+      "Organize releases, collaborate with producers, share music professionally, and track who engages with your work. Built for independent artists.",
     url: "https://get.vvault.app/for/artists",
   },
 };

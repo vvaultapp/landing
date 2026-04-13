@@ -3,13 +3,13 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "How to Track Who Listened to Your Beats After Sending — vvault",
+  title: "Track Who Listened to Your Beats | vvault",
   description:
-    "Stop sending beats blindly. Learn how to track opens, plays, downloads and follow up based on real engagement data using tracked music sending.",
+    "Stop sending beats blindly. Learn how to track opens, plays, and downloads, then follow up based on real engagement data with tracked sending.",
   openGraph: {
-    title: "How to Track Who Listened to Your Beats After Sending — vvault",
+    title: "Track Who Listened to Your Beats | vvault",
     description:
-      "Stop sending beats blindly. Learn how to track opens, plays, downloads and follow up based on real engagement data using tracked music sending.",
+      "Stop sending beats blindly. Learn how to track opens, plays, and downloads, then follow up based on real engagement data with tracked sending.",
     url: "https://get.vvault.app/blog/how-to-track-who-listened-to-your-beats",
     type: "article",
   },

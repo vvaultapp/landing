@@ -84,7 +84,7 @@ function MobileMenu({
             type="button"
             onClick={onClose}
             aria-label="Close menu"
-            className="flex h-10 w-10 items-center justify-center rounded-xl text-white/60 transition-colors hover:text-white"
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current stroke-[1.8]">
               <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
@@ -97,16 +97,16 @@ function MobileMenu({
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
-            className="flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-5 py-3.5 text-[15px] font-semibold text-white transition-colors hover:bg-[#222]"
+            className="flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-5 py-3.5 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-[#222]"
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
           </LandingCtaLink>
 
           <a
             href="https://apps.apple.com/app/id6759256796"
-            className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14px] font-medium transition-colors ${
+            className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14px] font-medium transition-colors duration-200 ${
               isIOS
-                ? "text-white/70 hover:text-white"
+                ? "text-white/70 hover:bg-white/[0.06] hover:text-white"
                 : "pointer-events-none text-white/25"
             }`}
           >
@@ -129,7 +129,7 @@ function MobileMenu({
                   key={item.label}
                   href={item.href}
                   onClick={onClose}
-                  className="flex items-center justify-between border-t border-white/[0.08] py-4 text-[15px] font-medium text-white/60 transition-colors hover:text-white"
+                  className="flex items-center justify-between border-t border-white/[0.08] py-4 text-[15px] font-medium text-white/60 transition-colors duration-200 hover:text-white"
                 >
                   {item.label}
                 </Link>
@@ -141,7 +141,7 @@ function MobileMenu({
                 <button
                   type="button"
                   onClick={() => setExpandedIndex(isExpanded ? null : i)}
-                  className="flex w-full items-center justify-between py-4 text-[15px] font-medium text-white/60 transition-colors hover:text-white"
+                  className="flex w-full items-center justify-between py-4 text-[15px] font-medium text-white/60 transition-colors duration-200 hover:text-white"
                 >
                   {item.label}
                   <svg
@@ -173,7 +173,7 @@ function MobileMenu({
                           key={child.label}
                           href={child.href}
                           {...extraProps}
-                          className="flex items-center gap-2 rounded-lg py-2.5 pl-3 text-[14px] text-white/40 transition-colors hover:text-white/70"
+                          className="flex items-center gap-2 rounded-lg py-2.5 pl-3 text-[14px] text-white/40 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/70"
                         >
                           {child.label}
                           {isExternal && (
@@ -790,7 +790,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
             type="button"
             onClick={() => setMobileMenuOpen(true)}
             aria-label="Open menu"
-            className="flex h-9 w-9 items-center justify-center rounded-xl text-white/60 transition-colors hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
           >
             <svg viewBox="0 0 20 20" className="h-5 w-5 fill-none stroke-current stroke-[1.8]">
               <path d="M3 6h14M3 10h14M3 14h14" strokeLinecap="round" />
