@@ -169,13 +169,9 @@ function useLandingStats() {
     };
 
     void loadStats();
-    const intervalId = setInterval(() => {
-      void loadStats();
-    }, 6000);
 
     return () => {
       active = false;
-      clearInterval(intervalId);
     };
   }, []);
 

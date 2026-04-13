@@ -56,7 +56,7 @@ export function HeroStatementSection({ content }: HeroStatementSectionProps) {
 
     updateActiveVideo();
     slider.addEventListener("scroll", updateActiveVideo, { passive: true });
-    window.addEventListener("resize", updateActiveVideo);
+    window.addEventListener("resize", updateActiveVideo, { passive: true });
 
     return () => {
       slider.removeEventListener("scroll", updateActiveVideo);

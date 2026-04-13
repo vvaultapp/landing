@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
+import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import "./globals.css";
+
+const geist = Geist({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-geist",
+});
 
 export const metadata: Metadata = {
   title: "vvault — Send, Sell & Track Your Beats",
@@ -19,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={`h-full ${geist.variable}`}>
       <head>
         <script
           type="application/ld+json"

@@ -489,7 +489,7 @@ function NavDropdown({
               return (
                 <FeaturedCardWrap key={child.label} href={child.href} external>
                   <div className="relative mx-1.5 mt-1.5 overflow-hidden rounded-lg" style={{ aspectRatio: "16/9" }}>
-                    <img src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`} alt="" className="h-full w-full object-cover" />
+                    <img src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`} alt="" loading="lazy" className="h-full w-full object-cover" />
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black/50 backdrop-blur-sm">
                         <svg viewBox="0 0 16 16" className="ml-0.5 h-3 w-3 fill-white"><path d="M5 3.5l8 4.5-8 4.5V3.5z" /></svg>
@@ -697,7 +697,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
         setOpenIndex(null);
       }
     };
-    document.addEventListener("click", handleClick);
+    document.addEventListener("click", handleClick, { passive: true });
     return () => document.removeEventListener("click", handleClick);
   }, [openIndex]);
 

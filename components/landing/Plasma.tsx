@@ -167,7 +167,7 @@ export function Plasma({
     };
 
     if (mouseInteractive) {
-      containerEl.addEventListener('mousemove', handleMouseMove);
+      containerEl.addEventListener('mousemove', handleMouseMove, { passive: true });
     }
 
     const setSize = () => {
