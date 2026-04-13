@@ -3,6 +3,7 @@ export type LandingNavChild = {
   href: string;
   description?: string;
   external?: boolean;
+  featured?: boolean;
 };
 
 export type LandingNavItem = {
@@ -88,6 +89,7 @@ const landingContentEn = {
       children: [
         { label: "Customer Stories", href: "/testimonials", description: "How producers use vvault" },
         { label: "Video Reviews", href: "/testimonials#videos", description: "Watch real testimonials" },
+        { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.5/5 from real users", featured: true, external: true },
       ],
     },
     {
@@ -99,6 +101,8 @@ const landingContentEn = {
         { label: "Compare", href: "/compare", description: "vvault vs alternatives" },
         { label: "Privacy", href: "/privacy", description: "Privacy policy" },
         { label: "Terms", href: "/terms", description: "Terms of service" },
+        { label: "For Producers", href: "/for/producers", description: "Built for beatmakers", featured: true },
+        { label: "For Labels", href: "/for/managers-and-labels", description: "Team workflows", featured: true },
       ],
     },
     {
@@ -120,6 +124,7 @@ const landingContentEn = {
         { label: "Campaigns", href: "/docs/campaigns" },
         { label: "Sales", href: "/docs/sales" },
         { label: "Plans & Pricing", href: "/docs/plans" },
+        { label: "Watch Demo", href: "https://www.youtube.com/watch?v=m2WPJvKnCzU", description: "See vvault in action", featured: true, external: true },
       ],
     },
     {
@@ -129,6 +134,7 @@ const landingContentEn = {
         { label: "FAQ", href: "/help", description: "Common questions" },
         { label: "Support", href: "https://www.vvault.app/support", description: "Get help", external: true },
         { label: "Discord Community", href: "https://discord.gg/QGGEZR5KhB", description: "Ask the community", external: true },
+        { label: "Join Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Community & support", featured: true, external: true },
       ],
     },
     { label: "Pricing", href: "/pricing" },
@@ -469,13 +475,13 @@ const landingContentFr = {
       children: [
         { label: "Toutes les fonctionnalités", href: "/features", description: "Tout ce que vvault propose" },
         { label: "Bibliothèque", href: "/features/library", description: "Upload, organise et gère" },
-        { label: "Analytics", href: "/features/analytics", description: "Suis ouvertures, écoutes et plus" },
+        { label: "Analytiques", href: "/features/analytics", description: "Suis ouvertures, écoutes et plus" },
         { label: "Campagnes", href: "/features/campaigns", description: "Envoie et planifie tes emails" },
         { label: "Contacts", href: "/features/contacts", description: "CRM et gestion de contacts" },
         { label: "Opportunités", href: "/features/opportunities", description: "Demandes artistes et soumissions" },
         { label: "Ventes", href: "/features/sales", description: "Marketplace et checkout Stripe" },
         { label: "Profil", href: "/features/profile", description: "Page publique et branding" },
-        { label: "Link in Bio", href: "/features/link-in-bio", description: "Un lien pour tout" },
+        { label: "Lien en Bio", href: "/features/link-in-bio", description: "Un lien pour tout" },
         { label: "Studio", href: "/features/studio", description: "Publication vidéo automatique" },
         { label: "Certificat", href: "/certificate", description: "Protège ta musique" },
       ],
@@ -486,6 +492,7 @@ const landingContentFr = {
       children: [
         { label: "Histoires clients", href: "/testimonials", description: "Comment les producteurs utilisent vvault" },
         { label: "Vidéos", href: "/testimonials#videos", description: "Regarde de vrais témoignages" },
+        { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.5/5 par de vrais utilisateurs", featured: true, external: true },
       ],
     },
     {
@@ -497,6 +504,8 @@ const landingContentFr = {
         { label: "Comparer", href: "/compare", description: "vvault vs alternatives" },
         { label: "Confidentialité", href: "/privacy", description: "Politique de confidentialité" },
         { label: "Conditions", href: "/terms", description: "Conditions d'utilisation" },
+        { label: "Pour Producteurs", href: "/for/producers", description: "Conçu pour les beatmakers", featured: true },
+        { label: "Pour Labels", href: "/for/managers-and-labels", description: "Workflows d'équipe", featured: true },
       ],
     },
     {
@@ -518,6 +527,7 @@ const landingContentFr = {
         { label: "Campagnes", href: "/docs/campaigns" },
         { label: "Ventes", href: "/docs/sales" },
         { label: "Plans & Tarifs", href: "/docs/plans" },
+        { label: "Voir la démo", href: "https://www.youtube.com/watch?v=m2WPJvKnCzU", description: "Découvre vvault en action", featured: true, external: true },
       ],
     },
     {
@@ -527,6 +537,7 @@ const landingContentFr = {
         { label: "FAQ", href: "/help", description: "Questions fréquentes" },
         { label: "Support", href: "https://www.vvault.app/support", description: "Obtenir de l'aide", external: true },
         { label: "Communauté Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Demande à la communauté", external: true },
+        { label: "Rejoindre Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Communauté & support", featured: true, external: true },
       ],
     },
     { label: "Tarifs", href: "/pricing" },

@@ -33,8 +33,21 @@ function getNavSections(lang: Lang): NavSection[] {
         { label: fr ? "Opportunités" : "Opportunities", href: "/docs/opportunities" },
         { label: fr ? "Profil" : "Profile", href: "/docs/profile" },
         { label: fr ? "Lien en Bio" : "Link in Bio", href: "/docs/link-in-bio" },
-        { label: "Studio", href: "/docs/studio" },
         { label: fr ? "Certificat" : "Certificate", href: "/docs/certificate" },
+        { label: fr ? "Sessions d'écriture" : "Writing Sessions", href: "/docs/writing-sessions" },
+        { label: fr ? "Équipes" : "Teams", href: "/docs/teams" },
+        { label: fr ? "Lecteur audio" : "Audio Player", href: "/docs/audio-player" },
+        { label: fr ? "Lecteur embarqué" : "Embed Player", href: "/docs/embed-player" },
+        { label: fr ? "Application bureau" : "Desktop App", href: "/docs/desktop-app" },
+        { label: fr ? "Liens d'accès" : "Access Links", href: "/docs/access-links" },
+        { label: fr ? "Liens de partage" : "Share Links", href: "/docs/share-links" },
+      ],
+    },
+    {
+      title: "vvault Studio",
+      items: [
+        { label: fr ? "Vue d'ensemble" : "Overview", href: "/docs/studio" },
+        { label: "WaveMatch", href: "/docs/wavematch" },
       ],
     },
     {
@@ -116,12 +129,65 @@ const SEARCH_INDEX: SearchEntry[] = [
   { title: "Overview", titleFr: "Aperçu", section: "Link in Bio", sectionFr: "Lien en Bio", href: "/docs/link-in-bio#overview", keywords: ["overview", "about", "aperçu", "à propos"] },
   { title: "What's included", titleFr: "Ce qui est inclus", section: "Link in Bio", sectionFr: "Lien en Bio", href: "/docs/link-in-bio#included", keywords: ["included", "features", "what", "inclus", "fonctionnalités"] },
   // Studio
-  { title: "Studio", titleFr: "Studio", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/studio", keywords: ["studio", "video", "content", "create", "vidéo", "contenu", "créer"] },
+  { title: "Studio", titleFr: "Studio", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/studio", keywords: ["studio", "video", "content", "create", "automated", "publishing", "vidéo", "contenu", "créer", "automatique"] },
+  { title: "Automated publishing", titleFr: "Publication automatique", section: "Studio", sectionFr: "Studio", href: "/docs/studio#automated-publishing", keywords: ["automated", "publishing", "auto", "post", "social", "publication", "automatique"] },
   { title: "Video specs", titleFr: "Spécifications vidéo", section: "Studio", sectionFr: "Studio", href: "/docs/studio#specs", keywords: ["video", "specs", "specifications", "format", "resolution", "vidéo", "spécifications", "résolution"] },
+  { title: "Templates", titleFr: "Templates", section: "Studio", sectionFr: "Studio", href: "/docs/studio#templates", keywords: ["templates", "tokens", "dynamic", "name", "bpm", "key", "link", "description", "title"] },
+  { title: "Scheduling", titleFr: "Programmation", section: "Studio", sectionFr: "Studio", href: "/docs/studio#scheduling", keywords: ["scheduling", "interval", "timezone", "queue", "programmation", "intervalle", "fuseau"] },
   { title: "Availability", titleFr: "Disponibilité", section: "Studio", sectionFr: "Studio", href: "/docs/studio#availability", keywords: ["availability", "available", "access", "disponibilité", "disponible", "accès"] },
+  // WaveMatch
+  { title: "WaveMatch", titleFr: "WaveMatch", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/wavematch", keywords: ["wavematch", "content id", "identification", "beat matching", "find who used my beat", "beat stolen", "content identification", "unauthorized use"] },
+  { title: "Upload methods", titleFr: "Méthodes d'upload", section: "WaveMatch", sectionFr: "WaveMatch", href: "/docs/wavematch#upload-methods", keywords: ["upload", "scan", "local", "storage", "autoscan", "file", "fichier"] },
+  { title: "Results & history", titleFr: "Résultats & historique", section: "WaveMatch", sectionFr: "WaveMatch", href: "/docs/wavematch#results", keywords: ["results", "history", "matches", "platform", "résultats", "historique", "correspondances"] },
+  { title: "Use cases", titleFr: "Cas d'utilisation", section: "WaveMatch", sectionFr: "WaveMatch", href: "/docs/wavematch#use-cases", keywords: ["use cases", "royalties", "content id", "unauthorized", "placements", "cas", "utilisation"] },
   // Certificate
   { title: "Certificate", titleFr: "Certificat", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/certificate", keywords: ["certificate", "verification", "proof", "authenticity", "certificat", "vérification", "preuve", "authenticité"] },
   { title: "Protection", titleFr: "Protection", section: "Certificate", sectionFr: "Certificat", href: "/docs/certificate#protection", keywords: ["protection", "copyright", "ownership", "droits", "propriété"] },
+  // Writing Sessions
+  { title: "Writing Sessions", titleFr: "Sessions d'écriture", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/writing-sessions", keywords: ["writing sessions", "collaborative beat making", "producer collaboration tool", "music writing session", "beat battle platform", "split sheet management", "producer credits", "sessions", "écriture", "collaboration"] },
+  { title: "Session dashboard", titleFr: "Tableau de bord de session", section: "Writing Sessions", sectionFr: "Sessions d'écriture", href: "/docs/writing-sessions#session-dashboard", keywords: ["dashboard", "tracks", "participants", "activity", "tableau de bord", "morceaux", "participants", "activité"] },
+  { title: "Voting & tagging", titleFr: "Votes et tags", section: "Writing Sessions", sectionFr: "Sessions d'écriture", href: "/docs/writing-sessions#voting-system", keywords: ["voting", "tagging", "upvote", "reactions", "keeper", "maybe", "scratch", "votes", "tags"] },
+  { title: "Split management", titleFr: "Gestion des splits", section: "Writing Sessions", sectionFr: "Sessions d'écriture", href: "/docs/writing-sessions#splits", keywords: ["splits", "royalty", "credits", "contributor", "shares", "royalties", "crédits", "contributeur"] },
+  { title: "Use cases", titleFr: "Cas d'utilisation", section: "Writing Sessions", sectionFr: "Sessions d'écriture", href: "/docs/writing-sessions#use-cases", keywords: ["beat battle", "collaborative pack", "A&R review", "team production", "cas", "utilisation"] },
+  // Teams
+  { title: "Teams", titleFr: "Équipes", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/teams", keywords: ["teams", "producer team management", "music production team", "collaborative workspace producers", "shared beat library", "équipes", "collectif", "label"] },
+  { title: "Creating a team", titleFr: "Créer une équipe", section: "Teams", sectionFr: "Équipes", href: "/docs/teams#creating-teams", keywords: ["create", "team", "name", "avatar", "banner", "créer", "équipe"] },
+  { title: "Inviting members", titleFr: "Inviter des membres", section: "Teams", sectionFr: "Équipes", href: "/docs/teams#inviting-members", keywords: ["invite", "members", "join", "link", "token", "role", "inviter", "membres", "lien", "rôle"] },
+  { title: "Team profile", titleFr: "Profil d'équipe", section: "Teams", sectionFr: "Équipes", href: "/docs/teams#team-profile", keywords: ["team profile", "branding", "public", "shared workspace", "profil", "équipe"] },
+  { title: "Use cases", titleFr: "Cas d'utilisation", section: "Teams", sectionFr: "Équipes", href: "/docs/teams#use-cases", keywords: ["collective", "label", "beat-selling", "group", "collectif", "groupe"] },
+  // Access Links
+  { title: "Access Links", titleFr: "Liens d'accès", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/access-links", keywords: ["access links", "secure beat sharing", "private music sharing link", "beat pack access control", "share beats securely", "liens", "accès", "partage", "sécurisé"] },
+  { title: "Permission tiers", titleFr: "Niveaux de permissions", section: "Access Links", sectionFr: "Liens d'accès", href: "/docs/access-links#permission-tiers", keywords: ["permission", "tiers", "viewer", "commenter", "editor", "niveaux", "permissions", "lecteur", "éditeur"] },
+  { title: "Audience modes", titleFr: "Modes d'audience", section: "Access Links", sectionFr: "Liens d'accès", href: "/docs/access-links#audience-modes", keywords: ["audience", "anyone", "invites only", "revoke", "regenerate", "public", "privé", "invitation"] },
+  { title: "Access requests", titleFr: "Demandes d'accès", section: "Access Links", sectionFr: "Liens d'accès", href: "/docs/access-links#access-requests", keywords: ["access request", "approve", "deny", "notification", "demande", "accès", "approuver", "refuser"] },
+  // Audio Player
+  { title: "Audio Player", titleFr: "Lecteur audio", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/audio-player", keywords: ["audio player", "player", "playback", "waveform", "queue", "beat player", "music player", "lecteur", "audio", "lecture"] },
+  { title: "Playback modes", titleFr: "Modes de lecture", section: "Audio Player", sectionFr: "Lecteur audio", href: "/docs/audio-player#playback-modes", keywords: ["playback", "repeat", "shuffle", "loop", "lecture", "aléatoire", "boucle"] },
+  { title: "Audio quality", titleFr: "Qualité audio", section: "Audio Player", sectionFr: "Lecteur audio", href: "/docs/audio-player#audio-quality", keywords: ["quality", "ultra", "compressed", "lossless", "qualité", "compressé"] },
+  { title: "Queue management", titleFr: "Gestion de la file", section: "Audio Player", sectionFr: "Lecteur audio", href: "/docs/audio-player#queue", keywords: ["queue", "next", "previous", "pack", "file", "suivant", "précédent"] },
+  // Embed Player
+  { title: "Embed Player", titleFr: "Lecteur embarqué", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/embed-player", keywords: ["embed", "player", "widget", "website", "portfolio", "iframe", "embarqué", "site web", "embed beat player on website", "music embed player"] },
+  { title: "Track embed", titleFr: "Embed de track", section: "Embed Player", sectionFr: "Lecteur embarqué", href: "/docs/embed-player#track-embed", keywords: ["track", "single", "embed", "waveform"] },
+  { title: "Pack embed", titleFr: "Embed de pack", section: "Embed Player", sectionFr: "Lecteur embarqué", href: "/docs/embed-player#pack-embed", keywords: ["pack", "multi", "tracklist", "album"] },
+  { title: "Embed tracking", titleFr: "Suivi des embeds", section: "Embed Player", sectionFr: "Lecteur embarqué", href: "/docs/embed-player#tracking", keywords: ["tracking", "analytics", "plays", "embed source", "suivi"] },
+  // Desktop App
+  { title: "Desktop App", titleFr: "Application bureau", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/desktop-app", keywords: ["desktop", "app", "native", "macos", "windows", "electron", "offline", "sync", "application", "bureau", "producer desktop app"] },
+  { title: "File sync", titleFr: "Synchronisation de fichiers", section: "Desktop App", sectionFr: "Application bureau", href: "/docs/desktop-app#file-sync", keywords: ["sync", "folder", "upload", "local", "synchronisation", "dossier"] },
+  { title: "Native notifications", titleFr: "Notifications natives", section: "Desktop App", sectionFr: "Application bureau", href: "/docs/desktop-app#notifications", keywords: ["notifications", "alerts", "native", "os", "alertes"] },
+  { title: "Download desktop app", titleFr: "Télécharger l'application", section: "Desktop App", sectionFr: "Application bureau", href: "/docs/desktop-app#download", keywords: ["download", "install", "macos", "windows", "télécharger", "installer"] },
+  // Share Links
+  { title: "Share Links", titleFr: "Liens de partage", section: "Features", sectionFr: "Fonctionnalités", href: "/docs/share-links", keywords: ["share", "links", "download", "pack", "track", "send beats", "share beat pack link", "tracked music sharing", "partage", "liens", "télécharger"] },
+  { title: "Share pages", titleFr: "Pages de partage", section: "Share Links", sectionFr: "Liens de partage", href: "/docs/share-links#share-pages", keywords: ["share page", "preview", "tracklist", "cover", "page", "partage"] },
+  { title: "Downloads", titleFr: "Téléchargements", section: "Share Links", sectionFr: "Liens de partage", href: "/docs/share-links#downloads", keywords: ["download", "zip", "password", "rate limit", "téléchargement"] },
+  { title: "Short links", titleFr: "Liens courts", section: "Share Links", sectionFr: "Liens de partage", href: "/docs/share-links#short-links", keywords: ["short", "link", "slug", "social media", "court", "lien"] },
+  // Smart Segments (in Contacts)
+  { title: "Smart Segments", titleFr: "Segments intelligents", section: "Contacts", sectionFr: "Contacts", href: "/docs/contacts#smart-segments", keywords: ["smart segments", "segmentation", "rules", "AND/OR", "hot leads", "warm leads", "cold leads", "audience", "segments", "intelligents", "règles"] },
+  // Email Sequences (in Campaigns)
+  { title: "Email Sequences", titleFr: "Séquences email", section: "Campaigns", sectionFr: "Campagnes", href: "/docs/campaigns#email-sequences", keywords: ["email sequences", "drip", "automation", "multi-step", "automated campaign", "séquences", "email", "automatisation"] },
+  // Placements (in Profile)
+  { title: "Placements & Credits", titleFr: "Placements & crédits", section: "Profile", sectionFr: "Profil", href: "/docs/profile#placements", keywords: ["placements", "credits", "production credits", "spotify", "youtube", "apple music", "verified", "crédits", "production"] },
+  // Marketplace Checkout (in Sales)
+  { title: "Checkout details", titleFr: "Détails du checkout", section: "Sales", sectionFr: "Ventes", href: "/docs/sales#checkout-details", keywords: ["checkout", "license", "PDF", "mp3 lease", "wav lease", "stems", "exclusive", "paiement", "licence"] },
   // Plans
   { title: "Plans & Pricing", titleFr: "Plans & Tarifs", section: "Account", sectionFr: "Compte", href: "/docs/plans", keywords: ["plans", "pricing", "subscription", "cost", "free", "pro", "ultra", "tarifs", "abonnement", "coût", "gratuit"] },
   { title: "Free plan", titleFr: "Plan Free", section: "Plans", sectionFr: "Plans", href: "/docs/plans#free", keywords: ["free", "plan", "starter", "basic", "gratuit"] },
@@ -152,7 +218,17 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     Profile: "Profile",
     "Link in Bio": "Link in Bio",
     Studio: "Studio",
+    WaveMatch: "WaveMatch",
     Certificate: "Certificate",
+    "Writing Sessions": "Writing Sessions",
+    Teams: "Teams",
+    "Audio Player": "Audio Player",
+    "Embed Player": "Embed Player",
+    "Desktop App": "Desktop App",
+    "Access Links": "Access Links",
+    "Share Links": "Share Links",
+    Overview: "Overview",
+    "vvault Studio": "vvault Studio",
     "Plans & Pricing": "Plans & Pricing",
     "Search docs...": "Search docs...",
     "On this page": "On this page",
@@ -180,7 +256,17 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     Profile: "Profil",
     "Link in Bio": "Lien en Bio",
     Studio: "Studio",
+    WaveMatch: "WaveMatch",
     Certificate: "Certificat",
+    "Writing Sessions": "Sessions d'écriture",
+    Teams: "Équipes",
+    "Audio Player": "Lecteur audio",
+    "Embed Player": "Lecteur embarqué",
+    "Desktop App": "Application bureau",
+    "Access Links": "Liens d'accès",
+    "Share Links": "Liens de partage",
+    Overview: "Vue d'ensemble",
+    "vvault Studio": "vvault Studio",
     "Plans & Pricing": "Plans & Tarifs",
     "Search docs...": "Rechercher...",
     "On this page": "Sur cette page",
@@ -593,6 +679,7 @@ function LinksMenu() {
 export default function DocsLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const mainRef = useRef<HTMLElement>(null);
+  const sidebarScrollRef = useRef<HTMLDivElement>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [logoHovered, setLogoHovered] = useState(false);
   const [lang, setLang] = useState<Lang>("en");
@@ -656,6 +743,23 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
+
+  /* Sidebar scroll indicator — show on scroll, auto-hide after 1s */
+  useEffect(() => {
+    const el = sidebarScrollRef.current;
+    if (!el) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      el.classList.add("is-scrolling");
+      clearTimeout(timer);
+      timer = setTimeout(() => el.classList.remove("is-scrolling"), 1000);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      clearTimeout(timer);
+    };
+  }, []);
 
   const closeMobile = useCallback(() => setMobileOpen(false), []);
 
@@ -749,7 +853,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           }`}
         >
           {/* Scrollable nav content — native scroll with visible indicator */}
-          <div className="docs-sidebar-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pl-[18px] pr-2 pb-4 pt-5">
+          <div ref={sidebarScrollRef} className="docs-sidebar-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pl-[18px] pr-2 pb-4 pt-5">
             {/* Search bar in sidebar */}
             <div className="mb-5">
               <SearchBar lang={lang} />

@@ -67,27 +67,38 @@ html {
   display: none;                  /* Chrome/Safari */
 }
 
-/* Mobile sidebar — use dvh for iOS Safari, visible scrollbar */
+/* Sidebar scroll indicator — hidden by default, shown while scrolling */
+.docs-sidebar-scroll {
+  scrollbar-width: none;
+}
+.docs-sidebar-scroll::-webkit-scrollbar {
+  width: 4px;
+  background: transparent;
+}
+.docs-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.docs-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+.docs-sidebar-scroll.is-scrolling {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.12) transparent;
+}
+.docs-sidebar-scroll.is-scrolling::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* Mobile sidebar — use dvh for iOS Safari */
 @media (max-width: 1023px) {
   .docs-mobile-sidebar {
     height: calc(100vh - 3.5rem);
     height: calc(100dvh - 3.5rem);
   }
-  .docs-root aside .docs-sidebar-scroll {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+  .docs-sidebar-scroll {
     -webkit-overflow-scrolling: touch;
-  }
-  .docs-root aside .docs-sidebar-scroll::-webkit-scrollbar {
-    width: 4px;
-    display: block;
-  }
-  .docs-root aside .docs-sidebar-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .docs-root aside .docs-sidebar-scroll::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.15);
-    border-radius: 2px;
   }
 }
 

@@ -237,6 +237,8 @@ const DROPDOWN_ICONS: Record<string, React.ReactNode> = {
   "Ventes": _ICON_SALES,
   "Profil": _ICON_PROFILE,
   "Certificat": _ICON_CERTIFICATE,
+  "Analytiques": _ICON_ANALYTICS,
+  "Lien en Bio": _ICON_LINK_IN_BIO,
 };
 
 function useIsMac() {
@@ -344,9 +346,10 @@ function NavDropdown({
           style={{
             background: "#000",
             opacity: open ? 1 : 0,
-            transform: open ? "translateY(0)" : "translateY(-4px)",
+            filter: open ? "blur(0px)" : "blur(6px)",
+            transform: open ? "translateY(0) scale(1)" : "translateY(-8px) scale(0.98)",
             transition:
-              "opacity 0.15s ease, transform 0.15s ease",
+              "opacity 0.25s cubic-bezier(0.16,1,0.3,1), filter 0.25s cubic-bezier(0.16,1,0.3,1), transform 0.25s cubic-bezier(0.16,1,0.3,1)",
           }}
         >
           {/* Border overlay with fade mask — same as GlowCard */}
@@ -377,16 +380,14 @@ function NavDropdown({
                 "radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%)",
             }}
           />
-          <div
-            className="p-2"
-            style={{
-              display: "grid",
-              gridTemplateColumns: children!.length > 6 ? "1fr 1fr" : "1fr",
-              minWidth: children!.length > 6 ? "420px" : "220px",
-              gap: "0px",
-            }}
-          >
-            {children!.map((child) => {
+          {(() => {
+            const isFeatures = item.label === "Features" || item.label === "Fonctionnalités";
+            const studioChild = isFeatures ? children!.find((c) => c.label === "Studio") : null;
+            const featuredChildren = children!.filter((c) => c.featured);
+            const regularChildren = children!.filter((c) => !c.featured && c !== studioChild);
+            const hasFeaturedPanel = studioChild || featuredChildren.length > 0;
+
+            const renderChild = (child: typeof children extends (infer U)[] | undefined ? U : never) => {
               const isExternal = child.external || child.href.startsWith("http://") || child.href.startsWith("https://") || child.href.startsWith("mailto:");
               const Tag = isExternal ? "a" : Link;
               const extraProps = isExternal
@@ -395,37 +396,23 @@ function NavDropdown({
                     rel: child.href.startsWith("mailto:") ? undefined : "noreferrer",
                   }
                 : {};
-              const icon = item.label === "Docs" ? null : DROPDOWN_ICONS[child.label];
-              const isStudioImage = icon === ("studio-image" as unknown);
+              const icon = (item.label === "Docs" || item.label === "Help" || item.label === "Aide") ? null : DROPDOWN_ICONS[child.label];
               return (
                 <Tag
                   key={child.label}
                   href={child.href}
                   {...extraProps}
-                  className="flex items-center gap-2 rounded-xl px-3 py-2 transition-colors duration-150 hover:bg-white/[0.06]"
+                  className="flex h-9 items-center gap-2 rounded-xl px-3 transition-colors duration-150 hover:bg-white/[0.06]"
+                  style={{ contain: "layout" }}
                 >
-                  {isStudioImage ? (
-                    <span
-                      className="h-4 w-4 shrink-0"
-                      style={{
-                        WebkitMaskImage: "url('/vvault-studio-logo.png')",
-                        maskImage: "url('/vvault-studio-logo.png')",
-                        WebkitMaskSize: "contain",
-                        maskSize: "contain",
-                        WebkitMaskRepeat: "no-repeat",
-                        maskRepeat: "no-repeat",
-                        WebkitMaskPosition: "center",
-                        maskPosition: "center",
-                        backgroundColor: "#666",
-                        display: "inline-block",
-                      }}
-                    />
-                  ) : icon ? (
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 fill-none stroke-[1.5]" style={{ color: "#666", stroke: "#666" }}>
-                      {icon}
-                    </svg>
+                  {icon ? (
+                    <div className="flex h-4 w-4 shrink-0 items-center justify-center" style={{ transform: "translateZ(0)" }}>
+                      <svg viewBox="0 0 24 24" className="block h-4 w-4 fill-none stroke-[1.5]" style={{ color: "#666", stroke: "#666" }}>
+                        {icon}
+                      </svg>
+                    </div>
                   ) : null}
-                  <span className="text-[13px] font-medium text-white/75">
+                  <span className="text-[13px] font-medium leading-none text-white/75 whitespace-nowrap">
                     {child.label}
                     {child.external && (
                       <svg
@@ -438,8 +425,246 @@ function NavDropdown({
                   </span>
                 </Tag>
               );
-            })}
-          </div>
+            };
+
+            /* ── Featured card wrapper — gradient border via background trick ── */
+            const FeaturedCardWrap = ({ children: cardChildren, href, external, className = "" }: { children: React.ReactNode; href: string; external?: boolean; className?: string }) => {
+              const isExt = external || href.startsWith("http://") || href.startsWith("https://");
+              const Tag = isExt ? "a" : Link;
+              const extraProps = isExt ? { target: "_blank" as const, rel: "noreferrer" } : {};
+              return (
+                <Tag href={href} {...extraProps} className={`group relative flex flex-1 flex-col rounded-[14px] p-px ${className}`}
+                  style={{
+                    background: "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.01) 100%)",
+                  }}
+                >
+                  {/* Inner fill */}
+                  <div className="relative flex h-full flex-1 flex-col overflow-hidden rounded-[13px] transition-colors duration-300"
+                    style={{ background: "linear-gradient(180deg, #0e0e0e 0%, #090909 100%)" }}
+                  >
+                    {/* Hover glow — soft radial from top */}
+                    <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      style={{ background: "radial-gradient(ellipse 90% 50% at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 70%)" }}
+                    />
+                    {/* Content */}
+                    <div className="relative z-10 flex h-full flex-1 flex-col">{cardChildren}</div>
+                  </div>
+                </Tag>
+              );
+            };
+
+            /* ── Trustpilot star card (testimonials) ── */
+            const isTrustpilotCard = (child: { label: string }) => child.label === "Trustpilot";
+
+            const renderTrustpilotCard = (child: typeof children extends (infer U)[] | undefined ? U : never) => (
+              <FeaturedCardWrap key={child.label} href={child.href} external={child.external}>
+                <div className="flex flex-1 flex-col items-center justify-center gap-2.5 px-3 py-4">
+                  {/* Trustpilot logo */}
+                  <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none">
+                    <path d="M12 2l2.09 6.26h6.6l-5.34 3.87 2.04 6.28L12 14.56l-5.39 3.85 2.04-6.28L3.31 8.26h6.6L12 2z" fill="#00b67a" />
+                  </svg>
+                  {/* Stars */}
+                  <div className="flex gap-0.5">
+                    {[1,2,3,4].map((i) => (
+                      <div key={i} className="flex h-[14px] w-[14px] items-center justify-center rounded-[2px] bg-[#00b67a]">
+                        <svg viewBox="0 0 12 12" className="h-[9px] w-[9px] fill-white"><path d="M6 1l1.25 3.75h3.94l-3.19 2.32 1.22 3.75L6 8.5 2.78 10.82 4 7.07.81 4.75h3.94L6 1z" /></svg>
+                      </div>
+                    ))}
+                    <div className="relative flex h-[14px] w-[14px] items-center justify-center overflow-hidden rounded-[2px] bg-[#dcdce6]">
+                      <div className="absolute inset-y-0 left-0 w-1/2 bg-[#00b67a]" />
+                      <svg viewBox="0 0 12 12" className="relative z-10 h-[9px] w-[9px] fill-white"><path d="M6 1l1.25 3.75h3.94l-3.19 2.32 1.22 3.75L6 8.5 2.78 10.82 4 7.07.81 4.75h3.94L6 1z" /></svg>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <span className="block text-[13px] font-semibold text-white/85">4.5 / 5</span>
+                    <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>
+                  </div>
+                </div>
+              </FeaturedCardWrap>
+            );
+
+            /* ── Video card (YouTube thumbnail) ── */
+            const renderVideoCard = (child: typeof children extends (infer U)[] | undefined ? U : never) => {
+              const videoId = child.href.match(/(?:embed\/|v=|youtu\.be\/)([^?&/]+)/)?.[1] || "";
+              return (
+                <FeaturedCardWrap key={child.label} href={child.href} external>
+                  <div className="relative mx-1.5 mt-1.5 overflow-hidden rounded-lg" style={{ aspectRatio: "16/9" }}>
+                    <img src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`} alt="" className="h-full w-full object-cover" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black/50 backdrop-blur-sm">
+                        <svg viewBox="0 0 16 16" className="ml-0.5 h-3 w-3 fill-white"><path d="M5 3.5l8 4.5-8 4.5V3.5z" /></svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="px-3 py-2 text-center">
+                    <span className="text-[12px] font-medium text-white/80">{child.label}</span>
+                    {child.description && <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>}
+                  </div>
+                </FeaturedCardWrap>
+              );
+            };
+
+            /* ── Discord card ── */
+            const isDiscordCard = (child: { href: string }) => child.href.includes("discord.gg");
+            const renderDiscordCard = (child: typeof children extends (infer U)[] | undefined ? U : never) => (
+              <FeaturedCardWrap key={child.label} href={child.href} external>
+                <div className="flex flex-1 flex-col items-center justify-center gap-2.5 px-3 py-4">
+                  {/* Discord icon */}
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl" style={{ background: "linear-gradient(135deg, #5865F2 0%, #4752c4 100%)" }}>
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 fill-white">
+                      <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.227-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                    </svg>
+                  </div>
+                  <div className="text-center">
+                    <span className="block text-[13px] font-semibold text-white/85">{child.label}</span>
+                    <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>
+                  </div>
+                </div>
+              </FeaturedCardWrap>
+            );
+
+            /* ── "For X" audience cards with icons ── */
+            /* Headphones icon for producers, users icon for labels */
+            /* Filled icons — no stroke overlap artifacts */
+            const _producerIcon = (
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                <path d="M12 1a11 11 0 0 0-11 11v7a3 3 0 0 0 3 3h1a3 3 0 0 0 3-3v-3a3 3 0 0 0-3-3H3.06A9 9 0 0 1 21 12h-.06a3 3 0 0 0-2.94 3v3a3 3 0 0 0 3 3h-2a1 1 0 0 1 0-2h1a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h2v1a3 3 0 0 1-3 3h-2" opacity="0" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M12 2.75A9.25 9.25 0 0 0 2.75 12v2.25H5a2.25 2.25 0 0 1 2.25 2.25v3A2.25 2.25 0 0 1 5 21.75H4A2.25 2.25 0 0 1 1.75 19.5V12a10.25 10.25 0 0 1 20.5 0v7.5A2.25 2.25 0 0 1 20 21.75h-1a2.25 2.25 0 0 1-2.25-2.25v-3A2.25 2.25 0 0 1 19 14.25h2.25V12A9.25 9.25 0 0 0 12 2.75zM3.25 15.75V19.5a.75.75 0 0 0 .75.75h1a.75.75 0 0 0 .75-.75v-3a.75.75 0 0 0-.75-.75H3.25zm17.5 0H19a.75.75 0 0 0-.75.75v3c0 .414.336.75.75.75h1a.75.75 0 0 0 .75-.75V15.75z" />
+              </svg>
+            );
+            const _labelsIcon = (
+              <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+                <path fillRule="evenodd" clipRule="evenodd" d="M3.75 5A1.25 1.25 0 0 1 5 3.75h14A1.25 1.25 0 0 1 20.25 5v14A1.25 1.25 0 0 1 19 20.25H5A1.25 1.25 0 0 1 3.75 19V5ZM5 2.25A2.75 2.75 0 0 0 2.25 5v14A2.75 2.75 0 0 0 5 21.75h14A2.75 2.75 0 0 0 21.75 19V5A2.75 2.75 0 0 0 19 2.25H5ZM7.25 7a.75.75 0 0 1 .75-.75h8a.75.75 0 0 1 0 1.5H8A.75.75 0 0 1 7.25 7Zm0 4a.75.75 0 0 1 .75-.75h8a.75.75 0 0 1 0 1.5H8a.75.75 0 0 1-.75-.75Zm0 4a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5H8a.75.75 0 0 1-.75-.75Z" />
+              </svg>
+            );
+            const audienceIcons: Record<string, React.ReactNode> = {
+              "For Producers": _producerIcon,
+              "Pour Producteurs": _producerIcon,
+              "Pour les producteurs": _producerIcon,
+              "For Labels": _labelsIcon,
+              "Pour Labels": _labelsIcon,
+              "Pour les labels": _labelsIcon,
+            };
+            const isAudienceCard = (child: { label: string }) => child.label in audienceIcons;
+            const renderAudienceCard = (child: typeof children extends (infer U)[] | undefined ? U : never) => (
+              <FeaturedCardWrap key={child.label} href={child.href} external={child.external}>
+                <div className="flex flex-1 items-center gap-3 px-3.5 py-3.5">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white/50" style={{ background: "rgba(255,255,255,0.06)" }}>
+                    {audienceIcons[child.label]}
+                  </div>
+                  <div>
+                    <span className="block text-[13px] font-semibold text-white/85">{child.label}</span>
+                    {child.description && <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>}
+                  </div>
+                </div>
+              </FeaturedCardWrap>
+            );
+
+            /* ── Generic featured card (fallback) ── */
+            const renderGenericFeaturedCard = (child: typeof children extends (infer U)[] | undefined ? U : never) => {
+              return (
+                <FeaturedCardWrap key={child.label} href={child.href} external={child.external} className="items-center justify-center">
+                  <div className="flex flex-1 flex-col items-center justify-center gap-1 px-3 py-4">
+                    <span className="text-[13px] font-medium text-white/80">{child.label}</span>
+                    {child.description && <span className="text-[11px] text-white/35">{child.description}</span>}
+                  </div>
+                </FeaturedCardWrap>
+              );
+            };
+
+            const renderFeaturedCard = (child: typeof children extends (infer U)[] | undefined ? U : never) => {
+              if (isTrustpilotCard(child)) return renderTrustpilotCard(child);
+              if (isDiscordCard(child)) return renderDiscordCard(child);
+              if (isAudienceCard(child)) return renderAudienceCard(child);
+              if (child.href.startsWith("https://www.youtube.com/")) return renderVideoCard(child);
+              return renderGenericFeaturedCard(child);
+            };
+
+            if (hasFeaturedPanel) {
+              const hasVideoCard = featuredChildren.some((c) => c.href.includes("youtube.com"));
+              const featuredPanelWidth = studioChild ? "w-[180px]" : hasVideoCard ? "w-[200px]" : featuredChildren.length > 1 ? "w-[220px]" : "w-[180px]";
+              return (
+                <div className="flex" style={{ minWidth: hasFeaturedPanel ? (regularChildren.length > 5 ? "520px" : "380px") : undefined }}>
+                  {/* Regular links — left side */}
+                  <div
+                    className="flex-1 p-2"
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: regularChildren.length > 5 ? "1fr 1fr" : "1fr",
+                      gap: "0px",
+                      alignContent: "start",
+                    }}
+                  >
+                    {regularChildren.map((child) => renderChild(child))}
+                  </div>
+                  {/* Featured cards — right side */}
+                  <div className={`flex ${featuredPanelWidth} shrink-0 flex-col gap-2 p-2`}>
+                    {studioChild && (
+                      <FeaturedCardWrap href={studioChild.href}>
+                        <div className="flex flex-1 flex-col items-center justify-center gap-3 px-3 py-4">
+                        {/* Mini emblem */}
+                        <div
+                          className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[14px]"
+                          style={{
+                            background: "linear-gradient(160deg, rgba(30,30,35,0.6) 0%, rgba(8,8,10,0.95) 35%, rgba(0,0,0,1) 100%)",
+                            boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.07), inset 0 -1px 0 0 rgba(0,0,0,0.4), 0 4px 16px -3px rgba(0,0,0,0.5)",
+                            border: "0.5px solid rgba(255,255,255,0.08)",
+                          }}
+                        >
+                          <div
+                            className="pointer-events-none absolute inset-0 opacity-[0.03]"
+                            style={{
+                              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+                            }}
+                          />
+                          <div
+                            className="pointer-events-none absolute inset-x-[15%] top-0 h-px"
+                            style={{
+                              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.1) 70%, transparent 100%)",
+                            }}
+                          />
+                          <div
+                            className="relative z-10 h-9 w-9"
+                            style={{
+                              WebkitMaskImage: "url('/vvault-studio-logo.png')",
+                              maskImage: "url('/vvault-studio-logo.png')",
+                              WebkitMaskSize: "contain",
+                              maskSize: "contain",
+                              WebkitMaskRepeat: "no-repeat",
+                              maskRepeat: "no-repeat",
+                              WebkitMaskPosition: "center",
+                              maskPosition: "center",
+                              background: "linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(215,220,235,0.65) 18%, rgba(6,182,212,0.4) 72%, rgba(6,182,212,0.6) 100%)",
+                            }}
+                          />
+                        </div>
+                        <div className="text-center">
+                          <span className="block text-[13px] font-semibold text-white/85">vvault Studio</span>
+                          <span className="mt-0.5 block text-[11px] text-white/40">{studioChild.description || "Automated video posting"}</span>
+                        </div>
+                        </div>
+                      </FeaturedCardWrap>
+                    )}
+                    {featuredChildren.map((child) => renderFeaturedCard(child))}
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <div
+                className="p-2"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: children!.length > 6 ? "1fr 1fr" : "1fr",
+                  minWidth: children!.length > 6 ? "420px" : "220px",
+                  gap: "0px",
+                }}
+              >
+                {children!.map((child) => renderChild(child))}
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
