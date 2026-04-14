@@ -346,10 +346,10 @@ function NavDropdown({
           style={{
             background: "#000",
             opacity: open ? 1 : 0,
-            filter: open ? "blur(0px)" : "blur(6px)",
-            transform: open ? "translateY(0) scale(1)" : "translateY(-8px) scale(0.98)",
+            transform: open ? "translateY(0) translateZ(0)" : "translateY(-4px) translateZ(0)",
             transition:
-              "opacity 0.25s cubic-bezier(0.16,1,0.3,1), filter 0.25s cubic-bezier(0.16,1,0.3,1), transform 0.25s cubic-bezier(0.16,1,0.3,1)",
+              "opacity 0.18s ease-out, transform 0.18s ease-out",
+            willChange: "opacity, transform",
           }}
         >
           {/* Border overlay with fade mask — same as GlowCard */}

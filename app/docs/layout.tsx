@@ -490,20 +490,45 @@ function TableOfContents({ lang }: { lang: Lang }) {
 
   useEffect(() => {
     if (headings.length === 0) return;
-    const scrollRoot = document.getElementById("docs-content")?.closest("main") ?? null;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (isClickScrolling.current) return;
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) setActiveId(visible[0].target.id);
-      },
-      { root: scrollRoot, rootMargin: "-32px 0px -60% 0px", threshold: 0 }
-    );
-    headings.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+    const scrollRoot = document.getElementById("docs-content")?.closest("main") as HTMLElement | null;
+    if (!scrollRoot) return;
+
+    const updateActive = () => {
+      if (isClickScrolling.current) return;
+      const rootTop = scrollRoot.getBoundingClientRect().top;
+      // Active heading = last heading whose top has crossed this threshold line
+      const threshold = rootTop + 80;
+      let currentId = headings[0].id;
+      for (const { id } of headings) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top;
+        if (top <= threshold) {
+          currentId = id;
+        } else {
+          break;
+        }
+      }
+      setActiveId(currentId);
+    };
+
+    let rafId = 0;
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        updateActive();
+      });
+    };
+
+    updateActive();
+    scrollRoot.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      scrollRoot.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [headings]);
 
   const handleClick = useCallback((e: React.MouseEvent, id: string) => {
@@ -530,8 +555,8 @@ function TableOfContents({ lang }: { lang: Lang }) {
         <div className="absolute left-0 top-0 bottom-0 w-px bg-[#e5e5e5]" />
         {activeIndex >= 0 && (
           <div
-            className="absolute left-0 w-0.5 rounded-full bg-[#111] transition-all duration-200"
-            style={{ top: `${activeIndex * 32}px`, height: "24px" }}
+            className="absolute left-0 w-0.5 rounded-full bg-[#111] transition-[top] duration-200 ease-out"
+            style={{ top: `${activeIndex * 32 + 4}px`, height: "24px" }}
           />
         )}
         <div className="flex flex-col">

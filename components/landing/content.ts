@@ -339,6 +339,11 @@ const landingContentEn = {
   } as LandingSinglePlan,
   faq: [
     {
+      question: "Where do I get the emails to send my beats to?",
+      answer:
+        "You bring your own list. Import your existing contacts (A&Rs, labels, artists, managers) from a CSV or XLSX file — exports from Gmail, Mailchimp, Google Sheets, or any spreadsheet work out of the box. vvault auto-detects email, name, and company columns. You can also add contacts one by one, or organize them with tags (e.g. \"US labels\", \"Hip-hop A&Rs\") to target each campaign.",
+    },
+    {
       question: "Is vvault really free?",
       answer:
         "Yes. The Free plan costs nothing and doesn't require a credit card. You can upload up to 100 MB, generate share links, manage contacts, and collaborate on packs — no trial, no expiration.",
@@ -745,6 +750,11 @@ const landingContentFr = {
     ],
   } as LandingSinglePlan,
   faq: [
+    {
+      question: "Où je trouve les emails pour envoyer mes beats ?",
+      answer:
+        "Tu amènes ta propre liste. Importe tes contacts existants (A&Rs, labels, artistes, managers) depuis un fichier CSV ou XLSX — les exports Gmail, Mailchimp, Google Sheets ou n'importe quel tableur fonctionnent directement. vvault détecte automatiquement les colonnes email, nom et entreprise. Tu peux aussi ajouter des contacts un par un, ou les organiser avec des tags (ex. « Labels US », « A&Rs hip-hop ») pour cibler chaque campagne.",
+    },
     {
       question: "Est-ce que vvault est vraiment gratuit ?",
       answer:
