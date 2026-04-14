@@ -118,7 +118,7 @@ export default function StudioDocPage() {
 
       {/* Templates */}
       <h2 id="templates" className="text-lg font-semibold text-[#111] mt-12 mb-3">
-        Templates
+        {locale === "fr" ? "Modèles" : "Templates"}
       </h2>
       <p className="text-[14px] leading-relaxed text-[#666] mb-4">
         {locale === "fr"

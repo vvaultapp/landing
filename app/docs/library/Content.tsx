@@ -143,7 +143,7 @@ export default function LibraryDocPage() {
       </p>
 
       <h3 className="text-[15px] font-medium text-[#333] mt-6 mb-2">
-        Artwork
+        {locale === "fr" ? "Visuel" : "Artwork"}
       </h3>
       <p className="text-[14px] leading-relaxed text-[#666] mb-4">
         {locale === "fr"

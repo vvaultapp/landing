@@ -240,6 +240,8 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     English: "English",
     French: "French",
     Homepage: "Homepage",
+    "Links menu": "Links menu",
+    "Toggle navigation": "Toggle navigation",
   },
   fr: {
     "Getting started": "Pour commencer",
@@ -278,6 +280,8 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     English: "Anglais",
     French: "Français",
     Homepage: "Accueil",
+    "Links menu": "Menu des liens",
+    "Toggle navigation": "Basculer la navigation",
   },
 };
 
@@ -629,7 +633,7 @@ function LanguageSelector({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =>
 /*  Links menu (link icon → homepage)                                 */
 /* ------------------------------------------------------------------ */
 
-function LinksMenu() {
+function LinksMenu({ lang }: { lang: Lang }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -647,7 +651,7 @@ function LinksMenu() {
         type="button"
         onClick={() => setOpen((v) => !v)}
         className="flex items-center rounded-xl px-2 py-1.5 text-[#666] transition-colors hover:text-[#111]"
-        aria-label="Links menu"
+        aria-label={t("Links menu", lang)}
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
@@ -664,7 +668,7 @@ function LinksMenu() {
               <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
               <polyline points="9 22 9 12 15 12 15 22" />
             </svg>
-            Homepage
+            {t("Homepage", lang)}
           </a>
         </div>
       )}
@@ -809,7 +813,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
 
           {/* Desktop: all buttons */}
           <div className="hidden flex-1 items-center justify-end gap-1.5 px-6 lg:flex">
-            <LinksMenu />
+            <LinksMenu lang={lang} />
             <LanguageSelector lang={lang} setLang={setLang} />
             <a
               href="https://vvault.app/login"
@@ -832,7 +836,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             >
               {t("Sign up", lang)}
             </a>
-            <button type="button" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle navigation" className="flex h-9 w-9 items-center justify-center rounded-xl text-[#666] transition-colors hover:text-[#111]">
+            <button type="button" onClick={() => setMobileOpen((v) => !v)} aria-label={t("Toggle navigation", lang)} className="flex h-9 w-9 items-center justify-center rounded-xl text-[#666] transition-colors hover:text-[#111]">
               <MenuIcon open={mobileOpen} />
             </button>
           </div>

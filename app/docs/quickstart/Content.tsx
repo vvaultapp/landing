@@ -122,14 +122,30 @@ export default function QuickstartPage() {
         </li>
       </ul>
 
+      {/* Build your contact list */}
+      <h2 id="build-contacts" className="text-lg font-semibold text-[#111] mt-12 mb-3">
+        {locale === "fr" ? "Constitue ta liste de contacts" : "Build your contact list"}
+      </h2>
+      <p className="text-[14px] leading-relaxed text-[#666] mb-4">
+        {locale === "fr"
+          ? "Avant d'envoyer des campagnes, tu as besoin de destinataires. Va dans Contacts et importe ta liste d'emails existante (A&Rs, labels, artistes) depuis un fichier CSV ou XLSX — vvault détecte automatiquement les colonnes email, nom et entreprise. Tu peux aussi ajouter des contacts manuellement un par un."
+          : "Before sending campaigns, you need recipients. Head to Contacts and import your existing email list (A&Rs, labels, artists) from a CSV or XLSX file — vvault auto-detects email, name, and company columns. You can also add contacts manually one at a time."}
+      </p>
+      <div className="rounded-xl border-l-2 border-emerald-400 bg-emerald-50 p-4 text-[13px] text-[#666] mb-4">
+        <strong className="text-[#444]">{locale === "fr" ? "Astuce :" : "Tip:"}</strong>{" "}
+        {locale === "fr"
+          ? "Si tu as déjà une liste dans Gmail, Mailchimp ou un Google Sheet, exporte-la en CSV et glisse-la directement dans vvault. Organise ensuite tes contacts avec des tags (ex. « Labels US », « A&Rs hip-hop ») pour cibler tes campagnes."
+          : "If you already have a list in Gmail, Mailchimp, or a Google Sheet, export it as CSV and drop it directly into vvault. Then organize contacts with tags (e.g. \u201cUS Labels\u201d, \u201cHip-hop A&Rs\u201d) to target your campaigns."}
+      </div>
+
       {/* Send your first campaign */}
       <h2 id="send-campaign" className="text-lg font-semibold text-[#111] mt-12 mb-3">
         {locale === "fr" ? "Envoie ta première campagne" : "Send your first campaign"}
       </h2>
       <p className="text-[14px] leading-relaxed text-[#666] mb-4">
         {locale === "fr"
-          ? "Va dans la section Campaigns et crée une nouvelle campagne. Compose ton message, attache un pack ou des morceaux individuels, et ajoute tes destinataires. vvault génère des liens de téléchargement sécurisés pour chaque pack attaché."
-          : "Go to the Campaigns section and create a new campaign. Compose your message, attach a pack or individual tracks, and add your recipients. vvault generates secure download links for each pack attachment."}
+          ? "Va dans la section Campaigns et crée une nouvelle campagne. Compose ton message, attache un pack ou des morceaux individuels, et sélectionne tes destinataires depuis tes Contacts. vvault génère des liens de téléchargement sécurisés pour chaque pack attaché."
+          : "Go to the Campaigns section and create a new campaign. Compose your message, attach a pack or individual tracks, and select recipients from your Contacts. vvault generates secure download links for each pack attachment."}
       </p>
       <div className="rounded-xl border-l-2 border-blue-400 bg-blue-50 p-4 text-[13px] text-[#666] mb-4">
         <strong className="text-[#444]">{locale === "fr" ? "Limites du plan Free :" : "Free plan limits:"}</strong>{" "}
