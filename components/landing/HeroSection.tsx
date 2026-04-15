@@ -563,7 +563,7 @@ function HeroLiveStats({
     },
     {
       key: "money",
-      label: locale === "fr" ? "Total payé" : "Money paid",
+      label: locale === "fr" ? "Valeur des beats vendus" : "Value of beats sold",
       value: moneyFormatter.format(stats.moneyPaidTotalCents / 100),
     },
     {

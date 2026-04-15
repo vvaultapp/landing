@@ -824,19 +824,19 @@ function SellCard({ locale }: { locale: Locale }) {
           {locale === "fr" ? (
             <>
               Vends ta musique.{" "}
-              <span className="text-white/40">Garde plus.</span>
+              <span className="text-white/40">Garde 100% de ton argent.</span>
             </>
           ) : (
             <>
               Sell your music.{" "}
-              <span className="text-white/40">Keep more.</span>
+              <span className="text-white/40">Keep 100% of your money.</span>
             </>
           )}
         </h3>
         <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
           {locale === "fr"
-            ? "Fixe ton prix, vends directement à ton audience via un checkout Stripe sécurisé. 5% de frais sur Pro, 0% sur Ultra."
-            : "Set your price, sell directly to your audience through secure Stripe checkout. 5% platform fee on Pro, 0% on Ultra."}
+            ? "Fixe ton prix, vends directement à ton audience via un checkout Stripe sécurisé. 0% de frais sur le plan Ultra — contrairement aux autres plateformes, on ne prend aucune commission sur tes ventes."
+            : "Set your price, sell directly to your audience through secure Stripe checkout. 0% platform fee on Ultra — unlike other platforms, we don't take a cut of your sales."}
         </p>
       </div>
       <div className="mt-8 sm:mt-10">
