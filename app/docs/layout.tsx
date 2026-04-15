@@ -496,10 +496,12 @@ function TableOfContents({ lang }: { lang: Lang }) {
     const updateActive = () => {
       if (isClickScrolling.current) return;
       const rootTop = scrollRoot.getBoundingClientRect().top;
-      // Active heading = last heading whose top has crossed this threshold line
-      // Threshold sits ~1/3 down the viewport so the indicator flips to the next
-      // section while that section's heading is still a bit below the top.
-      const threshold = rootTop + 220;
+      // Active heading = last heading whose top has crossed this threshold line.
+      // Threshold sits roughly in the middle of the viewport — the indicator
+      // flips to the next section as soon as that section's heading is within
+      // a reading-distance of the center of the page, not the top.
+      const viewportH = scrollRoot.clientHeight;
+      const threshold = rootTop + Math.max(160, viewportH * 0.55);
       let currentId = headings[0].id;
       for (const { id } of headings) {
         const el = document.getElementById(id);
