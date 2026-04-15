@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArticleHeader, RelatedArticles } from "@/components/blog/BlogShell";
 
 export const metadata: Metadata = {
-  title: "vvault vs BeatStars — Full Comparison | vvault",
+  title: "vvault vs BeatStars | Full Comparison | vvault",
   description:
     "BeatStars is a beat marketplace. vvault is a professional sending and tracking workspace. When to use each — and why serious producers need both.",
   openGraph: {
-    title: "vvault vs BeatStars — Full Comparison | vvault",
+    title: "vvault vs BeatStars | Full Comparison | vvault",
     description:
       "BeatStars is a beat marketplace. vvault is a professional sending and tracking workspace. When to use each — and why serious producers need both.",
     url: "https://get.vvault.app/blog/vvault-vs-beatstars",

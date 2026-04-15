@@ -12,7 +12,7 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "vvault — Send, Sell & Track Your Beats",
+  title: "vvault | Send, Sell & Track Your Beats",
   description:
     "The beat selling platform for producers. Upload beats, send to labels & artists, track opens and plays, run campaigns, and sell with instant checkout.",
   icons: {
