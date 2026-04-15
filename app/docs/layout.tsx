@@ -495,11 +495,20 @@ function TableOfContents({ lang }: { lang: Lang }) {
 
     const updateActive = () => {
       if (isClickScrolling.current) return;
+
+      // Hard guard: when we're at the very top of the page, always highlight
+      // the first heading — regardless of how tall the first section is or
+      // how far the threshold line sits.
+      if (scrollRoot.scrollTop < 40) {
+        setActiveId(headings[0].id);
+        return;
+      }
+
       const rootTop = scrollRoot.getBoundingClientRect().top;
       // Active heading = last heading whose top has crossed this threshold line.
-      // Threshold sits ~1/3 down the viewport — the indicator flips to the next
-      // section once that heading has scrolled a comfortable reading-distance
-      // below the top, without waiting for it to reach the middle of the page.
+      // Threshold sits ~1/3 down the viewport so the indicator flips to the next
+      // section while the heading is still a comfortable reading-distance below
+      // the top, but not so far that it reaches the middle of the page.
       const viewportH = scrollRoot.clientHeight;
       const threshold = rootTop + Math.max(140, viewportH * 0.33);
       let currentId = headings[0].id;
