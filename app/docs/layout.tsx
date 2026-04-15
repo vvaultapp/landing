@@ -497,7 +497,9 @@ function TableOfContents({ lang }: { lang: Lang }) {
       if (isClickScrolling.current) return;
       const rootTop = scrollRoot.getBoundingClientRect().top;
       // Active heading = last heading whose top has crossed this threshold line
-      const threshold = rootTop + 80;
+      // Threshold sits ~1/3 down the viewport so the indicator flips to the next
+      // section while that section's heading is still a bit below the top.
+      const threshold = rootTop + 220;
       let currentId = headings[0].id;
       for (const { id } of headings) {
         const el = document.getElementById(id);
