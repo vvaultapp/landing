@@ -32,6 +32,8 @@ export type LandingFaq = {
 export type LandingComparisonCard = {
   title: string;
   bullets: string[];
+  /** Items shown crossed-out — what's NOT included on this tier (drives upgrades). */
+  notIncluded?: string[];
   cost: string;
   costNote: string;
   symbol: "check" | "cross";
@@ -43,6 +45,8 @@ export type LandingSinglePlan = {
   note: string;
   cta: string;
   bullets: string[];
+  /** Items shown crossed-out — features only available on a higher tier. */
+  notIncluded?: string[];
 };
 
 export type LandingFooterLink = {
@@ -250,11 +254,19 @@ const landingContentEn = {
       title: "Free",
       symbol: "check",
       bullets: [
-        "Upload up to 100MB",
-        "Generate links for tracks, packs, and folders",
-        "Full contact list",
-        "Collab packs and tracks",
-        "Receive splits from Pro sales",
+        "Send beats with trackable share links",
+        "100 MB storage to test the platform",
+        "1 campaign per day, up to 5 recipients",
+        "Public profile + Link in Bio page",
+        "Get paid as a collaborator on Pro splits",
+        "Certificate of deposit on every upload",
+      ],
+      notIncluded: [
+        "Unlimited storage for your full catalog",
+        "Send to unlimited contacts, every day",
+        "See who opens, plays, and downloads",
+        "Send from your own Gmail address",
+        "Sell beats with built-in Stripe checkout",
       ],
       cost: "€0",
       costNote: "no credit card",
@@ -263,12 +275,12 @@ const landingContentEn = {
       title: "Ultra",
       symbol: "check",
       bullets: [
-        "Everything in Pro",
-        "Series automations",
-        "Per-recipient best time scheduling",
-        "Get highlighted in the browse section of the mobile app",
-        "0% marketplace fees",
-        "Advanced theme customization",
+        "0% marketplace commission — keep every euro",
+        "Auto-publish promo videos to IG, TikTok, YouTube",
+        "Per-recipient best-time scheduling",
+        "Series automations (drip sequences)",
+        "Featured in the mobile app's Browse section",
+        "No daily email safety limits",
       ],
       cost: "€24.99/mo",
       costNote: "monthly · yearly available",
@@ -329,12 +341,21 @@ const landingContentEn = {
     note: "monthly · annual billing available (2 months free)",
     cta: "Start Pro",
     bullets: [
-      "Everything in Free",
-      "Campaigns: create, send, schedule, and track",
-      "Tracking: opens, clicks, plays, saves, downloads, sales",
-      "Sell via Marketplace (5% commission)",
-      "Analytics: best time to send, funnels, dashboards",
-      "CRM: timeline, notes, tasks, scoring",
+      "Unlimited storage and unlimited contacts",
+      "Unlimited campaigns from your own Gmail",
+      "Schedule sends and auto follow-ups",
+      "See who opens, plays, downloads, and buys",
+      "Best-time-to-send recommendations",
+      "Sell beats with Stripe checkout (5% fee)",
+      "Lead scoring and engagement timeline",
+      "Custom theme on your public profile",
+      "Access the Opportunities request board",
+    ],
+    notIncluded: [
+      "0% marketplace commission",
+      "Auto-publish to IG, TikTok, YouTube",
+      "Per-recipient send-time optimization",
+      "Featured placement in the mobile app",
     ],
   } as LandingSinglePlan,
   faq: [
@@ -660,11 +681,19 @@ const landingContentFr = {
       title: "Free",
       symbol: "check",
       bullets: [
-        "Upload jusqu’à 100MB",
-        "Génère des liens pour morceaux, packs et dossiers",
-        "Liste de contacts complète",
-        "Packs et morceaux collaboratifs",
-        "Reçois des splits sur les ventes Pro",
+        "Envoie tes beats avec des liens trackés",
+        "100 Mo de stockage pour tester la plateforme",
+        "1 campagne par jour, jusqu'à 5 destinataires",
+        "Profil public + page Link in Bio",
+        "Reçois ta part sur les ventes Pro en collab",
+        "Certificat de dépôt sur chaque upload",
+      ],
+      notIncluded: [
+        "Stockage illimité pour tout ton catalogue",
+        "Envoi à des contacts illimités, chaque jour",
+        "Vois qui ouvre, écoute et télécharge",
+        "Envoie depuis ta propre adresse Gmail",
+        "Vends tes beats avec checkout Stripe",
       ],
       cost: "€0",
       costNote: "sans carte bancaire",
@@ -673,12 +702,12 @@ const landingContentFr = {
       title: "Ultra",
       symbol: "check",
       bullets: [
-        "Tout ce qui est dans Pro",
-        "Automatisations de séries",
-        "Planification optimale par destinataire",
-        "Mise en avant dans la section Browse de l'app mobile",
-        "0% de frais marketplace",
-        "Personnalisation avancée du thème",
+        "0 % de commission marketplace — garde chaque euro",
+        "Publication auto sur IG, TikTok, YouTube",
+        "Optimisation du moment d'envoi par destinataire",
+        "Automatisations de séries (séquences drip)",
+        "Mise en avant dans la section Browse de l'app",
+        "Aucune limite de sécurité email",
       ],
       cost: "€24.99/mo",
       costNote: "mensuel · annuel disponible",
@@ -740,12 +769,21 @@ const landingContentFr = {
     note: "mensuel · annuel disponible (2 mois offerts)",
     cta: "Démarrer Pro",
     bullets: [
-      "Tout ce qui est dans Free",
-      "Campagnes: créer, envoyer, planifier et suivre",
-      "Tracking: ouvertures, clics, écoutes, sauvegardes, téléchargements, ventes",
-      "Vente via marketplace (5% de commission)",
-      "Analytics: meilleur moment d’envoi, funnels, dashboards",
-      "CRM: timeline, notes, tâches, scoring",
+      "Stockage et contacts illimités",
+      "Campagnes illimitées depuis ton Gmail",
+      "Programme tes envois + relances auto",
+      "Vois qui ouvre, écoute, télécharge et achète",
+      "Recommandations du meilleur moment d'envoi",
+      "Vends tes beats avec checkout Stripe (5 %)",
+      "Scoring et timeline d'engagement par contact",
+      "Thème personnalisé sur ton profil public",
+      "Accès au tableau Opportunités",
+    ],
+    notIncluded: [
+      "0 % de commission marketplace",
+      "Publication auto sur IG, TikTok, YouTube",
+      "Optimisation de l'envoi par destinataire",
+      "Mise en avant dans l'app mobile",
     ],
   } as LandingSinglePlan,
   faq: [

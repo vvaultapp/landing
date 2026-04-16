@@ -80,14 +80,21 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
   const plan = content.singlePlan;
   const proPrice = annual ? "€7.49" : "€8.99";
   const ultraPrice = annual ? "€20.75" : "€24.99";
+  const fr = locale === "fr";
+  const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
+  const everythingInProLabel = fr ? "Tout ce qui est dans Pro, plus :" : "Everything in Pro, plus:";
+  const notIncludedLabel = fr ? "Pas inclus :" : "Not included:";
+
   const plans = [
     {
       name: human.title,
       eyebrow: "",
       price: "€0",
       period: "",
-
+      includedHeading: undefined as string | undefined,
       bullets: human.bullets,
+      notIncluded: human.notIncluded ?? [],
+      notIncludedHeading: notIncludedLabel,
       cta: content.pricingUi.startFree,
       href: "https://vvault.app/signup",
       loggedOutHref: "https://vvault.app/signup",
@@ -98,8 +105,10 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       eyebrow: content.pricingUi.mostPopular,
       price: proPrice,
       period: locale === "fr" ? "/mois" : "/mo",
-
+      includedHeading: everythingInFreeLabel,
       bullets: plan.bullets,
+      notIncluded: plan.notIncluded ?? [],
+      notIncludedHeading: notIncludedLabel,
       cta: plan.cta,
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=pro",
@@ -110,8 +119,10 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       eyebrow: "",
       price: ultraPrice,
       period: locale === "fr" ? "/mois" : "/mo",
-
+      includedHeading: everythingInProLabel,
       bullets: ai.bullets,
+      notIncluded: [] as string[],
+      notIncludedHeading: notIncludedLabel,
       cta: content.pricingUi.upgradeUltra,
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=ultra",
@@ -245,8 +256,13 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                 {/* Divider */}
                 <div className="mt-5 h-px w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
 
-                {/* Features */}
-                <ul className="mt-6 flex flex-col gap-3">
+                {/* Features — checks (included) */}
+                {p.includedHeading && (
+                  <p className="mt-6 text-[12px] font-semibold uppercase tracking-wider text-white/40">
+                    {p.includedHeading}
+                  </p>
+                )}
+                <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-6"}`}>
                   {p.bullets.map((bullet) => (
                     <li key={bullet} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-white/65">
                       <svg viewBox="0 0 20 20" className="mt-[2px] h-4 w-4 shrink-0 fill-none stroke-emerald-400/70 stroke-[2]">
@@ -256,6 +272,35 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                     </li>
                   ))}
                 </ul>
+
+                {/* Features — crosses (not included on this tier) */}
+                {p.notIncluded.length > 0 && (
+                  <>
+                    <div
+                      className="mt-6 h-px w-full"
+                      style={{ background: "rgba(255,255,255,0.04)" }}
+                    />
+                    <p className="mt-5 text-[12px] font-semibold uppercase tracking-wider text-white/30">
+                      {p.notIncludedHeading}
+                    </p>
+                    <ul className="mt-3 flex flex-col gap-3">
+                      {p.notIncluded.map((bullet) => (
+                        <li
+                          key={bullet}
+                          className="flex items-start gap-2.5 text-[13px] leading-relaxed text-white/30"
+                        >
+                          <svg
+                            viewBox="0 0 20 20"
+                            className="mt-[2px] h-4 w-4 shrink-0 fill-none stroke-white/25 stroke-[2]"
+                          >
+                            <path d="M6 6l8 8M14 6l-8 8" />
+                          </svg>
+                          <span className="line-through decoration-white/15">{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
 
                 {/* CTA */}
                 <div className="mt-auto pt-10">
