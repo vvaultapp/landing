@@ -209,7 +209,14 @@ body.compare-pinned .nav-enter {
   background-color: transparent !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  border-bottom: 0 !important;
+  /* Keep border-width at 1px so unpinning doesn't snap the width
+     from 0→1 (that's what caused the border to flash back in
+     instantly). Only animate the color — the nav's inline style
+     already has `transition: border-color 0.3s ease` so this fades
+     in/out smoothly in both directions. A transparent border with
+     non-zero width is invisible (not rendered), so the unified
+     glass seam fix still works. */
+  border-bottom-color: transparent !important;
 }
 
 @keyframes hero-line-in {

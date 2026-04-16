@@ -384,29 +384,14 @@ const landingContentEn = {
         "Every time you send a pack or share a link, vvault tracks opens, clicks, play duration, downloads, saves, and sales in real time. You'll know exactly who listened, for how long, and what they did next.",
     },
     {
-      question: "What's the difference between Pro and Ultra?",
-      answer:
-        "Pro unlocks unlimited storage, campaigns, full analytics, CRM, and marketplace selling at 5% commission. Ultra adds series automations, per-recipient best-time scheduling, advanced theme customization, browse section highlight, and drops marketplace fees to 0%.",
-    },
-    {
       question: "Can I send beats through my own email?",
       answer:
         "Yes. You can connect your Gmail account and send campaigns directly from your own address, so recipients see your name instead of a generic sender.",
     },
     {
-      question: "How do I sell beats and get paid?",
-      answer:
-        "Connect your Stripe account, set prices and license types (basic, premium, stems, exclusive), and list on the marketplace or your public profile. Payouts go straight to your bank after a 7-day hold.",
-    },
-    {
       question: "Is my music safe on vvault?",
       answer:
         "Yes. Your files are stored on encrypted infrastructure, share links use unique tokens that you control, and all payments go through Stripe's PCI-compliant checkout. We never access, sell, or share your data. You own everything you upload.",
-    },
-    {
-      question: "What file types can I upload?",
-      answer:
-        "vvault supports all common audio formats. You can upload individual tracks or full packs with cover art, BPM, key tags, and co-author credits.",
     },
     {
       question: "Can I leave comments on specific timestamps?",
@@ -423,7 +408,7 @@ const landingContentEn = {
     title: "Crafted for music. Available today.",
     description: "A workspace that looks and feels as good as the music you make.",
     primary: { label: "Get Started", href: "https://vvault.app/signup" },
-    secondary: { label: "Contact Us", href: "/#contact" },
+    secondary: { label: "See pricing", href: "/pricing" },
   },
   footer: {
     columns: [
@@ -816,29 +801,14 @@ const landingContentFr = {
         "À chaque envoi de pack ou partage de lien, vvault traque en temps réel les ouvertures, clics, durées d’écoute, téléchargements, sauvegardes et ventes. Tu sauras exactement qui a écouté, combien de temps, et ce qu’il a fait ensuite.",
     },
     {
-      question: "Quelle est la différence entre Pro et Ultra ?",
-      answer:
-        "Pro débloque le stockage illimité, les campagnes, les analytics complètes, le CRM et la vente marketplace à 5% de commission. Ultra ajoute les séries automatisées, la planification par destinataire, la personnalisation avancée du thème, la mise en avant dans Browse, et passe les frais marketplace à 0%.",
-    },
-    {
       question: "Je peux envoyer mes beats depuis mon propre email ?",
       answer:
         "Oui. Tu peux connecter ton compte Gmail et envoyer tes campagnes directement depuis ta propre adresse, pour que les destinataires voient ton nom au lieu d’un expéditeur générique.",
     },
     {
-      question: "Comment vendre mes beats et être payé ?",
-      answer:
-        "Connecte ton compte Stripe, définis tes prix et types de licences (basic, premium, stems, exclusive), et publie sur le marketplace ou ton profil public. Les paiements arrivent sur ton compte bancaire après un délai de 7 jours.",
-    },
-    {
       question: "Ma musique est-elle en sécurité sur vvault ?",
       answer:
         "Oui. Tes fichiers sont stockés sur une infrastructure chiffrée, les liens de partage utilisent des tokens uniques que tu contrôles, et tous les paiements passent par le checkout conforme PCI de Stripe. On n'accède jamais à tes données, on ne les vend ni ne les partage. Tu es propriétaire de tout ce que tu uploades.",
-    },
-    {
-      question: "Quels formats de fichiers puis-je uploader ?",
-      answer:
-        "vvault supporte tous les formats audio courants. Tu peux uploader des morceaux individuels ou des packs complets avec pochette, BPM, tags de tonalité et crédits de co-auteurs.",
     },
     {
       question: "Je peux laisser des commentaires sur des timestamps précis ?",
@@ -855,7 +825,7 @@ const landingContentFr = {
     title: "Pensé pour la musique. Disponible maintenant.",
     description: "Un espace de travail aussi soigné que la musique que tu crées.",
     primary: { label: "Commencer gratuitement", href: "https://vvault.app/signup" },
-    secondary: { label: "Contact", href: "/fr#contact" },
+    secondary: { label: "Voir les tarifs", href: "/fr/pricing" },
   },
   footer: {
     columns: [

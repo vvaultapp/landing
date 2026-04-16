@@ -610,7 +610,7 @@ function NavDropdown({
                           className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[14px]"
                           style={{
                             background: "linear-gradient(160deg, rgba(30,30,35,0.6) 0%, rgba(8,8,10,0.95) 35%, rgba(0,0,0,1) 100%)",
-                            boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.07), inset 0 -1px 0 0 rgba(0,0,0,0.4), 0 4px 16px -3px rgba(0,0,0,0.5)",
+                            boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.07), 0 4px 16px -3px rgba(0,0,0,0.5)",
                             border: "0.5px solid rgba(255,255,255,0.08)",
                           }}
                         >
@@ -776,7 +776,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
-            className="inline-flex items-center rounded-2xl bg-[#e8e8e8] px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-lg bg-[#e8e8e8] px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
           </LandingCtaLink>
@@ -786,7 +786,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
-            className="inline-flex items-center rounded-xl bg-[#e8e8e8] px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-lg bg-[#e8e8e8] px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
           </LandingCtaLink>

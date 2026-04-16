@@ -676,18 +676,8 @@ export default function PricingPage() {
                   aligning with the feature tables below. */}
               <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
                 <div className="pr-4">
-                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[2.2rem] lg:text-[3rem]">
-                    {locale === "fr" ? (
-                      <>
-                        <span className="lg:block">Comparer</span>{" "}
-                        <span className="lg:block">les plans</span>
-                      </>
-                    ) : (
-                      <>
-                        <span className="lg:block">Compare</span>{" "}
-                        <span className="lg:block">plans</span>
-                      </>
-                    )}
+                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[1.9rem] lg:text-[2rem]">
+                    {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">
                     <button
@@ -718,10 +708,10 @@ export default function PricingPage() {
                 <div className="mt-6 grid grid-cols-3 gap-0 sm:mt-0 sm:contents">
                   {stickyPlans.map((p) => (
                     <div key={p.name} className="pl-1 sm:pl-3">
-                      <h3 className="text-[14px] font-semibold leading-tight text-white sm:text-[18px]">
+                      <h3 className="text-[14px] font-semibold leading-tight text-white sm:text-[22px]">
                         {p.name}
                       </h3>
-                      <p className="mt-0.5 text-[13px] font-medium tabular-nums leading-tight text-white sm:mt-1 sm:text-[16px]">
+                      <p className="mt-0.5 text-[13px] font-medium tabular-nums leading-tight text-white sm:mt-1 sm:text-[18px]">
                         {p.price}
                         {p.period && (
                           <span className="text-white/45">{p.period}</span>
