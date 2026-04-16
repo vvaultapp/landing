@@ -2,9 +2,7 @@
 
 import type { LandingContent, Locale } from "@/components/landing/content";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-const FR_AVAILABLE_ROUTES = new Set(["/", "/signup"]);
+import { FooterLanguageSwitcher } from "@/components/landing/FooterLanguageSwitcher";
 
 function isInternalHref(href: string) {
   return href.startsWith("/") && !href.startsWith("//");
@@ -46,18 +44,6 @@ export function LandingFooter({
   inlineLegalWithBrand = false,
 }: LandingFooterProps) {
   const homeHref = locale === "fr" ? "/fr" : "/";
-  const pathname = usePathname() || "/";
-
-  const enHref = pathname.startsWith("/fr/")
-    ? pathname.replace(/^\/fr/, "") || "/"
-    : pathname === "/fr"
-      ? "/"
-      : pathname;
-  const frHref = (() => {
-    if (pathname.startsWith("/fr")) return pathname;
-    const candidate = pathname === "/" ? "/fr" : `/fr${pathname}`;
-    return FR_AVAILABLE_ROUTES.has(pathname) ? candidate : "/fr";
-  })();
 
   if (!showColumns && inlineLegalWithBrand) {
     return (
@@ -92,6 +78,12 @@ export function LandingFooter({
                 </a>
               )
             )}
+            <FooterLanguageSwitcher
+              initialLocale={locale}
+              ariaLabel={content.ui.languageSwitcherAriaLabel}
+              enLabel={content.ui.languageEnglish}
+              frLabel={content.ui.languageFrench}
+            />
           </div>
         </div>
       </footer>
@@ -219,33 +211,12 @@ export function LandingFooter({
             )}
           </div>
 
-          {/* Language selector */}
-          <div
-            className="flex items-center gap-1 rounded-xl border border-white/[0.06] px-1 py-0.5"
-            role="group"
-            aria-label={content.ui.languageSwitcherAriaLabel}
-          >
-            <Link
-              href={enHref}
-              className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
-                locale === "en"
-                  ? "bg-white/10 text-white/90"
-                  : "text-white/40 hover:text-white/70"
-              }`}
-            >
-              {content.ui.languageEnglish}
-            </Link>
-            <Link
-              href={frHref}
-              className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
-                locale === "fr"
-                  ? "bg-white/10 text-white/90"
-                  : "text-white/40 hover:text-white/70"
-              }`}
-            >
-              {content.ui.languageFrench}
-            </Link>
-          </div>
+          <FooterLanguageSwitcher
+            initialLocale={locale}
+            ariaLabel={content.ui.languageSwitcherAriaLabel}
+            enLabel={content.ui.languageEnglish}
+            frLabel={content.ui.languageFrench}
+          />
         </div>
       </div>
     </footer>

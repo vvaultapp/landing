@@ -118,11 +118,18 @@ export function Plasma({
 
     const directionMultiplier = direction === 'reverse' ? -1.0 : 1.0;
 
-    // Mobile: low-res canvas + high-contrast shader = detailed patterns without GPU strain
+    /* Mobile perf: the CSS container now renders plasma at full desktop
+       opacity on every device (no more `max-lg:opacity-[0.2]`), so the
+       shader's brightness uniform matches desktop as well — otherwise
+       mobile would look washed out and too bright. Perf is preserved by:
+       - dpr 0.4 on mobile (~160px canvas, then CSS upscales) — GPU
+         renders ~6x fewer pixels
+       - 24 fps cap on mobile (desktop 30fps) — ~20% fewer frames
+       - reduced shader iterations on mobile — fewer ALU ops per pixel */
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-    const iterations = 45.0;
-    const brightness = isMobile ? 2e3 : 5e3; // brighter shader on mobile to preserve detail at low CSS opacity
-    const dpr = isMobile ? 0.4 : 1; // ~160px wide canvas — detail preserved by iterations, blur hides low-res
+    const iterations = isMobile ? 28.0 : 45.0;
+    const brightness = 5e3;
+    const dpr = isMobile ? 0.4 : 1;
     const targetFps = isMobile ? 24 : 30;
 
     const renderer = new Renderer({

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { FooterLanguageSwitcher } from "@/components/landing/FooterLanguageSwitcher";
 
 export function BlogNav() {
   return (
@@ -132,25 +133,28 @@ export function BlogFooter() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4 border-t border-white/10 pt-6">
-          <a
-            href="/privacy"
-            className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
-          >
-            Privacy
-          </a>
-          <a
-            href="/terms"
-            className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
-          >
-            Terms
-          </a>
-          <a
-            href="mailto:vvaultapp@gmail.com"
-            className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
-          >
-            Contact
-          </a>
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
+          <div className="flex flex-wrap items-center gap-4">
+            <a
+              href="/privacy"
+              className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
+            >
+              Privacy
+            </a>
+            <a
+              href="/terms"
+              className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
+            >
+              Terms
+            </a>
+            <a
+              href="mailto:vvaultapp@gmail.com"
+              className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
+            >
+              Contact
+            </a>
+          </div>
+          <FooterLanguageSwitcher />
         </div>
       </div>
     </footer>

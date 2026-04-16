@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Reveal } from "@/components/landing/Reveal";
 import type { Locale } from "@/components/landing/content";
 
@@ -518,10 +519,13 @@ function PackCard({
           boxShadow: "0 14px 32px rgba(0,0,0,0.45)",
         }}
       >
-        <img
+        <Image
           src={coverSrc}
           alt={name}
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          sizes="(max-width: 640px) 40vw, 220px"
+          className="object-cover"
+          loading="lazy"
         />
         <div className="relative flex h-full flex-col justify-between p-3">
           <div>
@@ -855,10 +859,13 @@ function SellCard({ locale }: { locale: Locale }) {
                   boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
                 }}
               >
-                <img
+                <Image
                   src={PACK_COVERS[0]}
                   alt="Dark Melodies Vol.3"
-                  className="absolute inset-0 h-full w-full object-cover"
+                  fill
+                  sizes="(max-width: 640px) 48px, 56px"
+                  className="object-cover"
+                  loading="lazy"
                 />
               </div>
 
