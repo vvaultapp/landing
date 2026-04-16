@@ -264,6 +264,96 @@ function getComparisonSections(locale: "en" | "fr"): {
   ];
 }
 
+/* Label with a bullet-dotted underline + hover tooltip.
+   Rows that already carry a `desc` are the "complex" ones (the content
+   author curated that set). For those we hide the always-visible
+   second line and instead decorate the label with small dotted bullets
+   underneath. On hover the bullets disappear INSTANTLY (no fade) and
+   a compact explainer card pops in. On touch devices (no hover)
+   tapping the label toggles the card. */
+function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
+  const [open, setOpen] = useState(false);
+  const containerRef = useRef<HTMLSpanElement>(null);
+
+  /* Tap-outside on mobile closes the tooltip. */
+  useEffect(() => {
+    if (!open) return;
+    const handleDocClick = (e: MouseEvent) => {
+      if (!containerRef.current) return;
+      if (!containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleDocClick, { passive: true });
+    document.addEventListener("touchstart", handleDocClick, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", handleDocClick);
+      document.removeEventListener("touchstart", handleDocClick);
+    };
+  }, [open]);
+
+  if (!desc) {
+    return (
+      <p className="text-[14px] font-medium leading-snug text-white/90 sm:text-[16px]">
+        {label}
+      </p>
+    );
+  }
+
+  return (
+    <p className="text-[14px] font-medium leading-snug text-white/90 sm:text-[16px]">
+      <span
+        ref={containerRef}
+        className="relative inline-block align-baseline"
+        onMouseEnter={() => setOpen(true)}
+        onMouseLeave={() => setOpen(false)}
+      >
+        <span
+          role="button"
+          tabIndex={0}
+          onClick={() => setOpen((v) => !v)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setOpen((v) => !v);
+            }
+          }}
+          className="cursor-help focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          style={{
+            /* Bullet-dot underline: small round dots at the bottom of
+               the text baseline. Cleared instantly when `open` (no
+               CSS transition on backgroundImage) so the bullets pop
+               off without a fade. */
+            backgroundImage: open
+              ? "none"
+              : "radial-gradient(circle, rgba(255,255,255,0.45) 1.1px, transparent 1.3px)",
+            backgroundSize: "5px 3px",
+            backgroundRepeat: "repeat-x",
+            backgroundPosition: "left bottom",
+            paddingBottom: "5px",
+          }}
+        >
+          {label}
+        </span>
+        {open && (
+          <span
+            role="tooltip"
+            className="pointer-events-none absolute left-0 top-[calc(100%+6px)] z-30 block w-[min(260px,calc(100vw-2.5rem))] rounded-xl p-3 text-[12px] font-normal leading-snug text-white/75 shadow-2xl shadow-black/80 sm:text-[12.5px]"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(20,20,25,1) 0%, rgba(10,10,14,1) 100%)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              animation: "feature-tip-in 140ms cubic-bezier(0.22, 1, 0.36, 1) both",
+            }}
+          >
+            {desc}
+          </span>
+        )}
+      </span>
+    </p>
+  );
+}
+
 function CellValue({ value }: { value: boolean | string }) {
   if (typeof value === "string") {
     return (
@@ -676,7 +766,7 @@ export default function PricingPage() {
                   aligning with the feature tables below. */}
               <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
                 <div className="pr-4">
-                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[1.9rem] lg:text-[2rem]">
+                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[2.2rem] lg:text-[2.4rem]">
                     {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">
@@ -757,16 +847,9 @@ export default function PricingPage() {
                       key={row.label}
                       className="grid min-h-[138px] grid-cols-1 border-b border-white/[0.06] sm:min-h-[96px] sm:grid-cols-[40%_20%_20%_20%] sm:items-center"
                     >
-                      {/* Label + description */}
+                      {/* Label + tooltip (for complex features with a desc) */}
                       <div className="pb-2 pr-4 pt-5 sm:py-6">
-                        <p className="text-[14px] font-medium leading-snug text-white/90 sm:text-[16px]">
-                          {row.label}
-                        </p>
-                        {row.desc && (
-                          <p className="mt-1 text-[11.5px] leading-snug text-white/40 sm:mt-1.5 sm:text-[13px]">
-                            {row.desc}
-                          </p>
-                        )}
+                        <FeatureLabel label={row.label} desc={row.desc} />
                       </div>
                       {/* Values — 3-col grid on mobile, `contents` on desktop
                           so each cell becomes a direct child of the parent

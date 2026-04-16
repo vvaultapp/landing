@@ -776,7 +776,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
-            className="inline-flex items-center rounded-lg bg-[#e8e8e8] px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-xl bg-[#e8e8e8] px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
           </LandingCtaLink>
@@ -786,7 +786,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
-            className="inline-flex items-center rounded-lg bg-[#e8e8e8] px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-xl bg-[#e8e8e8] px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
           </LandingCtaLink>

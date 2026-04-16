@@ -61,19 +61,25 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
       id="final-cta"
       className="relative overflow-hidden pt-44 pb-44 sm:pt-64 sm:pb-56"
     >
-      {/* Plasma backdrop — same recipe as the /pricing page. Fades in
-          on first viewport enter, fades out when scrolling away. */}
+      {/* Plasma backdrop — sits in the LOWER portion of the section
+          only, with a long top fade so it never bleeds into the
+          Contact section above. Fades in on first viewport enter,
+          fades out when scrolling away. */}
       {mounted && (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0"
+          className="pointer-events-none absolute inset-x-0 bottom-0 top-[45%] z-0"
           style={{
             opacity: visible ? 1 : 0,
             transition: "opacity 700ms ease",
+            /* Two-stop fade: fully transparent at the top (protects
+               the Contact section), ramps to solid around mid-height,
+               softly fades again past the bottom so the plasma
+               doesn't hit the footer hard. */
             maskImage:
-              "radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 70%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 60%, black 92%, transparent 100%)",
             WebkitMaskImage:
-              "radial-gradient(ellipse 80% 70% at 50% 50%, black 0%, transparent 70%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 60%, black 92%, transparent 100%)",
           }}
         >
           <div className="absolute inset-0 opacity-[0.55] max-lg:opacity-[0.2]">
