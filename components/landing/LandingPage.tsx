@@ -7,7 +7,8 @@ import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { FeatureShowcase } from "@/components/landing/FeatureShowcase";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
 import { CertificateTeaser } from "@/components/landing/CertificateTeaser";
-import { PricingSection } from "@/components/landing/PricingSection";
+import { HomeConversionCta } from "@/components/landing/HomeConversionCta";
+import { FaqSection } from "@/components/landing/FaqSection";
 import { ContactSection } from "@/components/landing/ContactSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
@@ -53,7 +54,8 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         <FeatureShowcase locale={locale} />
         <HeroStatementSection content={content} locale={locale} />
         <CertificateTeaser locale={locale} />
-        <PricingSection content={content} locale={locale} />
+        <HomeConversionCta locale={locale} />
+        <FaqSection content={content} />
         <ContactSection locale={locale} />
         <FinalCtaSection content={content} />
       </main>

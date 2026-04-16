@@ -199,11 +199,36 @@ export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
   const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
+  const [stickyVisible, setStickyVisible] = useState(false);
+  const compareRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = locale === "fr" ? "vvault | Tarifs" : "vvault | Pricing";
   }, [locale]);
+
+  // Show sticky compare-plans bar (covering nav) while user is reading the
+  // comparison tables — same pattern as Epidemic Sound.
+  useEffect(() => {
+    const handleScroll = () => {
+      const node = compareRef.current;
+      if (!node) {
+        setStickyVisible(false);
+        return;
+      }
+      const rect = node.getBoundingClientRect();
+      // Bar is visible while the comparison block has crossed the viewport top
+      // and hasn't fully scrolled past it.
+      setStickyVisible(rect.top <= 0 && rect.bottom > 80);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   const fr = locale === "fr";
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
@@ -266,9 +291,85 @@ export default function PricingPage() {
     },
   ];
 
+  const stickyPlans = [
+    { name: "Free", price: "\u20ac0", period: "" },
+    { name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo" },
+    { name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo" },
+  ];
+
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
+
+      {/* Sticky compare-plans bar — covers nav while reading tables */}
+      <div
+        aria-hidden={!stickyVisible}
+        className={`fixed inset-x-0 top-0 z-[100] transition-all duration-300 ease-out ${
+          stickyVisible
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none -translate-y-full opacity-0"
+        }`}
+      >
+        <div
+          className="border-b border-white/[0.08] bg-black/85 pt-[env(safe-area-inset-top)] backdrop-blur-xl"
+          style={{
+            boxShadow: "0 12px 28px -16px rgba(0,0,0,0.7)",
+          }}
+        >
+          <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+            <div className="overflow-x-auto">
+              <div
+                className="grid min-w-[580px] items-center gap-4 py-3.5 sm:py-4"
+                style={{
+                  gridTemplateColumns: "40% 20% 20% 20%",
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/40">
+                    {locale === "fr" ? "Comparer" : "Compare"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setAnnual((v) => !v)}
+                    className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] font-medium text-white/60 transition-colors hover:bg-white/[0.07] sm:inline-flex"
+                  >
+                    <span className={annual ? "text-white/40" : "text-white"}>
+                      {content.pricingUi.monthly}
+                    </span>
+                    <span
+                      className={`relative h-3.5 w-6 rounded-full transition-colors ${
+                        annual ? "bg-emerald-500/80" : "bg-white/15"
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
+                          annual ? "left-3" : "left-0.5"
+                        }`}
+                      />
+                    </span>
+                    <span className={annual ? "text-white" : "text-white/40"}>
+                      {content.pricingUi.annually}
+                    </span>
+                  </button>
+                </div>
+                {stickyPlans.map((p) => (
+                  <div key={p.name} className="text-center">
+                    <div className="text-[13px] font-semibold text-white sm:text-[14px]">
+                      {p.name}
+                    </div>
+                    <div className="text-[11px] tabular-nums text-white/45">
+                      {p.price}
+                      {p.period && (
+                        <span className="text-white/30">{p.period}</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Plasma hero background — white accent */}
       <div
@@ -509,7 +610,7 @@ export default function PricingPage() {
           <SocialProofSection locale={locale} />
 
           {/* Comparison tables */}
-          <div className="mt-28 sm:mt-36">
+          <div ref={compareRef} className="mt-28 sm:mt-36" id="compare-plans">
             <Reveal>
               <h2 className="text-center text-2xl font-semibold text-white sm:text-3xl">
                 {locale === "fr" ? "Comparer les plans" : "Compare plans"}
@@ -526,25 +627,21 @@ export default function PricingPage() {
                 </h3>
                 <div className="overflow-x-auto">
                   <table className="w-full min-w-[580px]">
-                    <thead>
-                      <tr>
-                        <th className="w-[40%] pb-3 text-left text-[12px] font-medium uppercase tracking-wider text-white/25" />
-                        <th className="w-[20%] pb-3 text-center text-[12px] font-medium uppercase tracking-wider text-white/25">
-                          Free
-                        </th>
-                        <th className="w-[20%] pb-3 text-center text-[12px] font-medium uppercase tracking-wider text-white/25">
-                          Pro
-                        </th>
-                        <th className="w-[20%] pb-3 text-center text-[12px] font-medium uppercase tracking-wider text-white/25">
-                          Ultra
-                        </th>
-                      </tr>
-                    </thead>
+                    <colgroup>
+                      <col style={{ width: "40%" }} />
+                      <col style={{ width: "20%" }} />
+                      <col style={{ width: "20%" }} />
+                      <col style={{ width: "20%" }} />
+                    </colgroup>
                     <tbody>
-                      {section.rows.map((row) => (
+                      {section.rows.map((row, rowIdx) => (
                         <tr
                           key={row.label}
-                          className="border-t border-white/[0.04]"
+                          className={
+                            rowIdx === 0
+                              ? ""
+                              : "border-t border-white/[0.04]"
+                          }
                         >
                           <td className="py-3 text-[13px] text-white/60">
                             {row.label}

@@ -301,7 +301,7 @@ function NavDropdown({
         href={item.href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noreferrer" : undefined}
-        className="whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+        className="cursor-default whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/60 transition-colors duration-200 hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
       >
         {item.label}
       </a>
@@ -317,18 +317,19 @@ function NavDropdown({
       <button
         type="button"
         onClick={onClick}
-        className={`group flex items-center gap-1 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 ${
-          open
-            ? "bg-white/[0.06] text-white/90"
-            : "text-white/60 hover:bg-white/[0.06] hover:text-white/90"
+        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 ${
+          open ? "text-white/90" : "text-white/60 hover:text-white/90"
         }`}
       >
         {item.label}
         <svg
           viewBox="0 0 12 12"
-          className={`h-3 w-3 fill-none stroke-current stroke-[1.8] transition-transform duration-200 ${
-            open ? "rotate-180" : ""
-          }`}
+          className="h-3 w-3 fill-none stroke-[1.8] text-white/25"
+          style={{
+            stroke: "currentColor",
+            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+            transition: "transform 380ms cubic-bezier(0.22, 1, 0.36, 1)",
+          }}
         >
           <path d="M3 5l3 3 3-3" />
         </svg>
