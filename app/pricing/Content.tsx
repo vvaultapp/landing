@@ -105,6 +105,7 @@ function getComparisonSections(locale: "en" | "fr") {
         { label: fr ? "Page Link in Bio" : "Link in Bio page", free: true, pro: true, ultra: true },
         { label: fr ? "Certificat de dépôt" : "Certificate of deposit", free: true, pro: true, ultra: true },
         { label: fr ? "WaveMatch (détection de placements)" : "WaveMatch (placement detection)", free: true, pro: true, ultra: true },
+        { label: fr ? "Scan WaveMatch automatique de la bibliothèque" : "Auto library WaveMatch scanning", free: false, pro: false, ultra: true },
       ],
     },
     {
@@ -118,7 +119,6 @@ function getComparisonSections(locale: "en" | "fr") {
         { label: fr ? "Horaire optimal par destinataire" : "Per-recipient best time scheduling", free: false, pro: false, ultra: true },
         { label: fr ? "Automatisations en séries" : "Series automations", free: false, pro: false, ultra: true },
         { label: fr ? "Séquences email automatisées (drip)" : "Automated email sequences (drip)", free: false, pro: false, ultra: true },
-        { label: fr ? "Suggestions de relances par IA" : "AI follow-up suggestions", free: false, pro: false, ultra: true },
       ],
     },
     {
@@ -159,13 +159,14 @@ function getComparisonSections(locale: "en" | "fr") {
       title: fr ? "Branding & Personnalisation" : "Branding & Customization",
       rows: [
         { label: fr ? "Profil public" : "Public profile", free: true, pro: true, ultra: true },
-        { label: fr ? "Personnalisation du thème" : "Theme customization", free: false, pro: true, ultra: true },
+        { label: fr ? "Personnalisation du thème" : "Theme customization", free: false, pro: false, ultra: true },
         { label: fr ? "Crédits de placement" : "Placement credits", free: true, pro: true, ultra: true },
         { label: fr ? "Liens sociaux (IG, YT, TT)" : "Social links (IG, YT, TT)", free: true, pro: true, ultra: true },
         { label: fr ? "Embeds (lecteurs intégrables) avec tracking" : "Embeds (embeddable players) with tracking", free: true, pro: true, ultra: true },
+        { label: fr ? "Codes QR" : "QR codes", free: true, pro: true, ultra: true },
         { label: fr ? "Domaine personnalisé" : "Custom domain", free: false, pro: false, ultra: true },
-        { label: fr ? "Embeds brandés et codes QR" : "Branded embeds and QR codes", free: false, pro: false, ultra: true },
-        { label: fr ? "vVault Studio (publication auto vidéo)" : "vVault Studio (auto video publishing)", free: false, pro: false, ultra: true },
+        { label: fr ? "Embeds brandés" : "Branded embeds", free: false, pro: false, ultra: true },
+        { label: fr ? "Studio Packs (publication auto vidéo)" : "Studio Packs (auto video publishing)", free: false, pro: false, ultra: true },
         { label: fr ? "Mise en avant section Browse" : "Browse section highlight", free: false, pro: false, ultra: true },
       ],
     },
@@ -175,7 +176,9 @@ function getComparisonSections(locale: "en" | "fr") {
 function CellValue({ value }: { value: boolean | string }) {
   if (typeof value === "string") {
     return (
-      <span className="text-[13px] text-white/60">{value}</span>
+      <span className="block break-words text-[12px] leading-snug text-white/60 sm:text-[13px]">
+        {value}
+      </span>
     );
   }
   if (value) {
@@ -229,6 +232,19 @@ export default function PricingPage() {
       window.removeEventListener("resize", handleScroll);
     };
   }, []);
+
+  // Toggle a body class so the primary nav cross-fades out while the sticky
+  // compare bar takes over the top of the viewport.
+  useEffect(() => {
+    if (stickyVisible) {
+      document.body.classList.add("compare-sticky-active");
+    } else {
+      document.body.classList.remove("compare-sticky-active");
+    }
+    return () => {
+      document.body.classList.remove("compare-sticky-active");
+    };
+  }, [stickyVisible]);
 
   const fr = locale === "fr";
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
@@ -301,71 +317,71 @@ export default function PricingPage() {
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
-      {/* Sticky compare-plans bar — covers nav while reading tables */}
+      {/* Sticky compare-plans bar — covers nav while reading tables.
+          Pairs with the body class `compare-sticky-active` that fades the
+          primary nav out at the same time, for a seamless hand-off. */}
       <div
         aria-hidden={!stickyVisible}
-        className={`fixed inset-x-0 top-0 z-[100] transition-all duration-300 ease-out ${
-          stickyVisible
-            ? "translate-y-0 opacity-100"
-            : "pointer-events-none -translate-y-full opacity-0"
+        className={`fixed inset-x-0 top-0 z-[100] transition-opacity duration-[320ms] ease-out ${
+          stickyVisible ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+        style={{ willChange: "opacity" }}
       >
         <div
-          className="border-b border-white/[0.08] bg-black/85 pt-[env(safe-area-inset-top)] backdrop-blur-xl"
+          className="border-b border-white/[0.10] bg-black/95 pt-[env(safe-area-inset-top)] backdrop-blur-xl"
           style={{
-            boxShadow: "0 12px 28px -16px rgba(0,0,0,0.7)",
+            boxShadow: "0 14px 32px -18px rgba(0,0,0,0.85)",
           }}
         >
           <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-            <div className="overflow-x-auto">
-              <div
-                className="grid min-w-[580px] items-center gap-4 py-3.5 sm:py-4"
-                style={{
-                  gridTemplateColumns: "40% 20% 20% 20%",
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/40">
-                    {locale === "fr" ? "Comparer" : "Compare"}
+            <div
+              className="grid min-h-[62px] items-center gap-3 py-3 sm:min-h-[80px] sm:gap-4 sm:py-5"
+              style={{
+                gridTemplateColumns: "40% 20% 20% 20%",
+              }}
+            >
+              {/* Label column — "Compare" + (desktop) billing toggle */}
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-[13px] font-semibold text-white/75 sm:text-[15px]">
+                  {locale === "fr" ? "Comparer" : "Compare"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setAnnual((v) => !v)}
+                  className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/60 transition-colors hover:bg-white/[0.08] sm:inline-flex"
+                >
+                  <span className={annual ? "text-white/40" : "text-white"}>
+                    {content.pricingUi.monthly}
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => setAnnual((v) => !v)}
-                    className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[11px] font-medium text-white/60 transition-colors hover:bg-white/[0.07] sm:inline-flex"
+                  <span
+                    className={`relative h-3.5 w-6 rounded-full transition-colors ${
+                      annual ? "bg-emerald-500/80" : "bg-white/15"
+                    }`}
                   >
-                    <span className={annual ? "text-white/40" : "text-white"}>
-                      {content.pricingUi.monthly}
-                    </span>
                     <span
-                      className={`relative h-3.5 w-6 rounded-full transition-colors ${
-                        annual ? "bg-emerald-500/80" : "bg-white/15"
+                      className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
+                        annual ? "left-3" : "left-0.5"
                       }`}
-                    >
-                      <span
-                        className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
-                          annual ? "left-3" : "left-0.5"
-                        }`}
-                      />
-                    </span>
-                    <span className={annual ? "text-white" : "text-white/40"}>
-                      {content.pricingUi.annually}
-                    </span>
-                  </button>
-                </div>
-                {stickyPlans.map((p) => (
-                  <div key={p.name} className="text-center">
-                    <div className="text-[13px] font-semibold text-white sm:text-[14px]">
-                      {p.name}
-                    </div>
-                    <div className="text-[11px] tabular-nums text-white/45">
-                      {p.price}
-                      {p.period && (
-                        <span className="text-white/30">{p.period}</span>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                    />
+                  </span>
+                  <span className={annual ? "text-white" : "text-white/40"}>
+                    {content.pricingUi.annually}
+                  </span>
+                </button>
               </div>
+              {stickyPlans.map((p) => (
+                <div key={p.name} className="min-w-0 text-center">
+                  <div className="truncate text-[13px] font-semibold text-white sm:text-[17px]">
+                    {p.name}
+                  </div>
+                  <div className="truncate text-[10.5px] tabular-nums text-white/55 sm:text-[13px]">
+                    {p.price}
+                    {p.period && (
+                      <span className="text-white/35">{p.period}</span>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -625,41 +641,39 @@ export default function PricingPage() {
                 <h3 className="mb-4 text-lg font-semibold text-white/80">
                   {section.title}
                 </h3>
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[580px]">
-                    <colgroup>
-                      <col style={{ width: "40%" }} />
-                      <col style={{ width: "20%" }} />
-                      <col style={{ width: "20%" }} />
-                      <col style={{ width: "20%" }} />
-                    </colgroup>
-                    <tbody>
-                      {section.rows.map((row, rowIdx) => (
-                        <tr
-                          key={row.label}
-                          className={
-                            rowIdx === 0
-                              ? ""
-                              : "border-t border-white/[0.04]"
-                          }
-                        >
-                          <td className="py-3 text-[13px] text-white/60">
-                            {row.label}
-                          </td>
-                          <td className="py-3 text-center">
-                            <CellValue value={row.free} />
-                          </td>
-                          <td className="py-3 text-center">
-                            <CellValue value={row.pro} />
-                          </td>
-                          <td className="py-3 text-center">
-                            <CellValue value={row.ultra} />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <table className="w-full table-fixed">
+                  <colgroup>
+                    <col style={{ width: "40%" }} />
+                    <col style={{ width: "20%" }} />
+                    <col style={{ width: "20%" }} />
+                    <col style={{ width: "20%" }} />
+                  </colgroup>
+                  <tbody>
+                    {section.rows.map((row, rowIdx) => (
+                      <tr
+                        key={row.label}
+                        className={
+                          rowIdx === 0
+                            ? ""
+                            : "border-t border-white/[0.04]"
+                        }
+                      >
+                        <td className="py-3 pr-2 text-[12.5px] leading-snug text-white/60 sm:text-[13px]">
+                          {row.label}
+                        </td>
+                        <td className="py-3 text-center align-middle">
+                          <CellValue value={row.free} />
+                        </td>
+                        <td className="py-3 text-center align-middle">
+                          <CellValue value={row.pro} />
+                        </td>
+                        <td className="py-3 text-center align-middle">
+                          <CellValue value={row.ultra} />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </Reveal>
             ))}
           </div>
