@@ -637,7 +637,7 @@ function NavDropdown({
                               maskRepeat: "no-repeat",
                               WebkitMaskPosition: "center",
                               maskPosition: "center",
-                              background: "linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(215,220,235,0.65) 18%, rgba(6,182,212,0.4) 72%, rgba(6,182,212,0.6) 100%)",
+                              background: "linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(230,232,238,0.85) 22%, rgba(190,195,205,0.75) 55%, rgba(150,155,165,0.72) 82%, rgba(210,214,222,0.85) 100%)",
                             }}
                           />
                         </div>

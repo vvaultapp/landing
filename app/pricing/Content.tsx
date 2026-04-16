@@ -652,14 +652,24 @@ export default function PricingPage() {
           <div
             ref={staticHeaderRef}
             className="sticky top-[62px] z-20 sm:top-[56px]"
-            style={{
-              backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
-              backdropFilter: stuck ? "blur(14px)" : "none",
-              WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
-              transition:
-                "background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease",
-            }}
           >
+            {/* Unified glass backdrop — extends upward to cover the nav
+                area when stuck so there's ONE continuous glass surface
+                (no seam between nav and compare-plans). The nav itself
+                is made fully transparent via the `compare-pinned` body
+                class in globals.css, so this backdrop is the only glass
+                visible from y=0 down to the bottom of the sticky bar. */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 -top-[62px] sm:-top-[56px]"
+              style={{
+                backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
+                backdropFilter: stuck ? "blur(14px)" : "none",
+                WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
+                transition:
+                  "background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease",
+              }}
+            />
             <div className="mx-auto w-full max-w-[1320px] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">
               {/* Mobile: big title + toggle stacked full-width on top, then
                   the 3 plan columns beneath. Desktop: single 40/20/20/20 row

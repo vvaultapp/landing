@@ -1,14 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { Reveal } from "@/components/landing/Reveal";
-
-const LaserFlow = dynamic(() => import("@/components/landing/LaserFlow"), {
-  ssr: false,
-});
 
 type HomeConversionCtaProps = {
   locale?: Locale;
@@ -17,17 +12,14 @@ type HomeConversionCtaProps = {
 /* ------------------------------------------------------------------ */
 /*  Final conversion section                                           */
 /*                                                                     */
-/*  The LaserFlow beam sits in a full-width container behind every-    */
-/*  thing (z-0). The CTA tile is an opaque black card on top (z-10) —  */
-/*  so the beam visually TERMINATES at the tile's top edge because     */
-/*  the opaque card hides the beam below that line. A bright 2px       */
-/*  horizontal flash + a wide upward splash + an inner glow pool sell  */
-/*  the impact moment, making the beam appear to rest on the card.    */
-/*                                                                     */
-/*  Text legibility is handled with (a) a dark radial backdrop blob    */
-/*  behind the headline + sub, which darkens the beam in that area,   */
-/*  and (b) a strong multi-layer dark text-shadow that haloes each     */
-/*  character so white type reads against the bright beam.             */
+/*  The visual story: show the user what they're actually getting — a  */
+/*  single vvault link that holds their track, their stats, their      */
+/*  audience. A realistic preview card (URL pill, cover art, track     */
+/*  meta, play button, waveform) sits below the headline. A soft       */
+/*  lavender aurora + subtle dotted grid sets the depth without        */
+/*  overpowering the type. The primary button carries the lavender     */
+/*  glow (.home-cta-primary) so brand colour is continuous with the    */
+/*  rest of the page.                                                  */
 /* ------------------------------------------------------------------ */
 
 export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
@@ -47,188 +39,243 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
     ? "Gratuit pour toujours · Aucune carte requise · Annule quand tu veux"
     : "Free forever · No credit card · Cancel anytime";
 
+  const trackTitle = fr ? "Minuit à Paris" : "Midnight Drive";
+  const trackStatus = fr ? "Nouveau single" : "New single";
+  const plays = fr ? "2 412 écoutes" : "2,412 plays";
+
+  /* Waveform bars — fixed heights so server/client match (no hydration
+     mismatch). 42 bars with a gentle "song-shaped" rise/fall. */
+  const bars = [
+    22, 34, 48, 62, 42, 28, 52, 68, 44, 30,
+    38, 54, 72, 56, 40, 46, 64, 80, 62, 44,
+    30, 44, 60, 76, 58, 40, 48, 66, 52, 36,
+    28, 40, 58, 70, 52, 36, 28, 44, 62, 48,
+    32, 22,
+  ];
+  const playedThrough = 14;
+
   return (
     <section
       id="get-started"
-      className="relative overflow-hidden pt-20 sm:pt-32"
+      className="relative overflow-hidden pt-24 sm:pt-36"
     >
-      {/* LaserFlow beam — fades IN from the top, then stays solid.
-          No bottom fade-out: the opaque black CTA tile itself is what
-          visually terminates the beam, so the beam literally rests on
-          the tile's top edge. */}
+      {/* Dotted grid — subtle texture, fades at the edges so the type
+          sits on a clean pool of darkness. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[900px] sm:h-[1060px]"
+        className="pointer-events-none absolute inset-0 z-0"
         style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.28) 1px, transparent 1px)",
+          backgroundSize: "22px 22px",
+          opacity: 0.35,
           maskImage:
-            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.18) 8%, rgba(0,0,0,0.55) 18%, black 30%, black 100%)",
+            "radial-gradient(ellipse 62% 55% at 50% 42%, black 0%, rgba(0,0,0,0.5) 50%, transparent 82%)",
           WebkitMaskImage:
-            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.18) 8%, rgba(0,0,0,0.55) 18%, black 30%, black 100%)",
+            "radial-gradient(ellipse 62% 55% at 50% 42%, black 0%, rgba(0,0,0,0.5) 50%, transparent 82%)",
         }}
-      >
-        <LaserFlow
-          color="#ebd7ff"
-          horizontalBeamOffset={0.0}
-          verticalBeamOffset={0.05}
-          horizontalSizing={0.52}
-          verticalSizing={1.9}
-          wispDensity={0.85}
-          wispSpeed={13}
-          wispIntensity={4.4}
-          flowSpeed={0.42}
-          flowStrength={0.22}
-          fogIntensity={0.42}
-          fogScale={0.28}
-          fogFallSpeed={0.5}
-          decay={1.22}
-          falloffStart={1.05}
-        />
-      </div>
+      />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        {/* Headline block — a dark radial backdrop sits behind the type
-            so white characters read cleanly against the bright beam. */}
+      {/* Aurora — two overlapping lavender pools sitting behind the
+          headline area. Large, soft, static — no animation. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[780px]"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 55% at 50% 36%, rgba(196,168,255,0.22) 0%, rgba(196,168,255,0.06) 38%, transparent 68%)",
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-[140px] z-0 h-[440px] w-[840px] -translate-x-1/2"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 50% at 28% 50%, rgba(120,100,220,0.14) 0%, transparent 70%), radial-gradient(ellipse 45% 45% at 72% 50%, rgba(220,190,255,0.12) 0%, transparent 70%)",
+          filter: "blur(6px)",
+        }}
+      />
+
+      <div className="relative z-10 mx-auto w-full max-w-[1080px] px-5 sm:px-8 lg:px-10">
+        {/* Headline */}
         <Reveal>
-          <div className="relative pt-[120px] text-center sm:pt-[170px]">
-            {/* Dark backdrop blob — darkens the beam in the text zone */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 top-[60px] -z-0 h-[320px] sm:top-[90px] sm:h-[440px]"
-              style={{
-                background:
-                  "radial-gradient(ellipse 55% 65% at 50% 45%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.38) 42%, rgba(0,0,0,0.12) 70%, transparent 88%)",
-              }}
-            />
-            <h2
-              className="relative z-10 mx-auto max-w-[860px] text-[2.3rem] font-medium leading-[1.02] tracking-[-0.022em] text-white sm:text-[3.8rem] lg:text-[4.6rem]"
-              style={{
-                textShadow:
-                  "0 2px 24px rgba(0,0,0,0.85), 0 0 44px rgba(0,0,0,0.65), 0 1px 2px rgba(0,0,0,0.6)",
-              }}
-            >
+          <div className="text-center">
+            <h2 className="mx-auto max-w-[820px] text-[2.3rem] font-medium leading-[1.02] tracking-[-0.022em] text-white sm:text-[3.8rem] lg:text-[4.4rem]">
               {headline}
             </h2>
-            <p
-              className="relative z-10 mx-auto mt-5 max-w-[540px] text-[14px] leading-relaxed text-white/90 sm:mt-6 sm:text-[15.5px]"
-              style={{
-                textShadow:
-                  "0 1px 14px rgba(0,0,0,0.85), 0 0 22px rgba(0,0,0,0.55)",
-              }}
-            >
+            <p className="mx-auto mt-5 max-w-[520px] text-[14px] leading-relaxed text-white/55 sm:mt-6 sm:text-[15.5px]">
               {sub}
             </p>
           </div>
         </Reveal>
 
-        {/* CTA tile — opaque black card. The beam ends at its top edge
-            because the tile is drawn ON TOP of the beam (higher z-index
-            + opaque bg). An impact flash, a side-spray splash, and an
-            inner glow pool sell the moment the beam lands. */}
+        {/* Product preview card — a mock vvault link showing what a
+            producer's vault looks like in the wild. */}
         <Reveal>
-          <div className="relative mt-10 sm:mt-12">
-            {/* Splash — an elliptical burst that straddles the tile's
-                top edge and extends a bit past its sides, selling "light
-                sprays outward on impact". Sits above the tile (z-0
-                inside the wrapper) but BELOW the tile body. */}
+          <div className="relative mx-auto mt-12 max-w-[560px] sm:mt-14">
+            {/* Halo glow behind card */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 -top-6 z-0 h-[140px] w-[820px] -translate-x-1/2 sm:-top-8 sm:h-[180px] sm:w-[960px]"
+              className="pointer-events-none absolute -inset-10 -z-10"
               style={{
                 background:
-                  "radial-gradient(ellipse 40% 100% at 50% 45%, rgba(235,215,255,0.7) 0%, rgba(235,215,255,0.28) 22%, rgba(235,215,255,0.08) 48%, transparent 75%)",
+                  "radial-gradient(ellipse 60% 75% at 50% 50%, rgba(196,168,255,0.14) 0%, transparent 72%)",
+                filter: "blur(18px)",
               }}
             />
-
             <div
-              className="relative z-10 mx-auto max-w-[580px] overflow-hidden rounded-[24px] sm:rounded-[28px]"
+              className="relative overflow-hidden rounded-2xl p-4 sm:rounded-[20px] sm:p-5"
               style={{
-                background: "#000000",
+                background:
+                  "linear-gradient(180deg, rgba(22,20,30,0.96) 0%, rgba(10,9,14,0.98) 100%)",
                 boxShadow:
-                  "0 60px 120px -32px rgba(0,0,0,0.95), 0 0 0 1px rgba(235,215,255,0.08)",
+                  "0 40px 80px -24px rgba(0,0,0,0.8), 0 0 0 1px rgba(196,168,255,0.12), inset 0 1px 0 rgba(255,255,255,0.06)",
               }}
             >
-              {/* Impact flash — very bright hairline on the top edge */}
+              {/* Top glow line — lavender, centered */}
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-[2px]"
+                className="pointer-events-none absolute inset-x-0 top-0 h-px"
                 style={{
                   background:
-                    "linear-gradient(90deg, transparent 0%, rgba(235,215,255,0.4) 10%, rgba(255,255,255,1) 50%, rgba(235,215,255,0.4) 90%, transparent 100%)",
-                  boxShadow:
-                    "0 0 40px 4px rgba(235,215,255,0.85), 0 0 20px rgba(255,255,255,0.6)",
-                }}
-              />
-              {/* Inner glow pool — light pooling on the tile top surface */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 top-0 h-[300px] w-[520px] -translate-x-1/2 -translate-y-[48%]"
-                style={{
-                  background:
-                    "radial-gradient(ellipse 55% 55% at 50% 50%, rgba(235,215,255,0.5) 0%, rgba(235,215,255,0.16) 35%, rgba(235,215,255,0.04) 60%, transparent 78%)",
-                }}
-              />
-              {/* Subtle top border that fades with depth */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-[inherit]"
-                style={{
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  borderBottom: "none",
-                  maskImage:
-                    "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
+                    "linear-gradient(90deg, transparent 0%, rgba(196,168,255,0.4) 50%, transparent 100%)",
                 }}
               />
 
-              {/* CTA content */}
-              <div className="relative flex flex-col items-center gap-5 px-6 pb-9 pt-14 text-center sm:gap-6 sm:px-10 sm:pb-11 sm:pt-16">
-                <LandingCtaLink
-                  loggedInHref="https://vvault.app/billing"
-                  loggedOutHref="https://vvault.app/signup"
-                  className="home-cta-primary group inline-flex w-full max-w-[360px] items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-[14.5px] font-semibold text-[#0e0e0e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-[15.5px]"
+              <div className="flex items-center gap-3 sm:gap-4">
+                {/* Cover art */}
+                <div
+                  className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl sm:h-[68px] sm:w-[68px]"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, #8b6ffb 0%, #c4a8ff 45%, #ff9ec7 100%)",
+                  }}
                 >
-                  <span>{primary}</span>
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "radial-gradient(circle at 30% 28%, rgba(255,255,255,0.4) 0%, transparent 55%)",
+                    }}
+                  />
                   <svg
-                    viewBox="0 0 20 20"
-                    className="h-4 w-4 fill-none stroke-current stroke-[1.8] transition-transform duration-200 group-hover:translate-x-0.5"
-                  >
-                    <path d="M4 10h11M11 6l4 4-4 4" />
-                  </svg>
-                </LandingCtaLink>
-
-                <Link
-                  href={secondaryHref}
-                  className="group inline-flex items-center gap-1.5 text-[13px] font-medium text-white/55 transition-colors duration-200 hover:text-white sm:text-[13.5px]"
-                >
-                  <span>{secondary}</span>
-                  <svg
-                    viewBox="0 0 16 16"
-                    className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.6] transition-transform duration-200 group-hover:translate-x-0.5"
+                    viewBox="0 0 24 24"
+                    className="absolute inset-0 m-auto h-5 w-5 fill-none stroke-white/90 stroke-[1.6] sm:h-6 sm:w-6"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    <path d="M4 8h8M9 5l3 3-3 3" />
+                    <path d="M9 18V5l12-2v13" />
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="16" r="3" />
                   </svg>
-                </Link>
+                </div>
 
+                {/* Meta */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-1.5">
+                    <svg
+                      viewBox="0 0 16 16"
+                      className="h-3 w-3 shrink-0 fill-none stroke-white/35 stroke-[1.5]"
+                      strokeLinecap="round"
+                    >
+                      <path d="M6.5 9.5a3 3 0 0 0 4.24 0l2.12-2.12a3 3 0 0 0-4.24-4.24L7.5 4.27" />
+                      <path d="M9.5 6.5a3 3 0 0 0-4.24 0L3.14 8.62a3 3 0 0 0 4.24 4.24L8.5 11.73" />
+                    </svg>
+                    <span className="truncate text-[11px] font-medium tracking-[0.01em] text-white/40 sm:text-[12px]">
+                      vvault.app/yourname
+                    </span>
+                  </div>
+                  <div className="mt-1 truncate text-[14.5px] font-semibold text-white sm:text-[15.5px]">
+                    {trackTitle}
+                  </div>
+                  <div className="mt-0.5 flex items-center gap-1.5 text-[11px] text-white/40 sm:text-[12px]">
+                    <span>{trackStatus}</span>
+                    <span className="h-[3px] w-[3px] rounded-full bg-white/25" />
+                    <span className="tabular-nums">{plays}</span>
+                  </div>
+                </div>
+
+                {/* Play button — white pill for premium feel */}
                 <div
-                  className="mt-1 h-px w-24 sm:w-28"
+                  aria-hidden="true"
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-black sm:h-11 sm:w-11"
                   style={{
-                    background:
-                      "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.14) 50%, transparent 100%)",
+                    boxShadow:
+                      "0 6px 20px -4px rgba(196,168,255,0.35), inset 0 -2px 4px rgba(0,0,0,0.08)",
                   }}
-                />
+                >
+                  <svg viewBox="0 0 16 16" className="ml-[2px] h-3.5 w-3.5 fill-current">
+                    <path d="M4 2.5v11l10-5.5z" />
+                  </svg>
+                </div>
+              </div>
 
-                <p className="text-[12px] leading-relaxed text-white/50 sm:text-[12.5px]">
-                  {trust}
-                </p>
+              {/* Waveform — gradient on played bars, muted on the rest */}
+              <div className="mt-4 flex h-10 items-end gap-[2px] sm:mt-5 sm:h-12">
+                {bars.map((h, i) => {
+                  const active = i < playedThrough;
+                  return (
+                    <div
+                      key={i}
+                      className="flex-1 rounded-[1.5px]"
+                      style={{
+                        height: `${h}%`,
+                        background: active
+                          ? "linear-gradient(180deg, rgba(210,185,255,0.95) 0%, rgba(139,111,251,0.7) 100%)"
+                          : "rgba(255,255,255,0.14)",
+                      }}
+                    />
+                  );
+                })}
+              </div>
+
+              {/* Timestamp row under waveform */}
+              <div className="mt-2 flex items-center justify-between text-[10.5px] font-medium tabular-nums text-white/30 sm:text-[11px]">
+                <span>0:42</span>
+                <span>3:14</span>
               </div>
             </div>
           </div>
         </Reveal>
-      </div>
 
+        {/* CTA stack */}
+        <Reveal>
+          <div className="mt-12 flex flex-col items-center gap-4 sm:mt-14">
+            <LandingCtaLink
+              loggedInHref="https://vvault.app/billing"
+              loggedOutHref="https://vvault.app/signup"
+              className="home-cta-primary group inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-7 py-3.5 text-[14.5px] font-semibold text-[#0e0e0e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-[15.5px]"
+            >
+              <span>{primary}</span>
+              <svg
+                viewBox="0 0 20 20"
+                className="h-4 w-4 fill-none stroke-current stroke-[1.8] transition-transform duration-200 group-hover:translate-x-0.5"
+              >
+                <path d="M4 10h11M11 6l4 4-4 4" />
+              </svg>
+            </LandingCtaLink>
+
+            <Link
+              href={secondaryHref}
+              className="group inline-flex items-center gap-1.5 text-[13px] font-medium text-white/55 transition-colors duration-200 hover:text-white sm:text-[13.5px]"
+            >
+              <span>{secondary}</span>
+              <svg
+                viewBox="0 0 16 16"
+                className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.6] transition-transform duration-200 group-hover:translate-x-0.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M4 8h8M9 5l3 3-3 3" />
+              </svg>
+            </Link>
+
+            <p className="mt-2 text-center text-[12px] leading-relaxed text-white/35 sm:text-[12.5px]">
+              {trust}
+            </p>
+          </div>
+        </Reveal>
+      </div>
     </section>
   );
 }

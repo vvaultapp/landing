@@ -198,12 +198,18 @@ html {
 }
 
 /* When the pricing /pricing Compare-plans header is pinned against
-   the nav, we fade the nav's bottom border away so the two bars
-   visually merge into one continuous glassmorphic strip. Inline
-   style on the nav sets the border color based on scrollProgress,
-   so we need !important to override. */
+   the nav, we want the two bars to read as ONE continuous glass
+   strip — no seam. Two stacked `backdrop-filter` elements produce
+   a visible subpixel discontinuity at their boundary, so instead we
+   strip the nav's glass entirely (bg, blur, border) and let the
+   sticky Compare-plans bar's glass extend UP to cover the nav area
+   (via a negative-top backdrop child). Result: a single unbroken
+   glass surface from y=0 down past the sticky. */
 body.compare-pinned .nav-enter {
-  border-bottom-color: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: 0 !important;
 }
 
 @keyframes hero-line-in {
