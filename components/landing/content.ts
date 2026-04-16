@@ -541,7 +541,6 @@ const landingContentFr = {
       children: [
         { label: "FAQ", href: "/help", description: "Questions fréquentes" },
         { label: "Support", href: "https://www.vvault.app/support", description: "Obtenir de l'aide", external: true },
-        { label: "Communauté Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Demande à la communauté", external: true },
         { label: "Rejoindre Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Communauté & support", featured: true, external: true },
       ],
     },

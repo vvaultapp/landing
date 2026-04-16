@@ -191,7 +191,10 @@ function HeroTrustedBy({
   avatarUrls: string[];
 }) {
   const AVATAR_SLOT_COUNT = 5;
-  const numberFormatter = useMemo(() => new Intl.NumberFormat("en-US"), []);
+  const numberFormatter = useMemo(
+    () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
+    [locale],
+  );
   const optimizedAvatarUrls = useMemo(() => {
     const unique = new Set<string>();
     for (const source of avatarUrls) {
@@ -265,7 +268,7 @@ function HeroTrustedBy({
       Boolean(connection?.saveData) ||
       connection?.effectiveType === "slow-2g" ||
       connection?.effectiveType === "2g";
-    const preloadQueue = shuffleStrings(optimizedAvatarUrls);
+    const preloadQueue = shuffleStrings(optimizedAvatarUrls.slice(0, 20));
     const preloadParallel = Math.min(
       preloadQueue.length,
       isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL,
@@ -312,8 +315,14 @@ function HeroTrustedBy({
 
   useEffect(() => {
     if (avatarPoolRef.current.length <= 1) return;
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
 
-    const intervalId = window.setInterval(() => {
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    const rotate = () => {
       setSlots((currentSlots) => {
         const pool = avatarPoolRef.current;
         if (pool.length <= 1) return currentSlots;
@@ -337,9 +346,23 @@ function HeroTrustedBy({
           return updated;
         });
       });
-    }, 3000);
-
-    return () => clearInterval(intervalId);
+    };
+    const start = () => {
+      if (!intervalId) intervalId = setInterval(rotate, 3000);
+    };
+    const stop = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+    start();
+    const onVis = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, [optimizedAvatarsKey, pickNextAvatar]);
 
   return (
@@ -624,19 +647,45 @@ function RotatingHeadline({ locale }: { locale: Locale }) {
   const headlines = locale === "fr" ? HERO_HEADLINES_FR : HERO_HEADLINES_EN;
   const [index, setIndex] = useState(0);
   const [state, setState] = useState<"visible" | "exiting" | "entering">("visible");
+  const timeout1Ref = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timeout2Ref = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    const tick = () => {
       setState("exiting");
-      setTimeout(() => {
+      timeout1Ref.current = setTimeout(() => {
         setIndex((prev) => (prev + 1) % headlines.length);
         setState("entering");
-        setTimeout(() => {
+        timeout2Ref.current = setTimeout(() => {
           setState("visible");
         }, 50);
       }, 400);
-    }, 3000);
-    return () => clearInterval(interval);
+    };
+    const start = () => {
+      if (!intervalId) intervalId = setInterval(tick, 3000);
+    };
+    const stop = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+    start();
+    const onVis = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+      if (timeout1Ref.current) clearTimeout(timeout1Ref.current);
+      if (timeout2Ref.current) clearTimeout(timeout2Ref.current);
+    };
   }, [headlines.length]);
 
   return (

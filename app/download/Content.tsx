@@ -126,7 +126,7 @@ export default function DownloadPage() {
           <div className="mb-8 flex items-center justify-center">
             <Image
               src="/vvault-iOS-Default-1024x1024@1x.png"
-              alt="vvault app icon"
+              alt={fr ? "Icône de l'app vvault" : "vvault app icon"}
               width={96}
               height={96}
               className="rounded-[22px] shadow-2xl shadow-black/60"

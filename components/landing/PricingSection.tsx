@@ -109,7 +109,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       name: ai.title,
       eyebrow: "",
       price: ultraPrice,
-      period: "/mo",
+      period: locale === "fr" ? "/mois" : "/mo",
 
       bullets: ai.bullets,
       cta: content.pricingUi.upgradeUltra,

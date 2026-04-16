@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
@@ -192,24 +193,24 @@ export default function ContactPage() {
               : "Many questions already have an answer. Take a look at our help center and documentation — you'll likely find what you're looking for in seconds."}
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a
+            <Link
               href="/help"
               className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
             >
               {fr ? "Centre d'aide" : "Help center"}
-            </a>
-            <a
+            </Link>
+            <Link
               href="/docs"
               className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
             >
               {fr ? "Documentation" : "Documentation"}
-            </a>
-            <a
+            </Link>
+            <Link
               href="/pricing"
               className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
             >
               {fr ? "Tarifs" : "Pricing"}
-            </a>
+            </Link>
           </div>
         </Reveal>
       </main>

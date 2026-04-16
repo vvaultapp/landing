@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useDocsLocale } from "../DocsLocaleContext";
 
 export default function DesktopAppDocPage() {
@@ -90,10 +91,10 @@ export default function DesktopAppDocPage() {
       </p>
       <ul className="text-[14px] text-[#666] mb-4 list-disc pl-5 space-y-1">
         <li>
-          <a href="/download/macos" className="text-blue-500 hover:underline">macOS</a>
+          <Link href="/download/macos" className="text-blue-500 hover:underline">macOS</Link>
         </li>
         <li>
-          <a href="/download/windows" className="text-blue-500 hover:underline">Windows</a>
+          <Link href="/download/windows" className="text-blue-500 hover:underline">Windows</Link>
         </li>
         <li>
           {locale === "fr" ? "Également disponible sur l'" : "Also available on the "}{" "}

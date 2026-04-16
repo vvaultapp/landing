@@ -51,7 +51,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         <HeroSection content={content} locale={locale} />
         <SocialProofSection locale={locale} />
         <FeatureShowcase locale={locale} />
-        <HeroStatementSection content={content} />
+        <HeroStatementSection content={content} locale={locale} />
         <CertificateTeaser locale={locale} />
         <PricingSection content={content} locale={locale} />
         <ContactSection locale={locale} />

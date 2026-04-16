@@ -105,6 +105,11 @@ export function Plasma({
   const mousePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
     if (!containerRef.current) return;
     const containerEl = containerRef.current;
 

@@ -2,14 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { LandingContent } from "@/components/landing/content";
+import type { LandingContent, Locale } from "@/components/landing/content";
 import { Reveal } from "@/components/landing/Reveal";
 
 type HeroStatementSectionProps = {
   content: LandingContent;
+  locale: Locale;
 };
 
-export function HeroStatementSection({ content }: HeroStatementSectionProps) {
+export function HeroStatementSection({ content, locale }: HeroStatementSectionProps) {
+  const fr = locale === "fr";
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const dragStateRef = useRef({
     isDragging: false,
@@ -149,7 +151,7 @@ export function HeroStatementSection({ content }: HeroStatementSectionProps) {
                   type="button"
                   onClick={() => scrollToPage(Math.max(0, activePage - 1))}
                   disabled={activePage === 0}
-                  aria-label="Previous page"
+                  aria-label={fr ? "Page précédente" : "Previous page"}
                   className="absolute -left-8 top-1/2 z-10 -translate-y-1/2 p-1 text-white/75 transition hover:text-white disabled:opacity-25 sm:-left-10 lg:-left-14"
                 >
                   <ChevronLeft className="h-7 w-7" />
@@ -188,7 +190,7 @@ export function HeroStatementSection({ content }: HeroStatementSectionProps) {
                   type="button"
                   onClick={() => scrollToPage(Math.min(pageCount - 1, activePage + 1))}
                   disabled={activePage >= pageCount - 1}
-                  aria-label="Next page"
+                  aria-label={fr ? "Page suivante" : "Next page"}
                   className="absolute -right-8 top-1/2 z-10 -translate-y-1/2 p-1 text-white/75 transition hover:text-white disabled:opacity-25 sm:-right-10 lg:-right-14"
                 >
                   <ChevronRight className="h-7 w-7" />

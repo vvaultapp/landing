@@ -26,6 +26,7 @@ function MobileMenu({
   content: LandingContent;
   locale: Locale;
 }) {
+  const fr = locale === "fr";
   const isIOS = useIsIOS();
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
@@ -83,7 +84,7 @@ function MobileMenu({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close menu"
+            aria-label={fr ? "Fermer le menu" : "Close menu"}
             className="flex h-10 w-10 items-center justify-center rounded-xl text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current stroke-[1.8]">
@@ -118,7 +119,7 @@ function MobileMenu({
         </div>
 
         {/* Nav items */}
-        <nav className="mt-8 flex flex-col" aria-label="Mobile navigation">
+        <nav className="mt-8 flex flex-col" aria-label={fr ? "Navigation mobile" : "Mobile navigation"}>
           {content.nav.map((item, i) => {
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = expandedIndex === i;
@@ -476,6 +477,7 @@ function NavDropdown({
                     </div>
                   </div>
                   <div className="text-center">
+                    {/* TODO: receive trustpilot score from server-side fetch */}
                     <span className="block text-[13px] font-semibold text-white/85">4.5 / 5</span>
                     <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>
                   </div>
@@ -672,6 +674,7 @@ function NavDropdown({
 }
 
 export function LandingNav({ locale, content, showPrimaryLinks = true }: LandingNavProps) {
+  const fr = locale === "fr";
   const homeHref = locale === "fr" ? "/fr" : "/";
   const [scrollProgress, setScrollProgress] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -742,7 +745,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
 
         {showPrimaryLinks ? (
           <nav
-            aria-label="Primary"
+            aria-label={fr ? "Principal" : "Primary"}
             className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex"
             data-nav-dropdown
           >
@@ -789,7 +792,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <button
             type="button"
             onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open menu"
+            aria-label={fr ? "Ouvrir le menu" : "Open menu"}
             className="flex h-9 w-9 items-center justify-center rounded-xl text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
           >
             <svg viewBox="0 0 20 20" className="h-5 w-5 fill-none stroke-current stroke-[1.8]">

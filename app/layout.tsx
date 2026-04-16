@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { cookies } from "next/headers";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
   variable: "--font-geist",
 });
@@ -21,13 +22,17 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("vvault_locale")?.value;
+  const lang = localeCookie === "fr" ? "fr" : "en";
+
   return (
-    <html lang="en" className={`h-full ${geist.variable}`}>
+    <html lang={lang} className={`h-full ${geist.variable}`}>
       <head>
         <script
           type="application/ld+json"

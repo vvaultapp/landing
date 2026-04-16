@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const dynamic = "force-static";
+export const revalidate = 300;
 
 type LandingManualStatsRow = {
   money_paid_total_cents?: number | string | null;
@@ -100,7 +100,7 @@ export async function GET() {
         .map((row) => (typeof row?.picture === "string" ? row.picture.trim() : ""))
         .filter((value) => value.length > 0),
     ),
-  );
+  ).slice(0, 30);
 
   return NextResponse.json(
     {
@@ -113,7 +113,7 @@ export async function GET() {
     },
     {
       headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
       },
     },
   );

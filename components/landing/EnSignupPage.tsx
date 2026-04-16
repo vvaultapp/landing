@@ -179,7 +179,7 @@ export function EnSignupPage() {
 
           <div className="mt-12 -ml-[18px] w-[calc(100%+36px)] sm:-ml-[32px] sm:w-[calc(100%+64px)] lg:-ml-[72px] lg:w-[calc(100%+144px)]">
             <Image
-              src="/app show-off.png"
+              src="/showcase-phone.png"
               alt="vvault app preview"
               width={1800}
               height={950}

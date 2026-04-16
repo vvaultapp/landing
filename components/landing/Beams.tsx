@@ -177,6 +177,13 @@ const Beams = ({
   const [frameloop, setFrameloop] = useState<"always" | "never">("always");
 
   useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setFrameloop("never");
+      return;
+    }
     const el = containerRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(

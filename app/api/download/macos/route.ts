@@ -21,11 +21,14 @@ export async function GET(req: NextRequest) {
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
 
-    await supabase.from("download_events").insert({
-      platform: "macos",
-      user_agent: ua,
-      ip_hash: ipHash,
-    });
+    // Fire-and-forget: do not block the redirect on the insert
+    void Promise.resolve(
+      supabase.from("download_events").insert({
+        platform: "macos",
+        user_agent: ua,
+        ip_hash: ipHash,
+      }),
+    ).catch(() => {});
   } catch {
     // Never block the download
   }

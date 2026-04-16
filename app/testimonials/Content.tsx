@@ -5,6 +5,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
+import type { Locale } from "@/components/landing/content";
 import { useLocale } from "@/lib/useLocale";
 
 type LandingStats = {
@@ -41,15 +42,14 @@ function useLandingStats() {
       }
     };
     void load();
-    const id = setInterval(() => void load(), 30_000);
-    return () => { active = false; clearInterval(id); };
+    return () => { active = false; };
   }, []);
 
   return stats;
 }
 
-function fmt(n: number): string {
-  return new Intl.NumberFormat("en-US").format(n);
+function fmt(n: number, locale: Locale): string {
+  return new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US").format(n);
 }
 
 export default function TestimonialsPage() {
@@ -60,6 +60,8 @@ export default function TestimonialsPage() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
     document.title = fr ? "vvault | Témoignages" : "vvault | Testimonials";
   }, [fr]);
 
@@ -68,9 +70,9 @@ export default function TestimonialsPage() {
 
   const numberItems = stats
     ? [
-        { stat: `${fmt(stats.usersTotal)}+`, label: fr ? "Producteurs sur la plateforme" : "Producers on the platform" },
-        { stat: fmt(stats.tracksTotal), label: fr ? "Tracks uploadés" : "Tracks uploaded" },
-        { stat: fmt(stats.emailsSentTotal), label: fr ? "Emails de campagne envoyés" : "Campaigns emails sent" },
+        { stat: `${fmt(stats.usersTotal, locale)}+`, label: fr ? "Producteurs sur la plateforme" : "Producers on the platform" },
+        { stat: fmt(stats.tracksTotal, locale), label: fr ? "Tracks uploadés" : "Tracks uploaded" },
+        { stat: fmt(stats.emailsSentTotal, locale), label: fr ? "Emails de campagne envoyés" : "Campaigns emails sent" },
         { stat: stats.appStoreReviewLabel, label: fr ? "Note App Store" : "App Store rating" },
         { stat: "0%", label: fr ? "Frais marketplace sur Ultra" : "Marketplace fees on Ultra" },
         { stat: "100%", label: fr ? "Gratuit, sans carte bancaire" : "Free to start, no credit card" },
@@ -98,8 +100,8 @@ export default function TestimonialsPage() {
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
             {stats
               ? (fr
-                  ? `Utilisé par ${fmt(stats.usersTotal)}+ producteurs. Regarde de vrais créateurs partager comment ils utilisent vvault pour envoyer, tracker et convertir.`
-                  : `Used by ${fmt(stats.usersTotal)}+ producers. Watch real creators share how they use vvault to send, track, and convert.`)
+                  ? `Utilisé par ${fmt(stats.usersTotal, locale)}+ producteurs. Regarde de vrais créateurs partager comment ils utilisent vvault pour envoyer, tracker et convertir.`
+                  : `Used by ${fmt(stats.usersTotal, locale)}+ producers. Watch real creators share how they use vvault to send, track, and convert.`)
               : (fr
                   ? "Regarde de vrais créateurs partager comment ils utilisent vvault pour envoyer, tracker et convertir."
                   : "Watch real creators share how they use vvault to send, track, and convert.")}
@@ -288,8 +290,8 @@ export default function TestimonialsPage() {
             <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
               {stats
                 ? (fr
-                    ? `Inscris-toi gratuitement et découvre pourquoi ${fmt(stats.usersTotal)}+ producteurs font confiance à vvault chaque jour.`
-                    : `Sign up for free and see why ${fmt(stats.usersTotal)}+ producers trust vvault every day.`)
+                    ? `Inscris-toi gratuitement et découvre pourquoi ${fmt(stats.usersTotal, locale)}+ producteurs font confiance à vvault chaque jour.`
+                    : `Sign up for free and see why ${fmt(stats.usersTotal, locale)}+ producers trust vvault every day.`)
                 : (fr
                     ? "Inscris-toi gratuitement et commence à envoyer dès aujourd'hui."
                     : "Sign up for free and start sending today.")}

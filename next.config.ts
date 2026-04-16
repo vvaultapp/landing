@@ -4,15 +4,25 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  experimental: {
+    optimizePackageImports: ["lucide-react", "@supabase/supabase-js"],
+  },
+  images: {
+    formats: ["image/avif", "image/webp"],
+    remotePatterns: [
+      { protocol: "https", hostname: "img.youtube.com" },
+      { protocol: "https", hostname: "i.ytimg.com" },
+    ],
+  },
   async redirects() {
     return [
-      { source: "/homepage", destination: "/", permanent: false },
-      { source: "/auth", destination: "/", permanent: false },
-      { source: "/book-call", destination: "/", permanent: false },
-      { source: "/dashboard", destination: "/", permanent: false },
-      { source: "/data-deletion", destination: "/", permanent: false },
-      { source: "/messages", destination: "/", permanent: false },
-      { source: "/outreach", destination: "/", permanent: false },
+      { source: "/homepage", destination: "/", permanent: true },
+      { source: "/auth", destination: "/", permanent: true },
+      { source: "/book-call", destination: "/", permanent: true },
+      { source: "/dashboard", destination: "/", permanent: true },
+      { source: "/data-deletion", destination: "/", permanent: true },
+      { source: "/messages", destination: "/", permanent: true },
+      { source: "/outreach", destination: "/", permanent: true },
     ];
   },
 };

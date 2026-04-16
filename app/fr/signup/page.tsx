@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://get.vvault.app/fr/signup",
     languages: {
-      en: "/",
+      en: "/signup",
       fr: "/fr/signup",
     },
   },

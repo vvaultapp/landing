@@ -2,6 +2,13 @@
 
 import type { LandingContent, Locale } from "@/components/landing/content";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const FR_AVAILABLE_ROUTES = new Set(["/", "/signup"]);
+
+function isInternalHref(href: string) {
+  return href.startsWith("/") && !href.startsWith("//");
+}
 
 type LandingFooterProps = {
   locale: Locale;
@@ -39,6 +46,18 @@ export function LandingFooter({
   inlineLegalWithBrand = false,
 }: LandingFooterProps) {
   const homeHref = locale === "fr" ? "/fr" : "/";
+  const pathname = usePathname() || "/";
+
+  const enHref = pathname.startsWith("/fr/")
+    ? pathname.replace(/^\/fr/, "") || "/"
+    : pathname === "/fr"
+      ? "/"
+      : pathname;
+  const frHref = (() => {
+    if (pathname.startsWith("/fr")) return pathname;
+    const candidate = pathname === "/" ? "/fr" : `/fr${pathname}`;
+    return FR_AVAILABLE_ROUTES.has(pathname) ? candidate : "/fr";
+  })();
 
   if (!showColumns && inlineLegalWithBrand) {
     return (
@@ -52,15 +71,27 @@ export function LandingFooter({
             vvault
           </Link>
           <div className="flex flex-wrap items-center gap-3">
-            {content.footer.legalLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="inline-block rounded-xl px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
-              >
-                {item.label}
-              </a>
-            ))}
+            {content.footer.legalLinks.map((item) =>
+              isInternalHref(item.href) ? (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="inline-block rounded-xl px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block rounded-xl px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                >
+                  {item.label}
+                </a>
+              )
+            )}
           </div>
         </div>
       </footer>
@@ -138,12 +169,23 @@ export function LandingFooter({
                 <ul className="mt-4 space-y-2.5">
                   {column.links.map((link) => (
                     <li key={link.label}>
-                      <a
-                        href={link.href}
-                        className="text-sm text-white/40 transition-colors duration-200 hover:text-white/70"
-                      >
-                        {link.label}
-                      </a>
+                      {isInternalHref(link.href) ? (
+                        <Link
+                          href={link.href}
+                          className="text-sm text-white/40 transition-colors duration-200 hover:text-white/70"
+                        >
+                          {link.label}
+                        </Link>
+                      ) : (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-white/40 transition-colors duration-200 hover:text-white/70"
+                        >
+                          {link.label}
+                        </a>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -154,15 +196,27 @@ export function LandingFooter({
         {/* Bottom bar */}
         <div className="mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.06] pt-6 sm:mt-28">
           <div className="flex flex-wrap items-center gap-3">
-            {content.footer.legalLinks.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-sm text-white/35 transition-colors duration-200 hover:text-white/60"
-              >
-                {item.label}
-              </a>
-            ))}
+            {content.footer.legalLinks.map((item) =>
+              isInternalHref(item.href) ? (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="text-sm text-white/35 transition-colors duration-200 hover:text-white/60"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-white/35 transition-colors duration-200 hover:text-white/60"
+                >
+                  {item.label}
+                </a>
+              )
+            )}
           </div>
 
           {/* Language selector */}
@@ -172,7 +226,7 @@ export function LandingFooter({
             aria-label={content.ui.languageSwitcherAriaLabel}
           >
             <Link
-              href="/"
+              href={enHref}
               className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
                 locale === "en"
                   ? "bg-white/10 text-white/90"
@@ -182,7 +236,7 @@ export function LandingFooter({
               {content.ui.languageEnglish}
             </Link>
             <Link
-              href="/fr"
+              href={frHref}
               className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
                 locale === "fr"
                   ? "bg-white/10 text-white/90"

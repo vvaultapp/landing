@@ -154,8 +154,29 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
   }, [pairCount]);
 
   useEffect(() => {
-    const interval = setInterval(cycle, 5000);
-    return () => clearInterval(interval);
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      if (!intervalId) intervalId = setInterval(cycle, 5000);
+    };
+    const stop = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+    start();
+    const onVis = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, [cycle]);
 
   const currentPair = [

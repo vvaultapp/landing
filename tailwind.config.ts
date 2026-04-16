@@ -16,9 +16,6 @@ export default {
     extend: {
       fontFamily: {
         sans: ["var(--font-geist)", "Geist", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
-        display: ["DomaineDispNar-Regular", "DomaineDispNar", "serif"],
-        origin: ['DomaineDispNar-Regular', 'DomaineDispNar', 'serif'],
-        'inter-tight': ['Inter Tight', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

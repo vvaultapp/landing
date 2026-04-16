@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useDocsLocale } from "../DocsLocaleContext";
 
 export default function StudioDocPage() {
@@ -218,15 +219,15 @@ export default function StudioDocPage() {
       <p className="text-[14px] leading-relaxed text-[#666] mb-4">
         {locale === "fr" ? (
           <>
-            <a href="/docs/wavematch" className="text-emerald-600 underline underline-offset-2">
+            <Link href="/docs/wavematch" className="text-emerald-600 underline underline-offset-2">
               En savoir plus sur WaveMatch &rarr;
-            </a>
+            </Link>
           </>
         ) : (
           <>
-            <a href="/docs/wavematch" className="text-emerald-600 underline underline-offset-2">
+            <Link href="/docs/wavematch" className="text-emerald-600 underline underline-offset-2">
               Learn more about WaveMatch &rarr;
-            </a>
+            </Link>
           </>
         )}
       </p>
