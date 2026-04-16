@@ -402,18 +402,20 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
         {open && (
           <span
             role="tooltip"
-            className="pointer-events-none absolute left-0 top-[calc(100%+6px)] z-30 block w-[min(260px,calc(100vw-2.5rem))] rounded-[14px] p-3.5 text-[12px] font-normal leading-snug text-white/78 sm:text-[12.5px]"
+            className="pointer-events-none absolute left-0 top-[calc(100%+6px)] z-[100] block w-[min(260px,calc(100vw-2.5rem))] rounded-[14px] p-3.5 text-[12px] font-normal leading-snug text-white/85 sm:text-[12.5px]"
             style={{
-              background:
-                "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(12,12,16,1) 100%)",
-              /* 1px hairline ring via shadow (pixel-perfect on every
-                 device — a `border` at low alpha can look patchy on
-                 Retina because the alpha gets rounded per sub-pixel).
-                 A soft inner top highlight sells the "card" feel.
-                 Outer shadow is layered (two stops) so the drop is
-                 smooth and not a single sharp halo. */
+              /* Solid near-black fill (no gradient with low alpha —
+                 those can look like the card is see-through). */
+              background: "#0f0f14",
+              /* Outline: 1px ring via box-shadow so it rasterizes
+                 pixel-perfect on every corner and every DPR. Bumped
+                 opacity so the card actually reads as a bounded
+                 surface (user saw the previous 0.11 as "low-opacity /
+                 we can see behind"). Plus a soft inner top highlight
+                 for dimensional polish and a layered drop shadow so
+                 the edge reads as a proper card, not a floating box. */
               boxShadow:
-                "0 0 0 1px rgba(255,255,255,0.11), inset 0 1px 0 rgba(255,255,255,0.05), 0 16px 40px -12px rgba(0,0,0,0.8), 0 4px 14px -4px rgba(0,0,0,0.55)",
+                "0 0 0 1px rgba(255,255,255,0.22), inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 44px -12px rgba(0,0,0,0.9), 0 6px 18px -4px rgba(0,0,0,0.6)",
               animation: "feature-tip-in 140ms cubic-bezier(0.22, 1, 0.36, 1) both",
             }}
           >
@@ -480,7 +482,18 @@ export default function PricingPage() {
       const rect = node.getBoundingClientRect();
       // Nav is 62px on mobile, 56px from the `sm` breakpoint upward.
       const navHeight = window.innerWidth >= 640 ? 56 : 62;
-      setStuck(rect.top <= navHeight + 0.5);
+      /* "Pinned" means the sticky bar is currently pressed against
+         the nav. `rect.top <= navHeight` catches the pin, but once
+         the user scrolls past the entire #compare-plans container
+         the sticky rides up with it, so rect.top stays ≤ navHeight
+         even when the bar is long gone. Clamping with
+         rect.bottom > navHeight makes the state flip back to false
+         the moment the bar is no longer overlapping the nav — so
+         the nav's separation line fades back in when we reach the
+         FAQ and fades out again on scroll back up. */
+      const isPinned =
+        rect.top <= navHeight + 0.5 && rect.bottom > navHeight;
+      setStuck(isPinned);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });

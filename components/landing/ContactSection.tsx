@@ -151,7 +151,7 @@ export function ContactSection({ locale }: ContactSectionProps) {
             <ContactCard
               icon={<InstagramIcon className="h-7 w-7" />}
               label="Instagram"
-              description={isEn ? "DM @vvault.app" : "DM @vvault.app"}
+              description={isEn ? "DM @vvault.app" : "MP @vvault.app"}
               href="https://instagram.com/vvault.app"
             />
           </Reveal>

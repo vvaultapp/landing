@@ -614,7 +614,7 @@ const landingContentFr = {
       title: "Passe à l’échelle avec Pro et Ultra",
       description:
         "Débloque CRM, automatisations, planification avancée et contrôle de branding quand ton volume augmente.",
-      stat: "Upgrade quand tu veux",
+      stat: "Change de plan quand tu veux",
     },
   ] as LandingFeature[],
   howItWorks: [
@@ -832,7 +832,7 @@ const landingContentFr = {
       {
         title: "Produit",
         links: [
-          { label: "Features", href: "/features" },
+          { label: "Fonctionnalités", href: "/features" },
           { label: "Tarifs", href: "/pricing" },
           { label: "Certificat", href: "/certificate" },
         ] as LandingFooterLink[],
@@ -889,7 +889,7 @@ const landingContentFr = {
     feed: [
       "Lien pack ouvert · 09:14",
       "Lecture à 86% · 09:11",
-      "Checkout licence complété · 09:09",
+      "Paiement licence complété · 09:09",
       "Téléchargement sécurisé livré · 09:05",
     ],
   },
