@@ -14,44 +14,15 @@ type HomeConversionCtaProps = {
   locale?: Locale;
 };
 
-/* ------------------------------------------------------------------ */
-/*  Share-link preview — shows what a recipient sees when they open    */
-/*  a vvault share. Uses the real /covers/pack-1 art so it reads as    */
-/*  product, not mockup.                                               */
-/* ------------------------------------------------------------------ */
-
-type Track = { title: string; bpm: string; length: string; key: string };
+type Track = { title: string; meta: string; length: string };
 
 function getTracks(fr: boolean): Track[] {
   return [
-    { title: fr ? "Minuit" : "Midnight", bpm: "140 BPM", length: "3:02", key: "Am" },
-    { title: fr ? "Ombres" : "Shadows", bpm: "138 BPM", length: "2:48", key: "F#m" },
-    { title: fr ? "Verre" : "Glass", bpm: "142 BPM", length: "3:17", key: "Dm" },
+    { title: "midnight_v3.wav", meta: "140 BPM · Am", length: "3:02" },
+    { title: "shadows_final.wav", meta: "138 BPM · F#m", length: "2:48" },
+    { title: "glass_master.wav", meta: "142 BPM · Dm", length: "3:17" },
+    { title: fr ? "ombres_v2.wav" : "fog_draft.wav", meta: "136 BPM · Gm", length: "2:51" },
   ];
-}
-
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-3 w-3 fill-current">
-      <path d="M6 4l14 8-14 8V4z" />
-    </svg>
-  );
-}
-
-function WaveIcon({ active }: { active: boolean }) {
-  return (
-    <div className="flex items-end gap-[2px]">
-      {[8, 14, 6, 12, 9, 5, 10].map((h, i) => (
-        <span
-          key={i}
-          className={`w-[2px] rounded-full ${
-            active ? "bg-[#ebd7ff]/70" : "bg-white/15"
-          }`}
-          style={{ height: `${h}px` }}
-        />
-      ))}
-    </div>
-  );
 }
 
 /* ------------------------------------------------------------------ */
@@ -65,9 +36,6 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
   const headline = fr
     ? "Un lien qui ressemble à une sortie."
     : "A link that feels like a release.";
-  const subhead = fr
-    ? "Ton destinataire ouvre, voit la pochette, lit les tracks, télécharge ou achète — sans jamais quitter ton univers."
-    : "Your recipient opens it, sees the cover, plays the tracks, downloads or buys — without ever leaving your world.";
 
   const primary = fr ? "Commencer gratuitement" : "Start free";
   const trust = fr
@@ -77,26 +45,33 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
   return (
     <section
       id="get-started"
-      className="relative overflow-hidden pt-36 sm:pt-52"
+      className="relative overflow-hidden pt-32 sm:pt-44"
     >
-      {/* LaserFlow beam — positioned so it visually terminates on the card's
-          top edge, spilling over and lighting its frame (Huly-style). */}
+      {/* LaserFlow beam — extends down past the card's top edge so it
+          visually spills over the frame (Huly-style).
+          Top is masked to fade in gradually from transparent → full. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-[-4%] z-0 h-[880px] sm:h-[1020px]"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[1100px] sm:h-[1280px]"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.15) 8%, rgba(0,0,0,0.55) 18%, black 32%, black 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.15) 8%, rgba(0,0,0,0.55) 18%, black 32%, black 100%)",
+        }}
       >
         <LaserFlow
           color="#ebd7ff"
           horizontalBeamOffset={0.0}
-          verticalBeamOffset={0.08}
+          verticalBeamOffset={0.05}
           horizontalSizing={0.5}
-          verticalSizing={1.75}
-          wispDensity={0.9}
-          wispSpeed={14}
-          wispIntensity={4.5}
+          verticalSizing={1.85}
+          wispDensity={0.85}
+          wispSpeed={13}
+          wispIntensity={4.2}
           flowSpeed={0.4}
           flowStrength={0.22}
-          fogIntensity={0.42}
+          fogIntensity={0.38}
           fogScale={0.28}
           fogFallSpeed={0.5}
           decay={1.25}
@@ -107,221 +82,169 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
       <div className="relative z-10 mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
-            <h2 className="mx-auto max-w-[820px] text-[1.85rem] font-medium leading-[1.06] tracking-tight text-white sm:text-[2.6rem] lg:text-[3.2rem]">
-              {headline}{" "}
-              <span className="text-white/40">{subhead}</span>
+            <h2 className="mx-auto max-w-[720px] text-[2rem] font-medium leading-[1.05] tracking-tight text-white sm:text-[2.8rem] lg:text-[3.4rem]">
+              {headline}
             </h2>
           </div>
         </Reveal>
 
-        {/* Card sits directly under the beam — so the beam "lands" on it */}
+        {/* Card — mirrors the real share-page layout from the vvault app:
+            #050607 background, card tone, square cover, compact track list,
+            DOWNLOAD PACK uppercase action. Sits directly under the beam so
+            the laser appears to land on (and spill over) its top edge. */}
         <Reveal>
-          <div className="relative mt-[280px] sm:mt-[340px]">
-            {/* Laser impact glow — behind the card, slightly above its top edge.
-                Creates the Huly-style "beam hits the surface" bloom. */}
+          <div className="relative mt-[240px] sm:mt-[310px]">
             <div
-              aria-hidden="true"
-              className="pointer-events-none absolute left-1/2 top-0 h-[260px] w-[680px] -translate-x-1/2 -translate-y-[60%] sm:h-[320px] sm:w-[820px]"
+              className="relative mx-auto max-w-[820px] overflow-hidden rounded-[28px] sm:rounded-[32px]"
               style={{
-                background:
-                  "radial-gradient(ellipse 50% 55% at 50% 40%, rgba(235,215,255,0.45) 0%, rgba(235,215,255,0.18) 35%, transparent 70%)",
-                filter: "blur(12px)",
-              }}
-            />
-
-            <div
-              className="relative mx-auto max-w-[560px] overflow-hidden rounded-[24px] sm:rounded-[28px]"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(14,12,18,0.98) 0%, rgba(4,4,5,1) 55%)",
+                background: "#050607",
                 boxShadow:
-                  "0 40px 80px -30px rgba(0,0,0,0.8), 0 0 0 1px rgba(235,215,255,0.04), 0 -2px 40px -10px rgba(235,215,255,0.25)",
+                  "0 40px 90px -30px rgba(0,0,0,0.9), 0 0 0 1px rgba(235,215,255,0.04), 0 -4px 50px -12px rgba(235,215,255,0.2)",
               }}
             >
-              {/* Border overlay — strong at top where beam impacts, fades down */}
-              <div
-                className="pointer-events-none absolute inset-0 rounded-[inherit]"
-                style={{
-                  border: "1px solid rgba(235,215,255,0.25)",
-                  borderBottom: "none",
-                  maskImage:
-                    "linear-gradient(to bottom, black 0%, black 18%, rgba(0,0,0,0.4) 55%, transparent 100%)",
-                  WebkitMaskImage:
-                    "linear-gradient(to bottom, black 0%, black 18%, rgba(0,0,0,0.4) 55%, transparent 100%)",
-                }}
-              />
-              {/* Top edge laser line — bright where beam lands */}
+              {/* Beam-impact highlight on the top edge of the card — this is
+                  what creates the Huly "laser lands on the surface" effect. */}
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px]"
                 style={{
                   background:
-                    "linear-gradient(90deg, transparent 0%, rgba(235,215,255,0.3) 10%, rgba(255,255,255,0.95) 50%, rgba(235,215,255,0.3) 90%, transparent 100%)",
+                    "linear-gradient(90deg, transparent 0%, rgba(235,215,255,0.25) 12%, rgba(255,255,255,0.92) 50%, rgba(235,215,255,0.25) 88%, transparent 100%)",
                   boxShadow: "0 0 22px rgba(235,215,255,0.55)",
                 }}
               />
-              {/* Top center radial bleed — beam spilling into card surface */}
               <div
-                className="pointer-events-none absolute left-1/2 top-0 h-[240px] w-[520px] -translate-x-1/2 -translate-y-1/3"
+                className="pointer-events-none absolute left-1/2 top-0 h-[280px] w-[560px] -translate-x-1/2 -translate-y-1/3"
                 style={{
                   background:
-                    "radial-gradient(ellipse 60% 55% at 50% 50%, rgba(235,215,255,0.22) 0%, rgba(235,215,255,0.07) 40%, transparent 75%)",
+                    "radial-gradient(ellipse 55% 60% at 50% 50%, rgba(235,215,255,0.28) 0%, rgba(235,215,255,0.07) 40%, transparent 75%)",
+                }}
+              />
+              {/* Subtle border, fades with depth */}
+              <div
+                className="pointer-events-none absolute inset-0 rounded-[inherit]"
+                style={{
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  borderBottom: "none",
+                  maskImage:
+                    "linear-gradient(to bottom, black 0%, black 25%, transparent 100%)",
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, black 0%, black 25%, transparent 100%)",
                 }}
               />
 
-              <div className="relative p-3 sm:p-4">
-                {/* Browser-chrome header — sells the "this is a real public page" fiction */}
-                <div className="mb-3 flex items-center justify-between px-1 sm:mb-4">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-white/15" />
-                    <span className="h-2 w-2 rounded-full bg-white/15" />
-                    <span className="h-2 w-2 rounded-full bg-white/15" />
-                  </div>
-                  <div className="flex items-center gap-1.5 rounded-md bg-white/[0.04] px-2 py-[3px] text-[10px] font-medium tabular-nums text-white/45 sm:text-[10.5px]">
-                    <svg
-                      viewBox="0 0 20 20"
-                      className="h-2.5 w-2.5 fill-none stroke-current stroke-[1.8]"
-                    >
-                      <path d="M8 10V7a2 2 0 114 0v3M6 10h8v6H6z" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    vvault.app/kodaa/dark-melodies-vol-3
-                  </div>
-                  <span className="w-[32px]" />
-                </div>
-
-                {/* Hero cover */}
-                <div
-                  className="relative overflow-hidden rounded-[16px] sm:rounded-[18px]"
-                  style={{ aspectRatio: "1.85 / 1" }}
-                >
-                  <Image
-                    src="/covers/pack-1.jpg"
-                    alt="Dark Melodies Vol.3"
-                    fill
-                    sizes="(max-width: 640px) 100vw, 560px"
-                    className="object-cover"
-                    priority={false}
-                  />
-                  {/* Cover bottom gradient so text on top reads */}
+              <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:gap-7 sm:p-7">
+                {/* Cover */}
+                <div className="shrink-0">
                   <div
-                    className="pointer-events-none absolute inset-x-0 bottom-0 h-[65%]"
+                    className="relative aspect-square w-full overflow-hidden rounded-[22px] sm:w-[240px] sm:rounded-[26px]"
                     style={{
-                      background:
-                        "linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.25) 55%, transparent 100%)",
-                    }}
-                  />
-                  {/* Cover overlay content */}
-                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-                    <div className="flex items-end justify-between gap-4">
-                      <div className="min-w-0">
-                        <p className="text-[10.5px] font-medium uppercase tracking-[0.18em] text-white/55">
-                          {fr ? "Pack de mélodies" : "Melody pack"}
-                        </p>
-                        <h3 className="mt-1 truncate text-[20px] font-semibold leading-tight text-white sm:text-[24px]">
-                          Dark Melodies Vol.3
-                        </h3>
-                        <p className="mt-0.5 text-[12px] text-white/55">
-                          Kodaa · 12 {fr ? "tracks" : "tracks"} · 140 BPM · Am
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        aria-label="Play"
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-[#0e0e0e] shadow-[0_6px_20px_-4px_rgba(235,215,255,0.55)] sm:h-12 sm:w-12"
-                        style={{
-                          background:
-                            "linear-gradient(180deg, #ffffff 0%, #e9dafa 100%)",
-                        }}
-                      >
-                        <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current sm:h-[18px] sm:w-[18px]">
-                          <path d="M6 4l14 8-14 8V4z" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Track list */}
-                <div className="mt-3 flex flex-col divide-y divide-white/[0.05] overflow-hidden rounded-xl border border-white/[0.05] bg-white/[0.015]">
-                  {tracks.map((t, i) => (
-                    <div
-                      key={t.title}
-                      className="flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4"
-                    >
-                      <div className="flex min-w-0 items-center gap-3">
-                        <button
-                          type="button"
-                          aria-label={`Play ${t.title}`}
-                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
-                            i === 0
-                              ? "bg-[#ebd7ff] text-[#0e0e0e]"
-                              : "bg-white/[0.06] text-white/55"
-                          }`}
-                        >
-                          <PlayIcon />
-                        </button>
-                        <div className="min-w-0">
-                          <p className="truncate text-[12.5px] font-medium text-white/85 sm:text-[13px]">
-                            {t.title}
-                          </p>
-                          <p className="truncate text-[10.5px] text-white/35">
-                            {t.bpm} · {t.key}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex shrink-0 items-center gap-3">
-                        <WaveIcon active={i === 0} />
-                        <span className="tabular-nums text-[11px] text-white/40 sm:text-[11.5px]">
-                          {t.length}
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Actions */}
-                <div className="mt-3 grid grid-cols-2 gap-2 sm:mt-4 sm:gap-2.5">
-                  <div className="flex items-center justify-center gap-2 rounded-xl bg-white/[0.05] px-3 py-2.5 text-[12.5px] font-semibold text-white/85 sm:text-[13px]">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.8]"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M12 4v12m0 0l-4-4m4 4l4-4M5 20h14" />
-                    </svg>
-                    {fr ? "Télécharger WAV" : "Download WAV"}
-                  </div>
-                  <div
-                    className="flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-[12.5px] font-semibold text-[#0e0e0e] sm:text-[13px]"
-                    style={{
-                      background:
-                        "linear-gradient(180deg, #ffffff 0%, #ece1fa 100%)",
+                      background: "rgba(255,255,255,0.02)",
+                      border: "1px solid rgba(255,255,255,0.06)",
                     }}
                   >
-                    {fr ? "Acheter licence" : "Buy license"}
-                    <svg
-                      viewBox="0 0 20 20"
-                      className="h-3.5 w-3.5 fill-none stroke-current stroke-[2]"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M4 10h11M11 6l4 4-4 4" />
-                    </svg>
+                    <Image
+                      src="/covers/pack-1.jpg"
+                      alt="Dark Melodies Vol.3"
+                      fill
+                      sizes="(max-width: 640px) 100vw, 240px"
+                      className="object-cover"
+                    />
                   </div>
                 </div>
 
-                {/* Footer meta */}
-                <div className="mt-3 flex items-center justify-between px-1 text-[10.5px] text-white/30 sm:text-[11px]">
-                  <span className="flex items-center gap-1.5">
-                    <span
-                      className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400"
-                      style={{ boxShadow: "0 0 6px rgba(74,222,128,0.65)" }}
-                    />
-                    {fr ? "Lien live" : "Live link"}
-                  </span>
-                  <span>
-                    {fr ? "Certifié par vvault" : "Certified by vvault"}
-                  </span>
+                {/* Right column: title + meta + actions + track list */}
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <h3 className="truncate text-[22px] font-semibold tracking-tight text-white sm:text-[26px]">
+                        Dark Melodies Vol.3
+                      </h3>
+                      <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-white/45">
+                        <span className="text-white/60">Kodaa</span>
+                        <span className="text-white/25">·</span>
+                        <span>12 {fr ? "tracks" : "tracks"}</span>
+                        <span className="text-white/25">·</span>
+                        <span>36:24</span>
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      aria-label="Play pack"
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] text-white transition-colors hover:bg-white/[0.07]"
+                      style={{
+                        background: "rgba(255,255,255,0.04)",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                      }}
+                    >
+                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* Download pack button — uppercase, outlined, like the app */}
+                  <button
+                    type="button"
+                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white transition-colors sm:w-auto"
+                    style={{
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.12)",
+                    }}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.7]"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M12 3v10m0 0 4-4m-4 4-4-4M5 18h14" />
+                    </svg>
+                    <span>{fr ? "Télécharger le pack" : "Download pack"}</span>
+                  </button>
+
+                  {/* Track list — compact rows matching the app's share page */}
+                  <div className="mt-5 space-y-0.5">
+                    {tracks.map((t, i) => (
+                      <div
+                        key={t.title}
+                        className={`flex items-center gap-3 rounded-[18px] px-2.5 py-2 ${
+                          i === 0 ? "bg-white/[0.04]" : ""
+                        }`}
+                      >
+                        <div className="flex w-6 shrink-0 items-center justify-center text-[11px] tabular-nums text-white/30">
+                          {i === 0 ? (
+                            <span className="flex items-end gap-[2px]">
+                              <span className="h-3 w-[2px] rounded-full bg-white/80" />
+                              <span className="h-2 w-[2px] rounded-full bg-white/60" />
+                              <span className="h-3 w-[2px] rounded-full bg-white/80" />
+                            </span>
+                          ) : (
+                            i + 1
+                          )}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-[13px] text-white/85">
+                            {t.title}
+                          </p>
+                          <p className="mt-0.5 truncate text-[10.5px] text-white/40">
+                            {t.meta}
+                          </p>
+                        </div>
+                        <span className="tabular-nums text-[11px] text-white/35">
+                          {t.length}
+                        </span>
+                        <svg
+                          viewBox="0 0 24 24"
+                          className="h-4 w-4 shrink-0 fill-none stroke-white/40 stroke-[1.7]"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        >
+                          <path d="M12 3v10m0 0 4-4m-4 4-4-4M5 18h14" />
+                        </svg>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -330,7 +253,7 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
 
         {/* CTA */}
         <Reveal>
-          <div className="mt-12 flex flex-col items-center sm:mt-16">
+          <div className="mt-14 flex flex-col items-center sm:mt-16">
             <LandingCtaLink
               loggedInHref="https://vvault.app/billing"
               loggedOutHref="https://vvault.app/signup"
