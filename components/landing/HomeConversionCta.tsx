@@ -1,7 +1,6 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import type { Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { Reveal } from "@/components/landing/Reveal";
@@ -14,42 +13,44 @@ type HomeConversionCtaProps = {
   locale?: Locale;
 };
 
-type Track = { title: string; meta: string; length: string };
-
-function getTracks(fr: boolean): Track[] {
-  return [
-    { title: "midnight_v3.wav", meta: "140 BPM · Am", length: "3:02" },
-    { title: "shadows_final.wav", meta: "138 BPM · F#m", length: "2:48" },
-    { title: "glass_master.wav", meta: "142 BPM · Dm", length: "3:17" },
-    { title: fr ? "ombres_v2.wav" : "fog_draft.wav", meta: "136 BPM · Gm", length: "2:51" },
-  ];
-}
-
 /* ------------------------------------------------------------------ */
 /*  Section                                                            */
+/*                                                                     */
+/*  Goal: the user's eye lands inside the beam. A tall, immersive      */
+/*  headline sits right where the beam is brightest — gradient text    */
+/*  picks up the beam's colour. Below, a single, minimal card          */
+/*  catches the beam (the "spill-over" effect), and its content is     */
+/*  just one clean piece of information: the link itself. No cover,    */
+/*  no track list, no pack metadata — just the moment the URL exists.  */
 /* ------------------------------------------------------------------ */
 
 export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
   const fr = locale === "fr";
-  const tracks = getTracks(fr);
 
   const headline = fr
-    ? "Un lien qui ressemble à une sortie."
-    : "A link that feels like a release.";
+    ? "Un seul lien et c'est envoyé."
+    : "One link and it's out.";
+  const sub = fr
+    ? "Plus de WeTransfer. Plus de Drive. Un lien qui ressemble à un drop — et qui te dit qui écoute vraiment."
+    : "No more WeTransfer. No more Drive. One link that feels like a drop — and tells you who actually listens.";
 
   const primary = fr ? "Commencer gratuitement" : "Start free";
   const trust = fr
     ? "Plan gratuit pour toujours · Aucune carte requise"
     : "Free forever plan · No credit card required";
 
+  const linkHost = "vvault.app";
+  const linkArtist = fr ? "kodaa" : "kodaa";
+  const linkSlug = fr ? "le-drop" : "the-drop";
+
   return (
     <section
       id="get-started"
-      className="relative overflow-hidden pt-32 sm:pt-44"
+      className="relative overflow-hidden pt-28 sm:pt-40"
     >
-      {/* LaserFlow beam — extends down past the card's top edge so it
-          visually spills over the frame (Huly-style).
-          Top is masked to fade in gradually from transparent → full. */}
+      {/* LaserFlow beam — sits behind everything, fades in from the top
+          so the beam appears to emerge from darkness. Extends far past
+          the card so it visually "spills" over the card's top edge. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 z-0 h-[1100px] sm:h-[1280px]"
@@ -80,30 +81,44 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+        {/* Immersive headline, positioned right inside the beam's glow.
+            Gradient flows white → lavender → faint, so the text reads
+            as if it's made of the beam itself. */}
         <Reveal>
-          <div className="text-center">
-            <h2 className="mx-auto max-w-[720px] text-[2rem] font-medium leading-[1.05] tracking-tight text-white sm:text-[2.8rem] lg:text-[3.4rem]">
+          <div className="pt-[180px] text-center sm:pt-[240px]">
+            <h2
+              className="mx-auto max-w-[900px] text-[2.6rem] font-medium leading-[0.98] tracking-[-0.02em] sm:text-[4.4rem] lg:text-[5.4rem]"
+              style={{
+                background:
+                  "linear-gradient(180deg, #ffffff 0%, #f3e6ff 48%, rgba(235,215,255,0.45) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                textShadow: "0 0 60px rgba(235,215,255,0.12)",
+              }}
+            >
               {headline}
             </h2>
+            <p className="mx-auto mt-5 max-w-[520px] text-[13.5px] leading-relaxed text-white/50 sm:mt-6 sm:text-[15px]">
+              {sub}
+            </p>
           </div>
         </Reveal>
 
-        {/* Card — mirrors the real share-page layout from the vvault app:
-            #050607 background, card tone, square cover, compact track list,
-            DOWNLOAD PACK uppercase action. Sits directly under the beam so
-            the laser appears to land on (and spill over) its top edge. */}
+        {/* Minimal link-drop box — the beam lands on its top edge and
+            spills over (Huly-style). One line of content: the URL. */}
         <Reveal>
-          <div className="relative mt-[240px] sm:mt-[310px]">
+          <div className="relative mt-14 sm:mt-20">
             <div
-              className="relative mx-auto max-w-[820px] overflow-hidden rounded-[28px] sm:rounded-[32px]"
+              className="relative mx-auto max-w-[580px] overflow-hidden rounded-[22px] sm:rounded-[26px]"
               style={{
                 background: "#050607",
                 boxShadow:
                   "0 40px 90px -30px rgba(0,0,0,0.9), 0 0 0 1px rgba(235,215,255,0.04), 0 -4px 50px -12px rgba(235,215,255,0.2)",
               }}
             >
-              {/* Beam-impact highlight on the top edge of the card — this is
-                  what creates the Huly "laser lands on the surface" effect. */}
+              {/* Beam-impact highlight on the top edge — the visible
+                  spot where the laser touches the card surface. */}
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-[1.5px]"
                 style={{
@@ -112,14 +127,15 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
                   boxShadow: "0 0 22px rgba(235,215,255,0.55)",
                 }}
               />
+              {/* Soft glow pool centered on the impact point */}
               <div
-                className="pointer-events-none absolute left-1/2 top-0 h-[280px] w-[560px] -translate-x-1/2 -translate-y-1/3"
+                className="pointer-events-none absolute left-1/2 top-0 h-[240px] w-[460px] -translate-x-1/2 -translate-y-1/3"
                 style={{
                   background:
                     "radial-gradient(ellipse 55% 60% at 50% 50%, rgba(235,215,255,0.28) 0%, rgba(235,215,255,0.07) 40%, transparent 75%)",
                 }}
               />
-              {/* Subtle border, fades with depth */}
+              {/* Subtle border fades with depth */}
               <div
                 className="pointer-events-none absolute inset-0 rounded-[inherit]"
                 style={{
@@ -132,120 +148,71 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
                 }}
               />
 
-              <div className="relative flex flex-col gap-6 p-5 sm:flex-row sm:gap-7 sm:p-7">
-                {/* Cover */}
-                <div className="shrink-0">
-                  <div
-                    className="relative aspect-square w-full overflow-hidden rounded-[22px] sm:w-[240px] sm:rounded-[26px]"
-                    style={{
-                      background: "rgba(255,255,255,0.02)",
-                      border: "1px solid rgba(255,255,255,0.06)",
-                    }}
+              {/* Single-line URL "drop" */}
+              <div className="relative flex items-center gap-3 px-4 py-4 sm:gap-4 sm:px-5 sm:py-5">
+                {/* Lock / secure glyph — says "this link is yours" */}
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full ring-1 ring-white/10 sm:h-11 sm:w-11"
+                  style={{ background: "rgba(235,215,255,0.06)" }}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="h-[15px] w-[15px] fill-none stroke-[#ebd7ff] stroke-[1.7] sm:h-4 sm:w-4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                   >
-                    <Image
-                      src="/covers/pack-1.jpg"
-                      alt="Dark Melodies Vol.3"
-                      fill
-                      sizes="(max-width: 640px) 100vw, 240px"
-                      className="object-cover"
-                    />
-                  </div>
+                    <path d="M10.5 13.5a4.5 4.5 0 0 0 6.36.5l3-3a4.5 4.5 0 0 0-6.36-6.36l-1.5 1.5M13.5 10.5a4.5 4.5 0 0 0-6.36-.5l-3 3a4.5 4.5 0 0 0 6.36 6.36l1.5-1.5" />
+                  </svg>
                 </div>
 
-                {/* Right column: title + meta + actions + track list */}
                 <div className="min-w-0 flex-1">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="min-w-0">
-                      <h3 className="truncate text-[22px] font-semibold tracking-tight text-white sm:text-[26px]">
-                        Dark Melodies Vol.3
-                      </h3>
-                      <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] text-white/45">
-                        <span className="text-white/60">Kodaa</span>
-                        <span className="text-white/25">·</span>
-                        <span>12 {fr ? "tracks" : "tracks"}</span>
-                        <span className="text-white/25">·</span>
-                        <span>36:24</span>
-                      </p>
-                    </div>
-
-                    <button
-                      type="button"
-                      aria-label="Play pack"
-                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] text-white transition-colors hover:bg-white/[0.07]"
-                      style={{
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                      }}
-                    >
-                      <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </button>
-                  </div>
-
-                  {/* Download pack button — uppercase, outlined, like the app */}
-                  <button
-                    type="button"
-                    className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-2.5 text-[10.5px] font-semibold uppercase tracking-[0.22em] text-white transition-colors sm:w-auto"
-                    style={{
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid rgba(255,255,255,0.12)",
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.7]"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M12 3v10m0 0 4-4m-4 4-4-4M5 18h14" />
-                    </svg>
-                    <span>{fr ? "Télécharger le pack" : "Download pack"}</span>
-                  </button>
-
-                  {/* Track list — compact rows matching the app's share page */}
-                  <div className="mt-5 space-y-0.5">
-                    {tracks.map((t, i) => (
-                      <div
-                        key={t.title}
-                        className={`flex items-center gap-3 rounded-[18px] px-2.5 py-2 ${
-                          i === 0 ? "bg-white/[0.04]" : ""
-                        }`}
-                      >
-                        <div className="flex w-6 shrink-0 items-center justify-center text-[11px] tabular-nums text-white/30">
-                          {i === 0 ? (
-                            <span className="flex items-end gap-[2px]">
-                              <span className="h-3 w-[2px] rounded-full bg-white/80" />
-                              <span className="h-2 w-[2px] rounded-full bg-white/60" />
-                              <span className="h-3 w-[2px] rounded-full bg-white/80" />
-                            </span>
-                          ) : (
-                            i + 1
-                          )}
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-[13px] text-white/85">
-                            {t.title}
-                          </p>
-                          <p className="mt-0.5 truncate text-[10.5px] text-white/40">
-                            {t.meta}
-                          </p>
-                        </div>
-                        <span className="tabular-nums text-[11px] text-white/35">
-                          {t.length}
-                        </span>
-                        <svg
-                          viewBox="0 0 24 24"
-                          className="h-4 w-4 shrink-0 fill-none stroke-white/40 stroke-[1.7]"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M12 3v10m0 0 4-4m-4 4-4-4M5 18h14" />
-                        </svg>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-[9.5px] font-semibold uppercase tracking-[0.22em] text-white/35 sm:text-[10.5px]">
+                    {fr ? "ton lien" : "your link"}
+                  </p>
+                  <p className="mt-1 truncate font-mono text-[14px] leading-tight text-white sm:text-[16px]">
+                    <span className="text-white/45">{linkHost}/</span>
+                    <span className="text-white/70">{linkArtist}/</span>
+                    <span className="text-[#ebd7ff]">{linkSlug}</span>
+                  </p>
                 </div>
+
+                {/* Copy pill — implies the link is ready to ship */}
+                <div
+                  className="hidden shrink-0 items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/80 sm:inline-flex"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    className="h-3 w-3 fill-none stroke-current stroke-[1.6]"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M5 11 9.5 6.5M11 8V4H7" />
+                  </svg>
+                  <span>{fr ? "Copié" : "Copied"}</span>
+                </div>
+              </div>
+
+              {/* Thin bottom status line — subtle signal that the link
+                  is live and being listened to */}
+              <div className="relative flex items-center justify-between border-t border-white/[0.05] px-4 py-3 sm:px-5">
+                <div className="flex items-center gap-2">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span
+                      className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-70"
+                      style={{ background: "#a8ff8a" }}
+                    />
+                    <span
+                      className="relative inline-flex h-1.5 w-1.5 rounded-full"
+                      style={{ background: "#a8ff8a" }}
+                    />
+                  </span>
+                  <span className="text-[10.5px] font-medium text-white/55 sm:text-[11.5px]">
+                    {fr ? "Actif · 3 en écoute" : "Live · 3 listening"}
+                  </span>
+                </div>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-white/30 sm:text-[10.5px]">
+                  {fr ? "En temps réel" : "Real time"}
+                </span>
               </div>
             </div>
           </div>

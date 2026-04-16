@@ -267,7 +267,7 @@ function getComparisonSections(locale: "en" | "fr"): {
 function CellValue({ value }: { value: boolean | string }) {
   if (typeof value === "string") {
     return (
-      <span className="block break-words text-[13px] font-medium leading-snug text-white/80 sm:text-[15px]">
+      <span className="block break-words text-left text-[13px] font-medium leading-snug text-white/80 sm:text-[15px]">
         {value}
       </span>
     );
@@ -276,7 +276,7 @@ function CellValue({ value }: { value: boolean | string }) {
     return (
       <svg
         viewBox="0 0 20 20"
-        className="mx-auto h-5 w-5 fill-none stroke-emerald-400/80 stroke-[2] sm:h-[22px] sm:w-[22px]"
+        className="h-5 w-5 fill-none stroke-emerald-400/80 stroke-[2] sm:h-[22px] sm:w-[22px]"
       >
         <path d="M5 10.5l3.5 3.5L15 7" />
       </svg>
@@ -285,7 +285,7 @@ function CellValue({ value }: { value: boolean | string }) {
   return (
     <svg
       viewBox="0 0 20 20"
-      className="mx-auto h-5 w-5 fill-none stroke-white/20 stroke-[1.8] sm:h-[22px] sm:w-[22px]"
+      className="h-5 w-5 fill-none stroke-white/20 stroke-[1.8] sm:h-[22px] sm:w-[22px]"
     >
       <path d="M6 6l8 8M14 6l-8 8" />
     </svg>
@@ -424,7 +424,7 @@ export default function PricingPage() {
           Pairs with body class `compare-sticky-active` to cross-fade the nav. */}
       <div
         aria-hidden={!stickyVisible}
-        className={`fixed inset-x-0 top-0 z-[100] transition-opacity duration-[320ms] ease-out ${
+        className={`fixed inset-x-0 top-0 z-[100] transition-opacity duration-[220ms] ease-out ${
           stickyVisible ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         style={{ willChange: "opacity" }}
@@ -496,7 +496,7 @@ export default function PricingPage() {
                 </button>
               </div>
               {stickyPlans.map((p) => (
-                <div key={p.name} className="min-w-0 pl-1 sm:pl-2">
+                <div key={p.name} className="min-w-0 pl-1 sm:pl-3">
                   <div className="truncate text-[13px] font-semibold leading-tight text-white sm:text-[18px]">
                     {p.name}
                   </div>
@@ -787,7 +787,7 @@ export default function PricingPage() {
           <div ref={compareRef} className="mt-28 sm:mt-36" id="compare-plans">
             {/* Static "Compare plans" header block — 4-col table so plan
                 columns line up 1:1 with the feature tables below. */}
-            <div ref={staticHeaderRef}>
+            <div ref={staticHeaderRef} className="compare-static-header">
             <Reveal>
               {/* Mobile: big title + toggle stacked full-width on top, then
                   the 3 plan columns beneath. Desktop: single 40/20/20/20 row
@@ -890,15 +890,17 @@ export default function PricingPage() {
                       </div>
                       {/* Values — 3-col grid on mobile, `contents` on desktop
                           so each cell becomes a direct child of the parent
-                          grid and lands in its own 20% column. */}
+                          grid and lands in its own 20% column. Left-aligned
+                          to line up with the plan-column headers above
+                          (same pattern as Epidemic Sound). */}
                       <div className="grid grid-cols-3 gap-0 pb-5 sm:contents">
-                        <div className="flex items-center justify-center px-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
+                        <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
                           <CellValue value={row.free} />
                         </div>
-                        <div className="flex items-center justify-center px-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
+                        <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
                           <CellValue value={row.pro} />
                         </div>
-                        <div className="flex items-center justify-center px-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
+                        <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
                           <CellValue value={row.ultra} />
                         </div>
                       </div>
