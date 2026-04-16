@@ -235,6 +235,7 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     "Log in": "Log in",
     "Sign up": "Sign up",
     "Back to home": "Back to home",
+    "Get started": "Get started",
     Light: "Light",
     Dark: "Dark",
     English: "English",
@@ -275,6 +276,7 @@ const TRANSLATIONS: Record<Lang, Record<string, string>> = {
     "Log in": "Connexion",
     "Sign up": "S'inscrire",
     "Back to home": "Retour à l'accueil",
+    "Get started": "Commencer",
     Light: "Clair",
     Dark: "Sombre",
     English: "Anglais",
@@ -476,17 +478,32 @@ function TableOfContents({ lang }: { lang: Lang }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    // Re-read headings whenever the route OR the language changes — docs
+    // pages render their h2 text via useDocsLocale(), so a language switch
+    // mutates textContent in place without changing the route. We need to
+    // pick up the new strings immediately, not on next focus.
+    const readHeadings = () => {
       const container = document.getElementById("docs-content");
       if (!container) return;
       const els = container.querySelectorAll("h2[id]");
       const items: { id: string; text: string }[] = [];
       els.forEach((el) => items.push({ id: el.id, text: el.textContent ?? "" }));
       setHeadings(items);
-      if (items.length > 0) setActiveId(items[0].id);
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [pathname]);
+      if (items.length > 0) {
+        setActiveId((current) =>
+          current && items.some((i) => i.id === current) ? current : items[0].id,
+        );
+      }
+    };
+    // Fast path: pick up the new language synchronously after React commits.
+    const rafId = requestAnimationFrame(readHeadings);
+    // Safety net: also re-read after a tick in case content streams in.
+    const timer = setTimeout(readHeadings, 150);
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timer);
+    };
+  }, [pathname, lang]);
 
   useEffect(() => {
     if (headings.length === 0) return;
@@ -619,7 +636,20 @@ function MenuIcon({ open }: { open: boolean }) {
 /*  Language selector                                                 */
 /* ------------------------------------------------------------------ */
 
-function LanguageSelector({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
+function LanguageSelector({
+  lang,
+  setLang,
+  placement = "bottom-right",
+}: {
+  lang: Lang;
+  setLang: (l: Lang) => void;
+  /**
+   * Where the dropdown panel opens relative to the trigger button.
+   * - "bottom-right" (default): opens below, right-aligned (header / desktop)
+   * - "top-left": opens above, left-aligned (mobile sidebar bottom bar)
+   */
+  placement?: "bottom-right" | "top-left";
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -630,6 +660,11 @@ function LanguageSelector({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =>
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
+
+  const dropdownPositionClass =
+    placement === "top-left"
+      ? "left-0 bottom-full mb-1"
+      : "right-0 top-full mt-1";
 
   return (
     <div ref={ref} className="relative">
@@ -646,7 +681,7 @@ function LanguageSelector({ lang, setLang }: { lang: Lang; setLang: (l: Lang) =>
         <span>{lang === "en" ? "EN" : "FR"}</span>
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-1 w-36 overflow-hidden rounded-xl border border-[#e5e5e5] bg-white shadow-lg">
+        <div className={`absolute ${dropdownPositionClass} z-50 w-36 overflow-hidden rounded-xl border border-[#e5e5e5] bg-white shadow-lg`}>
           <button
             type="button"
             onClick={() => { setLang("en"); setOpen(false); }}
@@ -811,15 +846,19 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       <header className="z-50 shrink-0 bg-[#fafafa]">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between">
           <div className="flex shrink-0 items-center gap-3 pl-[18px] lg:w-60">
-            {/* Logo with hover "Back to home" on the left */}
-            <div
+            {/* Logo + animated "Back to home" arrow.
+                The whole thing is ONE Link so a single tap on mobile (or
+                anywhere on desktop, even mid-animation) navigates home. */}
+            <Link
+              href={lang === "fr" ? "/fr" : "/"}
+              aria-label={t("Back to home", lang)}
               className="relative flex items-center"
               onMouseEnter={() => setLogoHovered(true)}
               onMouseLeave={() => setLogoHovered(false)}
+              onTouchStart={() => setLogoHovered(true)}
             >
-              <Link
-                href={lang === "fr" ? "/fr" : "/"}
-                className="flex items-center gap-1.5 transition-transform duration-300 ease-out"
+              <span
+                className="pointer-events-none flex items-center gap-1.5 transition-transform duration-300 ease-out"
                 style={{ transform: logoHovered ? "translateX(24px)" : "translateX(0)" }}
               >
                 <span className="font-bold tracking-[0.12em] text-[#111]" style={{ fontVariantCaps: "all-small-caps", fontSize: "27px", lineHeight: 1 }}>
@@ -828,25 +867,24 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
                 <span className="font-semibold text-[#111]" style={{ fontSize: "18px", lineHeight: 1, position: "relative", top: "4px" }}>
                   Docs
                 </span>
-              </Link>
+              </span>
 
-              {/* "Back to home" arrow — centered with logo */}
-              <Link
-                href={lang === "fr" ? "/fr" : "/"}
-                className="absolute left-0 top-1/2 flex items-center whitespace-nowrap rounded-xl text-[#999] transition-all duration-300 ease-out hover:text-[#111]"
+              {/* "Back to home" arrow — centered with logo, decorative only */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-0 top-1/2 flex items-center whitespace-nowrap rounded-xl text-[#999] transition-all duration-300 ease-out"
                 style={{
                   transform: logoHovered ? "translateY(calc(-50% + 2px)) translateX(0)" : "translateY(calc(-50% + 2px)) translateX(12px)",
                   opacity: logoHovered ? 1 : 0,
                   filter: logoHovered ? "blur(0px)" : "blur(4px)",
-                  pointerEvents: logoHovered ? "auto" : "none",
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M19 12H5" />
                   <path d="m12 19-7-7 7-7" />
                 </svg>
-              </Link>
-            </div>
+              </span>
+            </Link>
           </div>
 
           {/* Desktop: all buttons */}
@@ -903,19 +941,19 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             <Sidebar pathname={pathname} onNavigate={closeMobile} lang={lang} />
           </div>
 
-          {/* Mobile-only: pinned bottom bar with language + homepage */}
+          {/* Mobile-only: pinned bottom bar with language + get started CTA */}
           <div className="shrink-0 border-t border-[#e5e5e5] bg-[#fafafa] px-[18px] lg:hidden" style={{ padding: "12px 18px calc(12px + env(safe-area-inset-bottom))" }}>
             <div className="flex items-center justify-between">
-              <LanguageSelector lang={lang} setLang={setLang} />
+              <LanguageSelector lang={lang} setLang={setLang} placement="top-left" />
               <a
-                href={lang === "fr" ? "/fr" : "/"}
-                className="flex items-center gap-1.5 rounded-xl px-2.5 py-2 text-[13px] font-medium text-[#555] transition-colors hover:text-[#111]"
+                href="https://vvault.app/signup"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-[#e5e5e5] bg-white px-3 py-2 text-[13px] font-semibold text-[#111] transition-colors hover:border-[#ccc] hover:bg-[#fafafa]"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                  <polyline points="9 22 9 12 15 12 15 22" />
+                {t("Get started", lang)}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
                 </svg>
-                {t("Back to home", lang)}
               </a>
             </div>
           </div>
