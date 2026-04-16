@@ -264,8 +264,11 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                 )}
                 <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-6"}`}>
                   {p.bullets.map((bullet) => (
-                    <li key={bullet} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-white/65">
-                      <svg viewBox="0 0 20 20" className="mt-[2px] h-4 w-4 shrink-0 fill-none stroke-emerald-400/70 stroke-[2]">
+                    <li
+                      key={bullet}
+                      className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80"
+                    >
+                      <svg viewBox="0 0 20 20" className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]">
                         <path d="M5 10.5l3.5 3.5L15 7" />
                       </svg>
                       <span>{bullet}</span>
@@ -280,22 +283,22 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                       className="mt-6 h-px w-full"
                       style={{ background: "rgba(255,255,255,0.04)" }}
                     />
-                    <p className="mt-5 text-[12px] font-semibold uppercase tracking-wider text-white/30">
+                    <p className="mt-5 text-[12px] font-semibold uppercase tracking-wider text-white/35">
                       {p.notIncludedHeading}
                     </p>
                     <ul className="mt-3 flex flex-col gap-3">
                       {p.notIncluded.map((bullet) => (
                         <li
                           key={bullet}
-                          className="flex items-start gap-2.5 text-[13px] leading-relaxed text-white/30"
+                          className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/35"
                         >
                           <svg
                             viewBox="0 0 20 20"
-                            className="mt-[2px] h-4 w-4 shrink-0 fill-none stroke-white/25 stroke-[2]"
+                            className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-white/30 stroke-[2.2]"
                           >
                             <path d="M6 6l8 8M14 6l-8 8" />
                           </svg>
-                          <span className="line-through decoration-white/15">{bullet}</span>
+                          <span className="line-through decoration-white/20">{bullet}</span>
                         </li>
                       ))}
                     </ul>
