@@ -7,9 +7,17 @@ type RevealProps = {
   children: ReactNode;
   className?: string;
   delayMs?: number;
+  /**
+   * Fraction of the element that must be visible before the reveal
+   * fires. Default 0.18. For very tall elements (e.g. a full comparison
+   * table) pass a low value like 0 or 0.01 — otherwise 18% of a
+   * multi-thousand-pixel element means the user has to scroll way
+   * past the top before the animation kicks in.
+   */
+  threshold?: number;
 };
 
-export function Reveal({ children, className, delayMs = 0 }: RevealProps) {
+export function Reveal({ children, className, delayMs = 0, threshold = 0.18 }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -26,12 +34,12 @@ export function Reveal({ children, className, delayMs = 0 }: RevealProps) {
           }
         }
       },
-      { threshold: 0.18, rootMargin: '0px 0px -40px 0px' },
+      { threshold, rootMargin: '0px 0px -40px 0px' },
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [threshold]);
 
   return (
     <div

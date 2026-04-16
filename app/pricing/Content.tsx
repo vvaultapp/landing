@@ -402,17 +402,32 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
         {open && (
           <span
             role="tooltip"
-            className="pointer-events-none absolute left-0 bottom-[calc(100%+8px)] z-[100] block w-max max-w-[280px] rounded-md px-2.5 py-1.5 text-[12px] font-normal leading-snug text-white/90"
+            className="pointer-events-none absolute left-0 bottom-[calc(100%+8px)] z-[100] block w-max max-w-[240px] rounded-md px-2 py-1 text-[11px] font-normal leading-snug text-white/90"
             style={{
-              /* Epidemic-style bubble — small, compact, solid dark
-                 tile sitting above the label. No animation (pops in
-                 instantly). */
+              /* Epidemic-style chat bubble — small, compact, solid
+                 dark tile sitting above the label, with a downward
+                 tail that points to the feature. No animation. */
               background: "#1c1d22",
               boxShadow:
                 "0 0 0 1px rgba(255,255,255,0.08), 0 6px 18px -4px rgba(0,0,0,0.7)",
             }}
           >
             {desc}
+            {/* Chat tail — a small triangle aligned under the left
+               edge of the bubble pointing down to the label. Rendered
+               as a rotated square so it gets the exact same 1px
+               hairline border as the body via box-shadow; the matching
+               bg color stitches the tail into the bubble so it reads
+               as one shape, not two. */}
+            <span
+              aria-hidden="true"
+              className="absolute left-3 top-full block h-[8px] w-[8px] -translate-y-1/2 rotate-45"
+              style={{
+                background: "#1c1d22",
+                boxShadow:
+                  "1px 1px 0 0 rgba(255,255,255,0.08)",
+              }}
+            />
           </span>
         )}
       </span>
@@ -913,8 +928,13 @@ export default function PricingPage() {
               aligns perfectly under the sticky header's inner wrapper.
               A SINGLE <Reveal> wraps the whole table so the whole block
               fades in together on first viewport entry — not one
-              per-section (that was 6 staggered fades, way too busy). */}
-          <Reveal>
+              per-section (that was 6 staggered fades, way too busy).
+              `threshold={0}` fires the moment the table's top edge
+              touches the viewport — without it, the default 0.18
+              threshold on a multi-thousand-pixel element makes the
+              user scroll hundreds of pixels past the top before the
+              fade kicks in. */}
+          <Reveal threshold={0}>
             <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
               {getComparisonSections(locale).map((section) => (
                 <div key={section.title} className="mt-12 sm:mt-16">
