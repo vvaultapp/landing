@@ -402,21 +402,14 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
         {open && (
           <span
             role="tooltip"
-            className="pointer-events-none absolute left-0 top-[calc(100%+6px)] z-[100] block w-[min(260px,calc(100vw-2.5rem))] rounded-[14px] p-3.5 text-[12px] font-normal leading-snug text-white/85 sm:text-[12.5px]"
+            className="pointer-events-none absolute left-0 bottom-[calc(100%+8px)] z-[100] block w-max max-w-[280px] rounded-md px-2.5 py-1.5 text-[12px] font-normal leading-snug text-white/90"
             style={{
-              /* Solid near-black fill (no gradient with low alpha —
-                 those can look like the card is see-through). */
-              background: "#0f0f14",
-              /* Outline: 1px ring via box-shadow so it rasterizes
-                 pixel-perfect on every corner and every DPR. Bumped
-                 opacity so the card actually reads as a bounded
-                 surface (user saw the previous 0.11 as "low-opacity /
-                 we can see behind"). Plus a soft inner top highlight
-                 for dimensional polish and a layered drop shadow so
-                 the edge reads as a proper card, not a floating box. */
+              /* Epidemic-style bubble — small, compact, solid dark
+                 tile sitting above the label. No animation (pops in
+                 instantly). */
+              background: "#1c1d22",
               boxShadow:
-                "0 0 0 1px rgba(255,255,255,0.22), inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 44px -12px rgba(0,0,0,0.9), 0 6px 18px -4px rgba(0,0,0,0.6)",
-              animation: "feature-tip-in 140ms cubic-bezier(0.22, 1, 0.36, 1) both",
+                "0 0 0 1px rgba(255,255,255,0.08), 0 6px 18px -4px rgba(0,0,0,0.7)",
             }}
           >
             {desc}
@@ -917,51 +910,56 @@ export default function PricingPage() {
           </div>
 
           {/* Feature rows — constrained back to max-w-1320 so content
-              aligns perfectly under the sticky header's inner wrapper. */}
-          <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-            {getComparisonSections(locale).map((section) => (
-              <Reveal key={section.title} className="mt-12 sm:mt-16">
-                {/* Section header — bigger, with divider underneath */}
-                <div className="border-b border-white/10 pb-3 sm:pb-4">
-                  <h3 className="text-[18px] font-semibold text-white sm:text-[22px]">
-                    {section.title}
-                  </h3>
-                </div>
-                {/* Rows — mobile: label+desc full-width on top, 3-col values
-                    underneath. Desktop: single 40/20/20/20 row. Same min-
-                    height per row to match Epidemic Sound. */}
-                <div className="flex flex-col">
-                  {section.rows.map((row) => (
-                    <div
-                      key={row.label}
-                      className="grid min-h-[138px] grid-cols-1 border-b border-white/[0.06] sm:min-h-[96px] sm:grid-cols-[40%_20%_20%_20%] sm:items-center"
-                    >
-                      {/* Label + tooltip (for complex features with a desc) */}
-                      <div className="pb-2 pr-4 pt-5 sm:py-6">
-                        <FeatureLabel label={row.label} desc={row.desc} />
+              aligns perfectly under the sticky header's inner wrapper.
+              A SINGLE <Reveal> wraps the whole table so the whole block
+              fades in together on first viewport entry — not one
+              per-section (that was 6 staggered fades, way too busy). */}
+          <Reveal>
+            <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+              {getComparisonSections(locale).map((section) => (
+                <div key={section.title} className="mt-12 sm:mt-16">
+                  {/* Section header — bigger, with divider underneath */}
+                  <div className="border-b border-white/10 pb-3 sm:pb-4">
+                    <h3 className="text-[18px] font-semibold text-white sm:text-[22px]">
+                      {section.title}
+                    </h3>
+                  </div>
+                  {/* Rows — mobile: label+desc full-width on top, 3-col values
+                      underneath. Desktop: single 40/20/20/20 row. Same min-
+                      height per row to match Epidemic Sound. */}
+                  <div className="flex flex-col">
+                    {section.rows.map((row) => (
+                      <div
+                        key={row.label}
+                        className="grid min-h-[138px] grid-cols-1 border-b border-white/[0.06] sm:min-h-[96px] sm:grid-cols-[40%_20%_20%_20%] sm:items-center"
+                      >
+                        {/* Label + tooltip (for complex features with a desc) */}
+                        <div className="pb-2 pr-4 pt-5 sm:py-6">
+                          <FeatureLabel label={row.label} desc={row.desc} />
+                        </div>
+                        {/* Values — 3-col grid on mobile, `contents` on desktop
+                            so each cell becomes a direct child of the parent
+                            grid and lands in its own 20% column. Left-aligned
+                            to line up with the plan-column headers above
+                            (same pattern as Epidemic Sound). */}
+                        <div className="grid grid-cols-3 gap-0 pb-5 sm:contents">
+                          <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
+                            <CellValue value={row.free} />
+                          </div>
+                          <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
+                            <CellValue value={row.pro} />
+                          </div>
+                          <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
+                            <CellValue value={row.ultra} />
+                          </div>
+                        </div>
                       </div>
-                      {/* Values — 3-col grid on mobile, `contents` on desktop
-                          so each cell becomes a direct child of the parent
-                          grid and lands in its own 20% column. Left-aligned
-                          to line up with the plan-column headers above
-                          (same pattern as Epidemic Sound). */}
-                      <div className="grid grid-cols-3 gap-0 pb-5 sm:contents">
-                        <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
-                          <CellValue value={row.free} />
-                        </div>
-                        <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
-                          <CellValue value={row.pro} />
-                        </div>
-                        <div className="flex items-center justify-start pl-1 pr-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
-                          <CellValue value={row.ultra} />
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
 
         {/* Re-enter max-w for the FAQ + final CTA */}
