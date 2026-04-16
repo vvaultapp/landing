@@ -320,9 +320,9 @@ export default function PricingPage() {
       }
       const headerRect = headerNode.getBoundingClientRect();
       const compareRect = compareNode.getBoundingClientRect();
-      // Trigger sticky once the static header's bottom clears the top of the
-      // viewport, so the sticky "takes over" its role.
-      setStickyVisible(headerRect.bottom <= 0 && compareRect.bottom > 80);
+      // Trigger sticky as soon as the static header starts going off the top —
+      // Epidemic-Sound style: "first it's there, then it sticks to the top".
+      setStickyVisible(headerRect.top <= 0 && compareRect.bottom > 80);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -418,8 +418,9 @@ export default function PricingPage() {
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       {/* Sticky compare-plans bar — Epidemic Sound style.
-          A proper <table> with the same colgroup widths as the tables below
-          so every plan column lines up perfectly on both mobile and desktop.
+          Mobile: two-row layout (title + toggle on top, plan columns below).
+          Desktop: single-row 40/20/20/20 grid that matches the comparison
+          tables below so every plan column lines up perfectly.
           Pairs with body class `compare-sticky-active` to cross-fade the nav. */}
       <div
         aria-hidden={!stickyVisible}
@@ -435,74 +436,86 @@ export default function PricingPage() {
           }}
         >
           <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-            <table className="w-full table-fixed">
-              <colgroup>
-                <col style={{ width: "40%" }} />
-                <col style={{ width: "20%" }} />
-                <col style={{ width: "20%" }} />
-                <col style={{ width: "20%" }} />
-              </colgroup>
-              <tbody>
-                <tr>
-                  {/* Label column — title + (desktop) billing toggle */}
-                  <td className="py-3 pr-3 align-middle sm:py-4">
-                    <div className="flex flex-col gap-1 sm:gap-1.5">
-                      <span className="text-[15px] font-semibold leading-none text-white sm:text-[22px]">
-                        {locale === "fr" ? "Comparer" : "Compare plans"}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setAnnual((v) => !v)}
-                        className="hidden w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/60 transition-colors hover:bg-white/[0.08] sm:inline-flex"
-                      >
-                        <span className={annual ? "text-white/40" : "text-white"}>
-                          {content.pricingUi.monthly}
-                        </span>
-                        <span
-                          className={`relative h-3.5 w-6 rounded-full transition-colors ${
-                            annual ? "bg-emerald-500/80" : "bg-white/15"
-                          }`}
-                        >
-                          <span
-                            className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
-                              annual ? "left-3" : "left-0.5"
-                            }`}
-                          />
-                        </span>
-                        <span className={annual ? "text-white" : "text-white/40"}>
-                          {content.pricingUi.annually}
-                        </span>
-                      </button>
+            {/* Mobile-only top row: title on the left, toggle on the right */}
+            <div className="flex items-center justify-between gap-3 pb-2 pt-3 sm:hidden">
+              <span className="text-[15px] font-semibold leading-none text-white">
+                {locale === "fr" ? "Comparer les plans" : "Compare plans"}
+              </span>
+              <button
+                type="button"
+                onClick={() => setAnnual((v) => !v)}
+                aria-label={content.pricingUi.toggleBillingAriaLabel}
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[10.5px] font-medium text-white/70 transition-colors hover:bg-white/[0.08]"
+              >
+                <span
+                  className={`relative h-3 w-5 rounded-full transition-colors ${
+                    annual ? "bg-emerald-500/80" : "bg-white/15"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-white transition-all ${
+                      annual ? "left-2.5" : "left-0.5"
+                    }`}
+                  />
+                </span>
+                <span className="text-white/85">
+                  {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
+                </span>
+                <span className="text-white/40">—</span>
+              </button>
+            </div>
+
+            {/* Plans row — 3-col on mobile, 4-col with label on desktop */}
+            <div className="grid grid-cols-3 gap-0 pb-3 sm:grid-cols-[40%_20%_20%_20%] sm:items-center sm:gap-0 sm:pb-4 sm:pt-4">
+              {/* Desktop label column — title + toggle (hidden on mobile) */}
+              <div className="hidden pr-3 sm:flex sm:flex-col sm:gap-1.5">
+                <span className="text-[22px] font-semibold leading-none text-white">
+                  {locale === "fr" ? "Comparer les plans" : "Compare plans"}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setAnnual((v) => !v)}
+                  aria-label={content.pricingUi.toggleBillingAriaLabel}
+                  className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/70 transition-colors hover:bg-white/[0.08]"
+                >
+                  <span
+                    className={`relative h-3.5 w-6 rounded-full transition-colors ${
+                      annual ? "bg-emerald-500/80" : "bg-white/15"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
+                        annual ? "left-3" : "left-0.5"
+                      }`}
+                    />
+                  </span>
+                  <span className="text-white/85">
+                    {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
+                  </span>
+                  <span className="text-white/40">—</span>
+                </button>
+              </div>
+              {stickyPlans.map((p) => (
+                <div key={p.name} className="min-w-0 pl-1 sm:pl-2">
+                  <div className="truncate text-[13px] font-semibold leading-tight text-white sm:text-[18px]">
+                    {p.name}
+                  </div>
+                  <div className="truncate text-[11px] leading-tight tabular-nums text-white/60 sm:text-[14px]">
+                    <span className="font-medium text-white/85">{p.price}</span>
+                    {p.period && (
+                      <span className="text-white/45">{p.period}</span>
+                    )}
+                  </div>
+                  {p.period && (
+                    <div className="truncate text-[9.5px] leading-tight text-white/35 sm:text-[11px]">
+                      {locale === "fr"
+                        ? annual ? "Par mois, facturé à l'année" : "Par mois, facturé au mois"
+                        : annual ? "Per month, billed yearly" : "Per month, billed monthly"}
                     </div>
-                  </td>
-                  {stickyPlans.map((p) => (
-                    <td
-                      key={p.name}
-                      className="py-3 text-left align-middle sm:py-4"
-                    >
-                      <div className="min-w-0 pl-1 sm:pl-2">
-                        <div className="truncate text-[13px] font-semibold leading-tight text-white sm:text-[18px]">
-                          {p.name}
-                        </div>
-                        <div className="truncate text-[11px] leading-tight tabular-nums text-white/60 sm:text-[14px]">
-                          <span className="font-medium text-white/85">{p.price}</span>
-                          {p.period && (
-                            <span className="text-white/45">{p.period}</span>
-                          )}
-                        </div>
-                        {p.period && (
-                          <div className="truncate text-[9.5px] leading-tight text-white/35 sm:text-[11px]">
-                            {locale === "fr"
-                              ? annual ? "facturé à l'année" : "facturé au mois"
-                              : annual ? "billed yearly" : "billed monthly"}
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  ))}
-                </tr>
-              </tbody>
-            </table>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -742,6 +755,28 @@ export default function PricingPage() {
             ))}
           </div>
 
+          {/* Anchor button linking to the big comparison tables below */}
+          <Reveal>
+            <div className="mt-14 flex justify-center sm:mt-16">
+              <a
+                href="#compare-plans"
+                className="group inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-[13px] font-medium text-white/80 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.08] hover:text-white sm:text-[14px]"
+              >
+                <span>
+                  {locale === "fr" ? "Comparer les plans" : "Compare plans"}
+                </span>
+                <svg
+                  viewBox="0 0 20 20"
+                  className="h-4 w-4 fill-none stroke-current stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-y-1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M10 4v12M4 10l6 6 6-6" />
+                </svg>
+              </a>
+            </div>
+          </Reveal>
+
           {/* Trustpilot social proof */}
           <SocialProofSection locale={locale} />
 
@@ -754,59 +789,57 @@ export default function PricingPage() {
                 columns line up 1:1 with the feature tables below. */}
             <div ref={staticHeaderRef}>
             <Reveal>
-              <table className="w-full table-fixed">
-                <colgroup>
-                  <col style={{ width: "40%" }} />
-                  <col style={{ width: "20%" }} />
-                  <col style={{ width: "20%" }} />
-                  <col style={{ width: "20%" }} />
-                </colgroup>
-                <tbody>
-                  <tr>
-                    <td className="pb-10 pr-4 align-top sm:pb-14">
-                      <h2 className="text-[2rem] font-semibold leading-[1.04] tracking-tight text-white sm:text-[3rem] lg:text-[3.4rem]">
-                        {locale === "fr" ? "Comparer les plans" : "Compare plans"}
-                      </h2>
-                      <div className="mt-5 flex flex-col gap-2 sm:mt-7">
-                        <div className="flex items-center gap-2.5">
-                          <button
-                            type="button"
-                            onClick={() => setAnnual((v) => !v)}
-                            aria-label={content.pricingUi.toggleBillingAriaLabel}
-                            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-                              annual ? "bg-emerald-500/80" : "bg-white/15"
-                            }`}
-                          >
-                            <span
-                              className={`absolute top-1/2 h-[18px] w-[18px] -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
-                                annual ? "left-[22px]" : "left-[3px]"
-                              }`}
-                            />
-                          </button>
-                          <span className="text-[13px] font-medium text-white/75 sm:text-[14px]">
-                            {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
-                          </span>
-                          <span className="text-[12px] text-white/35 sm:text-[13px]">
-                            —{" "}
-                            {locale === "fr"
-                              ? "Économise 17%"
-                              : "Save up to 17%"}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
+              {/* Mobile: big title + toggle stacked full-width on top, then
+                  the 3 plan columns beneath. Desktop: single 40/20/20/20 row
+                  aligning with the feature tables below. */}
+              <div className="pb-10 sm:pb-14">
+                {/* Title + toggle block (full-width on mobile, 40% col on desktop) */}
+                <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
+                  <div className="pr-4">
+                    <h2 className="text-[2rem] font-semibold leading-[1.04] tracking-tight text-white sm:text-[3rem] lg:text-[3.4rem]">
+                      {locale === "fr" ? "Comparer les plans" : "Compare plans"}
+                    </h2>
+                    <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-7">
+                      <button
+                        type="button"
+                        onClick={() => setAnnual((v) => !v)}
+                        aria-label={content.pricingUi.toggleBillingAriaLabel}
+                        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
+                          annual ? "bg-emerald-500/80" : "bg-white/15"
+                        }`}
+                      >
+                        <span
+                          className={`absolute top-1/2 h-[18px] w-[18px] -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
+                            annual ? "left-[22px]" : "left-[3px]"
+                          }`}
+                        />
+                      </button>
+                      <span className="text-[13px] font-medium text-white/75 sm:text-[14px]">
+                        {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
+                      </span>
+                      <span className="text-[12px] text-white/35 sm:text-[13px]">
+                        —{" "}
+                        {locale === "fr"
+                          ? "Économise 17%"
+                          : "Save up to 17%"}
+                      </span>
+                    </div>
+                  </div>
+                  {/* Plan columns — 3-col on mobile (rendered below the title),
+                      desktop uses the parent grid's remaining 3 columns. */}
+                  <div className="mt-8 grid grid-cols-3 gap-0 sm:mt-0 sm:contents">
                     {stickyPlans.map((p) => (
-                      <td key={p.name} className="pb-10 pl-2 align-top sm:pb-14 sm:pl-3">
-                        <h3 className="text-[18px] font-semibold leading-tight text-white sm:text-[24px]">
+                      <div key={p.name} className="pl-1 sm:pl-3">
+                        <h3 className="text-[15px] font-semibold leading-tight text-white sm:text-[24px]">
                           {p.name}
                         </h3>
-                        <p className="mt-1 text-[16px] font-medium tabular-nums leading-tight text-white sm:mt-1.5 sm:text-[22px]">
+                        <p className="mt-1 text-[13px] font-medium tabular-nums leading-tight text-white sm:mt-1.5 sm:text-[22px]">
                           {p.price}
                           {p.period && (
                             <span className="text-white/45">{p.period}</span>
                           )}
                         </p>
-                        <p className="mt-1 text-[10.5px] leading-snug text-white/40 sm:mt-2 sm:text-[12px]">
+                        <p className="mt-1 text-[10px] leading-snug text-white/40 sm:mt-2 sm:text-[12px]">
                           {p.period
                             ? locale === "fr"
                               ? annual
@@ -819,11 +852,11 @@ export default function PricingPage() {
                               ? "Toujours gratuit"
                               : "Free forever"}
                         </p>
-                      </td>
+                      </div>
                     ))}
-                  </tr>
-                </tbody>
-              </table>
+                  </div>
+                </div>
+              </div>
             </Reveal>
             </div>
 
@@ -835,42 +868,43 @@ export default function PricingPage() {
                     {section.title}
                   </h3>
                 </div>
-                <table className="w-full table-fixed">
-                  <colgroup>
-                    <col style={{ width: "40%" }} />
-                    <col style={{ width: "20%" }} />
-                    <col style={{ width: "20%" }} />
-                    <col style={{ width: "20%" }} />
-                  </colgroup>
-                  <tbody>
-                    {section.rows.map((row) => (
-                      <tr
-                        key={row.label}
-                        className="border-b border-white/[0.06]"
-                      >
-                        <td className="py-5 pr-4 align-middle sm:py-6">
-                          <p className="text-[14px] font-medium leading-snug text-white/90 sm:text-[16px]">
-                            {row.label}
+                {/* Rows — mobile: label+desc full-width on top, 3-col values
+                    underneath. Desktop: single 40/20/20/20 row. Same min-
+                    height per row to match Epidemic Sound. */}
+                <div className="flex flex-col">
+                  {section.rows.map((row) => (
+                    <div
+                      key={row.label}
+                      className="grid min-h-[138px] grid-cols-1 border-b border-white/[0.06] sm:min-h-[96px] sm:grid-cols-[40%_20%_20%_20%] sm:items-center"
+                    >
+                      {/* Label + description */}
+                      <div className="pb-2 pr-4 pt-5 sm:py-6">
+                        <p className="text-[14px] font-medium leading-snug text-white/90 sm:text-[16px]">
+                          {row.label}
+                        </p>
+                        {row.desc && (
+                          <p className="mt-1 text-[11.5px] leading-snug text-white/40 sm:mt-1.5 sm:text-[13px]">
+                            {row.desc}
                           </p>
-                          {row.desc && (
-                            <p className="mt-1 text-[11.5px] leading-snug text-white/40 sm:mt-1.5 sm:text-[13px]">
-                              {row.desc}
-                            </p>
-                          )}
-                        </td>
-                        <td className="py-5 pl-2 pr-1 text-center align-middle sm:py-6 sm:pl-3 sm:pr-2">
+                        )}
+                      </div>
+                      {/* Values — 3-col grid on mobile, `contents` on desktop
+                          so each cell becomes a direct child of the parent
+                          grid and lands in its own 20% column. */}
+                      <div className="grid grid-cols-3 gap-0 pb-5 sm:contents">
+                        <div className="flex items-center justify-center px-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
                           <CellValue value={row.free} />
-                        </td>
-                        <td className="py-5 pl-2 pr-1 text-center align-middle sm:py-6 sm:pl-3 sm:pr-2">
+                        </div>
+                        <div className="flex items-center justify-center px-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
                           <CellValue value={row.pro} />
-                        </td>
-                        <td className="py-5 pl-2 pr-1 text-center align-middle sm:py-6 sm:pl-3 sm:pr-2">
+                        </div>
+                        <div className="flex items-center justify-center px-1 py-2 sm:py-6 sm:pl-3 sm:pr-2">
                           <CellValue value={row.ultra} />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </Reveal>
             ))}
           </div>
