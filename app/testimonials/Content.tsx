@@ -299,7 +299,7 @@ export default function TestimonialsPage() {
             <div className="mt-6 flex justify-center gap-3">
               <a
                 href="https://vvault.app/signup"
-                className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+                className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
                 {fr ? "Commencer gratuitement" : "Start for free"}
               </a>

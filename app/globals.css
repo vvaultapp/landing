@@ -271,6 +271,56 @@ body.compare-pinned .nav-enter {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Final CTA — slow cinematic 3D reveal of the headline. Each clause
+   unfolds forward (rotateX -28deg → 0), rises, and de-blurs over
+   1.4s with a strong ease-out so the letters feel like they're
+   settling onto the page. */
+@keyframes final-cta-3d-in {
+  from {
+    opacity: 0;
+    transform: perspective(1100px) rotateX(-28deg) translateY(36px);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1100px) rotateX(0deg) translateY(0);
+    filter: blur(0);
+  }
+}
+
+.final-cta-clause {
+  animation: final-cta-3d-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  backface-visibility: hidden;
+}
+
+/* The CTA buttons below the headline slide up calmly after the
+   headline has landed so the hierarchy reads: words first, action
+   second. */
+@keyframes final-cta-actions-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.final-cta-actions {
+  animation: final-cta-actions-in 720ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .final-cta-clause,
+  .final-cta-actions {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
 @keyframes feature-tip-in {
   from {
     opacity: 0;

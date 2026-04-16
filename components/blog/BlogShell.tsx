@@ -38,7 +38,7 @@ export function BlogNav() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             href="https://vvault.app/signup"
-            className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             Sign up
           </a>
@@ -53,7 +53,7 @@ export function BlogNav() {
         <div className="ml-auto flex items-center gap-2 lg:hidden">
           <a
             href="https://vvault.app/signup"
-            className="inline-flex items-center rounded-2xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             Sign up
           </a>
@@ -164,7 +164,7 @@ export function BottomCta() {
         <p className="text-sm text-white/70">Ready to send music like a pro?</p>
         <a
           href="https://vvault.app/signup"
-          className="inline-flex shrink-0 items-center rounded-2xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+          className="inline-flex shrink-0 items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
         >
           Start free
         </a>

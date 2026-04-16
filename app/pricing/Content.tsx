@@ -168,8 +168,24 @@ function getComparisonSections(locale: "en" | "fr"): {
         { label: fr ? "Objet & corps d'email personnalisés" : "Custom email subject & body", free: false, pro: true, ultra: true },
         { label: fr ? "A/B test des objets d'email" : "A/B test email subjects", free: false, pro: true, ultra: true },
         { label: fr ? "Horaire optimal par destinataire" : "Per-recipient best time scheduling", free: false, pro: false, ultra: true },
-        { label: fr ? "Automatisations en séries" : "Series automations", free: false, pro: false, ultra: true },
-        { label: fr ? "Séquences email automatisées (drip)" : "Automated email sequences (drip)", free: false, pro: false, ultra: true },
+        {
+          label: fr ? "Automatisations en séries" : "Series automations",
+          desc: fr
+            ? "Séquences d'envoi pré-construites qui se déclenchent sur des événements (nouveaux inscrits, inactivité, nouvelle sortie)."
+            : "Pre-built send sequences that run automatically on triggers like new signups, inactivity, or a fresh drop.",
+          free: false,
+          pro: false,
+          ultra: true,
+        },
+        {
+          label: fr ? "Séquences email automatisées (drip)" : "Automated email sequences (drip)",
+          desc: fr
+            ? "Flux d'emails planifiés sur plusieurs jours ou semaines pour relancer les contacts au bon moment, sans intervention manuelle."
+            : "Scheduled multi-step email flows that space out messages over days or weeks to nurture contacts without manual work.",
+          free: false,
+          pro: false,
+          ultra: true,
+        },
       ],
     },
     {
@@ -197,7 +213,15 @@ function getComparisonSections(locale: "en" | "fr"): {
         { label: fr ? "Téléchargements & sauvegardes" : "Downloads & saves", free: false, pro: true, ultra: true },
         { label: fr ? "Suivi des ventes" : "Sales tracking", free: false, pro: true, ultra: true },
         { label: fr ? "Analyse du meilleur moment pour envoyer" : "Best time to send analysis", free: false, pro: true, ultra: true },
-        { label: fr ? "Funnels d'engagement" : "Engagement funnels", free: false, pro: true, ultra: true },
+        {
+          label: fr ? "Funnels d'engagement" : "Engagement funnels",
+          desc: fr
+            ? "Visualise où tes contacts décrochent entre ouverture, écoute, téléchargement et vente — pour voir exactement où agir."
+            : "Visualize where contacts drop off across opens, plays, downloads, and sales, so you can see which stage needs attention.",
+          free: false,
+          pro: true,
+          ultra: true,
+        },
         { label: fr ? "Heatmap d'ouvertures (jour × heure)" : "Opens heatmap (day \u00d7 hour)", free: false, pro: true, ultra: true },
       ],
     },
@@ -215,8 +239,24 @@ function getComparisonSections(locale: "en" | "fr"): {
           pro: true,
           ultra: true,
         },
-        { label: fr ? "Smart Segments (segments dynamiques)" : "Smart Segments (dynamic rule-based)", free: false, pro: true, ultra: true },
-        { label: fr ? "Opportunités & tableau de demandes" : "Opportunities & request board", free: true, pro: true, ultra: true },
+        {
+          label: fr ? "Smart Segments (segments dynamiques)" : "Smart Segments (dynamic rule-based)",
+          desc: fr
+            ? "Groupes de contacts auto-mis à jour selon des règles (ex. ouvert il y a 7 jours, écouté plus de 60s). La liste évolue avec l'activité."
+            : "Auto-updating contact groups built from rules (e.g. opened in last 7 days, listened > 60s). Membership changes as activity does.",
+          free: false,
+          pro: true,
+          ultra: true,
+        },
+        {
+          label: fr ? "Opportunités & tableau de demandes" : "Opportunities & request board",
+          desc: fr
+            ? "Inbox pour les demandes de beats et placements entrants. Suis chaque lead du premier contact jusqu'au deal signé."
+            : "Inbox for incoming beat requests and placements. Track every lead from first touch to signed deal in one board.",
+          free: true,
+          pro: true,
+          ultra: true,
+        },
       ],
     },
     {
@@ -250,15 +290,39 @@ function getComparisonSections(locale: "en" | "fr"): {
           pro: true,
           ultra: true,
         },
-        { label: fr ? "Personnalisation du thème" : "Theme customization", free: false, pro: false, ultra: true },
+        {
+          label: fr ? "Personnalisation du thème" : "Theme customization",
+          desc: fr
+            ? "Personnalise ton vault public avec tes couleurs, polices et layouts — ta page colle à ton identité d'artiste, pas à un template générique."
+            : "Brand your public vault with custom colors, fonts, and layouts so your page matches your artist identity, not a generic template.",
+          free: false,
+          pro: false,
+          ultra: true,
+        },
         { label: fr ? "Crédits de placement" : "Placement credits", free: true, pro: true, ultra: true },
         { label: fr ? "Liens sociaux (IG, YT, TT)" : "Social links (IG, YT, TT)", free: true, pro: true, ultra: true },
         { label: fr ? "Embeds (lecteurs intégrables) avec tracking" : "Embeds (embeddable players) with tracking", free: true, pro: true, ultra: true },
         { label: fr ? "Codes QR" : "QR codes", free: true, pro: true, ultra: true },
         { label: fr ? "Domaine personnalisé" : "Custom domain", free: false, pro: false, ultra: true },
         { label: fr ? "Embeds brandés" : "Branded embeds", free: false, pro: false, ultra: true },
-        { label: fr ? "Studio Packs (publication auto vidéo)" : "Studio Packs (auto video publishing)", free: false, pro: false, ultra: true },
-        { label: fr ? "Mise en avant section Browse" : "Browse section highlight", free: false, pro: false, ultra: true },
+        {
+          label: fr ? "Studio Packs (publication auto vidéo)" : "Studio Packs (auto video publishing)",
+          desc: fr
+            ? "Publie automatiquement des snippets vidéo soignés de tes tracks sur TikTok, Reels et Shorts — sans montage ni export."
+            : "Auto-publish polished video snippets of your tracks to TikTok, Instagram Reels, and YouTube Shorts — no editing or export needed.",
+          free: false,
+          pro: false,
+          ultra: true,
+        },
+        {
+          label: fr ? "Mise en avant section Browse" : "Browse section highlight",
+          desc: fr
+            ? "Mise en avant dans le feed de découverte public de vvault pour que plus d'auditeurs tombent sur ta musique."
+            : "Featured placement in vvault's public discovery feed so more listeners find your music without extra promotion.",
+          free: false,
+          pro: false,
+          ultra: true,
+        },
       ],
     },
   ];
@@ -338,11 +402,18 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
         {open && (
           <span
             role="tooltip"
-            className="pointer-events-none absolute left-0 top-[calc(100%+6px)] z-30 block w-[min(260px,calc(100vw-2.5rem))] rounded-xl p-3 text-[12px] font-normal leading-snug text-white/75 shadow-2xl shadow-black/80 sm:text-[12.5px]"
+            className="pointer-events-none absolute left-0 top-[calc(100%+6px)] z-30 block w-[min(260px,calc(100vw-2.5rem))] rounded-[14px] p-3.5 text-[12px] font-normal leading-snug text-white/78 sm:text-[12.5px]"
             style={{
               background:
-                "linear-gradient(180deg, rgba(20,20,25,1) 0%, rgba(10,10,14,1) 100%)",
-              border: "1px solid rgba(255,255,255,0.08)",
+                "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(12,12,16,1) 100%)",
+              /* 1px hairline ring via shadow (pixel-perfect on every
+                 device — a `border` at low alpha can look patchy on
+                 Retina because the alpha gets rounded per sub-pixel).
+                 A soft inner top highlight sells the "card" feel.
+                 Outer shadow is layered (two stops) so the drop is
+                 smooth and not a single sharp halo. */
+              boxShadow:
+                "0 0 0 1px rgba(255,255,255,0.11), inset 0 1px 0 rgba(255,255,255,0.05), 0 16px 40px -12px rgba(0,0,0,0.8), 0 4px 14px -4px rgba(0,0,0,0.55)",
               animation: "feature-tip-in 140ms cubic-bezier(0.22, 1, 0.36, 1) both",
             }}
           >
@@ -751,8 +822,13 @@ export default function PricingPage() {
                 visible from y=0 down to the bottom of the sticky bar. */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 -top-[62px] sm:-top-[56px]"
+              className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 -top-[72px] sm:-top-[66px]"
               style={{
+                /* Extends 10px PAST the nav's top edge as a safety
+                   buffer so any subpixel rounding or transition-timing
+                   difference between the nav and this glass can't
+                   expose a 1-2px horizontal seam at their boundary.
+                   The extra is off-screen, so it costs nothing. */
                 backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
                 backdropFilter: stuck ? "blur(14px)" : "none",
                 WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
@@ -766,7 +842,7 @@ export default function PricingPage() {
                   aligning with the feature tables below. */}
               <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
                 <div className="pr-4">
-                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[2.2rem] lg:text-[2.4rem]">
+                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[2.3rem] lg:text-[2.3rem]">
                     {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">
@@ -908,7 +984,7 @@ export default function PricingPage() {
               <div className="mt-6 flex justify-center">
                 <a
                   href="https://vvault.app/signup"
-                  className="inline-flex items-center rounded-2xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+                  className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
                 >
                   {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
                 </a>

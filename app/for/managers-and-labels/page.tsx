@@ -119,7 +119,7 @@ export default function ManagersAndLabelsPage() {
           </h2>
           <a
             href="https://vvault.app/signup"
-            className="mt-5 inline-flex items-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors hover:bg-white/90"
+            className="mt-5 inline-flex items-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors hover:bg-white/90"
           >
             Start free
           </a>

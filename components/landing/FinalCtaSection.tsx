@@ -1,59 +1,59 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import type { LandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
-import { Reveal } from "@/components/landing/Reveal";
-
-/* Lazy-load Plasma — it's a WebGL scene, heavy to mount. We only
-   pull the chunk when the section actually enters the viewport. */
-const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
-  ssr: false,
-});
 
 type FinalCtaSectionProps = {
   content: LandingContent;
 };
 
+/* ----------------------------------------------------------------- */
+/*  Final CTA — no backdrop effect. The title itself carries the     */
+/*  moment: a slow, cinematic 3D reveal. Each clause of the headline */
+/*  unfolds forward on the Y axis (rotateX -28deg → 0), rising and   */
+/*  de-blurring as it lands. Staggered so the two halves feel like   */
+/*  they're arriving in sequence rather than a single animation.     */
+/*  Triggered via IntersectionObserver so it only plays when the     */
+/*  section actually enters the viewport.                             */
+/* ----------------------------------------------------------------- */
+
 export function FinalCtaSection({ content }: FinalCtaSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
-
-  /* `mounted` = Plasma has ever been in view (one-way latch — once we
-      mount the WebGL chunk we keep it around to avoid re-mount flicker).
-      `visible` = section is currently in the viewport — drives opacity,
-      so the backdrop fades IN as the user scrolls down into the
-      section and fades OUT when they scroll back up past it. */
-  const [mounted, setMounted] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [played, setPlayed] = useState(false);
 
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
 
+    /* One-way latch: once the reveal fires we don't re-run it even
+       if the user scrolls away and comes back. Cheap and avoids
+       flashing the animation on every return visit. */
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            setVisible(true);
-            setMounted(true);
-          } else {
-            setVisible(false);
+            setPlayed(true);
+            observer.disconnect();
           }
         }
       },
-      {
-        /* Start fading in a bit before the section's top crosses the
-           viewport so the backdrop is already settled by the time the
-           headline is legible. */
-        rootMargin: "200px 0px 200px 0px",
-        threshold: 0,
-      }
+      { rootMargin: "-8% 0px -8% 0px", threshold: 0 }
     );
 
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  /* Split the title on the first period/full-stop so each clause can
+     animate independently. If there's no period we just get one
+     clause and stagger is a no-op. */
+  const rawTitle = content.finalCta.title;
+  const clauses = (() => {
+    const match = rawTitle.match(/^([^.!?]+[.!?])\s*(.+)$/);
+    if (match) return [match[1], match[2]];
+    return [rawTitle];
+  })();
 
   return (
     <section
@@ -61,62 +61,53 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
       id="final-cta"
       className="relative overflow-hidden pt-44 pb-44 sm:pt-64 sm:pb-56"
     >
-      {/* Plasma backdrop — sits in the LOWER portion of the section
-          only, with a long top fade so it never bleeds into the
-          Contact section above. Fades in on first viewport enter,
-          fades out when scrolling away. */}
-      {mounted && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 top-[45%] z-0"
-          style={{
-            opacity: visible ? 1 : 0,
-            transition: "opacity 700ms ease",
-            /* Two-stop fade: fully transparent at the top (protects
-               the Contact section), ramps to solid around mid-height,
-               softly fades again past the bottom so the plasma
-               doesn't hit the footer hard. */
-            maskImage:
-              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 60%, black 92%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 30%, black 60%, black 92%, transparent 100%)",
-          }}
-        >
-          <div className="absolute inset-0 opacity-[0.55] max-lg:opacity-[0.2]">
-            <Plasma
-              color="#ffffff"
-              speed={0.3}
-              direction="forward"
-              scale={1.2}
-              opacity={0.5}
-              mouseInteractive={false}
-            />
-          </div>
-        </div>
-      )}
-
       <div className="relative z-10 mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-        <Reveal className="text-center">
-          {/* Clean gradient text */}
-          <div className="relative mx-auto max-w-[480px] sm:max-w-[580px] lg:max-w-[660px]">
+        <div className="text-center">
+          <div
+            className="mx-auto max-w-[480px] sm:max-w-[580px] lg:max-w-[660px]"
+            style={{ perspective: "1100px", perspectiveOrigin: "50% 80%" }}
+          >
             <h2
               className="font-display relative text-[2.6rem] font-semibold leading-[1.05] tracking-tight sm:text-[3.8rem] lg:text-[4.6rem]"
               style={{
-                backgroundImage:
-                  "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(180,180,190,0.38) 50%, rgba(150,150,165,0.28) 100%)",
-                WebkitBackgroundClip: "text",
-                backgroundClip: "text",
-                color: "transparent",
+                transformStyle: "preserve-3d",
               }}
             >
-              {content.finalCta.title}
+              {clauses.map((clause, i) => (
+                <span
+                  key={i}
+                  className={played ? "final-cta-clause" : undefined}
+                  style={{
+                    display: "block",
+                    backgroundImage:
+                      "linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(220,220,232,0.82) 50%, rgba(180,180,200,0.62) 100%)",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    color: "transparent",
+                    animationDelay: `${i * 0.28}s`,
+                    opacity: played ? undefined : 0,
+                    transformOrigin: "center bottom",
+                    willChange: played ? "transform, opacity, filter" : "auto",
+                  }}
+                >
+                  {clause}
+                </span>
+              ))}
             </h2>
           </div>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-3 sm:mt-12">
+          <div
+            className={`mt-10 flex flex-wrap items-center justify-center gap-3 sm:mt-12 ${
+              played ? "final-cta-actions" : ""
+            }`}
+            style={{
+              opacity: played ? undefined : 0,
+              animationDelay: `${clauses.length * 0.28 + 0.1}s`,
+            }}
+          >
             <LandingCtaLink
               loggedInHref={content.finalCta.primary.href}
               loggedOutHref={content.finalCta.primary.href}
-              className="inline-flex items-center gap-1.5 rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {content.finalCta.primary.label}
               <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current stroke-[1.8]">
@@ -134,7 +125,7 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
               </svg>
             </LandingCtaLink>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

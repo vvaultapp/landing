@@ -146,7 +146,7 @@ export function EnSignupPage() {
               <LandingCtaLink
                 loggedInHref="https://vvault.app/signup"
                 loggedOutHref="https://vvault.app/signup"
-                className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
+                className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
               >
                 Create my vvault
               </LandingCtaLink>
@@ -164,7 +164,7 @@ export function EnSignupPage() {
             <LandingCtaLink
               loggedInHref="https://vvault.app/signup"
               loggedOutHref="https://vvault.app/signup"
-              className="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
+              className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
             >
               Create my vvault
             </LandingCtaLink>

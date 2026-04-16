@@ -244,7 +244,7 @@ export function HomeConversionCta({ locale = "en" }: HomeConversionCtaProps) {
             <LandingCtaLink
               loggedInHref="https://vvault.app/billing"
               loggedOutHref="https://vvault.app/signup"
-              className="home-cta-primary group inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-7 py-3.5 text-[14.5px] font-semibold text-[#0e0e0e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-[15.5px]"
+              className="home-cta-primary group inline-flex items-center justify-center gap-2 rounded-xl bg-white px-7 py-3.5 text-[14.5px] font-semibold text-[#0e0e0e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-[15.5px]"
             >
               <span>{primary}</span>
               <svg
