@@ -317,9 +317,10 @@ export default function PricingPage() {
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
-      {/* Sticky compare-plans bar — covers nav while reading tables.
-          Pairs with the body class `compare-sticky-active` that fades the
-          primary nav out at the same time, for a seamless hand-off. */}
+      {/* Sticky compare-plans bar — Epidemic Sound style.
+          A proper <table> with the same colgroup widths as the tables below
+          so every plan column lines up perfectly on both mobile and desktop.
+          Pairs with body class `compare-sticky-active` to cross-fade the nav. */}
       <div
         aria-hidden={!stickyVisible}
         className={`fixed inset-x-0 top-0 z-[100] transition-opacity duration-[320ms] ease-out ${
@@ -328,61 +329,80 @@ export default function PricingPage() {
         style={{ willChange: "opacity" }}
       >
         <div
-          className="border-b border-white/[0.10] bg-black/95 pt-[env(safe-area-inset-top)] backdrop-blur-xl"
+          className="border-b border-white/[0.10] bg-black pt-[env(safe-area-inset-top)]"
           style={{
             boxShadow: "0 14px 32px -18px rgba(0,0,0,0.85)",
           }}
         >
           <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-            <div
-              className="grid min-h-[62px] items-center gap-3 py-3 sm:min-h-[80px] sm:gap-4 sm:py-5"
-              style={{
-                gridTemplateColumns: "40% 20% 20% 20%",
-              }}
-            >
-              {/* Label column — "Compare" + (desktop) billing toggle */}
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-[13px] font-semibold text-white/75 sm:text-[15px]">
-                  {locale === "fr" ? "Comparer" : "Compare"}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setAnnual((v) => !v)}
-                  className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/60 transition-colors hover:bg-white/[0.08] sm:inline-flex"
-                >
-                  <span className={annual ? "text-white/40" : "text-white"}>
-                    {content.pricingUi.monthly}
-                  </span>
-                  <span
-                    className={`relative h-3.5 w-6 rounded-full transition-colors ${
-                      annual ? "bg-emerald-500/80" : "bg-white/15"
-                    }`}
-                  >
-                    <span
-                      className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
-                        annual ? "left-3" : "left-0.5"
-                      }`}
-                    />
-                  </span>
-                  <span className={annual ? "text-white" : "text-white/40"}>
-                    {content.pricingUi.annually}
-                  </span>
-                </button>
-              </div>
-              {stickyPlans.map((p) => (
-                <div key={p.name} className="min-w-0 text-center">
-                  <div className="truncate text-[13px] font-semibold text-white sm:text-[17px]">
-                    {p.name}
-                  </div>
-                  <div className="truncate text-[10.5px] tabular-nums text-white/55 sm:text-[13px]">
-                    {p.price}
-                    {p.period && (
-                      <span className="text-white/35">{p.period}</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <table className="w-full table-fixed">
+              <colgroup>
+                <col style={{ width: "40%" }} />
+                <col style={{ width: "20%" }} />
+                <col style={{ width: "20%" }} />
+                <col style={{ width: "20%" }} />
+              </colgroup>
+              <tbody>
+                <tr>
+                  {/* Label column — title + (desktop) billing toggle */}
+                  <td className="py-3 pr-3 align-middle sm:py-4">
+                    <div className="flex flex-col gap-1 sm:gap-1.5">
+                      <span className="text-[15px] font-semibold leading-none text-white sm:text-[22px]">
+                        {locale === "fr" ? "Comparer" : "Compare plans"}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setAnnual((v) => !v)}
+                        className="hidden w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/60 transition-colors hover:bg-white/[0.08] sm:inline-flex"
+                      >
+                        <span className={annual ? "text-white/40" : "text-white"}>
+                          {content.pricingUi.monthly}
+                        </span>
+                        <span
+                          className={`relative h-3.5 w-6 rounded-full transition-colors ${
+                            annual ? "bg-emerald-500/80" : "bg-white/15"
+                          }`}
+                        >
+                          <span
+                            className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
+                              annual ? "left-3" : "left-0.5"
+                            }`}
+                          />
+                        </span>
+                        <span className={annual ? "text-white" : "text-white/40"}>
+                          {content.pricingUi.annually}
+                        </span>
+                      </button>
+                    </div>
+                  </td>
+                  {stickyPlans.map((p) => (
+                    <td
+                      key={p.name}
+                      className="py-3 text-left align-middle sm:py-4"
+                    >
+                      <div className="min-w-0 pl-1 sm:pl-2">
+                        <div className="truncate text-[13px] font-semibold leading-tight text-white sm:text-[18px]">
+                          {p.name}
+                        </div>
+                        <div className="truncate text-[11px] leading-tight tabular-nums text-white/60 sm:text-[14px]">
+                          <span className="font-medium text-white/85">{p.price}</span>
+                          {p.period && (
+                            <span className="text-white/45">{p.period}</span>
+                          )}
+                        </div>
+                        {p.period && (
+                          <div className="truncate text-[9.5px] leading-tight text-white/35 sm:text-[11px]">
+                            {locale === "fr"
+                              ? annual ? "facturé à l'année" : "facturé au mois"
+                              : annual ? "billed yearly" : "billed monthly"}
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
