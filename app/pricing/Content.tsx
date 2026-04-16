@@ -308,8 +308,10 @@ export default function PricingPage() {
 
   // The big "Compare plans" header uses `position: sticky` so it naturally
   // pins against the bottom of the primary nav as the user scrolls. We
-  // just need to detect *when* it's stuck so we can fade in a pure-black
-  // background + thin bottom separator at that moment (Epidemic pattern).
+  // detect when it's stuck so we can fade in the same glassmorphic
+  // background as the nav — and, via a body class, hide the nav's
+  // bottom border so the two bars visually merge into one continuous
+  // glass strip (Epidemic / Resend pattern).
   useEffect(() => {
     const handleScroll = () => {
       const node = staticHeaderRef.current;
@@ -327,6 +329,19 @@ export default function PricingPage() {
       window.removeEventListener("resize", handleScroll);
     };
   }, []);
+
+  // Toggle the body class that hides the nav's bottom border while the
+  // Compare-plans bar is pinned, so the two bars merge seamlessly.
+  useEffect(() => {
+    if (stuck) {
+      document.body.classList.add("compare-pinned");
+    } else {
+      document.body.classList.remove("compare-pinned");
+    }
+    return () => {
+      document.body.classList.remove("compare-pinned");
+    };
+  }, [stuck]);
 
   const fr = locale === "fr";
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
@@ -450,7 +465,7 @@ export default function PricingPage() {
                     }`}
                   >
                     <span
-                      className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
+                      className={`absolute inset-y-0 my-auto h-5 w-5 rounded-full bg-white transition-[left] duration-200 ${
                         annual ? "left-6" : "left-1"
                       }`}
                     />
@@ -625,24 +640,24 @@ export default function PricingPage() {
         </div>
 
         {/* Comparison tables — full viewport width so the sticky header's
-            black background + thin separator extend edge-to-edge when
-            pinned against the bottom of the primary nav (Epidemic pattern:
-            the *original* big header sticks; nothing replaces it). */}
+            glass backdrop extends edge-to-edge when pinned against the
+            nav. When stuck, the sticky uses the *same* glassmorphic
+            styling as the nav (rgba(0,0,0,0.55) + blur(14px)) so the
+            two bars visually merge into one continuous strip. */}
         <div id="compare-plans" className="mt-28 sm:mt-36">
           {/* Sticky big header — position:sticky pins it at top:navHeight,
-              so the primary nav stays visible above it. A black bg + thin
-              separator fade in the moment it becomes stuck. */}
+              so the primary nav stays visible above it. When pinned, the
+              nav's bottom border is faded out via the `compare-pinned`
+              body class in globals.css, so there is no line between them. */}
           <div
             ref={staticHeaderRef}
-            className={`sticky top-[62px] z-20 transition-colors duration-200 ease-out sm:top-[56px] ${
-              stuck
-                ? "border-b border-white/[0.10] bg-black"
-                : "border-b border-transparent"
-            }`}
+            className="sticky top-[62px] z-20 sm:top-[56px]"
             style={{
-              boxShadow: stuck ? "0 14px 32px -22px rgba(0,0,0,0.9)" : "none",
-              transitionProperty:
-                "background-color, border-color, box-shadow",
+              backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
+              backdropFilter: stuck ? "blur(14px)" : "none",
+              WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
+              transition:
+                "background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease",
             }}
           >
             <div className="mx-auto w-full max-w-[1320px] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">
@@ -651,8 +666,18 @@ export default function PricingPage() {
                   aligning with the feature tables below. */}
               <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
                 <div className="pr-4">
-                  <h2 className="text-[1.2rem] font-semibold leading-[1.05] tracking-tight text-white sm:text-[1.45rem] lg:text-[1.6rem]">
-                    {locale === "fr" ? "Comparer les plans" : "Compare plans"}
+                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[2.2rem] lg:text-[3rem]">
+                    {locale === "fr" ? (
+                      <>
+                        <span className="lg:block">Comparer</span>{" "}
+                        <span className="lg:block">les plans</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="lg:block">Compare</span>{" "}
+                        <span className="lg:block">plans</span>
+                      </>
+                    )}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">
                     <button
@@ -664,7 +689,7 @@ export default function PricingPage() {
                       }`}
                     >
                       <span
-                        className={`absolute top-1/2 h-[14px] w-[14px] -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
+                        className={`absolute inset-y-0 my-auto h-[14px] w-[14px] rounded-full bg-white transition-[left] duration-200 ${
                           annual ? "left-[18px]" : "left-[3px]"
                         }`}
                       />
@@ -673,7 +698,7 @@ export default function PricingPage() {
                       {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
                     </span>
                     <span className="text-[11.5px] text-white/35 sm:text-[12px]">
-                      —{" "}
+                      -{" "}
                       {locale === "fr" ? "Économise 17%" : "Save up to 17%"}
                     </span>
                   </div>

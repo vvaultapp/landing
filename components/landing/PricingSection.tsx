@@ -151,7 +151,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   }`}
                 >
                   <span
-                    className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
+                    className={`absolute inset-y-0 my-auto h-5 w-5 rounded-full bg-white transition-[left] duration-200 ${
                       annual ? "left-6" : "left-1"
                     }`}
                   />

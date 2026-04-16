@@ -176,6 +176,36 @@ html {
   transition: opacity 320ms ease-out, transform 320ms ease-out;
 }
 
+/* Home conversion CTA — primary button. Carries a large lavender glow
+   by default (the beam is "powering" the button). On hover the glow
+   shrinks into a subtle dark shadow so the button reads as being
+   "pressed" into the card surface while the beam-glow fades away. */
+.home-cta-primary {
+  box-shadow:
+    0 14px 34px -8px rgba(235, 215, 255, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.92);
+  transition:
+    box-shadow 300ms ease-out,
+    transform 300ms ease-out,
+    background-color 300ms ease-out;
+}
+.home-cta-primary:hover {
+  box-shadow:
+    0 4px 14px -4px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.95);
+  transform: translateY(-1px);
+  background-color: rgba(255, 255, 255, 0.96);
+}
+
+/* When the pricing /pricing Compare-plans header is pinned against
+   the nav, we fade the nav's bottom border away so the two bars
+   visually merge into one continuous glassmorphic strip. Inline
+   style on the nav sets the border color based on scrollProgress,
+   so we need !important to override. */
+body.compare-pinned .nav-enter {
+  border-bottom-color: transparent !important;
+}
+
 @keyframes hero-line-in {
   from {
     opacity: 0;
