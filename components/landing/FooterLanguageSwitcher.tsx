@@ -28,19 +28,43 @@ export function FooterLanguageSwitcher({
   frLabel = "FR",
 }: Props) {
   const pathname = usePathname() || "/";
-  const [locale, setLocale] = useState<Locale>(initialLocale ?? "en");
+
+  /* We DERIVE the active locale rather than storing a frozen initial
+     state. When the parent page's `useLocale()` updates (it's a
+     localStorage-backed hook whose effect runs after first paint),
+     `initialLocale` changes on re-render — and the switcher follows,
+     so the pill always matches what the page is actually displaying.
+     Falling back to a localStorage read covers footers that don't
+     pass initialLocale (e.g. BlogFooter on /for/*). */
+  const [storageLocale, setStorageLocale] = useState<Locale | null>(null);
 
   useEffect(() => {
-    if (initialLocale) return;
-    try {
-      const stored = localStorage.getItem("vvault-locale");
-      if (stored === "en" || stored === "fr") {
-        setLocale(stored);
-        return;
-      }
-    } catch {}
-    if (pathname.startsWith("/fr")) setLocale("fr");
-  }, [initialLocale, pathname]);
+    /* Keep the localStorage mirror fresh even if the parent provides
+       initialLocale — covers cross-tab updates too. */
+    const read = () => {
+      try {
+        const stored = localStorage.getItem("vvault-locale");
+        if (stored === "en" || stored === "fr") {
+          setStorageLocale(stored);
+          return;
+        }
+      } catch {}
+      if (pathname.startsWith("/fr")) setStorageLocale("fr");
+      else setStorageLocale(null);
+    };
+    read();
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "vvault-locale") read();
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+  }, [pathname]);
+
+  /* Resolution order: the page's own prop (truth when the page knows
+     its locale) → localStorage (for pages that don't pass it) → URL
+     heuristic (/fr prefix) → 'en'. */
+  const locale: Locale =
+    initialLocale ?? storageLocale ?? (pathname.startsWith("/fr") ? "fr" : "en");
 
   const switchTo = (target: Locale) => {
     if (target === locale) return;

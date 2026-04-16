@@ -118,19 +118,27 @@ export function Plasma({
 
     const directionMultiplier = direction === 'reverse' ? -1.0 : 1.0;
 
-    /* Mobile perf: the CSS container now renders plasma at full desktop
-       opacity on every device (no more `max-lg:opacity-[0.2]`), so the
-       shader's brightness uniform matches desktop as well — otherwise
-       mobile would look washed out and too bright. Perf is preserved by:
-       - dpr 0.4 on mobile (~160px canvas, then CSS upscales) — GPU
-         renders ~6x fewer pixels
-       - 24 fps cap on mobile (desktop 30fps) — ~20% fewer frames
-       - reduced shader iterations on mobile — fewer ALU ops per pixel */
+    /* Mobile: the user wants to see the SAME rich detail that desktop
+       shows (animations, flow, texture) — the previous mobile tuning
+       under-sampled so badly that the pattern averaged out to a
+       featureless glow. New balance:
+       - dpr 0.7 (up from 0.4): ~3x more pixels than before. Still
+         half desktop for GPU savings, but high enough that the
+         noise/flow texture survives downscaling.
+       - iterations 40 (up from 28): more ray-march steps per pixel,
+         so finer swirl detail appears instead of mush.
+       - 24 fps cap (unchanged): cheapest win, viewers don't notice.
+       The shader `uScale` is halved on mobile in the uniform set-up
+       below — effectively zooms the pattern out so the FULL pattern
+       fits on a small screen instead of one huge blob. */
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-    const iterations = isMobile ? 28.0 : 45.0;
+    const iterations = isMobile ? 40.0 : 45.0;
     const brightness = 5e3;
-    const dpr = isMobile ? 0.4 : 1;
+    const dpr = isMobile ? 0.7 : 1;
     const targetFps = isMobile ? 24 : 30;
+    /* Zoom out on mobile — half the effective scale so the fine
+       detail of the pattern is visible on small viewports. */
+    const effectiveScale = isMobile ? scale * 0.5 : scale;
 
     const renderer = new Renderer({
       webgl: 2,
@@ -157,7 +165,7 @@ export function Plasma({
         uUseCustomColor: { value: useCustomColor },
         uSpeed: { value: speed * 0.4 },
         uDirection: { value: directionMultiplier },
-        uScale: { value: scale },
+        uScale: { value: effectiveScale },
         uOpacity: { value: opacity },
         uMouse: { value: new Float32Array([0, 0]) },
         uMouseInteractive: { value: mouseInteractive ? 1.0 : 0.0 },

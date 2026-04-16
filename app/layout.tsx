@@ -7,7 +7,10 @@ import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  /* 4 weights cover the whole site (400 body, 500 medium, 600 semibold,
+     700 bold). Dropped 800 — it was used in exactly one place and has
+     been rolled to 700, saving an extra font file on every page load. */
+  weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-geist",
 });
@@ -34,6 +37,13 @@ export default async function RootLayout({
   return (
     <html lang={lang} className={`h-full ${geist.variable}`}>
       <head>
+        {/* Preconnect hints shave ~100-300ms off first-byte for the
+            third-party assets used on landing pages. DNS resolution +
+            TLS handshake start during the initial HTML parse instead
+            of waiting until the first fetch. */}
+        <link rel="preconnect" href="https://img.youtube.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://i.ytimg.com" />
+        <link rel="preconnect" href="https://va.vercel-scripts.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

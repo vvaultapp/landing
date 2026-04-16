@@ -404,7 +404,7 @@ function HeroTrustedBy({
         </div>
         <p className="text-sm text-white/85 sm:text-base">
           {locale === "fr" ? "Utilisé par" : "Trusted by"}{" "}
-          <span className="font-extrabold text-white">
+          <span className="font-bold text-white">
             {loaded ? numberFormatter.format(usersTotal) : "…"}
           </span>{" "}
           <span className="sm:hidden">{locale === "fr" ? "utilisateurs" : "users"}</span>
