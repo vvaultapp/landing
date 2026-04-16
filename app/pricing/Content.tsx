@@ -369,8 +369,19 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
       <span
         ref={containerRef}
         className="relative inline-block align-baseline"
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
+        /* Use pointer events and ignore touch — on iOS the classic
+           mouseenter → click sequence fires on the FIRST tap: the
+           enter handler opens the tip, then the click handler
+           toggles it right back shut, which is why the user used
+           to need two taps. With pointer events we can skip the
+           hover-open path entirely when the input is a finger, so
+           the first tap's click handler opens the tip cleanly. */
+        onPointerEnter={(e) => {
+          if (e.pointerType !== "touch") setOpen(true);
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType !== "touch") setOpen(false);
+        }}
       >
         <span
           role="button"
@@ -843,13 +854,16 @@ export default function PricingPage() {
                 visible from y=0 down to the bottom of the sticky bar. */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 -top-[72px] sm:-top-[66px]"
+              className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 -top-[82px] sm:-top-[76px]"
               style={{
-                /* Extends 10px PAST the nav's top edge as a safety
-                   buffer so any subpixel rounding or transition-timing
-                   difference between the nav and this glass can't
-                   expose a 1-2px horizontal seam at their boundary.
-                   The extra is off-screen, so it costs nothing. */
+                /* Extends 20px PAST the nav's top edge as a buffer so
+                   nothing subpixel can reveal a seam between the nav
+                   and this glass, on any device or DPR. The extra
+                   height is off-screen, so it costs nothing. Pinning
+                   a single continuous glass surface (rather than two
+                   stacked translucent layers) is what lets the nav
+                   visually "merge" with the pinned compare-plans bar
+                   on both mobile and desktop. */
                 backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
                 backdropFilter: stuck ? "blur(14px)" : "none",
                 WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
