@@ -447,7 +447,7 @@ function CellValue({ value }: { value: boolean | string }) {
     return (
       <svg
         viewBox="0 0 20 20"
-        className="h-5 w-5 fill-none stroke-emerald-400/80 stroke-[2] sm:h-[22px] sm:w-[22px]"
+        className="h-7 w-7 fill-none stroke-emerald-400/80 stroke-[2] sm:h-[22px] sm:w-[22px]"
       >
         <path d="M5 10.5l3.5 3.5L15 7" />
       </svg>
@@ -456,7 +456,7 @@ function CellValue({ value }: { value: boolean | string }) {
   return (
     <svg
       viewBox="0 0 20 20"
-      className="h-5 w-5 fill-none stroke-white/20 stroke-[1.8] sm:h-[22px] sm:w-[22px]"
+      className="h-7 w-7 fill-none stroke-white/20 stroke-[1.8] sm:h-[22px] sm:w-[22px]"
     >
       <path d="M6 6l8 8M14 6l-8 8" />
     </svg>
