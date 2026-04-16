@@ -89,8 +89,14 @@ export default function HowToFollowUpAfterSendingBeats() {
         <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
           They feel awkward about it. They do not want to seem pushy. They do not know if the person
           even saw the email. So they wait, hope for a response, and eventually move on. This is
-          understandable — but it is also the single biggest reason producers leave placements on the
-          table. Decision-makers are busy. Your email competes with hundreds of others. A well-timed,
+          understandable — but it is also the single biggest reason producers{" "}
+          <Link
+            href="/blog/how-to-get-more-placements-as-a-producer"
+            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          >
+            leave placements on the table
+          </Link>
+          . Decision-makers are busy. Your email competes with hundreds of others. A well-timed,
           relevant follow-up is not annoying. It is expected.
         </p>
 
@@ -237,6 +243,12 @@ export default function HowToFollowUpAfterSendingBeats() {
       <RelatedArticles
         articles={[
           {
+            slug: "how-to-get-more-placements-as-a-producer",
+            title: "How to Get More Placements as a Producer in 2026",
+            description:
+              "The full system for landing placements: catalog prep, targeted outreach, tracked sending, and smart follow-up.",
+          },
+          {
             slug: "how-to-send-beats-to-artists",
             title: "How to Send Beats to Artists Professionally in 2026",
             description:
@@ -247,12 +259,6 @@ export default function HowToFollowUpAfterSendingBeats() {
             title: "How to Track Who Listened to Your Beats After Sending",
             description:
               "Stop sending beats blindly. Learn how to track opens, plays, downloads and follow up based on real engagement data using tracked music sending.",
-          },
-          {
-            slug: "what-is-tracked-music-sending",
-            title: "What Is Tracked Music Sending and Why Producers Need It",
-            description:
-              "Tracked music sending replaces blind file sharing with engagement data. Learn what it means, how it works, and why it changes how producers follow up and land placements.",
           },
         ]}
       />

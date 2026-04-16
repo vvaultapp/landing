@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Beat Ownership Certificate Guide | vvault Docs",
   description:
     "Learn how to generate timestamped certificates of ownership for your beats on vvault. Protect your music with verifiable proof of creation.",
+  alternates: { canonical: "https://get.vvault.app/docs/certificate" },
+
 };
 
 export default CertificateDocPage;

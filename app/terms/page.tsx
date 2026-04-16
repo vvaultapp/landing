@@ -4,6 +4,8 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Terms of Service | vvault",
   description: "Read vvault's terms of service. Understand the rules and guidelines for using the beat selling platform for producers and beatmakers.",
+  alternates: { canonical: "https://get.vvault.app/terms" },
+
 };
 
 const LAST_UPDATED = "February 26, 2026";

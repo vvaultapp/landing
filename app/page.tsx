@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description:
     "The all-in-one beat selling platform for producers. Upload, send beats to labels & artists, track engagement, run email campaigns, and sell online.",
   alternates: {
+    canonical: "https://get.vvault.app/",
     languages: {
       en: "/",
       fr: "/fr",

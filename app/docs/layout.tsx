@@ -924,14 +924,14 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         {/* Main content — scrolls internally, rounded corners stay */}
         <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto rounded-t-2xl border border-b-0 border-[#e5e5e5] bg-white">
           <div className="px-6 pb-24 pt-8 sm:px-10 lg:px-16">
-            <div id="docs-content" className="mx-auto max-w-[720px]">
-              {mounted ? (
-                <DocsLocaleContext.Provider value={lang}>
-                  {children}
-                </DocsLocaleContext.Provider>
-              ) : (
-                <div className="h-96" />
-              )}
+            <div id="docs-content" className="mx-auto max-w-[720px]" suppressHydrationWarning>
+              {/* Always render children so SSR exposes the H1, headings and body
+                  text to crawlers. Locale defaults to "en" on the server and
+                  switches client-side once useEffect resolves the user's
+                  preference. */}
+              <DocsLocaleContext.Provider value={lang}>
+                {children}
+              </DocsLocaleContext.Provider>
             </div>
           </div>
         </main>

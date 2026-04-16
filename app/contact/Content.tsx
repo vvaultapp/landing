@@ -125,6 +125,93 @@ export default function ContactPage() {
             </Reveal>
           ))}
         </div>
+
+        {/* What we can help with */}
+        <Reveal className="mt-24">
+          <h2 className="text-[22px] font-medium text-white sm:text-[26px]">
+            {fr ? "Comment on peut t'aider" : "How we can help"}
+          </h2>
+          <p className="mt-3 text-[14.5px] leading-relaxed text-white/45 sm:text-[15px]">
+            {fr
+              ? "vvault est conçu et maintenu par une petite équipe de producteurs et développeurs. On lit chaque message et on répond personnellement, généralement en moins de 24 heures les jours de semaine. Que tu aies une question sur ton compte, un bug à signaler, une idée de fonctionnalité, ou une demande de partenariat, tu es au bon endroit."
+              : "vvault is built and maintained by a small team of producers and developers. We read every message and reply personally, usually within 24 hours on weekdays. Whether you have an account question, a bug to report, a feature idea, or a partnership inquiry, you're in the right place."}
+          </p>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
+              <h3 className="text-[14.5px] font-medium text-white/85">
+                {fr ? "Support technique" : "Technical support"}
+              </h3>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+                {fr
+                  ? "Problème d'upload, campagne qui ne s'envoie pas, paiement bloqué ? Écris-nous par email avec une capture d'écran si possible et on règle ça."
+                  : "Upload not working, campaign stuck, payment blocked? Email us with a screenshot if possible and we'll get it sorted."}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
+              <h3 className="text-[14.5px] font-medium text-white/85">
+                {fr ? "Compte et facturation" : "Account & billing"}
+              </h3>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+                {fr
+                  ? "Questions sur ton plan, ton abonnement, un changement d'email ou la suppression de ton compte ? On s'en occupe rapidement par email."
+                  : "Questions about your plan, your subscription, changing your email or closing your account? We handle it quickly by email."}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
+              <h3 className="text-[14.5px] font-medium text-white/85">
+                {fr ? "Demandes de fonctionnalités" : "Feature requests"}
+              </h3>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+                {fr
+                  ? "Une idée pour améliorer vvault ? Le Discord est l'endroit idéal pour partager ton feedback et voter sur les prochaines features."
+                  : "Got an idea to improve vvault? The Discord is the best place to share feedback and vote on what we build next."}
+              </p>
+            </div>
+            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
+              <h3 className="text-[14.5px] font-medium text-white/85">
+                {fr ? "Partenariats & presse" : "Partnerships & press"}
+              </h3>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+                {fr
+                  ? "Tu es journaliste, créateur de contenu, label ou marque qui veut collaborer ? Écris-nous par email avec ton projet."
+                  : "Journalist, content creator, label, or brand looking to collaborate? Email us with your project."}
+              </p>
+            </div>
+          </div>
+        </Reveal>
+
+        {/* Before contacting */}
+        <Reveal className="mt-20">
+          <h2 className="text-[22px] font-medium text-white sm:text-[26px]">
+            {fr ? "Avant de nous écrire" : "Before reaching out"}
+          </h2>
+          <p className="mt-3 text-[14.5px] leading-relaxed text-white/45 sm:text-[15px]">
+            {fr
+              ? "Beaucoup de questions ont déjà une réponse. Jette un œil à notre centre d'aide et à notre documentation, tu y trouveras probablement ce que tu cherches en quelques secondes."
+              : "Many questions already have an answer. Take a look at our help center and documentation — you'll likely find what you're looking for in seconds."}
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <a
+              href="/help"
+              className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
+            >
+              {fr ? "Centre d'aide" : "Help center"}
+            </a>
+            <a
+              href="/docs"
+              className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
+            >
+              {fr ? "Documentation" : "Documentation"}
+            </a>
+            <a
+              href="/pricing"
+              className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
+            >
+              {fr ? "Tarifs" : "Pricing"}
+            </a>
+          </div>
+        </Reveal>
       </main>
       <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
     </div>

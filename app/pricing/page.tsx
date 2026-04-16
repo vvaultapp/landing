@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Beat Selling Platform Pricing | Free to Start | vvault",
   description:
     "Compare vvault plans for producers. Start free, upgrade to Pro or Ultra for unlimited beats, campaigns, analytics, and sales. No hidden fees.",
+  alternates: { canonical: "https://get.vvault.app/pricing" },
+
 };
 
 export default PricingPage;

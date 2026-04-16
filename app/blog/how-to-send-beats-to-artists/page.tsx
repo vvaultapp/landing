@@ -130,8 +130,14 @@ export default function HowToSendBeatsToArtistsPage() {
       <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
         Your beats could be incredible. But if the way you present and deliver them feels
         unorganized, unprofessional, or hard to navigate, artists and A&Rs will move on. The truth
-        is that decision-makers receive dozens of beat packs every week. The producers who land
-        placements are not always the most talented — they are the most professional, organized, and
+        is that decision-makers receive dozens of beat packs every week. The producers who{" "}
+        <Link
+          href="/blog/how-to-get-more-placements-as-a-producer"
+          className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+        >
+          land placements consistently
+        </Link>{" "}
+        are not always the most talented — they are the most professional, organized, and
         persistent.
       </p>
       <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
@@ -410,6 +416,12 @@ export default function HowToSendBeatsToArtistsPage() {
       <RelatedArticles
         articles={[
           {
+            slug: "how-to-get-more-placements-as-a-producer",
+            title: "How to Get More Placements as a Producer in 2026",
+            description:
+              "The full system for landing placements: catalog prep, targeted outreach, tracked sending, and smart follow-up.",
+          },
+          {
             slug: "how-to-track-who-listened-to-your-beats",
             title: "How to Track Who Listened to Your Beats After Sending",
             description:
@@ -420,12 +432,6 @@ export default function HowToSendBeatsToArtistsPage() {
             title: "How to Follow Up After Sending Beats Without Being Annoying",
             description:
               "Following up is where placements happen. Learn when to follow up, what to say, and how to use engagement data to time your follow-ups perfectly.",
-          },
-          {
-            slug: "best-tools-for-sending-beats",
-            title: "Best Tools for Sending Beats to Artists in 2026",
-            description:
-              "A ranked comparison of the best tools producers use to send beats in 2026, from Google Drive and Dropbox to vvault, BeatStars, email, and more.",
           },
         ]}
       />

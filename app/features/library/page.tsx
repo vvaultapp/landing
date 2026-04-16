@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Beat Library Management for Producers | vvault",
   description:
     "Organize your beats with folders, tags, and smart filters. Upload, manage, and send your entire beat catalog from one producer workspace. Free to start.",
+  alternates: { canonical: "https://get.vvault.app/features/library" },
+
 };
 
 export default FeatureLibraryPage;

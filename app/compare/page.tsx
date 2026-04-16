@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "vvault vs BeatStars vs Airbit | Comparison | vvault",
   description:
     "Compare vvault, BeatStars, and Airbit side by side. Find the best beat selling platform for sending, tracking, and selling your beats online.",
+  alternates: { canonical: "https://get.vvault.app/compare" },
+
 };
 
 export default ComparePage;

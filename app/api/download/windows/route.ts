@@ -28,5 +28,5 @@ export async function GET(req: NextRequest) {
     // Never block the download
   }
 
-  return NextResponse.redirect(DOWNLOAD_URL, 302);
+  return NextResponse.redirect(DOWNLOAD_URL, 301);
 }

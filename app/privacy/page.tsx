@@ -4,6 +4,8 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Privacy Policy | vvault",
   description: "Read vvault's privacy policy. Learn how we protect your data, beats, and personal information on our beat selling platform for producers.",
+  alternates: { canonical: "https://get.vvault.app/privacy" },
+
 };
 
 const LAST_UPDATED = "February 26, 2026";

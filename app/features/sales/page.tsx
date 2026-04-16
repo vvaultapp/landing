@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Sell Beats Online with Instant Checkout | vvault",
   description:
     "Sell beats directly with Stripe-powered instant checkout. Set prices, license types, and get paid fast. The beat selling platform for serious producers.",
+  alternates: { canonical: "https://get.vvault.app/features/sales" },
+
 };
 
 export default FeatureSalesPage;

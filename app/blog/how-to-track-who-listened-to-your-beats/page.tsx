@@ -103,8 +103,14 @@ export default function HowToTrackWhoListenedToYourBeats() {
           you treated them the same as someone who never opened the email at all.
         </p>
         <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
-          That information gap costs placements. It costs relationships. It costs money. See how
-          traditional tools like{" "}
+          That information gap{" "}
+          <Link
+            href="/blog/how-to-get-more-placements-as-a-producer"
+            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          >
+            costs placements
+          </Link>
+          . It costs relationships. It costs money. See how traditional tools like{" "}
           <Link
             href="/blog/vvault-vs-google-drive-for-producers"
             className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"

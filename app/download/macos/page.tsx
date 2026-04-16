@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Download vvault for Mac | Beat Selling App",
   description:
     "Download vvault for macOS. The desktop app for producers to manage beats, send music to labels, track engagement, and sell online. Free download.",
+  alternates: { canonical: "https://get.vvault.app/download/macos" },
+
 };
 
 export default DownloadMacOSPage;

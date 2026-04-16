@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   description:
     "Create your free vvault account. Upload beats, send to labels & artists with a pro link, track who listens, and start selling online in minutes.",
   alternates: {
+    canonical: "https://get.vvault.app/signup",
     languages: {
       en: "/signup",
       fr: "/fr/signup",

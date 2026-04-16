@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Send Beats to Labels & Artists by Email | vvault",
   description:
     "Send beat campaigns to labels, artists, and A&Rs by email. Track opens, plays, and downloads for every recipient. The outreach tool for producers.",
+  alternates: { canonical: "https://get.vvault.app/features/campaigns" },
+
 };
 
 export default FeatureCampaignsPage;

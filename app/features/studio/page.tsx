@@ -5,6 +5,8 @@ export const metadata: Metadata = {
   title: "Auto-Post Beats to YouTube & Socials | vvault Studio",
   description:
     "Automatically post your beats to YouTube, Instagram, and social media. Generate visualizers, schedule uploads, and grow your producer brand on autopilot.",
+  alternates: { canonical: "https://get.vvault.app/features/studio" },
+
 };
 
 export default FeatureStudioPage;
