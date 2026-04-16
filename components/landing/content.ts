@@ -254,13 +254,13 @@ const landingContentEn = {
       title: "Free",
       symbol: "check",
       bullets: [
-        "100 MB storage",
         "Trackable share links",
-        "Full contact list",
         "Sell on Marketplace (15% fee)",
-        "1 campaign / day · 5 contacts",
         "Public profile + Link in Bio",
+        "Full contact list",
         "Certificate of deposit",
+        "1 campaign / day · 5 contacts",
+        "100 MB storage",
       ],
       notIncluded: [
         "Unlimited storage & contacts",
@@ -685,13 +685,13 @@ const landingContentFr = {
       title: "Free",
       symbol: "check",
       bullets: [
-        "100 Mo de stockage",
         "Liens de partage trackés",
-        "Liste de contacts complète",
         "Vends sur le Marketplace (15% de frais)",
-        "1 campagne / jour · 5 contacts",
         "Profil public + Link in Bio",
+        "Liste de contacts complète",
         "Certificat de dépôt",
+        "1 campagne / jour · 5 contacts",
+        "100 Mo de stockage",
       ],
       notIncluded: [
         "Stockage et contacts illimités",

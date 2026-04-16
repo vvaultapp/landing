@@ -7,6 +7,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { useLocale } from "@/lib/useLocale";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), { ssr: false });
@@ -90,6 +91,8 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 function getComparisonSections(locale: "en" | "fr") {
   const fr = locale === "fr";
   const unlimited = fr ? "Illimité" : "Unlimited";
+  const fullPrice = fr ? "Plein tarif" : "Full price";
+  const halfOff = fr ? "-50%" : "50% off";
   return [
     {
       title: fr ? "Fonctionnalités principales" : "Core Features",
@@ -98,9 +101,10 @@ function getComparisonSections(locale: "en" | "fr") {
         { label: fr ? "Liens de partage (track, pack, dossier)" : "Share links (track, pack, folder)", free: true, pro: true, ultra: true },
         { label: fr ? "Liste de contacts" : "Contact list", free: true, pro: true, ultra: true },
         { label: fr ? "Packs et tracks en collab" : "Collab packs and tracks", free: true, pro: true, ultra: true },
-        { label: fr ? "Recevoir des splits des ventes Pro" : "Receive splits from Pro sales", free: true, pro: true, ultra: true },
+        { label: fr ? "Recevoir des splits (Pro/Ultra)" : "Receive splits (Pro/Ultra sales)", free: true, pro: true, ultra: true },
         { label: fr ? "Page Link in Bio" : "Link in Bio page", free: true, pro: true, ultra: true },
         { label: fr ? "Certificat de dépôt" : "Certificate of deposit", free: true, pro: true, ultra: true },
+        { label: fr ? "WaveMatch (détection de placements)" : "WaveMatch (placement detection)", free: true, pro: true, ultra: true },
       ],
     },
     {
@@ -110,8 +114,11 @@ function getComparisonSections(locale: "en" | "fr") {
         { label: fr ? "Envois programmés" : "Schedule sends", free: false, pro: true, ultra: true },
         { label: fr ? "Intégration Gmail" : "Gmail integration", free: false, pro: true, ultra: true },
         { label: fr ? "Objet & corps d'email personnalisés" : "Custom email subject & body", free: false, pro: true, ultra: true },
+        { label: fr ? "A/B test des objets d'email" : "A/B test email subjects", free: false, pro: true, ultra: true },
         { label: fr ? "Horaire optimal par destinataire" : "Per-recipient best time scheduling", free: false, pro: false, ultra: true },
         { label: fr ? "Automatisations en séries" : "Series automations", free: false, pro: false, ultra: true },
+        { label: fr ? "Séquences email automatisées (drip)" : "Automated email sequences (drip)", free: false, pro: false, ultra: true },
+        { label: fr ? "Suggestions de relances par IA" : "AI follow-up suggestions", free: false, pro: false, ultra: true },
       ],
     },
     {
@@ -124,6 +131,7 @@ function getComparisonSections(locale: "en" | "fr") {
         { label: fr ? "Suivi des ventes" : "Sales tracking", free: false, pro: true, ultra: true },
         { label: fr ? "Analyse du meilleur moment pour envoyer" : "Best time to send analysis", free: false, pro: true, ultra: true },
         { label: fr ? "Funnels d'engagement" : "Engagement funnels", free: false, pro: true, ultra: true },
+        { label: fr ? "Heatmap d'ouvertures (jour × heure)" : "Opens heatmap (day \u00d7 hour)", free: false, pro: true, ultra: true },
       ],
     },
     {
@@ -132,16 +140,19 @@ function getComparisonSections(locale: "en" | "fr") {
         { label: fr ? "Timeline de contact" : "Contact timeline", free: false, pro: true, ultra: true },
         { label: fr ? "Groupes & tags de contacts" : "Contact groups & tags", free: false, pro: true, ultra: true },
         { label: fr ? "Scoring d'engagement" : "Lead scoring", free: false, pro: true, ultra: true },
-        { label: fr ? "Opportunités & tableau de demandes" : "Opportunities & request board", free: false, pro: true, ultra: true },
+        { label: fr ? "Smart Segments (segments dynamiques)" : "Smart Segments (dynamic rule-based)", free: false, pro: true, ultra: true },
+        { label: fr ? "Opportunités & tableau de demandes" : "Opportunities & request board", free: true, pro: true, ultra: true },
       ],
     },
     {
       title: fr ? "Ventes & Marketplace" : "Sales & Marketplace",
       rows: [
-        { label: fr ? "Checkout Stripe" : "Stripe checkout", free: false, pro: true, ultra: true },
-        { label: fr ? "Types de licences (basic, premium, stems, exclusive)" : "License types (basic, premium, stems, exclusive)", free: false, pro: true, ultra: true },
-        { label: fr ? "Listing Marketplace" : "Marketplace listing", free: false, pro: true, ultra: true },
-        { label: fr ? "Commission Marketplace" : "Marketplace commission", free: "\u2013", pro: "5%", ultra: "0%" },
+        { label: fr ? "Vendre sur le Marketplace" : "Sell on Marketplace", free: true, pro: true, ultra: true },
+        { label: fr ? "Commission Marketplace" : "Marketplace commission", free: "15%", pro: "5%", ultra: "0%" },
+        { label: fr ? "Checkout Stripe" : "Stripe checkout", free: true, pro: true, ultra: true },
+        { label: fr ? "Types de licences (MP3, WAV, Stems, Exclusive)" : "License types (MP3, WAV, Stems, Exclusive)", free: true, pro: true, ultra: true },
+        { label: fr ? "Soumissions de packs payantes" : "Paid request pack submissions", free: fullPrice, pro: fullPrice, ultra: halfOff },
+        { label: fr ? "Tableau de bord Revenus & payouts" : "Revenue dashboard & payouts", free: true, pro: true, ultra: true },
       ],
     },
     {
@@ -151,6 +162,10 @@ function getComparisonSections(locale: "en" | "fr") {
         { label: fr ? "Personnalisation du thème" : "Theme customization", free: false, pro: true, ultra: true },
         { label: fr ? "Crédits de placement" : "Placement credits", free: true, pro: true, ultra: true },
         { label: fr ? "Liens sociaux (IG, YT, TT)" : "Social links (IG, YT, TT)", free: true, pro: true, ultra: true },
+        { label: fr ? "Embeds (lecteurs intégrables) avec tracking" : "Embeds (embeddable players) with tracking", free: true, pro: true, ultra: true },
+        { label: fr ? "Domaine personnalisé" : "Custom domain", free: false, pro: false, ultra: true },
+        { label: fr ? "Embeds brandés et codes QR" : "Branded embeds and QR codes", free: false, pro: false, ultra: true },
+        { label: fr ? "vVault Studio (publication auto vidéo)" : "vVault Studio (auto video publishing)", free: false, pro: false, ultra: true },
         { label: fr ? "Mise en avant section Browse" : "Browse section highlight", free: false, pro: false, ultra: true },
       ],
     },
@@ -190,12 +205,33 @@ export default function PricingPage() {
     document.title = locale === "fr" ? "vvault | Tarifs" : "vvault | Pricing";
   }, [locale]);
 
-  const plans = [
+  const fr = locale === "fr";
+  const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
+  const everythingInProLabel = fr ? "Tout ce qui est dans Pro, plus :" : "Everything in Pro, plus:";
+  const notIncludedLabel = fr ? "Pas inclus :" : "Not included:";
+
+  const plans: Array<{
+    name: string;
+    eyebrow?: string;
+    price: string;
+    period: string;
+    includedHeading?: string;
+    bullets: readonly string[];
+    notIncluded: readonly string[];
+    notIncludedHeading: string;
+    cta: string;
+    href: string;
+    loggedOutHref: string;
+    featured: boolean;
+  }> = [
     {
       name: "Free",
       price: "\u20ac0",
       period: "",
+      includedHeading: undefined,
       bullets: content.pricingComparison.human.bullets,
+      notIncluded: content.pricingComparison.human.notIncluded ?? [],
+      notIncludedHeading: notIncludedLabel,
       cta: content.pricingUi.startFree,
       href: "https://vvault.app/signup",
       loggedOutHref: "https://vvault.app/signup",
@@ -206,7 +242,10 @@ export default function PricingPage() {
       eyebrow: content.pricingUi.mostPopular,
       price: proPrice,
       period: "/mo",
+      includedHeading: everythingInFreeLabel,
       bullets: content.singlePlan.bullets,
+      notIncluded: content.singlePlan.notIncluded ?? [],
+      notIncludedHeading: notIncludedLabel,
       cta: content.singlePlan.cta,
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=pro",
@@ -216,7 +255,10 @@ export default function PricingPage() {
       name: "Ultra",
       price: ultraPrice,
       period: "/mo",
+      includedHeading: everythingInProLabel,
       bullets: content.pricingComparison.ai.bullets,
+      notIncluded: [],
+      notIncludedHeading: notIncludedLabel,
       cta: content.pricingUi.upgradeUltra,
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=ultra",
@@ -388,15 +430,21 @@ export default function PricingPage() {
                     style={{ background: "rgba(255,255,255,0.06)" }}
                   />
 
-                  <ul className="mt-6 flex flex-col gap-3">
+                  {/* Features — checks (included) */}
+                  {p.includedHeading && (
+                    <p className="mt-6 text-[12px] font-semibold uppercase tracking-wider text-white/40">
+                      {p.includedHeading}
+                    </p>
+                  )}
+                  <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-6"}`}>
                     {p.bullets.map((bullet) => (
                       <li
                         key={bullet}
-                        className="flex items-start gap-2.5 text-[13px] leading-relaxed text-white/65"
+                        className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80"
                       >
                         <svg
                           viewBox="0 0 20 20"
-                          className="mt-[2px] h-4 w-4 shrink-0 fill-none stroke-emerald-400/70 stroke-[2]"
+                          className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
                         >
                           <path d="M5 10.5l3.5 3.5L15 7" />
                         </svg>
@@ -404,6 +452,35 @@ export default function PricingPage() {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Features — crosses (not included on this tier) */}
+                  {p.notIncluded.length > 0 && (
+                    <>
+                      <div
+                        className="mt-6 h-px w-full"
+                        style={{ background: "rgba(255,255,255,0.04)" }}
+                      />
+                      <p className="mt-5 text-[12px] font-semibold uppercase tracking-wider text-white/35">
+                        {p.notIncludedHeading}
+                      </p>
+                      <ul className="mt-3 flex flex-col gap-3">
+                        {p.notIncluded.map((bullet) => (
+                          <li
+                            key={bullet}
+                            className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/35"
+                          >
+                            <svg
+                              viewBox="0 0 20 20"
+                              className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-white/30 stroke-[2.2]"
+                            >
+                              <path d="M6 6l8 8M14 6l-8 8" />
+                            </svg>
+                            <span className="line-through decoration-white/20">{bullet}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
 
                   <div className="mt-auto pt-10">
                     <LandingCtaLink
@@ -427,6 +504,9 @@ export default function PricingPage() {
               </Reveal>
             ))}
           </div>
+
+          {/* Trustpilot social proof */}
+          <SocialProofSection locale={locale} />
 
           {/* Comparison tables */}
           <div className="mt-28 sm:mt-36">
