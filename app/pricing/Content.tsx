@@ -651,7 +651,7 @@ export default function PricingPage() {
                   aligning with the feature tables below. */}
               <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
                 <div className="pr-4">
-                  <h2 className="text-[1.6rem] font-semibold leading-[1.04] tracking-tight text-white sm:text-[2rem] lg:text-[2.25rem]">
+                  <h2 className="text-[1.2rem] font-semibold leading-[1.05] tracking-tight text-white sm:text-[1.45rem] lg:text-[1.6rem]">
                     {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">
