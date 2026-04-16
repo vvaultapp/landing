@@ -172,33 +172,6 @@ html {
   transition: opacity 320ms ease-out, transform 320ms ease-out;
 }
 
-/* When the pricing /pricing compare-plans sticky bar is active, fade the
-   primary nav out so the sticky bar replaces it seamlessly. We force the
-   override with `!important` so the `nav-enter` keyframe animation's
-   `fill-mode: forwards` (which holds opacity: 1) cannot win the cascade. */
-body.compare-sticky-active .nav-enter {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
-  transform: translateY(-6px) !important;
-  transition:
-    opacity 280ms ease-out,
-    transform 280ms ease-out,
-    visibility 0s linear 280ms !important;
-}
-
-/* Fade the big static "Compare plans" header while the sticky bar is
-   active so the user perceives the header morphing into the sticky one
-   (Epidemic Sound pattern — "first it's there, then it sticks to the
-   top"). Without this fade, the static content would keep scrolling
-   visibly beneath the fixed sticky and cause duplicated headings. */
-.compare-static-header {
-  transition: opacity 220ms ease;
-}
-body.compare-sticky-active .compare-static-header {
-  opacity: 0;
-}
-
 @keyframes hero-line-in {
   from {
     opacity: 0;

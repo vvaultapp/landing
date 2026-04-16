@@ -298,8 +298,7 @@ export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
   const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
-  const [stickyVisible, setStickyVisible] = useState(false);
-  const compareRef = useRef<HTMLDivElement>(null);
+  const [stuck, setStuck] = useState(false);
   const staticHeaderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -307,22 +306,18 @@ export default function PricingPage() {
     document.title = locale === "fr" ? "vvault | Tarifs" : "vvault | Pricing";
   }, [locale]);
 
-  // Show sticky compare-plans bar (covering nav) while user is reading the
-  // comparison tables — same pattern as Epidemic Sound. The sticky replaces
-  // the large static header once that header has scrolled off-screen.
+  // The big "Compare plans" header uses `position: sticky` so it naturally
+  // pins against the bottom of the primary nav as the user scrolls. We
+  // just need to detect *when* it's stuck so we can fade in a pure-black
+  // background + thin bottom separator at that moment (Epidemic pattern).
   useEffect(() => {
     const handleScroll = () => {
-      const compareNode = compareRef.current;
-      const headerNode = staticHeaderRef.current;
-      if (!compareNode || !headerNode) {
-        setStickyVisible(false);
-        return;
-      }
-      const headerRect = headerNode.getBoundingClientRect();
-      const compareRect = compareNode.getBoundingClientRect();
-      // Trigger sticky as soon as the static header starts going off the top —
-      // Epidemic-Sound style: "first it's there, then it sticks to the top".
-      setStickyVisible(headerRect.top <= 0 && compareRect.bottom > 80);
+      const node = staticHeaderRef.current;
+      if (!node) return;
+      const rect = node.getBoundingClientRect();
+      // Nav is 62px on mobile, 56px from the `sm` breakpoint upward.
+      const navHeight = window.innerWidth >= 640 ? 56 : 62;
+      setStuck(rect.top <= navHeight + 0.5);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -333,23 +328,9 @@ export default function PricingPage() {
     };
   }, []);
 
-  // Toggle a body class so the primary nav cross-fades out while the sticky
-  // compare bar takes over the top of the viewport.
-  useEffect(() => {
-    if (stickyVisible) {
-      document.body.classList.add("compare-sticky-active");
-    } else {
-      document.body.classList.remove("compare-sticky-active");
-    }
-    return () => {
-      document.body.classList.remove("compare-sticky-active");
-    };
-  }, [stickyVisible]);
-
   const fr = locale === "fr";
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
   const everythingInProLabel = fr ? "Tout ce qui est dans Pro, plus :" : "Everything in Pro, plus:";
-  const notIncludedLabel = fr ? "Pas inclus :" : "Not included:";
 
   const plans: Array<{
     name: string;
@@ -358,8 +339,6 @@ export default function PricingPage() {
     period: string;
     includedHeading?: string;
     bullets: readonly string[];
-    notIncluded: readonly string[];
-    notIncludedHeading: string;
     cta: string;
     href: string;
     loggedOutHref: string;
@@ -371,8 +350,6 @@ export default function PricingPage() {
       period: "",
       includedHeading: undefined,
       bullets: content.pricingComparison.human.bullets,
-      notIncluded: content.pricingComparison.human.notIncluded ?? [],
-      notIncludedHeading: notIncludedLabel,
       cta: content.pricingUi.startFree,
       href: "https://vvault.app/signup",
       loggedOutHref: "https://vvault.app/signup",
@@ -385,8 +362,6 @@ export default function PricingPage() {
       period: "/mo",
       includedHeading: everythingInFreeLabel,
       bullets: content.singlePlan.bullets,
-      notIncluded: content.singlePlan.notIncluded ?? [],
-      notIncludedHeading: notIncludedLabel,
       cta: content.singlePlan.cta,
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=pro",
@@ -398,8 +373,6 @@ export default function PricingPage() {
       period: "/mo",
       includedHeading: everythingInProLabel,
       bullets: content.pricingComparison.ai.bullets,
-      notIncluded: [],
-      notIncludedHeading: notIncludedLabel,
       cta: content.pricingUi.upgradeUltra,
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=ultra",
@@ -416,109 +389,6 @@ export default function PricingPage() {
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
-
-      {/* Sticky compare-plans bar — Epidemic Sound style.
-          Mobile: two-row layout (title + toggle on top, plan columns below).
-          Desktop: single-row 40/20/20/20 grid that matches the comparison
-          tables below so every plan column lines up perfectly.
-          Pairs with body class `compare-sticky-active` to cross-fade the nav. */}
-      <div
-        aria-hidden={!stickyVisible}
-        className={`fixed inset-x-0 top-0 z-[100] transition-opacity duration-[220ms] ease-out ${
-          stickyVisible ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
-        style={{ willChange: "opacity" }}
-      >
-        <div
-          className="border-b border-white/[0.10] bg-black pt-[env(safe-area-inset-top)]"
-          style={{
-            boxShadow: "0 14px 32px -18px rgba(0,0,0,0.85)",
-          }}
-        >
-          <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-            {/* Mobile-only top row: title on the left, toggle on the right */}
-            <div className="flex items-center justify-between gap-3 pb-2 pt-3 sm:hidden">
-              <span className="text-[15px] font-semibold leading-none text-white">
-                {locale === "fr" ? "Comparer les plans" : "Compare plans"}
-              </span>
-              <button
-                type="button"
-                onClick={() => setAnnual((v) => !v)}
-                aria-label={content.pricingUi.toggleBillingAriaLabel}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-2 py-1 text-[10.5px] font-medium text-white/70 transition-colors hover:bg-white/[0.08]"
-              >
-                <span
-                  className={`relative h-3 w-5 rounded-full transition-colors ${
-                    annual ? "bg-emerald-500/80" : "bg-white/15"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-white transition-all ${
-                      annual ? "left-2.5" : "left-0.5"
-                    }`}
-                  />
-                </span>
-                <span className="text-white/85">
-                  {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
-                </span>
-                <span className="text-white/40">—</span>
-              </button>
-            </div>
-
-            {/* Plans row — 3-col on mobile, 4-col with label on desktop */}
-            <div className="grid grid-cols-3 gap-0 pb-3 sm:grid-cols-[40%_20%_20%_20%] sm:items-center sm:gap-0 sm:pb-4 sm:pt-4">
-              {/* Desktop label column — title + toggle (hidden on mobile) */}
-              <div className="hidden pr-3 sm:flex sm:flex-col sm:gap-1.5">
-                <span className="text-[22px] font-semibold leading-none text-white">
-                  {locale === "fr" ? "Comparer les plans" : "Compare plans"}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setAnnual((v) => !v)}
-                  aria-label={content.pricingUi.toggleBillingAriaLabel}
-                  className="inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/70 transition-colors hover:bg-white/[0.08]"
-                >
-                  <span
-                    className={`relative h-3.5 w-6 rounded-full transition-colors ${
-                      annual ? "bg-emerald-500/80" : "bg-white/15"
-                    }`}
-                  >
-                    <span
-                      className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-white transition-all ${
-                        annual ? "left-3" : "left-0.5"
-                      }`}
-                    />
-                  </span>
-                  <span className="text-white/85">
-                    {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
-                  </span>
-                  <span className="text-white/40">—</span>
-                </button>
-              </div>
-              {stickyPlans.map((p) => (
-                <div key={p.name} className="min-w-0 pl-1 sm:pl-3">
-                  <div className="truncate text-[13px] font-semibold leading-tight text-white sm:text-[18px]">
-                    {p.name}
-                  </div>
-                  <div className="truncate text-[11px] leading-tight tabular-nums text-white/60 sm:text-[14px]">
-                    <span className="font-medium text-white/85">{p.price}</span>
-                    {p.period && (
-                      <span className="text-white/45">{p.period}</span>
-                    )}
-                  </div>
-                  {p.period && (
-                    <div className="truncate text-[9.5px] leading-tight text-white/35 sm:text-[11px]">
-                      {locale === "fr"
-                        ? annual ? "Par mois, facturé à l'année" : "Par mois, facturé au mois"
-                        : annual ? "Per month, billed yearly" : "Per month, billed monthly"}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Plasma hero background — white accent */}
       <div
@@ -703,35 +573,6 @@ export default function PricingPage() {
                     ))}
                   </ul>
 
-                  {/* Features — crosses (not included on this tier) */}
-                  {p.notIncluded.length > 0 && (
-                    <>
-                      <div
-                        className="mt-6 h-px w-full"
-                        style={{ background: "rgba(255,255,255,0.04)" }}
-                      />
-                      <p className="mt-5 text-[12px] font-semibold uppercase tracking-wider text-white/35">
-                        {p.notIncludedHeading}
-                      </p>
-                      <ul className="mt-3 flex flex-col gap-3">
-                        {p.notIncluded.map((bullet) => (
-                          <li
-                            key={bullet}
-                            className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/35"
-                          >
-                            <svg
-                              viewBox="0 0 20 20"
-                              className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-white/30 stroke-[2.2]"
-                            >
-                              <path d="M6 6l8 8M14 6l-8 8" />
-                            </svg>
-                            <span className="line-through decoration-white/20">{bullet}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-
                   <div className="mt-auto pt-10">
                     <LandingCtaLink
                       loggedInHref={p.href}
@@ -755,19 +596,21 @@ export default function PricingPage() {
             ))}
           </div>
 
-          {/* Anchor button linking to the big comparison tables below */}
+          {/* Anchor button linking to the big comparison tables below.
+              No border, no background — just big type with a hovering
+              arrow (the click target IS the text). */}
           <Reveal>
             <div className="mt-14 flex justify-center sm:mt-16">
               <a
                 href="#compare-plans"
-                className="group inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-[13px] font-medium text-white/80 transition-colors duration-200 hover:border-white/20 hover:bg-white/[0.08] hover:text-white sm:text-[14px]"
+                className="group inline-flex items-center gap-3 text-[22px] font-medium text-white/85 transition-colors duration-200 hover:text-white sm:gap-4 sm:text-[28px]"
               >
                 <span>
                   {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                 </span>
                 <svg
                   viewBox="0 0 20 20"
-                  className="h-4 w-4 fill-none stroke-current stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-y-1"
+                  className="h-6 w-6 fill-none stroke-current stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-y-1.5 sm:h-7 sm:w-7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 >
@@ -779,87 +622,99 @@ export default function PricingPage() {
 
           {/* Trustpilot social proof */}
           <SocialProofSection locale={locale} />
+        </div>
 
-          {/* Comparison tables — Epidemic-Sound-style static header on top,
-              big rows with descriptions. The header naturally scrolls with
-              the page; when it clears the top of the viewport, the sticky
-              bar fades in (see above) in its place. */}
-          <div ref={compareRef} className="mt-28 sm:mt-36" id="compare-plans">
-            {/* Static "Compare plans" header block — 4-col table so plan
-                columns line up 1:1 with the feature tables below. */}
-            <div ref={staticHeaderRef} className="compare-static-header">
-            <Reveal>
+        {/* Comparison tables — full viewport width so the sticky header's
+            black background + thin separator extend edge-to-edge when
+            pinned against the bottom of the primary nav (Epidemic pattern:
+            the *original* big header sticks; nothing replaces it). */}
+        <div id="compare-plans" className="mt-28 sm:mt-36">
+          {/* Sticky big header — position:sticky pins it at top:navHeight,
+              so the primary nav stays visible above it. A black bg + thin
+              separator fade in the moment it becomes stuck. */}
+          <div
+            ref={staticHeaderRef}
+            className={`sticky top-[62px] z-20 transition-colors duration-200 ease-out sm:top-[56px] ${
+              stuck
+                ? "border-b border-white/[0.10] bg-black"
+                : "border-b border-transparent"
+            }`}
+            style={{
+              boxShadow: stuck ? "0 14px 32px -22px rgba(0,0,0,0.9)" : "none",
+              transitionProperty:
+                "background-color, border-color, box-shadow",
+            }}
+          >
+            <div className="mx-auto w-full max-w-[1320px] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">
               {/* Mobile: big title + toggle stacked full-width on top, then
                   the 3 plan columns beneath. Desktop: single 40/20/20/20 row
                   aligning with the feature tables below. */}
-              <div className="pb-10 sm:pb-14">
-                {/* Title + toggle block (full-width on mobile, 40% col on desktop) */}
-                <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
-                  <div className="pr-4">
-                    <h2 className="text-[2rem] font-semibold leading-[1.04] tracking-tight text-white sm:text-[3rem] lg:text-[3.4rem]">
-                      {locale === "fr" ? "Comparer les plans" : "Compare plans"}
-                    </h2>
-                    <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-7">
-                      <button
-                        type="button"
-                        onClick={() => setAnnual((v) => !v)}
-                        aria-label={content.pricingUi.toggleBillingAriaLabel}
-                        className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
-                          annual ? "bg-emerald-500/80" : "bg-white/15"
+              <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
+                <div className="pr-4">
+                  <h2 className="text-[1.6rem] font-semibold leading-[1.04] tracking-tight text-white sm:text-[2rem] lg:text-[2.25rem]">
+                    {locale === "fr" ? "Comparer les plans" : "Compare plans"}
+                  </h2>
+                  <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">
+                    <button
+                      type="button"
+                      onClick={() => setAnnual((v) => !v)}
+                      aria-label={content.pricingUi.toggleBillingAriaLabel}
+                      className={`relative h-5 w-9 shrink-0 rounded-full transition-colors duration-200 ${
+                        annual ? "bg-emerald-500/80" : "bg-white/15"
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-1/2 h-[14px] w-[14px] -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
+                          annual ? "left-[18px]" : "left-[3px]"
                         }`}
-                      >
-                        <span
-                          className={`absolute top-1/2 h-[18px] w-[18px] -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
-                            annual ? "left-[22px]" : "left-[3px]"
-                          }`}
-                        />
-                      </button>
-                      <span className="text-[13px] font-medium text-white/75 sm:text-[14px]">
-                        {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
-                      </span>
-                      <span className="text-[12px] text-white/35 sm:text-[13px]">
-                        —{" "}
-                        {locale === "fr"
-                          ? "Économise 17%"
-                          : "Save up to 17%"}
-                      </span>
-                    </div>
-                  </div>
-                  {/* Plan columns — 3-col on mobile (rendered below the title),
-                      desktop uses the parent grid's remaining 3 columns. */}
-                  <div className="mt-8 grid grid-cols-3 gap-0 sm:mt-0 sm:contents">
-                    {stickyPlans.map((p) => (
-                      <div key={p.name} className="pl-1 sm:pl-3">
-                        <h3 className="text-[15px] font-semibold leading-tight text-white sm:text-[24px]">
-                          {p.name}
-                        </h3>
-                        <p className="mt-1 text-[13px] font-medium tabular-nums leading-tight text-white sm:mt-1.5 sm:text-[22px]">
-                          {p.price}
-                          {p.period && (
-                            <span className="text-white/45">{p.period}</span>
-                          )}
-                        </p>
-                        <p className="mt-1 text-[10px] leading-snug text-white/40 sm:mt-2 sm:text-[12px]">
-                          {p.period
-                            ? locale === "fr"
-                              ? annual
-                                ? "Par mois, facturé à l'année"
-                                : "Par mois, facturé au mois"
-                              : annual
-                                ? "Per month, billed yearly"
-                                : "Per month, billed monthly"
-                            : locale === "fr"
-                              ? "Toujours gratuit"
-                              : "Free forever"}
-                        </p>
-                      </div>
-                    ))}
+                      />
+                    </button>
+                    <span className="text-[12.5px] font-medium text-white/75 sm:text-[13px]">
+                      {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
+                    </span>
+                    <span className="text-[11.5px] text-white/35 sm:text-[12px]">
+                      —{" "}
+                      {locale === "fr" ? "Économise 17%" : "Save up to 17%"}
+                    </span>
                   </div>
                 </div>
+                {/* Plan columns — 3-col on mobile (rendered below the title),
+                    desktop uses the parent grid's remaining 3 columns. */}
+                <div className="mt-6 grid grid-cols-3 gap-0 sm:mt-0 sm:contents">
+                  {stickyPlans.map((p) => (
+                    <div key={p.name} className="pl-1 sm:pl-3">
+                      <h3 className="text-[14px] font-semibold leading-tight text-white sm:text-[18px]">
+                        {p.name}
+                      </h3>
+                      <p className="mt-0.5 text-[13px] font-medium tabular-nums leading-tight text-white sm:mt-1 sm:text-[16px]">
+                        {p.price}
+                        {p.period && (
+                          <span className="text-white/45">{p.period}</span>
+                        )}
+                      </p>
+                      <p className="mt-0.5 text-[9.5px] leading-snug text-white/40 sm:mt-1 sm:text-[11px]">
+                        {p.period
+                          ? locale === "fr"
+                            ? annual
+                              ? "Par mois, facturé à l'année"
+                              : "Par mois, facturé au mois"
+                            : annual
+                              ? "Per month, billed yearly"
+                              : "Per month, billed monthly"
+                          : locale === "fr"
+                            ? "Toujours gratuit"
+                            : "Free forever"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </Reveal>
             </div>
+          </div>
 
+          {/* Feature rows — constrained back to max-w-1320 so content
+              aligns perfectly under the sticky header's inner wrapper. */}
+          <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
             {getComparisonSections(locale).map((section) => (
               <Reveal key={section.title} className="mt-12 sm:mt-16">
                 {/* Section header — bigger, with divider underneath */}
@@ -910,6 +765,10 @@ export default function PricingPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+
+        {/* Re-enter max-w for the FAQ + final CTA */}
+        <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
 
           {/* FAQ */}
           <div className="mt-28 sm:mt-36">
