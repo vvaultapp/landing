@@ -5,15 +5,8 @@ import Link from "next/link";
 import type { LandingContent, LandingNavItem, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 
-/* ─── Mobile menu (Resend-style fullscreen drawer) ─── */
-
-function useIsIOS() {
-  const [isIOS, setIsIOS] = useState(false);
-  useEffect(() => {
-    setIsIOS(/iPad|iPhone|iPod/.test(navigator.userAgent));
-  }, []);
-  return isIOS;
-}
+/* ─── Mobile menu — compact drawer, rounded at the bottom, leaves a
+   visible strip of the page below. ─── */
 
 function MobileMenu({
   open,
@@ -27,7 +20,7 @@ function MobileMenu({
   locale: Locale;
 }) {
   const fr = locale === "fr";
-  const isIOS = useIsIOS();
+  const homeHref = locale === "fr" ? "/fr" : "/";
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   // Lock body scroll when open
@@ -47,6 +40,18 @@ function MobileMenu({
     if (!open) setExpandedIndex(null);
   }, [open]);
 
+  /* Reorder for mobile: put "Pricing" first so it's the first thing
+     the user sees when they open the menu, then the rest in their
+     original order. `content.nav` is shared with the desktop nav so
+     we don't mutate it — just produce a reordered list here. */
+  const mobileNav = (() => {
+    const pricing = content.nav.find(
+      (n) => n.label === "Pricing" || n.label === "Tarifs",
+    );
+    const others = content.nav.filter((n) => n !== pricing);
+    return pricing ? [pricing, ...others] : content.nav;
+  })();
+
   return (
     <div
       className="fixed inset-0 z-[60] lg:hidden"
@@ -55,32 +60,40 @@ function MobileMenu({
         visibility: open ? "visible" : "hidden",
       }}
     >
-      {/* Backdrop */}
+      {/* Dim backdrop — visible bottom strip shows the page behind */}
       <div
-        className="absolute inset-0 bg-black"
+        className="absolute inset-0 bg-black/55"
         style={{
           opacity: open ? 1 : 0,
           transition: "opacity 0.3s ease",
         }}
+        onClick={onClose}
       />
 
-      {/* Panel */}
+      {/* Panel — sits at the top of the screen, leaves a ~32px gap at
+          the bottom so the user can still see a strip of the website
+          behind. Bottom corners are rounded; top is flush with the
+          device edge (the status bar padding still applies). */}
       <div
-        className="relative flex h-full flex-col overflow-y-auto px-5 pb-10 pt-[env(safe-area-inset-top)] sm:px-8"
+        className="absolute inset-x-0 top-0 bottom-8 flex flex-col overflow-y-auto rounded-b-[28px] bg-black px-5 pb-6 pt-[env(safe-area-inset-top)] shadow-[0_16px_48px_-8px_rgba(0,0,0,0.6)] sm:px-8"
         style={{
           opacity: open ? 1 : 0,
           transform: open ? "translateY(0)" : "translateY(-8px)",
           transition: "opacity 0.25s ease, transform 0.25s ease",
         }}
       >
-        {/* Top bar: logo + close */}
+        {/* Top bar: logo + close. Logo uses the exact same styling as
+            the main nav (no small-caps override) so the two look like
+            one continuous brand surface when the menu opens. */}
         <div className="flex h-[62px] items-center justify-between sm:h-[56px]">
-          <span
-            className="text-[14px] font-semibold uppercase tracking-[0.18em] text-white"
-            style={{ fontVariantCaps: "all-small-caps" }}
+          <Link
+            href={homeHref}
+            onClick={onClose}
+            className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-white"
+            aria-label={content.ui.homepageAriaLabel}
           >
             vvault
-          </span>
+          </Link>
           <button
             type="button"
             onClick={onClose}
@@ -93,34 +106,15 @@ function MobileMenu({
           </button>
         </div>
 
-        {/* Get Started + Download */}
-        <div className="mt-4 flex flex-col gap-3">
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            className="flex w-full items-center justify-center rounded-xl bg-[#1a1a1a] px-5 py-3.5 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-[#222]"
-          >
-            {locale === "fr" ? "Commencer" : "Get Started"}
-          </LandingCtaLink>
-
-          <a
-            href="https://apps.apple.com/app/id6759256796"
-            className={`flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-[14px] font-medium transition-colors duration-200 ${
-              isIOS
-                ? "text-white/70 hover:bg-white/[0.06] hover:text-white"
-                : "pointer-events-none text-white/25"
-            }`}
-          >
-            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" style={{ transform: "translateY(-1.5px)" }}>
-              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11Z" />
-            </svg>
-            {locale === "fr" ? "Télécharger sur l'App Store" : "Download on the App Store"}
-          </a>
-        </div>
-
-        {/* Nav items */}
-        <nav className="mt-8 flex flex-col" aria-label={fr ? "Navigation mobile" : "Mobile navigation"}>
-          {content.nav.map((item, i) => {
+        {/* Nav items — Pricing first, then the rest in their normal
+            order. `flex-1` pushes the Get Started CTA to the bottom
+            of the panel so the tap target sits as the last action in
+            the menu, separated by generous whitespace. */}
+        <nav
+          className="mt-4 flex flex-1 flex-col"
+          aria-label={fr ? "Navigation mobile" : "Mobile navigation"}
+        >
+          {mobileNav.map((item, i) => {
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = expandedIndex === i;
 
@@ -192,6 +186,20 @@ function MobileMenu({
           })}
           <div className="border-t border-white/[0.08]" />
         </nav>
+
+        {/* Get Started — pinned to the bottom of the panel, visually
+            separated from the nav list by extra top margin so the
+            user reads it as the final step rather than just "another
+            nav item". White pill on dark, slightly shorter height. */}
+        <div className="mt-8 shrink-0">
+          <LandingCtaLink
+            loggedInHref="https://vvault.app/signup"
+            loggedOutHref="https://vvault.app/signup"
+            className="flex w-full items-center justify-center rounded-xl bg-white px-5 py-3 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+          >
+            {locale === "fr" ? "Commencer" : "Get Started"}
+          </LandingCtaLink>
+        </div>
       </div>
     </div>
   );

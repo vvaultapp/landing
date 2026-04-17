@@ -38,8 +38,44 @@ export function Reveal({ children, className, delayMs = 0, threshold = 0.18 }: R
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+
+    /* Safety fallback: some environments throttle or never fire
+       IntersectionObserver and rAF (we've hit this in a preview
+       runner, and it also affects backgrounded tabs). After a
+       short delay we force `visible` to true unconditionally so
+       the content can't stay stuck at opacity 0. On a healthy
+       browser the observer fires long before this timer; on a
+       stuck environment the content still appears. */
+    const fallback = window.setTimeout(() => {
+      setVisible(true);
+      observer.disconnect();
+    }, 800);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(fallback);
+    };
   }, [threshold]);
+
+  /* Belt-and-braces: even after `visible` is true, if the CSS
+     transition stalls (frame throttling) the element can sit at
+     opacity ~0 indefinitely. Cancel the transition and write the
+     final values inline so the element is definitively visible. */
+  useEffect(() => {
+    if (!visible) return;
+    const node = ref.current;
+    if (!node) return;
+    const timer = window.setTimeout(() => {
+      if (!node) return;
+      const op = parseFloat(getComputedStyle(node).opacity || "1");
+      if (op < 0.95) {
+        node.style.transition = "none";
+        node.style.opacity = "1";
+        node.style.transform = "translateY(0)";
+      }
+    }, 600);
+    return () => window.clearTimeout(timer);
+  }, [visible]);
 
   return (
     <div

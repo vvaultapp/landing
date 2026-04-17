@@ -34,6 +34,15 @@ html {
   background: rgba(255, 255, 255, 0.2);
 }
 
+/* Hide scrollbar on the mobile pricing carousel — we show a peek of
+   the next card and a dot indicator instead of a visible scrollbar. */
+.pricing-card-scroll {
+  scrollbar-width: none;
+}
+.pricing-card-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* Light scrollbar for docs pages */
 .docs-root {
   color-scheme: light;
@@ -151,6 +160,13 @@ html {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
+/* Landing reveal: plain declarative states. `is-visible` sets the
+   target opacity/transform directly with a transition on TOP for
+   smoothness. The declarative target is what guarantees the final
+   state ever paints — so even if a browser flakes on starting the
+   transition (we've hit that in previews where animations don't
+   advance), the content still ends up fully visible rather than
+   stuck at opacity 0. */
 .landing-reveal {
   opacity: 0;
   transform: translateY(14px);
@@ -461,7 +477,7 @@ details[open] .faq-answer {
   .landing-reveal {
     opacity: 1;
     transform: none;
-    transition: none;
+    animation: none;
   }
 
   .hero-line-reveal {

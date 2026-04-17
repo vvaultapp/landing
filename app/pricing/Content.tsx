@@ -695,12 +695,21 @@ export default function PricingPage() {
             </div>
           </Reveal>
 
-          {/* Plan cards */}
-          <div className="mt-12 grid gap-6 lg:grid-cols-3 lg:items-stretch">
+          {/* Plan cards — horizontally swipeable on mobile (Free → Pro
+              → Ultra) with CSS scroll-snap; standard 3-col grid on lg.
+              The peek on the edge of the next card is the affordance
+              that tells the user the list is swipeable. */}
+          <div
+            className="pricing-card-scroll mt-12 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:snap-none"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             {plans.map((p) => (
-              <Reveal key={p.name} className="h-full">
+              <Reveal
+                key={p.name}
+                className="flex w-[82vw] shrink-0 snap-center first:ml-5 last:mr-5 lg:w-auto lg:shrink lg:snap-none lg:first:ml-0 lg:last:mr-0"
+              >
                 <div
-                  className="relative flex h-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
+                  className="relative flex w-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
                   style={{
                     background: p.featured
                       ? "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(10,10,13,1) 100%)"
@@ -773,17 +782,19 @@ export default function PricingPage() {
                     )}
                   </div>
                   <div
-                    className="mt-5 h-px w-full"
+                    className="mt-4 h-px w-full"
                     style={{ background: "rgba(255,255,255,0.06)" }}
                   />
 
-                  {/* Features — checks (included) */}
+                  {/* Features — checks (included). Tight spacing under the
+                      divider so the bullets read as part of the plan card
+                      rather than floating a paragraph-break below it. */}
                   {p.includedHeading && (
-                    <p className="mt-6 text-[12px] font-semibold uppercase tracking-wider text-white/40">
+                    <p className="mt-4 text-[12px] font-semibold uppercase tracking-wider text-white/40">
                       {p.includedHeading}
                     </p>
                   )}
-                  <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-6"}`}>
+                  <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-4"}`}>
                     {p.bullets.map((bullet) => (
                       <li
                         key={bullet}
