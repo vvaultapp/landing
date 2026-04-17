@@ -680,6 +680,17 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
   const [scrollProgress, setScrollProgress] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  /* `mergedWithPinned` tracks whether the pricing page's compare-plans
+     sticky bar is currently pinned against us. When true we zero out
+     ALL our own glass (bg + blur + border) so the sticky's extended
+     backdrop is the only glass on screen — a single continuous surface
+     with no seam, on every browser and DPR. Previously this was done
+     via a CSS `!important` override, but the inline `transition` was
+     causing Chromium to hold a `blur(0px)` intermediate state instead
+     of clearing to `none`, which showed up as a visible stacked blur
+     on desktop. Driving it from React state forces the inline style
+     directly and wins unconditionally. */
+  const [mergedWithPinned, setMergedWithPinned] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -690,6 +701,18 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  /* Sync with the body.compare-pinned class that the pricing page
+     toggles while its sticky compare-plans header is pinned under us.
+     MutationObserver on documentElement's class list is ~free. */
+  useEffect(() => {
+    const read = () =>
+      setMergedWithPinned(document.body.classList.contains("compare-pinned"));
+    read();
+    const mo = new MutationObserver(read);
+    mo.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+    return () => mo.disconnect();
   }, []);
 
   // Close dropdown when clicking outside
@@ -728,11 +751,23 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
     <header
       className="nav-enter fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
-        borderColor: `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
-        backgroundColor: `rgba(0, 0, 0, ${0.55 * scrollProgress})`,
-        backdropFilter: `blur(${14 * scrollProgress}px)`,
-        WebkitBackdropFilter: `blur(${14 * scrollProgress}px)`,
-        transition: "border-color 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease",
+        /* When the compare-plans sticky is pinned against us, zero our
+           own glass completely so its extended backdrop is the only
+           surface rendered between y=0 and the bottom of the pinned
+           bar. When not pinned, fade in our own glass proportional to
+           scroll progress. */
+        borderColor: mergedWithPinned
+          ? "transparent"
+          : `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
+        backgroundColor: mergedWithPinned
+          ? "transparent"
+          : `rgba(0, 0, 0, ${0.55 * scrollProgress})`,
+        backdropFilter: mergedWithPinned ? "none" : `blur(${14 * scrollProgress}px)`,
+        WebkitBackdropFilter: mergedWithPinned
+          ? "none"
+          : `blur(${14 * scrollProgress}px)`,
+        transition:
+          "border-color 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease",
       }}
     >
       <div className="mx-auto flex h-[62px] w-full max-w-[1320px] items-center px-5 sm:h-[56px] sm:px-8 lg:px-10">

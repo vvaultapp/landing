@@ -102,42 +102,51 @@ export function Plasma({
   mouseInteractive = true,
 }: PlasmaProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const fallbackRef = useRef<HTMLDivElement>(null);
   const mousePos = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    if (!containerRef.current) return;
+    if (typeof window === "undefined" || !containerRef.current) return;
     const containerEl = containerRef.current;
+
+    const prefersReducedMotion = window
+      .matchMedia("(prefers-reduced-motion: reduce)")
+      .matches;
+
+    /* Hardware capability sniff. Modern browsers expose this — when
+       missing we assume mid-tier. Low-end == 4 cores or less OR 4 GB
+       RAM or less (covers most low-end Android + older iPhones).
+       On low-end we skip WebGL entirely and show a static CSS
+       gradient fallback instead, which is ~0 GPU cost. */
+    const cores = navigator.hardwareConcurrency || 4;
+    const memory =
+      ((navigator as unknown) as { deviceMemory?: number }).deviceMemory ?? 4;
+    const isLowEnd = cores <= 4 || memory <= 4;
+
+    if (prefersReducedMotion || isLowEnd) {
+      /* Render a lightweight static gradient instead of running the
+         shader. Matches the overall colour mood of the plasma so the
+         page still feels cohesive without the GPU cost. */
+      if (fallbackRef.current) fallbackRef.current.style.display = "block";
+      return;
+    }
 
     const useCustomColor = color ? 1.0 : 0.0;
     const customColorRgb = color ? hexToRgb(color) : [1, 1, 1] as [number, number, number];
 
     const directionMultiplier = direction === 'reverse' ? -1.0 : 1.0;
 
-    /* Mobile: the user wants to see the SAME rich detail that desktop
-       shows (animations, flow, texture) — the previous mobile tuning
-       under-sampled so badly that the pattern averaged out to a
-       featureless glow. New balance:
-       - dpr 0.7 (up from 0.4): ~3x more pixels than before. Still
-         half desktop for GPU savings, but high enough that the
-         noise/flow texture survives downscaling.
-       - iterations 40 (up from 28): more ray-march steps per pixel,
-         so finer swirl detail appears instead of mush.
-       - 24 fps cap (unchanged): cheapest win, viewers don't notice.
-       The shader `uScale` is halved on mobile in the uniform set-up
-       below — effectively zooms the pattern out so the FULL pattern
-       fits on a small screen instead of one huge blob. */
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
-    const iterations = isMobile ? 40.0 : 45.0;
+    /* Capable-device tuning. Mobile still gets lower dpr + iterations
+       + fps cap to keep the GPU cool; desktop runs near-full detail.
+       All expensive work pauses when scrolled past the visible
+       region or when the tab is hidden (see the RAF loop below). */
+    const isMobile =
+      /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+      window.innerWidth < 768;
+    const iterations = isMobile ? 32.0 : 45.0;
     const brightness = 5e3;
-    const dpr = isMobile ? 0.7 : 1;
+    const dpr = isMobile ? 0.6 : 1;
     const targetFps = isMobile ? 24 : 30;
-    /* Zoom out on mobile — half the effective scale so the fine
-       detail of the pattern is visible on small viewports. */
     const effectiveScale = isMobile ? scale * 0.5 : scale;
 
     const renderer = new Renderer({
@@ -209,12 +218,39 @@ export function Plasma({
     const t0 = performance.now();
     const FRAME_INTERVAL = 1000 / targetFps;
     let lastFrameTime = 0;
+
+    /* Pause-when-invisible: the Plasma container is `fixed top-0
+       h-screen` and masked to roughly the top third, so once the
+       user scrolls past the first viewport the plasma is no longer
+       visible. Pausing the shader then saves the whole per-frame
+       GPU cost for 90% of the user's time on the page.
+       Pause-when-hidden: likewise when the tab is backgrounded —
+       the browser already throttles RAF, but cancelling outright
+       drops us to 0 work instead of 1 fps. */
+    let scrollPaused = false;
+    let visibilityPaused = document.hidden;
+
+    const updateScrollPaused = () => {
+      /* Slight buffer past the viewport height so the plasma keeps
+         running through the brief "about to come back into view"
+         zone if the user scrolls back up. */
+      scrollPaused = window.scrollY > window.innerHeight * 1.25;
+    };
+    updateScrollPaused();
+    window.addEventListener("scroll", updateScrollPaused, { passive: true });
+
+    const onVisibilityChange = () => {
+      visibilityPaused = document.hidden;
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
     const loop = (t: number) => {
       raf = requestAnimationFrame(loop);
+      if (scrollPaused || visibilityPaused) return;
       if (t - lastFrameTime < FRAME_INTERVAL) return;
       lastFrameTime = t;
 
-      let timeValue = (t - t0) * 0.001;
+      const timeValue = (t - t0) * 0.001;
       if (direction === 'pingpong') {
         const pingpongDuration = 10;
         const segmentTime = timeValue % pingpongDuration;
@@ -234,6 +270,8 @@ export function Plasma({
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      window.removeEventListener("scroll", updateScrollPaused);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       if (mouseInteractive && containerEl) {
         containerEl.removeEventListener('mousemove', handleMouseMove);
       }
@@ -245,7 +283,25 @@ export function Plasma({
     };
   }, [color, speed, direction, scale, opacity, mouseInteractive]);
 
-  return <div ref={containerRef} className="plasma-container" />;
+  /* Fallback gradient is hidden by default and only shown by the
+     effect above when we decide not to run WebGL (low-end device or
+     prefers-reduced-motion). Visuals-only div, no rAF, no shaders. */
+  const fallbackColor = color ?? "#ffffff";
+  return (
+    <div ref={containerRef} className="plasma-container">
+      <div
+        ref={fallbackRef}
+        aria-hidden="true"
+        style={{
+          display: "none",
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(ellipse 70% 55% at 50% 42%, ${fallbackColor}33 0%, ${fallbackColor}11 35%, transparent 75%)`,
+          pointerEvents: "none",
+        }}
+      />
+    </div>
+  );
 }
 
 export default Plasma;

@@ -89,8 +89,11 @@ html {
   background: rgba(0, 0, 0, 0.12);
 }
 
-/* Mobile sidebar — use dvh for iOS Safari */
-@media (max-width: 1023px) {
+/* Small-mobile sidebar only (< iPad portrait, < 768px) — needs dvh for
+   iOS Safari since the sidebar is a fixed overlay. iPad and up get
+   the desktop layout where the sidebar participates in the normal
+   flex flow, so no fixed height is needed. */
+@media (max-width: 767px) {
   .docs-mobile-sidebar {
     height: calc(100vh - 3.5rem);
     height: calc(100dvh - 3.5rem);
@@ -100,8 +103,10 @@ html {
   }
 }
 
-/* Desktop sidebar — auto height, no fixed positioning constraints */
-@media (min-width: 1024px) {
+/* iPad portrait and up — auto height, no fixed positioning constraints.
+   The sidebar scrolls inside a regular flex column so it can span the
+   full page height and every entry at the bottom is reachable. */
+@media (min-width: 768px) {
   .docs-mobile-sidebar {
     height: auto !important;
   }
@@ -197,27 +202,13 @@ html {
   background-color: rgba(255, 255, 255, 0.96);
 }
 
-/* When the pricing /pricing Compare-plans header is pinned against
-   the nav, we want the two bars to read as ONE continuous glass
-   strip — no seam. Two stacked `backdrop-filter` elements produce
-   a visible subpixel discontinuity at their boundary, so instead we
-   strip the nav's glass entirely (bg, blur, border) and let the
-   sticky Compare-plans bar's glass extend UP to cover the nav area
-   (via a negative-top backdrop child). Result: a single unbroken
-   glass surface from y=0 down past the sticky. */
-body.compare-pinned .nav-enter {
-  background-color: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  /* Keep border-width at 1px so unpinning doesn't snap the width
-     from 0→1 (that's what caused the border to flash back in
-     instantly). Only animate the color — the nav's inline style
-     already has `transition: border-color 0.3s ease` so this fades
-     in/out smoothly in both directions. A transparent border with
-     non-zero width is invisible (not rendered), so the unified
-     glass seam fix still works. */
-  border-bottom-color: transparent !important;
-}
+/* The nav's merge with the pinned compare-plans header is driven
+   from React state in LandingNav.tsx (mergedWithPinned, synced via
+   MutationObserver on `body.compare-pinned`). Driving it from inline
+   styles avoids the Chromium quirk where a CSS `backdrop-filter:
+   none` transition held on to a `blur(0px)` intermediate state,
+   which used to leave a faint second blur stacked over the sticky's
+   extended glass on desktop. */
 
 @keyframes hero-line-in {
   from {

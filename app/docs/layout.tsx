@@ -845,7 +845,7 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
       {/* -------- Top bar (fixed height) -------- */}
       <header className="z-50 shrink-0 bg-[#fafafa]">
         <div className="mx-auto flex h-14 max-w-[1440px] items-center justify-between">
-          <div className="flex shrink-0 items-center gap-3 pl-[18px] lg:w-60">
+          <div className="flex shrink-0 items-center gap-3 pl-[18px] md:w-60">
             {/* Logo + animated "Back to home" arrow.
                 The whole thing is ONE Link so a single tap on mobile (or
                 anywhere on desktop, even mid-animation) navigates home. */}
@@ -887,8 +887,8 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             </Link>
           </div>
 
-          {/* Desktop: all buttons */}
-          <div className="hidden flex-1 items-center justify-end gap-1.5 px-6 lg:flex">
+          {/* Desktop / iPad: all buttons */}
+          <div className="hidden flex-1 items-center justify-end gap-1.5 px-6 md:flex">
             <LinksMenu lang={lang} />
             <LanguageSelector lang={lang} setLang={setLang} />
             <a
@@ -904,8 +904,8 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
               {t("Sign up", lang)}
             </a>
           </div>
-          {/* Mobile: sign up + hamburger */}
-          <div className="flex flex-1 items-center justify-end gap-2 px-4 lg:hidden">
+          {/* Small mobile only (< iPad portrait): sign up + hamburger */}
+          <div className="flex flex-1 items-center justify-end gap-2 px-4 md:hidden">
             <a
               href="https://vvault.app/signup"
               className="rounded-xl bg-[#111] px-3.5 py-1.5 text-[13px] font-medium text-white transition-colors hover:bg-[#333]"
@@ -919,16 +919,16 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
         </div>
       </header>
 
-      {/* -------- Mobile overlay -------- */}
+      {/* -------- Mobile overlay (< iPad portrait only) -------- */}
       {mobileOpen && (
-        <div className="fixed inset-0 top-14 z-40 bg-black/20 backdrop-blur-sm lg:hidden" onClick={closeMobile} />
+        <div className="fixed inset-0 top-14 z-40 bg-black/20 backdrop-blur-sm md:hidden" onClick={closeMobile} />
       )}
 
       {/* -------- Three-column body (fills remaining height) -------- */}
       <div className="mx-auto flex w-full min-h-0 flex-1 max-w-[1440px] px-2 sm:px-0">
         {/* Left sidebar — scrolls independently */}
         <aside
-          className={`docs-mobile-sidebar fixed left-0 top-14 z-40 flex w-60 shrink-0 flex-col bg-[#fafafa] transition-transform duration-200 ease-in-out lg:relative lg:left-auto lg:top-0 lg:translate-x-0 ${
+          className={`docs-mobile-sidebar fixed left-0 top-14 z-40 flex w-60 shrink-0 flex-col bg-[#fafafa] transition-transform duration-200 ease-in-out md:relative md:left-auto md:top-0 md:translate-x-0 ${
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -941,8 +941,8 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             <Sidebar pathname={pathname} onNavigate={closeMobile} lang={lang} />
           </div>
 
-          {/* Mobile-only: pinned bottom bar with language + get started CTA */}
-          <div className="shrink-0 border-t border-[#e5e5e5] bg-[#fafafa] px-[18px] lg:hidden" style={{ padding: "12px 18px calc(12px + env(safe-area-inset-bottom))" }}>
+          {/* Small-mobile-only (< iPad portrait): pinned bottom bar */}
+          <div className="shrink-0 border-t border-[#e5e5e5] bg-[#fafafa] px-[18px] md:hidden" style={{ padding: "12px 18px calc(12px + env(safe-area-inset-bottom))" }}>
             <div className="flex items-center justify-between">
               <LanguageSelector lang={lang} setLang={setLang} placement="top-left" />
               <a
