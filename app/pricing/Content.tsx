@@ -867,8 +867,10 @@ export default function PricingPage() {
                 backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
                 backdropFilter: stuck ? "blur(14px)" : "none",
                 WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
-                transition:
-                  "background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease",
+                /* Snap on/off — the nav's matching glass is also snap
+                   (see LandingNav). Transitioning either one alone (or
+                   both in parallel) leaves a visible window where the
+                   nav area is uncovered glass on scroll-past. */
               }}
             />
             <div className="mx-auto w-full max-w-[1320px] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">

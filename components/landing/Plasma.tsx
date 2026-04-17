@@ -113,15 +113,19 @@ export function Plasma({
       .matchMedia("(prefers-reduced-motion: reduce)")
       .matches;
 
-    /* Hardware capability sniff. Modern browsers expose this — when
-       missing we assume mid-tier. Low-end == 4 cores or less OR 4 GB
-       RAM or less (covers most low-end Android + older iPhones).
-       On low-end we skip WebGL entirely and show a static CSS
-       gradient fallback instead, which is ~0 GPU cost. */
-    const cores = navigator.hardwareConcurrency || 4;
+    /* Hardware capability sniff. Only skip WebGL on GENUINELY low-end
+       hardware — Safari/Firefox don't expose `deviceMemory` at all,
+       and `hardwareConcurrency` is commonly 4 on perfectly capable
+       mid-tier laptops. Previously we defaulted memory to 4 and
+       tripped the fallback for every browser that doesn't report it,
+       which is why the plasma looked dead (= static CSS gradient) on
+       most desktops. Now: default unknown memory to 8 (trust the
+       browser if it doesn't say otherwise) and only fall back on ≤2
+       cores or ≤2 GB, which is actual low-end territory. */
+    const cores = navigator.hardwareConcurrency || 8;
     const memory =
-      ((navigator as unknown) as { deviceMemory?: number }).deviceMemory ?? 4;
-    const isLowEnd = cores <= 4 || memory <= 4;
+      ((navigator as unknown) as { deviceMemory?: number }).deviceMemory ?? 8;
+    const isLowEnd = cores <= 2 || memory <= 2;
 
     if (prefersReducedMotion || isLowEnd) {
       /* Render a lightweight static gradient instead of running the
@@ -143,8 +147,14 @@ export function Plasma({
     const isMobile =
       /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
       window.innerWidth < 768;
-    const iterations = isMobile ? 32.0 : 45.0;
-    const brightness = 5e3;
+    const iterations = isMobile ? 32.0 : 55.0;
+    /* Lower uBrightness = LESS tanh attenuation = brighter + higher
+       contrast output, which is how the fine ray-march detail
+       actually shows up on screen. The old 5e3 combined with the
+       0.55 wrapper opacity made the plasma read as a flat glow with
+       no structure. 3e3 restores the swirl detail without changing
+       iterations on mobile (kept for perf). */
+    const brightness = isMobile ? 5e3 : 3e3;
     const dpr = isMobile ? 0.6 : 1;
     const targetFps = isMobile ? 24 : 30;
     const effectiveScale = isMobile ? scale * 0.5 : scale;

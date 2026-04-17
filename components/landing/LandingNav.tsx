@@ -766,8 +766,12 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
         WebkitBackdropFilter: mergedWithPinned
           ? "none"
           : `blur(${14 * scrollProgress}px)`,
-        transition:
-          "border-color 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease, -webkit-backdrop-filter 0.3s ease",
+        /* No CSS transition here. scrollProgress updates at ~60fps on
+           scroll so the initial glass fade-in stays smooth on its own,
+           and toggling `mergedWithPinned` needs to be INSTANT — any
+           transition leaves a ~150ms window where neither the nav nor
+           the compare-plans backdrop is fully opaque, showing a bare
+           black strip for the nav as the user scrolls past the table. */
       }}
     >
       <div className="mx-auto flex h-[62px] w-full max-w-[1320px] items-center px-5 sm:h-[56px] sm:px-8 lg:px-10">
