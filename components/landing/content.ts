@@ -366,7 +366,7 @@ const landingContentEn = {
     {
       question: "Where do I get the emails to send my beats to?",
       answer:
-        "You bring your own list. Import your existing contacts (A&Rs, labels, artists, managers) from a CSV or XLSX file — exports from Gmail, Mailchimp, Google Sheets, or any spreadsheet work out of the box. vvault auto-detects email, name, and company columns. You can also add contacts one by one, or organize them with tags (e.g. \"US labels\", \"Hip-hop A&Rs\") to target each campaign.",
+        "Starting from zero? vvault grows your list for you. Every visitor to your public profile or share links can drop their email in a one-tap signup, and those leads land straight in your Inbox — ready to turn into contacts with one click. Already have a list? One import does it: CSV, XLSX, or exports from Gmail, Mailchimp, or Google Sheets all work out of the box. vvault auto-detects the email, name, and company columns, and you can tag contacts (e.g. \"US labels\", \"Hip-hop A&Rs\") to target each campaign. No list needed on day one — vvault builds it with you.",
     },
     {
       question: "Is vvault really free?",
@@ -783,7 +783,7 @@ const landingContentFr = {
     {
       question: "Où je trouve les emails pour envoyer mes beats ?",
       answer:
-        "Tu amènes ta propre liste. Importe tes contacts existants (A&Rs, labels, artistes, managers) depuis un fichier CSV ou XLSX — les exports Gmail, Mailchimp, Google Sheets ou n'importe quel tableur fonctionnent directement. vvault détecte automatiquement les colonnes email, nom et entreprise. Tu peux aussi ajouter des contacts un par un, ou les organiser avec des tags (ex. « Labels US », « A&Rs hip-hop ») pour cibler chaque campagne.",
+        "Tu pars de zéro ? vvault construit ta liste pour toi. Chaque visiteur de ton profil public ou de tes liens de partage peut laisser son email en un seul tap, et ces contacts arrivent directement dans ta Boîte de réception — prêts à ajouter en un clic. Tu as déjà une liste ? Un seul import suffit : CSV, XLSX, ou les exports Gmail, Mailchimp et Google Sheets fonctionnent directement. vvault détecte automatiquement les colonnes email, nom et entreprise, et tu peux taguer tes contacts (ex. « Labels US », « A&Rs hip-hop ») pour cibler chaque campagne. Pas besoin de liste le premier jour — vvault la construit avec toi.",
     },
     {
       question: "Est-ce que vvault est vraiment gratuit ?",
