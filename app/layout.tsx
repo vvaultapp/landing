@@ -7,10 +7,11 @@ import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
-  /* 4 weights cover the whole site (400 body, 500 medium, 600 semibold,
-     700 bold). Dropped 800 — it was used in exactly one place and has
-     been rolled to 700, saving an extra font file on every page load. */
-  weight: ["400", "500", "600", "700"],
+  /* 400 body, 500 medium, 600 semibold, 700 bold, 900 black. 900 is
+     used only by the /features/studio hero "STUDIO" wordmark — it's
+     loaded once site-wide and preloaded by next/font, so the studio
+     hero doesn't need to wait for a font fetch on first paint. */
+  weight: ["400", "500", "600", "700", "900"],
   display: "swap",
   variable: "--font-geist",
 });

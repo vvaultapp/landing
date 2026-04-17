@@ -1,9 +1,17 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { LandingContent, LandingNavItem, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+
+/* Dynamic-imported so the ogl bundle doesn't ship on pages that
+   never render a Prism. Only mounted when the Features dropdown is
+   actually open — see the Studio card below. */
+const Prism = dynamic(() => import("@/components/landing/Prism"), {
+  ssr: false,
+});
 
 /* ─── Mobile menu — compact drawer, rounded at the bottom, leaves a
    visible strip of the page below. ─── */
@@ -60,26 +68,30 @@ function MobileMenu({
       }}
       onClick={onClose}
     >
-      {/* Full-screen glass panel. Same glass profile as the primary
-          nav (rgba(0,0,0,0.55) + blur(14px)) so the nav and the
-          menu read as ONE continuous glass surface with no seam.
-          Fades in on a single opacity transition — no transform,
-          no separate backdrop layer, so the paint is cheap and
-          predictable across the whole viewport. */}
+      {/* Full-screen glass. The glass backdrop itself (bg + blur) is
+          applied INSTANTLY — no opacity fade — so it lands at the
+          same frame the nav drops its own glass. Previously both
+          surfaces were crossfading independently and left a ~150ms
+          window where the nav band showed no glass at all (the
+          "backdrop turns off for a split second" flicker). Only the
+          inner CONTENT fades in for a smooth reveal. */}
       <div
         className="absolute inset-0 overflow-y-auto pt-[62px] sm:pt-[56px]"
         style={{
-          backgroundColor: "rgba(0, 0, 0, 0.55)",
-          backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
-          opacity: open ? 1 : 0,
-          transition: "opacity 0.22s ease",
+          backgroundColor: open ? "rgba(0, 0, 0, 0.55)" : "transparent",
+          backdropFilter: open ? "blur(14px)" : "none",
+          WebkitBackdropFilter: open ? "blur(14px)" : "none",
         }}
       >
-        {/* Inner scroll content — stops click-to-close from firing
-            when tapping inside. */}
+        {/* Inner content — fades in over the already-opaque glass
+            so the animation stays smooth. `stopPropagation` keeps
+            taps on menu items from triggering close. */}
         <div
           className="px-5 pb-8 sm:px-8"
+          style={{
+            opacity: open ? 1 : 0,
+            transition: "opacity 0.22s ease",
+          }}
           onClick={(e) => e.stopPropagation()}
         >
         {/* Nav items — Pricing first, then the rest. Separators
@@ -631,50 +643,11 @@ function NavDropdown({
                   {/* Featured cards — right side */}
                   <div className={`flex ${featuredPanelWidth} shrink-0 flex-col gap-2 p-2`}>
                     {studioChild && (
-                      <FeaturedCardWrap href={studioChild.href}>
-                        <div className="flex flex-1 flex-col items-center justify-center gap-3 px-3 py-4">
-                        {/* Mini emblem */}
-                        <div
-                          className="relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-[14px]"
-                          style={{
-                            background: "linear-gradient(160deg, rgba(30,30,35,0.6) 0%, rgba(8,8,10,0.95) 35%, rgba(0,0,0,1) 100%)",
-                            boxShadow: "inset 0 1px 0 0 rgba(255,255,255,0.07), 0 4px 16px -3px rgba(0,0,0,0.5)",
-                            border: "0.5px solid rgba(255,255,255,0.08)",
-                          }}
-                        >
-                          <div
-                            className="pointer-events-none absolute inset-0 opacity-[0.03]"
-                            style={{
-                              backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
-                            }}
-                          />
-                          <div
-                            className="pointer-events-none absolute inset-x-[15%] top-0 h-px"
-                            style={{
-                              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.1) 70%, transparent 100%)",
-                            }}
-                          />
-                          <div
-                            className="relative z-10 h-9 w-9"
-                            style={{
-                              WebkitMaskImage: "url('/vvault-studio-logo.png')",
-                              maskImage: "url('/vvault-studio-logo.png')",
-                              WebkitMaskSize: "contain",
-                              maskSize: "contain",
-                              WebkitMaskRepeat: "no-repeat",
-                              maskRepeat: "no-repeat",
-                              WebkitMaskPosition: "center",
-                              maskPosition: "center",
-                              background: "linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(230,232,238,0.85) 22%, rgba(190,195,205,0.75) 55%, rgba(150,155,165,0.72) 82%, rgba(210,214,222,0.85) 100%)",
-                            }}
-                          />
-                        </div>
-                        <div className="text-center">
-                          <span className="block text-[13px] font-semibold text-white/85">vvault Studio</span>
-                          <span className="mt-0.5 block text-[11px] text-white/40">{studioChild.description || "Automated video posting"}</span>
-                        </div>
-                        </div>
-                      </FeaturedCardWrap>
+                      <StudioFeaturedCard
+                        href={studioChild.href}
+                        description={studioChild.description}
+                        open={open}
+                      />
                     )}
                     {featuredChildren.map((child) => renderFeaturedCard(child))}
                   </div>
@@ -699,6 +672,102 @@ function NavDropdown({
         </div>
       </div>
     </div>
+  );
+}
+
+/* Studio featured card — mounts the Prism ONCE on first open and
+   keeps it alive so subsequent opens never pay a WebGL init cost.
+   suspendWhenOffscreen pauses the RAF when the dropdown closes, so
+   CPU/GPU is idle between opens. */
+function StudioFeaturedCard({
+  href,
+  description,
+  open,
+}: {
+  href: string;
+  description?: string;
+  open: boolean;
+}) {
+  const [everOpened, setEverOpened] = useState(false);
+
+  useEffect(() => {
+    if (open) setEverOpened(true);
+  }, [open]);
+
+  return (
+    <Link
+      href={href}
+      className="group relative flex flex-1 flex-col overflow-hidden rounded-[14px] border border-white/[0.08] transition-colors duration-200 hover:border-white/[0.2]"
+      style={{
+        background: "linear-gradient(180deg, #0c0c10 0%, #060609 100%)",
+      }}
+    >
+      {everOpened && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
+        >
+          <Prism
+            animationType="rotate"
+            timeScale={0.5}
+            height={3.5}
+            baseWidth={5.5}
+            scale={3.6}
+            hueShift={0}
+            colorFrequency={1}
+            noise={0}
+            glow={1}
+            suspendWhenOffscreen
+          />
+        </div>
+      )}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(ellipse 130% 110% at 50% 50%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.1) 45%, transparent 75%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
+        }}
+      />
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-2 px-4 py-8">
+        <span
+          className="font-sans text-white"
+          style={{
+            fontWeight: 900,
+            fontSize: "22px",
+            letterSpacing: "0.24em",
+            lineHeight: 1,
+            paddingLeft: "0.24em",
+            color: "transparent",
+            backgroundImage:
+              "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.75) 100%)",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          STUDIO
+        </span>
+        <span className="mt-1 block text-center text-[11px] leading-snug text-white/60">
+          {description || "Automated video posting"}
+        </span>
+      </div>
+    </Link>
   );
 }
 
@@ -779,28 +848,32 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
     <header
       className="nav-enter fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
-        /* `mergedWithPinned` (compare-plans sticky merge): zero our
-           own glass so the sticky's extended backdrop is the only
-           glass surface — no double-stacked translucency.
-           `mobileMenuOpen`: FORCE our glass to its full strength
-           regardless of scroll position, so the nav + the glass
-           menu panel below it read as ONE continuous glass surface.
-           Otherwise (e.g. user opens the menu at scrollY=0), the
-           nav would be fully transparent and leave a visible seam
-           above the panel. */
+        /* Both `mergedWithPinned` (compare-plans sticky merge) and
+           `mobileMenuOpen` → zero our OWN glass. In both cases
+           something else is providing the glass surface below us
+           (the compare-plans extended backdrop in one case, the
+           full-screen mobile menu panel in the other). Stacking a
+           second glass layer on top of them produces a visibly
+           darker / more opaque band — the exact "the nav looks
+           solid black" artifact. With the nav transparent, the
+           panel's glass passes through cleanly under the logo and
+           the X, and the boundary between them disappears. */
         borderColor:
           mergedWithPinned || mobileMenuOpen
             ? "transparent"
             : `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
-        backgroundColor: mergedWithPinned
-          ? "transparent"
-          : `rgba(0, 0, 0, ${0.55 * (mobileMenuOpen ? 1 : scrollProgress)})`,
-        backdropFilter: mergedWithPinned
-          ? "none"
-          : `blur(${14 * (mobileMenuOpen ? 1 : scrollProgress)}px)`,
-        WebkitBackdropFilter: mergedWithPinned
-          ? "none"
-          : `blur(${14 * (mobileMenuOpen ? 1 : scrollProgress)}px)`,
+        backgroundColor:
+          mergedWithPinned || mobileMenuOpen
+            ? "transparent"
+            : `rgba(0, 0, 0, ${0.55 * scrollProgress})`,
+        backdropFilter:
+          mergedWithPinned || mobileMenuOpen
+            ? "none"
+            : `blur(${14 * scrollProgress}px)`,
+        WebkitBackdropFilter:
+          mergedWithPinned || mobileMenuOpen
+            ? "none"
+            : `blur(${14 * scrollProgress}px)`,
         /* Background + blur SNAP (no transition) so the merge/unmerge
            handoff with the compare-plans backdrop has no cross-fade
            window where the nav band is uncovered.

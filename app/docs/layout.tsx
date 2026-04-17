@@ -932,8 +932,15 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          {/* Scrollable nav content — native scroll with visible indicator */}
-          <div ref={sidebarScrollRef} className="docs-sidebar-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pl-[18px] pr-2 pb-4 pt-5">
+          {/* Scrollable nav content — native scroll with visible
+              indicator. `WebKitOverflowScrolling: touch` enables
+              momentum scrolling on iOS Safari so the sidebar doesn't
+              feel dead when swiped on iPad. */}
+          <div
+            ref={sidebarScrollRef}
+            className="docs-sidebar-scroll min-h-0 flex-1 overflow-y-auto overscroll-contain pl-[18px] pr-2 pb-4 pt-5"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             {/* Search bar in sidebar */}
             <div className="mb-5">
               <SearchBar lang={lang} />
@@ -974,8 +981,12 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
           </div>
         </main>
 
-        {/* Right sidebar — TOC, scrolls independently */}
-        <aside className="hidden w-52 shrink-0 overflow-y-auto bg-[#fafafa] pl-5 pr-3 pb-10 pt-8 xl:block">
+        {/* Right sidebar — TOC, scrolls independently. Shown from
+            `lg` (1024px) up so iPad landscape and most laptops get
+            the "On this page" panel. Previously `xl:block` gated
+            this at 1280px, which left every iPad and smaller
+            laptop without it. */}
+        <aside className="hidden w-52 shrink-0 overflow-y-auto bg-[#fafafa] pl-5 pr-3 pb-10 pt-8 lg:block">
           <TableOfContents lang={lang} />
         </aside>
       </div>

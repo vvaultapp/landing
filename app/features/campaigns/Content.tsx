@@ -8,7 +8,7 @@ import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
 import { useLocale } from "@/lib/useLocale";
 
-const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
+const ColorBends = dynamic(() => import("@/components/landing/ColorBends"), {
   ssr: false,
 });
 
@@ -611,13 +611,21 @@ export default function FeatureCampaignsPage() {
         }}
       >
         <div className="absolute inset-0 opacity-[0.55]">
-          <Plasma
-            color="#8b5cf6"
-            speed={0.3}
-            direction="forward"
+          <ColorBends
+            colors={["#8b5cf6"]}
+            rotation={90}
+            speed={0.2}
             scale={1.2}
-            opacity={0.6}
-            mouseInteractive={false}
+            frequency={1}
+            warpStrength={1}
+            mouseInfluence={0}
+            noise={0.15}
+            parallax={0.5}
+            iterations={1}
+            intensity={1.5}
+            bandWidth={6}
+            transparent
+            autoRotate={0}
           />
         </div>
       </div>

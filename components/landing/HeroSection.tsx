@@ -7,6 +7,38 @@ import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 
 const Beams = dynamic(() => import("@/components/landing/Beams"), { ssr: false });
 
+/* Plain-text chip whose only visual marker is a prism-coloured dot
+   that cycles through the five palette stops (see `.prism-dot` in
+   globals.css). No background, no border, no halo — the dot alone
+   carries the studio-page-esque accent. */
+function HeroStudioBadge({
+  href,
+  newLabel,
+  onyxLabel,
+}: {
+  href: string;
+  newLabel: string;
+  onyxLabel: string;
+}) {
+  return (
+    <LandingCtaLink
+      loggedInHref={href}
+      loggedOutHref={href}
+      className="group inline-flex items-center gap-2 px-1 py-0.5 text-xs sm:text-sm"
+    >
+      <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+      <span className="font-semibold text-white">{newLabel}</span>
+      <span className="text-white/72">{onyxLabel}</span>
+      <svg
+        viewBox="0 0 20 20"
+        className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1"
+      >
+        <path d="M4 10h11M11 6l4 4-4 4" />
+      </svg>
+    </LandingCtaLink>
+  );
+}
+
 type LandingStatsResponse = {
   emailsSentTotal: number;
   usersTotal: number;
@@ -730,21 +762,16 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           <div className="mx-auto max-w-[1280px] text-center">
             {showOnyxUploader ? (
               <div className="hero-seq-item mb-6 flex justify-center sm:mb-7" style={{ animationDelay: "1200ms" }}>
-                <LandingCtaLink
-                  loggedInHref="/features/studio"
-                  loggedOutHref="/features/studio"
-                  className="group inline-flex items-center gap-2 text-xs sm:text-sm"
-                >
-                  <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-                  <span className="font-semibold text-white">{content.hero.newBadge}</span>
-                  <span className="text-white/72">{content.hero.onyxLabel}</span>
-                  <svg
-                    viewBox="0 0 20 20"
-                    className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1"
-                  >
-                    <path d="M4 10h11M11 6l4 4-4 4" />
-                  </svg>
-                </LandingCtaLink>
+                {/* Prism-tinted pill (CSS-only — gradient border +
+                    coloured outer halo). Carries the same palette as
+                    the studio hero's shader so the chip reads as a
+                    teaser for that page without spinning up another
+                    WebGL context on the landing. */}
+                <HeroStudioBadge
+                  href="/features/studio"
+                  newLabel={content.hero.newBadge}
+                  onyxLabel={content.hero.onyxLabel}
+                />
               </div>
             ) : null}
 
@@ -764,13 +791,21 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           <div className="hero-seq-item mt-7 flex flex-col items-center gap-3" style={{ animationDelay: "520ms" }}>
             <a
               href="https://vvault.app/auth/google"
-              className="inline-flex items-center gap-2.5 rounded-2xl px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
+              className="inline-flex items-center gap-2.5 rounded-2xl px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 ease-out hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
               style={{
                 background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
                 boxShadow: "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
               }}
             >
-              <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none">
+              {/* Inline transform:none lock so the SVG can't inherit
+                  a stray transition from `transition-all` ancestors
+                  (the subtle wobble the G logo picked up on hover). */}
+              <svg
+                viewBox="0 0 24 24"
+                className="h-[18px] w-[18px]"
+                fill="none"
+                style={{ transform: "none", transition: "none" }}
+              >
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />

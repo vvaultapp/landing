@@ -218,6 +218,33 @@ html {
   background-color: rgba(255, 255, 255, 0.96);
 }
 
+/* Prism-colour dot — multiple palette shades living simultaneously
+   inside the dot (conic gradient carries all five stops at once)
+   and slowly rotating so the colours seem to flow through. No
+   outer box-shadow glow — the user explicitly wanted the colour
+   contained inside the dot, not bleeding outside. */
+@keyframes prism-dot-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.prism-dot {
+  background: conic-gradient(
+    from 0deg,
+    #ff5c7a 0%,
+    #ffb15c 22%,
+    #8a5cff 48%,
+    #00c2ff 72%,
+    #00ffd1 90%,
+    #ff5c7a 100%
+  );
+  animation: prism-dot-spin 6s linear infinite;
+}
+
 /* The nav's merge with the pinned compare-plans header is driven
    from React state in LandingNav.tsx (mergedWithPinned, synced via
    MutationObserver on `body.compare-pinned`). Driving it from inline
