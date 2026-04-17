@@ -707,7 +707,16 @@ export default function PricingPage() {
               className="pricing-card-scroll -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:snap-none"
               style={{
                 WebkitOverflowScrolling: "touch",
-                touchAction: "pan-x",
+                /* Explicitly allow BOTH horizontal and vertical pan so
+                   the browser picks the axis based on the gesture's
+                   angle. Horizontal drags move cards; near-vertical
+                   drags pass through to the page scroll. Previously
+                   this was `pan-x` which locked the carousel out of
+                   vertical gestures entirely — users couldn't scroll
+                   the page down from anywhere on a card. */
+                touchAction: "pan-x pan-y",
+                /* Still contain horizontal overscroll so reaching the
+                   end of Ultra doesn't bounce the whole page. */
                 overscrollBehaviorX: "contain",
               }}
             >

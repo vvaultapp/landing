@@ -53,35 +53,35 @@ function MobileMenu({
 
   return (
     <div
-      className="fixed inset-x-0 top-[62px] bottom-0 z-[55] sm:top-[56px] lg:hidden"
+      className="fixed inset-0 z-[45] lg:hidden"
       style={{
         pointerEvents: open ? "auto" : "none",
         visibility: open ? "visible" : "hidden",
       }}
+      onClick={onClose}
     >
-      {/* Dim backdrop below the panel — tap-to-close, keeps the page
-          behind dimmed but visible in the strip below the panel. */}
+      {/* Full-screen glass panel. Same glass profile as the primary
+          nav (rgba(0,0,0,0.55) + blur(14px)) so the nav and the
+          menu read as ONE continuous glass surface with no seam.
+          Fades in on a single opacity transition — no transform,
+          no separate backdrop layer, so the paint is cheap and
+          predictable across the whole viewport. */}
       <div
-        className="absolute inset-0 bg-black/55"
+        className="absolute inset-0 overflow-y-auto pt-[62px] sm:pt-[56px]"
         style={{
+          backgroundColor: "rgba(0, 0, 0, 0.55)",
+          backdropFilter: "blur(14px)",
+          WebkitBackdropFilter: "blur(14px)",
           opacity: open ? 1 : 0,
-          transition: "opacity 0.3s ease",
-        }}
-        onClick={onClose}
-      />
-
-      {/* Panel — fills the entire area below the nav, edge to edge,
-          no rounded corners. The nav above handles the hamburger↔X
-          morph and also goes transparent while the menu is open so
-          the menu feels like one uninterrupted surface. */}
-      <div
-        className="absolute inset-0 overflow-y-auto bg-black px-5 pb-5 sm:px-8"
-        style={{
-          opacity: open ? 1 : 0,
-          transform: open ? "translateY(0)" : "translateY(-8px)",
-          transition: "opacity 0.22s ease, transform 0.22s ease",
+          transition: "opacity 0.22s ease",
         }}
       >
+        {/* Inner scroll content — stops click-to-close from firing
+            when tapping inside. */}
+        <div
+          className="px-5 pb-8 sm:px-8"
+          onClick={(e) => e.stopPropagation()}
+        >
         {/* Nav items — Pricing first, then the rest. Separators
             between items are 0.5px (hairline) instead of 1px so
             they read as subtle dividers, not strong rules. Tap
@@ -198,6 +198,7 @@ function MobileMenu({
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
           </LandingCtaLink>
+        </div>
         </div>
       </div>
     </div>
@@ -758,28 +759,27 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
     <header
       className="nav-enter fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
-        /* Zero our own glass when:
-           - the compare-plans sticky is pinned (its extended
-             backdrop is already the glass surface there), OR
-           - the mobile menu is open (the full-screen black panel
-             is the only surface — a glass strip on top of it
-             would read as a visual seam across the logo/X). */
-        borderColor:
-          mergedWithPinned || mobileMenuOpen
-            ? "transparent"
-            : `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
-        backgroundColor:
-          mergedWithPinned || mobileMenuOpen
-            ? "transparent"
-            : `rgba(0, 0, 0, ${0.55 * scrollProgress})`,
-        backdropFilter:
-          mergedWithPinned || mobileMenuOpen
-            ? "none"
-            : `blur(${14 * scrollProgress}px)`,
-        WebkitBackdropFilter:
-          mergedWithPinned || mobileMenuOpen
-            ? "none"
-            : `blur(${14 * scrollProgress}px)`,
+        /* `mergedWithPinned` (compare-plans sticky merge): zero our
+           own glass so the sticky's extended backdrop is the only
+           glass surface — no double-stacked translucency.
+           `mobileMenuOpen`: FORCE our glass to its full strength
+           regardless of scroll position, so the nav + the glass
+           menu panel below it read as ONE continuous glass surface.
+           Otherwise (e.g. user opens the menu at scrollY=0), the
+           nav would be fully transparent and leave a visible seam
+           above the panel. */
+        borderColor: mergedWithPinned
+          ? "transparent"
+          : `rgba(255, 255, 255, ${0.1 * (mobileMenuOpen ? 1 : scrollProgress)})`,
+        backgroundColor: mergedWithPinned
+          ? "transparent"
+          : `rgba(0, 0, 0, ${0.55 * (mobileMenuOpen ? 1 : scrollProgress)})`,
+        backdropFilter: mergedWithPinned
+          ? "none"
+          : `blur(${14 * (mobileMenuOpen ? 1 : scrollProgress)}px)`,
+        WebkitBackdropFilter: mergedWithPinned
+          ? "none"
+          : `blur(${14 * (mobileMenuOpen ? 1 : scrollProgress)}px)`,
         /* Background + blur SNAP (no transition) so the merge/unmerge
            handoff with the compare-plans backdrop has no cross-fade
            window where the nav band is uncovered.
