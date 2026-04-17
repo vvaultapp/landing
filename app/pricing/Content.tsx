@@ -501,17 +501,20 @@ export default function PricingPage() {
       const rect = node.getBoundingClientRect();
       // Nav is 62px on mobile, 56px from the `sm` breakpoint upward.
       const navHeight = window.innerWidth >= 640 ? 56 : 62;
-      /* "Pinned" means the sticky bar is currently pressed against
-         the nav. `rect.top <= navHeight` catches the pin, but once
-         the user scrolls past the entire #compare-plans container
-         the sticky rides up with it, so rect.top stays ≤ navHeight
-         even when the bar is long gone. Clamping with
-         rect.bottom > navHeight makes the state flip back to false
-         the moment the bar is no longer overlapping the nav — so
-         the nav's separation line fades back in when we reach the
-         FAQ and fades out again on scroll back up. */
+      /* Merge with the nav ONLY while the sticky is actually stuck
+         at y=navHeight — i.e. the moment of true pin. As soon as
+         the parent #compare-plans container's bottom reaches the
+         sticky and starts pushing it upward, rect.top goes below
+         navHeight; during that ride-up the sticky's content (the
+         big "Compare plans" title + plan columns) visually bleeds
+         into the nav area. If we stayed merged then, the nav would
+         remain transparent and its text would overlap the sticky's
+         title. So we flip back to un-merged the instant rect.top
+         drops below navHeight — the nav reclaims its own glass and
+         covers the sticky content cleanly until the sticky scrolls
+         fully above the nav. */
       const isPinned =
-        rect.top <= navHeight + 0.5 && rect.bottom > navHeight;
+        rect.top >= navHeight - 0.5 && rect.top <= navHeight + 0.5;
       setStuck(isPinned);
     };
     handleScroll();
