@@ -697,16 +697,24 @@ export default function PricingPage() {
 
           {/* Plan cards — horizontally swipeable on mobile (Free → Pro
               → Ultra) with CSS scroll-snap; standard 3-col grid on lg.
-              The peek on the edge of the next card is the affordance
-              that tells the user the list is swipeable. */}
-          <div
-            className="pricing-card-scroll mt-12 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:snap-none"
-            style={{ WebkitOverflowScrolling: "touch" }}
-          >
+              Mobile padding on each side lets every card snap to the
+              true viewport center (including Free and Ultra), not
+              just Pro. `touch-action: pan-x` on the scroller keeps
+              vertical page scrolling stable — tapping or starting a
+              near-vertical drag on a card doesn't jiggle the row. */}
+          <Reveal className="mt-12 block">
+            <div
+              className="pricing-card-scroll -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:snap-none"
+              style={{
+                WebkitOverflowScrolling: "touch",
+                touchAction: "pan-x",
+                overscrollBehaviorX: "contain",
+              }}
+            >
             {plans.map((p) => (
-              <Reveal
+              <div
                 key={p.name}
-                className="flex w-[74vw] shrink-0 snap-center first:ml-5 last:mr-5 lg:w-auto lg:shrink lg:snap-none lg:first:ml-0 lg:last:mr-0"
+                className="flex w-[74vw] shrink-0 snap-center lg:w-auto lg:shrink lg:snap-none"
               >
                 <div
                   className="relative flex w-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
@@ -795,10 +803,12 @@ export default function PricingPage() {
                     </p>
                   )}
                   <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-4"}`}>
-                    {p.bullets.map((bullet) => (
+                    {p.bullets.map((bullet, bi) => (
                       <li
                         key={bullet}
-                        className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80"
+                        className={`flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80 ${
+                          bi >= 4 ? "hidden lg:flex" : ""
+                        }`}
                       >
                         {/* Check mark pulled up so its visual mid-line
                             sits flush with the cap-height of the first
@@ -814,7 +824,7 @@ export default function PricingPage() {
                     ))}
                   </ul>
 
-                  <div className="mt-auto pt-10">
+                  <div className="mt-auto pt-6 lg:pt-10">
                     <LandingCtaLink
                       loggedInHref={p.href}
                       loggedOutHref={p.loggedOutHref || p.href}
@@ -833,9 +843,10 @@ export default function PricingPage() {
                     </p>
                   </div>
                 </div>
-              </Reveal>
+              </div>
             ))}
-          </div>
+            </div>
+          </Reveal>
 
           {/* Anchor button linking to the big comparison tables below.
               No border, no background — just big type with a hovering

@@ -70,23 +70,24 @@ function MobileMenu({
         onClick={onClose}
       />
 
-      {/* Panel — starts BELOW the nav so the nav's real logo stays
-          put when the menu opens (no second fading-in logo). Sized
-          to its content, with rounded bottom corners. Full width of
-          the device. The nav above handles the hamburger→X morph. */}
+      {/* Panel — fills the entire area below the nav, edge to edge,
+          no rounded corners. The nav above handles the hamburger↔X
+          morph and also goes transparent while the menu is open so
+          the menu feels like one uninterrupted surface. */}
       <div
-        className="absolute inset-x-0 top-0 overflow-y-auto rounded-b-[28px] bg-black px-5 pb-5 sm:px-8"
+        className="absolute inset-0 overflow-y-auto bg-black px-5 pb-5 sm:px-8"
         style={{
-          maxHeight: "72vh",
           opacity: open ? 1 : 0,
           transform: open ? "translateY(0)" : "translateY(-8px)",
           transition: "opacity 0.22s ease, transform 0.22s ease",
         }}
       >
-        {/* Nav items — Pricing first, then the rest. The first item
-            intentionally has NO top border, so the menu flows
-            directly from the nav above (they look like one surface
-            without a horizontal line between them). */}
+        {/* Nav items — Pricing first, then the rest. Separators
+            between items are 0.5px (hairline) instead of 1px so
+            they read as subtle dividers, not strong rules. Tap
+            highlight is suppressed; on press we fade in our own
+            rounded bg so the feedback has nice rounded corners
+            instead of the browser's default rectangle. */}
         <nav
           className="flex flex-col"
           aria-label={fr ? "Navigation mobile" : "Mobile navigation"}
@@ -94,27 +95,40 @@ function MobileMenu({
           {mobileNav.map((item, i) => {
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = expandedIndex === i;
-            const topBorder = i === 0 ? "" : "border-t border-white/[0.08]";
+            const topSep = i === 0 ? null : (
+              <div
+                className="mx-1"
+                style={{
+                  height: "0.5px",
+                  background: "rgba(255,255,255,0.08)",
+                }}
+              />
+            );
 
             if (!hasChildren) {
               return (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={onClose}
-                  className={`flex items-center justify-between py-4 text-[15px] font-medium text-white/60 transition-colors duration-200 hover:text-white ${topBorder}`}
-                >
-                  {item.label}
-                </Link>
+                <div key={item.label}>
+                  {topSep}
+                  <Link
+                    href={item.href}
+                    onClick={onClose}
+                    className="-mx-1 flex items-center justify-between rounded-xl px-1 py-4 text-[15px] font-medium text-white/60 transition-colors duration-150 active:bg-white/[0.06]"
+                    style={{ WebkitTapHighlightColor: "transparent" }}
+                  >
+                    {item.label}
+                  </Link>
+                </div>
               );
             }
 
             return (
-              <div key={item.label} className={topBorder}>
+              <div key={item.label}>
+                {topSep}
                 <button
                   type="button"
                   onClick={() => setExpandedIndex(isExpanded ? null : i)}
-                  className="flex w-full items-center justify-between py-4 text-[15px] font-medium text-white/60 transition-colors duration-200 hover:text-white"
+                  className="-mx-1 flex w-full items-center justify-between rounded-xl px-1 py-4 text-[15px] font-medium text-white/60 transition-colors duration-150 active:bg-white/[0.06]"
+                  style={{ WebkitTapHighlightColor: "transparent" }}
                 >
                   {item.label}
                   <svg
@@ -146,7 +160,8 @@ function MobileMenu({
                           key={child.label}
                           href={child.href}
                           {...extraProps}
-                          className="flex items-center gap-2 rounded-lg py-2.5 pl-3 text-[14px] text-white/40 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/70"
+                          className="flex items-center gap-2 rounded-xl py-2.5 pl-3 text-[14px] text-white/40 transition-colors duration-150 active:bg-white/[0.06] active:text-white/70"
+                          style={{ WebkitTapHighlightColor: "transparent" }}
                         >
                           {child.label}
                           {isExternal && (
@@ -162,7 +177,13 @@ function MobileMenu({
               </div>
             );
           })}
-          <div className="border-t border-white/[0.08]" />
+          <div
+            className="mx-1"
+            style={{
+              height: "0.5px",
+              background: "rgba(255,255,255,0.08)",
+            }}
+          />
         </nav>
 
         {/* Get Started — immediately below the last separation line
@@ -737,21 +758,28 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
     <header
       className="nav-enter fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
-        /* When the compare-plans sticky is pinned against us, zero our
-           own glass completely so its extended backdrop is the only
-           surface rendered between y=0 and the bottom of the pinned
-           bar. When not pinned, fade in our own glass proportional to
-           scroll progress. */
-        borderColor: mergedWithPinned
-          ? "transparent"
-          : `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
-        backgroundColor: mergedWithPinned
-          ? "transparent"
-          : `rgba(0, 0, 0, ${0.55 * scrollProgress})`,
-        backdropFilter: mergedWithPinned ? "none" : `blur(${14 * scrollProgress}px)`,
-        WebkitBackdropFilter: mergedWithPinned
-          ? "none"
-          : `blur(${14 * scrollProgress}px)`,
+        /* Zero our own glass when:
+           - the compare-plans sticky is pinned (its extended
+             backdrop is already the glass surface there), OR
+           - the mobile menu is open (the full-screen black panel
+             is the only surface — a glass strip on top of it
+             would read as a visual seam across the logo/X). */
+        borderColor:
+          mergedWithPinned || mobileMenuOpen
+            ? "transparent"
+            : `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
+        backgroundColor:
+          mergedWithPinned || mobileMenuOpen
+            ? "transparent"
+            : `rgba(0, 0, 0, ${0.55 * scrollProgress})`,
+        backdropFilter:
+          mergedWithPinned || mobileMenuOpen
+            ? "none"
+            : `blur(${14 * scrollProgress}px)`,
+        WebkitBackdropFilter:
+          mergedWithPinned || mobileMenuOpen
+            ? "none"
+            : `blur(${14 * scrollProgress}px)`,
         /* Background + blur SNAP (no transition) so the merge/unmerge
            handoff with the compare-plans backdrop has no cross-fade
            window where the nav band is uncovered.
@@ -820,8 +848,9 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           </LandingCtaLink>
           {/* Hamburger ↔ X morph toggle. Two separated bars on idle;
               rotate ±45° and collapse onto the same line when the
-              menu opens, then reverse on close. Pure CSS transforms
-              so the morph is smooth and symmetric in both directions. */}
+              menu opens, then reverse on close. No background on
+              hover/press — the tap highlight is suppressed too, so
+              the control always reads as just the bars / cross. */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen((v) => !v)}
@@ -835,7 +864,8 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
                   : "Open menu"
             }
             aria-expanded={mobileMenuOpen}
-            className="relative flex h-9 w-9 items-center justify-center rounded-xl text-white/80 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
+            className="relative flex h-9 w-9 items-center justify-center text-white/80 transition-colors duration-200 hover:text-white"
+            style={{ WebkitTapHighlightColor: "transparent" }}
           >
             <span className="relative block h-[18px] w-[20px]">
               <span
