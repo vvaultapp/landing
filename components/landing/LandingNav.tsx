@@ -186,18 +186,38 @@ function MobileMenu({
           />
         </nav>
 
-        {/* Get Started — immediately below the last separation line
-            (right under Help). Small top margin so it isn't glued to
-            the border. Bottom of this element is the bottom of the
-            panel → the whole card ends here with rounded corners. */}
+        {/* Continue with Google — replaces the old Get Started CTA.
+            Grey low-opacity pill on the glass backdrop so it sits
+            into the surface rather than popping off it. Tapping it
+            sends the user straight into the Google OAuth flow,
+            which on this app is the fastest path to a live
+            account from a cold mobile visit. */}
         <div className="mt-4">
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            className="flex w-full items-center justify-center rounded-xl bg-white px-5 py-3 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+          <a
+            href="https://vvault.app/auth/google"
+            className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-white/[0.06] px-5 py-3 text-[14px] font-semibold text-white/85 transition-colors duration-200 active:bg-white/[0.09]"
+            style={{ WebkitTapHighlightColor: "transparent" }}
           >
-            {locale === "fr" ? "Commencer" : "Get Started"}
-          </LandingCtaLink>
+            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none">
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+                fill="#4285F4"
+              />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#34A853"
+              />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z"
+                fill="#FBBC05"
+              />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#EA4335"
+              />
+            </svg>
+            {locale === "fr" ? "Continuer avec Google" : "Continue with Google"}
+          </a>
         </div>
         </div>
       </div>
@@ -768,9 +788,10 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
            Otherwise (e.g. user opens the menu at scrollY=0), the
            nav would be fully transparent and leave a visible seam
            above the panel. */
-        borderColor: mergedWithPinned
-          ? "transparent"
-          : `rgba(255, 255, 255, ${0.1 * (mobileMenuOpen ? 1 : scrollProgress)})`,
+        borderColor:
+          mergedWithPinned || mobileMenuOpen
+            ? "transparent"
+            : `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
         backgroundColor: mergedWithPinned
           ? "transparent"
           : `rgba(0, 0, 0, ${0.55 * (mobileMenuOpen ? 1 : scrollProgress)})`,
