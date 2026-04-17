@@ -706,7 +706,7 @@ export default function PricingPage() {
             {plans.map((p) => (
               <Reveal
                 key={p.name}
-                className="flex w-[82vw] shrink-0 snap-center first:ml-5 last:mr-5 lg:w-auto lg:shrink lg:snap-none lg:first:ml-0 lg:last:mr-0"
+                className="flex w-[74vw] shrink-0 snap-center first:ml-5 last:mr-5 lg:w-auto lg:shrink lg:snap-none lg:first:ml-0 lg:last:mr-0"
               >
                 <div
                   className="relative flex w-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
@@ -800,9 +800,12 @@ export default function PricingPage() {
                         key={bullet}
                         className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80"
                       >
+                        {/* Check mark pulled up so its visual mid-line
+                            sits flush with the cap-height of the first
+                            line of text, not 2–3px below it. */}
                         <svg
                           viewBox="0 0 20 20"
-                          className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
+                          className="-mt-px h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
                         >
                           <path d="M5 10.5l3.5 3.5L15 7" />
                         </svg>

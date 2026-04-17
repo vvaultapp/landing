@@ -527,7 +527,12 @@ function FeatureCard({
           <ul className="mt-4 space-y-2">
             {bullets.map((bullet) => (
               <li key={bullet} className="flex items-start gap-2.5">
-                <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-emerald-400/50" />
+                {/* Dot pushed down so its center sits on the x-height
+                    of the first line of the bullet (13px × 1.625 =
+                    ~21px line-height → x-height center ≈ 10px from
+                    the top, dot ø4 ⇒ mt ≈ 8px). Previously `mt-1.5`
+                    landed ~2px above the text and read misaligned. */}
+                <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-400/50" />
                 <span className="text-[13px] leading-relaxed text-white/40">
                   {bullet}
                 </span>

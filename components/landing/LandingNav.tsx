@@ -20,7 +20,6 @@ function MobileMenu({
   locale: Locale;
 }) {
   const fr = locale === "fr";
-  const homeHref = locale === "fr" ? "/fr" : "/";
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   // Lock body scroll when open
@@ -54,13 +53,14 @@ function MobileMenu({
 
   return (
     <div
-      className="fixed inset-0 z-[60] lg:hidden"
+      className="fixed inset-x-0 top-[62px] bottom-0 z-[55] sm:top-[56px] lg:hidden"
       style={{
         pointerEvents: open ? "auto" : "none",
         visibility: open ? "visible" : "hidden",
       }}
     >
-      {/* Dim backdrop — visible bottom strip shows the page behind */}
+      {/* Dim backdrop below the panel — tap-to-close, keeps the page
+          behind dimmed but visible in the strip below the panel. */}
       <div
         className="absolute inset-0 bg-black/55"
         style={{
@@ -70,53 +70,31 @@ function MobileMenu({
         onClick={onClose}
       />
 
-      {/* Panel — sits at the top of the screen, leaves a ~32px gap at
-          the bottom so the user can still see a strip of the website
-          behind. Bottom corners are rounded; top is flush with the
-          device edge (the status bar padding still applies). */}
+      {/* Panel — starts BELOW the nav so the nav's real logo stays
+          put when the menu opens (no second fading-in logo). Sized
+          to its content, with rounded bottom corners. Full width of
+          the device. The nav above handles the hamburger→X morph. */}
       <div
-        className="absolute inset-x-0 top-0 bottom-8 flex flex-col overflow-y-auto rounded-b-[28px] bg-black px-5 pb-6 pt-[env(safe-area-inset-top)] shadow-[0_16px_48px_-8px_rgba(0,0,0,0.6)] sm:px-8"
+        className="absolute inset-x-0 top-0 overflow-y-auto rounded-b-[28px] bg-black px-5 pb-5 sm:px-8"
         style={{
+          maxHeight: "72vh",
           opacity: open ? 1 : 0,
           transform: open ? "translateY(0)" : "translateY(-8px)",
-          transition: "opacity 0.25s ease, transform 0.25s ease",
+          transition: "opacity 0.22s ease, transform 0.22s ease",
         }}
       >
-        {/* Top bar: logo + close. Logo uses the exact same styling as
-            the main nav (no small-caps override) so the two look like
-            one continuous brand surface when the menu opens. */}
-        <div className="flex h-[62px] items-center justify-between sm:h-[56px]">
-          <Link
-            href={homeHref}
-            onClick={onClose}
-            className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-white"
-            aria-label={content.ui.homepageAriaLabel}
-          >
-            vvault
-          </Link>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label={fr ? "Fermer le menu" : "Close menu"}
-            className="flex h-10 w-10 items-center justify-center rounded-xl text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
-          >
-            <svg viewBox="0 0 24 24" className="h-6 w-6 fill-none stroke-current stroke-[1.8]">
-              <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Nav items — Pricing first, then the rest in their normal
-            order. `flex-1` pushes the Get Started CTA to the bottom
-            of the panel so the tap target sits as the last action in
-            the menu, separated by generous whitespace. */}
+        {/* Nav items — Pricing first, then the rest. The first item
+            intentionally has NO top border, so the menu flows
+            directly from the nav above (they look like one surface
+            without a horizontal line between them). */}
         <nav
-          className="mt-4 flex flex-1 flex-col"
+          className="flex flex-col"
           aria-label={fr ? "Navigation mobile" : "Mobile navigation"}
         >
           {mobileNav.map((item, i) => {
             const hasChildren = item.children && item.children.length > 0;
             const isExpanded = expandedIndex === i;
+            const topBorder = i === 0 ? "" : "border-t border-white/[0.08]";
 
             if (!hasChildren) {
               return (
@@ -124,7 +102,7 @@ function MobileMenu({
                   key={item.label}
                   href={item.href}
                   onClick={onClose}
-                  className="flex items-center justify-between border-t border-white/[0.08] py-4 text-[15px] font-medium text-white/60 transition-colors duration-200 hover:text-white"
+                  className={`flex items-center justify-between py-4 text-[15px] font-medium text-white/60 transition-colors duration-200 hover:text-white ${topBorder}`}
                 >
                   {item.label}
                 </Link>
@@ -132,7 +110,7 @@ function MobileMenu({
             }
 
             return (
-              <div key={item.label} className="border-t border-white/[0.08]">
+              <div key={item.label} className={topBorder}>
                 <button
                   type="button"
                   onClick={() => setExpandedIndex(isExpanded ? null : i)}
@@ -187,11 +165,11 @@ function MobileMenu({
           <div className="border-t border-white/[0.08]" />
         </nav>
 
-        {/* Get Started — pinned to the bottom of the panel, visually
-            separated from the nav list by extra top margin so the
-            user reads it as the final step rather than just "another
-            nav item". White pill on dark, slightly shorter height. */}
-        <div className="mt-8 shrink-0">
+        {/* Get Started — immediately below the last separation line
+            (right under Help). Small top margin so it isn't glued to
+            the border. Bottom of this element is the bottom of the
+            panel → the whole card ends here with rounded corners. */}
+        <div className="mt-4">
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
@@ -840,15 +818,49 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
           </LandingCtaLink>
+          {/* Hamburger ↔ X morph toggle. Two separated bars on idle;
+              rotate ±45° and collapse onto the same line when the
+              menu opens, then reverse on close. Pure CSS transforms
+              so the morph is smooth and symmetric in both directions. */}
           <button
             type="button"
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label={fr ? "Ouvrir le menu" : "Open menu"}
-            className="flex h-9 w-9 items-center justify-center rounded-xl text-white/60 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label={
+              mobileMenuOpen
+                ? fr
+                  ? "Fermer le menu"
+                  : "Close menu"
+                : fr
+                  ? "Ouvrir le menu"
+                  : "Open menu"
+            }
+            aria-expanded={mobileMenuOpen}
+            className="relative flex h-9 w-9 items-center justify-center rounded-xl text-white/80 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white"
           >
-            <svg viewBox="0 0 20 20" className="h-5 w-5 fill-none stroke-current stroke-[1.8]">
-              <path d="M3 6h14M3 10h14M3 14h14" strokeLinecap="round" />
-            </svg>
+            <span className="relative block h-[18px] w-[20px]">
+              <span
+                className="absolute left-0 h-[1.75px] w-full rounded-full bg-current"
+                style={{
+                  top: "50%",
+                  transform: mobileMenuOpen
+                    ? "translateY(-50%) rotate(45deg)"
+                    : "translateY(-50%) translateY(-5px)",
+                  transition:
+                    "transform 300ms cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
+              />
+              <span
+                className="absolute left-0 h-[1.75px] w-full rounded-full bg-current"
+                style={{
+                  top: "50%",
+                  transform: mobileMenuOpen
+                    ? "translateY(-50%) rotate(-45deg)"
+                    : "translateY(-50%) translateY(5px)",
+                  transition:
+                    "transform 300ms cubic-bezier(0.22, 1, 0.36, 1)",
+                }}
+              />
+            </span>
           </button>
         </div>
       </div>
