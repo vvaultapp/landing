@@ -564,6 +564,7 @@ export default function PricingPage() {
     eyebrow?: string;
     price: string;
     period: string;
+    audience?: string;
     includedHeading?: string;
     bullets: readonly string[];
     cta: string;
@@ -575,9 +576,12 @@ export default function PricingPage() {
       name: "Free",
       price: "\u20ac0",
       period: "",
+      audience: fr
+        ? "Pour celles et ceux qui d\u00e9butent et veulent un endroit propre pour garder leur musique et la partager en un lien."
+        : "For anyone getting started who wants a clean home for their music and one link to share it.",
       includedHeading: undefined,
       bullets: content.pricingComparison.human.bullets,
-      cta: content.pricingUi.startFree,
+      cta: fr ? "S'inscrire maintenant" : "Sign up now",
       href: "https://vvault.app/signup",
       loggedOutHref: "https://vvault.app/signup",
       featured: false,
@@ -587,9 +591,12 @@ export default function PricingPage() {
       eyebrow: content.pricingUi.mostPopular,
       price: proPrice,
       period: "/mo",
+      audience: fr
+        ? "Pour les producteurs, artistes et labels qui veulent envoyer, vendre et tout suivre, sans limites."
+        : "For producers, artists and labels who want to send, sell and track everything, with no limits.",
       includedHeading: everythingInFreeLabel,
       bullets: content.singlePlan.bullets,
-      cta: content.singlePlan.cta,
+      cta: fr ? "Passer \u00e0 Pro" : "Get Pro now",
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=pro",
       featured: true,
@@ -598,20 +605,38 @@ export default function PricingPage() {
       name: "Ultra",
       price: ultraPrice,
       period: "/mo",
+      audience: fr
+        ? "Pour les producteurs, artistes et labels qui passent \u00e0 la vitesse sup\u00e9rieure avec tout en illimit\u00e9 et chaque avantage possible."
+        : "For producers, artists and labels going all-in with unlimited everything and every possible edge.",
       includedHeading: everythingInProLabel,
       bullets: content.pricingComparison.ai.bullets,
-      cta: content.pricingUi.upgradeUltra,
+      cta: fr ? "Passer \u00e0 Ultra" : "Get Ultra now",
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=ultra",
       featured: false,
     },
   ];
 
+  const mngmtPlan = {
+    name: "MNGMT",
+    price: fr ? "Sur mesure" : "Custom",
+    audience: fr
+      ? "Pour quelques-uns. Des services sur mesure, con\u00e7us main dans la main avec les artistes et labels qui font d\u00e9j\u00e0 bouger les lignes."
+      : "For a select few. Bespoke services, crafted hand-in-hand with the artists and labels already moving the needle.",
+    bullet: fr
+      ? "Services exclusifs pour artistes s\u00e9rieux"
+      : "Exclusive services for serious artists",
+    cta: fr ? "Contacter l'\u00e9quipe" : "Contact sales",
+    href: "mailto:sales@vvault.app",
+    note: fr ? "Sur invitation" : "By invitation",
+  };
+
   const stickyPlans = [
-    { name: "Free", price: "\u20ac0", period: "" },
-    { name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo" },
-    { name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo" },
+    { name: "Free", price: "\u20ac0", period: "", href: "https://vvault.app/signup" },
+    { name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=pro" },
+    { name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=ultra" },
   ];
+  const startedLabel = fr ? "Commencer" : "Get Started";
 
   return (
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
@@ -636,7 +661,7 @@ export default function PricingPage() {
             frequency={1}
             warpStrength={1}
             mouseInfluence={0}
-            noise={0.15}
+            noise={0}
             parallax={0.5}
             iterations={1}
             intensity={1.5}
@@ -665,7 +690,7 @@ export default function PricingPage() {
                 {locale === "fr" ? "Tarifs" : "Pricing"}
               </h1>
               <p className="mt-3 text-[15px] text-white/45 sm:text-base">
-                {locale === "fr" ? "Commence gratuitement et grandis \u00e0 ton rythme." : "Start for free and scale as you grow."}
+                {locale === "fr" ? "Inscris-toi, annule quand tu veux." : "Sign up now, cancel anytime."}
               </p>
 
               {/* Toggle */}
@@ -712,7 +737,7 @@ export default function PricingPage() {
               near-vertical drag on a card doesn't jiggle the row. */}
           <Reveal className="mt-12 block">
             <div
-              className="pricing-card-scroll -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:snap-none"
+              className="pricing-card-scroll -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:p-0 lg:snap-none"
               style={{
                 WebkitOverflowScrolling: "touch",
                 /* Explicitly allow BOTH horizontal and vertical pan so
@@ -728,29 +753,38 @@ export default function PricingPage() {
                 overscrollBehaviorX: "contain",
               }}
             >
-            {plans.map((p) => (
+            {plans.map((p) => {
+              const cardBg = p.featured
+                ? "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(10,10,13,1) 100%)"
+                : "linear-gradient(180deg, rgba(10,10,12,1) 0%, rgba(6,6,8,1) 100%)";
+              const fadeMask =
+                "linear-gradient(to bottom, black 0%, black 45%, rgba(0,0,0,0.35) 80%, transparent 100%)";
+              return (
               <div
                 key={p.name}
                 className="flex w-[74vw] shrink-0 snap-center lg:w-auto lg:shrink lg:snap-none"
               >
-                <div
-                  className="relative flex w-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
-                  style={{
-                    background: p.featured
-                      ? "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(10,10,13,1) 100%)"
-                      : p.name === "Ultra"
-                        ? "linear-gradient(180deg, rgba(18,14,28,0.98) 0%, rgba(6,4,12,1) 100%)"
-                        : "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
-                  }}
-                >
+                <div className="relative flex w-full flex-col overflow-hidden rounded-2xl">
+                  {/* Card body background — its own layer so we can mask
+                      the fade-out (bottom on normal cards, right on MNGMT)
+                      without affecting the content above. */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 rounded-[inherit]"
+                    style={{
+                      background: cardBg,
+                      maskImage: fadeMask,
+                      WebkitMaskImage: fadeMask,
+                    }}
+                  />
+                  {/* Border overlay — follows the same mask so the outline
+                      also dissolves into the page. */}
                   <div
                     className="pointer-events-none absolute inset-0 rounded-[inherit]"
                     style={{
                       border: p.featured
                         ? "1px solid rgba(255,255,255,0.18)"
-                        : p.name === "Ultra"
-                          ? "1px solid rgba(168,130,255,0.12)"
-                          : "1px solid rgba(255,255,255,0.06)",
+                        : "1px solid rgba(255,255,255,0.08)",
                       borderBottom: "none",
                       maskImage:
                         "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
@@ -763,12 +797,9 @@ export default function PricingPage() {
                     style={{
                       background: p.featured
                         ? "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 15%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.1) 85%, transparent 100%)"
-                        : p.name === "Ultra"
-                          ? "linear-gradient(90deg, transparent 0%, rgba(168,130,255,0.08) 15%, rgba(168,130,255,0.25) 50%, rgba(168,130,255,0.08) 85%, transparent 100%)"
-                          : "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
+                        : "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 15%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0.05) 85%, transparent 100%)",
                     }}
                   />
-                  {/* Pro glow — bright white */}
                   {p.featured && (
                     <div
                       className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[200px] w-[500px]"
@@ -778,17 +809,8 @@ export default function PricingPage() {
                       }}
                     />
                   )}
-                  {/* Ultra glow — purple accent */}
-                  {p.name === "Ultra" && (
-                    <div
-                      className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[160px] w-[420px]"
-                      style={{
-                        background:
-                          "radial-gradient(ellipse at center, rgba(168,130,255,0.07) 0%, transparent 70%)",
-                      }}
-                    />
-                  )}
 
+                  <div className="relative z-10 flex flex-1 flex-col p-6 sm:p-8">
                   <h3 className="flex h-8 items-baseline gap-2 text-2xl font-semibold text-white">
                     {p.name}
                     {p.eyebrow && (
@@ -806,42 +828,12 @@ export default function PricingPage() {
                       <span className="text-base text-white/40">{p.period}</span>
                     )}
                   </div>
-                  <div
-                    className="mt-4 h-px w-full"
-                    style={{ background: "rgba(255,255,255,0.06)" }}
-                  />
 
-                  {/* Features — checks (included). Tight spacing under the
-                      divider so the bullets read as part of the plan card
-                      rather than floating a paragraph-break below it. */}
-                  {p.includedHeading && (
-                    <p className="mt-4 text-[12px] font-semibold uppercase tracking-wider text-white/40">
-                      {p.includedHeading}
-                    </p>
-                  )}
-                  <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-4"}`}>
-                    {p.bullets.map((bullet, bi) => (
-                      <li
-                        key={bullet}
-                        className={`flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80 ${
-                          bi >= 4 ? "hidden lg:flex" : ""
-                        }`}
-                      >
-                        {/* Check mark pulled up so its visual mid-line
-                            sits flush with the cap-height of the first
-                            line of text, not 2–3px below it. */}
-                        <svg
-                          viewBox="0 0 20 20"
-                          className="-mt-px h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
-                        >
-                          <path d="M5 10.5l3.5 3.5L15 7" />
-                        </svg>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p className="mt-4 min-h-[2.8em] text-[13px] leading-snug text-white/55">
+                    {p.audience || "\u00A0"}
+                  </p>
 
-                  <div className="mt-auto pt-6 lg:pt-10">
+                  <div className="mt-5">
                     <LandingCtaLink
                       loggedInHref={p.href}
                       loggedOutHref={p.loggedOutHref || p.href}
@@ -851,17 +843,108 @@ export default function PricingPage() {
                           : "bg-white/[0.06] text-white hover:bg-white/[0.1] focus-visible:ring-white/20"
                       }`}
                     >
-                      {p.cta} <span className="ml-1.5">&rarr;</span>
+                      {p.cta}
                     </LandingCtaLink>
-                    <p className="mt-2.5 text-center text-[11px] text-white/25">
-                      {p.period
-                        ? (locale === "fr" ? "Annule quand tu veux" : "Cancel anytime")
-                        : (locale === "fr" ? "Aucune carte requise" : "No credit card required")}
+                  </div>
+
+                  {p.includedHeading && (
+                    <p className="mt-8 text-[12.5px] font-medium text-white/50">
+                      {p.includedHeading}
                     </p>
+                  )}
+                  <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-8"}`}>
+                    {p.bullets.map((bullet, bi) => (
+                      <li
+                        key={bullet}
+                        className={`flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80 ${bi >= 4 ? "hidden lg:flex" : ""}`}
+                      >
+                        <svg
+                          viewBox="0 0 20 20"
+                          className="mt-0 h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
+                        >
+                          <path d="M5 10.5l3.5 3.5L15 7" />
+                        </svg>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-auto flex justify-start pt-8">
+                    <a
+                      href="#compare-plans"
+                      className="text-[13px] text-white/55 underline underline-offset-4 decoration-white/30 transition-colors duration-200 hover:text-white hover:decoration-white/60"
+                    >
+                      {locale === "fr" ? "Voir plus" : "View more"}
+                    </a>
+                  </div>
                   </div>
                 </div>
               </div>
-            ))}
+            );
+            })}
+            </div>
+          </Reveal>
+
+          {/* MNGMT — wide horizontal card beneath the 3 plan columns.
+              Glassmorphism (same recipe as the pinned nav:
+              rgba(0,0,0,0.55) + blur(14px)) over the almost-black card
+              base. No outline, no mask-fade — clean edges. */}
+          <Reveal className="mt-16 block sm:mt-20">
+            <div
+              className="relative mx-auto w-[74vw] overflow-hidden rounded-2xl sm:w-auto"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(205, 212, 225, 0.08) 0%, rgba(12, 12, 16, 0.55) 55%, rgba(10, 10, 13, 0.55) 100%)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+              }}
+            >
+              <div className="relative z-10 flex flex-col gap-8 px-7 py-9 sm:flex-row sm:items-center sm:justify-between sm:gap-12 sm:px-10 sm:py-10">
+                <div className="min-w-0 flex-1">
+                  <h3
+                    className="inline-block text-[15px] leading-none text-white/90"
+                    style={{
+                      fontFamily:
+                        "Geist, ui-sans-serif, system-ui, -apple-system, sans-serif",
+                      fontWeight: 300,
+                      letterSpacing: "0.42em",
+                      maskImage:
+                        "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%)",
+                      WebkitMaskImage:
+                        "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%)",
+                    }}
+                  >
+                    {mngmtPlan.name}
+                  </h3>
+                  <p className="mt-5 max-w-[620px] text-[14.5px] leading-relaxed text-white/55 sm:text-[15px]">
+                    {mngmtPlan.audience}
+                  </p>
+                  <LandingCtaLink
+                    loggedInHref={mngmtPlan.href}
+                    loggedOutHref={mngmtPlan.href}
+                    className="mt-5 inline-flex items-center justify-center rounded-2xl bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
+                  >
+                    {mngmtPlan.cta}
+                  </LandingCtaLink>
+                  <div className="mt-5 flex items-center gap-2 text-[13px] text-white/50">
+                    <svg
+                      viewBox="0 0 20 20"
+                      className="-mt-px h-[16px] w-[16px] shrink-0 fill-none stroke-white/35 stroke-[2.2]"
+                    >
+                      <path d="M5 10.5l3.5 3.5L15 7" />
+                    </svg>
+                    <span>{mngmtPlan.bullet}</span>
+                  </div>
+                </div>
+                <div className="shrink-0 sm:text-right">
+                  <p className="text-[13px] text-white/30">
+                    {fr ? "Tarif" : "Pricing"}
+                  </p>
+                  <p className="mt-1 text-[20px] font-medium text-white/75">
+                    {mngmtPlan.price}
+                  </p>
+                </div>
+              </div>
             </div>
           </Reveal>
 
@@ -878,10 +961,12 @@ export default function PricingPage() {
                   {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                 </span>
                 <svg
+                  aria-hidden
                   viewBox="0 0 20 20"
-                  className="h-6 w-6 fill-none stroke-current stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-y-1.5 sm:h-7 sm:w-7"
+                  className="h-6 w-6 fill-none stroke-current stroke-[1.8] transform-gpu transition-transform duration-200 ease-out group-hover:translate-y-1.5 sm:h-7 sm:w-7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  style={{ willChange: "transform" }}
                 >
                   <path d="M10 4v12M4 10l6 6 6-6" />
                 </svg>
@@ -898,7 +983,7 @@ export default function PricingPage() {
             nav. When stuck, the sticky uses the *same* glassmorphic
             styling as the nav (rgba(0,0,0,0.55) + blur(14px)) so the
             two bars visually merge into one continuous strip. */}
-        <div id="compare-plans" className="mt-28 sm:mt-36">
+        <div id="compare-plans" className="mt-28 scroll-mt-[62px] sm:mt-36 sm:scroll-mt-[56px]">
           {/* Sticky big header — position:sticky pins it at top:navHeight,
               so the primary nav stays visible above it. When pinned, the
               nav's bottom border is faded out via the `compare-pinned`
@@ -967,8 +1052,10 @@ export default function PricingPage() {
                     </span>
                   </div>
                 </div>
-                {/* Plan columns — 3-col on mobile (rendered below the title),
-                    desktop uses the parent grid's remaining 3 columns. */}
+                {/* Plan columns — 3-col on mobile (Free/Pro/Ultra only, no
+                    MNGMT in the mobile sticky to keep it readable). Desktop
+                    uses the parent grid's remaining 4 columns and adds a
+                    white Get Started button under each plan. */}
                 <div className="mt-6 grid grid-cols-3 gap-0 sm:mt-0 sm:contents">
                   {stickyPlans.map((p) => (
                     <div key={p.name} className="pl-1 sm:pl-3">
@@ -983,17 +1070,27 @@ export default function PricingPage() {
                       </p>
                       <p className="mt-0.5 text-[9.5px] leading-snug text-white/40 sm:mt-1 sm:text-[11px]">
                         {p.period
-                          ? locale === "fr"
+                          ? fr
                             ? annual
                               ? "Par mois, facturé à l'année"
                               : "Par mois, facturé au mois"
                             : annual
                               ? "Per month, billed yearly"
                               : "Per month, billed monthly"
-                          : locale === "fr"
+                          : fr
                             ? "Toujours gratuit"
                             : "Free forever"}
                       </p>
+                      {/* Desktop-only white Get Started button under each
+                          plan in the compare-plans header. Hidden on
+                          mobile so the sticky strip stays compact there. */}
+                      <LandingCtaLink
+                        loggedInHref={p.href}
+                        loggedOutHref={p.href}
+                        className="mt-3 hidden w-full items-center justify-center rounded-xl bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 sm:inline-flex"
+                      >
+                        {startedLabel}
+                      </LandingCtaLink>
                     </div>
                   ))}
                 </div>

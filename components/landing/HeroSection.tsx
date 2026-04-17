@@ -795,6 +795,8 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
               style={{
                 background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
                 boxShadow: "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
+                transform: "translateZ(0)",
+                willChange: "filter",
               }}
             >
               {/* Inline transform:none lock so the SVG can't inherit

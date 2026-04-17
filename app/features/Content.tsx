@@ -580,7 +580,7 @@ export default function FeaturesPage() {
             frequency={1}
             warpStrength={1}
             mouseInfluence={0}
-            noise={0.15}
+            noise={0}
             parallax={0.5}
             iterations={1}
             intensity={1.5}

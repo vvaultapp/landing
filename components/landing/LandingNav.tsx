@@ -697,7 +697,7 @@ function StudioFeaturedCard({
   return (
     <Link
       href={href}
-      className="group relative flex flex-1 flex-col overflow-hidden rounded-[14px] border border-white/[0.08] transition-colors duration-200 hover:border-white/[0.2]"
+      className="group relative flex flex-1 flex-col overflow-hidden rounded-[14px]"
       style={{
         background: "linear-gradient(180deg, #0c0c10 0%, #060609 100%)",
       }}
@@ -735,13 +735,6 @@ function StudioFeaturedCard({
         style={{
           background:
             "radial-gradient(ellipse 130% 110% at 50% 50%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.1) 45%, transparent 75%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          boxShadow: "inset 0 0 0 1px rgba(255,255,255,0.18)",
         }}
       />
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-2 px-4 py-8">

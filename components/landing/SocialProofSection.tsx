@@ -191,6 +191,18 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
         <Reveal>
           {/* Outer container */}
           <div className="relative overflow-hidden rounded-[20px] sm:rounded-[24px]">
+            {/* Background layer — hard black, with a bottom fade so the card
+                dissolves into the page rather than showing a hard edge. */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-black"
+              style={{
+                maskImage:
+                  "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
+              }}
+            />
             {/* Top center glow — bigger, lower opacity */}
             <div
               className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[160px] w-[500px] sm:h-[200px] sm:w-[650px]"
@@ -231,7 +243,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
               </a>
 
               {/* Review cards */}
-              <div className="mt-8 grid h-[140px] grid-cols-1 gap-4 sm:h-[180px] sm:grid-cols-3 sm:gap-6">
+              <div className="mt-8 grid min-h-[200px] grid-cols-1 gap-4 sm:min-h-[180px] sm:grid-cols-3 sm:gap-6">
                 {currentPair.map((review, i) => (
                   <ReviewCard key={`${pairIndex}-${review.name}`} review={review} state={state} className={i > 0 ? "hidden sm:flex" : ""} />
                 ))}
