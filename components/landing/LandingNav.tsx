@@ -766,12 +766,15 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
         WebkitBackdropFilter: mergedWithPinned
           ? "none"
           : `blur(${14 * scrollProgress}px)`,
-        /* No CSS transition here. scrollProgress updates at ~60fps on
-           scroll so the initial glass fade-in stays smooth on its own,
-           and toggling `mergedWithPinned` needs to be INSTANT — any
-           transition leaves a ~150ms window where neither the nav nor
-           the compare-plans backdrop is fully opaque, showing a bare
-           black strip for the nav as the user scrolls past the table. */
+        /* Background + blur SNAP (no transition) so the merge/unmerge
+           handoff with the compare-plans backdrop has no cross-fade
+           window where the nav band is uncovered.
+           BUT the border-color (the nav's bottom separation line) is
+           transitioned — it's fine to fade this one smoothly because
+           the border has no interaction with the compare-plans
+           backdrop (which has no border of its own), and snapping the
+           line on when the sticky rides up reads as an abrupt flicker. */
+        transition: "border-color 0.3s ease",
       }}
     >
       <div className="mx-auto flex h-[62px] w-full max-w-[1320px] items-center px-5 sm:h-[56px] sm:px-8 lg:px-10">

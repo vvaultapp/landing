@@ -480,7 +480,19 @@ export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
   const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
+  /* Two separate flags for two separate concerns:
+     - `stuck`  — the compare-plans sticky is in its pinned/ride-up
+       phase. Its glass backdrop should be ON whenever any part of
+       the sticky is still showing content in/above the nav band,
+       so the backdrop smoothly trails the sticky through ride-up
+       instead of vanishing the moment the sticky is no longer
+       flush against the nav.
+     - `merged` — the sticky is FLUSH with the nav bottom (true pin).
+       Only in this narrow state do we want the nav to drop its own
+       glass so we don't stack two translucent surfaces. Outside of
+       it the nav shows its normal scrolled glass + border. */
   const [stuck, setStuck] = useState(false);
+  const [merged, setMerged] = useState(false);
   const staticHeaderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -501,21 +513,22 @@ export default function PricingPage() {
       const rect = node.getBoundingClientRect();
       // Nav is 62px on mobile, 56px from the `sm` breakpoint upward.
       const navHeight = window.innerWidth >= 640 ? 56 : 62;
-      /* Merge with the nav ONLY while the sticky is actually stuck
-         at y=navHeight — i.e. the moment of true pin. As soon as
-         the parent #compare-plans container's bottom reaches the
-         sticky and starts pushing it upward, rect.top goes below
-         navHeight; during that ride-up the sticky's content (the
-         big "Compare plans" title + plan columns) visually bleeds
-         into the nav area. If we stayed merged then, the nav would
-         remain transparent and its text would overlap the sticky's
-         title. So we flip back to un-merged the instant rect.top
-         drops below navHeight — the nav reclaims its own glass and
-         covers the sticky content cleanly until the sticky scrolls
-         fully above the nav. */
-      const isPinned =
+      /* `isStuck` — sticky is in pin-or-ride-up mode. True from the
+         moment its top reaches navHeight until its bottom scrolls
+         above y=0. This is the window during which its glass
+         backdrop should be visible: either covering the nav area
+         (pinned) or providing glass behind the sticky's remaining
+         content below the nav (ride-up). */
+      const isStuck = rect.top <= navHeight + 0.5 && rect.bottom > 0;
+      /* `isMerged` — the narrow slice where the sticky is FLUSH
+         with the nav. Only here do we want the nav's own glass to
+         disappear so the two don't stack. The instant the sticky
+         starts riding up, the nav reclaims its glass and the
+         backdrop continues handling the sticky's lower region. */
+      const isMerged =
         rect.top >= navHeight - 0.5 && rect.top <= navHeight + 0.5;
-      setStuck(isPinned);
+      setStuck(isStuck);
+      setMerged(isMerged);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -526,10 +539,13 @@ export default function PricingPage() {
     };
   }, []);
 
-  // Toggle the body class that hides the nav's bottom border while the
-  // Compare-plans bar is pinned, so the two bars merge seamlessly.
+  // Toggle the body class that hides the nav's glass + bottom border
+  // while the Compare-plans bar is flush with the nav (true merge),
+  // so the two surfaces don't stack. Driven by `merged`, NOT `stuck`
+  // — `stuck` stays true through ride-up so the backdrop keeps
+  // rendering behind the sticky's lower portion.
   useEffect(() => {
-    if (stuck) {
+    if (merged) {
       document.body.classList.add("compare-pinned");
     } else {
       document.body.classList.remove("compare-pinned");
@@ -537,7 +553,7 @@ export default function PricingPage() {
     return () => {
       document.body.classList.remove("compare-pinned");
     };
-  }, [stuck]);
+  }, [merged]);
 
   const fr = locale === "fr";
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
