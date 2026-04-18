@@ -859,12 +859,16 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
             >
               <span
                 className="pointer-events-none flex items-center gap-1.5 transition-transform duration-300 ease-out"
-                style={{ transform: logoHovered ? "translateX(24px)" : "translateX(0)" }}
+                style={{
+                  transform: logoHovered ? "translate3d(24px, 0, 0)" : "translate3d(0, 0, 0)",
+                  willChange: "transform",
+                  backfaceVisibility: "hidden",
+                }}
               >
-                <span className="font-bold tracking-[0.12em] text-[#111]" style={{ fontVariantCaps: "all-small-caps", fontSize: "27px", lineHeight: 1 }}>
-                  vvault
+                <span className="font-semibold text-[#111]" style={{ fontSize: "20px", lineHeight: 1, letterSpacing: "0.14em" }}>
+                  VVAULT
                 </span>
-                <span className="font-semibold text-[#111]" style={{ fontSize: "18px", lineHeight: 1, position: "relative", top: "4px" }}>
+                <span className="font-semibold text-[#111]" style={{ fontSize: "20px", lineHeight: 1 }}>
                   Docs
                 </span>
               </span>
@@ -874,9 +878,11 @@ export default function DocsLayout({ children }: { children: React.ReactNode }) 
                 aria-hidden="true"
                 className="pointer-events-none absolute left-0 top-1/2 flex items-center whitespace-nowrap rounded-xl text-[#999] transition-all duration-300 ease-out"
                 style={{
-                  transform: logoHovered ? "translateY(calc(-50% + 2px)) translateX(0)" : "translateY(calc(-50% + 2px)) translateX(12px)",
+                  transform: logoHovered ? "translate3d(0, calc(-50% + 1px), 0)" : "translate3d(12px, calc(-50% + 1px), 0)",
                   opacity: logoHovered ? 1 : 0,
                   filter: logoHovered ? "blur(0px)" : "blur(4px)",
+                  willChange: "transform, opacity, filter",
+                  backfaceVisibility: "hidden",
                 }}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
