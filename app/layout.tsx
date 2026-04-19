@@ -17,12 +17,36 @@ const geist = Geist({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://get.vvault.app"),
   title: "vvault | Send, Sell & Track Your Beats",
   description:
     "The beat selling platform for producers. Upload beats, send to labels & artists, track opens and plays, run campaigns, and sell with instant checkout.",
   icons: {
     icon: "/favicon.png",
     apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    type: "website",
+    siteName: "vvault",
+    title: "vvault | Send, Sell & Track Your Beats",
+    description:
+      "The beat selling platform for producers. Upload beats, send to labels & artists, track opens and plays, run campaigns, and sell with instant checkout.",
+    url: "https://get.vvault.app",
+    images: [
+      {
+        url: "/vvault-iOS-Default-1024x1024@1x.png",
+        width: 1024,
+        height: 1024,
+        alt: "vvault",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "vvault | Send, Sell & Track Your Beats",
+    description:
+      "The beat selling platform for producers. Upload beats, send to labels & artists, track opens and plays, run campaigns, and sell with instant checkout.",
+    images: ["/vvault-iOS-Default-1024x1024@1x.png"],
   },
 };
 
