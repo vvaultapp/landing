@@ -581,7 +581,7 @@ export default function PricingPage() {
         : "For anyone getting started who wants a clean home for their music and one link to share it.",
       includedHeading: undefined,
       bullets: content.pricingComparison.human.bullets,
-      cta: fr ? "S'inscrire maintenant" : "Sign up now",
+      cta: fr ? "S'inscrire" : "Sign up",
       href: "https://vvault.app/signup",
       loggedOutHref: "https://vvault.app/signup",
       featured: false,
@@ -596,7 +596,7 @@ export default function PricingPage() {
         : "For producers, artists and labels who want to send, sell and track everything, with no limits.",
       includedHeading: everythingInFreeLabel,
       bullets: content.singlePlan.bullets,
-      cta: fr ? "Passer \u00e0 Pro" : "Get Pro now",
+      cta: fr ? "Rejoindre Pro" : "Join Pro now",
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=pro",
       featured: true,
@@ -610,7 +610,7 @@ export default function PricingPage() {
         : "For producers, artists and labels going all-in with unlimited everything and every possible edge.",
       includedHeading: everythingInProLabel,
       bullets: content.pricingComparison.ai.bullets,
-      cta: fr ? "Passer \u00e0 Ultra" : "Get Ultra now",
+      cta: fr ? "Rejoindre Ultra" : "Join Ultra now",
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=ultra",
       featured: false,
@@ -754,70 +754,45 @@ export default function PricingPage() {
               }}
             >
             {plans.map((p) => {
+              // Non-featured cards: flat almost-black gradient. Pro uses
+              // the silver glassmorphism recipe lifted from the old MNGMT
+              // horizontal card (silver top-left highlight on a dark
+              // semi-transparent base + 14px backdrop blur).
               const cardBg = p.featured
-                ? "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(10,10,13,1) 100%)"
+                ? "linear-gradient(135deg, rgba(230, 236, 248, 0.20) 0%, rgba(34, 36, 44, 0.78) 55%, rgba(26, 26, 32, 0.78) 100%)"
                 : "linear-gradient(180deg, rgba(10,10,12,1) 0%, rgba(6,6,8,1) 100%)";
-              const fadeMask =
-                "linear-gradient(to bottom, black 0%, black 45%, rgba(0,0,0,0.35) 80%, transparent 100%)";
               return (
               <div
                 key={p.name}
                 className="flex w-[74vw] shrink-0 snap-center lg:w-auto lg:shrink lg:snap-none"
               >
-                <div className="relative flex w-full flex-col overflow-hidden rounded-2xl">
-                  {/* Card body background — its own layer so we can mask
-                      the fade-out (bottom on normal cards, right on MNGMT)
-                      without affecting the content above. */}
-                  <div
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 rounded-[inherit]"
-                    style={{
-                      background: cardBg,
-                      maskImage: fadeMask,
-                      WebkitMaskImage: fadeMask,
-                    }}
-                  />
-                  {/* Border overlay — follows the same mask so the outline
-                      also dissolves into the page. */}
-                  <div
-                    className="pointer-events-none absolute inset-0 rounded-[inherit]"
-                    style={{
-                      border: p.featured
-                        ? "1px solid rgba(255,255,255,0.18)"
-                        : "1px solid rgba(255,255,255,0.08)",
-                      borderBottom: "none",
-                      maskImage:
-                        "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-                      WebkitMaskImage:
-                        "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-                    }}
-                  />
-                  <div
-                    className="pointer-events-none absolute inset-x-0 top-0 h-px"
-                    style={{
-                      background: p.featured
-                        ? "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 15%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.1) 85%, transparent 100%)"
-                        : "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 15%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0.05) 85%, transparent 100%)",
-                    }}
-                  />
+                <div
+                  className="relative flex w-full flex-col rounded-2xl"
+                  style={{
+                    background: cardBg,
+                    border: p.featured
+                      ? "1px solid rgba(255,255,255,1)"
+                      : "1px solid rgba(255,255,255,0.08)",
+                    backdropFilter: p.featured ? "blur(14px)" : undefined,
+                    WebkitBackdropFilter: p.featured ? "blur(14px)" : undefined,
+                  }}
+                >
+                  {/* "Most popular" badge — sits on the top outline of the
+                      featured card. Badge border matches card border so the
+                      two outlines visually merge into one continuous shape;
+                      badge background matches the page so the card's top
+                      border appears broken where the badge sits. */}
                   {p.featured && (
-                    <div
-                      className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[200px] w-[500px]"
-                      style={{
-                        background:
-                          "radial-gradient(ellipse at center, rgba(255,255,255,0.09) 0%, transparent 70%)",
-                      }}
-                    />
+                    <div className="pointer-events-none absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
+                      <div className="whitespace-nowrap rounded-full border border-white bg-black px-3 py-1 text-[11px] font-medium text-white">
+                        {locale === "fr" ? "Le plus populaire" : "Most popular"}
+                      </div>
+                    </div>
                   )}
 
                   <div className="relative z-10 flex flex-1 flex-col p-6 sm:p-8">
                   <h3 className="flex h-8 items-baseline gap-2 text-2xl font-semibold text-white">
                     {p.name}
-                    {p.eyebrow && (
-                      <span className="text-[11px] font-medium text-white/40">
-                        {p.eyebrow}
-                      </span>
-                    )}
                   </h3>
 
                   <div className="mt-4 flex items-baseline gap-1">
