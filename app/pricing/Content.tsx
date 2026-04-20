@@ -759,7 +759,7 @@ export default function PricingPage() {
               // horizontal card (silver top-left highlight on a dark
               // semi-transparent base + 14px backdrop blur).
               const cardBg = p.featured
-                ? "linear-gradient(135deg, rgba(230, 236, 248, 0.20) 0%, rgba(34, 36, 44, 0.78) 55%, rgba(26, 26, 32, 0.78) 100%)"
+                ? "linear-gradient(135deg, rgba(220, 228, 242, 0.12) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)"
                 : "linear-gradient(180deg, rgba(10,10,12,1) 0%, rgba(6,6,8,1) 100%)";
               return (
               <div
@@ -784,7 +784,21 @@ export default function PricingPage() {
                       border appears broken where the badge sits. */}
                   {p.featured && (
                     <div className="pointer-events-none absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
-                      <div className="whitespace-nowrap rounded-full border border-white bg-black px-3 py-1 text-[11px] font-medium text-white">
+                      <div
+                        className="whitespace-nowrap rounded-full border border-white px-3 py-1 text-[11px] font-medium text-white"
+                        style={{
+                          /* Same silver-on-dark glassmorphism recipe as the
+                             Pro card fill so the pill reads as part of the
+                             same surface. Black underlay keeps it opaque on
+                             the page so the card's top border appears broken
+                             where the badge sits. */
+                          backgroundColor: "#000",
+                          backgroundImage:
+                            "linear-gradient(135deg, rgba(220, 228, 242, 0.12) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)",
+                          backdropFilter: "blur(14px)",
+                          WebkitBackdropFilter: "blur(14px)",
+                        }}
+                      >
                         {locale === "fr" ? "Le plus populaire" : "Most popular"}
                       </div>
                     </div>
