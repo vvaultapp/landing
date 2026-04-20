@@ -621,11 +621,11 @@ export default function PricingPage() {
     name: "MNGMT",
     price: fr ? "Sur mesure" : "Custom",
     audience: fr
-      ? "Pour quelques-uns. Des services sur mesure, con\u00e7us main dans la main avec les artistes et labels qui font d\u00e9j\u00e0 bouger les lignes."
-      : "For a select few. Bespoke services, crafted hand-in-hand with the artists and labels already moving the needle.",
+      ? "Pour quelques-uns. Des services sur mesure, con\u00e7us main dans la main avec les beatmakers qui font d\u00e9j\u00e0 bouger les lignes."
+      : "For a select few. Bespoke services, crafted hand-in-hand with the beatmakers already moving the needle.",
     bullet: fr
-      ? "Services exclusifs pour artistes s\u00e9rieux"
-      : "Exclusive services for serious artists",
+      ? "Services exclusifs pour beatmakers s\u00e9rieux"
+      : "Exclusive services for serious beatmakers",
     cta: fr ? "Contacter l'\u00e9quipe" : "Contact sales",
     href: "mailto:sales@vvault.app",
     note: fr ? "Sur invitation" : "By invitation",
@@ -770,11 +770,19 @@ export default function PricingPage() {
                   className="relative flex w-full flex-col rounded-2xl"
                   style={{
                     background: cardBg,
-                    border: p.featured
-                      ? "1px solid rgba(255,255,255,1)"
-                      : "1px solid rgba(255,255,255,0.08)",
+                    /* Featured: use inset box-shadow instead of border. On
+                       backdrop-filtered elements, a painted `border` picks
+                       up subpixel jitter from the blur pass and reads as
+                       "rough"/pixelated. box-shadow paints on the compositor
+                       layer and antialiases smoothly. Paired with
+                       translateZ(0) to force GPU promotion. */
+                    boxShadow: p.featured
+                      ? "inset 0 0 0 1px rgba(255,255,255,1)"
+                      : "inset 0 0 0 1px rgba(255,255,255,0.08)",
                     backdropFilter: p.featured ? "blur(14px)" : undefined,
                     WebkitBackdropFilter: p.featured ? "blur(14px)" : undefined,
+                    transform: p.featured ? "translateZ(0)" : undefined,
+                    WebkitFontSmoothing: "antialiased",
                   }}
                 >
                   {/* "Most popular" badge — sits on the top outline of the
