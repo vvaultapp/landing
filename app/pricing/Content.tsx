@@ -737,7 +737,7 @@ export default function PricingPage() {
               near-vertical drag on a card doesn't jiggle the row. */}
           <Reveal className="mt-12 block">
             <div
-              className="pricing-card-scroll -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:p-0 lg:snap-none"
+              className="pricing-card-scroll -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] pt-5 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:p-0 lg:pt-0 lg:snap-none"
               style={{
                 WebkitOverflowScrolling: "touch",
                 /* Explicitly allow BOTH horizontal and vertical pan so
@@ -758,8 +758,16 @@ export default function PricingPage() {
               // the silver glassmorphism recipe lifted from the old MNGMT
               // horizontal card (silver top-left highlight on a dark
               // semi-transparent base + 14px backdrop blur).
+              // Featured uses a radial highlight centered at top-center
+              // instead of a 135° linear (which put silver at top-LEFT).
+              // In the mobile snap carousel, Pro sits to the right of Free
+              // — so Pro's left edge peeks in when Free is centered. A
+              // top-left silver highlight means the brightest part is
+              // exactly what bleeds through. Centering the highlight at
+              // the top keeps the left and right edges dark, so Pro's
+              // neighbors don't see a glow.
               const cardBg = p.featured
-                ? "linear-gradient(135deg, rgba(220, 228, 242, 0.10) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)"
+                ? "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(220, 228, 242, 0.16) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)"
                 : "linear-gradient(180deg, rgba(10,10,12,1) 0%, rgba(6,6,8,1) 100%)";
               return (
               <div
@@ -870,7 +878,7 @@ export default function PricingPage() {
                         style={{
                           backgroundColor: "#000",
                           backgroundImage:
-                            "linear-gradient(135deg, rgba(220, 228, 242, 0.10) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)",
+                            "linear-gradient(180deg, rgba(220, 228, 242, 0.16) 0%, rgba(20, 22, 28, 0.62) 100%)",
                           backdropFilter: "blur(14px)",
                           WebkitBackdropFilter: "blur(14px)",
                         }}
