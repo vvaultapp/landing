@@ -635,7 +635,7 @@ function HeroLiveStats({
   return (
     <div className="hero-seq-item pt-40 pb-16 sm:pt-48 sm:pb-20 lg:pt-56 lg:pb-24" style={{ animationDelay: "1480ms" }}>
       <div className="flex justify-center">
-        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-4 gap-y-8 text-center sm:grid-cols-4 sm:gap-x-8 sm:gap-y-7">
+        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-4 gap-y-14 text-center sm:grid-cols-4 sm:gap-x-8 sm:gap-y-7">
           {statCards.map((card) => (
             <div key={card.key} className="flex flex-col items-center justify-center">
               <StatEmblem statKey={card.key} />
