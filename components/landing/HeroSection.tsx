@@ -774,7 +774,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
               </div>
             ) : null}
 
-            <h1 className="font-display text-[2.55rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
+            <h1 className="font-display text-[2.25rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
               <span className="hero-line-reveal" style={{ animationDelay: "60ms" }}>
                 {content.hero.title[0]}
               </span>
