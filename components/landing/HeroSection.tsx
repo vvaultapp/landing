@@ -434,13 +434,18 @@ function HeroTrustedBy({
             );
           })}
         </div>
-        <p className="text-[11.5px] text-white/85 sm:text-base">
+        <p className="text-sm text-white/85 sm:text-base">
           {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
           <span className="font-bold text-white">
             {loaded ? numberFormatter.format(usersTotal) : "…"}
           </span>{" "}
           <span>{locale === "fr" ? "artistes & beatmakers" : "artists & producers"}</span>
-          <span className="ml-1 text-white/55">{locale === "fr" ? "que tu connais sûrement" : "you probably know"}</span>
+          {/* Force a line break on mobile so the line reads:
+              "Used by X artists & producers"
+              "you probably know"
+              On desktop the fragment stays inline. */}
+          <br className="sm:hidden" />
+          <span className="text-white/55 sm:ml-1">{locale === "fr" ? "que tu connais sûrement" : "you probably know"}</span>
         </p>
       </div>
     </div>
@@ -448,7 +453,7 @@ function HeroTrustedBy({
 }
 
 function StatEmblemIcon({ statKey }: { statKey: string }) {
-  const iconClass = "h-10 w-10 sm:h-12 sm:w-12";
+  const iconClass = "h-12 w-12";
   const gradId = `icon-grad-${statKey}`;
 
   const grad = (
@@ -513,7 +518,7 @@ function StatEmblemIcon({ statKey }: { statKey: string }) {
 function StatEmblem({ statKey }: { statKey: string }) {
   return (
     <div
-      className="relative flex h-[90px] w-[90px] items-center justify-center overflow-hidden rounded-[22px] sm:h-[110px] sm:w-[110px] sm:rounded-[26px]"
+      className="relative flex h-[110px] w-[110px] items-center justify-center overflow-hidden rounded-[26px]"
       style={{
         background: "linear-gradient(160deg, rgba(30,30,35,0.6) 0%, rgba(8,8,10,0.95) 35%, rgba(0,0,0,1) 100%)",
         boxShadow: [
@@ -630,7 +635,7 @@ function HeroLiveStats({
   return (
     <div className="hero-seq-item pt-40 pb-16 sm:pt-48 sm:pb-20 lg:pt-56 lg:pb-24" style={{ animationDelay: "1480ms" }}>
       <div className="flex justify-center">
-        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-8 gap-y-14 text-center sm:grid-cols-4 sm:gap-y-7">
+        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-4 gap-y-8 text-center sm:grid-cols-4 sm:gap-x-8 sm:gap-y-7">
           {statCards.map((card) => (
             <div key={card.key} className="flex flex-col items-center justify-center">
               <StatEmblem statKey={card.key} />
