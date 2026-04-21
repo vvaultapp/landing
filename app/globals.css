@@ -43,31 +43,6 @@ html {
   display: none;
 }
 
-/* Fade the horizontal edges of the mobile pricing carousel to
-   transparent. Without this, the peek of the adjacent card (its
-   bright 1px outline on the featured Pro card especially) reads as
-   an unwanted glow bar against the screen edge. Applied only below
-   lg (1024px) since desktop uses a static 3-col grid where nothing
-   should be faded. */
-@media (max-width: 1023px) {
-  .pricing-card-scroll {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 0,
-      black 6%,
-      black 94%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      transparent 0,
-      black 6%,
-      black 94%,
-      transparent 100%
-    );
-  }
-}
-
 /* Light scrollbar for docs pages */
 .docs-root {
   color-scheme: light;
