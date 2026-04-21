@@ -435,12 +435,12 @@ function HeroTrustedBy({
           })}
         </div>
         <p className="text-sm text-white/85 sm:text-base">
-          {locale === "fr" ? "Utilisé par" : "Trusted by"}{" "}
+          {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
           <span className="font-bold text-white">
             {loaded ? numberFormatter.format(usersTotal) : "…"}
           </span>{" "}
           <span className="sm:hidden">{locale === "fr" ? "utilisateurs" : "users"}</span>
-          <span className="hidden sm:inline">{locale === "fr" ? "artistes & beatmakers" : "artists & beatmakers"}</span>
+          <span className="hidden sm:inline">{locale === "fr" ? "artistes & producteurs" : "artists & producers"}</span>
           <span className="ml-1 text-white/55">{locale === "fr" ? "que tu connais sûrement" : "you probably know"}</span>
         </p>
       </div>
