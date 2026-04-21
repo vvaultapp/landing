@@ -759,60 +759,39 @@ export default function PricingPage() {
               // horizontal card (silver top-left highlight on a dark
               // semi-transparent base + 14px backdrop blur).
               const cardBg = p.featured
-                ? "linear-gradient(135deg, rgba(220, 228, 242, 0.12) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)"
+                ? "linear-gradient(135deg, rgba(220, 228, 242, 0.10) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)"
                 : "linear-gradient(180deg, rgba(10,10,12,1) 0%, rgba(6,6,8,1) 100%)";
               return (
               <div
                 key={p.name}
                 className="flex w-[74vw] shrink-0 snap-center lg:w-auto lg:shrink lg:snap-none"
               >
-                <div
-                  className="relative flex w-full flex-col rounded-2xl"
-                  style={{
-                    background: cardBg,
-                    /* Featured: use inset box-shadow instead of border. On
-                       backdrop-filtered elements, a painted `border` picks
-                       up subpixel jitter from the blur pass and reads as
-                       "rough"/pixelated. box-shadow paints on the compositor
-                       layer and antialiases smoothly. Paired with
-                       translateZ(0) to force GPU promotion. */
-                    boxShadow: p.featured
-                      ? "inset 0 0 0 1px rgba(255,255,255,1)"
-                      : "inset 0 0 0 1px rgba(255,255,255,0.08)",
-                    backdropFilter: p.featured ? "blur(14px)" : undefined,
-                    WebkitBackdropFilter: p.featured ? "blur(14px)" : undefined,
-                    transform: p.featured ? "translateZ(0)" : undefined,
-                    WebkitFontSmoothing: "antialiased",
-                  }}
-                >
-                  {/* "Most popular" badge — sits on the top outline of the
-                      featured card. Badge border matches card border so the
-                      two outlines visually merge into one continuous shape;
-                      badge background matches the page so the card's top
-                      border appears broken where the badge sits. */}
-                  {p.featured && (
-                    <div className="pointer-events-none absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
-                      <div
-                        className="whitespace-nowrap rounded-full border border-white px-3 py-1 text-[11px] font-medium text-white"
-                        style={{
-                          /* Same silver-on-dark glassmorphism recipe as the
-                             Pro card fill so the pill reads as part of the
-                             same surface. Black underlay keeps it opaque on
-                             the page so the card's top border appears broken
-                             where the badge sits. */
-                          backgroundColor: "#000",
-                          backgroundImage:
-                            "linear-gradient(135deg, rgba(220, 228, 242, 0.12) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)",
-                          backdropFilter: "blur(14px)",
-                          WebkitBackdropFilter: "blur(14px)",
-                        }}
-                      >
-                        {locale === "fr" ? "Le plus populaire" : "Most popular"}
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="relative z-10 flex flex-1 flex-col p-6 sm:p-8">
+                {/* Outer positioning wrapper: relative so the "Most popular"
+                    pill (absolute child) anchors to the card's top edge,
+                    but the pill is a SIBLING of the overflow-hidden card —
+                    so the card clips its own glow/bg without clipping the
+                    pill that straddles the outline. */}
+                <div className="relative flex w-full flex-col">
+                  <div
+                    className="relative flex w-full flex-1 flex-col overflow-hidden rounded-2xl"
+                    style={{
+                      background: cardBg,
+                      /* Featured: use inset box-shadow instead of border. On
+                         backdrop-filtered elements, a painted `border` picks
+                         up subpixel jitter from the blur pass and reads as
+                         "rough"/pixelated. box-shadow paints on the compositor
+                         layer and antialiases smoothly. Paired with
+                         translateZ(0) to force GPU promotion. */
+                      boxShadow: p.featured
+                        ? "inset 0 0 0 1px rgba(255,255,255,1)"
+                        : "inset 0 0 0 1px rgba(255,255,255,0.08)",
+                      backdropFilter: p.featured ? "blur(14px)" : undefined,
+                      WebkitBackdropFilter: p.featured ? "blur(14px)" : undefined,
+                      transform: p.featured ? "translateZ(0)" : undefined,
+                      WebkitFontSmoothing: "antialiased",
+                    }}
+                  >
+                    <div className="relative z-10 flex flex-1 flex-col p-6 sm:p-8">
                   <h3 className="flex h-8 items-baseline gap-2 text-2xl font-semibold text-white">
                     {p.name}
                   </h3>
@@ -875,6 +854,31 @@ export default function PricingPage() {
                     </a>
                   </div>
                   </div>
+                  </div>
+                  {/* "Most popular" badge — sits on the top outline of the
+                      featured card. Sibling of the overflow-hidden card so
+                      the card can clip its own glow while the pill stays
+                      fully visible straddling the border. Badge border
+                      matches card border so the two outlines visually merge
+                      into one continuous shape; the silver-on-dark fill
+                      matches the card surface so the pill reads as part of
+                      the same glass. */}
+                  {p.featured && (
+                    <div className="pointer-events-none absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
+                      <div
+                        className="whitespace-nowrap rounded-full border border-white px-3 py-1 text-[11px] font-medium text-white"
+                        style={{
+                          backgroundColor: "#000",
+                          backgroundImage:
+                            "linear-gradient(135deg, rgba(220, 228, 242, 0.10) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)",
+                          backdropFilter: "blur(14px)",
+                          WebkitBackdropFilter: "blur(14px)",
+                        }}
+                      >
+                        {locale === "fr" ? "Le plus populaire" : "Most popular"}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             );
