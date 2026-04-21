@@ -434,7 +434,7 @@ function HeroTrustedBy({
             );
           })}
         </div>
-        <p className="text-sm text-white/85 sm:text-base">
+        <p className="text-[11.5px] text-white/85 sm:text-base">
           {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
           <span className="font-bold text-white">
             {loaded ? numberFormatter.format(usersTotal) : "…"}
