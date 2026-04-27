@@ -7,7 +7,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent } from "@/components/landing/content";
 import { useLocale } from "@/lib/useLocale";
 
-const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
+const ColorBends = dynamic(() => import("@/components/landing/ColorBends"), {
   ssr: false,
 });
 
@@ -33,13 +33,21 @@ export default function DownloadWindowsPage() {
         }}
       >
         <div className="absolute inset-0 opacity-[0.55]">
-          <Plasma
-            color="#ffffff"
-            speed={0.3}
-            direction="forward"
+          <ColorBends
+            colors={["#ffffff"]}
+            rotation={90}
+            speed={0.2}
             scale={1.2}
-            opacity={0.5}
-            mouseInteractive={false}
+            frequency={1}
+            warpStrength={1}
+            mouseInfluence={0}
+            noise={0}
+            parallax={0.5}
+            iterations={1}
+            intensity={1.5}
+            bandWidth={6}
+            transparent
+            autoRotate={0}
           />
         </div>
       </div>
