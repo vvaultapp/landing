@@ -120,8 +120,8 @@ function getComparisonSections(locale: "en" | "fr"): {
         {
           label: fr ? "Liens de partage (track, pack, dossier)" : "Share links (track, pack, folder)",
           desc: fr
-            ? "Envoie ta musique avec un seul lien — track, pack complet ou dossier entier."
-            : "Send your music with one link — a single track, a full pack, or a whole folder.",
+            ? "Envoie ta musique avec un seul lien, track, pack complet ou dossier entier."
+            : "Send your music with one link, a single track, a full pack, or a whole folder.",
           free: true,
           pro: true,
           ultra: true,
@@ -133,8 +133,8 @@ function getComparisonSections(locale: "en" | "fr"): {
         {
           label: fr ? "Certificat de dépôt" : "Certificate of deposit",
           desc: fr
-            ? "Preuve horodatée et certifiée par hash — infalsifiable."
-            : "Timestamped, hash-certified proof of authorship — tamper-proof.",
+            ? "Preuve horodatée et certifiée par hash, infalsifiable."
+            : "Timestamped, hash-certified proof of authorship, tamper-proof.",
           free: true,
           pro: true,
           ultra: true,
@@ -204,8 +204,8 @@ function getComparisonSections(locale: "en" | "fr"): {
         {
           label: fr ? "Durée d'écoute" : "Play duration tracking",
           desc: fr
-            ? "Combien de secondes chaque destinataire a écouté — track par track."
-            : "How long each recipient actually listened — track by track.",
+            ? "Combien de secondes chaque destinataire a écouté, track par track."
+            : "How long each recipient actually listened, track by track.",
           free: false,
           pro: true,
           ultra: true,
@@ -216,7 +216,7 @@ function getComparisonSections(locale: "en" | "fr"): {
         {
           label: fr ? "Funnels d'engagement" : "Engagement funnels",
           desc: fr
-            ? "Visualise où tes contacts décrochent entre ouverture, écoute, téléchargement et vente — pour voir exactement où agir."
+            ? "Visualise où tes contacts décrochent entre ouverture, écoute, téléchargement et vente, pour voir exactement où agir."
             : "Visualize where contacts drop off across opens, plays, downloads, and sales, so you can see which stage needs attention.",
           free: false,
           pro: true,
@@ -284,8 +284,8 @@ function getComparisonSections(locale: "en" | "fr"): {
         {
           label: fr ? "Profil public" : "Public profile",
           desc: fr
-            ? "Ta page vvault.app/tonnom — toutes tes sorties au même endroit."
-            : "Your vvault.app/handle page — all your releases in one place.",
+            ? "Ta page vvault.app/tonnom, toutes tes sorties au même endroit."
+            : "Your vvault.app/handle page, all your releases in one place.",
           free: true,
           pro: true,
           ultra: true,
@@ -293,7 +293,7 @@ function getComparisonSections(locale: "en" | "fr"): {
         {
           label: fr ? "Personnalisation du thème" : "Theme customization",
           desc: fr
-            ? "Personnalise ton vault public avec tes couleurs, polices et layouts — ta page colle à ton identité d'artiste, pas à un template générique."
+            ? "Personnalise ton vault public avec tes couleurs, polices et layouts, ta page colle à ton identité d'artiste, pas à un template générique."
             : "Brand your public vault with custom colors, fonts, and layouts so your page matches your artist identity, not a generic template.",
           free: false,
           pro: false,
@@ -308,8 +308,8 @@ function getComparisonSections(locale: "en" | "fr"): {
         {
           label: fr ? "Studio Packs (publication auto vidéo)" : "Studio Packs (auto video publishing)",
           desc: fr
-            ? "Publie automatiquement des snippets vidéo soignés de tes tracks sur TikTok, Reels et Shorts — sans montage ni export."
-            : "Auto-publish polished video snippets of your tracks to TikTok, Instagram Reels, and YouTube Shorts — no editing or export needed.",
+            ? "Publie automatiquement des snippets vidéo soignés de tes tracks sur TikTok, Reels et Shorts, sans montage ni export."
+            : "Auto-publish polished video snippets of your tracks to TikTok, Instagram Reels, and YouTube Shorts, no editing or export needed.",
           free: false,
           pro: false,
           ultra: true,
@@ -369,7 +369,7 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
       <span
         ref={containerRef}
         className="relative inline-block align-baseline"
-        /* Use pointer events and ignore touch — on iOS the classic
+        /* Use pointer events and ignore touch, on iOS the classic
            mouseenter → click sequence fires on the FIRST tap: the
            enter handler opens the tip, then the click handler
            toggles it right back shut, which is why the user used
@@ -415,7 +415,7 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
             role="tooltip"
             className="pointer-events-none absolute left-0 bottom-[calc(100%+14px)] z-[100] block w-max max-w-[240px] rounded-md px-2 py-1 text-[11px] font-normal leading-snug text-white/90"
             style={{
-              /* Epidemic-style chat bubble — small, compact, solid
+              /* Epidemic-style chat bubble, small, compact, solid
                  dark tile sitting above the label, with a downward
                  tail that points to the feature. No animation. */
               background: "#1c1d22",
@@ -424,7 +424,7 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
             }}
           >
             {desc}
-            {/* Chat tail — a small triangle aligned under the left
+            {/* Chat tail, a small triangle aligned under the left
                edge of the bubble pointing down to the label. Rendered
                as a rotated square so it gets the exact same 1px
                hairline border as the body via box-shadow; the matching
@@ -481,13 +481,13 @@ export default function PricingPage() {
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
   const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
   /* Two separate flags for two separate concerns:
-     - `stuck`  — the compare-plans sticky is in its pinned/ride-up
+     - `stuck` , the compare-plans sticky is in its pinned/ride-up
        phase. Its glass backdrop should be ON whenever any part of
        the sticky is still showing content in/above the nav band,
        so the backdrop smoothly trails the sticky through ride-up
        instead of vanishing the moment the sticky is no longer
        flush against the nav.
-     - `merged` — the sticky is FLUSH with the nav bottom (true pin).
+     - `merged`, the sticky is FLUSH with the nav bottom (true pin).
        Only in this narrow state do we want the nav to drop its own
        glass so we don't stack two translucent surfaces. Outside of
        it the nav shows its normal scrolled glass + border. */
@@ -503,7 +503,7 @@ export default function PricingPage() {
   // The big "Compare plans" header uses `position: sticky` so it naturally
   // pins against the bottom of the primary nav as the user scrolls. We
   // detect when it's stuck so we can fade in the same glassmorphic
-  // background as the nav — and, via a body class, hide the nav's
+  // background as the nav, and, via a body class, hide the nav's
   // bottom border so the two bars visually merge into one continuous
   // glass strip (Epidemic / Resend pattern).
   useEffect(() => {
@@ -513,14 +513,14 @@ export default function PricingPage() {
       const rect = node.getBoundingClientRect();
       // Nav is 62px on mobile, 56px from the `sm` breakpoint upward.
       const navHeight = window.innerWidth >= 640 ? 56 : 62;
-      /* `isStuck` — sticky is in pin-or-ride-up mode. True from the
+      /* `isStuck`, sticky is in pin-or-ride-up mode. True from the
          moment its top reaches navHeight until its bottom scrolls
          above y=0. This is the window during which its glass
          backdrop should be visible: either covering the nav area
          (pinned) or providing glass behind the sticky's remaining
          content below the nav (ride-up). */
       const isStuck = rect.top <= navHeight + 0.5 && rect.bottom > 0;
-      /* `isMerged` — the narrow slice where the sticky is FLUSH
+      /* `isMerged`, the narrow slice where the sticky is FLUSH
          with the nav. Only here do we want the nav's own glass to
          disappear so the two don't stack. The instant the sticky
          starts riding up, the nav reclaims its glass and the
@@ -542,7 +542,7 @@ export default function PricingPage() {
   // Toggle the body class that hides the nav's glass + bottom border
   // while the Compare-plans bar is flush with the nav (true merge),
   // so the two surfaces don't stack. Driven by `merged`, NOT `stuck`
-  // — `stuck` stays true through ride-up so the backdrop keeps
+  //, `stuck` stays true through ride-up so the backdrop keeps
   // rendering behind the sticky's lower portion.
   useEffect(() => {
     if (merged) {
@@ -577,8 +577,8 @@ export default function PricingPage() {
       price: "\u20ac0",
       period: "",
       audience: fr
-        ? "Pour celles et ceux qui d\u00e9butent et veulent un endroit propre pour garder leur musique et la partager en un lien."
-        : "For anyone getting started who wants a clean home for their music and one link to share it.",
+        ? "Pour ceux qui d\u00e9butent. Teste l'envoi et le tracking avant de passer \u00e0 Pro."
+        : "For producers just getting started. Test sending and tracking before going Pro.",
       includedHeading: undefined,
       bullets: content.pricingComparison.human.bullets,
       cta: fr ? "S'inscrire" : "Sign up",
@@ -592,8 +592,8 @@ export default function PricingPage() {
       price: proPrice,
       period: "/mo",
       audience: fr
-        ? "Pour les producteurs, artistes et labels qui veulent envoyer, vendre et tout suivre, sans limites."
-        : "For producers, artists and labels who want to send, sell and track everything, with no limits.",
+        ? "Pour les producteurs qui visent des placements. Vois qui écoute et closes plus de deals."
+        : "For producers chasing placements. See who's actually listening and close more deals.",
       includedHeading: everythingInFreeLabel,
       bullets: content.singlePlan.bullets,
       cta: fr ? "Rejoindre Pro" : "Join Pro now",
@@ -606,8 +606,8 @@ export default function PricingPage() {
       price: ultraPrice,
       period: "/mo",
       audience: fr
-        ? "Pour les producteurs, artistes et labels qui passent \u00e0 la vitesse sup\u00e9rieure avec tout en illimit\u00e9 et chaque avantage possible."
-        : "For producers, artists and labels going all-in with unlimited everything and every possible edge.",
+        ? "Pour les producteurs qui scale. Automatise tout, garde 100% sur chaque vente."
+        : "For producers scaling up. Automate everything and keep 100% of sales.",
       includedHeading: everythingInProLabel,
       bullets: content.pricingComparison.ai.bullets,
       cta: fr ? "Rejoindre Ultra" : "Join Ultra now",
@@ -642,7 +642,7 @@ export default function PricingPage() {
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
-      {/* Plasma hero background — white accent */}
+      {/* Plasma hero background, white accent */}
       <div
         className="pointer-events-none fixed inset-x-0 top-0 z-0 h-screen"
         style={{
@@ -678,7 +678,7 @@ export default function PricingPage() {
           <Reveal>
             <div className="text-center">
               <h1
-                className="font-display text-4xl font-semibold sm:text-5xl lg:text-6xl"
+                className="font-display text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl"
                 style={{
                   background:
                     "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
@@ -687,10 +687,14 @@ export default function PricingPage() {
                   backgroundClip: "text",
                 }}
               >
-                {locale === "fr" ? "Tarifs" : "Pricing"}
+                {locale === "fr"
+                  ? "Plus d'opens. Plus de plays. Plus de deals."
+                  : "More opens. More plays. More sales."}
               </h1>
-              <p className="mt-3 text-[15px] text-white/45 sm:text-base">
-                {locale === "fr" ? "Inscris-toi, annule quand tu veux." : "Sign up now, cancel anytime."}
+              <p className="mx-auto mt-4 max-w-[640px] text-[15px] leading-relaxed text-white/55 sm:text-base">
+                {locale === "fr"
+                  ? "Des plans qui se remboursent en un seul placement."
+                  : "Plans that pay for themselves in one placement."}
               </p>
 
               {/* Toggle */}
@@ -728,12 +732,12 @@ export default function PricingPage() {
             </div>
           </Reveal>
 
-          {/* Plan cards — horizontally swipeable on mobile (Free → Pro
+          {/* Plan cards, horizontally swipeable on mobile (Free → Pro
               → Ultra) with CSS scroll-snap; standard 3-col grid on lg.
               Mobile padding on each side lets every card snap to the
               true viewport center (including Free and Ultra), not
               just Pro. `touch-action: pan-x` on the scroller keeps
-              vertical page scrolling stable — tapping or starting a
+              vertical page scrolling stable, tapping or starting a
               near-vertical drag on a card doesn't jiggle the row. */}
           <Reveal className="mt-12 block">
             <div
@@ -745,7 +749,7 @@ export default function PricingPage() {
                    angle. Horizontal drags move cards; near-vertical
                    drags pass through to the page scroll. Previously
                    this was `pan-x` which locked the carousel out of
-                   vertical gestures entirely — users couldn't scroll
+                   vertical gestures entirely, users couldn't scroll
                    the page down from anywhere on a card. */
                 touchAction: "pan-x pan-y",
                 /* Still contain horizontal overscroll so reaching the
@@ -761,7 +765,7 @@ export default function PricingPage() {
               // Featured uses a radial highlight centered at top-center
               // instead of a 135° linear (which put silver at top-LEFT).
               // In the mobile snap carousel, Pro sits to the right of Free
-              // — so Pro's left edge peeks in when Free is centered. A
+              //, so Pro's left edge peeks in when Free is centered. A
               // top-left silver highlight means the brightest part is
               // exactly what bleeds through. Centering the highlight at
               // the top keeps the left and right edges dark, so Pro's
@@ -776,7 +780,7 @@ export default function PricingPage() {
               >
                 {/* Outer positioning wrapper: relative so the "Most popular"
                     pill (absolute child) anchors to the card's top edge,
-                    but the pill is a SIBLING of the overflow-hidden card —
+                    but the pill is a SIBLING of the overflow-hidden card ,
                     so the card clips its own glow/bg without clipping the
                     pill that straddles the outline. */}
                 <div className="relative flex w-full flex-col">
@@ -813,7 +817,22 @@ export default function PricingPage() {
                     )}
                   </div>
 
-                  <p className="mt-4 min-h-[2.8em] text-[13px] leading-snug text-white/55">
+                  <p
+                    className="mt-4 text-[13px] leading-snug text-white/55"
+                    style={{
+                      /* Lock the audience copy to exactly two lines so all
+                         three cards have identical "title \u2192 price \u2192 2-line
+                         description \u2192 CTA" rhythm. line-clamp-2 caps long
+                         strings, the matching min-h holds the slot open
+                         when copy is shorter, and the height is set in em
+                         so it tracks the leading-snug line-height. */
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      overflow: "hidden",
+                      minHeight: "2.8em",
+                    }}
+                  >
                     {p.audience || "\u00A0"}
                   </p>
 
@@ -863,7 +882,7 @@ export default function PricingPage() {
                   </div>
                   </div>
                   </div>
-                  {/* "Most popular" badge — sits on the top outline of the
+                  {/* "Most popular" badge, sits on the top outline of the
                       featured card. Sibling of the overflow-hidden card so
                       the card can clip its own glow while the pill stays
                       fully visible straddling the border. Badge border
@@ -894,10 +913,32 @@ export default function PricingPage() {
             </div>
           </Reveal>
 
-          {/* MNGMT — wide horizontal card beneath the 3 plan columns.
+          {/* ROI anchor, single line just below the cards at the moment of
+              decision. Concrete reframing: the price is small relative to
+              one good outcome, so the upgrade objection ("is it worth it?")
+              gets answered before the user has to think about it. */}
+          <Reveal className="mt-10 block sm:mt-12">
+            <div className="flex justify-center">
+              <p className="text-center text-[13.5px] leading-relaxed text-white/55 sm:text-[14.5px]">
+                {locale === "fr" ? (
+                  <>
+                    <span className="text-white/85">Un placement de plus rembourse un an de Pro.</span>
+                    {" "}Un deal signé couvre Ultra.
+                  </>
+                ) : (
+                  <>
+                    <span className="text-white/85">One extra placement covers a year of Pro.</span>
+                    {" "}One signed deal covers Ultra.
+                  </>
+                )}
+              </p>
+            </div>
+          </Reveal>
+
+          {/* MNGMT, wide horizontal card beneath the 3 plan columns.
               Glassmorphism (same recipe as the pinned nav:
               rgba(0,0,0,0.55) + blur(14px)) over the almost-black card
-              base. No outline, no mask-fade — clean edges. */}
+              base. No outline, no mask-fade, clean edges. */}
           <Reveal className="mt-16 block sm:mt-20">
             <div
               className="relative mx-auto w-[74vw] overflow-hidden rounded-2xl sm:w-auto"
@@ -958,7 +999,7 @@ export default function PricingPage() {
           </Reveal>
 
           {/* Anchor button linking to the big comparison tables below.
-              No border, no background — just big type with a hovering
+              No border, no background, just big type with a hovering
               arrow (the click target IS the text). */}
           <Reveal>
             <div className="mt-14 flex justify-center sm:mt-16">
@@ -987,13 +1028,13 @@ export default function PricingPage() {
           <SocialProofSection locale={locale} />
         </div>
 
-        {/* Comparison tables — full viewport width so the sticky header's
+        {/* Comparison tables, full viewport width so the sticky header's
             glass backdrop extends edge-to-edge when pinned against the
             nav. When stuck, the sticky uses the *same* glassmorphic
             styling as the nav (rgba(0,0,0,0.55) + blur(14px)) so the
             two bars visually merge into one continuous strip. */}
         <div id="compare-plans" className="mt-28 scroll-mt-[62px] sm:mt-36 sm:scroll-mt-[56px]">
-          {/* Sticky big header — position:sticky pins it at top:navHeight,
+          {/* Sticky big header, position:sticky pins it at top:navHeight,
               so the primary nav stays visible above it. When pinned, the
               nav's bottom border is faded out via the `compare-pinned`
               body class in globals.css, so there is no line between them. */}
@@ -1001,7 +1042,7 @@ export default function PricingPage() {
             ref={staticHeaderRef}
             className="sticky top-[62px] z-20 sm:top-[56px]"
           >
-            {/* Unified glass backdrop — extends upward to cover the nav
+            {/* Unified glass backdrop, extends upward to cover the nav
                 area when stuck so there's ONE continuous glass surface
                 (no seam between nav and compare-plans). The nav itself
                 is made fully transparent via the `compare-pinned` body
@@ -1022,7 +1063,7 @@ export default function PricingPage() {
                 backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
                 backdropFilter: stuck ? "blur(14px)" : "none",
                 WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
-                /* Snap on/off — the nav's matching glass is also snap
+                /* Snap on/off, the nav's matching glass is also snap
                    (see LandingNav). Transitioning either one alone (or
                    both in parallel) leaves a visible window where the
                    nav area is uncovered glass on scroll-past. */
@@ -1061,7 +1102,7 @@ export default function PricingPage() {
                     </span>
                   </div>
                 </div>
-                {/* Plan columns — 3-col on mobile (Free/Pro/Ultra only, no
+                {/* Plan columns, 3-col on mobile (Free/Pro/Ultra only, no
                     MNGMT in the mobile sticky to keep it readable). Desktop
                     uses the parent grid's remaining 4 columns and adds a
                     white Get Started button under each plan. */}
@@ -1107,13 +1148,13 @@ export default function PricingPage() {
             </div>
           </div>
 
-          {/* Feature rows — constrained back to max-w-1320 so content
+          {/* Feature rows, constrained back to max-w-1320 so content
               aligns perfectly under the sticky header's inner wrapper.
               A SINGLE <Reveal> wraps the whole table so the whole block
-              fades in together on first viewport entry — not one
+              fades in together on first viewport entry, not one
               per-section (that was 6 staggered fades, way too busy).
               `threshold={0}` fires the moment the table's top edge
-              touches the viewport — without it, the default 0.18
+              touches the viewport, without it, the default 0.18
               threshold on a multi-thousand-pixel element makes the
               user scroll hundreds of pixels past the top before the
               fade kicks in. */}
@@ -1121,13 +1162,13 @@ export default function PricingPage() {
             <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
               {getComparisonSections(locale).map((section) => (
                 <div key={section.title} className="mt-12 sm:mt-16">
-                  {/* Section header — bigger, with divider underneath */}
+                  {/* Section header, bigger, with divider underneath */}
                   <div className="border-b border-white/10 pb-3 sm:pb-4">
                     <h3 className="text-[18px] font-semibold text-white sm:text-[22px]">
                       {section.title}
                     </h3>
                   </div>
-                  {/* Rows — mobile: label+desc full-width on top, 3-col values
+                  {/* Rows, mobile: label+desc full-width on top, 3-col values
                       underneath. Desktop: single 40/20/20/20 row. Same min-
                       height per row to match Epidemic Sound. */}
                   <div className="flex flex-col">
@@ -1140,7 +1181,7 @@ export default function PricingPage() {
                         <div className="pb-2 pr-4 pt-5 sm:py-6">
                           <FeatureLabel label={row.label} desc={row.desc} />
                         </div>
-                        {/* Values — 3-col grid on mobile, `contents` on desktop
+                        {/* Values, 3-col grid on mobile, `contents` on desktop
                             so each cell becomes a direct child of the parent
                             grid and lands in its own 20% column. Left-aligned
                             to line up with the plan-column headers above

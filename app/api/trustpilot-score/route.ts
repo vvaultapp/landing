@@ -4,7 +4,7 @@ export const runtime = "nodejs";
 export const revalidate = 3600; // cache for 1 hour
 
 const TRUSTPILOT_URL = "https://www.trustpilot.com/review/vvault.app";
-const FALLBACK_SCORE = "4.4";
+const FALLBACK_SCORE = "4.5";
 
 export async function GET() {
   try {

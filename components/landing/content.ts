@@ -32,7 +32,7 @@ export type LandingFaq = {
 export type LandingComparisonCard = {
   title: string;
   bullets: string[];
-  /** Items shown crossed-out — what's NOT included on this tier (drives upgrades). */
+  /** Items shown crossed-out, what's NOT included on this tier (drives upgrades). */
   notIncluded?: string[];
   cost: string;
   costNote: string;
@@ -45,7 +45,7 @@ export type LandingSinglePlan = {
   note: string;
   cta: string;
   bullets: string[];
-  /** Items shown crossed-out — features only available on a higher tier. */
+  /** Items shown crossed-out, features only available on a higher tier. */
   notIncluded?: string[];
 };
 
@@ -145,7 +145,7 @@ const landingContentEn = {
   ] as LandingNavItem[],
   hero: {
     title: ["The proper way to", "send your music."],
-    description: "Turn emails into placements. Track opens, plays, downloads and more — all from a beautifully crafted, secure workspace designed to feel effortless.",
+    description: "Turn emails into placements. Track opens, plays, downloads and more, all from a beautifully crafted, secure workspace designed to feel effortless.",
     primaryCtaLabel: "Start free",
     primaryCtaHint: "Create your vvault today",
     newBadge: "New",
@@ -154,14 +154,14 @@ const landingContentEn = {
   },
   heroStatement: {
     strong: "Know who’s really listening.",
-    muted: "Follow up faster, send better packs, and turn interest into placements and sales — all through an interface that feels refined at every step.",
+    muted: "Follow up faster, send better packs, and turn interest into placements and sales, all through an interface that feels refined at every step.",
     videoUrl: "https://www.youtube.com/embed/nKfITo6LLts",
     videoTitle: "vvault demo video",
   },
   howItWorksIntro: {
     title: "Know who’s ready before you follow up.",
     description:
-      "Every send becomes measurable: opens, clicks, play duration, downloads, and saves. Build packs fast, email your contacts, and use real intent signals to follow up at the right time. Leave timestamped comments on tracks to share precise feedback — and land placements or sales.",
+      "Every send becomes measurable: opens, clicks, play duration, downloads, and saves. Build packs fast, email your contacts, and use real intent signals to follow up at the right time. Leave timestamped comments on tracks to share precise feedback, and land placements or sales.",
     stepLabel: "Step",
     imagePlaceholder: "Step image placeholder",
   },
@@ -175,7 +175,7 @@ const landingContentEn = {
     {
       title: "Share links that convert",
       description:
-        "Publish tracks, packs, and folders with private, tokenized, or public links — each one encrypted and built for a polished, distraction-free listening experience.",
+        "Publish tracks, packs, and folders with private, tokenized, or public links, each one encrypted and built for a polished, distraction-free listening experience.",
       stat: "Secure tokenized links",
     },
     {
@@ -254,13 +254,13 @@ const landingContentEn = {
       title: "Free",
       symbol: "check",
       bullets: [
-        "Trackable share links",
-        "Sell on Marketplace (15% fee)",
-        "Public profile + Link in Bio",
-        "Full contact list",
-        "Certificate of deposit",
-        "1 campaign / day · 5 contacts",
-        "100 MB storage",
+        "1 campaign per day, up to 5 contacts (just enough to test)",
+        "Trackable share links (full analytics on Pro)",
+        "Public profile and Link in Bio so people can find you",
+        "Sell on the Marketplace (we keep 15% per sale)",
+        "100 MB storage (about 5 WAVs)",
+        "Certified proof you made the beat first",
+        "Upgrade whenever you want, no card needed",
       ],
       notIncluded: [
         "Unlimited storage & contacts",
@@ -277,13 +277,13 @@ const landingContentEn = {
       title: "Ultra",
       symbol: "check",
       bullets: [
-        "0% marketplace fees — keep 100%",
-        "Auto-post to IG, TikTok & YouTube",
-        "Per-recipient AI scheduling",
-        "Drip series automations",
-        "Custom domain + branded embeds",
-        "50% off paid request submissions",
-        "AI follow-up suggestions",
+        "Keep 100% of every Marketplace sale (Pro keeps 95%)",
+        "Email sequences that send themselves while you make beats",
+        "Each contact gets your email at the exact time they check it",
+        "Auto-publish snippets to TikTok, Reels, and YouTube Shorts",
+        "Auto-scan your library for placements you missed",
+        "Your own custom domain and branded player",
+        "50% off when you submit to paid placement boards",
       ],
       cost: "€24.99/mo",
       costNote: "monthly · yearly available",
@@ -344,14 +344,14 @@ const landingContentEn = {
     note: "monthly · annual billing available (2 months free)",
     cta: "Start Pro",
     bullets: [
-      "Unlimited storage & contacts",
-      "Unlimited tracked campaigns",
-      "Send from your own Gmail",
-      "See who opens, plays & buys",
-      "Schedule sends + auto follow-ups",
-      "Sell beats with Stripe (5% fee)",
-      "AI best-time-to-send",
-      "Custom profile theme",
+      "See exactly who opened, listened, downloaded, and bought",
+      "Send from your own Gmail so your emails skip the spam folder",
+      "Schedule sends and test which subject lines get more opens",
+      "Auto-build lists of contacts who actually open and listen",
+      "Sell beats with Stripe and keep 95% (vs. 85% on Free)",
+      "Unlimited storage, contacts, and tracked campaigns",
+      "See exactly where contacts lose interest so you can fix it",
+      "Your most active contacts get pushed to the top automatically",
     ],
     notIncluded: [
       "0% marketplace fees",
@@ -366,12 +366,12 @@ const landingContentEn = {
     {
       question: "Where do I get the emails to send my beats to?",
       answer:
-        "Starting from zero? vvault grows your list for you. Every visitor to your public profile or share links can drop their email in a one-tap signup, and those leads land straight in your Inbox — ready to turn into contacts with one click. Already have a list? One import does it: CSV, XLSX, or exports from Gmail, Mailchimp, or Google Sheets all work out of the box. vvault auto-detects the email, name, and company columns, and you can tag contacts (e.g. \"US labels\", \"Hip-hop A&Rs\") to target each campaign. No list needed on day one — vvault builds it with you.",
+        "Starting from zero? vvault grows your list for you. Every visitor to your public profile or share links can drop their email in a one-tap signup, and those leads land straight in your Inbox, ready to turn into contacts with one click. Already have a list? One import does it: CSV, XLSX, or exports from Gmail, Mailchimp, or Google Sheets all work out of the box. vvault auto-detects the email, name, and company columns, and you can tag contacts (e.g. \"US labels\", \"Hip-hop A&Rs\") to target each campaign. No list needed on day one, vvault builds it with you.",
     },
     {
       question: "Is vvault really free?",
       answer:
-        "Yes. The Free plan costs nothing and doesn't require a credit card. You can upload up to 100 MB, generate share links, manage contacts, and collaborate on packs — no trial, no expiration.",
+        "Yes. The Free plan costs nothing and doesn't require a credit card. You can upload up to 100 MB, generate share links, manage contacts, and collaborate on packs, no trial, no expiration.",
     },
     {
       question: "Can I cancel or change plans anytime?",
@@ -396,12 +396,12 @@ const landingContentEn = {
     {
       question: "Can I leave comments on specific timestamps?",
       answer:
-        "Yes. You can drop timestamped comments on any track to point out specific sections — perfect for giving feedback, discussing arrangements with collaborators, or marking the exact moment you want an artist to hear. It makes collaboration precise and frictionless.",
+        "Yes. You can drop timestamped comments on any track to point out specific sections, perfect for giving feedback, discussing arrangements with collaborators, or marking the exact moment you want an artist to hear. It makes collaboration precise and frictionless.",
     },
     {
       question: "How is vvault different from Dropbox or Google Drive?",
       answer:
-        "Generic cloud storage has no tracking, no campaigns, and no music-specific features. vvault is built specifically for producers — it combines secure file management, email sending, analytics, CRM, timestamped comments, and sales in one beautifully designed workspace, with privacy controls made for unreleased music.",
+        "Generic cloud storage has no tracking, no campaigns, and no music-specific features. vvault is built specifically for producers, it combines secure file management, email sending, analytics, CRM, timestamped comments, and sales in one beautifully designed workspace, with privacy controls made for unreleased music.",
     },
   ] as LandingFaq[],
   finalCta: {
@@ -559,7 +559,7 @@ const landingContentFr = {
   hero: {
     title: ["La bonne façon", "d'envoyer ta musique."],
     description:
-      "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus — le tout depuis un espace soigné, sécurisé et pensé pour être agréable à chaque étape.",
+      "Transforme tes mails en placements. Track les ouvertures, écoutes, téléchargements et plus, le tout depuis un espace soigné, sécurisé et pensé pour être agréable à chaque étape.",
     primaryCtaLabel: "Commencer gratuitement",
     primaryCtaHint: "Crée ton vvault aujourd'hui",
     newBadge: "Nouveau",
@@ -568,14 +568,14 @@ const landingContentFr = {
   },
   heroStatement: {
     strong: "Sache qui écoute vraiment.",
-    muted: "Relance plus vite, envoie de meilleurs packs, et transforme l’intérêt en placements et ventes — le tout dans une interface soignée jusque dans les moindres détails.",
+    muted: "Relance plus vite, envoie de meilleurs packs, et transforme l’intérêt en placements et ventes, le tout dans une interface soignée jusque dans les moindres détails.",
     videoUrl: "https://www.youtube.com/embed/DOlLUSW9s2s?start=61",
     videoTitle: "vidéo démo vvault en français",
   },
   howItWorksIntro: {
     title: "Sache qui est prêt avant de relancer.",
     description:
-      "Chaque envoi devient mesurable: ouvertures, clics, durée d’écoute, téléchargements et sauvegardes. Crée tes packs rapidement, envoie à tes contacts, et utilise de vrais signaux d’intention pour relancer au bon moment. Laisse des commentaires horodatés sur tes tracks pour un feedback précis — et signe placements ou ventes.",
+      "Chaque envoi devient mesurable: ouvertures, clics, durée d’écoute, téléchargements et sauvegardes. Crée tes packs rapidement, envoie à tes contacts, et utilise de vrais signaux d’intention pour relancer au bon moment. Laisse des commentaires horodatés sur tes tracks pour un feedback précis, et signe placements ou ventes.",
     stepLabel: "Étape",
     imagePlaceholder: "Visuel d’étape",
   },
@@ -589,7 +589,7 @@ const landingContentFr = {
     {
       title: "Partage des liens qui convertissent",
       description:
-        "Publie des morceaux, packs et dossiers via des liens privés, tokenisés ou publics — chacun chiffré et conçu pour une expérience d’écoute épurée et sans distraction.",
+        "Publie des morceaux, packs et dossiers via des liens privés, tokenisés ou publics, chacun chiffré et conçu pour une expérience d’écoute épurée et sans distraction.",
       stat: "Liens tokenisés sécurisés",
     },
     {
@@ -670,13 +670,13 @@ const landingContentFr = {
       title: "Free",
       symbol: "check",
       bullets: [
-        "Liens de partage trackés",
-        "Vends sur le Marketplace (15% de frais)",
-        "Profil public + Link in Bio",
-        "Liste de contacts complète",
-        "Certificat de dépôt",
-        "1 campagne / jour · 5 contacts",
-        "100 Mo de stockage",
+        "1 campagne par jour, jusqu'à 5 contacts (juste de quoi tester)",
+        "Liens de partage trackés (analytics complet en Pro)",
+        "Profil public et Link in Bio pour qu'on te trouve",
+        "Vends sur le Marketplace (on garde 15% par vente)",
+        "100 Mo de stockage (environ 5 WAVs)",
+        "Preuve certifiée que c'est toi qui as fait le beat",
+        "Upgrade quand tu veux, sans carte",
       ],
       notIncluded: [
         "Stockage et contacts illimités",
@@ -693,13 +693,13 @@ const landingContentFr = {
       title: "Ultra",
       symbol: "check",
       bullets: [
-        "0 % de frais marketplace — garde 100 %",
-        "Publication auto sur IG, TikTok & YouTube",
-        "Programmation IA par destinataire",
-        "Séquences drip automatisées",
-        "Domaine personnalisé + embeds brandés",
-        "-50% sur les soumissions payantes",
-        "Suggestions de relances par IA",
+        "Garde 100% sur chaque vente Marketplace (Pro garde 95%)",
+        "Séquences d'emails qui s'envoient toutes seules pendant que tu produis",
+        "Chaque contact reçoit ton email pile quand il check sa boîte",
+        "Publie auto des snippets sur TikTok, Reels et YouTube Shorts",
+        "Scanne ta bibliothèque pour repérer les placements que t'as ratés",
+        "Ton propre domaine et lecteur brandé",
+        "50% de réduction quand tu postules à des appels payants",
       ],
       cost: "€24.99/mo",
       costNote: "mensuel · annuel disponible",
@@ -761,14 +761,14 @@ const landingContentFr = {
     note: "mensuel · annuel disponible (2 mois offerts)",
     cta: "Démarrer Pro",
     bullets: [
-      "Stockage et contacts illimités",
-      "Campagnes illimitées avec tracking",
-      "Envoie depuis ton propre Gmail",
-      "Vois qui ouvre, écoute et achète",
-      "Programme tes envois + relances auto",
-      "Vends tes beats avec Stripe (5% de frais)",
-      "Meilleur moment d'envoi (IA)",
-      "Thème personnalisé sur ton profil",
+      "Vois exactement qui a ouvert, écouté, téléchargé et acheté",
+      "Envoie depuis ton propre Gmail pour éviter les spams",
+      "Programme tes envois et teste quels objets ouvrent le plus",
+      "Construis automatiquement des listes de contacts actifs",
+      "Vends tes beats avec Stripe et garde 95% (contre 85% en Free)",
+      "Stockage, contacts et campagnes : tout en illimité",
+      "Vois exactement où tes contacts décrochent pour corriger",
+      "Tes contacts les plus actifs remontent automatiquement",
     ],
     notIncluded: [
       "0 % de frais marketplace",
@@ -783,12 +783,12 @@ const landingContentFr = {
     {
       question: "Où je trouve les emails pour envoyer mes beats ?",
       answer:
-        "Tu pars de zéro ? vvault construit ta liste pour toi. Chaque visiteur de ton profil public ou de tes liens de partage peut laisser son email en un seul tap, et ces contacts arrivent directement dans ta Boîte de réception — prêts à ajouter en un clic. Tu as déjà une liste ? Un seul import suffit : CSV, XLSX, ou les exports Gmail, Mailchimp et Google Sheets fonctionnent directement. vvault détecte automatiquement les colonnes email, nom et entreprise, et tu peux taguer tes contacts (ex. « Labels US », « A&Rs hip-hop ») pour cibler chaque campagne. Pas besoin de liste le premier jour — vvault la construit avec toi.",
+        "Tu pars de zéro ? vvault construit ta liste pour toi. Chaque visiteur de ton profil public ou de tes liens de partage peut laisser son email en un seul tap, et ces contacts arrivent directement dans ta Boîte de réception, prêts à ajouter en un clic. Tu as déjà une liste ? Un seul import suffit : CSV, XLSX, ou les exports Gmail, Mailchimp et Google Sheets fonctionnent directement. vvault détecte automatiquement les colonnes email, nom et entreprise, et tu peux taguer tes contacts (ex. « Labels US », « A&Rs hip-hop ») pour cibler chaque campagne. Pas besoin de liste le premier jour, vvault la construit avec toi.",
     },
     {
       question: "Est-ce que vvault est vraiment gratuit ?",
       answer:
-        "Oui. Le plan Free ne coûte rien et ne demande pas de carte bancaire. Tu peux uploader jusqu’à 100 Mo, générer des liens de partage, gérer tes contacts et collaborer sur des packs — sans essai, sans expiration.",
+        "Oui. Le plan Free ne coûte rien et ne demande pas de carte bancaire. Tu peux uploader jusqu’à 100 Mo, générer des liens de partage, gérer tes contacts et collaborer sur des packs, sans essai, sans expiration.",
     },
     {
       question: "Je peux annuler ou changer de plan à tout moment ?",
@@ -813,12 +813,12 @@ const landingContentFr = {
     {
       question: "Je peux laisser des commentaires sur des timestamps précis ?",
       answer:
-        "Oui. Tu peux poser des commentaires horodatés sur n’importe quel track pour pointer des passages spécifiques — parfait pour donner du feedback, discuter d’arrangements avec des collaborateurs, ou marquer le moment exact que tu veux faire écouter à un artiste. Ça rend la collaboration précise et fluide.",
+        "Oui. Tu peux poser des commentaires horodatés sur n’importe quel track pour pointer des passages spécifiques, parfait pour donner du feedback, discuter d’arrangements avec des collaborateurs, ou marquer le moment exact que tu veux faire écouter à un artiste. Ça rend la collaboration précise et fluide.",
     },
     {
       question: "En quoi vvault est différent de Dropbox ou Google Drive ?",
       answer:
-        "Le stockage cloud classique n’a ni tracking, ni campagnes, ni fonctionnalités spécifiques à la musique. vvault est conçu spécifiquement pour les producteurs — il combine gestion sécurisée de fichiers, envoi d’emails, analytics, CRM, commentaires horodatés et ventes dans un seul espace de travail soigné, avec des contrôles de confidentialité pensés pour la musique non publiée.",
+        "Le stockage cloud classique n’a ni tracking, ni campagnes, ni fonctionnalités spécifiques à la musique. vvault est conçu spécifiquement pour les producteurs, il combine gestion sécurisée de fichiers, envoi d’emails, analytics, CRM, commentaires horodatés et ventes dans un seul espace de travail soigné, avec des contrôles de confidentialité pensés pour la musique non publiée.",
     },
   ] as LandingFaq[],
   finalCta: {

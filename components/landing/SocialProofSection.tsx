@@ -127,7 +127,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
   const REVIEWS = locale === "fr" ? REVIEWS_FR : REVIEWS_EN;
   const [pairIndex, setPairIndex] = useState(0);
   const [state, setState] = useState<"visible" | "exiting" | "entering">("visible");
-  const [trustpilotScore, setTrustpilotScore] = useState("4.4");
+  const [trustpilotScore, setTrustpilotScore] = useState("4.5");
 
   useEffect(() => {
     let active = true;
