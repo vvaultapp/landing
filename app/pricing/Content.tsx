@@ -808,8 +808,22 @@ export default function PricingPage() {
                     {p.name}
                   </h3>
 
-                  <div className="mt-4 flex items-baseline gap-1">
-                    <span className="text-[2.5rem] font-semibold leading-none text-white">
+                  {/* `isolation: isolate` + a fresh `key` on the price span
+                      together fix a Safari rendering glitch on the Pro card.
+                      Pro is the only card with `backdrop-filter` + `translateZ(0)`,
+                      which puts it on its own GPU compositor layer. When the
+                      price text changes in-place via React state, Safari's
+                      compositor sometimes fails to invalidate the cached
+                      glyph raster, leaving the old digits ghosting under the
+                      new ones. `isolation: isolate` breaks the price out of
+                      the parent's stacking context, and `key={p.price}`
+                      forces React to mount a brand-new <span> on toggle so
+                      Safari has nothing stale to reuse. */}
+                  <div className="mt-4 flex items-baseline gap-1" style={{ isolation: "isolate" }}>
+                    <span
+                      key={p.price}
+                      className="text-[2.5rem] font-semibold leading-none text-white tabular-nums"
+                    >
                       {p.price}
                     </span>
                     {p.period && (
