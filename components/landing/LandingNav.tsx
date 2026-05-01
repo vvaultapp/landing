@@ -13,6 +13,31 @@ const Prism = dynamic(() => import("@/components/landing/Prism"), {
   ssr: false,
 });
 
+/* Pulls the live Trustpilot rating from /api/landing-stats so the
+   Testimonials dropdown card stays in sync with the SocialProofSection
+   (and the real value on Trustpilot, set in landing_manual_stats).
+   The default mirrors the same DB default — `4.7/5`, normalized to
+   the `4.7 / 5` rendering used by the card. */
+function useTrustpilotScore() {
+  const [score, setScore] = useState("4.7 / 5");
+  useEffect(() => {
+    let active = true;
+    fetch("/api/landing-stats", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { trustpilotScoreLabel?: string } | null) => {
+        if (!active || !data?.trustpilotScoreLabel) return;
+        // DB stores e.g. "4.7/5" → render as "4.7 / 5" for the card.
+        const trimmed = data.trustpilotScoreLabel.replace(/\s+/g, "").replace("/", " / ");
+        setScore(trimmed);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+  return score;
+}
+
 /* ─── Mobile menu — compact drawer, rounded at the bottom, leaves a
    visible strip of the page below. ─── */
 
@@ -313,6 +338,7 @@ function NavDropdown({
 }) {
   const isMac = useIsMac();
   const isWindows = useIsWindows();
+  const trustpilotScore = useTrustpilotScore();
   const hasChildren = item.children && item.children.length > 0;
 
   // Reorder download children based on platform
@@ -518,8 +544,7 @@ function NavDropdown({
                     </div>
                   </div>
                   <div className="text-center">
-                    {/* TODO: receive trustpilot score from server-side fetch */}
-                    <span className="block text-[13px] font-semibold text-white/85">4.5 / 5</span>
+                    <span className="block text-[13px] font-semibold text-white/85">{trustpilotScore}</span>
                     <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>
                   </div>
                 </div>

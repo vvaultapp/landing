@@ -202,8 +202,27 @@ function useLandingStats() {
 
     void loadStats();
 
+    /* Re-poll every 60s so a tab that stays open through new
+       Supabase activity reflects fresh KPI numbers without a
+       hard reload. Pauses while the tab is hidden. */
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    const start = () => {
+      if (!intervalId) intervalId = setInterval(() => void loadStats(), 60_000);
+    };
+    const stop = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+    start();
+    const onVis = () => (document.hidden ? stop() : (void loadStats(), start()));
+    document.addEventListener("visibilitychange", onVis);
+
     return () => {
       active = false;
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
 

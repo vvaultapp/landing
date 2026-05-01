@@ -93,7 +93,7 @@ const landingContentEn = {
       children: [
         { label: "Customer Stories", href: "/testimonials", description: "How producers use vvault" },
         { label: "Video Reviews", href: "/testimonials#videos", description: "Watch real testimonials" },
-        { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.5/5 from real users", featured: true, external: true },
+        { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.7/5 from real users", featured: true, external: true },
       ],
     },
     {
@@ -507,7 +507,7 @@ const landingContentFr = {
       children: [
         { label: "Histoires clients", href: "/testimonials", description: "Comment les producteurs utilisent vvault" },
         { label: "Vidéos", href: "/testimonials#videos", description: "Regarde de vrais témoignages" },
-        { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.5/5 par de vrais utilisateurs", featured: true, external: true },
+        { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.7/5 par de vrais utilisateurs", featured: true, external: true },
       ],
     },
     {
