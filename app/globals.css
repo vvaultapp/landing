@@ -8,6 +8,15 @@ body {
   color-scheme: dark;
 }
 
+/* App-store smart banner. When AppStoreBanner mounts on iOS mobile
+   it sets `--app-banner-h` on <html>; the body shifts down by that
+   height so anchored content (heroes, sticky nav) stays clear of
+   the banner. LandingNav reads the same variable for its `top` so
+   it slides into place right under the banner. */
+body {
+  padding-top: var(--app-banner-h, 0);
+}
+
 /* Grey selection highlight */
 .landing-root ::selection {
   background: rgba(255, 255, 255, 0.15);

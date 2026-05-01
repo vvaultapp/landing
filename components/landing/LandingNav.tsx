@@ -76,7 +76,7 @@ function MobileMenu({
           "backdrop turns off for a split second" flicker). Only the
           inner CONTENT fades in for a smooth reveal. */}
       <div
-        className="absolute inset-0 overflow-y-auto pt-[62px] sm:pt-[56px]"
+        className="absolute inset-0 overflow-y-auto pt-[calc(62px+var(--app-banner-h,0px))] sm:pt-[calc(56px+var(--app-banner-h,0px))]"
         style={{
           backgroundColor: open ? "rgba(0, 0, 0, 0.55)" : "transparent",
           backdropFilter: open ? "blur(14px)" : "none",
@@ -839,7 +839,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
   return (
     <>
     <header
-      className="nav-enter fixed inset-x-0 top-0 z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
+      className="nav-enter fixed inset-x-0 top-[var(--app-banner-h,0px)] z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
         /* Both `mergedWithPinned` (compare-plans sticky merge) and
            `mobileMenuOpen` → zero our OWN glass. In both cases

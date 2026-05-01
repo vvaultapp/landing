@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { cookies } from "next/headers";
 import { ScrollToTop } from "@/components/ScrollToTop";
+import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
 import "./globals.css";
 
 const geist = Geist({
@@ -119,6 +120,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full bg-black text-[#f0f0f0] font-sans">
+        <AppStoreBanner />
         <ScrollToTop />
         {children}
         <Analytics />
