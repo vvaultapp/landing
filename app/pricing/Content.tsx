@@ -826,10 +826,26 @@ export default function PricingPage() {
                     >
                       {p.price}
                     </span>
-                    {p.period && (
-                      <span className="text-base text-white/40">{p.period}</span>
-                    )}
                   </div>
+
+                  {/* Tiny low-opacity billing line directly under the
+                     price. Pro/Ultra swap between yearly and monthly
+                     copy with the toggle; Free gets its own one-liner
+                     so all three cards keep the same vertical rhythm
+                     and the audience/CTA below stay aligned. */}
+                  <p className="mt-1.5 text-[11.5px] leading-snug text-white/35">
+                    {p.period
+                      ? fr
+                        ? annual
+                          ? "Par mois, facturé à l'année"
+                          : "Par mois. Annulable à tout moment."
+                        : annual
+                          ? "Per month, billed yearly"
+                          : "Per month. Cancel anytime."
+                      : fr
+                        ? "Toujours gratuit, sans carte."
+                        : "Always free, no card needed."}
+                  </p>
 
                   <p
                     className="mt-4 text-[13px] leading-snug text-white/55"
