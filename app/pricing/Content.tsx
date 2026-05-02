@@ -626,7 +626,7 @@ export default function PricingPage() {
     bullet: fr
       ? "Services exclusifs pour beatmakers s\u00e9rieux"
       : "Exclusive services for serious beatmakers",
-    cta: fr ? "Contacter l'\u00e9quipe" : "Contact sales",
+    cta: fr ? "Nous contacter" : "Contact us",
     href: "mailto:contact@vvault.app",
     note: fr ? "Sur invitation" : "By invitation",
   };
