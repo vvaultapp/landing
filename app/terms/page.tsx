@@ -91,7 +91,7 @@ const termsSections: Array<{ title: string; paragraphs: string[]; link?: { href:
   {
     title: "13. Contact",
     paragraphs: [
-      "For legal questions, contact us via the in-app Support page or email vvaultapp@gmail.com.",
+      "For legal questions, contact us via the in-app Support page or email contact@vvault.app.",
     ],
   },
 ];

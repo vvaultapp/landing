@@ -627,7 +627,7 @@ export default function PricingPage() {
       ? "Services exclusifs pour beatmakers s\u00e9rieux"
       : "Exclusive services for serious beatmakers",
     cta: fr ? "Contacter l'\u00e9quipe" : "Contact sales",
-    href: "mailto:sales@vvault.app",
+    href: "mailto:contact@vvault.app",
     note: fr ? "Sur invitation" : "By invitation",
   };
 
@@ -832,9 +832,16 @@ export default function PricingPage() {
                      price. Pro/Ultra swap between yearly and monthly
                      copy with the toggle; Free gets its own one-liner
                      so all three cards keep the same vertical rhythm
-                     and the audience/CTA below stay aligned. */}
-                  <p className="mt-1.5 text-[11.5px] leading-snug text-white/35">
-                    {p.period
+                     and the audience/CTA below stay aligned.
+
+                     Same Safari compositor fix as the price above:
+                     the Pro card has backdrop-filter + translateZ(0),
+                     so when this text changes in-place via React state
+                     Safari's compositor leaves stale glyphs ghosting
+                     under the new ones. `isolation: isolate` + a
+                     content-derived `key` force a fresh paint. */}
+                  {(() => {
+                    const billingLine = p.period
                       ? fr
                         ? annual
                           ? "Par mois, facturé à l'année"
@@ -844,8 +851,17 @@ export default function PricingPage() {
                           : "Per month. Cancel anytime."
                       : fr
                         ? "Toujours gratuit, sans carte."
-                        : "Always free, no card needed."}
-                  </p>
+                        : "Always free, no card needed.";
+                    return (
+                      <p
+                        key={billingLine}
+                        className="mt-1.5 text-[11.5px] leading-snug text-white/35"
+                        style={{ isolation: "isolate" }}
+                      >
+                        {billingLine}
+                      </p>
+                    );
+                  })()}
 
                   <p
                     className="mt-4 text-[13px] leading-snug text-white/55"

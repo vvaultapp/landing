@@ -31,7 +31,7 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 import { Resend } from "npm:resend@4";
 import { TEMPLATES, type TemplateKey } from "./templates.ts";
 
-const FROM_ADDRESS = "Edward from vvault <edward@vvault.app>";
+const FROM_ADDRESS = "Edward from vvault <contact@vvault.app>";
 const UNSUBSCRIBE_BASE = "https://vvault.app/unsubscribe";
 
 type Schedule = {
@@ -167,7 +167,7 @@ Deno.serve(async (req: Request) => {
             /* RFC 2369 / 8058 — gives Gmail/Outlook the option to
                render a one-click unsubscribe button at the top of
                the message. Mailto fallback for older clients. */
-            "List-Unsubscribe": `<${UNSUBSCRIBE_BASE}?u=${cand.user_id}>, <mailto:edward@vvault.app?subject=unsubscribe>`,
+            "List-Unsubscribe": `<${UNSUBSCRIBE_BASE}?u=${cand.user_id}>, <mailto:contact@vvault.app?subject=unsubscribe>`,
             "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
           },
         });

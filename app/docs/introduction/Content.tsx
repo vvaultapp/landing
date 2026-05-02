@@ -288,10 +288,10 @@ export default function DocsIntroductionPage() {
             <span className="mt-[3px] block h-1.5 w-1.5 shrink-0 rounded-full bg-[#ccc]" />
             <span>
               <a
-                href="mailto:vvaultapp@gmail.com"
+                href="mailto:contact@vvault.app"
                 className="text-[#555] underline decoration-[#ccc] underline-offset-2 transition hover:text-[#222]"
               >
-                vvaultapp@gmail.com
+                contact@vvault.app
               </a>{" "}
               {locale === "fr"
                 ? "— contacte-nous directement par email."

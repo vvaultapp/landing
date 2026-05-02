@@ -450,7 +450,7 @@ const landingContentEn = {
     legalLinks: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
-      { label: "Contact", href: "mailto:vvaultapp@gmail.com" },
+      { label: "Contact", href: "mailto:contact@vvault.app" },
     ],
   },
   appMock: {
@@ -867,7 +867,7 @@ const landingContentFr = {
     legalLinks: [
       { label: "Confidentialité", href: "/privacy" },
       { label: "Conditions", href: "/terms" },
-      { label: "Contact", href: "mailto:vvaultapp@gmail.com" },
+      { label: "Contact", href: "mailto:contact@vvault.app" },
     ],
   },
   appMock: {

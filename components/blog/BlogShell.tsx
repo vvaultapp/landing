@@ -148,7 +148,7 @@ export function BlogFooter() {
               Terms
             </a>
             <a
-              href="mailto:vvaultapp@gmail.com"
+              href="mailto:contact@vvault.app"
               className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
             >
               Contact

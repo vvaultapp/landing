@@ -40,7 +40,7 @@ const contactCards = (fr: boolean) => [
   {
     title: "Email",
     description: fr ? "Envoie-nous un email. On répond généralement sous 24 heures." : "Send us an email. We typically respond within 24 hours.",
-    href: "mailto:vvaultapp@gmail.com",
+    href: "mailto:contact@vvault.app",
     external: false,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5">

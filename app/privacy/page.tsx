@@ -69,13 +69,13 @@ const privacySections: Array<{ title: string; paragraphs: string[] }> = [
   {
     title: "10. Your Rights",
     paragraphs: [
-      "Depending on your location, you may have rights to access, correct, delete, or restrict processing of your data. To make a request, contact us at vvaultapp@gmail.com.",
+      "Depending on your location, you may have rights to access, correct, delete, or restrict processing of your data. To make a request, contact us at contact@vvault.app.",
     ],
   },
   {
     title: "11. Contact",
     paragraphs: [
-      "For privacy requests or questions, contact us via the in-app Support page or email vvaultapp@gmail.com.",
+      "For privacy requests or questions, contact us via the in-app Support page or email contact@vvault.app.",
     ],
   },
 ];
