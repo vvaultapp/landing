@@ -718,6 +718,39 @@ export default function PricingPage() {
               near-vertical drag on a card doesn't jiggle the row. */}
           <Reveal className="relative z-20 mt-12 block">
             <div className="relative">
+              {/* Upward halo extending from the cards row toward the
+                  subheadline. Rendered as a separate absolutely-
+                  positioned element OUTSIDE the carousel container, so
+                  it isn't clipped by `pricing-card-scroll`'s
+                  `overflow-x: auto` (which forces the y-axis to clip
+                  too via the CSS overflow combination quirk).
+                  Gated to localhost only — production keeps the
+                  compact box-shadow halo while we evaluate the bigger
+                  glow. The gradient is brightest at the bottom (where
+                  it meets the cards' top edge) and fades cleanly into
+                  transparent toward the subheadline above, with a
+                  narrow horizontal extent so it reads as a glow over
+                  the Pro column rather than a wash across the row. */}
+              {isLocalhost && (
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 -top-40 z-0 h-40 hidden lg:block"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse 24% 100% at 50% 100%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.12) 35%, rgba(13, 55, 143, 0.04) 65%, rgba(13, 55, 143, 0) 100%)",
+                  }}
+                />
+              )}
+              {isLocalhost && (
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 -top-32 z-0 h-32 lg:hidden"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse 60% 100% at 50% 100%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.12) 40%, rgba(13, 55, 143, 0.04) 70%, rgba(13, 55, 143, 0) 100%)",
+                  }}
+                />
+              )}
             <div
               className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] pt-5 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:pt-0 lg:snap-none"
               style={{
@@ -780,17 +813,16 @@ export default function PricingPage() {
                          outer halo. */
                       outline: "1px solid rgba(255, 255, 255, 0.14)",
                       outlineOffset: "-1px",
-                      /* On localhost we test a TALLER halo that
-                         visibly reaches up toward the subheadline (a
-                         negative y-offset shifts the glow upward and a
-                         wider blur extends its top edge further from the
-                         card). Production keeps the compact halo for now
-                         to avoid the white-strip-behind-pinned-nav
-                         artifact while we evaluate the trade-off. */
+                      /* Compact halo — close to the Pro card, doesn't
+                         try to extend upward (the carousel's overflow-x
+                         auto + overflow-y visible combination clips the
+                         vertical extent on mobile, so the box-shadow's
+                         upward reach gets cut off at the carousel's top
+                         edge). The upward glow toward the subheadline
+                         is rendered by a separate element OUTSIDE the
+                         carousel — see the localhost-gated halo above. */
                       boxShadow: p.featured
-                        ? (isLocalhost
-                            ? "0 0 60px 0 rgba(28, 95, 200, 0.20), 0 -50px 200px 20px rgba(13, 55, 143, 0.14), 0 -80px 320px 50px rgba(13, 55, 143, 0.07)"
-                            : "0 0 60px 0 rgba(28, 95, 200, 0.18), 0 0 120px 10px rgba(13, 55, 143, 0.10)")
+                        ? "0 0 60px 0 rgba(28, 95, 200, 0.18), 0 0 120px 10px rgba(13, 55, 143, 0.10)"
                         : undefined,
                       WebkitFontSmoothing: "antialiased",
                     }}
