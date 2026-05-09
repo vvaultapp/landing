@@ -720,37 +720,25 @@ export default function PricingPage() {
             <div className="relative">
               {/* Upward halo extending from the cards row toward the
                   subheadline. Rendered as a separate absolutely-
-                  positioned element OUTSIDE the carousel container, so
+                  positioned element OUTSIDE the carousel container so
                   it isn't clipped by `pricing-card-scroll`'s
                   `overflow-x: auto` (which forces the y-axis to clip
                   too via the CSS overflow combination quirk).
-                  Gated to localhost only — production keeps the
-                  compact box-shadow halo while we evaluate the bigger
-                  glow. The element extends DOWN into the cards row
-                  (`-bottom-24`) so it sits *behind* the cards' top
-                  corners and gaps; cards' opaque backgrounds cover
-                  most of it, but the halo shows through where the
-                  rounded corners curve in and in the cards' built-in
-                  glow zones — eliminating the hard horizontal edge
-                  the carousel-clipped box-shadow used to leave at the
-                  cards' top. */}
+                  DESKTOP ONLY (`hidden lg:block`) — on mobile the
+                  carousel layout makes the top glow read as a hard
+                  band above the swipeable cards, so we drop it there
+                  and rely on the cards' own internal navy gradient
+                  + the lateral box-shadow bleed (which still works
+                  inside the carousel because it stays within the
+                  row's clip).
+                  Gated to localhost while we evaluate. */}
               {isLocalhost && (
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-x-0 -top-40 -bottom-32 z-0 hidden lg:block"
                   style={{
                     background:
-                      "radial-gradient(ellipse 24% 60% at 50% 35%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.14) 40%, rgba(13, 55, 143, 0.05) 70%, rgba(13, 55, 143, 0) 100%)",
-                  }}
-                />
-              )}
-              {isLocalhost && (
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 -top-32 -bottom-24 z-0 lg:hidden"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse 70% 50% at 50% 35%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.14) 40%, rgba(13, 55, 143, 0.05) 70%, rgba(13, 55, 143, 0) 100%)",
+                      "radial-gradient(ellipse 24% 60% at 50% 35%, rgba(13, 55, 143, 0.28) 0%, rgba(13, 55, 143, 0.10) 40%, rgba(13, 55, 143, 0.04) 70%, rgba(13, 55, 143, 0) 100%)",
                   }}
                 />
               )}
