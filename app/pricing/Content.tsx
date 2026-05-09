@@ -8,7 +8,6 @@ import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { useLocale } from "@/lib/useLocale";
-import { useIsLocalhost } from "@/lib/useIsLocalhost";
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -475,7 +474,6 @@ function CellValue({ value }: { value: boolean | string }) {
 export default function PricingPage() {
   const [locale] = useLocale();
   const content = getLandingContent(locale);
-  const isLocalhost = useIsLocalhost();
   const [annual, setAnnual] = useState(true);
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
   const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
@@ -730,18 +728,15 @@ export default function PricingPage() {
                   and rely on the cards' own internal navy gradient
                   + the lateral box-shadow bleed (which still works
                   inside the carousel because it stays within the
-                  row's clip).
-                  Gated to localhost while we evaluate. */}
-              {isLocalhost && (
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-0 -top-40 -bottom-32 z-0 hidden lg:block"
-                  style={{
-                    background:
-                      "radial-gradient(ellipse 24% 60% at 50% 35%, rgba(13, 55, 143, 0.28) 0%, rgba(13, 55, 143, 0.10) 40%, rgba(13, 55, 143, 0.04) 70%, rgba(13, 55, 143, 0) 100%)",
-                  }}
-                />
-              )}
+                  row's clip). */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 -top-40 -bottom-32 z-0 hidden lg:block"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 24% 60% at 50% 35%, rgba(13, 55, 143, 0.28) 0%, rgba(13, 55, 143, 0.10) 40%, rgba(13, 55, 143, 0.04) 70%, rgba(13, 55, 143, 0) 100%)",
+                }}
+              />
             <div
               className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:snap-none"
               style={{
