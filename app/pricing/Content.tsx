@@ -8,6 +8,7 @@ import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { useLocale } from "@/lib/useLocale";
+import { useIsLocalhost } from "@/lib/useIsLocalhost";
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -474,6 +475,7 @@ function CellValue({ value }: { value: boolean | string }) {
 export default function PricingPage() {
   const [locale] = useLocale();
   const content = getLandingContent(locale);
+  const isLocalhost = useIsLocalhost();
   const [annual, setAnnual] = useState(true);
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
   const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
@@ -778,8 +780,17 @@ export default function PricingPage() {
                          outer halo. */
                       outline: "1px solid rgba(255, 255, 255, 0.14)",
                       outlineOffset: "-1px",
+                      /* On localhost we test a TALLER halo that
+                         visibly reaches up toward the subheadline (a
+                         negative y-offset shifts the glow upward and a
+                         wider blur extends its top edge further from the
+                         card). Production keeps the compact halo for now
+                         to avoid the white-strip-behind-pinned-nav
+                         artifact while we evaluate the trade-off. */
                       boxShadow: p.featured
-                        ? "0 0 60px 0 rgba(28, 95, 200, 0.18), 0 0 120px 10px rgba(13, 55, 143, 0.10)"
+                        ? (isLocalhost
+                            ? "0 0 60px 0 rgba(28, 95, 200, 0.20), 0 -50px 200px 20px rgba(13, 55, 143, 0.14), 0 -80px 320px 50px rgba(13, 55, 143, 0.07)"
+                            : "0 0 60px 0 rgba(28, 95, 200, 0.18), 0 0 120px 10px rgba(13, 55, 143, 0.10)")
                         : undefined,
                       WebkitFontSmoothing: "antialiased",
                     }}
