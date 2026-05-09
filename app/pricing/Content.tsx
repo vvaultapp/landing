@@ -726,33 +726,36 @@ export default function PricingPage() {
                   too via the CSS overflow combination quirk).
                   Gated to localhost only — production keeps the
                   compact box-shadow halo while we evaluate the bigger
-                  glow. The gradient is brightest at the bottom (where
-                  it meets the cards' top edge) and fades cleanly into
-                  transparent toward the subheadline above, with a
-                  narrow horizontal extent so it reads as a glow over
-                  the Pro column rather than a wash across the row. */}
+                  glow. The element extends DOWN into the cards row
+                  (`-bottom-24`) so it sits *behind* the cards' top
+                  corners and gaps; cards' opaque backgrounds cover
+                  most of it, but the halo shows through where the
+                  rounded corners curve in and in the cards' built-in
+                  glow zones — eliminating the hard horizontal edge
+                  the carousel-clipped box-shadow used to leave at the
+                  cards' top. */}
               {isLocalhost && (
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute inset-x-0 -top-40 z-0 h-40 hidden lg:block"
+                  className="pointer-events-none absolute inset-x-0 -top-40 -bottom-32 z-0 hidden lg:block"
                   style={{
                     background:
-                      "radial-gradient(ellipse 24% 100% at 50% 100%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.12) 35%, rgba(13, 55, 143, 0.04) 65%, rgba(13, 55, 143, 0) 100%)",
+                      "radial-gradient(ellipse 24% 60% at 50% 35%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.14) 40%, rgba(13, 55, 143, 0.05) 70%, rgba(13, 55, 143, 0) 100%)",
                   }}
                 />
               )}
               {isLocalhost && (
                 <div
                   aria-hidden
-                  className="pointer-events-none absolute inset-x-0 -top-32 z-0 h-32 lg:hidden"
+                  className="pointer-events-none absolute inset-x-0 -top-32 -bottom-24 z-0 lg:hidden"
                   style={{
                     background:
-                      "radial-gradient(ellipse 60% 100% at 50% 100%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.12) 40%, rgba(13, 55, 143, 0.04) 70%, rgba(13, 55, 143, 0) 100%)",
+                      "radial-gradient(ellipse 70% 50% at 50% 35%, rgba(13, 55, 143, 0.32) 0%, rgba(13, 55, 143, 0.14) 40%, rgba(13, 55, 143, 0.05) 70%, rgba(13, 55, 143, 0) 100%)",
                   }}
                 />
               )}
             <div
-              className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] pt-5 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:pt-0 lg:snap-none"
+              className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:snap-none"
               style={{
                 WebkitOverflowScrolling: "touch",
                 /* Explicitly allow BOTH horizontal and vertical pan so
