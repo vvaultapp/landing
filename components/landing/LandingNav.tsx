@@ -101,7 +101,7 @@ function MobileMenu({
           "backdrop turns off for a split second" flicker). Only the
           inner CONTENT fades in for a smooth reveal. */}
       <div
-        className="absolute inset-0 overflow-y-auto pt-[calc(62px+var(--app-banner-h,0px))] sm:pt-[calc(56px+var(--app-banner-h,0px))]"
+        className="absolute inset-0 overflow-y-auto pt-[calc(72px+var(--app-banner-h,0px))] sm:pt-[calc(68px+var(--app-banner-h,0px))]"
         style={{
           backgroundColor: open ? "rgba(0, 0, 0, 0.55)" : "transparent",
           backdropFilter: open ? "blur(14px)" : "none",
@@ -864,7 +864,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
   return (
     <>
     <header
-      className="nav-enter fixed inset-x-0 top-[var(--app-banner-h,0px)] z-50 border-b pt-[env(safe-area-inset-top)] sm:pt-0"
+      className="nav-enter fixed inset-x-0 top-[var(--app-banner-h,0px)] z-50 pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
         /* Both `mergedWithPinned` (compare-plans sticky merge) and
            `mobileMenuOpen` → zero our OWN glass. In both cases
@@ -876,10 +876,6 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
            solid black" artifact. With the nav transparent, the
            panel's glass passes through cleanly under the logo and
            the X, and the boundary between them disappears. */
-        borderColor:
-          mergedWithPinned || mobileMenuOpen
-            ? "transparent"
-            : `rgba(255, 255, 255, ${0.1 * scrollProgress})`,
         backgroundColor:
           mergedWithPinned || mobileMenuOpen
             ? "transparent"
@@ -894,16 +890,10 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
             : `blur(${14 * scrollProgress}px)`,
         /* Background + blur SNAP (no transition) so the merge/unmerge
            handoff with the compare-plans backdrop has no cross-fade
-           window where the nav band is uncovered.
-           BUT the border-color (the nav's bottom separation line) is
-           transitioned — it's fine to fade this one smoothly because
-           the border has no interaction with the compare-plans
-           backdrop (which has no border of its own), and snapping the
-           line on when the sticky rides up reads as an abrupt flicker. */
-        transition: "border-color 0.3s ease",
+           window where the nav band is uncovered. */
       }}
     >
-      <div className="mx-auto flex h-[62px] w-full max-w-[1320px] items-center px-5 sm:h-[56px] sm:px-8 lg:px-10">
+      <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center px-5 sm:h-[68px] sm:px-8 lg:px-10">
         <Link
           href={homeHref}
           className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-white"

@@ -4,7 +4,24 @@ import { createClient } from "@supabase/supabase-js";
 const DOWNLOAD_URL =
   "https://github.com/vvaultapp/landing/releases/download/v0.1.0/vvault-0.1.0.dmg";
 
+function isLocalhostHost(host: string | null): boolean {
+  if (!host) return false;
+  const h = host.toLowerCase().split(":")[0];
+  return (
+    h === "localhost" ||
+    h === "127.0.0.1" ||
+    h === "0.0.0.0" ||
+    h === "[::1]" ||
+    h.endsWith(".local")
+  );
+}
+
 export async function GET(req: NextRequest) {
+  // Coming soon on localhost — block direct hits to /api/download/macos.
+  if (isLocalhostHost(req.headers.get("host"))) {
+    return new NextResponse("Coming soon", { status: 404 });
+  }
+
   // Fire-and-forget: log the download event
   try {
     const supabase = createClient(

@@ -6,6 +6,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent } from "@/components/landing/content";
 import { useLocale } from "@/lib/useLocale";
+import { useIsLocalhost } from "@/lib/useIsLocalhost";
 
 const ColorBends = dynamic(() => import("@/components/landing/ColorBends"), {
   ssr: false,
@@ -17,6 +18,7 @@ const MACOS_URL =
 export default function DownloadMacOSPage() {
   const [locale] = useLocale();
   const content = getLandingContent(locale);
+  const isLocalhost = useIsLocalhost();
   const fr = locale === "fr";
 
   return (
@@ -87,28 +89,50 @@ export default function DownloadMacOSPage() {
           </span>
 
           <div className="mt-10 flex flex-col items-center gap-3">
-            <a
-              href={MACOS_URL}
-              className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
-              style={{
-                background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
-                boxShadow:
-                  "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
-              }}
-            >
-              <svg
-                viewBox="0 0 20 20"
-                className="h-[18px] w-[18px]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+            {isLocalhost ? (
+              <button
+                type="button"
+                disabled
+                aria-disabled="true"
+                className="inline-flex cursor-not-allowed items-center gap-2.5 whitespace-nowrap rounded-2xl border border-white/[0.08] bg-white/[0.03] px-6 py-3 text-[15px] font-medium text-white/35"
               >
-                <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M4 17h12" />
-              </svg>
-              {fr ? "Télécharger pour macOS" : "Download for macOS"}
-            </a>
+                <svg
+                  viewBox="0 0 20 20"
+                  className="h-[18px] w-[18px]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M4 17h12" />
+                </svg>
+                {fr ? "Bientôt sur macOS" : "Coming soon for macOS"}
+              </button>
+            ) : (
+              <a
+                href={MACOS_URL}
+                className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
+                style={{
+                  background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
+                  boxShadow:
+                    "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
+                }}
+              >
+                <svg
+                  viewBox="0 0 20 20"
+                  className="h-[18px] w-[18px]"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M10 3v10m0 0l-3.5-3.5M10 13l3.5-3.5M4 17h12" />
+                </svg>
+                {fr ? "Télécharger pour macOS" : "Download for macOS"}
+              </a>
+            )}
           </div>
 
           {/* System requirements */}

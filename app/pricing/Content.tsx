@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import dynamic from "next/dynamic";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
@@ -9,8 +8,6 @@ import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { useLocale } from "@/lib/useLocale";
-
-const ColorBends = dynamic(() => import("@/components/landing/ColorBends"), { ssr: false });
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -511,8 +508,8 @@ export default function PricingPage() {
       const node = staticHeaderRef.current;
       if (!node) return;
       const rect = node.getBoundingClientRect();
-      // Nav is 62px on mobile, 56px from the `sm` breakpoint upward.
-      const navHeight = window.innerWidth >= 640 ? 56 : 62;
+      // Nav is 72px on mobile, 68px from the `sm` breakpoint upward.
+      const navHeight = window.innerWidth >= 640 ? 68 : 72;
       /* `isStuck`, sticky is in pin-or-ride-up mode. True from the
          moment its top reaches navHeight until its bottom scrolls
          above y=0. This is the window during which its glass
@@ -576,11 +573,25 @@ export default function PricingPage() {
       name: "Free",
       price: "\u20ac0",
       period: "",
-      audience: fr
-        ? "Pour ceux qui d\u00e9butent. Teste l'envoi et le tracking avant de passer \u00e0 Pro."
-        : "For producers just getting started. Test sending and tracking before going Pro.",
+      audience: fr ? "Pour commencer" : "Just getting started",
       includedHeading: undefined,
-      bullets: content.pricingComparison.human.bullets,
+      bullets: fr
+        ? [
+            "1 campagne par jour, jusqu'à 5 contacts",
+            "Liens de partage trackés (analytics complets sur Pro)",
+            "Profil public complet et Lien en Bio",
+            "Vends avec 15% de frais (les frais Stripe s'appliquent)",
+            "100 Mo de stockage",
+            "Certificat de dépôt légal SHA-256 sur chaque upload",
+          ]
+        : [
+            "1 campaign per day, up to 5 contacts",
+            "Trackable share links (full analytics on Pro)",
+            "Full public profile and Link in Bio",
+            "Sell with 15% fees (Stripe fees still apply)",
+            "100 MB storage",
+            "Legal SHA-256 deposit certificate on every track upload",
+          ],
       cta: fr ? "S'inscrire" : "Sign up",
       href: "https://vvault.app/signup",
       loggedOutHref: "https://vvault.app/signup",
@@ -591,11 +602,23 @@ export default function PricingPage() {
       eyebrow: content.pricingUi.mostPopular,
       price: proPrice,
       period: "/mo",
-      audience: fr
-        ? "Pour les producteurs qui visent des placements. Vois qui écoute et closes plus de deals."
-        : "For producers chasing placements. See who's actually listening and close more deals.",
-      includedHeading: everythingInFreeLabel,
-      bullets: content.singlePlan.bullets,
+      audience: fr ? "Le plus populaire" : "Most popular",
+      includedHeading: undefined,
+      bullets: fr
+        ? [
+            "Stockage illimité",
+            "Tracking illimité (ouvertures, clics, durée d'écoute, téléchargements)",
+            "Campagnes illimitées",
+            "Vends tes beats avec seulement 5% de frais (les frais Stripe s'appliquent)",
+            "Wavematch (scanne les beats volés)",
+          ]
+        : [
+            "Unlimited storage",
+            "Unlimited tracking (opens, clicks, play duration, downloads)",
+            "Unlimited campaigns",
+            "Sell beats with only 5% fees (Stripe fees still apply)",
+            "Wavematch (scans for stolen beats)",
+          ],
       cta: fr ? "Rejoindre Pro" : "Join Pro now",
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=pro",
@@ -605,11 +628,27 @@ export default function PricingPage() {
       name: "Ultra",
       price: ultraPrice,
       period: "/mo",
-      audience: fr
-        ? "Pour les producteurs qui scale. Automatise tout, garde 100% sur chaque vente."
-        : "For producers scaling up. Automate everything and keep 100% of sales.",
-      includedHeading: everythingInProLabel,
-      bullets: content.pricingComparison.ai.bullets,
+      audience: fr ? "Échelle et automatisation" : "Scaling with automation",
+      includedHeading: undefined,
+      bullets: fr
+        ? [
+            "Vends avec 0% de frais (les frais Stripe s'appliquent)",
+            "Thèmes personnalisés",
+            "Tout ce qui est dans Pro",
+            "Autoscan Wavematch (scanne le web en continu pour détecter les beats volés)",
+            "Relances automatiques",
+            "Upload automatique sur YouTube",
+            "-50% sur les soumissions d'opportunités",
+          ]
+        : [
+            "Sell with 0% fees (Stripe fees still apply)",
+            "Custom themes",
+            "Everything in Pro",
+            "Autoscan Wavematch (continuously scans the web for stolen beats)",
+            "Automatic follow-ups",
+            "Automatic upload on YouTube",
+            "50% off opportunities submission",
+          ],
       cta: fr ? "Rejoindre Ultra" : "Join Ultra now",
       href: "https://vvault.app/billing",
       loggedOutHref: "https://vvault.app/signup?plan=ultra",
@@ -624,10 +663,10 @@ export default function PricingPage() {
       ? "Pour quelques-uns. Des services sur mesure, con\u00e7us main dans la main avec les beatmakers qui font d\u00e9j\u00e0 bouger les lignes."
       : "For a select few. Bespoke services, crafted hand-in-hand with the beatmakers already moving the needle.",
     bullet: fr
-      ? "Services exclusifs pour beatmakers s\u00e9rieux"
-      : "Exclusive services for serious beatmakers",
+      ? "Pour quelques-uns. Services sur mesure, main dans la main."
+      : "For a select few. Bespoke services, crafted hand-in-hand.",
     cta: fr ? "Contacter l'\u00e9quipe" : "Contact sales",
-    href: "mailto:sales@vvault.app",
+    href: "mailto:contact@vvault.app",
     note: fr ? "Sur invitation" : "By invitation",
   };
 
@@ -642,93 +681,29 @@ export default function PricingPage() {
     <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
-      {/* Plasma hero background, white accent */}
-      <div
-        className="pointer-events-none fixed inset-x-0 top-0 z-0 h-screen"
-        style={{
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
-        }}
-      >
-        <div className="absolute inset-0 opacity-[0.55]">
-          <ColorBends
-            colors={["#ffffff"]}
-            rotation={90}
-            speed={0.2}
-            scale={1.2}
-            frequency={1}
-            warpStrength={1}
-            mouseInfluence={0}
-            noise={0}
-            parallax={0.5}
-            iterations={1}
-            intensity={1.5}
-            bandWidth={6}
-            transparent
-            autoRotate={0}
-          />
-        </div>
-      </div>
-
       <main className="relative z-10 pb-32 pt-40 sm:pt-48">
         <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
           {/* Header */}
           <Reveal>
             <div className="text-center">
-              <h1
-                className="font-display text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {locale === "fr"
-                  ? "Plus d'opens. Plus de plays. Plus de deals."
-                  : "More opens. More plays. More sales."}
+              <h1 className="font-display text-5xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+                {locale === "fr" ? "Tarifs" : "Pricing"}
               </h1>
-              <p className="mx-auto mt-4 max-w-[640px] text-[15px] leading-relaxed text-white/55 sm:text-base">
-                {locale === "fr"
-                  ? "Des plans qui se remboursent en un seul placement."
-                  : "Plans that pay for themselves in one placement."}
-              </p>
-
-              {/* Toggle */}
-              <div className="relative mt-8 flex flex-col items-center gap-2">
-                <div className="flex items-center justify-center gap-3">
-                  <span
-                    className={`text-sm ${annual ? "text-white/40" : "text-white"}`}
-                  >
-                    {content.pricingUi.monthly}
-                  </span>
-                  <button
-                    type="button"
-                    aria-label={content.pricingUi.toggleBillingAriaLabel}
-                    onClick={() => setAnnual((v) => !v)}
-                    className={`relative h-7 w-12 rounded-full transition-colors duration-200 ${
-                      annual ? "bg-emerald-500/80" : "bg-white/10"
-                    }`}
-                  >
-                    <span
-                      className={`absolute inset-y-0 my-auto h-5 w-5 rounded-full bg-white transition-[left] duration-200 ${
-                        annual ? "left-6" : "left-1"
-                      }`}
-                    />
-                  </button>
-                  <span className={`text-sm ${annual ? "text-white" : "text-white/40"}`}>
-                    {content.pricingUi.annually}
-                  </span>
-                </div>
-                {annual && (
-                  <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-400 whitespace-nowrap">
-                    {locale === "fr" ? "17% d'économies" : "17% Savings"}
-                  </span>
+              <p className="mx-auto mt-5 max-w-[640px] text-lg leading-relaxed text-white/55 sm:text-xl">
+                {locale === "fr" ? (
+                  <>
+                    Des plans qui se remboursent
+                    <br />
+                    en un seul placement.
+                  </>
+                ) : (
+                  <>
+                    Plans that pay for themselves
+                    <br />
+                    in one placement.
+                  </>
                 )}
-              </div>
+              </p>
             </div>
           </Reveal>
 
@@ -739,9 +714,17 @@ export default function PricingPage() {
               just Pro. `touch-action: pan-x` on the scroller keeps
               vertical page scrolling stable, tapping or starting a
               near-vertical drag on a card doesn't jiggle the row. */}
-          <Reveal className="mt-12 block">
+          {/* `overflow-hidden` clips Pro's outer box-shadow so the halo
+              can't trail above (into the subheadline area) or below
+              (into the area between the cards row and the MNGMT card,
+              which is what was leaking through behind the pinned
+              compare-plans nav and reading as a faint glow strip).
+              Lateral cross-card bleed onto Free / Ultra inner edges is
+              preserved because that all happens INSIDE this element. */}
+          <Reveal className="relative z-20 mt-12 block overflow-hidden">
+            <div className="relative">
             <div
-              className="pricing-card-scroll -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] pt-5 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-4 lg:overflow-visible lg:p-0 lg:pt-0 lg:snap-none"
+              className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] pt-5 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:pt-0 lg:snap-none"
               style={{
                 WebkitOverflowScrolling: "touch",
                 /* Explicitly allow BOTH horizontal and vertical pan so
@@ -758,25 +741,27 @@ export default function PricingPage() {
               }}
             >
             {plans.map((p) => {
-              // Non-featured cards: flat almost-black gradient. Pro uses
-              // the silver glassmorphism recipe lifted from the old MNGMT
-              // horizontal card (silver top-left highlight on a dark
-              // semi-transparent base + 14px backdrop blur).
-              // Featured uses a radial highlight centered at top-center
-              // instead of a 135° linear (which put silver at top-LEFT).
-              // In the mobile snap carousel, Pro sits to the right of Free
-              //, so Pro's left edge peeks in when Free is centered. A
-              // top-left silver highlight means the brightest part is
-              // exactly what bleeds through. Centering the highlight at
-              // the top keeps the left and right edges dark, so Pro's
-              // neighbors don't see a glow.
+              // Internal "glow" via a vertical background gradient inside
+              // each card. Pro is the bright navy (#0c2152) that fills
+              // most of the card and fades just before the very top, so
+              // the glow reads as punchy and goes high enough to lift the
+              // whole card. Free + Ultra get a much subtler dark-grey
+              // gradient that only covers the bottom third — a quiet hint
+              // of glow that ends sooner, matching the user's spec.
               const cardBg = p.featured
-                ? "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(220, 228, 242, 0.16) 0%, rgba(20, 22, 28, 0.62) 55%, rgba(16, 16, 22, 0.62) 100%)"
-                : "linear-gradient(180deg, rgba(10,10,12,1) 0%, rgba(6,6,8,1) 100%)";
+                ? "linear-gradient(to top, rgba(13, 55, 143, 0.85) 0%, rgba(13, 55, 143, 0.65) 25%, rgba(12, 40, 110, 0.45) 50%, rgba(12, 33, 82, 0.22) 70%, rgba(12, 33, 82, 0.08) 80%, rgba(0, 0, 0, 0) 88%), #000000"
+                : "linear-gradient(to top, rgba(60, 60, 65, 0.45) 0%, rgba(60, 60, 65, 0.32) 20%, rgba(60, 60, 65, 0.20) 40%, rgba(60, 60, 65, 0.10) 60%, rgba(60, 60, 65, 0.04) 75%, rgba(0, 0, 0, 0) 88%), #000000";
               return (
               <div
                 key={p.name}
-                className="flex w-[74vw] shrink-0 snap-center lg:w-auto lg:shrink lg:snap-none"
+                /* Pro card wrapper sits at z-20 so its box-shadow paints
+                   ON TOP of Free (z-10) and Ultra (z-10). Without this,
+                   the neighbors' opaque black backgrounds would clip the
+                   outer halo before it could bleed visibly across their
+                   inner edges. With z-20 on Pro, its box-shadow is in
+                   front and alpha-blends over the dark surfaces of the
+                   neighbors, producing the soft Framer-style fade. */
+                className={`flex w-[74vw] shrink-0 snap-center lg:w-auto lg:shrink lg:snap-none ${p.featured ? "relative z-20" : "relative z-10"}`}
               >
                 {/* Outer positioning wrapper: relative so the "Most popular"
                     pill (absolute child) anchors to the card's top edge,
@@ -788,82 +773,87 @@ export default function PricingPage() {
                     className="relative flex w-full flex-1 flex-col overflow-hidden rounded-2xl"
                     style={{
                       background: cardBg,
-                      /* Featured: use inset box-shadow instead of border. On
-                         backdrop-filtered elements, a painted `border` picks
-                         up subpixel jitter from the blur pass and reads as
-                         "rough"/pixelated. box-shadow paints on the compositor
-                         layer and antialiases smoothly. Paired with
-                         translateZ(0) to force GPU promotion. */
+                      /* Outline rendered via `outline` + negative
+                         `outline-offset` instead of inset box-shadow.
+                         Visually identical position (1px inside the
+                         border-box) but the browser draws outlines
+                         with native rounded-corner antialiasing, so
+                         the line stays uniform thickness all the way
+                         around — no more "thin corners" artifact that
+                         box-shadow can produce on rounded shapes.
+                         box-shadow is now reserved purely for Pro's
+                         outer halo. */
+                      outline: "1px solid rgba(255, 255, 255, 0.14)",
+                      outlineOffset: "-1px",
                       boxShadow: p.featured
-                        ? "inset 0 0 0 1px rgba(255,255,255,1)"
-                        : "inset 0 0 0 1px rgba(255,255,255,0.08)",
-                      backdropFilter: p.featured ? "blur(14px)" : undefined,
-                      WebkitBackdropFilter: p.featured ? "blur(14px)" : undefined,
-                      transform: p.featured ? "translateZ(0)" : undefined,
+                        ? "0 25px 110px 5px rgba(28, 95, 200, 0.14), 0 60px 240px 20px rgba(13, 55, 143, 0.07)"
+                        : undefined,
                       WebkitFontSmoothing: "antialiased",
                     }}
                   >
                     <div className="relative z-10 flex flex-1 flex-col p-6 sm:p-8">
-                  <h3 className="flex h-8 items-baseline gap-2 text-2xl font-semibold text-white">
-                    {p.name}
-                  </h3>
-
-                  {/* `isolation: isolate` + a fresh `key` on the price span
-                      together fix a Safari rendering glitch on the Pro card.
-                      Pro is the only card with `backdrop-filter` + `translateZ(0)`,
-                      which puts it on its own GPU compositor layer. When the
-                      price text changes in-place via React state, Safari's
-                      compositor sometimes fails to invalidate the cached
-                      glyph raster, leaving the old digits ghosting under the
-                      new ones. `isolation: isolate` breaks the price out of
-                      the parent's stacking context, and `key={p.price}`
-                      forces React to mount a brand-new <span> on toggle so
-                      Safari has nothing stale to reuse. */}
-                  <div className="mt-4 flex items-baseline gap-1" style={{ isolation: "isolate" }}>
-                    <span
-                      key={p.price}
-                      className="text-[2.5rem] font-semibold leading-none text-white tabular-nums"
-                    >
-                      {p.price}
-                    </span>
+                  {/* Title row, plan name on the left and the monthly/annual
+                      toggle on the right edge of the card for Pro and Ultra.
+                      Both toggles drive the same `annual` state, so flipping
+                      one updates both prices in lockstep. Free has no
+                      toggle (no monthly/annual concept). */}
+                  <div className="flex h-8 items-center justify-between gap-2">
+                    <h3 className="text-2xl font-light text-white">
+                      {p.name}
+                    </h3>
+                    {(p.name === "Pro" || p.name === "Ultra") && (
+                      <button
+                        type="button"
+                        aria-label={content.pricingUi.toggleBillingAriaLabel}
+                        aria-pressed={annual}
+                        onClick={() => setAnnual((v) => !v)}
+                        className="flex items-center gap-2 text-[11.5px] font-semibold tracking-wide text-white/70 transition-colors duration-200 hover:text-white"
+                      >
+                        <span>{fr ? "Annuel" : "Annual"}</span>
+                        <span
+                          className={`relative inline-block h-[18px] w-[32px] rounded-full transition-colors duration-200 ${
+                            annual
+                              ? "bg-[#4296f6]"
+                              : "bg-white/15"
+                          }`}
+                        >
+                          <span
+                            className={`absolute top-[2px] h-[14px] w-[14px] rounded-full bg-white shadow-sm transition-[left] duration-200 ${
+                              annual ? "left-[16px]" : "left-[2px]"
+                            }`}
+                          />
+                        </span>
+                      </button>
+                    )}
                   </div>
 
-                  {/* Tiny low-opacity billing line directly under the
-                     price. Pro/Ultra swap between yearly and monthly
-                     copy with the toggle; Free gets its own one-liner
-                     so all three cards keep the same vertical rhythm
-                     and the audience/CTA below stay aligned. */}
-                  <p className="mt-1.5 text-[11.5px] leading-snug text-white/35">
-                    {p.period
-                      ? fr
-                        ? annual
-                          ? "Par mois, facturé à l'année"
-                          : "Par mois. Annulable à tout moment."
-                        : annual
-                          ? "Per month, billed yearly"
-                          : "Per month. Cancel anytime."
-                      : fr
-                        ? "Toujours gratuit, sans carte."
-                        : "Always free, no card needed."}
-                  </p>
+                  {/* Price + inline "per month" — sits directly under
+                      the title row. Big price digits on the left,
+                      smaller "per month" baseline-aligned on the right.
+                      Free has no period (`p.period` empty), so the
+                      inline label doesn't render — €0 stands alone.
+                      `isolation: isolate` + `key={p.price}` fix a Safari
+                      GPU compositor glitch where stale glyphs could
+                      ghost under updated digits when the price changes
+                      in place. */}
+                  <div className="mt-4 flex items-baseline gap-2" style={{ isolation: "isolate" }}>
+                    {/* Price renders as plain text — no animation on
+                        toggle. New digits replace old ones instantly. */}
+                    <span className="text-[2rem] font-light leading-none text-white tabular-nums">
+                      {p.price}
+                    </span>
+                    {p.period && (
+                      <span className="text-[15px] font-medium leading-none text-white/45">
+                        {fr ? "par mois" : "per month"}
+                      </span>
+                    )}
+                  </div>
 
-                  <p
-                    className="mt-4 text-[13px] leading-snug text-white/55"
-                    style={{
-                      /* Lock the audience copy to exactly two lines so all
-                         three cards have identical "title \u2192 price \u2192 2-line
-                         description \u2192 CTA" rhythm. line-clamp-2 caps long
-                         strings, the matching min-h holds the slot open
-                         when copy is shorter, and the height is set in em
-                         so it tracks the leading-snug line-height. */
-                      display: "-webkit-box",
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: "vertical",
-                      overflow: "hidden",
-                      minHeight: "2.8em",
-                    }}
-                  >
-                    {p.audience || "\u00A0"}
+                  {/* Description / audience — sits BELOW the price.
+                      Tight spacing keeps the card compact (overall card
+                      height stays close to the Framer reference). */}
+                  <p className="mt-3 text-[13px] font-medium leading-snug text-white/55">
+                    {p.audience}
                   </p>
 
                   <div className="mt-5">
@@ -872,7 +862,7 @@ export default function PricingPage() {
                       loggedOutHref={p.loggedOutHref || p.href}
                       className={`inline-flex w-full items-center justify-center rounded-2xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                         p.featured
-                          ? "bg-white text-[#0e0e0e] hover:bg-white/90 focus-visible:ring-white/35"
+                          ? "bg-[#4397f8] text-white hover:bg-[#2c75d4] focus-visible:ring-[#4397f8]/35"
                           : "bg-white/[0.06] text-white hover:bg-white/[0.1] focus-visible:ring-white/20"
                       }`}
                     >
@@ -885,15 +875,15 @@ export default function PricingPage() {
                       {p.includedHeading}
                     </p>
                   )}
-                  <ul className={`flex flex-col gap-3 ${p.includedHeading ? "mt-3" : "mt-8"}`}>
-                    {p.bullets.map((bullet, bi) => (
+                  <ul className={`flex flex-col gap-2.5 ${p.includedHeading ? "mt-3" : "mt-5"}`}>
+                    {p.bullets.map((bullet) => (
                       <li
                         key={bullet}
-                        className={`flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80 ${bi >= 4 ? "hidden lg:flex" : ""}`}
+                        className="flex items-start gap-2.5 text-[14.5px] font-medium leading-snug text-white/55"
                       >
                         <svg
                           viewBox="0 0 20 20"
-                          className="mt-0 h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
+                          className="mt-0 h-[18px] w-[18px] shrink-0 fill-none stroke-white/85 stroke-[2.2]"
                         >
                           <path d="M5 10.5l3.5 3.5L15 7" />
                         </svg>
@@ -902,10 +892,10 @@ export default function PricingPage() {
                     ))}
                   </ul>
 
-                  <div className="mt-auto flex justify-start pt-8">
+                  <div className="mt-auto flex justify-start pt-6">
                     <a
                       href="#compare-plans"
-                      className="text-[13px] text-white/55 underline underline-offset-4 decoration-white/30 transition-colors duration-200 hover:text-white hover:decoration-white/60"
+                      className="text-[13px] font-medium text-white/55 underline underline-offset-4 decoration-white/30 transition-colors duration-200 hover:text-white hover:decoration-white/60"
                     >
                       {locale === "fr" ? "Voir plus" : "View more"}
                     </a>
@@ -920,74 +910,46 @@ export default function PricingPage() {
                       into one continuous shape; the silver-on-dark fill
                       matches the card surface so the pill reads as part of
                       the same glass. */}
-                  {p.featured && (
-                    <div className="pointer-events-none absolute left-1/2 top-0 z-20 -translate-x-1/2 -translate-y-1/2">
-                      <div
-                        className="whitespace-nowrap rounded-full border border-white px-3 py-1 text-[11px] font-medium text-white"
-                        style={{
-                          backgroundColor: "#000",
-                          backgroundImage:
-                            "linear-gradient(180deg, rgba(220, 228, 242, 0.16) 0%, rgba(20, 22, 28, 0.62) 100%)",
-                          backdropFilter: "blur(14px)",
-                          WebkitBackdropFilter: "blur(14px)",
-                        }}
-                      >
-                        {locale === "fr" ? "Le plus populaire" : "Most popular"}
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
             );
             })}
             </div>
-          </Reveal>
-
-          {/* ROI anchor, single line just below the cards at the moment of
-              decision. Concrete reframing: the price is small relative to
-              one good outcome, so the upgrade objection ("is it worth it?")
-              gets answered before the user has to think about it. */}
-          <Reveal className="mt-10 block sm:mt-12">
-            <div className="flex justify-center">
-              <p className="text-center text-[13.5px] leading-relaxed text-white/55 sm:text-[14.5px]">
-                {locale === "fr" ? (
-                  <>
-                    <span className="text-white/85">Un placement de plus rembourse un an de Pro.</span>
-                    {" "}Un deal signé couvre Ultra.
-                  </>
-                ) : (
-                  <>
-                    <span className="text-white/85">One extra placement covers a year of Pro.</span>
-                    {" "}One signed deal covers Ultra.
-                  </>
-                )}
-              </p>
             </div>
           </Reveal>
 
-          {/* MNGMT, wide horizontal card beneath the 3 plan columns.
-              Glassmorphism (same recipe as the pinned nav:
-              rgba(0,0,0,0.55) + blur(14px)) over the almost-black card
-              base. No outline, no mask-fade, clean edges. */}
-          <Reveal className="mt-16 block sm:mt-20">
+          {/* MNGMT — single thin horizontal card beneath the three
+              plan columns. Same visual language as Free / Ultra: pure
+              black bg with a low-opacity grey gradient, but oriented
+              left-to-right so the "glow" anchors at the MNGMT label
+              (left side) and gradually fades out toward the Contact
+              sales button (right side). Same 1px outline as the plan
+              cards. Inline title + one-line description on the left,
+              CTA pinned to the far right edge — keeps the card short.
+              Tight top margin so the Pro card's outer halo bleeds onto
+              the MNGMT top edge. */}
+          <Reveal className="relative z-10 mt-8 block sm:mt-10">
             <div
               className="relative mx-auto w-[74vw] overflow-hidden rounded-2xl sm:w-auto"
               style={{
                 background:
-                  "linear-gradient(135deg, rgba(205, 212, 225, 0.08) 0%, rgba(12, 12, 16, 0.55) 55%, rgba(10, 10, 13, 0.55) 100%)",
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
+                  "linear-gradient(to right, rgba(60, 60, 65, 0.45) 0%, rgba(60, 60, 65, 0.32) 18%, rgba(60, 60, 65, 0.18) 38%, rgba(60, 60, 65, 0.08) 58%, rgba(60, 60, 65, 0.02) 75%, rgba(0, 0, 0, 0) 90%), #000000",
+                outline: "1px solid rgba(255, 255, 255, 0.14)",
+                outlineOffset: "-1px",
               }}
             >
-              <div className="relative z-10 flex flex-col gap-8 px-7 py-9 sm:flex-row sm:items-center sm:justify-between sm:gap-12 sm:px-10 sm:py-10">
-                <div className="min-w-0 flex-1">
+              <div className="relative z-10 flex flex-col items-start gap-4 px-7 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:px-10 sm:py-7">
+                <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-5">
                   <h3
-                    className="inline-block text-[15px] leading-none text-white/90"
+                    className="shrink-0 text-[15px] leading-none text-white/90"
                     style={{
                       fontFamily:
                         "Geist, ui-sans-serif, system-ui, -apple-system, sans-serif",
                       fontWeight: 300,
                       letterSpacing: "0.42em",
+                      /* Subtle right-fading mask on the wordmark — same
+                         treatment the original MNGMT card used so the
+                         logo reads as graphic, not body copy. */
                       maskImage:
                         "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%)",
                       WebkitMaskImage:
@@ -996,34 +958,17 @@ export default function PricingPage() {
                   >
                     {mngmtPlan.name}
                   </h3>
-                  <p className="mt-5 max-w-[620px] text-[14.5px] leading-relaxed text-white/55 sm:text-[15px]">
-                    {mngmtPlan.audience}
-                  </p>
-                  <LandingCtaLink
-                    loggedInHref={mngmtPlan.href}
-                    loggedOutHref={mngmtPlan.href}
-                    className="mt-5 inline-flex items-center justify-center rounded-2xl bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
-                  >
-                    {mngmtPlan.cta}
-                  </LandingCtaLink>
-                  <div className="mt-5 flex items-center gap-2 text-[13px] text-white/50">
-                    <svg
-                      viewBox="0 0 20 20"
-                      className="-mt-px h-[16px] w-[16px] shrink-0 fill-none stroke-white/35 stroke-[2.2]"
-                    >
-                      <path d="M5 10.5l3.5 3.5L15 7" />
-                    </svg>
-                    <span>{mngmtPlan.bullet}</span>
-                  </div>
-                </div>
-                <div className="shrink-0 sm:text-right">
-                  <p className="text-[13px] text-white/30">
-                    {fr ? "Tarif" : "Pricing"}
-                  </p>
-                  <p className="mt-1 text-[20px] font-medium text-white/75">
-                    {mngmtPlan.price}
+                  <p className="truncate text-[13.5px] font-light leading-snug text-white/55 sm:text-[14px]">
+                    {mngmtPlan.bullet}
                   </p>
                 </div>
+                <LandingCtaLink
+                  loggedInHref={mngmtPlan.href}
+                  loggedOutHref={mngmtPlan.href}
+                  className="shrink-0 inline-flex items-center justify-center rounded-2xl bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
+                >
+                  {mngmtPlan.cta}
+                </LandingCtaLink>
               </div>
             </div>
           </Reveal>
@@ -1063,14 +1008,14 @@ export default function PricingPage() {
             nav. When stuck, the sticky uses the *same* glassmorphic
             styling as the nav (rgba(0,0,0,0.55) + blur(14px)) so the
             two bars visually merge into one continuous strip. */}
-        <div id="compare-plans" className="mt-28 scroll-mt-[62px] sm:mt-36 sm:scroll-mt-[56px]">
+        <div id="compare-plans" className="mt-28 scroll-mt-[72px] sm:mt-36 sm:scroll-mt-[68px]">
           {/* Sticky big header, position:sticky pins it at top:navHeight,
               so the primary nav stays visible above it. When pinned, the
               nav's bottom border is faded out via the `compare-pinned`
               body class in globals.css, so there is no line between them. */}
           <div
             ref={staticHeaderRef}
-            className="sticky top-[62px] z-20 sm:top-[56px]"
+            className="sticky top-[72px] z-20 sm:top-[68px]"
           >
             {/* Unified glass backdrop, extends upward to cover the nav
                 area when stuck so there's ONE continuous glass surface
