@@ -714,14 +714,7 @@ export default function PricingPage() {
               just Pro. `touch-action: pan-x` on the scroller keeps
               vertical page scrolling stable, tapping or starting a
               near-vertical drag on a card doesn't jiggle the row. */}
-          {/* `overflow-hidden` clips Pro's outer box-shadow so the halo
-              can't trail above (into the subheadline area) or below
-              (into the area between the cards row and the MNGMT card,
-              which is what was leaking through behind the pinned
-              compare-plans nav and reading as a faint glow strip).
-              Lateral cross-card bleed onto Free / Ultra inner edges is
-              preserved because that all happens INSIDE this element. */}
-          <Reveal className="relative z-20 mt-12 block overflow-hidden">
+          <Reveal className="relative z-20 mt-12 block">
             <div className="relative">
             <div
               className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] pt-5 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:pt-0 lg:snap-none"
@@ -786,7 +779,7 @@ export default function PricingPage() {
                       outline: "1px solid rgba(255, 255, 255, 0.14)",
                       outlineOffset: "-1px",
                       boxShadow: p.featured
-                        ? "0 25px 110px 5px rgba(28, 95, 200, 0.14), 0 60px 240px 20px rgba(13, 55, 143, 0.07)"
+                        ? "0 0 60px 0 rgba(28, 95, 200, 0.18), 0 0 120px 10px rgba(13, 55, 143, 0.10)"
                         : undefined,
                       WebkitFontSmoothing: "antialiased",
                     }}
@@ -958,7 +951,7 @@ export default function PricingPage() {
                   >
                     {mngmtPlan.name}
                   </h3>
-                  <p className="truncate text-[13.5px] font-light leading-snug text-white/55 sm:text-[14px]">
+                  <p className="text-[13.5px] font-light leading-snug text-white/55 sm:text-[14px]">
                     {mngmtPlan.bullet}
                   </p>
                 </div>

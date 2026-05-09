@@ -18,7 +18,7 @@ function HeroStudioBadge({
 }: {
   href: string;
   newLabel: string;
-  onyxLabel: string;
+  onyxLabel?: string;
 }) {
   return (
     <LandingCtaLink
@@ -28,7 +28,9 @@ function HeroStudioBadge({
     >
       <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
       <span className="font-semibold text-white">{newLabel}</span>
-      <span className="text-white/72">{onyxLabel}</span>
+      {onyxLabel ? (
+        <span className="text-white/72">{onyxLabel}</span>
+      ) : null}
       <svg
         viewBox="0 0 20 20"
         className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1"
@@ -791,9 +793,8 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
                     teaser for that page without spinning up another
                     WebGL context on the landing. */}
                 <HeroStudioBadge
-                  href="/features/studio"
-                  newLabel={content.hero.newBadge}
-                  onyxLabel={content.hero.onyxLabel}
+                  href="/pricing"
+                  newLabel={locale === "fr" ? "Voir les tarifs" : "See pricing"}
                 />
               </div>
             ) : null}
