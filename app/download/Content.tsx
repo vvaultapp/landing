@@ -7,16 +7,11 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { getLandingContent } from "@/components/landing/content";
 import { useLocale } from "@/lib/useLocale";
-import { useIsLocalhost } from "@/lib/useIsLocalhost";
 
 const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
 });
 
-const MACOS_URL =
-  "/api/download/macos";
-const WINDOWS_URL =
-  "/api/download/windows";
 const APPSTORE_URL = "https://apps.apple.com/app/id6759256796";
 
 function useIsMac() {
@@ -41,30 +36,18 @@ const downloadIcon = (
   </svg>
 );
 
-const buttonStyle = {
-  background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
-  boxShadow:
-    "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
-} as const;
-
 export default function DownloadPage() {
   const [locale] = useLocale();
   const content = getLandingContent(locale);
   const isMac = useIsMac();
-  const isLocalhost = useIsLocalhost();
   const fr = locale === "fr";
 
-  const primaryClass =
-    "inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-semibold text-[#0e0e0e] transition-all duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]";
   const secondaryClass =
     "inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-medium text-white/50 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/80";
   const disabledClass =
     "inline-flex cursor-not-allowed items-center gap-2.5 whitespace-nowrap rounded-2xl border border-white/[0.08] bg-white/[0.03] px-6 py-3 text-[15px] font-medium text-white/35";
 
-  const macPrimary = isMac;
-  const winPrimary = !isMac;
-
-  const macButton = isLocalhost ? (
+  const macButton = (
     <button
       type="button"
       disabled
@@ -74,18 +57,9 @@ export default function DownloadPage() {
       {downloadIcon}
       {fr ? "Bientôt sur macOS" : "Coming soon for macOS"}
     </button>
-  ) : (
-    <a
-      href={MACOS_URL}
-      className={macPrimary ? primaryClass : secondaryClass}
-      style={macPrimary ? buttonStyle : undefined}
-    >
-      {downloadIcon}
-      {fr ? "Télécharger pour macOS" : "Download for macOS"}
-    </a>
   );
 
-  const winButton = isLocalhost ? (
+  const winButton = (
     <button
       type="button"
       disabled
@@ -95,15 +69,6 @@ export default function DownloadPage() {
       {downloadIcon}
       {fr ? "Bientôt sur Windows" : "Coming soon for Windows"}
     </button>
-  ) : (
-    <a
-      href={WINDOWS_URL}
-      className={winPrimary ? primaryClass : secondaryClass}
-      style={winPrimary ? buttonStyle : undefined}
-    >
-      {downloadIcon}
-      {fr ? "Télécharger pour Windows" : "Download for Windows"}
-    </a>
   );
 
   const iosButton = (
