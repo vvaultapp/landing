@@ -11,8 +11,11 @@ import { FaqSection } from "@/components/landing/FaqSection";
 import { ContactSection } from "@/components/landing/ContactSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
+import { CookieBanner } from "@/components/landing/CookieBanner";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
+import { hasRejectedCookies } from "@/lib/cookieConsent";
+import { useIsLocalhost } from "@/lib/useIsLocalhost";
 
 type LandingPageProps = {
   locale?: Locale;
@@ -20,6 +23,7 @@ type LandingPageProps = {
 
 export function LandingPage({ locale = "en" }: LandingPageProps) {
   const content = getLandingContent(locale);
+  const isLocalhost = useIsLocalhost();
 
   useEffect(() => {
     document.title =
@@ -35,6 +39,12 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
   }, [locale]);
 
   useEffect(() => {
+    /* Cookie consent gate: skip the analytics call when the visitor
+       has explicitly rejected non-essential cookies. Production users
+       never see the banner yet (it's localhost-only), so `getCookieConsent`
+       returns null there and `hasRejectedCookies()` is false → tracking
+       runs as before, no change in production behavior. */
+    if (hasRejectedCookies()) return;
     void trackLandingView("get");
   }, []);
 
@@ -58,6 +68,11 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         <FinalCtaSection content={content} />
       </main>
       <LandingFooter locale={locale} content={content} />
+      {/* Cookie banner — currently localhost-only while we test the
+          consent flow. Once verified we'll flip the gate so it shows
+          for every visitor before we land any new tracking that
+          requires explicit opt-in. */}
+      {isLocalhost && <CookieBanner locale={locale} />}
     </div>
   );
 }
