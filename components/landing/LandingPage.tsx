@@ -16,7 +16,6 @@ import { ProPricingToast } from "@/components/landing/ProPricingToast";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
 import { readConsent } from "@/lib/consent";
-import { useIsLocalhost } from "@/lib/useIsLocalhost";
 
 type LandingPageProps = {
   locale?: Locale;
@@ -24,7 +23,6 @@ type LandingPageProps = {
 
 export function LandingPage({ locale = "en" }: LandingPageProps) {
   const content = getLandingContent(locale);
-  const isLocalhost = useIsLocalhost();
 
   useEffect(() => {
     document.title =
@@ -76,10 +74,11 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
           cookie at `.vvault.app` so a decision made here is read on
           `vvault.app/signup` without re-prompting. */}
       <CookieConsentBanner />
-      {/* Pro plan promo toast — triggered when the CertificateTeaser
-          section enters the viewport. Localhost only while we tune
-          copy and frequency. */}
-      {isLocalhost && <ProPricingToast locale={locale} />}
+      {/* Pro plan promo toast — fires every time the CertificateTeaser
+          section enters the viewport. No storage flag, so a refresh
+          re-arms it. Shown to every visitor (production + localhost)
+          per spec. */}
+      <ProPricingToast locale={locale} />
     </div>
   );
 }

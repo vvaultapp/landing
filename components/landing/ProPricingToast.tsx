@@ -7,8 +7,6 @@ type ProPricingToastProps = {
   locale?: "en" | "fr";
 };
 
-const SESSION_DISMISSED_KEY = "vvault-pro-toast-dismissed";
-
 /**
  * Scroll-triggered Pro plan promo toast.
  *
@@ -16,40 +14,26 @@ const SESSION_DISMISSED_KEY = "vvault-pro-toast-dismissed";
  * toast slides in at the bottom-right of the page the moment any pixel
  * of that section enters the viewport.
  *
- * Persistence: the toast survives the current page session but is
- * NOT marked dismissed across reloads. The previous version stored a
- * sessionStorage flag the first time the toast showed and never showed
- * it again — that was the "doesn't re-appear after refresh" symptom.
- * The flag is now only written when the user explicitly clicks the X
- * close button. Reloading the page and scrolling back to the
- * Certificate section re-triggers the observer and the toast comes
- * back, exactly as expected.
+ * Re-appearance guarantee: there is NO storage flag of any kind. Every
+ * fresh page load starts with `shown: false` and `closedByUser: false`;
+ * scrolling the CertificateTeaser section back into view fires the
+ * observer and the toast comes back. The X button hides the toast for
+ * the CURRENT page view only (via local React state) — refresh and the
+ * toast is eligible to appear again immediately. This is intentional
+ * per spec ("REALLY appears every time the user gets to that section").
  *
- * Pricing: shows the MONTHLY price (€8.99) so the headline number is
- * an accurate "what you'll pay if you don't commit to annual" — the
- * same shape the pricing page Pro card shows when the toggle is off.
+ * Pricing: shows the MONTHLY price (€8.99) — the same number the
+ * pricing-page Pro card shows when the annual/monthly toggle is off.
  *
- * CTA: links to `https://vvault.app/signup?plan=pro`, which is the
- * exact same destination as the pricing page's "Join Pro now" button
- * for a logged-out visitor — they sign up and the plan-selector
- * lands on Pro automatically.
- *
- * Visual: identical language to the pricing-page Pro card — same navy
- * gradient bg, same downward-biased outer halo, same white-on-navy
- * outline. Top-right "Recommended" label so the card reads as the
- * marketing equivalent of the Pro card's middle-column emphasis.
+ * CTA: links to `https://vvault.app/signup?plan=pro`, the same
+ * destination as the pricing-page "Join Pro now" button for a
+ * logged-out visitor.
  */
 export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
   const [shown, setShown] = useState(false);
   const [closedByUser, setClosedByUser] = useState(false);
 
   useEffect(() => {
-    try {
-      if (sessionStorage.getItem(SESSION_DISMISSED_KEY) === "1") {
-        setClosedByUser(true);
-        return;
-      }
-    } catch {}
     const target = document.getElementById("certificate-teaser");
     if (!target) return;
     const observer = new IntersectionObserver(
@@ -72,9 +56,6 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
   const fr = locale === "fr";
 
   function close() {
-    try {
-      sessionStorage.setItem(SESSION_DISMISSED_KEY, "1");
-    } catch {}
     setClosedByUser(true);
   }
 
@@ -102,12 +83,6 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
         }}
       >
         <div className="relative p-6 sm:p-7">
-          {/* "Recommended" pill — top-right, but inset enough that
-              it doesn't hug the close button or the card edge. */}
-          <span className="absolute right-12 top-5 inline-flex items-center gap-1.5 rounded-full bg-[#4397f8]/15 px-2.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#7fb6ff]">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#4397f8] shadow-[0_0_8px_1px_rgba(67,151,248,0.7)]" />
-            {fr ? "Recommandé" : "Recommended"}
-          </span>
           <button
             type="button"
             onClick={close}
@@ -123,9 +98,17 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
             </svg>
           </button>
 
-          <h3 className="mt-2 text-2xl font-light leading-none text-white">
-            Pro
-          </h3>
+          {/* "Recommended" sits inline to the right of "Pro", minimal
+              styling: small, sentence-case, no pill / no glow / no
+              uppercase tracking — just a quiet brand-blue label. */}
+          <div className="flex items-baseline gap-2.5">
+            <h3 className="text-2xl font-light leading-none text-white">
+              Pro
+            </h3>
+            <span className="text-[12px] font-medium leading-none text-[#7fb6ff]">
+              {fr ? "Recommandé" : "Recommended"}
+            </span>
+          </div>
           <p className="mt-3 text-[13.5px] font-medium leading-snug text-white/65">
             {fr ? "Va plus loin avec Pro" : "Go further with Pro"}
           </p>

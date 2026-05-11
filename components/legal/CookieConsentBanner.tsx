@@ -113,7 +113,7 @@ export default function CookieConsentBanner() {
       role="dialog"
       aria-modal="true"
       aria-label="Cookie preferences"
-      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-white/[0.08] bg-black text-white shadow-[0_-12px_40px_rgba(0,0,0,0.6)]"
+      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-white/[0.08] bg-[#111114] text-white shadow-[0_-12px_40px_rgba(0,0,0,0.6)]"
     >
       {/* Top-right dismiss — clicking it counts as a "reject non-essential"
           choice (CNIL: closing without choosing is not implicit consent). */}
