@@ -81,7 +81,10 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
       className="fixed bottom-4 right-4 z-[60] w-[calc(100%-2rem)] max-w-[380px] animate-[proToastIn_360ms_cubic-bezier(0.22,1,0.36,1)_both] sm:bottom-6 sm:right-6"
     >
       <div
-        className="relative overflow-hidden rounded-2xl"
+        /* `pro-toast-shadow` (globals.css) keeps the desktop halo but
+           drops it on mobile so iOS Safari can't clip the downward
+           glow into a hard line at the viewport edge. */
+        className="pro-toast-shadow relative overflow-hidden rounded-2xl"
         style={{
           /* Identical to the pricing-page Pro card: navy gradient
              from #0d378f at the bottom fading up to transparent at
@@ -89,12 +92,6 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
              #000000 base. */
           background:
             "linear-gradient(to top, rgba(13, 55, 143, 0.85) 0%, rgba(13, 55, 143, 0.50) 20%, rgba(12, 40, 110, 0.22) 40%, rgba(12, 33, 82, 0.06) 58%, rgba(0, 0, 0, 0) 70%), #000000",
-          /* Same outline + downward-biased outer halo as the Pro
-             card. The halo radiates from below the toast, picking up
-             where the toast itself ends — the same visual rhythm the
-             pricing page uses. */
-          boxShadow:
-            "inset 0 0 0 1px rgba(255,255,255,0.14), 0 40px 80px 0 rgba(28, 95, 200, 0.18), 0 80px 160px 10px rgba(13, 55, 143, 0.10)",
         }}
       >
         <div className="relative p-6 sm:p-7">

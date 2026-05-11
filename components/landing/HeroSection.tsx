@@ -769,7 +769,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
 
   return (
     <>
-      <section className="relative pb-8 pt-48 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
+      <section className="relative pb-8 pt-28 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
         <div className="pointer-events-none absolute top-0 left-0 z-0 h-screen w-screen opacity-40">
           <Beams
             beamWidth={1.7}
@@ -799,7 +799,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
               </div>
             ) : null}
 
-            <h1 className="font-display text-[2.85rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
+            <h1 className="font-display text-[2.2rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
               <span className="hero-line-reveal" style={{ animationDelay: "60ms" }}>
                 {content.hero.title[0]}
               </span>
