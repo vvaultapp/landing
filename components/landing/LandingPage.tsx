@@ -11,11 +11,11 @@ import { FaqSection } from "@/components/landing/FaqSection";
 import { ContactSection } from "@/components/landing/ContactSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
-import { CookieBanner } from "@/components/landing/CookieBanner";
+import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
 import { ProPricingToast } from "@/components/landing/ProPricingToast";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
-import { hasRejectedCookies } from "@/lib/cookieConsent";
+import { readConsent } from "@/lib/consent";
 import { useIsLocalhost } from "@/lib/useIsLocalhost";
 
 type LandingPageProps = {
@@ -40,12 +40,12 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
   }, [locale]);
 
   useEffect(() => {
-    /* Cookie consent gate: skip the analytics call when the visitor
-       has explicitly rejected non-essential cookies. Production users
-       never see the banner yet (it's localhost-only), so `getCookieConsent`
-       returns null there and `hasRejectedCookies()` is false → tracking
-       runs as before, no change in production behavior. */
-    if (hasRejectedCookies()) return;
+    /* Cookie consent gate: only fire the landing-view tracker when the
+       visitor has explicitly granted analytics consent. The banner
+       defaults to "denied" until the user decides, matching the CNIL
+       default-deny stance the webapp uses. */
+    const consent = readConsent();
+    if (!consent.analytics) return;
     void trackLandingView("get");
   }, []);
 
@@ -70,11 +70,12 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         <FinalCtaSection content={content} />
       </main>
       <LandingFooter locale={locale} content={content} />
-      {/* Cookie banner — currently localhost-only while we test the
-          consent flow. Once verified we'll flip the gate so it shows
-          for every visitor before we land any new tracking that
-          requires explicit opt-in. */}
-      {isLocalhost && <CookieBanner locale={locale} />}
+      {/* Cookie consent banner — exact same component as the webapp
+          uses on /signup. localStorage state lives under
+          `vvault:consent.v1`, and we also write a cross-subdomain
+          cookie at `.vvault.app` so a decision made here is read on
+          `vvault.app/signup` without re-prompting. */}
+      <CookieConsentBanner />
       {/* Pro plan promo toast — triggered when the CertificateTeaser
           section enters the viewport. Localhost only while we tune
           copy and frequency. */}
