@@ -769,7 +769,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
 
   return (
     <>
-      <section className="relative pb-8 pt-28 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
+      <section className="relative pb-8 pt-36 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
         <div className="pointer-events-none absolute top-0 left-0 z-0 h-screen w-screen opacity-40">
           <Beams
             beamWidth={1.7}

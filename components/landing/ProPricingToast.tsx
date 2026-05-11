@@ -75,15 +75,26 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
   }
 
   return (
-    <div
-      role="dialog"
-      aria-label={fr ? "Promotion Pro" : "Pro plan promo"}
-      className="fixed bottom-4 right-4 z-[60] w-[calc(100%-2rem)] max-w-[380px] animate-[proToastIn_360ms_cubic-bezier(0.22,1,0.36,1)_both] sm:bottom-6 sm:right-6"
-    >
+    <>
+      {/* Mobile-only dark floor beneath the toast. iOS Safari clips the
+          toast's downward halo at the viewport edge into a visible hard
+          line; this fade-to-black strip sits behind the toast (z-59) and
+          spans the full viewport width so the halo always blends into a
+          dark base. Hidden on sm+ where the desktop layout has enough
+          space below the toast for the halo to fall off naturally. */}
       <div
-        /* `pro-toast-shadow` (globals.css) keeps the desktop halo but
-           drops it on mobile so iOS Safari can't clip the downward
-           glow into a hard line at the viewport edge. */
+        aria-hidden="true"
+        className="pro-toast-floor pointer-events-none fixed inset-x-0 bottom-0 z-[59] h-32 animate-[proToastIn_360ms_cubic-bezier(0.22,1,0.36,1)_both] sm:hidden"
+      />
+      <div
+        role="dialog"
+        aria-label={fr ? "Promotion Pro" : "Pro plan promo"}
+        className="fixed bottom-4 right-4 z-[60] w-[calc(100%-2rem)] max-w-[380px] animate-[proToastIn_360ms_cubic-bezier(0.22,1,0.36,1)_both] sm:bottom-6 sm:right-6"
+      >
+      <div
+        /* `pro-toast-shadow` is defined in globals.css. Identical halo
+           on mobile and desktop; mobile clipping is masked by the
+           `.pro-toast-floor` strip rendered above. */
         className="pro-toast-shadow relative overflow-hidden rounded-2xl"
         style={{
           /* Identical to the pricing-page Pro card: navy gradient
@@ -148,6 +159,7 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
           </Link>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
