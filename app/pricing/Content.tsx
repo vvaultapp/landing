@@ -778,16 +778,15 @@ export default function PricingPage() {
                          outer halo. */
                       outline: "1px solid rgba(255, 255, 255, 0.14)",
                       outlineOffset: "-1px",
-                      /* Compact halo — close to the Pro card, doesn't
-                         try to extend upward (the carousel's overflow-x
-                         auto + overflow-y visible combination clips the
-                         vertical extent on mobile, so the box-shadow's
-                         upward reach gets cut off at the carousel's top
-                         edge). The upward glow toward the subheadline
-                         is rendered by a separate element OUTSIDE the
-                         carousel — see the localhost-gated halo above. */
+                      /* Compact halo with a downward y-offset so the
+                         glow concentrates BELOW the card and barely
+                         touches the area above. Lateral spread is
+                         preserved (so the cross-card bleed onto Free
+                         and Ultra inner edges still works), only the
+                         upward visibility is reduced — matching the
+                         mobile look the user wants. */
                       boxShadow: p.featured
-                        ? "0 0 60px 0 rgba(28, 95, 200, 0.18), 0 0 120px 10px rgba(13, 55, 143, 0.10)"
+                        ? "0 40px 80px 0 rgba(28, 95, 200, 0.18), 0 80px 160px 10px rgba(13, 55, 143, 0.10)"
                         : undefined,
                       WebkitFontSmoothing: "antialiased",
                     }}

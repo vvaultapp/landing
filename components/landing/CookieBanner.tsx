@@ -13,16 +13,27 @@ type CookieBannerProps = {
 };
 
 /**
- * Cookie consent banner. Renders only when the user hasn't yet decided
- * (no `vvault-cookie-consent` entry in localStorage). Once the user
- * accepts or rejects, the choice is persisted and the banner removes
- * itself — including on every subsequent visit, until storage is
- * cleared.
+ * Cookie consent banner.
  *
- * SSR-safe: the banner is rendered as `null` on the first paint and
- * only conditionally mounted after we've read localStorage on the
- * client, so production HTML stays clean and there's no flash of the
- * banner before the decision can be read.
+ * Visual: a white card with stacked Accept / Reject buttons, modeled on
+ * the Revolut consent banner — clean, light, easy to scan, with a
+ * clear primary (Accept all, dark) and a clear secondary (Reject
+ * non-essential, outlined) action.
+ *
+ * Placement:
+ *   - Desktop (sm+): floats near the bottom-right of the viewport as a
+ *     compact card. The rest of the page is NOT dimmed — the banner
+ *     is unobtrusive and the user can read the page while deciding.
+ *   - Mobile (<sm): full-width bottom sheet that stems from the very
+ *     bottom edge of the device. `padding-bottom: env(safe-area-inset-
+ *     bottom)` extends the white surface into the home-indicator /
+ *     Safari-toolbar area so the banner reads as flush with the
+ *     screen edge — no thin black strip below.
+ *
+ * SSR-safe: renders null on the first paint and only mounts after
+ * we've read localStorage on the client, so production HTML stays
+ * clean and there's no flash of the banner before the stored
+ * decision can be read.
  */
 export function CookieBanner({ locale = "en" }: CookieBannerProps) {
   const [hydrated, setHydrated] = useState(false);
@@ -45,77 +56,55 @@ export function CookieBanner({ locale = "en" }: CookieBannerProps) {
   };
 
   return (
-    <>
-      {/* Dim backdrop covering the rest of the page so the banner reads
-          as the focal element. Heavily opaque (85% black) — the rest of
-          the page is clearly dimmed, the banner is the only thing the
-          eye lands on. pointer-events-none keeps it from blocking
-          interaction with the banner buttons; the page is fully bright
-          and interactive again the moment the user picks. */}
+    <div
+      role="dialog"
+      aria-modal="false"
+      aria-label={fr ? "Préférences cookies" : "Cookie preferences"}
+      className="fixed inset-x-0 bottom-0 z-[60] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-w-[400px]"
+    >
       <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[55] bg-black/85"
-      />
-      <div
-        role="dialog"
-        aria-modal="false"
-        aria-label={fr ? "Préférences cookies" : "Cookie preferences"}
-        className="fixed bottom-4 left-4 right-4 z-[60] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-[420px]"
+        className="relative bg-white text-[#0e0e0e] shadow-[0_24px_60px_-12px_rgba(0,0,0,0.35)] rounded-t-[28px] sm:rounded-[28px]"
+        style={{
+          /* Mobile only: extend the white surface into the safe-area
+             so the banner appears flush with the device's bottom edge
+             (no black strip behind the Safari toolbar / home indicator). */
+          paddingBottom: "max(env(safe-area-inset-bottom), 0px)",
+        }}
       >
-        <div
-          className="relative overflow-hidden rounded-2xl px-5 py-4 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.65)] sm:px-6 sm:py-5"
-          style={{
-            background: "#1c1c20",
-          }}
-        >
-        <h2 className="text-[14px] font-semibold text-white sm:text-[15px]">
-          {fr ? "Cookies" : "Cookies"}
-        </h2>
-        <p className="mt-2 text-[12.5px] leading-relaxed text-white/60 sm:text-[13px]">
-          {fr ? (
-            <>
-              On utilise des cookies pour comprendre comment vvault est utilisé.
-              Aucun n&apos;est nécessaire au fonctionnement du site.{" "}
-              <Link
-                href="/privacy"
-                className="text-white/85 underline underline-offset-2 transition-colors hover:text-white"
-              >
-                En savoir plus
-              </Link>
-              .
-            </>
-          ) : (
-            <>
-              We use cookies to understand how vvault is used. None of them are
-              required for the site to work.{" "}
-              <Link
-                href="/privacy"
-                className="text-white/85 underline underline-offset-2 transition-colors hover:text-white"
-              >
-                Learn more
-              </Link>
-              .
-            </>
-          )}
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => choose("reject")}
-            className="inline-flex flex-1 items-center justify-center rounded-full border border-white/[0.10] bg-transparent px-5 py-2 text-[13px] font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 sm:flex-none sm:px-6"
+        <div className="px-6 pb-6 pt-7 sm:px-7 sm:pt-7 sm:pb-7">
+          <h2 className="text-[22px] font-bold leading-tight tracking-tight sm:text-[24px]">
+            {fr ? "Choisis tes cookies" : "Choose your cookies"}
+          </h2>
+          <p className="mt-3 text-[14.5px] leading-relaxed text-[#0e0e0e]/70 sm:text-[15px]">
+            {fr
+              ? "Les cookies nous aident à comprendre comment vvault est utilisé. Aucun n'est nécessaire au fonctionnement du site."
+              : "Cookies help us understand how vvault is used. None are required for the site to work."}
+          </p>
+          <Link
+            href="/privacy"
+            className="mt-1 inline-block text-[14.5px] font-medium leading-relaxed text-[#0e0e0e] underline underline-offset-[3px] decoration-[#0e0e0e]/40 hover:decoration-[#0e0e0e] sm:text-[15px]"
           >
-            {fr ? "Refuser" : "Reject"}
-          </button>
-          <button
-            type="button"
-            onClick={() => choose("accept")}
-            className="inline-flex flex-1 items-center justify-center rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:flex-none sm:px-6"
-          >
-            {fr ? "Accepter" : "Accept"}
-          </button>
-        </div>
+            {fr ? "En savoir plus" : "Learn more"}
+          </Link>
+
+          <div className="mt-6 flex flex-col gap-3">
+            <button
+              type="button"
+              onClick={() => choose("accept")}
+              className="inline-flex w-full items-center justify-center rounded-full bg-[#0e0e0e] px-5 py-3.5 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-[#222] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/40"
+            >
+              {fr ? "Tout accepter" : "Accept all"}
+            </button>
+            <button
+              type="button"
+              onClick={() => choose("reject")}
+              className="inline-flex w-full items-center justify-center rounded-full border-[1.5px] border-[#0e0e0e] bg-white px-5 py-3.5 text-[15px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-[#0e0e0e]/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e0e0e]/30"
+            >
+              {fr ? "Refuser les non essentiels" : "Reject non-essential cookies"}
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,73 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import Link from "next/link";
 import { FooterLanguageSwitcher } from "@/components/landing/FooterLanguageSwitcher";
-import {
-  getLandingTheme,
-  setLandingTheme,
-  LANDING_THEME_EVENT,
-  type LandingTheme,
-} from "@/lib/theme";
-import { useIsLocalhost } from "@/lib/useIsLocalhost";
-
-/**
- * Segmented Light / Dark toggle for the landing page theme.
- * Localhost-only for now — production users don't see the control.
- * State is driven through `lib/theme.ts` (localStorage + custom
- * event), so any other listener (LandingPage's root class) re-renders
- * in lockstep with the click.
- */
-function ThemeToggle() {
-  const isLocalhost = useIsLocalhost();
-  const [theme, setTheme] = useState<LandingTheme>("dark");
-
-  useEffect(() => {
-    setTheme(getLandingTheme());
-    function onChange(e: Event) {
-      const t = (e as CustomEvent<LandingTheme>).detail;
-      if (t === "light" || t === "dark") setTheme(t);
-    }
-    window.addEventListener(LANDING_THEME_EVENT, onChange);
-    return () => window.removeEventListener(LANDING_THEME_EVENT, onChange);
-  }, []);
-
-  if (!isLocalhost) return null;
-
-  return (
-    <div
-      role="group"
-      aria-label="Theme"
-      className="inline-flex items-center gap-1 rounded-full border border-white/10 p-1"
-    >
-      <button
-        type="button"
-        onClick={() => setLandingTheme("light")}
-        aria-pressed={theme === "light"}
-        className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-          theme === "light"
-            ? "bg-white text-[#0e0e0e]"
-            : "text-white/55 hover:text-white/85"
-        }`}
-      >
-        Light
-      </button>
-      <button
-        type="button"
-        onClick={() => setLandingTheme("dark")}
-        aria-pressed={theme === "dark"}
-        className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
-          theme === "dark"
-            ? "bg-white/15 text-white"
-            : "text-white/55 hover:text-white/85"
-        }`}
-      >
-        Dark
-      </button>
-    </div>
-  );
-}
 
 function isInternalHref(href: string) {
   return href.startsWith("/") && !href.startsWith("//");
@@ -276,15 +211,12 @@ export function LandingFooter({
             )}
           </div>
 
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <FooterLanguageSwitcher
-              initialLocale={locale}
-              ariaLabel={content.ui.languageSwitcherAriaLabel}
-              enLabel={content.ui.languageEnglish}
-              frLabel={content.ui.languageFrench}
-            />
-          </div>
+          <FooterLanguageSwitcher
+            initialLocale={locale}
+            ariaLabel={content.ui.languageSwitcherAriaLabel}
+            enLabel={content.ui.languageEnglish}
+            frLabel={content.ui.languageFrench}
+          />
         </div>
       </div>
     </footer>
