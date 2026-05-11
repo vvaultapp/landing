@@ -22,6 +22,13 @@ type ProPricingToastProps = {
  * toast is eligible to appear again immediately. This is intentional
  * per spec ("REALLY appears every time the user gets to that section").
  *
+ * Refresh behavior: browsers restore scroll position on reload, so the
+ * section may already be in view at mount. We don't want the toast to
+ * pop in immediately in that case — it should only show when the user
+ * actively scrolls into the section. We track an `armed` flag that
+ * flips true only after the section has been observed OUT of viewport
+ * at least once, and only fire the toast on intersections after that.
+ *
  * Pricing: shows the MONTHLY price (€8.99) — the same number the
  * pricing-page Pro card shows when the annual/monthly toggle is off.
  *
@@ -36,10 +43,18 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
   useEffect(() => {
     const target = document.getElementById("certificate-teaser");
     if (!target) return;
+    // armed = the section has been observed out of viewport at least
+    // once since mount. Only after that do we treat a subsequent
+    // intersection as a real scroll-in event. This keeps the toast
+    // from popping up on refresh when the browser restores scroll to
+    // a position where the section is already visible.
+    let armed = false;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
+          if (!entry.isIntersecting) {
+            armed = true;
+          } else if (armed) {
             setShown(true);
             observer.disconnect();
           }

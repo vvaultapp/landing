@@ -115,23 +115,28 @@ export default function CookieConsentBanner() {
       aria-label="Cookie preferences"
       className="fixed inset-x-0 bottom-0 z-[1000] border-t border-white/[0.08] bg-[#111114] text-white shadow-[0_-12px_40px_rgba(0,0,0,0.6)]"
     >
-      {/* Top-right dismiss — clicking it counts as a "reject non-essential"
-          choice (CNIL: closing without choosing is not implicit consent). */}
-      <button
-        type="button"
-        aria-label="Reject non-essential cookies and close"
-        onClick={handleRejectAll}
-        className="absolute right-2 top-2 inline-flex h-7 w-7 items-center justify-center rounded-md text-white/50 transition-colors hover:bg-white/10 hover:text-white"
-      >
-        <X className="h-3.5 w-3.5" />
-      </button>
+      {/* Mobile-only dismiss. On mobile the layout is a vertical stack
+          (title / body / buttons) so there's no clean horizontal row to
+          host the X. Anchor it to the banner's top-right corner instead.
+          Hidden on sm+ where the inline X inside BannerView takes over. */}
+      {view === 'banner' ? (
+        <button
+          type="button"
+          aria-label="Reject non-essential cookies and close"
+          onClick={handleRejectAll}
+          className="absolute right-4 top-4 z-[1] inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#111114] text-white transition-colors hover:bg-white/10 sm:hidden"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      ) : null}
 
-      <div className="mx-auto w-full max-w-[1400px] px-5 py-2.5 sm:px-8 sm:py-3">
+      <div className="mx-auto w-full max-w-[1400px] px-6 py-6 sm:px-10 sm:py-7">
         {view === 'banner' ? (
           <BannerView
             onAcceptAll={handleAcceptAll}
             onRejectAll={handleRejectAll}
             onCustomize={() => setView('preferences')}
+            onDismiss={handleRejectAll}
           />
         ) : (
           <PreferencesView
@@ -155,47 +160,66 @@ function BannerView({
   onAcceptAll,
   onRejectAll,
   onCustomize,
+  onDismiss,
 }: {
   onAcceptAll: () => void;
   onRejectAll: () => void;
   onCustomize: () => void;
+  onDismiss: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-2.5 pr-7 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-      <p className="min-w-0 text-[12px] leading-snug text-white/70">
-        <span className="font-semibold text-white">We use cookies.</span>{' '}
-        Cookies help this site function, measure usage, and support marketing.{' '}
-        <button
-          type="button"
-          onClick={onCustomize}
-          className="font-medium text-white underline underline-offset-2 hover:text-white"
-        >
-          Manage
-        </button>{' '}
-        anytime — see our{' '}
-        <Link
-          href="/privacy#cookies"
-          className="font-medium text-white underline underline-offset-2 hover:text-white"
-        >
-          cookie policy
-        </Link>
-        .
-      </p>
+    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+      <div className="min-w-0 max-w-[760px]">
+        <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base">
+          We use cookies
+        </h2>
+        <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px]">
+          Cookies help this site function, measure usage, and support marketing.
+        </p>
+        <p className="mt-1 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px]">
+          <button
+            type="button"
+            onClick={onCustomize}
+            className="font-medium text-white underline underline-offset-2 hover:text-white"
+          >
+            Manage
+          </button>{' '}
+          your cookie preferences anytime. Learn more about our{' '}
+          <Link
+            href="/privacy#cookies"
+            className="font-medium text-white underline underline-offset-2 hover:text-white"
+          >
+            cookie policy
+          </Link>
+          .
+        </p>
+      </div>
 
-      <div className="flex shrink-0 flex-wrap items-center gap-2">
+      <div className="flex shrink-0 flex-wrap items-center gap-2.5 sm:justify-end">
         <button
           type="button"
           onClick={onRejectAll}
-          className="inline-flex h-7 items-center rounded-full border border-white/20 bg-transparent px-3.5 text-[11px] font-semibold text-white transition-colors hover:bg-white/10"
+          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
         >
           Reject non-essential
         </button>
         <button
           type="button"
           onClick={onAcceptAll}
-          className="inline-flex h-7 items-center rounded-full bg-white px-4 text-[11px] font-semibold text-black transition-colors hover:bg-white/90"
+          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90"
         >
           Accept all
+        </button>
+        {/* Desktop dismiss. Counts as "reject non-essential" per CNIL:
+            closing without choosing is not implicit consent. On mobile
+            the X lives at the banner's top-right corner instead. */}
+        <button
+          type="button"
+          aria-label="Reject non-essential cookies and close"
+          onClick={onDismiss}
+          className="ml-1 hidden h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 sm:inline-flex"
+        >
+          <X className="h-4 w-4" />
         </button>
       </div>
     </div>
@@ -214,16 +238,30 @@ function PreferencesView(props: {
   allowClose: boolean;
 }) {
   return (
-    <div className="space-y-3 pr-7">
-      <div>
-        <div className="text-[13px] font-semibold text-white">Cookie preferences</div>
-        <p className="mt-0.5 text-[11px] text-white/60">
-          Strictly necessary cookies are always on because the site cannot
-          function without them.
-        </p>
+    <div className="space-y-5">
+      <div className="flex items-start justify-between gap-6">
+        <div className="min-w-0 max-w-[760px]">
+          <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base">
+            Cookie preferences
+          </h2>
+          <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px]">
+            Strictly necessary cookies are always on because the site cannot
+            function without them. Toggle the others to your preference.
+          </p>
+        </div>
+        {props.allowClose ? (
+          <button
+            type="button"
+            aria-label="Close preferences"
+            onClick={props.onClose}
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        ) : null}
       </div>
 
-      <div className="space-y-1.5">
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
         <CategoryRow
           title="Strictly necessary"
           description="Authentication, language, security. Cannot be disabled."
@@ -244,25 +282,25 @@ function PreferencesView(props: {
         />
       </div>
 
-      <div className="flex flex-wrap items-center justify-end gap-2">
+      <div className="flex flex-wrap items-center justify-end gap-2.5">
         <button
           type="button"
           onClick={props.onRejectAll}
-          className="inline-flex h-7 items-center rounded-full border border-white/20 bg-transparent px-3.5 text-[11px] font-semibold text-white transition-colors hover:bg-white/10"
+          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
         >
           Reject non-essential
         </button>
         <button
           type="button"
           onClick={props.onAcceptAll}
-          className="inline-flex h-7 items-center rounded-full border border-white/20 bg-transparent px-3.5 text-[11px] font-semibold text-white transition-colors hover:bg-white/10"
+          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
         >
           Accept all
         </button>
         <button
           type="button"
           onClick={props.onSave}
-          className="inline-flex h-7 items-center rounded-full bg-white px-4 text-[11px] font-semibold text-black transition-colors hover:bg-white/90"
+          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90"
         >
           Save preferences
         </button>
@@ -284,23 +322,90 @@ function CategoryRow({
   locked?: boolean;
   onChange?: (next: boolean) => void;
 }) {
+  const interactive = !locked;
   return (
     <label
-      className={`flex items-start justify-between gap-3 rounded-lg border border-white/10 bg-white/[0.04] px-3 py-2 ${
-        locked ? 'opacity-90' : 'cursor-pointer hover:bg-white/[0.07]'
+      className={`flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors ${
+        interactive ? 'cursor-pointer hover:border-white/15 hover:bg-white/[0.06]' : ''
       }`}
     >
+      <Checkbox checked={checked} locked={locked} onChange={onChange} />
       <div className="min-w-0">
-        <div className="text-[12px] font-semibold text-white">{title}</div>
-        <div className="mt-0.5 text-[10.5px] text-white/55">{description}</div>
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] font-semibold text-white">{title}</span>
+          {locked ? (
+            <span className="rounded-full bg-white/10 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-white/55">
+              Always on
+            </span>
+          ) : null}
+        </div>
+        <div className="mt-1 text-[12px] leading-relaxed text-white/55">
+          {description}
+        </div>
       </div>
+    </label>
+  );
+}
+
+function Checkbox({
+  checked,
+  locked,
+  onChange,
+}: {
+  checked: boolean;
+  locked?: boolean;
+  onChange?: (next: boolean) => void;
+}) {
+  return (
+    <span
+      role="checkbox"
+      aria-checked={checked}
+      aria-disabled={locked ? true : undefined}
+      tabIndex={locked ? -1 : 0}
+      onKeyDown={(e) => {
+        if (locked) return;
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          onChange?.(!checked);
+        }
+      }}
+      onClick={(e) => {
+        if (locked) {
+          e.preventDefault();
+          return;
+        }
+      }}
+      className={`relative mt-0.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md border transition-colors ${
+        checked
+          ? 'border-white bg-white'
+          : 'border-white/30 bg-transparent'
+      } ${locked ? 'opacity-60' : ''}`}
+    >
+      <svg
+        viewBox="0 0 12 12"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className={`h-3 w-3 text-black transition-opacity duration-150 ${
+          checked ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <path d="M2.5 6.5 5 9l4.5-5.5" />
+      </svg>
+      {/* Hidden native input so click-on-row still toggles via the
+          surrounding <label>. The visual is rendered above. */}
       <input
         type="checkbox"
         checked={checked}
         disabled={locked}
         onChange={(e) => onChange?.(e.target.checked)}
-        className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-white"
+        className="sr-only"
+        aria-hidden="true"
+        tabIndex={-1}
       />
-    </label>
+    </span>
   );
 }
