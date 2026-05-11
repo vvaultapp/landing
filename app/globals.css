@@ -185,17 +185,31 @@ html {
   will-change: auto;
 }
 
-/* Localhost-only "white mode" for the landing page, toggled by pressing
-   the M key (see LandingPage.tsx). Inverts the entire `.landing-root`
-   subtree with `filter: invert(1) hue-rotate(180deg)` — a tried-and-
-   tested CSS trick that flips dark-themed UIs to light without needing
-   to refactor every component's colors. The hue-rotate compensates so
-   colored accents (blues, greens, etc.) keep roughly their original hue
-   after the invert.
+/* Pro pricing toast — slides up from the bottom-right when the
+   CertificateTeaser section enters the viewport. Single subtle
+   keyframe, no overshoot. See components/landing/ProPricingToast. */
+@keyframes proToastIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Localhost-only "white mode" for the landing page. Driven by the
+   Light/Dark toggle in the footer (LandingFooter -> ThemeToggle ->
+   lib/theme.ts). Inverts the entire `.landing-root` subtree with
+   `filter: invert(1) hue-rotate(180deg)` — a tried-and-tested CSS
+   trick that flips dark-themed UIs to light without needing to
+   refactor every component's colors. The hue-rotate compensates so
+   colored accents (blues, greens, etc.) keep roughly their original
+   hue after the invert.
    Media (images, video, canvas, embedded SVG <image>) gets a second
    invert+hue-rotate applied so photos and shader output don't end up
-   color-inverted. backdrop-filter elements are filtered too, so any
-   glass surfaces stay coherent with the inverted page. */
+   color-inverted. */
 .landing-light {
   filter: invert(1) hue-rotate(180deg);
 }

@@ -33,7 +33,7 @@ function CheckBadgeIcon({ className = "", gradId }: { className?: string; gradId
 
 export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
   return (
-    <section className="pt-36 sm:pt-52">
+    <section id="certificate-teaser" className="pt-36 sm:pt-52">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           {/* Section emblem */}

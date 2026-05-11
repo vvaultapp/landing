@@ -47,13 +47,14 @@ export function CookieBanner({ locale = "en" }: CookieBannerProps) {
   return (
     <>
       {/* Dim backdrop covering the rest of the page so the banner reads
-          as the focal element. pointer-events-none — the banner is the
-          only thing that should respond to clicks while it's up, and
-          the rest of the page is fully accessible again once the user
-          has made their choice. */}
+          as the focal element. Heavily opaque (85% black) — the rest of
+          the page is clearly dimmed, the banner is the only thing the
+          eye lands on. pointer-events-none keeps it from blocking
+          interaction with the banner buttons; the page is fully bright
+          and interactive again the moment the user picks. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[55] bg-black/65 backdrop-blur-[2px]"
+        className="pointer-events-none fixed inset-0 z-[55] bg-black/85"
       />
       <div
         role="dialog"
@@ -64,8 +65,7 @@ export function CookieBanner({ locale = "en" }: CookieBannerProps) {
         <div
           className="relative overflow-hidden rounded-2xl px-5 py-4 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.65)] sm:px-6 sm:py-5"
           style={{
-            background:
-              "linear-gradient(180deg, rgba(48,48,52,0.96) 0%, rgba(36,36,40,0.96) 100%)",
+            background: "#1c1c20",
           }}
         >
         <h2 className="text-[14px] font-semibold text-white sm:text-[15px]">

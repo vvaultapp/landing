@@ -12,10 +12,16 @@ import { ContactSection } from "@/components/landing/ContactSection";
 import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { CookieBanner } from "@/components/landing/CookieBanner";
+import { ProPricingToast } from "@/components/landing/ProPricingToast";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
 import { hasRejectedCookies } from "@/lib/cookieConsent";
 import { useIsLocalhost } from "@/lib/useIsLocalhost";
+import {
+  getLandingTheme,
+  LANDING_THEME_EVENT,
+  type LandingTheme,
+} from "@/lib/theme";
 
 type LandingPageProps = {
   locale?: Locale;
@@ -24,12 +30,13 @@ type LandingPageProps = {
 export function LandingPage({ locale = "en" }: LandingPageProps) {
   const content = getLandingContent(locale);
   const isLocalhost = useIsLocalhost();
-  /* Localhost-only "white mode" toggle bound to the M key. Implemented
-     via a single CSS class on `.landing-root` that drives a CSS filter
-     in globals.css — no per-component theming refactor required. Press
-     M anywhere on the page (outside form fields) to flip; press again
-     to revert. */
-  const [lightMode, setLightMode] = useState(false);
+  /* Landing-page theme. Persisted in localStorage via `lib/theme.ts`
+     and applied as the `landing-light` class on `.landing-root` (see
+     globals.css). The footer's Light/Dark toggle calls `setLandingTheme`
+     which dispatches `vvault-theme-change`; the listener below picks
+     it up so the page re-renders with the new class in lockstep with
+     the click. Defaults to "dark" (SSR-safe). */
+  const [theme, setTheme] = useState<LandingTheme>("dark");
 
   useEffect(() => {
     document.title =
@@ -54,46 +61,25 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
     void trackLandingView("get");
   }, []);
 
-  /* Keyboard handler for the M-key light mode toggle. Localhost only.
-     Listens at BOTH `document` and `window` so the event is caught
-     wherever the browser routes it (some focus states route to one
-     but not the other). Matches on both `e.key` and `e.code` so it
-     works on every keyboard layout including AZERTY. Suppressed while
-     the user is typing in an input / textarea / contenteditable so
-     it doesn't hijack normal text entry. Cmd/Ctrl/Alt-M chords pass
-     through so OS shortcuts (like Cmd+M minimize) still work. */
+  /* Sync theme state with localStorage. Reads the saved value on
+     mount, then listens for `vvault-theme-change` so any in-page
+     toggle (the footer button) re-renders LandingPage with the new
+     class. SSR-safe — initial state is "dark", which matches what
+     production users see when localStorage is empty. */
   useEffect(() => {
-    if (!isLocalhost) return;
-    function onKey(e: KeyboardEvent) {
-      const isM = e.key === "m" || e.key === "M" || e.code === "KeyM";
-      if (!isM) return;
-      if (e.metaKey || e.ctrlKey || e.altKey) return;
-      const target = e.target as HTMLElement | null;
-      if (
-        target &&
-        (target.tagName === "INPUT" ||
-          target.tagName === "TEXTAREA" ||
-          target.isContentEditable)
-      ) {
-        return;
-      }
-      e.preventDefault();
-      setLightMode((v) => !v);
+    setTheme(getLandingTheme());
+    function onThemeChange(e: Event) {
+      const detail = (e as CustomEvent<LandingTheme>).detail;
+      if (detail === "light" || detail === "dark") setTheme(detail);
     }
-    /* Attach to document only — keydown bubbles to document from any
-       element, so a single listener here catches every keypress on
-       the page. Attaching to both document AND window would invoke
-       the handler twice for the same event (toggling twice = net no
-       change), which is the exact "doesn't work" symptom we want to
-       avoid. */
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [isLocalhost]);
+    window.addEventListener(LANDING_THEME_EVENT, onThemeChange);
+    return () => window.removeEventListener(LANDING_THEME_EVENT, onThemeChange);
+  }, []);
 
   return (
     <div
       className={`landing-root min-h-screen bg-black font-sans text-[#f0f0f0] ${
-        lightMode ? "landing-light" : ""
+        theme === "light" ? "landing-light" : ""
       }`}
     >
       <a
@@ -119,6 +105,10 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
           for every visitor before we land any new tracking that
           requires explicit opt-in. */}
       {isLocalhost && <CookieBanner locale={locale} />}
+      {/* Pro plan promo toast — triggered when the CertificateTeaser
+          section enters the viewport. Localhost only while we tune
+          copy and frequency. */}
+      {isLocalhost && <ProPricingToast locale={locale} />}
     </div>
   );
 }

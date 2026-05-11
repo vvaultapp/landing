@@ -716,27 +716,6 @@ export default function PricingPage() {
               near-vertical drag on a card doesn't jiggle the row. */}
           <Reveal className="relative z-20 mt-12 block">
             <div className="relative">
-              {/* Upward halo extending from the cards row toward the
-                  subheadline. Rendered as a separate absolutely-
-                  positioned element OUTSIDE the carousel container so
-                  it isn't clipped by `pricing-card-scroll`'s
-                  `overflow-x: auto` (which forces the y-axis to clip
-                  too via the CSS overflow combination quirk).
-                  DESKTOP ONLY (`hidden lg:block`) — on mobile the
-                  carousel layout makes the top glow read as a hard
-                  band above the swipeable cards, so we drop it there
-                  and rely on the cards' own internal navy gradient
-                  + the lateral box-shadow bleed (which still works
-                  inside the carousel because it stays within the
-                  row's clip). */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 -top-40 -bottom-32 z-0 hidden lg:block"
-                style={{
-                  background:
-                    "radial-gradient(ellipse 24% 60% at 50% 35%, rgba(13, 55, 143, 0.28) 0%, rgba(13, 55, 143, 0.10) 40%, rgba(13, 55, 143, 0.04) 70%, rgba(13, 55, 143, 0) 100%)",
-                }}
-              />
             <div
               className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:snap-none"
               style={{
