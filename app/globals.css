@@ -199,6 +199,28 @@ html {
   }
 }
 
+/* Cookie banner — fades in + slides up gently on first appearance.
+   Backdrop fades in alongside it on a slightly longer duration so
+   the dim catches up smoothly behind the moving banner. */
+@keyframes cookieBannerIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cookieBackdropIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .landing-reveal.is-visible {
   opacity: 1;
   transform: translateY(0);

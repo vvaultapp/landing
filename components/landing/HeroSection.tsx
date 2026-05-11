@@ -24,7 +24,7 @@ function HeroStudioBadge({
     <LandingCtaLink
       loggedInHref={href}
       loggedOutHref={href}
-      className="group inline-flex items-center gap-2 px-1 py-0.5 text-xs sm:text-sm"
+      className="group inline-flex items-center gap-2 px-1 py-0.5 text-sm sm:text-sm"
     >
       <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
       <span className="font-semibold text-white">{newLabel}</span>
@@ -430,7 +430,7 @@ function HeroTrustedBy({
               key={`trusted-avatar-${idx}`}
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
-              } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30`}
+              } relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30 sm:h-8 sm:w-8`}
               style={{ background: "rgba(30,30,35,1)" }}
             >
               {/* Layer A */}
@@ -455,7 +455,7 @@ function HeroTrustedBy({
             );
           })}
         </div>
-        <p className="text-sm text-white/85 sm:text-base">
+        <p className="text-[15px] text-white/85 sm:text-base">
           {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
           <span className="font-bold text-white">
             {loaded ? numberFormatter.format(usersTotal) : "…"}
@@ -799,7 +799,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
               </div>
             ) : null}
 
-            <h1 className="font-display text-[2.25rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
+            <h1 className="font-display text-[2.85rem] font-normal leading-[0.95] tracking-tight text-white sm:text-[3.75rem] lg:text-[4.7rem]">
               <span className="hero-line-reveal" style={{ animationDelay: "60ms" }}>
                 {content.hero.title[0]}
               </span>
@@ -815,7 +815,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           <div className="hero-seq-item mt-7 flex flex-col items-center gap-3" style={{ animationDelay: "520ms" }}>
             <a
               href="https://vvault.app/auth/google"
-              className="inline-flex items-center gap-2.5 rounded-2xl px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 ease-out hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
+              className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[16px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 ease-out hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
               style={{
                 background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
                 boxShadow: "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
@@ -842,7 +842,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
             <LandingCtaLink
               loggedInHref="https://vvault.app/signup"
               loggedOutHref="https://vvault.app/signup"
-              className="inline-flex items-center text-sm font-medium text-white/50 transition-colors duration-200 hover:text-white/80 focus-visible:outline-none sm:text-base"
+              className="inline-flex items-center text-[15px] font-medium text-white/50 transition-colors duration-200 hover:text-white/80 focus-visible:outline-none sm:text-base"
             >
               {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
             </LandingCtaLink>
