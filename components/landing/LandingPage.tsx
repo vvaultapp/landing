@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
@@ -24,6 +24,12 @@ type LandingPageProps = {
 export function LandingPage({ locale = "en" }: LandingPageProps) {
   const content = getLandingContent(locale);
   const isLocalhost = useIsLocalhost();
+  /* Localhost-only "white mode" toggle bound to the M key. Implemented
+     via a single CSS class on `.landing-root` that drives a CSS filter
+     in globals.css — no per-component theming refactor required. Press
+     M anywhere on the page (outside form fields) to flip; press again
+     to revert. */
+  const [lightMode, setLightMode] = useState(false);
 
   useEffect(() => {
     document.title =
@@ -48,8 +54,38 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
     void trackLandingView("get");
   }, []);
 
+  /* Keyboard handler for the M-key light mode toggle. Localhost only.
+     Listens at the window level so it works from anywhere on the page,
+     but is suppressed while the user is typing in an input / textarea /
+     contenteditable so it doesn't hijack normal text entry (e.g. the
+     contact form). Also gated by `metaKey/ctrlKey/altKey` so shortcuts
+     like Cmd+M (minimize) and Ctrl+M still pass through. */
+  useEffect(() => {
+    if (!isLocalhost) return;
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "m" && e.key !== "M") return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === "INPUT" ||
+          target.tagName === "TEXTAREA" ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
+      setLightMode((v) => !v);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isLocalhost]);
+
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div
+      className={`landing-root min-h-screen bg-black font-sans text-[#f0f0f0] ${
+        lightMode ? "landing-light" : ""
+      }`}
+    >
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-[#0e0e0e]"

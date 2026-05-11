@@ -185,6 +185,27 @@ html {
   will-change: auto;
 }
 
+/* Localhost-only "white mode" for the landing page, toggled by pressing
+   the M key (see LandingPage.tsx). Inverts the entire `.landing-root`
+   subtree with `filter: invert(1) hue-rotate(180deg)` — a tried-and-
+   tested CSS trick that flips dark-themed UIs to light without needing
+   to refactor every component's colors. The hue-rotate compensates so
+   colored accents (blues, greens, etc.) keep roughly their original hue
+   after the invert.
+   Media (images, video, canvas, embedded SVG <image>) gets a second
+   invert+hue-rotate applied so photos and shader output don't end up
+   color-inverted. backdrop-filter elements are filtered too, so any
+   glass surfaces stay coherent with the inverted page. */
+.landing-light {
+  filter: invert(1) hue-rotate(180deg);
+}
+.landing-light img,
+.landing-light video,
+.landing-light canvas,
+.landing-light svg image {
+  filter: invert(1) hue-rotate(180deg);
+}
+
 .landing-reveal.is-visible {
   opacity: 1;
   transform: translateY(0);

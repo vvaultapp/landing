@@ -45,21 +45,29 @@ export function CookieBanner({ locale = "en" }: CookieBannerProps) {
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="false"
-      aria-label={fr ? "Préférences cookies" : "Cookie preferences"}
-      className="fixed bottom-4 left-4 right-4 z-[60] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-[420px]"
-    >
+    <>
+      {/* Dim backdrop covering the rest of the page so the banner reads
+          as the focal element. pointer-events-none — the banner is the
+          only thing that should respond to clicks while it's up, and
+          the rest of the page is fully accessible again once the user
+          has made their choice. */}
       <div
-        className="relative overflow-hidden rounded-2xl border border-white/[0.10] px-5 py-4 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.65)] sm:px-6 sm:py-5"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(18,18,22,0.92) 0%, rgba(10,10,12,0.92) 100%)",
-          backdropFilter: "blur(14px)",
-          WebkitBackdropFilter: "blur(14px)",
-        }}
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 z-[55] bg-black/65 backdrop-blur-[2px]"
+      />
+      <div
+        role="dialog"
+        aria-modal="false"
+        aria-label={fr ? "Préférences cookies" : "Cookie preferences"}
+        className="fixed bottom-4 left-4 right-4 z-[60] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-[420px]"
       >
+        <div
+          className="relative overflow-hidden rounded-2xl px-5 py-4 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.65)] sm:px-6 sm:py-5"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(18,18,22,0.95) 0%, rgba(10,10,12,0.95) 100%)",
+          }}
+        >
         <h2 className="text-[14px] font-semibold text-white sm:text-[15px]">
           {fr ? "Cookies" : "Cookies"}
         </h2>
@@ -94,19 +102,20 @@ export function CookieBanner({ locale = "en" }: CookieBannerProps) {
           <button
             type="button"
             onClick={() => choose("reject")}
-            className="inline-flex flex-1 items-center justify-center rounded-xl border border-white/[0.10] bg-transparent px-4 py-2 text-[13px] font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 sm:flex-none sm:px-5"
+            className="inline-flex flex-1 items-center justify-center rounded-full border border-white/[0.10] bg-transparent px-5 py-2 text-[13px] font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 sm:flex-none sm:px-6"
           >
             {fr ? "Refuser" : "Reject"}
           </button>
           <button
             type="button"
             onClick={() => choose("accept")}
-            className="inline-flex flex-1 items-center justify-center rounded-xl bg-white px-4 py-2 text-[13px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:flex-none sm:px-5"
+            className="inline-flex flex-1 items-center justify-center rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:flex-none sm:px-6"
           >
             {fr ? "Accepter" : "Accept"}
           </button>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
