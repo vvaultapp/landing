@@ -55,15 +55,18 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
   }, []);
 
   /* Keyboard handler for the M-key light mode toggle. Localhost only.
-     Listens at the window level so it works from anywhere on the page,
-     but is suppressed while the user is typing in an input / textarea /
-     contenteditable so it doesn't hijack normal text entry (e.g. the
-     contact form). Also gated by `metaKey/ctrlKey/altKey` so shortcuts
-     like Cmd+M (minimize) and Ctrl+M still pass through. */
+     Listens at BOTH `document` and `window` so the event is caught
+     wherever the browser routes it (some focus states route to one
+     but not the other). Matches on both `e.key` and `e.code` so it
+     works on every keyboard layout including AZERTY. Suppressed while
+     the user is typing in an input / textarea / contenteditable so
+     it doesn't hijack normal text entry. Cmd/Ctrl/Alt-M chords pass
+     through so OS shortcuts (like Cmd+M minimize) still work. */
   useEffect(() => {
     if (!isLocalhost) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key !== "m" && e.key !== "M") return;
+      const isM = e.key === "m" || e.key === "M" || e.code === "KeyM";
+      if (!isM) return;
       if (e.metaKey || e.ctrlKey || e.altKey) return;
       const target = e.target as HTMLElement | null;
       if (
@@ -74,10 +77,17 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       ) {
         return;
       }
+      e.preventDefault();
       setLightMode((v) => !v);
     }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    /* Attach to document only — keydown bubbles to document from any
+       element, so a single listener here catches every keypress on
+       the page. Attaching to both document AND window would invoke
+       the handler twice for the same event (toggling twice = net no
+       change), which is the exact "doesn't work" symptom we want to
+       avoid. */
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [isLocalhost]);
 
   return (

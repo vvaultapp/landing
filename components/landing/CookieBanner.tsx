@@ -65,7 +65,7 @@ export function CookieBanner({ locale = "en" }: CookieBannerProps) {
           className="relative overflow-hidden rounded-2xl px-5 py-4 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.65)] sm:px-6 sm:py-5"
           style={{
             background:
-              "linear-gradient(180deg, rgba(18,18,22,0.95) 0%, rgba(10,10,12,0.95) 100%)",
+              "linear-gradient(180deg, rgba(48,48,52,0.96) 0%, rgba(36,36,40,0.96) 100%)",
           }}
         >
         <h2 className="text-[14px] font-semibold text-white sm:text-[15px]">
