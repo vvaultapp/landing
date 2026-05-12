@@ -1,8 +1,6 @@
-/* CTA click analytics dashboard — mirrors the paywall analytics
-   layout (4 stat cards, daily bars, breakdown table) but for landing
-   button clicks logged into public.button_clicks. Server-rendered and
-   reads via the Supabase service role; the table has no public SELECT
-   policy. URL: /admin/buttons?range=30d */
+/* Real button-click analytics. Reads rows from public.button_clicks
+   (server-side, service role) and ranks the 11 tracked landing CTAs by
+   click count. URL: /admin/buttons?range=30d */
 
 import { createClient } from "@supabase/supabase-js";
 import { RangePicker } from "./RangePicker";
@@ -25,17 +23,48 @@ type ClickRow = {
   session_id: string | null;
 };
 
+/* The 11 buttons we display on the dashboard. Order here is just the
+   canonical catalog — the dashboard re-sorts by click count at render
+   time. Each entry maps `button_id` → human-readable name + location
+   so the table never shows raw machine identifiers. */
+type ButtonDef = {
+  buttonId: string;
+  name: string;
+  location: string;
+};
+
+const BUTTONS: ButtonDef[] = [
+  // Top nav
+  { buttonId: "nav.get_started", name: "Get Started", location: "Top nav" },
+  { buttonId: "nav.log_in", name: "Log in", location: "Top nav" },
+  // Hero
+  { buttonId: "hero.continue_google", name: "Continue with Google", location: "Hero" },
+  { buttonId: "hero.start_for_free", name: "Start for free", location: "Hero" },
+  // Pro promo toast
+  { buttonId: "toast.join_pro", name: "Join Pro now", location: "Pro notification" },
+  // Pricing page – plan cards
+  { buttonId: "pricing_page.card_free", name: "Sign up — Free", location: "Pricing page" },
+  { buttonId: "pricing_page.card_pro", name: "Join Pro now", location: "Pricing page" },
+  { buttonId: "pricing_page.card_ultra", name: "Join Ultra now", location: "Pricing page" },
+  // Pricing page – compare-plans sticky CTAs
+  { buttonId: "pricing_page.compare_free", name: "Get Started — Free", location: "Compare plans" },
+  { buttonId: "pricing_page.compare_pro", name: "Get Started — Pro", location: "Compare plans" },
+  { buttonId: "pricing_page.compare_ultra", name: "Get Started — Ultra", location: "Compare plans" },
+];
+
 async function fetchClicks(days: number): Promise<ClickRow[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
   if (!url || !serviceKey) return [];
   const supabase = createClient(url, serviceKey, {
     auth: { persistSession: false },
   });
   const since = new Date(Date.now() - days * 86400_000).toISOString();
+  const trackedIds = BUTTONS.map((b) => b.buttonId);
   const { data, error } = await supabase
     .from("button_clicks")
     .select("button_id, surface, plan_id, created_at, session_id")
+    .in("button_id", trackedIds)
     .gte("created_at", since)
     .order("created_at", { ascending: true })
     .limit(50_000);
@@ -47,14 +76,8 @@ function formatNumber(n: number): string {
   return new Intl.NumberFormat("en-US").format(n);
 }
 
-function formatDateShort(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-}
-
-function formatRelative(iso: string): string {
+function formatRelative(iso: string | null): string {
+  if (!iso) return "never";
   const then = new Date(iso).getTime();
   const now = Date.now();
   const diffMs = now - then;
@@ -67,70 +90,44 @@ function formatRelative(iso: string): string {
   return `${days}d ago`;
 }
 
-function bucketByDay(rows: ClickRow[], days: number) {
-  /* Bucket keys are UTC-date strings (YYYY-MM-DD) so they match the
-     prefix slice of `created_at`, which Postgres / Supabase serializes
-     as a UTC timestamp. Using local midnight would put the boundary
-     in a different UTC day for any non-UTC server. */
-  const buckets = new Map<string, number>();
-  const now = new Date();
-  const todayUtcMidnight = Date.UTC(
-    now.getUTCFullYear(),
-    now.getUTCMonth(),
-    now.getUTCDate(),
-  );
-  for (let i = days - 1; i >= 0; i -= 1) {
-    const d = new Date(todayUtcMidnight - i * 86400_000);
-    buckets.set(d.toISOString().slice(0, 10), 0);
-  }
-  for (const r of rows) {
-    const key = r.created_at.slice(0, 10);
-    if (buckets.has(key)) buckets.set(key, (buckets.get(key) || 0) + 1);
-  }
-  return Array.from(buckets.entries()).map(([day, count]) => ({ day, count }));
-}
-
-type ButtonRow = {
-  buttonId: string;
-  surface: string;
+type Aggregated = ButtonDef & {
   clicks: number;
   uniqueSessions: number;
   lastClicked: string | null;
 };
 
-function groupByButton(rows: ClickRow[]): ButtonRow[] {
-  const byKey = new Map<string, ButtonRow>();
+function aggregate(rows: ClickRow[]): Aggregated[] {
+  const byId = new Map<string, { clicks: number; sessions: Set<string>; lastClicked: string | null }>();
+  for (const def of BUTTONS) {
+    byId.set(def.buttonId, { clicks: 0, sessions: new Set(), lastClicked: null });
+  }
   for (const r of rows) {
-    const key = `${r.button_id}::${r.surface || ""}`;
-    let existing = byKey.get(key);
-    if (!existing) {
-      existing = {
-        buttonId: r.button_id,
-        surface: r.surface || "—",
-        clicks: 0,
-        uniqueSessions: 0,
-        lastClicked: null,
-      };
-      byKey.set(key, existing);
-    }
-    existing.clicks += 1;
-    if (!existing.lastClicked || r.created_at > existing.lastClicked) {
-      existing.lastClicked = r.created_at;
+    const bucket = byId.get(r.button_id);
+    if (!bucket) continue;
+    bucket.clicks += 1;
+    if (r.session_id) bucket.sessions.add(r.session_id);
+    if (!bucket.lastClicked || r.created_at > bucket.lastClicked) {
+      bucket.lastClicked = r.created_at;
     }
   }
-  // Compute unique sessions per button
-  for (const [key, row] of byKey.entries()) {
-    const [bid, surface] = key.split("::");
-    const sessions = new Set<string>();
-    for (const r of rows) {
-      if (r.button_id === bid && (r.surface || "") === surface && r.session_id) {
-        sessions.add(r.session_id);
-      }
-    }
-    row.uniqueSessions = sessions.size;
-  }
-  return Array.from(byKey.values()).sort((a, b) => b.clicks - a.clicks);
+  return BUTTONS.map((def) => {
+    const b = byId.get(def.buttonId)!;
+    return {
+      ...def,
+      clicks: b.clicks,
+      uniqueSessions: b.sessions.size,
+      lastClicked: b.lastClicked,
+    };
+  }).sort((a, b) => b.clicks - a.clicks);
 }
+
+const LOCATION_COLORS: Record<string, string> = {
+  "Top nav": "bg-[#101112]/[0.08] text-[#101112]/75",
+  "Hero": "bg-[#1d6ad6]/10 text-[#1d6ad6]",
+  "Pro notification": "bg-[#4397f8]/12 text-[#1f5fbf]",
+  "Pricing page": "bg-[#0ea968]/10 text-[#0a7d4d]",
+  "Compare plans": "bg-[#d18004]/12 text-[#9a5c00]",
+};
 
 export default async function ButtonsDashboard({
   searchParams,
@@ -142,205 +139,157 @@ export default async function ButtonsDashboard({
   const range: Range = (RANGES.includes(rawRange) ? rawRange : "30d") as Range;
   const days = rangeToDays(range);
   const rows = await fetchClicks(days);
-  const total = rows.length;
-  const uniqueSessions = new Set(rows.map((r) => r.session_id).filter(Boolean)).size;
-  const distinctButtons = new Set(rows.map((r) => r.button_id)).size;
-  const distinctSurfaces = new Set(rows.map((r) => r.surface || "")).size;
-  const buckets = bucketByDay(rows, days);
-  const maxBucket = buckets.reduce((m, b) => Math.max(m, b.count), 0);
-  const grouped = groupByButton(rows);
+  const ranking = aggregate(rows);
+  const total = ranking.reduce((sum, r) => sum + r.clicks, 0);
+  const topMax = ranking[0]?.clicks || 0;
+  const top = ranking[0];
 
   return (
     <div className="min-h-screen bg-[#f7f7f7] text-[#101112]">
-      <header className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 py-6 sm:px-10">
-        <div className="flex items-center gap-6">
-          <span className="text-[13px] font-semibold uppercase tracking-[0.18em]">
-            VVAULT
-          </span>
-          <nav className="flex items-center gap-2 text-[14px] font-medium">
-            <span className="inline-flex items-center rounded-full bg-black px-4 py-1.5 text-white">
-              Button clicks
-            </span>
-            <a
-              href="https://vvault-dashboard-redesign-preview.vercel.app"
-              className="inline-flex items-center rounded-full px-4 py-1.5 text-[#101112]/70 hover:bg-black/[0.05] hover:text-[#101112]"
-            >
-              Paywall analytics
-            </a>
-          </nav>
-        </div>
+      <header className="mx-auto flex w-full max-w-[1100px] items-center justify-between px-6 py-6 sm:px-10">
+        <span className="text-[13px] font-semibold uppercase tracking-[0.18em]">
+          VVAULT
+        </span>
+        <span className="inline-flex items-center rounded-full bg-black px-4 py-1.5 text-[14px] font-medium text-white">
+          Button clicks
+        </span>
       </header>
 
-      <main className="mx-auto w-full max-w-[1400px] px-6 pb-20 sm:px-10">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h1 className="text-[34px] font-semibold leading-tight">
-              Button click analytics
-            </h1>
-            <p className="mt-2 max-w-[680px] text-[14px] leading-relaxed text-[#101112]/55">
-              Every CTA click across the landing — top-nav Get Started and Log
-              In, hero Continue with Google and Start for free, the Pro promo
-              toast, the pricing cards, and the compare-plans header.
-            </p>
-          </div>
+      <main className="mx-auto w-full max-w-[1100px] px-6 pb-20 sm:px-10">
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <h1 className="text-[34px] font-semibold leading-tight">
+            Button click analytics
+          </h1>
           <RangePicker current={range} ranges={RANGES} />
         </div>
 
-        <section className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <StatCard
-            label="Total clicks"
-            value={formatNumber(total)}
-            sub={`across ${range}`}
-            color="black"
+        <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <Stat label="Total clicks" value={formatNumber(total)} sub={`across ${range}`} />
+          <Stat
+            label="Top button"
+            value={top && top.clicks > 0 ? top.name : "—"}
+            sub={
+              top && top.clicks > 0
+                ? `${formatNumber(top.clicks)} click${top.clicks === 1 ? "" : "s"} from ${top.location.toLowerCase()}`
+                : "no clicks yet"
+            }
           />
-          <StatCard
-            label="Unique sessions"
-            value={formatNumber(uniqueSessions)}
-            sub={total > 0 ? `${((uniqueSessions / total) * 100).toFixed(1)}% of clicks` : "—"}
-            color="green"
-          />
-          <StatCard
-            label="Buttons tracked"
-            value={formatNumber(distinctButtons)}
-            sub={`${distinctSurfaces} surface${distinctSurfaces === 1 ? "" : "s"}`}
-            color="blue"
-          />
-          <StatCard
-            label="Avg / day"
-            value={formatNumber(Math.round(total / days))}
-            sub={total > 0 ? `peak ${formatNumber(maxBucket)} on best day` : "—"}
-            color="amber"
+          <Stat
+            label="Buttons firing"
+            value={`${ranking.filter((r) => r.clicks > 0).length} / ${BUTTONS.length}`}
+            sub={
+              ranking.filter((r) => r.clicks === 0).length > 0
+                ? `${ranking.filter((r) => r.clicks === 0).length} button${ranking.filter((r) => r.clicks === 0).length === 1 ? "" : "s"} with zero clicks`
+                : "all tracked buttons have data"
+            }
           />
         </section>
 
-        <section className="mt-6 rounded-2xl bg-white p-6 shadow-[0_1px_2px_rgba(16,17,18,0.04),0_4px_24px_rgba(16,17,18,0.04)] sm:p-8">
-          <div className="flex items-baseline justify-between">
-            <h2 className="text-[15px] font-semibold">
-              Daily &mdash; total clicks
-            </h2>
-            <span className="text-[12px] text-[#101112]/45">
-              {days} day buckets &middot; max {formatNumber(maxBucket)}
-            </span>
-          </div>
-          <div className="mt-6 flex h-[180px] items-end gap-1.5">
-            {buckets.map((b) => {
-              const h = maxBucket > 0 ? Math.max(2, (b.count / maxBucket) * 100) : 2;
-              return (
-                <div
-                  key={b.day}
-                  title={`${b.day} — ${b.count} clicks`}
-                  className="flex-1 rounded-sm bg-[#e3e4e6] transition-colors hover:bg-[#cdd0d3]"
-                  style={{ height: `${h}%` }}
-                />
-              );
-            })}
-          </div>
-          <div className="mt-3 flex justify-between text-[11px] text-[#101112]/45">
-            <span>{buckets[0] ? formatDateShort(buckets[0].day) : "—"}</span>
-            <span>
-              {buckets[buckets.length - 1]
-                ? formatDateShort(buckets[buckets.length - 1].day)
-                : "—"}
-            </span>
-          </div>
-        </section>
-
-        <section className="mt-6 overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(16,17,18,0.04),0_4px_24px_rgba(16,17,18,0.04)]">
+        <section className="mt-8 overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(16,17,18,0.04),0_4px_24px_rgba(16,17,18,0.04)]">
           <div className="border-b border-[#101112]/[0.06] px-6 py-5 sm:px-8">
-            <h2 className="text-[15px] font-semibold">Breakdown by button</h2>
+            <h2 className="text-[16px] font-semibold">Ranking</h2>
             <p className="mt-1 text-[13px] text-[#101112]/55">
-              Each row is one button on one surface. Sorted by click count.
+              Best performing at the top, worst at the bottom. Bars show share
+              of clicks relative to the leader.
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-[14px]">
-              <thead>
-                <tr className="border-b border-[#101112]/[0.06] text-[11px] uppercase tracking-[0.08em] text-[#101112]/45">
-                  <th className="px-6 py-3 text-left font-medium sm:px-8">Button</th>
-                  <th className="px-6 py-3 text-left font-medium sm:px-8">Surface</th>
-                  <th className="px-6 py-3 text-right font-medium sm:px-8">Clicks</th>
-                  <th className="px-6 py-3 text-right font-medium sm:px-8">Sessions</th>
-                  <th className="px-6 py-3 text-right font-medium sm:px-8">Last clicked</th>
-                </tr>
-              </thead>
-              <tbody>
-                {grouped.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan={5}
-                      className="px-6 py-12 text-center text-[14px] text-[#101112]/45 sm:px-8"
-                    >
-                      No clicks yet in the last {range}. As soon as visitors
-                      click a tracked button, it will appear here.
-                    </td>
-                  </tr>
-                ) : (
-                  grouped.map((row) => (
-                    <tr
-                      key={`${row.buttonId}-${row.surface}`}
-                      className="border-b border-[#101112]/[0.04] last:border-0"
-                    >
-                      <td className="px-6 py-3.5 font-mono text-[13px] sm:px-8">
-                        {row.buttonId}
-                      </td>
-                      <td className="px-6 py-3.5 text-[13px] text-[#101112]/65 sm:px-8">
-                        {row.surface}
-                      </td>
-                      <td className="px-6 py-3.5 text-right tabular-nums sm:px-8">
-                        {formatNumber(row.clicks)}
-                      </td>
-                      <td className="px-6 py-3.5 text-right tabular-nums text-[#101112]/65 sm:px-8">
-                        {formatNumber(row.uniqueSessions)}
-                      </td>
-                      <td className="px-6 py-3.5 text-right text-[13px] text-[#101112]/55 sm:px-8">
-                        {row.lastClicked ? formatRelative(row.lastClicked) : "—"}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+          <ol className="divide-y divide-[#101112]/[0.05]">
+            {ranking.map((row, idx) => {
+              const share = topMax > 0 ? (row.clicks / topMax) * 100 : 0;
+              const isWinner = idx === 0 && row.clicks > 0;
+              const locationClass =
+                LOCATION_COLORS[row.location] || "bg-[#101112]/[0.06] text-[#101112]/70";
+              return (
+                <li
+                  key={row.buttonId}
+                  className="flex items-center gap-4 px-6 py-4 sm:px-8"
+                >
+                  <span
+                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold tabular-nums ${
+                      isWinner
+                        ? "bg-black text-white"
+                        : row.clicks === 0
+                          ? "bg-[#101112]/[0.04] text-[#101112]/35"
+                          : "bg-[#101112]/[0.06] text-[#101112]/65"
+                    }`}
+                  >
+                    {idx + 1}
+                  </span>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="truncate text-[15px] font-semibold">
+                        {row.name}
+                      </span>
+                      <span
+                        className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.06em] ${locationClass}`}
+                      >
+                        {row.location}
+                      </span>
+                    </div>
+                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#101112]/[0.05]">
+                      <div
+                        className={`h-full rounded-full ${
+                          row.clicks === 0
+                            ? "bg-transparent"
+                            : isWinner
+                              ? "bg-black"
+                              : "bg-[#101112]/55"
+                        }`}
+                        style={{ width: `${share}%` }}
+                      />
+                    </div>
+                    <div className="mt-1.5 text-[11.5px] text-[#101112]/45">
+                      {row.uniqueSessions > 0
+                        ? `${formatNumber(row.uniqueSessions)} unique session${row.uniqueSessions === 1 ? "" : "s"} · last ${formatRelative(row.lastClicked)}`
+                        : row.clicks > 0
+                          ? `last ${formatRelative(row.lastClicked)}`
+                          : "no clicks in this range"}
+                    </div>
+                  </div>
+
+                  <div className="shrink-0 text-right">
+                    <div className="text-[22px] font-semibold leading-none tabular-nums">
+                      {formatNumber(row.clicks)}
+                    </div>
+                    <div className="mt-1 text-[11px] uppercase tracking-[0.08em] text-[#101112]/45">
+                      clicks
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
         </section>
 
-        <p className="mt-10 text-center text-[12px] text-[#101112]/40">
-          Reads server-side via the Supabase service role. No public SELECT
-          policy on public.button_clicks.
+        <p className="mt-10 text-center text-[11.5px] text-[#101112]/40">
+          Live data from public.button_clicks. Reads server-side via the
+          Supabase service role.
         </p>
       </main>
     </div>
   );
 }
 
-function StatCard({
+function Stat({
   label,
   value,
   sub,
-  color,
 }: {
   label: string;
   value: string;
   sub: string;
-  color: "black" | "green" | "blue" | "amber";
 }) {
-  const colorClass =
-    color === "green"
-      ? "text-[#0ea968]"
-      : color === "blue"
-        ? "text-[#1d6ad6]"
-        : color === "amber"
-          ? "text-[#d18004]"
-          : "text-[#101112]";
   return (
     <div className="rounded-2xl bg-white px-5 py-5 shadow-[0_1px_2px_rgba(16,17,18,0.04),0_4px_24px_rgba(16,17,18,0.04)]">
       <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#101112]/55">
         {label}
       </div>
-      <div className={`mt-2 text-[36px] font-semibold leading-none tabular-nums ${colorClass}`}>
+      <div className="mt-2 truncate text-[28px] font-semibold leading-tight">
         {value}
       </div>
-      <div className="mt-3 text-[12px] text-[#101112]/55">{sub}</div>
+      <div className="mt-1.5 text-[12px] text-[#101112]/55">{sub}</div>
     </div>
   );
 }

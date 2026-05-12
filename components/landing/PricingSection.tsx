@@ -272,17 +272,13 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   ))}
                 </ul>
 
-                {/* CTA */}
+                {/* CTA. Untracked here on purpose — the dashboard
+                    tracks the canonical pricing-page CTAs (/pricing
+                    cards + compare-plans), not the home-page block. */}
                 <div className="mt-auto pt-10">
                   <LandingCtaLink
                     loggedInHref={p.href}
                     loggedOutHref={p.loggedOutHref || p.href}
-                    track={{
-                      buttonId: `pricing.card_${p.id}`,
-                      surface: "landing.pricing_cards",
-                      locale,
-                      planId: p.id,
-                    }}
                     className={`inline-flex w-full items-center justify-center rounded-2xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                       p.featured
                         ? "bg-white text-[#0e0e0e] hover:bg-white/90 focus-visible:ring-white/35"

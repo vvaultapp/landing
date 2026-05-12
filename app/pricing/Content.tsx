@@ -8,7 +8,6 @@ import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { useLocale } from "@/lib/useLocale";
-import { trackButtonClick } from "@/lib/analytics/client";
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -976,12 +975,6 @@ export default function PricingPage() {
                 <LandingCtaLink
                   loggedInHref={mngmtPlan.href}
                   loggedOutHref={mngmtPlan.href}
-                  track={{
-                    buttonId: "pricing_page.card_mngmt",
-                    surface: "pricing_page.cards",
-                    locale,
-                    planId: "mngmt",
-                  }}
                   className="shrink-0 inline-flex items-center justify-center rounded-2xl bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
                 >
                   {mngmtPlan.cta}
@@ -1237,7 +1230,6 @@ export default function PricingPage() {
               <div className="mt-6 flex justify-center">
                 <a
                   href="https://vvault.app/signup"
-                  onClick={() => trackButtonClick({ buttonId: "pricing_page.final_cta", surface: "pricing_page.final_cta", locale, href: "https://vvault.app/signup" })}
                   className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
                 >
                   {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
