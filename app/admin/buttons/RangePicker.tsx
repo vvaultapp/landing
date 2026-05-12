@@ -33,10 +33,10 @@ export function RangePicker({
             key={r}
             type="button"
             onClick={() => setRange(r)}
-            className={`inline-flex h-9 items-center rounded-full px-4 text-[13px] font-medium transition-colors ${
+            className={`inline-flex h-9 items-center rounded-full border px-4 text-[13px] font-medium transition-colors ${
               active
-                ? "bg-black text-white"
-                : "bg-white text-[#101112]/70 hover:bg-black/[0.05] hover:text-[#101112]"
+                ? "border-black bg-black text-white"
+                : "border-[#101112]/[0.08] bg-white text-[#101112]/70 hover:bg-black/[0.04] hover:text-[#101112]"
             } ${pending ? "opacity-60" : ""}`}
           >
             {r}
@@ -47,7 +47,7 @@ export function RangePicker({
         type="button"
         onClick={refresh}
         disabled={pending}
-        className="inline-flex h-9 items-center rounded-full bg-white px-4 text-[13px] font-medium text-[#101112]/70 transition-colors hover:bg-black/[0.05] hover:text-[#101112] disabled:opacity-60"
+        className="inline-flex h-9 items-center rounded-full border border-[#101112]/[0.08] bg-white px-4 text-[13px] font-medium text-[#101112]/70 transition-colors hover:bg-black/[0.04] hover:text-[#101112] disabled:opacity-60"
       >
         Refresh
       </button>

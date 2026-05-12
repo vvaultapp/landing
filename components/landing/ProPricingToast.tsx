@@ -77,15 +77,14 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
 
   return (
     <>
-      {/* Mobile-only dark floor beneath the toast. iOS Safari clips the
-          toast's downward halo at the viewport edge into a visible hard
-          line; this fade-to-black strip sits behind the toast (z-59) and
-          spans the full viewport width so the halo always blends into a
-          dark base. Hidden on sm+ where the desktop layout has enough
-          space below the toast for the halo to fall off naturally. */}
+      {/* Mobile-only dark floor beneath the toast. Solid black slab
+          sized to cover the toast's full height plus the space below
+          it, so the visual wraps cleanly to the viewport bottom and no
+          page content shows beside or below the card. Hidden on sm+
+          where the desktop layout doesn't need it. */}
       <div
         aria-hidden="true"
-        className="pro-toast-floor pointer-events-none fixed inset-x-0 bottom-0 z-[59] h-32 animate-[proToastIn_360ms_cubic-bezier(0.22,1,0.36,1)_both] sm:hidden"
+        className="pro-toast-floor pointer-events-none fixed inset-x-0 bottom-0 z-[59] h-[380px] animate-[proToastIn_360ms_cubic-bezier(0.22,1,0.36,1)_both] sm:hidden"
       />
       <div
         role="dialog"

@@ -431,7 +431,7 @@ function HeroTrustedBy({
               key={`trusted-avatar-${idx}`}
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
-              } relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30 sm:h-8 sm:w-8`}
+              } relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30 sm:h-8 sm:w-8`}
               style={{ background: "rgba(30,30,35,1)" }}
             >
               {/* Layer A */}
@@ -770,7 +770,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
 
   return (
     <>
-      <section className="relative pb-8 pt-36 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
+      <section className="relative pb-8 pt-40 sm:pb-12 sm:pt-52 lg:pb-16 lg:pt-58">
         <div className="pointer-events-none absolute top-0 left-0 z-0 h-screen w-screen opacity-40">
           <Beams
             beamWidth={1.7}
@@ -817,7 +817,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
             <a
               href="https://vvault.app/auth/google"
               onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
-              className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[16px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 ease-out hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
+              className="inline-flex items-center gap-3 rounded-2xl px-7 py-3.5 text-[17px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 ease-out hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:gap-2.5 sm:px-6 sm:py-2.5 sm:text-[15px]"
               style={{
                 background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
                 boxShadow: "0 4px 24px 0 rgba(255,255,255,0.10), 0 1px 4px 0 rgba(255,255,255,0.06)",
@@ -830,7 +830,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
                   (the subtle wobble the G logo picked up on hover). */}
               <svg
                 viewBox="0 0 24 24"
-                className="h-[18px] w-[18px]"
+                className="h-[20px] w-[20px] sm:h-[18px] sm:w-[18px]"
                 fill="none"
                 style={{ transform: "none", transition: "none" }}
               >

@@ -212,14 +212,16 @@ html {
 }
 
 /* Dark floor under the Pro toast on mobile. Sits behind the toast
-   (z-59 vs the toast's z-60) and runs full viewport width so any halo
-   clip at the bottom blends into solid black instead of a hard line. */
+   (z-59 vs the toast's z-60) and runs full viewport width. Solid
+   black across most of its height — only the very top edge fades to
+   transparent — so the toast appears to sit on a continuous dark
+   surface that wraps from beneath the card to the viewport bottom
+   with no visible page content peeking through. */
 .pro-toast-floor {
   background: linear-gradient(
     to top,
     rgb(0, 0, 0) 0%,
-    rgb(0, 0, 0) 35%,
-    rgba(0, 0, 0, 0.55) 70%,
+    rgb(0, 0, 0) 85%,
     rgba(0, 0, 0, 0) 100%
   );
 }

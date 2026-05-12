@@ -1,9 +1,12 @@
 /* Real button-click analytics. Reads rows from public.button_clicks
    (server-side, service role) and ranks the 11 tracked landing CTAs by
-   click count. URL: /admin/buttons?range=30d */
+   click count. URL: /admin/buttons?range=30d
+   Gated by a shared password (see ./auth.ts). */
 
 import { createClient } from "@supabase/supabase-js";
 import { RangePicker } from "./RangePicker";
+import { isAuthed } from "./auth";
+import { LoginForm } from "./LoginForm";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -23,10 +26,6 @@ type ClickRow = {
   session_id: string | null;
 };
 
-/* The 11 buttons we display on the dashboard. Order here is just the
-   canonical catalog — the dashboard re-sorts by click count at render
-   time. Each entry maps `button_id` → human-readable name + location
-   so the table never shows raw machine identifiers. */
 type ButtonDef = {
   buttonId: string;
   name: string;
@@ -34,19 +33,14 @@ type ButtonDef = {
 };
 
 const BUTTONS: ButtonDef[] = [
-  // Top nav
   { buttonId: "nav.get_started", name: "Get Started", location: "Top nav" },
   { buttonId: "nav.log_in", name: "Log in", location: "Top nav" },
-  // Hero
   { buttonId: "hero.continue_google", name: "Continue with Google", location: "Hero" },
   { buttonId: "hero.start_for_free", name: "Start for free", location: "Hero" },
-  // Pro promo toast
   { buttonId: "toast.join_pro", name: "Join Pro now", location: "Pro notification" },
-  // Pricing page – plan cards
   { buttonId: "pricing_page.card_free", name: "Sign up — Free", location: "Pricing page" },
   { buttonId: "pricing_page.card_pro", name: "Join Pro now", location: "Pricing page" },
   { buttonId: "pricing_page.card_ultra", name: "Join Ultra now", location: "Pricing page" },
-  // Pricing page – compare-plans sticky CTAs
   { buttonId: "pricing_page.compare_free", name: "Get Started — Free", location: "Compare plans" },
   { buttonId: "pricing_page.compare_pro", name: "Get Started — Pro", location: "Compare plans" },
   { buttonId: "pricing_page.compare_ultra", name: "Get Started — Ultra", location: "Compare plans" },
@@ -92,12 +86,15 @@ function formatRelative(iso: string | null): string {
 
 type Aggregated = ButtonDef & {
   clicks: number;
-  uniqueSessions: number;
+  uniqueVisitors: number;
   lastClicked: string | null;
 };
 
 function aggregate(rows: ClickRow[]): Aggregated[] {
-  const byId = new Map<string, { clicks: number; sessions: Set<string>; lastClicked: string | null }>();
+  const byId = new Map<
+    string,
+    { clicks: number; sessions: Set<string>; lastClicked: string | null }
+  >();
   for (const def of BUTTONS) {
     byId.set(def.buttonId, { clicks: 0, sessions: new Set(), lastClicked: null });
   }
@@ -115,7 +112,7 @@ function aggregate(rows: ClickRow[]): Aggregated[] {
     return {
       ...def,
       clicks: b.clicks,
-      uniqueSessions: b.sessions.size,
+      uniqueVisitors: b.sessions.size,
       lastClicked: b.lastClicked,
     };
   }).sort((a, b) => b.clicks - a.clicks);
@@ -123,7 +120,7 @@ function aggregate(rows: ClickRow[]): Aggregated[] {
 
 const LOCATION_COLORS: Record<string, string> = {
   "Top nav": "bg-[#101112]/[0.08] text-[#101112]/75",
-  "Hero": "bg-[#1d6ad6]/10 text-[#1d6ad6]",
+  Hero: "bg-[#1d6ad6]/10 text-[#1d6ad6]",
   "Pro notification": "bg-[#4397f8]/12 text-[#1f5fbf]",
   "Pricing page": "bg-[#0ea968]/10 text-[#0a7d4d]",
   "Compare plans": "bg-[#d18004]/12 text-[#9a5c00]",
@@ -132,9 +129,12 @@ const LOCATION_COLORS: Record<string, string> = {
 export default async function ButtonsDashboard({
   searchParams,
 }: {
-  searchParams: Promise<{ range?: string }>;
+  searchParams: Promise<{ range?: string; err?: string }>;
 }) {
   const params = await searchParams;
+  const authed = await isAuthed();
+  if (!authed) return <LoginForm error={params.err === "1"} />;
+
   const rawRange = (params.range || "30d") as Range;
   const range: Range = (RANGES.includes(rawRange) ? rawRange : "30d") as Range;
   const days = rangeToDays(range);
@@ -143,19 +143,21 @@ export default async function ButtonsDashboard({
   const total = ranking.reduce((sum, r) => sum + r.clicks, 0);
   const topMax = ranking[0]?.clicks || 0;
   const top = ranking[0];
+  const buttonsFiring = ranking.filter((r) => r.clicks > 0).length;
 
   return (
     <div className="min-h-screen bg-[#f7f7f7] text-[#101112]">
-      <header className="mx-auto flex w-full max-w-[1100px] items-center justify-between px-6 py-6 sm:px-10">
-        <span className="text-[13px] font-semibold uppercase tracking-[0.18em]">
-          VVAULT
-        </span>
-        <span className="inline-flex items-center rounded-full bg-black px-4 py-1.5 text-[14px] font-medium text-white">
-          Button clicks
-        </span>
+      {/* Sticky glassmorphic top nav — pinned to the viewport top with
+          a blurred translucent surface so it floats above the page. */}
+      <header className="sticky top-0 z-50 border-b border-[#101112]/[0.06] bg-[#f7f7f7]/65 backdrop-blur-xl backdrop-saturate-150">
+        <div className="mx-auto flex w-full max-w-[1100px] items-center px-6 py-4 sm:px-10">
+          <span className="text-[13px] font-semibold uppercase tracking-[0.18em]">
+            VVAULT
+          </span>
+        </div>
       </header>
 
-      <main className="mx-auto w-full max-w-[1100px] px-6 pb-20 sm:px-10">
+      <main className="mx-auto w-full max-w-[1100px] px-6 pb-20 pt-10 sm:px-10">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <h1 className="text-[34px] font-semibold leading-tight">
             Button click analytics
@@ -176,21 +178,21 @@ export default async function ButtonsDashboard({
           />
           <Stat
             label="Buttons firing"
-            value={`${ranking.filter((r) => r.clicks > 0).length} / ${BUTTONS.length}`}
+            value={`${buttonsFiring} / ${BUTTONS.length}`}
             sub={
-              ranking.filter((r) => r.clicks === 0).length > 0
-                ? `${ranking.filter((r) => r.clicks === 0).length} button${ranking.filter((r) => r.clicks === 0).length === 1 ? "" : "s"} with zero clicks`
+              BUTTONS.length - buttonsFiring > 0
+                ? `${BUTTONS.length - buttonsFiring} button${BUTTONS.length - buttonsFiring === 1 ? "" : "s"} with zero clicks`
                 : "all tracked buttons have data"
             }
           />
         </section>
 
-        <section className="mt-8 overflow-hidden rounded-2xl bg-white shadow-[0_1px_2px_rgba(16,17,18,0.04),0_4px_24px_rgba(16,17,18,0.04)]">
+        <section className="mt-8 overflow-hidden rounded-2xl border border-[#101112]/[0.06] bg-white">
           <div className="border-b border-[#101112]/[0.06] px-6 py-5 sm:px-8">
             <h2 className="text-[16px] font-semibold">Ranking</h2>
             <p className="mt-1 text-[13px] text-[#101112]/55">
-              Best performing at the top, worst at the bottom. Bars show share
-              of clicks relative to the leader.
+              Best performing at the top, worst at the bottom. The bar under
+              each name shows how its click count compares to the leader.
             </p>
           </div>
 
@@ -218,7 +220,7 @@ export default async function ButtonsDashboard({
                   </span>
 
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span className="truncate text-[15px] font-semibold">
                         {row.name}
                       </span>
@@ -241,11 +243,9 @@ export default async function ButtonsDashboard({
                       />
                     </div>
                     <div className="mt-1.5 text-[11.5px] text-[#101112]/45">
-                      {row.uniqueSessions > 0
-                        ? `${formatNumber(row.uniqueSessions)} unique session${row.uniqueSessions === 1 ? "" : "s"} · last ${formatRelative(row.lastClicked)}`
-                        : row.clicks > 0
-                          ? `last ${formatRelative(row.lastClicked)}`
-                          : "no clicks in this range"}
+                      {row.clicks === 0
+                        ? "no clicks in this range"
+                        : `Clicked by ${formatNumber(row.uniqueVisitors)} different visitor${row.uniqueVisitors === 1 ? "" : "s"} · most recent click ${formatRelative(row.lastClicked)}`}
                     </div>
                   </div>
 
@@ -264,8 +264,10 @@ export default async function ButtonsDashboard({
         </section>
 
         <p className="mt-10 text-center text-[11.5px] text-[#101112]/40">
-          Live data from public.button_clicks. Reads server-side via the
-          Supabase service role.
+          Live data from public.button_clicks. &quot;Clicks&quot; is the raw
+          total. &quot;Different visitors&quot; counts distinct browser
+          sessions, so one person clicking the same button twice in the same
+          visit still counts as one visitor.
         </p>
       </main>
     </div>
@@ -282,7 +284,7 @@ function Stat({
   sub: string;
 }) {
   return (
-    <div className="rounded-2xl bg-white px-5 py-5 shadow-[0_1px_2px_rgba(16,17,18,0.04),0_4px_24px_rgba(16,17,18,0.04)]">
+    <div className="rounded-2xl border border-[#101112]/[0.06] bg-white px-5 py-5">
       <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#101112]/55">
         {label}
       </div>
