@@ -86,6 +86,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
 
   const plans = [
     {
+      id: "free",
       name: human.title,
       eyebrow: "",
       price: "€0",
@@ -98,6 +99,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       featured: false,
     },
     {
+      id: "pro",
       name: plan.name,
       eyebrow: content.pricingUi.mostPopular,
       price: proPrice,
@@ -110,6 +112,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       featured: true,
     },
     {
+      id: "ultra",
       name: ai.title,
       eyebrow: "",
       price: ultraPrice,
@@ -274,6 +277,12 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   <LandingCtaLink
                     loggedInHref={p.href}
                     loggedOutHref={p.loggedOutHref || p.href}
+                    track={{
+                      buttonId: `pricing.card_${p.id}`,
+                      surface: "landing.pricing_cards",
+                      locale,
+                      planId: p.id,
+                    }}
                     className={`inline-flex w-full items-center justify-center rounded-2xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                       p.featured
                         ? "bg-white text-[#0e0e0e] hover:bg-white/90 focus-visible:ring-white/35"

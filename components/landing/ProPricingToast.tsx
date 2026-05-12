@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { trackButtonClick } from "@/lib/analytics/client";
 
 type ProPricingToastProps = {
   locale?: "en" | "fr";
@@ -152,7 +153,16 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
 
           <Link
             href="https://vvault.app/signup?plan=pro"
-            onClick={close}
+            onClick={() => {
+              trackButtonClick({
+                buttonId: "toast.join_pro",
+                surface: "landing.pro_toast",
+                locale,
+                planId: "pro",
+                href: "https://vvault.app/signup?plan=pro",
+              });
+              close();
+            }}
             className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#4397f8] px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#2c75d4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4397f8]/35"
           >
             {fr ? "Rejoindre Pro" : "Join Pro now"}

@@ -927,6 +927,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
+            track={{ buttonId: "nav.log_in", surface: "landing.nav", locale }}
             className="inline-flex items-center rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
           >
             {locale === "fr" ? "Connexion" : "Log In"}
@@ -934,6 +935,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
+            track={{ buttonId: "nav.get_started", surface: "landing.nav", locale }}
             className="inline-flex items-center rounded-xl bg-[#e8e8e8] px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
@@ -944,6 +946,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <LandingCtaLink
             loggedInHref="https://vvault.app/signup"
             loggedOutHref="https://vvault.app/signup"
+            track={{ buttonId: "nav.get_started", surface: "landing.nav_mobile", locale }}
             className="inline-flex items-center rounded-xl bg-[#e8e8e8] px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
             {locale === "fr" ? "Commencer" : "Get Started"}

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+import { trackButtonClick } from "@/lib/analytics/client";
 
 const Beams = dynamic(() => import("@/components/landing/Beams"), { ssr: false });
 
@@ -815,6 +816,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           <div className="hero-seq-item mt-7 flex flex-col items-center gap-3" style={{ animationDelay: "520ms" }}>
             <a
               href="https://vvault.app/auth/google"
+              onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
               className="inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[16px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 ease-out hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 sm:px-6 sm:py-2.5 sm:text-[15px]"
               style={{
                 background: "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
@@ -842,6 +844,7 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
             <LandingCtaLink
               loggedInHref="https://vvault.app/signup"
               loggedOutHref="https://vvault.app/signup"
+              track={{ buttonId: "hero.start_for_free", surface: "landing.hero", locale }}
               className="inline-flex items-center text-[15px] font-medium text-white/50 transition-colors duration-200 hover:text-white/80 focus-visible:outline-none sm:text-base"
             >
               {locale === "fr" ? "Commencer gratuitement" : "Start for free"}

@@ -8,6 +8,7 @@ import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { useLocale } from "@/lib/useLocale";
+import { trackButtonClick } from "@/lib/analytics/client";
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -557,6 +558,7 @@ export default function PricingPage() {
   const everythingInProLabel = fr ? "Tout ce qui est dans Pro, plus :" : "Everything in Pro, plus:";
 
   const plans: Array<{
+    id: string;
     name: string;
     eyebrow?: string;
     price: string;
@@ -570,6 +572,7 @@ export default function PricingPage() {
     featured: boolean;
   }> = [
     {
+      id: "free",
       name: "Free",
       price: "\u20ac0",
       period: "",
@@ -598,6 +601,7 @@ export default function PricingPage() {
       featured: false,
     },
     {
+      id: "pro",
       name: "Pro",
       eyebrow: content.pricingUi.mostPopular,
       price: proPrice,
@@ -625,6 +629,7 @@ export default function PricingPage() {
       featured: true,
     },
     {
+      id: "ultra",
       name: "Ultra",
       price: ultraPrice,
       period: "/mo",
@@ -671,9 +676,9 @@ export default function PricingPage() {
   };
 
   const stickyPlans = [
-    { name: "Free", price: "\u20ac0", period: "", href: "https://vvault.app/signup" },
-    { name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=pro" },
-    { name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=ultra" },
+    { id: "free", name: "Free", price: "\u20ac0", period: "", href: "https://vvault.app/signup" },
+    { id: "pro", name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=pro" },
+    { id: "ultra", name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=ultra" },
   ];
   const startedLabel = fr ? "Commencer" : "Get Started";
 
@@ -860,6 +865,12 @@ export default function PricingPage() {
                     <LandingCtaLink
                       loggedInHref={p.href}
                       loggedOutHref={p.loggedOutHref || p.href}
+                      track={{
+                        buttonId: `pricing_page.card_${p.id}`,
+                        surface: "pricing_page.cards",
+                        locale,
+                        planId: p.id,
+                      }}
                       className={`inline-flex w-full items-center justify-center rounded-2xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                         p.featured
                           ? "bg-[#4397f8] text-white hover:bg-[#2c75d4] focus-visible:ring-[#4397f8]/35"
@@ -965,6 +976,12 @@ export default function PricingPage() {
                 <LandingCtaLink
                   loggedInHref={mngmtPlan.href}
                   loggedOutHref={mngmtPlan.href}
+                  track={{
+                    buttonId: "pricing_page.card_mngmt",
+                    surface: "pricing_page.cards",
+                    locale,
+                    planId: "mngmt",
+                  }}
                   className="shrink-0 inline-flex items-center justify-center rounded-2xl bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
                 >
                   {mngmtPlan.cta}
@@ -1112,6 +1129,12 @@ export default function PricingPage() {
                       <LandingCtaLink
                         loggedInHref={p.href}
                         loggedOutHref={p.href}
+                        track={{
+                          buttonId: `pricing_page.compare_${p.id}`,
+                          surface: "pricing_page.compare_plans",
+                          locale,
+                          planId: p.id,
+                        }}
                         className="mt-3 hidden w-full items-center justify-center rounded-xl bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 sm:inline-flex"
                       >
                         {startedLabel}
@@ -1214,6 +1237,7 @@ export default function PricingPage() {
               <div className="mt-6 flex justify-center">
                 <a
                   href="https://vvault.app/signup"
+                  onClick={() => trackButtonClick({ buttonId: "pricing_page.final_cta", surface: "pricing_page.final_cta", locale, href: "https://vvault.app/signup" })}
                   className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
                 >
                   {locale === "fr" ? "Commencer gratuitement" : "Start for free"}

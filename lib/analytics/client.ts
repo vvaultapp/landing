@@ -256,6 +256,74 @@ export function appendAttributionParams(rawHref: string, sourceApp: SourceApp) {
   return url.toString();
 }
 
+/**
+ * Logs a CTA / nav button click to `public.button_clicks` on the
+ * landing Supabase. Fire-and-forget — never blocks the click handler
+ * and never throws to the caller. The dashboard at /admin/buttons
+ * reads these rows server-side via the service role.
+ */
+export function trackButtonClick(input: {
+  buttonId: string;
+  surface: string;
+  locale?: "en" | "fr";
+  planId?: string | null;
+  href?: string | null;
+}) {
+  if (typeof window === "undefined") return;
+
+  /* The .env file quotes these values with a literal `\n` before the
+     closing quote, so Next.js loads them with a trailing newline.
+     A newline inside an HTTP header (apikey/Authorization) makes
+     Supabase reject the request as malformed, so trim aggressively. */
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+  if (!supabaseUrl || !supabaseKey) return;
+
+  const attribution = readAttributionCookie();
+  const payload = {
+    button_id: input.buttonId,
+    surface: input.surface,
+    locale: input.locale || null,
+    plan_id: input.planId || null,
+    href: input.href || null,
+    anon_id: attribution?.anon_id || null,
+    session_id: attribution?.session_id || null,
+    referrer: document.referrer || null,
+    user_agent:
+      typeof navigator !== "undefined" ? navigator.userAgent : null,
+  };
+
+  const body = JSON.stringify(payload);
+  const endpoint = `${supabaseUrl.replace(/\/+$/, "")}/rest/v1/button_clicks`;
+  const headers = {
+    apikey: supabaseKey,
+    Authorization: `Bearer ${supabaseKey}`,
+    "Content-Type": "application/json",
+    Prefer: "return=minimal",
+  } as const;
+
+  /* Prefer sendBeacon so the request survives the navigation that a
+     CTA click typically triggers. fetch+keepalive is the fallback
+     since sendBeacon can't set headers. */
+  try {
+    if (typeof navigator !== "undefined" && typeof navigator.sendBeacon === "function") {
+      const blob = new Blob([body], { type: "application/json" });
+      // sendBeacon can't carry the apikey header, so fall through to
+      // fetch keepalive for now. (Supabase REST refuses unauth requests.)
+      void blob;
+    }
+    void fetch(endpoint, {
+      method: "POST",
+      headers,
+      body,
+      keepalive: true,
+      mode: "cors",
+    }).catch(() => undefined);
+  } catch {
+    // Never let analytics throw to the click handler.
+  }
+}
+
 export async function trackLandingView(sourceApp: SourceApp) {
   if (typeof window === "undefined") return false;
   const attribution = ensureAttribution(sourceApp);
