@@ -187,7 +187,7 @@ function writeStatsCache(next: LandingStatsResponse): void {
   }
 }
 
-function useLandingStats() {
+export function useLandingStats() {
   const [stats, setStats] = useState<LandingStatsResponse>(LANDING_STATS_FALLBACK);
   const [loaded, setLoaded] = useState(false);
 
@@ -586,7 +586,7 @@ function StatCardIcon({ statKey }: { statKey: string }) {
 }
 
 
-function HeroLiveStats({
+export function HeroLiveStats({
   locale,
   stats,
 }: {
@@ -611,12 +611,13 @@ function HeroLiveStats({
   const money = moneyFormatter.format(stats.moneyPaidTotalCents / 100);
   const emails = numberFormatter.format(stats.emailsSentTotal);
 
-  /* Single-line headline with the two live metrics in big tabular
-     numerals — the rest of the copy stays muted so the numbers pop.
-     The actual review wall lives below in SocialProofSection (the
-     "Loved on Trustpilot" card on /reviews). */
+  /* Single-line metric callout. Lives between the trustpilot card
+     (SocialProofSection) and the See pricing CTA on the landing,
+     reading as a quiet statistic that backs the reviews above. The
+     two live numbers stay in big tabular numerals; the surrounding
+     copy is muted so the numbers pop. */
   return (
-    <div className="pt-20 pb-4 sm:pt-28 sm:pb-6 lg:pt-44 lg:pb-6">
+    <div className="pt-8 pb-4 sm:pt-10 sm:pb-6 lg:pt-12 lg:pb-6">
       <div className="mx-auto w-full max-w-[1000px] px-5 sm:px-8">
         <p className="mx-auto max-w-[820px] text-center text-[15.5px] leading-relaxed text-white/45 sm:text-[16.5px] lg:text-[17px]">
           {locale === "fr" ? (
@@ -825,8 +826,6 @@ export function HeroSection({ content, locale = "en", showOnyxUploader = true }:
           </div>
         </div>
       </section>
-
-      <HeroLiveStats locale={locale} stats={stats} loaded={loaded} />
     </>
   );
 }

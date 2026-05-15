@@ -2,7 +2,11 @@
 
 import { useEffect } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
-import { HeroSection } from "@/components/landing/HeroSection";
+import {
+  HeroSection,
+  HeroLiveStats,
+  useLandingStats,
+} from "@/components/landing/HeroSection";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { FeatureShowcase } from "@/components/landing/FeatureShowcase";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
@@ -23,6 +27,13 @@ type LandingPageProps = {
 
 export function LandingPage({ locale = "en" }: LandingPageProps) {
   const content = getLandingContent(locale);
+  /* HeroSection has its own useLandingStats call for the trusted-by
+     avatar strip. Calling the hook a second time here is fine: each
+     instance hydrates from the same localStorage cache instantly, then
+     fetches /api/landing-stats once on its own — the second fetch hits
+     the same response and React Suspense isn't involved, so the two
+     instances stay in sync without any state lifting. */
+  const { stats } = useLandingStats();
 
   useEffect(() => {
     document.title =
@@ -66,10 +77,14 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       <main id="main-content" className="pb-20 sm:pb-0">
         <HeroSection content={content} locale={locale} />
         <SocialProofSection locale={locale} />
-        {/* "See pricing" CTA right under the trustpilot card so the
-            visitor's next click after reading social proof is a quiet
-            push to the pricing page. */}
-        <div className="mx-auto flex w-full max-w-[1320px] justify-center px-5 pt-10 sm:px-8 sm:pt-12 lg:px-10">
+        {/* Live metric line — was previously above the trustpilot card,
+            now sits between the trustpilot card and the See pricing CTA
+            so it reads as a statistic supporting the reviews above. */}
+        <HeroLiveStats locale={locale} stats={stats} loaded={true} />
+        {/* "See pricing" CTA right under the metric line so the
+            visitor's next click after reading social proof + numbers
+            is a quiet push to the pricing page. */}
+        <div className="mx-auto flex w-full max-w-[1320px] justify-center px-5 pt-4 sm:px-8 sm:pt-6 lg:px-10">
           <LandingCtaLink
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
