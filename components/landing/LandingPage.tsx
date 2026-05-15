@@ -15,7 +15,6 @@ import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
 import { ProPricingToast } from "@/components/landing/ProPricingToast";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
-import { readConsent } from "@/lib/consent";
 
 type LandingPageProps = {
   locale?: Locale;
@@ -38,12 +37,18 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
   }, [locale]);
 
   useEffect(() => {
-    /* Cookie consent gate: only fire the landing-view tracker when the
-       visitor has explicitly granted analytics consent. The banner
-       defaults to "denied" until the user decides, matching the CNIL
-       default-deny stance the webapp uses. */
-    const consent = readConsent();
-    if (!consent.analytics) return;
+    /* Fire the first-party landing-view tracker for every visit. This
+       is anonymous internal audience measurement (random anon_id, no
+       third-party identifiers — Meta Pixel cookies fbp/fbc are only
+       attached if the visitor consented and the pixel actually loaded),
+       which qualifies for the CNIL audience-measurement exemption and
+       does not require consent.
+       Previously this was gated on `consent.analytics`, which meant
+       only "Accept all" visitors were counted while signups were
+       tracked downstream regardless — that artificially inflated
+       LP→Signup CVR by ~2-3x. Third-party trackers (GA4 Consent Mode,
+       Meta Pixel) continue to respect the consent state separately via
+       `applyConsentToTrackers`. */
     void trackLandingView("get");
   }, []);
 
