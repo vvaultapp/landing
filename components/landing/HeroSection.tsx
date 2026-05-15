@@ -150,16 +150,41 @@ function preloadAvatar(url: string): Promise<boolean> {
   });
 }
 
-function RollingValue({ value, loaded }: { value: string; loaded: boolean }) {
-  if (!loaded) {
-    return <span className="animate-pulse text-white/70">…</span>;
-  }
+const LANDING_STATS_CACHE_KEY = "vvault-landing-stats-v1";
 
-  return (
-    <span className="inline-block tabular-nums motion-safe:[animation:hero-stat-roll_520ms_cubic-bezier(0.22,1,0.36,1)]">
-      {value}
-    </span>
-  );
+function readStatsCache(): LandingStatsResponse | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(LANDING_STATS_CACHE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as Partial<LandingStatsResponse>;
+    if (!parsed || typeof parsed !== "object") return null;
+    return {
+      emailsSentTotal: toPositiveNumber(parsed.emailsSentTotal, LANDING_STATS_FALLBACK.emailsSentTotal),
+      usersTotal: toPositiveNumber(parsed.usersTotal, LANDING_STATS_FALLBACK.usersTotal),
+      tracksTotal: toPositiveNumber(parsed.tracksTotal, LANDING_STATS_FALLBACK.tracksTotal),
+      moneyPaidTotalCents: toPositiveNumber(
+        parsed.moneyPaidTotalCents,
+        LANDING_STATS_FALLBACK.moneyPaidTotalCents,
+      ),
+      appStoreReviewLabel:
+        typeof parsed.appStoreReviewLabel === "string" && parsed.appStoreReviewLabel.trim()
+          ? parsed.appStoreReviewLabel.trim()
+          : LANDING_STATS_FALLBACK.appStoreReviewLabel,
+      avatarUrls: normalizeAvatarUrls(parsed.avatarUrls),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function writeStatsCache(next: LandingStatsResponse): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(LANDING_STATS_CACHE_KEY, JSON.stringify(next));
+  } catch {
+    /* quota / private mode — ignore */
+  }
 }
 
 function useLandingStats() {
@@ -169,6 +194,18 @@ function useLandingStats() {
   useEffect(() => {
     let active = true;
     let inFlight = false;
+
+    /* Hydrate from the localStorage cache before hitting the API.
+       If Supabase is paused (or the project is down), the fetch will
+       fail and React state would otherwise stay at the all-zeros
+       fallback — meaning the hero would render "0 artists" and no
+       avatars. Loading from cache first means we always show the
+       last-known-good counts/avatars even during an outage. */
+    const cached = readStatsCache();
+    if (cached && active) {
+      setStats(cached);
+      setLoaded(true);
+    }
 
     const loadStats = async () => {
       if (inFlight) return;
@@ -181,7 +218,7 @@ function useLandingStats() {
         const payload = (await res.json()) as Partial<LandingStatsResponse>;
         if (!active) return;
 
-        setStats({
+        const next: LandingStatsResponse = {
           emailsSentTotal: toPositiveNumber(payload.emailsSentTotal, LANDING_STATS_FALLBACK.emailsSentTotal),
           usersTotal: toPositiveNumber(payload.usersTotal, LANDING_STATS_FALLBACK.usersTotal),
           tracksTotal: toPositiveNumber(payload.tracksTotal, LANDING_STATS_FALLBACK.tracksTotal),
@@ -194,9 +231,18 @@ function useLandingStats() {
               ? payload.appStoreReviewLabel.trim()
               : LANDING_STATS_FALLBACK.appStoreReviewLabel,
           avatarUrls: normalizeAvatarUrls(payload.avatarUrls),
-        });
+        };
+        /* Only commit responses with a real user count — when the API
+           returns an all-zero payload (e.g. Supabase paused, RPC threw,
+           the query failed in some other way), keep whatever we already
+           had in state (cache or previous fetch) rather than clobbering
+           the on-screen numbers with zeros. */
+        if (next.usersTotal > 0) {
+          setStats(next);
+          writeStatsCache(next);
+        }
       } catch {
-        // Keep fallback values when stats API is unavailable.
+        // Keep current values (cache or fallback) when API is unavailable.
       } finally {
         inFlight = false;
         if (active) setLoaded(true);
@@ -474,8 +520,10 @@ function HeroTrustedBy({
   );
 }
 
-function StatEmblemIcon({ statKey }: { statKey: string }) {
-  const iconClass = "h-12 w-12";
+function StatCardIcon({ statKey }: { statKey: string }) {
+  /* Sized by the parent <span className="h-9 w-9"> so the icon glyph
+     fills its 36px slot in the pricing-card-style tile. */
+  const iconClass = "h-full w-full";
   const gradId = `icon-grad-${statKey}`;
 
   const grad = (
@@ -537,86 +585,15 @@ function StatEmblemIcon({ statKey }: { statKey: string }) {
   return null;
 }
 
-function StatEmblem({ statKey }: { statKey: string }) {
-  return (
-    <div
-      className="relative flex h-[110px] w-[110px] items-center justify-center overflow-hidden rounded-[26px]"
-      style={{
-        background: "linear-gradient(160deg, rgba(30,30,35,0.6) 0%, rgba(8,8,10,0.95) 35%, rgba(0,0,0,1) 100%)",
-        boxShadow: [
-          "inset 0 1px 0 0 rgba(255,255,255,0.07)",
-          "inset 0 -1px 0 0 rgba(0,0,0,0.4)",
-          "inset 1px 0 0 0 rgba(255,255,255,0.03)",
-          "inset -1px 0 0 0 rgba(0,0,0,0.15)",
-          "0 8px 32px -6px rgba(0,0,0,0.7)",
-          "0 2px 8px 0 rgba(0,0,0,0.4)",
-        ].join(", "),
-        border: "0.5px solid rgba(255,255,255,0.08)",
-      }}
-    >
-      {/* Noise/grain texture overlay */}
-      <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-          borderRadius: "inherit",
-        }}
-      />
-      {/* Top-left specular highlight */}
-      <div
-        className="pointer-events-none absolute left-0 top-0 h-[60%] w-[70%]"
-        style={{
-          background: "radial-gradient(ellipse at 25% 20%, rgba(255,255,255,0.03) 0%, transparent 60%)",
-          borderRadius: "inherit",
-        }}
-      />
-      {/* Top edge highlight line */}
-      <div
-        className="pointer-events-none absolute inset-x-[15%] top-0 h-px"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 30%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.1) 70%, transparent 100%)",
-        }}
-      />
-      {/* Bottom glow — soft diffused spill */}
-      <div
-        className="pointer-events-none absolute bottom-[-18px] left-1/2 -translate-x-1/2 h-[70%] w-[110%]"
-        style={{
-          background: "radial-gradient(ellipse 100% 60% at 50% 80%, rgba(190,200,255,0.12) 0%, transparent 70%)",
-          filter: "blur(20px)",
-        }}
-      />
-      {/* Bottom edge glow line — thin and smooth */}
-      <div
-        className="pointer-events-none absolute inset-x-[18%] bottom-0 h-[0.5px]"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, rgba(190,200,255,0.1) 30%, rgba(190,200,255,0.16) 50%, rgba(190,200,255,0.1) 70%, transparent 100%)",
-        }}
-      />
-      {/* Left edge subtle highlight */}
-      <div
-        className="pointer-events-none absolute inset-y-[15%] left-0 w-px"
-        style={{
-          background: "linear-gradient(180deg, rgba(255,255,255,0.06) 0%, rgba(190,200,255,0.08) 80%, transparent 100%)",
-        }}
-      />
-      {/* Icon with drop shadow for depth */}
-      <div className="relative z-10">
-        <StatEmblemIcon statKey={statKey} />
-      </div>
-    </div>
-  );
-}
 
 function HeroLiveStats({
   locale,
   stats,
-  loaded,
 }: {
   locale: Locale;
   stats: LandingStatsResponse;
   loaded: boolean;
 }) {
-
   const numberFormatter = useMemo(
     () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
     [locale],
@@ -631,47 +608,43 @@ function HeroLiveStats({
     [locale],
   );
 
-  const statCards: Array<{ key: string; label: string; value: string }> = [
-    {
-      key: "emails",
-      label: locale === "fr" ? "Emails envoyés" : "Emails sent",
-      value: numberFormatter.format(stats.emailsSentTotal),
-    },
-    {
-      key: "tracks",
-      label: locale === "fr" ? "Tracks" : "Tracks",
-      value: numberFormatter.format(stats.tracksTotal),
-    },
-    {
-      key: "money",
-      label: locale === "fr" ? "Valeur des beats vendus" : "Value of beats sold",
-      value: moneyFormatter.format(stats.moneyPaidTotalCents / 100),
-    },
-    {
-      key: "review",
-      label: locale === "fr" ? "Avis App Store" : "App Store review",
-      value: stats.appStoreReviewLabel,
-    },
-  ];
+  const money = moneyFormatter.format(stats.moneyPaidTotalCents / 100);
+  const emails = numberFormatter.format(stats.emailsSentTotal);
 
+  /* Single-line headline with the two live metrics in big tabular
+     numerals — the rest of the copy stays muted so the numbers pop.
+     The actual review wall lives below in SocialProofSection (the
+     "Loved on Trustpilot" card on /reviews). */
   return (
-    <div className="hero-seq-item pt-40 pb-16 sm:pt-48 sm:pb-20 lg:pt-56 lg:pb-24" style={{ animationDelay: "1480ms" }}>
-      <div className="flex justify-center">
-        <div className="grid w-full max-w-[980px] grid-cols-2 gap-x-4 gap-y-14 text-center sm:grid-cols-4 sm:gap-x-8 sm:gap-y-7">
-          {statCards.map((card) => (
-            <div key={card.key} className="flex flex-col items-center justify-center">
-              <StatEmblem statKey={card.key} />
-              <span className="mt-3.5 text-[10px] tracking-[0.08em] text-white/50 sm:text-[11px]">
-                {card.label}
-              </span>
-              <div className="relative mt-1">
-                <span className="block text-[2rem] font-semibold leading-none text-white sm:text-[2.6rem]">
-                  <RollingValue key={`${card.key}-${card.value}`} value={card.value} loaded={loaded} />
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+    <div className="pt-20 pb-4 sm:pt-28 sm:pb-6 lg:pt-44 lg:pb-6">
+      <div className="mx-auto w-full max-w-[1000px] px-5 sm:px-8">
+        <p className="mx-auto max-w-[820px] text-center text-[15.5px] leading-relaxed text-white/45 sm:text-[16.5px] lg:text-[17px]">
+          {locale === "fr" ? (
+            <>
+              Notre communauté a envoyé{" "}
+              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
+                {emails}
+              </span>{" "}
+              emails et généré{" "}
+              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
+                {money}
+              </span>{" "}
+              de ventes de beats.
+            </>
+          ) : (
+            <>
+              Our community has sent{" "}
+              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
+                {emails}
+              </span>{" "}
+              emails and moved{" "}
+              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
+                {money}
+              </span>{" "}
+              in beat sales.
+            </>
+          )}
+        </p>
       </div>
     </div>
   );

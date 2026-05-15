@@ -1,46 +1,20 @@
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
+import Link from "next/link";
 import { Reveal } from "@/components/landing/Reveal";
 import type { Locale } from "@/components/landing/content";
-
-/* Fallback reviews used when /api/landing-stats has not been
-   populated (or while the migration hasn't been applied yet). The
-   admin can override these by adding rows to the
-   landing_trustpilot_reviews Supabase table — those rows take
-   precedence and are what real visitors see. */
-const FALLBACK_REVIEWS_EN = [
-  { name: "Hugo", body: "Best beat selling / stocking / sending app. Game changer.", rating: 5 },
-  { name: "la croix", body: "It's the best platform for producers. It allows you to have your productions listened to and to sell them as well.", rating: 5 },
-  { name: "Adrien D.", body: "An app for beatmakers, designed by a beatmaker! I highly recommend it.", rating: 5 },
-  { name: "Alexandre G.", body: "A really good app for your beats management and track mail sending. 10/10 recommended!", rating: 5 },
-  { name: "Sacha S.", body: "Best app. I use it all the time, everyday.", rating: 5 },
-  { name: "Miko", body: "Best app for beatmakers.", rating: 5 },
-  { name: "Saili", body: "This app is very useful if you want to have all your beats and songs in one place. It helps me schedule and send beats to artists more easily.", rating: 5 },
-  { name: "Prostel A.", body: "That's a good app. I think it's the best on the market.", rating: 5 },
-];
-
-const FALLBACK_REVIEWS_FR = [
-  { name: "Hugo", body: "La meilleure app pour vendre / stocker / envoyer ses beats. Un game changer.", rating: 5 },
-  { name: "la croix", body: "C'est la meilleure plateforme pour les producteurs. Elle permet de faire écouter et vendre ses prods.", rating: 5 },
-  { name: "Adrien D.", body: "Une app pour les beatmakers, conçue par un beatmaker ! Je recommande vivement.", rating: 5 },
-  { name: "Alexandre G.", body: "Une super app pour gérer tes beats et envoyer tes track mails. 10/10 !", rating: 5 },
-  { name: "Sacha S.", body: "La meilleure app. Je l'utilise tout le temps, tous les jours.", rating: 5 },
-  { name: "Miko", body: "La meilleure app pour les beatmakers.", rating: 5 },
-  { name: "Saili", body: "Cette app est super utile pour avoir tous tes beats et morceaux au même endroit. Ça m'aide à planifier et envoyer mes beats aux artistes plus facilement.", rating: 5 },
-  { name: "Prostel A.", body: "C'est une bonne app. Je pense que c'est la meilleure du marché.", rating: 5 },
-];
+import {
+  FALLBACK_REVIEWS_EN,
+  FALLBACK_REVIEWS_FR,
+  type LandingReview,
+  type LandingReviewApi,
+} from "@/lib/landing-reviews";
 
 const DEFAULT_TRUSTPILOT_SCORE = "4.7";
 
-type Review = { name: string; body: string; rating: number };
-
-type ApiReview = {
-  name: string;
-  bodyEn: string;
-  bodyFr: string;
-  rating: number;
-};
+type Review = LandingReview;
+type ApiReview = LandingReviewApi;
 
 function Stars({ count }: { count: number }) {
   return (
@@ -235,11 +209,20 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
   }, [reviews, slideIndex, isMobile]);
 
   return (
-    <section id="customers" className="pt-28 sm:pt-40">
+    <section id="customers" className="pt-6 sm:pt-8 lg:pt-10">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
-          {/* Outer container */}
-          <div className="relative overflow-hidden rounded-[20px] sm:rounded-[24px]">
+          {/* Whole card is wrapped in a Next/Link to /reviews. On hover
+              (or tap on touch — see CSS group/social), the inner
+              content darkens, blurs, and scales down while a "View all
+              reviews" overlay fades in over it. */}
+          <Link
+            href="/reviews"
+            aria-label={locale === "fr" ? "Voir tous les avis" : "View all the reviews"}
+            className="group/social relative block overflow-hidden rounded-[20px] outline-none sm:rounded-[24px]"
+          >
+            {/* Inner stack — gets blurred + scaled down on hover */}
+            <div className="relative overflow-hidden rounded-[20px] transition-[filter,transform,opacity] duration-300 ease-out group-hover/social:scale-[0.985] group-hover/social:opacity-65 group-hover/social:blur-[3px] sm:rounded-[24px]">
             {/* Background layer — hard black, with a bottom fade so the card
                 dissolves into the page rather than showing a hard edge. */}
             <div
@@ -273,12 +256,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
             {/* Content */}
             <div className="relative px-6 pb-10 pt-12 sm:px-10 sm:pb-12 sm:pt-14">
               {/* Trustpilot label */}
-              <a
-                href="https://www.trustpilot.com/review/vvault.app"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2.5 mx-auto w-full transition-colors duration-200"
-              >
+              <span className="inline-flex w-full items-center justify-center gap-2.5">
                 {/* Trustpilot green star logo */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -292,13 +270,13 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
                   />
                   <path fill="#005128" d="M194.7 181.8l-7.2-22.3-51.8 37.6z" />
                 </svg>
-                <span className="text-sm text-white/50 transition-colors duration-200 group-hover:text-white group-hover:underline sm:text-base">
+                <span className="text-sm text-white/50 sm:text-base">
                   {locale === "fr" ? "Adoré sur Trustpilot" : "Loved on Trustpilot"}
                 </span>
                 <span className="text-sm font-semibold text-white/50 sm:text-base">
                   {trustpilotScore}/5
                 </span>
-              </a>
+              </span>
 
               {/* Review cards. Cards have a fixed body height so the
                  grid never re-flows when the carousel cycles, even
@@ -329,7 +307,29 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
                 ))}
               </div>
             </div>
-          </div>
+            </div>
+            {/* Hover overlay — dark scrim + "View all the reviews"
+                with a two-stroke diagonal arrow. Only opaque on
+                hover/focus-within. */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/55 opacity-0 transition-opacity duration-300 group-hover/social:opacity-100 group-focus-visible/social:opacity-100">
+              <span className="inline-flex items-center gap-3 text-[16px] font-medium text-white sm:text-[18px]">
+                {locale === "fr" ? "Voir tous les avis" : "View all the reviews"}
+                <svg
+                  viewBox="0 0 24 24"
+                  className="h-5 w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.75"
+                  strokeLinecap="round"
+                  aria-hidden="true"
+                >
+                  {/* Two diagonal strokes forming an arrow up-and-right */}
+                  <path d="M7 17 L17 7" />
+                  <path d="M9 7 L17 7 L17 15" />
+                </svg>
+              </span>
+            </div>
+          </Link>
         </Reveal>
       </div>
     </section>

@@ -13,6 +13,7 @@ import { FinalCtaSection } from "@/components/landing/FinalCtaSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
 import { ProPricingToast } from "@/components/landing/ProPricingToast";
+import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { trackLandingView } from "@/lib/analytics/client";
 
@@ -65,6 +66,19 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       <main id="main-content" className="pb-20 sm:pb-0">
         <HeroSection content={content} locale={locale} />
         <SocialProofSection locale={locale} />
+        {/* "See pricing" CTA right under the trustpilot card so the
+            visitor's next click after reading social proof is a quiet
+            push to the pricing page. */}
+        <div className="mx-auto flex w-full max-w-[1320px] justify-center px-5 pt-10 sm:px-8 sm:pt-12 lg:px-10">
+          <LandingCtaLink
+            loggedInHref="/pricing"
+            loggedOutHref="/pricing"
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white/[0.08]"
+          >
+            {locale === "fr" ? "Voir les tarifs" : "See pricing"}
+            <span aria-hidden="true">→</span>
+          </LandingCtaLink>
+        </div>
         <FeatureShowcase locale={locale} />
         <HeroStatementSection content={content} locale={locale} />
         <CertificateTeaser locale={locale} />

@@ -113,7 +113,15 @@ export default function CookieConsentBanner() {
       role="dialog"
       aria-modal="true"
       aria-label="Cookie preferences"
-      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-white/[0.08] bg-[#111114] text-white shadow-[0_-12px_40px_rgba(0,0,0,0.6)]"
+      /* Mobile: full-width dark strip pinned to the bottom edge.
+         Tablet + desktop (md+): compact white card LOCKED to the
+         bottom-right corner. We use the md breakpoint (768px) instead
+         of lg (1024px) so tablets and small laptops also see the
+         card variant — earlier the lg gap let some viewports fall
+         back to the mobile full-width layout. `left-auto` is set
+         explicitly so the mobile `inset-x-0` (= left:0 right:0)
+         can't leak through and stretch the banner across the page. */
+      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-white/[0.08] bg-[#111114] text-white shadow-[0_-12px_40px_rgba(0,0,0,0.6)] md:inset-x-auto md:bottom-7 md:right-7 md:left-auto md:w-[380px] md:max-w-[calc(100vw-3.5rem)] md:rounded-2xl md:border md:border-black/[0.08] md:bg-white md:text-black md:shadow-[0_18px_48px_rgba(16,17,18,0.16),0_2px_8px_rgba(16,17,18,0.08)]"
     >
       {/* Mobile-only dismiss. On mobile the layout is a vertical stack
           (title / body / buttons) so there's no clean horizontal row to
@@ -130,7 +138,7 @@ export default function CookieConsentBanner() {
         </button>
       ) : null}
 
-      <div className="mx-auto w-full max-w-[1400px] px-6 py-6 sm:px-10 sm:py-7">
+      <div className="mx-auto w-full max-w-[1400px] px-6 py-6 sm:px-10 sm:py-7 md:mx-0 md:max-w-none md:px-7 md:py-8">
         {view === 'banner' ? (
           <BannerView
             onAcceptAll={handleAcceptAll}
@@ -168,26 +176,24 @@ function BannerView({
   onDismiss: () => void;
 }) {
   return (
-    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-10 md:flex-col md:gap-5">
       <div className="min-w-0 max-w-[760px]">
-        <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base">
-          We use cookies
+        <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base md:text-[15px] md:font-medium md:text-black">
+          We value your privacy
         </h2>
-        <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px]">
-          Cookies help this site function, measure usage, and support marketing.
-        </p>
-        <p className="mt-1 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px]">
+        <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px] md:mt-2 md:text-[13px] md:text-black/60">
+          Cookies help this site function, measure usage, and support marketing.{" "}
           <button
             type="button"
             onClick={onCustomize}
-            className="font-medium text-white underline underline-offset-2 hover:text-white"
+            className="font-medium text-white underline underline-offset-2 hover:text-white md:text-black md:hover:text-black"
           >
             Manage
-          </button>{' '}
-          your cookie preferences anytime. Learn more about our{' '}
+          </button>{" "}
+          anytime or read our{" "}
           <Link
             href="/privacy#cookies"
-            className="font-medium text-white underline underline-offset-2 hover:text-white"
+            className="font-medium text-white underline underline-offset-2 hover:text-white md:text-black md:hover:text-black"
           >
             cookie policy
           </Link>
@@ -195,29 +201,30 @@ function BannerView({
         </p>
       </div>
 
-      <div className="flex shrink-0 flex-wrap items-center gap-2.5 sm:justify-end">
+      <div className="flex shrink-0 flex-wrap items-center gap-2.5 sm:justify-end md:w-full md:justify-stretch md:gap-2.5">
         <button
           type="button"
           onClick={onRejectAll}
-          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
+          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:h-11 md:flex-1 md:justify-center md:border-black/15 md:px-4 md:text-[13px] md:text-black md:hover:bg-black/[0.04]"
         >
-          Reject non-essential
+          Reject
         </button>
         <button
           type="button"
           onClick={onAcceptAll}
-          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90"
+          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90 md:h-11 md:flex-1 md:justify-center md:bg-black md:px-4 md:text-[13px] md:text-white md:hover:bg-black/85"
         >
-          Accept all
+          Accept
         </button>
-        {/* Desktop dismiss. Counts as "reject non-essential" per CNIL:
-            closing without choosing is not implicit consent. On mobile
-            the X lives at the banner's top-right corner instead. */}
+        {/* Desktop dismiss — only on sm/md viewports (sm:inline-flex
+            md:hidden). On the lg+ compact card layout there's not
+            enough horizontal room for a separate X, and the Reject
+            button already provides the same effect. */}
         <button
           type="button"
           aria-label="Reject non-essential cookies and close"
           onClick={onDismiss}
-          className="ml-1 hidden h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 sm:inline-flex"
+          className="ml-1 hidden h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 sm:inline-flex md:hidden"
         >
           <X className="h-4 w-4" />
         </button>
