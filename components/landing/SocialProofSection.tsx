@@ -209,7 +209,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
   }, [reviews, slideIndex, isMobile]);
 
   return (
-    <section id="customers" className="pt-56 sm:pt-56 lg:pt-64">
+    <section id="customers" className="pt-20 sm:pt-24 lg:pt-28">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           {/* Whole card is wrapped in a Next/Link to /reviews. On hover

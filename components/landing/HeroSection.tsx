@@ -592,7 +592,7 @@ export function HeroLiveStats({
 }: {
   locale: Locale;
   stats: LandingStatsResponse;
-  loaded: boolean;
+  loaded?: boolean;
 }) {
   const numberFormatter = useMemo(
     () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
@@ -608,44 +608,74 @@ export function HeroLiveStats({
     [locale],
   );
 
-  const money = moneyFormatter.format(stats.moneyPaidTotalCents / 100);
-  const emails = numberFormatter.format(stats.emailsSentTotal);
+  const items = [
+    {
+      label: locale === "fr" ? "Emails envoyés" : "Emails sent",
+      value: numberFormatter.format(stats.emailsSentTotal),
+    },
+    {
+      label: locale === "fr" ? "Tracks stockés" : "Tracks stored",
+      value: numberFormatter.format(stats.tracksTotal),
+    },
+    {
+      label: locale === "fr" ? "Beats vendus" : "Beats sold",
+      value: moneyFormatter.format(stats.moneyPaidTotalCents / 100),
+    },
+    {
+      label: locale === "fr" ? "Note App Store" : "App Store rating",
+      value: stats.appStoreReviewLabel,
+    },
+  ];
 
-  /* Single-line metric callout. Lives between the trustpilot card
-     (SocialProofSection) and the See pricing CTA on the landing,
-     reading as a quiet statistic that backs the reviews above. The
-     two live numbers stay in big tabular numerals; the surrounding
-     copy is muted so the numbers pop. */
+  /* Framer-style stat strip — no card chrome, just typography on the
+     hero background with hairline dividers between cells. 4-col row
+     on md+, 2x2 grid on mobile. Each cell has a small uppercase
+     tracked label sitting above a big tabular-nums number.
+     Padding is tuned so the strip peeks ~30-50px above the fold on
+     mobile (signal there's more below) and stays fully below the
+     fold on desktop (clean hero, no competing focal point). */
   return (
-    <div className="pt-8 pb-4 sm:pt-10 sm:pb-6 lg:pt-12 lg:pb-6">
-      <div className="mx-auto w-full max-w-[1000px] px-5 sm:px-8">
-        <p className="mx-auto max-w-[820px] text-center text-[15.5px] leading-relaxed text-white/45 sm:text-[16.5px] lg:text-[17px]">
-          {locale === "fr" ? (
-            <>
-              Notre communauté a envoyé{" "}
-              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
-                {emails}
-              </span>{" "}
-              emails et généré{" "}
-              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
-                {money}
-              </span>{" "}
-              de ventes de beats.
-            </>
-          ) : (
-            <>
-              Our community has sent{" "}
-              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
-                {emails}
-              </span>{" "}
-              emails and moved{" "}
-              <span className="text-[1.6rem] font-semibold leading-none text-white tabular-nums sm:text-[1.85rem] lg:text-[2rem]">
-                {money}
-              </span>{" "}
-              in beat sales.
-            </>
-          )}
-        </p>
+    <div className="pt-56 pb-6 sm:pt-56 sm:pb-8 lg:pt-64 lg:pb-10">
+      <div className="mx-auto w-full max-w-[1100px] px-5 sm:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4">
+          {items.map((item, i) => {
+            /* Borders: on mobile (grid-cols-2) we want a vertical
+               divider between cols (cell idx 1 + 3 get border-left)
+               and a horizontal divider between rows (cell idx 2 + 3
+               get border-top). On md+ (grid-cols-4) all cells but
+               the first get border-left; no horizontal dividers
+               since it's a single row. */
+            const mobileLeftBorder = i % 2 === 1;
+            const mobileTopBorder = i >= 2;
+            const desktopLeftBorder = i > 0;
+            return (
+              <div
+                key={item.label}
+                className={[
+                  /* items-center + text-center so each cell reads as
+                     visually centered. With items-start the longer
+                     labels (e.g. "Emails sent") pulled the whole row
+                     visually left. */
+                  "flex flex-col items-center gap-2.5 px-5 py-6 text-center sm:gap-3 sm:px-7 sm:py-8",
+                  mobileLeftBorder ? "border-l border-white/[0.08]" : "",
+                  mobileTopBorder
+                    ? "border-t border-white/[0.08] md:border-t-0"
+                    : "",
+                  desktopLeftBorder ? "md:border-l md:border-white/[0.08]" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                <span className="text-[12px] font-medium leading-tight text-white/50 sm:text-[12.5px]">
+                  {item.label}
+                </span>
+                <span className="text-[1.85rem] font-light leading-[0.95] tabular-nums text-white sm:text-[2.4rem] lg:text-[2.75rem]">
+                  {item.value}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

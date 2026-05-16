@@ -76,15 +76,13 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main id="main-content" className="pb-20 sm:pb-0">
         <HeroSection content={content} locale={locale} />
+        {/* Live 4-stat grid — clean framer-style strip sits right
+            under the hero (peeks above the fold on mobile, fully
+            below the fold on desktop). */}
+        <HeroLiveStats locale={locale} stats={stats} />
         <SocialProofSection locale={locale} />
-        {/* Live metric line — was previously above the trustpilot card,
-            now sits between the trustpilot card and the See pricing CTA
-            so it reads as a statistic supporting the reviews above. */}
-        <HeroLiveStats locale={locale} stats={stats} loaded={true} />
-        {/* "See pricing" CTA right under the metric line so the
-            visitor's next click after reading social proof + numbers
-            is a quiet push to the pricing page. */}
-        <div className="mx-auto flex w-full max-w-[1320px] justify-center px-5 pt-4 sm:px-8 sm:pt-6 lg:px-10">
+        {/* "See pricing" CTA below the trustpilot card. */}
+        <div className="mx-auto flex w-full max-w-[1320px] justify-center px-5 pt-10 sm:px-8 sm:pt-12 lg:px-10">
           <LandingCtaLink
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
