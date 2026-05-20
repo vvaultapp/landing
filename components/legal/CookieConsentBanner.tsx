@@ -248,10 +248,10 @@ function PreferencesView(props: {
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-6">
         <div className="min-w-0 max-w-[760px]">
-          <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base">
+          <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base md:font-medium md:text-black">
             Cookie preferences
           </h2>
-          <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px]">
+          <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px] md:text-[13px] md:text-black/60">
             Strictly necessary cookies are always on because the site cannot
             function without them. Toggle the others to your preference.
           </p>
@@ -261,14 +261,14 @@ function PreferencesView(props: {
             type="button"
             aria-label="Close preferences"
             onClick={props.onClose}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white md:text-black/55 md:hover:bg-black/[0.06] md:hover:text-black"
           >
             <X className="h-4 w-4" />
           </button>
         ) : null}
       </div>
 
-      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-2.5 md:gap-2.5 sm:grid-cols-3 md:grid-cols-1">
         <CategoryRow
           title="Strictly necessary"
           description="Authentication, language, security. Cannot be disabled."
@@ -289,25 +289,25 @@ function PreferencesView(props: {
         />
       </div>
 
-      <div className="flex flex-wrap items-center justify-end gap-2.5">
+      <div className="flex flex-wrap items-center justify-end gap-2.5 md:gap-2">
         <button
           type="button"
           onClick={props.onRejectAll}
-          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
+          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:h-9 md:border-black/15 md:px-4 md:text-[12.5px] md:text-black md:hover:bg-black/[0.04]"
         >
           Reject non-essential
         </button>
         <button
           type="button"
           onClick={props.onAcceptAll}
-          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10"
+          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:h-9 md:border-black/15 md:px-4 md:text-[12.5px] md:text-black md:hover:bg-black/[0.04]"
         >
           Accept all
         </button>
         <button
           type="button"
           onClick={props.onSave}
-          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90"
+          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90 md:h-9 md:bg-black md:px-4 md:text-[12.5px] md:text-white md:hover:bg-black/85"
         >
           Save preferences
         </button>
@@ -332,21 +332,25 @@ function CategoryRow({
   const interactive = !locked;
   return (
     <label
-      className={`flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors ${
-        interactive ? 'cursor-pointer hover:border-white/15 hover:bg-white/[0.06]' : ''
+      className={`flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors md:border-black/[0.08] md:bg-black/[0.025] ${
+        interactive
+          ? 'cursor-pointer hover:border-white/15 hover:bg-white/[0.06] md:hover:border-black/[0.14] md:hover:bg-black/[0.04]'
+          : ''
       }`}
     >
       <Checkbox checked={checked} locked={locked} onChange={onChange} />
       <div className="min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold text-white">{title}</span>
+          <span className="text-[13px] font-semibold text-white md:text-black">
+            {title}
+          </span>
           {locked ? (
-            <span className="rounded-full bg-white/10 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-white/55">
+            <span className="rounded-full bg-white/10 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-white/55 md:bg-black/[0.08] md:text-black/55">
               Always on
             </span>
           ) : null}
         </div>
-        <div className="mt-1 text-[12px] leading-relaxed text-white/55">
+        <div className="mt-1 text-[12px] leading-relaxed text-white/55 md:text-black/55">
           {description}
         </div>
       </div>
@@ -384,8 +388,8 @@ function Checkbox({
       }}
       className={`relative mt-0.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md border transition-colors ${
         checked
-          ? 'border-white bg-white'
-          : 'border-white/30 bg-transparent'
+          ? 'border-white bg-white md:border-black md:bg-black'
+          : 'border-white/30 bg-transparent md:border-black/30'
       } ${locked ? 'opacity-60' : ''}`}
     >
       <svg
@@ -396,7 +400,7 @@ function Checkbox({
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
-        className={`h-3 w-3 text-black transition-opacity duration-150 ${
+        className={`h-3 w-3 text-black transition-opacity duration-150 md:text-white ${
           checked ? 'opacity-100' : 'opacity-0'
         }`}
       >
