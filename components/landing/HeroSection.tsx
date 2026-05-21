@@ -280,7 +280,7 @@ export function useLandingStats() {
 }
 
 
-function HeroTrustedBy({
+export function HeroTrustedBy({
   locale,
   usersTotal,
   loaded,

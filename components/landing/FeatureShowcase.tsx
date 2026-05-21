@@ -20,7 +20,7 @@ const PACK_COVERS = [
 /*  Section Emblem + Icon SVGs                                         */
 /* ------------------------------------------------------------------ */
 
-function SectionEmblem({
+export function SectionEmblem({
   icon,
   accentColor,
   id,
@@ -172,7 +172,7 @@ function MoneyIcon({ gradId }: { gradId?: string }) {
 /*  Shared                                                             */
 /* ------------------------------------------------------------------ */
 
-function GlowCard({
+export function GlowCard({
   children,
   className = "",
 }: {
@@ -220,7 +220,7 @@ function GlowCard({
   );
 }
 
-function EdgeFade({
+export function EdgeFade({
   children,
   className = "",
   bottom = true,
@@ -308,7 +308,7 @@ function KpiCard({
   );
 }
 
-function AnalyticsSection({ locale }: { locale: Locale }) {
+export function AnalyticsSection({ locale }: { locale: Locale }) {
   const fr = locale === "fr";
   const activities = [
     {
@@ -557,7 +557,7 @@ function PackCard({
   );
 }
 
-function PacksCard({ locale }: { locale: Locale }) {
+export function PacksCard({ locale }: { locale: Locale }) {
   const [searchValue, setSearchValue] = useState("");
   const [activeTab, setActiveTab] = useState("All");
 
@@ -645,7 +645,7 @@ function PacksCard({ locale }: { locale: Locale }) {
   );
 }
 
-function ComposeCard({ locale }: { locale: Locale }) {
+export function ComposeCard({ locale }: { locale: Locale }) {
   const defaultSubject = locale === "fr" ? "Nouveau pack : Dark Melodies Vol.3" : "New pack: Dark Melodies Vol.3";
   const defaultMessage = locale === "fr"
     ? "Hey, je viens de sortir un nouveau pack qui devrait te plaire. Dis-moi ce que t'en penses !"
@@ -815,7 +815,7 @@ function ComposeCard({ locale }: { locale: Locale }) {
 /*  3. Sell — track row card (matching real app style)                  */
 /* ------------------------------------------------------------------ */
 
-function SellCard({ locale }: { locale: Locale }) {
+export function SellCard({ locale }: { locale: Locale }) {
   const [purchased, setPurchased] = useState(false);
 
   return (

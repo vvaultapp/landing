@@ -584,3 +584,46 @@ details[open] .faq-answer {
     transform: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/*  /new — Workflow sticky reveal                                      */
+/* ------------------------------------------------------------------ */
+/*  Pure-CSS sticky so SSR and first client render produce identical
+    markup (no hydration mismatch from JS-driven className branches).
+    JS only computes the progress fraction and writes it to a single
+    --workflow-progress custom property + the connector width. */
+
+.workflow-shell {
+  position: relative;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 1024px) {
+  @media (prefers-reduced-motion: no-preference) {
+    .workflow-shell {
+      height: 500vh;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    .workflow-pin {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      height: 100vh;
+    }
+  }
+}
+
+/* /new — ToolsGallery hover hint: hide on touch devices via CSS so
+   the markup stays identical between SSR and client. */
+.tools-hover-hint {
+  display: block;
+}
+@media (hover: none) {
+  .tools-hover-hint {
+    display: none;
+  }
+}
+

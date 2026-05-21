@@ -471,8 +471,23 @@ function CellValue({ value }: { value: boolean | string }) {
   );
 }
 
-export default function PricingPage() {
-  const [locale] = useLocale();
+type PricingPageProps = {
+  /* When provided, overrides the locale read from `useLocale()`.
+     Used by /new where the locale is fixed by route. */
+  locale?: "en" | "fr";
+  /* When true, render the pricing UI as an inline section (no
+     LandingNav, no LandingFooter, no scroll-to-top, no bottom FAQ
+     or "Ready to start" sections — those live elsewhere on the
+     hosting page). When false (default), render as a full page. */
+  embedded?: boolean;
+};
+
+export default function PricingPage({
+  locale: localeOverride,
+  embedded = false,
+}: PricingPageProps = {}) {
+  const [localeFromHook] = useLocale();
+  const locale = localeOverride ?? localeFromHook;
   const content = getLandingContent(locale);
   const [annual, setAnnual] = useState(true);
   const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
@@ -493,9 +508,12 @@ export default function PricingPage() {
   const staticHeaderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    /* When embedded inside another landing, the host controls
+       scroll position and document title — leave them alone. */
+    if (embedded) return;
     window.scrollTo(0, 0);
     document.title = locale === "fr" ? "vvault | Tarifs" : "vvault | Pricing";
-  }, [locale]);
+  }, [locale, embedded]);
 
   // The big "Compare plans" header uses `position: sticky` so it naturally
   // pins against the bottom of the primary nav as the user scrolls. We
@@ -681,11 +699,26 @@ export default function PricingPage() {
   ];
   const startedLabel = fr ? "Commencer" : "Get Started";
 
-  return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
-      <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
+  /* Outer chrome: full-page mode wraps in landing-root + Nav +
+     Footer with the original padding. Embedded mode skips the
+     chrome entirely (the host page already supplies it) and uses
+     a normal section + lighter vertical padding. */
+  const RootWrapper = embedded ? "section" : "div";
+  const rootClassName = embedded
+    ? "relative"
+    : "landing-root min-h-screen bg-black font-sans text-[#f0f0f0]";
+  const MainWrapper = embedded ? "div" : "main";
+  const mainClassName = embedded
+    ? "relative pt-24 pb-12 sm:pt-32 sm:pb-16"
+    : "relative z-10 pb-32 pt-40 sm:pt-48";
 
-      <main className="relative z-10 pb-32 pt-40 sm:pt-48">
+  return (
+    <RootWrapper className={rootClassName}>
+      {!embedded && (
+        <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
+      )}
+
+      <MainWrapper className={mainClassName}>
         <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
           {/* Header */}
           <Reveal>
@@ -1200,7 +1233,11 @@ export default function PricingPage() {
           </Reveal>
         </div>
 
-        {/* Re-enter max-w for the FAQ + final CTA */}
+        {/* Re-enter max-w for the FAQ + final CTA — only on the
+            standalone /pricing page. When embedded inside another
+            landing (e.g. /new) the host renders its own FAQ + final
+            CTA so we skip these to avoid duplicates. */}
+        {!embedded && (
         <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
 
           {/* FAQ */}
@@ -1242,9 +1279,17 @@ export default function PricingPage() {
             </div>
           </Reveal>
         </div>
-      </main>
+        )}
+      </MainWrapper>
 
-      <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
-    </div>
+      {!embedded && (
+        <LandingFooter
+          locale={locale}
+          content={content}
+          showColumns={false}
+          inlineLegalWithBrand
+        />
+      )}
+    </RootWrapper>
   );
 }
