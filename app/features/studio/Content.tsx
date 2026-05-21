@@ -489,6 +489,7 @@ export default function FeatureStudioPage() {
               </Link>
               <a
                 href="https://vvault.app/signup"
+                data-track-id="features_studio.hero_cta"
                 className="inline-flex items-center rounded-xl bg-white/[0.06] px-5 py-2.5 text-[14px] font-semibold text-white/85 transition-colors duration-200 hover:bg-white/[0.1]"
               >
                 {fr ? "Essayer Ultra" : "Try Ultra"}
@@ -642,6 +643,7 @@ export default function FeatureStudioPage() {
               </Link>
               <a
                 href="https://vvault.app/signup"
+                data-track-id="features_studio.final_cta"
                 className="inline-flex items-center rounded-xl bg-white/[0.06] px-5 py-2.5 text-[14px] font-semibold text-white/85 transition-colors duration-200 hover:bg-white/[0.1]"
               >
                 {fr ? "Démarrer avec Ultra" : "Get started with Ultra"}

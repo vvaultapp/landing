@@ -25,6 +25,7 @@ function HeroStudioBadge({
     <LandingCtaLink
       loggedInHref={href}
       loggedOutHref={href}
+      data-track-id="home.hero.see_pricing"
       className="group inline-flex items-center gap-2 px-1 py-0.5 text-sm sm:text-sm"
     >
       <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />

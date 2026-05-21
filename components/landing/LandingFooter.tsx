@@ -136,6 +136,7 @@ export function LandingFooter({
                 href="https://discord.gg/QGGEZR5KhB"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-id="footer.social.discord"
                 className="flex h-8 w-8 items-center justify-center rounded-xl text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
                 aria-label="Discord"
               >
@@ -145,6 +146,7 @@ export function LandingFooter({
                 href="https://instagram.com/vvault.app"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-id="footer.social.instagram"
                 className="flex h-8 w-8 items-center justify-center rounded-xl text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
                 aria-label="Instagram"
               >

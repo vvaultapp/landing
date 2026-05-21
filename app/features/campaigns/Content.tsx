@@ -656,6 +656,7 @@ export default function FeatureCampaignsPage() {
           <div className="mt-8 flex justify-center">
             <a
               href="https://vvault.app/signup"
+              data-track-id="features_campaigns.hero_cta"
               className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
             >
               {locale === "fr" ? "Commencer" : "Get started"}
@@ -773,6 +774,7 @@ export default function FeatureCampaignsPage() {
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
+                data-track-id="features_campaigns.final_cta"
                 className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
                 {locale === "fr" ? "Commencer gratuitement" : "Start for free"}

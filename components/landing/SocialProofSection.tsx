@@ -218,6 +218,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
               reviews" overlay fades in over it. */}
           <Link
             href="/reviews"
+            data-track-id="home.trustpilot_card"
             aria-label={locale === "fr" ? "Voir tous les avis" : "View all the reviews"}
             className="group/social relative block overflow-hidden rounded-[20px] outline-none sm:rounded-[24px]"
           >

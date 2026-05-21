@@ -73,15 +73,18 @@ function ContactCard({
   label,
   description,
   href,
+  trackId,
 }: {
   icon: React.ReactNode;
   label: string;
   description: string;
   href: string;
+  trackId?: string;
 }) {
   return (
     <a
       href={href}
+      data-track-id={trackId}
       target={href.startsWith("mailto:") ? undefined : "_blank"}
       rel={href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
       className="group relative flex flex-col items-center gap-4 overflow-hidden rounded-2xl px-6 py-8 text-center transition-all duration-300 sm:px-8 sm:py-10 hover:brightness-125"
@@ -145,6 +148,7 @@ export function ContactSection({ locale }: ContactSectionProps) {
               label="Discord"
               description={isEn ? "Join the community" : "Rejoins la communauté"}
               href="https://discord.gg/QGGEZR5KhB"
+              trackId="home.contact.discord"
             />
           </Reveal>
           <Reveal>
@@ -153,6 +157,7 @@ export function ContactSection({ locale }: ContactSectionProps) {
               label="Instagram"
               description={isEn ? "DM @vvault.app" : "MP @vvault.app"}
               href="https://instagram.com/vvault.app"
+              trackId="home.contact.instagram"
             />
           </Reveal>
           <Reveal>
@@ -161,6 +166,7 @@ export function ContactSection({ locale }: ContactSectionProps) {
               label="Email"
               description="contact@vvault.app"
               href="mailto:contact@vvault.app"
+              trackId="home.contact.email"
             />
           </Reveal>
         </div>

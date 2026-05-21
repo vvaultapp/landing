@@ -161,6 +161,7 @@ export default function ReviewsPage() {
                 href={TRUSTPILOT_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-id="reviews.trustpilot"
                 className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#00b67a] px-5 text-[13.5px] font-semibold text-white transition-colors hover:bg-[#009d6a]"
               >
                 <svg
@@ -177,6 +178,7 @@ export default function ReviewsPage() {
                 href={APP_STORE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-id="reviews.app_store"
                 className="inline-flex h-11 items-center gap-2 rounded-2xl bg-white/[0.06] px-5 text-[13.5px] font-medium text-white/85 transition-colors hover:bg-white/[0.12] hover:text-white"
               >
                 {locale === "fr" ? "Voir sur l'App Store" : "View on the App Store"}

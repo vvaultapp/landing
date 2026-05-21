@@ -146,6 +146,7 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
             <div className="mt-5 flex justify-center">
               <Link
                 href="/certificate"
+                data-track-id="home.certificate_teaser.view"
                 className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
                 {locale === "fr" ? "Découvrir la fonctionnalité" : "View new feature"}

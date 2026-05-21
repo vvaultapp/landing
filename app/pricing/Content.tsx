@@ -811,6 +811,7 @@ export default function PricingPage() {
                         aria-label={content.pricingUi.toggleBillingAriaLabel}
                         aria-pressed={annual}
                         onClick={() => setAnnual((v) => !v)}
+                        data-track-id="pricing.toggle_billing"
                         className="flex items-center gap-2 text-[11.5px] font-semibold tracking-wide text-white/70 transition-colors duration-200 hover:text-white"
                       >
                         <span>{fr ? "Annuel" : "Annual"}</span>
@@ -975,6 +976,7 @@ export default function PricingPage() {
                 <LandingCtaLink
                   loggedInHref={mngmtPlan.href}
                   loggedOutHref={mngmtPlan.href}
+                  data-track-id="pricing.mngmt.contact_sales"
                   className="shrink-0 inline-flex items-center justify-center rounded-2xl bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
                 >
                   {mngmtPlan.cta}
@@ -1068,6 +1070,7 @@ export default function PricingPage() {
                       type="button"
                       onClick={() => setAnnual((v) => !v)}
                       aria-label={content.pricingUi.toggleBillingAriaLabel}
+                      data-track-id="pricing.toggle_billing"
                       className={`relative h-5 w-9 shrink-0 rounded-full transition-colors duration-200 ${
                         annual ? "bg-emerald-500/80" : "bg-white/15"
                       }`}
@@ -1230,6 +1233,7 @@ export default function PricingPage() {
               <div className="mt-6 flex justify-center">
                 <a
                   href="https://vvault.app/signup"
+                  data-track-id="pricing.final_cta.start_free"
                   className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
                 >
                   {locale === "fr" ? "Commencer gratuitement" : "Start for free"}

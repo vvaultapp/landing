@@ -13,6 +13,7 @@ const contactCards = (fr: boolean) => [
     title: "Discord",
     description: fr ? "Rejoins notre communauté. Pose tes questions, partage tes retours et connecte-toi avec d'autres producteurs." : "Join our community. Ask questions, share feedback, and connect with other producers.",
     href: "https://discord.gg/QGGEZR5KhB",
+    trackId: "contact.card.discord",
     external: true,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6">
@@ -27,6 +28,7 @@ const contactCards = (fr: boolean) => [
     title: "Instagram",
     description: fr ? "Suis-nous pour les actualités, conseils et coulisses." : "Follow us for updates, tips, and behind-the-scenes content.",
     href: "https://instagram.com/vvault.app",
+    trackId: "contact.card.instagram",
     external: true,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6">
@@ -41,6 +43,7 @@ const contactCards = (fr: boolean) => [
     title: "Email",
     description: fr ? "Envoie-nous un email. On répond généralement sous 24 heures." : "Send us an email. We typically respond within 24 hours.",
     href: "mailto:vvaultapp@gmail.com",
+    trackId: "contact.card.email",
     external: false,
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -90,6 +93,7 @@ export default function ContactPage() {
             <Reveal key={i} delayMs={i * 80}>
               <a
                 href={card.href}
+                data-track-id={card.trackId}
                 target={card.external ? "_blank" : undefined}
                 rel={card.external ? "noopener noreferrer" : undefined}
                 className="group block rounded-2xl p-6 transition-[filter] duration-200 hover:brightness-125"
@@ -195,18 +199,21 @@ export default function ContactPage() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/help"
+              data-track-id="contact.help_center"
               className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
             >
               {fr ? "Centre d'aide" : "Help center"}
             </Link>
             <Link
               href="/docs"
+              data-track-id="contact.docs"
               className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
             >
               {fr ? "Documentation" : "Documentation"}
             </Link>
             <Link
               href="/pricing"
+              data-track-id="contact.pricing_link"
               className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
             >
               {fr ? "Tarifs" : "Pricing"}

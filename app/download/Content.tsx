@@ -76,6 +76,7 @@ export default function DownloadPage() {
       href={APPSTORE_URL}
       target="_blank"
       rel="noreferrer"
+      data-track-id="download.app_store"
       className={secondaryClass}
     >
       <svg viewBox="0 0 24 24" className="h-[18px] w-[18px] fill-current">

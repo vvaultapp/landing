@@ -1,129 +1,83 @@
-/* Real button-click analytics. Reads rows from public.button_clicks
-   (server-side, service role) and ranks the 11 tracked landing CTAs by
-   click count. URL: /admin/buttons?range=30d
+/* Real button-click analytics — top level. Renders:
+     1. Three KPI cards (total clicks, top button, % firing).
+     2. A "Top 5" panel — the most-clicked buttons across every page.
+     3. A grid of page cards, each linking to /admin/buttons/<slug> for
+        the detailed breakdown of that page's buttons.
    Gated by a shared password (see ./auth.ts). */
 
-import { createClient } from "@supabase/supabase-js";
+import Link from "next/link";
+import {
+  BarChart3,
+  Briefcase,
+  Building2,
+  ChevronRight,
+  CircleUser,
+  Clapperboard,
+  Download,
+  FileCheck2,
+  FolderClosed,
+  Home as HomeIcon,
+  Layout,
+  Link2,
+  MailOpen,
+  Megaphone,
+  MessageSquareQuote,
+  Star,
+  Tag,
+  Target,
+  Users,
+} from "lucide-react";
+import type { ComponentType } from "react";
+
 import { RangePicker } from "./RangePicker";
+import { Row } from "./Row";
 import { isAuthed } from "./auth";
 import { LoginForm } from "./LoginForm";
+import {
+  BUTTONS,
+  DEFAULT_RANGE,
+  PAGE_ORDER,
+  RANGES,
+  aggregate,
+  fetchClicks,
+  formatNumber,
+  isValidRange,
+  pageToSlug,
+  rangeToDays,
+  type Aggregated,
+  type Range,
+} from "./lib/buttons-catalog";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-type Range = "7d" | "14d" | "30d" | "60d" | "90d";
-const RANGES: Range[] = ["7d", "14d", "30d", "60d", "90d"];
+type IconCmp = ComponentType<{ className?: string; strokeWidth?: number }>;
 
-function rangeToDays(r: Range): number {
-  return Number(r.replace("d", ""));
-}
-
-type ClickRow = {
-  button_id: string;
-  surface: string | null;
-  plan_id: string | null;
-  created_at: string;
-  session_id: string | null;
+/* Icon + short blurb per page, used by the grid of cards. Kept in
+   sync with PAGE_ORDER. */
+const PAGE_META: Record<string, { icon: IconCmp; blurb: string }> = {
+  Home: { icon: HomeIcon, blurb: "Hero, social proof, contact, final CTA" },
+  "Pricing page": { icon: Tag, blurb: "Plan cards, compare table, billing toggle" },
+  "Reviews page": { icon: Star, blurb: "Trustpilot + App Store outbound" },
+  Download: { icon: Download, blurb: "App Store install" },
+  "Contact page": { icon: MailOpen, blurb: "Discord / Instagram / email + help links" },
+  "Certificate page": { icon: FileCheck2, blurb: "Hero + final CTA" },
+  "Testimonials page": { icon: MessageSquareQuote, blurb: "Signup + Discord CTAs" },
+  "Features — Studio": { icon: Clapperboard, blurb: "Studio feature page CTAs" },
+  "Features — Library": { icon: FolderClosed, blurb: "Library feature page CTAs" },
+  "Features — Analytics": { icon: BarChart3, blurb: "Analytics feature page CTAs" },
+  "Features — Campaigns": { icon: Megaphone, blurb: "Campaigns feature page CTAs" },
+  "Features — Contacts": { icon: Users, blurb: "Contacts feature page CTAs" },
+  "Features — Opportunities": { icon: Target, blurb: "Opportunities feature page CTAs" },
+  "Features — Sales": { icon: Briefcase, blurb: "Sales feature page CTAs" },
+  "Features — Profile": { icon: CircleUser, blurb: "Profile feature page CTAs" },
+  "Features — Link in Bio": { icon: Link2, blurb: "Link-in-Bio feature page CTAs" },
+  "Footer (every page)": { icon: Layout, blurb: "Discord + Instagram (every page)" },
 };
 
-type ButtonDef = {
-  buttonId: string;
-  name: string;
-  location: string;
-};
-
-const BUTTONS: ButtonDef[] = [
-  { buttonId: "nav.get_started", name: "Get Started", location: "Top nav" },
-  { buttonId: "nav.log_in", name: "Log in", location: "Top nav" },
-  { buttonId: "hero.continue_google", name: "Continue with Google", location: "Hero" },
-  { buttonId: "hero.start_for_free", name: "Start for free", location: "Hero" },
-  { buttonId: "toast.join_pro", name: "Join Pro now", location: "Pro notification" },
-  { buttonId: "pricing_page.card_free", name: "Sign up — Free", location: "Pricing page" },
-  { buttonId: "pricing_page.card_pro", name: "Join Pro now", location: "Pricing page" },
-  { buttonId: "pricing_page.card_ultra", name: "Join Ultra now", location: "Pricing page" },
-  { buttonId: "pricing_page.compare_free", name: "Get Started — Free", location: "Compare plans" },
-  { buttonId: "pricing_page.compare_pro", name: "Get Started — Pro", location: "Compare plans" },
-  { buttonId: "pricing_page.compare_ultra", name: "Get Started — Ultra", location: "Compare plans" },
-];
-
-async function fetchClicks(days: number): Promise<ClickRow[]> {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-  if (!url || !serviceKey) return [];
-  const supabase = createClient(url, serviceKey, {
-    auth: { persistSession: false },
-  });
-  const since = new Date(Date.now() - days * 86400_000).toISOString();
-  const trackedIds = BUTTONS.map((b) => b.buttonId);
-  const { data, error } = await supabase
-    .from("button_clicks")
-    .select("button_id, surface, plan_id, created_at, session_id")
-    .in("button_id", trackedIds)
-    .gte("created_at", since)
-    .order("created_at", { ascending: true })
-    .limit(50_000);
-  if (error || !data) return [];
-  return data as ClickRow[];
-}
-
-function formatNumber(n: number): string {
-  return new Intl.NumberFormat("en-US").format(n);
-}
-
-function formatRelative(iso: string | null): string {
-  if (!iso) return "never";
-  const then = new Date(iso).getTime();
-  const now = Date.now();
-  const diffMs = now - then;
-  const min = Math.floor(diffMs / 60_000);
-  if (min < 1) return "just now";
-  if (min < 60) return `${min}m ago`;
-  const hr = Math.floor(min / 60);
-  if (hr < 24) return `${hr}h ago`;
-  const days = Math.floor(hr / 24);
-  return `${days}d ago`;
-}
-
-type Aggregated = ButtonDef & {
-  clicks: number;
-  uniqueVisitors: number;
-  lastClicked: string | null;
-};
-
-function aggregate(rows: ClickRow[]): Aggregated[] {
-  const byId = new Map<
-    string,
-    { clicks: number; sessions: Set<string>; lastClicked: string | null }
-  >();
-  for (const def of BUTTONS) {
-    byId.set(def.buttonId, { clicks: 0, sessions: new Set(), lastClicked: null });
-  }
-  for (const r of rows) {
-    const bucket = byId.get(r.button_id);
-    if (!bucket) continue;
-    bucket.clicks += 1;
-    if (r.session_id) bucket.sessions.add(r.session_id);
-    if (!bucket.lastClicked || r.created_at > bucket.lastClicked) {
-      bucket.lastClicked = r.created_at;
-    }
-  }
-  return BUTTONS.map((def) => {
-    const b = byId.get(def.buttonId)!;
-    return {
-      ...def,
-      clicks: b.clicks,
-      uniqueVisitors: b.sessions.size,
-      lastClicked: b.lastClicked,
-    };
-  }).sort((a, b) => b.clicks - a.clicks);
-}
-
-const LOCATION_COLORS: Record<string, string> = {
-  "Top nav": "bg-[#101112]/[0.08] text-[#101112]/75",
-  Hero: "bg-[#1d6ad6]/10 text-[#1d6ad6]",
-  "Pro notification": "bg-[#4397f8]/12 text-[#1f5fbf]",
-  "Pricing page": "bg-[#0ea968]/10 text-[#0a7d4d]",
-  "Compare plans": "bg-[#d18004]/12 text-[#9a5c00]",
+const FALLBACK_META: { icon: IconCmp; blurb: string } = {
+  icon: Building2,
+  blurb: "Tracked buttons on this page",
 };
 
 export default async function ButtonsDashboard({
@@ -135,20 +89,42 @@ export default async function ButtonsDashboard({
   const authed = await isAuthed();
   if (!authed) return <LoginForm error={params.err === "1"} />;
 
-  const rawRange = (params.range || "30d") as Range;
-  const range: Range = (RANGES.includes(rawRange) ? rawRange : "30d") as Range;
+  const range: Range = isValidRange(params.range) ? params.range : DEFAULT_RANGE;
   const days = rangeToDays(range);
   const rows = await fetchClicks(days);
   const ranking = aggregate(rows);
+
   const total = ranking.reduce((sum, r) => sum + r.clicks, 0);
-  const topMax = ranking[0]?.clicks || 0;
-  const top = ranking[0];
   const buttonsFiring = ranking.filter((r) => r.clicks > 0).length;
+  const topMax = Math.max(...ranking.map((r) => r.clicks), 0);
+
+  /* Top 5 across all pages. Skip zero-click entries so a fresh range
+     doesn't pad the panel with dead rows. */
+  const topFive = [...ranking]
+    .filter((r) => r.clicks > 0)
+    .sort((a, b) => b.clicks - a.clicks)
+    .slice(0, 5);
+
+  /* Bucket by page so each card can show its own click total +
+     tracked-button count. */
+  const byPage = new Map<string, Aggregated[]>();
+  for (const r of ranking) {
+    const list = byPage.get(r.page) ?? [];
+    list.push(r);
+    byPage.set(r.page, list);
+  }
+  const orderedPages: { page: string; rows: Aggregated[] }[] = [];
+  for (const page of PAGE_ORDER) {
+    const list = byPage.get(page);
+    if (list && list.length) orderedPages.push({ page, rows: list });
+  }
+  for (const [page, list] of byPage) {
+    if (!PAGE_ORDER.includes(page)) orderedPages.push({ page, rows: list });
+  }
 
   return (
     <div className="min-h-screen bg-[#f7f7f7] text-[#101112]">
-      {/* Sticky glassmorphic top nav — pinned to the viewport top with
-          a blurred translucent surface so it floats above the page. */}
+      {/* Sticky glassmorphic top nav */}
       <header className="sticky top-0 z-50 border-b border-[#101112]/[0.06] bg-[#f7f7f7]/65 backdrop-blur-xl backdrop-saturate-150">
         <div className="mx-auto flex w-full max-w-[1100px] items-center px-6 py-4 sm:px-10">
           <span className="text-[13px] font-semibold uppercase tracking-[0.18em]">
@@ -166,14 +142,18 @@ export default async function ButtonsDashboard({
         </div>
 
         <section className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <Stat label="Total clicks" value={formatNumber(total)} sub={`across ${range}`} />
+          <Stat
+            label="Total clicks"
+            value={formatNumber(total)}
+            sub={`across ${range}`}
+          />
           <Stat
             label="Top button"
-            value={top && top.clicks > 0 ? top.name : "—"}
+            value={topFive[0] ? topFive[0].name : "—"}
             sub={
-              top && top.clicks > 0
-                ? `${formatNumber(top.clicks)} click${top.clicks === 1 ? "" : "s"} from ${top.location.toLowerCase()}`
-                : "no clicks yet"
+              topFive[0]
+                ? `${formatNumber(topFive[0].clicks)} click${topFive[0].clicks === 1 ? "" : "s"} · ${topFive[0].page}`
+                : "no clicks in this range"
             }
           />
           <Stat
@@ -182,92 +162,97 @@ export default async function ButtonsDashboard({
             sub={
               BUTTONS.length - buttonsFiring > 0
                 ? `${BUTTONS.length - buttonsFiring} button${BUTTONS.length - buttonsFiring === 1 ? "" : "s"} with zero clicks`
-                : "all tracked buttons have data"
+                : "every tracked button has data"
             }
           />
         </section>
 
+        {/* Top 5 panel */}
         <section className="mt-8 overflow-hidden rounded-2xl border border-[#101112]/[0.06] bg-white">
           <div className="border-b border-[#101112]/[0.06] px-6 py-5 sm:px-8">
-            <h2 className="text-[16px] font-semibold">Ranking</h2>
+            <h2 className="text-[16px] font-semibold">Top 5 across every page</h2>
             <p className="mt-1 text-[13px] text-[#101112]/55">
-              Best performing at the top, worst at the bottom. The bar under
-              each name shows how its click count compares to the leader.
+              The five most-clicked buttons in this range. Bars are relative
+              to the leader.
             </p>
           </div>
-
-          <ol className="divide-y divide-[#101112]/[0.05]">
-            {ranking.map((row, idx) => {
-              const share = topMax > 0 ? (row.clicks / topMax) * 100 : 0;
-              const isWinner = idx === 0 && row.clicks > 0;
-              const locationClass =
-                LOCATION_COLORS[row.location] || "bg-[#101112]/[0.06] text-[#101112]/70";
-              return (
-                <li
+          {topFive.length === 0 ? (
+            <div className="px-6 py-10 text-center text-[13.5px] text-[#101112]/45 sm:px-8">
+              No clicks recorded in this range yet.
+            </div>
+          ) : (
+            <ol className="divide-y divide-[#101112]/[0.05]">
+              {topFive.map((row, idx) => (
+                <Row
                   key={row.buttonId}
-                  className="flex items-center gap-4 px-6 py-4 sm:px-8"
+                  row={row}
+                  rank={idx + 1}
+                  isWinner={idx === 0}
+                  share={topMax > 0 ? (row.clicks / topMax) * 100 : 0}
+                />
+              ))}
+            </ol>
+          )}
+        </section>
+
+        {/* Per-page grid of cards */}
+        <section className="mt-10">
+          <h2 className="text-[18px] font-semibold">Browse by page</h2>
+          <p className="mt-1 text-[13px] text-[#101112]/55">
+            Click any page to drill into every button tracked on it.
+          </p>
+
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {orderedPages.map(({ page, rows }) => {
+              const meta = PAGE_META[page] ?? FALLBACK_META;
+              const Icon = meta.icon;
+              const slug = pageToSlug(page);
+              const pageTotal = rows.reduce((s, r) => s + r.clicks, 0);
+              return (
+                <Link
+                  key={page}
+                  href={{
+                    pathname: `/admin/buttons/${slug}`,
+                    query: { range },
+                  }}
+                  className="group flex flex-col gap-5 rounded-2xl border border-[#101112]/[0.08] bg-white p-6 transition-colors hover:border-[#101112]/[0.18] hover:bg-white"
                 >
-                  <span
-                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold tabular-nums ${
-                      isWinner
-                        ? "bg-black text-white"
-                        : row.clicks === 0
-                          ? "bg-[#101112]/[0.04] text-[#101112]/35"
-                          : "bg-[#101112]/[0.06] text-[#101112]/65"
-                    }`}
-                  >
-                    {idx + 1}
-                  </span>
-
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="truncate text-[15px] font-semibold">
-                        {row.name}
+                  <Icon
+                    className="h-6 w-6 text-[#101112]/80"
+                    strokeWidth={1.6}
+                  />
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[15.5px] font-semibold leading-snug">
+                      {page}
+                    </span>
+                    <span className="text-[12.5px] text-[#101112]/55">
+                      {meta.blurb}
+                    </span>
+                  </div>
+                  <div className="mt-auto flex items-end justify-between gap-3">
+                    <div className="flex flex-col">
+                      <span className="text-[20px] font-semibold leading-none tabular-nums">
+                        {formatNumber(pageTotal)}
                       </span>
-                      <span
-                        className={`inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-[0.06em] ${locationClass}`}
-                      >
-                        {row.location}
+                      <span className="mt-1 text-[10.5px] uppercase tracking-[0.08em] text-[#101112]/45">
+                        {pageTotal === 1 ? "click" : "clicks"} · {rows.length} tracked
                       </span>
                     </div>
-                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-[#101112]/[0.05]">
-                      <div
-                        className={`h-full rounded-full ${
-                          row.clicks === 0
-                            ? "bg-transparent"
-                            : isWinner
-                              ? "bg-black"
-                              : "bg-[#101112]/55"
-                        }`}
-                        style={{ width: `${share}%` }}
-                      />
-                    </div>
-                    <div className="mt-1.5 text-[11.5px] text-[#101112]/45">
-                      {row.clicks === 0
-                        ? "no clicks in this range"
-                        : `Clicked by ${formatNumber(row.uniqueVisitors)} different visitor${row.uniqueVisitors === 1 ? "" : "s"} · most recent click ${formatRelative(row.lastClicked)}`}
-                    </div>
+                    <ChevronRight
+                      className="h-5 w-5 text-[#101112]/30 transition-colors group-hover:text-[#101112]/70"
+                      strokeWidth={1.8}
+                    />
                   </div>
-
-                  <div className="shrink-0 text-right">
-                    <div className="text-[22px] font-semibold leading-none tabular-nums">
-                      {formatNumber(row.clicks)}
-                    </div>
-                    <div className="mt-1 text-[11px] uppercase tracking-[0.08em] text-[#101112]/45">
-                      clicks
-                    </div>
-                  </div>
-                </li>
+                </Link>
               );
             })}
-          </ol>
+          </div>
         </section>
 
         <p className="mt-10 text-center text-[11.5px] text-[#101112]/40">
-          Live data from public.button_clicks. &quot;Clicks&quot; is the raw
-          total. &quot;Different visitors&quot; counts distinct browser
-          sessions, so one person clicking the same button twice in the same
-          visit still counts as one visitor.
+          Live data from public.button_clicks. Clicks = raw events.
+          Visitors = distinct browser sessions (multiple clicks in one visit
+          count as one visitor).
         </p>
       </main>
     </div>
@@ -288,7 +273,7 @@ function Stat({
       <div className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#101112]/55">
         {label}
       </div>
-      <div className="mt-2 truncate text-[28px] font-semibold leading-tight">
+      <div className="mt-2 truncate text-[26px] font-semibold leading-tight">
         {value}
       </div>
       <div className="mt-1.5 text-[12px] text-[#101112]/55">{sub}</div>

@@ -86,6 +86,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
           <LandingCtaLink
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
+            data-track-id="home.see_pricing_under_metrics"
             className="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white/[0.08]"
           >
             {locale === "fr" ? "Voir les tarifs" : "See pricing"}

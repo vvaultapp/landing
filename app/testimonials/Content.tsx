@@ -299,6 +299,7 @@ export default function TestimonialsPage() {
             <div className="mt-6 flex justify-center gap-3">
               <a
                 href="https://vvault.app/signup"
+                data-track-id="testimonials.cta_signup"
                 className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
               >
                 {fr ? "Commencer gratuitement" : "Start for free"}
@@ -307,6 +308,7 @@ export default function TestimonialsPage() {
                 href="https://discord.gg/QGGEZR5KhB"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-track-id="testimonials.cta_discord"
                 className="inline-flex items-center rounded-2xl bg-white/[0.06] px-6 py-2.5 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white/[0.1]"
               >
                 {fr ? "Rejoindre Discord" : "Join Discord"}

@@ -107,6 +107,7 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
             <LandingCtaLink
               loggedInHref={content.finalCta.primary.href}
               loggedOutHref={content.finalCta.primary.href}
+              data-track-id="home.final_cta.signup"
               className="inline-flex items-center gap-1.5 rounded-xl bg-white px-5 py-2.5 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {content.finalCta.primary.label}
@@ -117,6 +118,7 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
             <LandingCtaLink
               loggedInHref={content.finalCta.secondary.href}
               loggedOutHref={content.finalCta.secondary.href}
+              data-track-id="home.final_cta.secondary"
               className="inline-flex items-center gap-1.5 rounded-2xl px-5 py-2.5 text-sm font-medium text-white/58 transition-colors duration-200 hover:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
             >
               {content.finalCta.secondary.label}
