@@ -235,9 +235,13 @@ export function ToolsGallerySection({
           </div>
         </Reveal>
 
-        <div className="mt-12 grid grid-cols-2 gap-3 sm:mt-16 sm:gap-5 lg:grid-cols-4 lg:gap-5">
+        <div className="mt-12 grid grid-cols-1 gap-4 sm:mt-16 sm:grid-cols-2 sm:gap-5 lg:grid-cols-4 lg:gap-5">
           {c.tools.map((tool, i) => (
-            <Reveal key={tool.id} delayMs={i * 70}>
+            <Reveal
+              key={tool.id}
+              delayMs={i * 70}
+              className={tool.mobilePrimary ? undefined : "hidden sm:block"}
+            >
               <ToolCard
                 tool={tool}
                 locale={locale}
@@ -248,6 +252,33 @@ export function ToolsGallerySection({
               />
             </Reveal>
           ))}
+        </div>
+
+        {/* Mobile-only "View all features" link. Sends users to the
+            full features index so the trimmed 4-card mobile preview
+            doesn't feel like the whole story. Hidden on sm+ where
+            every tool card is already on screen. */}
+        <div className="mt-6 flex justify-center sm:hidden">
+          <Link
+            href="/features"
+            onClick={() =>
+              trackButtonClick({
+                buttonId: "toolsGallery.view_all_features",
+                surface: "landing.new.tools_gallery",
+                locale,
+                href: "/features",
+              })
+            }
+            className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-[13px] font-semibold text-white/85 transition-colors duration-200 active:bg-white/[0.07]"
+          >
+            {locale === "fr" ? "Voir toutes les fonctionnalités" : "View all features"}
+            <svg
+              viewBox="0 0 20 20"
+              className="h-3.5 w-3.5 fill-none stroke-current stroke-[1.8]"
+            >
+              <path d="M4 10h11M11 6l4 4-4 4" />
+            </svg>
+          </Link>
         </div>
       </div>
     </section>

@@ -101,17 +101,27 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
         return;
       }
 
-      /* Mobile: section flows naturally. Progress is driven by how
-         far the section has moved through the viewport. 0 when the
-         section's top is near the bottom of the viewport, 1 once
-         the section's bottom is roughly at the top quarter — this
-         gives the vertical bar enough room to fill out before the
-         user reaches the CTA. */
-      const startTop = vh * 0.7;
-      const endTop = vh * 0.25 - rect.height;
-      const range = startTop - endTop;
-      const scrolled = startTop - rect.top;
-      apply(Math.max(0, Math.min(1, scrolled / range)));
+      /* Mobile: anchor the bar's fill to the actual step icons. We
+         take the centres of the first and last steps and define:
+           progress = 0 when the first icon's centre is at 80% vh
+           progress = 1 when the last icon's centre is at 35% vh
+         so the line tracks tightly to the column of icons rather
+         than the whole section. Feels snappy and stays in sync. */
+      const steps = el.querySelectorAll<HTMLElement>("[data-step-index]");
+      if (steps.length < 2) {
+        apply(1);
+        return;
+      }
+      const firstRect = steps[0].getBoundingClientRect();
+      const lastRect = steps[steps.length - 1].getBoundingClientRect();
+      const firstCenter = firstRect.top + firstRect.height / 2;
+      const lastCenter = lastRect.top + lastRect.height / 2;
+      const startY = vh * 0.8;
+      const endY = vh * 0.35;
+      const iconSpan = lastCenter - firstCenter;
+      const total = iconSpan + (startY - endY);
+      const done = startY - firstCenter;
+      apply(Math.max(0, Math.min(1, done / Math.max(1, total))));
     };
 
     /* Scroll handler. We call compute() synchronously — the work is
@@ -175,13 +185,13 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
               />
             </div>
 
-            {/* Mobile vertical connector — same CSS-var-driven
-                progress, but as scaleY behind the centred column of
-                step emblems. Hidden on lg+ where the horizontal
-                connector takes over. */}
+            {/* Mobile vertical connector — sits on the LEFT, aligned
+                with the column of step emblems (which are also
+                left-aligned on mobile). Behind the text in z-order
+                so the copy on the right always reads cleanly. */}
             <div
-              className="pointer-events-none absolute left-1/2 top-7 w-[2px] -translate-x-1/2 lg:hidden"
-              style={{ height: "calc(100% - 8rem)" }}
+              className="pointer-events-none absolute left-7 top-7 z-0 w-[2px] -translate-x-1/2 lg:hidden"
+              style={{ height: "calc(100% - 7rem)" }}
             >
               <div
                 className="absolute inset-0 rounded-full"
@@ -197,7 +207,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
               />
             </div>
 
-            <div className="grid gap-10 sm:gap-12 lg:grid-cols-4 lg:gap-6">
+            <div className="grid gap-8 sm:gap-12 lg:grid-cols-4 lg:gap-6">
               {c.steps.map((step, i) => {
                 const accent = STEP_ACCENTS[i % STEP_ACCENTS.length];
 
@@ -206,14 +216,14 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
                     key={step.idx}
                     data-step-index={i}
                     data-reached="0"
-                    className="workflow-step flex flex-col items-center text-center"
+                    className="workflow-step relative z-10 flex flex-row items-start gap-4 text-left lg:flex-col lg:items-center lg:gap-0 lg:text-center"
                     style={
                       {
                         "--accent": accent,
                       } as React.CSSProperties
                     }
                   >
-                    <div className="relative">
+                    <div className="relative shrink-0">
                       <div className="workflow-step-emblem flex h-14 w-14 items-center justify-center rounded-2xl">
                         <StepIcon idx={step.idx} />
                       </div>
@@ -225,12 +235,14 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
                       </span>
                     </div>
 
-                    <h3 className="workflow-step-title mt-5 text-[16px] font-semibold text-white sm:text-[17px]">
-                      {step.name}
-                    </h3>
-                    <p className="workflow-step-copy mt-2 max-w-[280px] text-[13px] leading-relaxed text-white/55 sm:text-[13.5px]">
-                      {step.copy}
-                    </p>
+                    <div className="min-w-0 flex-1 lg:contents">
+                      <h3 className="workflow-step-title text-[16px] font-semibold text-white lg:mt-5 sm:text-[17px]">
+                        {step.name}
+                      </h3>
+                      <p className="workflow-step-copy mt-1 max-w-[280px] text-[13px] leading-relaxed text-white/55 lg:mt-2 sm:text-[13.5px]">
+                        {step.copy}
+                      </p>
+                    </div>
                   </div>
                 );
               })}

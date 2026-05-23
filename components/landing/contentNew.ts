@@ -21,6 +21,10 @@ export type LandingNewToolMeta = {
   href: string;
   /* Hex accent that drives the card glow + emblem tint. */
   accent: string;
+  /* When true, the card is included in the trimmed 4-card mobile
+     view. The other four are hidden behind a "View all features"
+     link to keep the mobile scroll short. */
+  mobilePrimary?: boolean;
 };
 
 export type LandingNewProblemPair = {
@@ -108,6 +112,7 @@ const en: LandingNewContent = {
         oneLiner: "Upload, organize, share. Private by default.",
         href: "/features/library",
         accent: "#a78bfa",
+        mobilePrimary: true,
       },
       {
         id: "campaigns",
@@ -115,6 +120,7 @@ const en: LandingNewContent = {
         oneLiner: "Send packs to your contacts in one flow.",
         href: "/features/campaigns",
         accent: "#60a5fa",
+        mobilePrimary: true,
       },
       {
         id: "analytics",
@@ -122,6 +128,7 @@ const en: LandingNewContent = {
         oneLiner: "Opens, plays, downloads, replies — live.",
         href: "/features/analytics",
         accent: "#fbbf24",
+        mobilePrimary: true,
       },
       {
         id: "contacts",
@@ -136,6 +143,7 @@ const en: LandingNewContent = {
         oneLiner: "Stripe checkout. Keep 95–100% of sales.",
         href: "/features/sales",
         accent: "#00b67a",
+        mobilePrimary: true,
       },
       {
         id: "studio",
@@ -239,6 +247,7 @@ const fr: LandingNewContent = {
         oneLiner: "Upload, organise, partage. Privé par défaut.",
         href: "/features/library",
         accent: "#a78bfa",
+        mobilePrimary: true,
       },
       {
         id: "campaigns",
@@ -246,6 +255,7 @@ const fr: LandingNewContent = {
         oneLiner: "Envoie tes packs à tes contacts en un flow.",
         href: "/features/campaigns",
         accent: "#60a5fa",
+        mobilePrimary: true,
       },
       {
         id: "analytics",
@@ -253,6 +263,7 @@ const fr: LandingNewContent = {
         oneLiner: "Ouvertures, écoutes, downloads, réponses — en direct.",
         href: "/features/analytics",
         accent: "#fbbf24",
+        mobilePrimary: true,
       },
       {
         id: "contacts",
@@ -267,6 +278,7 @@ const fr: LandingNewContent = {
         oneLiner: "Checkout Stripe. Garde 95–100% de tes ventes.",
         href: "/features/sales",
         accent: "#00b67a",
+        mobilePrimary: true,
       },
       {
         id: "studio",
