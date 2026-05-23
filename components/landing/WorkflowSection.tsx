@@ -1,52 +1,43 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { LandingNewContent } from "@/components/landing/contentNew";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { Reveal } from "@/components/landing/Reveal";
+import {
+  StreamlineIcon,
+  type StreamlineIconName,
+} from "@/components/landing/StreamlineIcon";
 
-const STEP_ACCENTS = ["#60a5fa", "#a78bfa", "#fbbf24", "#34d399"];
+/* Single Vercel-blue accent for every step. The connector and the
+   step badges all use the same #006ffe so the timeline reads as
+   one continuous blue thread instead of a rainbow. */
+const VERCEL_BLUE = "#006ffe";
+const STEP_ACCENTS = [VERCEL_BLUE, VERCEL_BLUE, VERCEL_BLUE, VERCEL_BLUE];
 
-function StepIcon({ idx, accent }: { idx: number; accent: string }) {
-  const common = {
-    viewBox: "0 0 24 24" as const,
-    fill: "none" as const,
-    stroke: accent,
-    strokeWidth: 1.6,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    className: "h-6 w-6 sm:h-7 sm:w-7",
-  };
-  if (idx === 1)
-    return (
-      <svg {...common}>
-        <path d="M12 4v12" />
-        <path d="M7 9l5-5 5 5" />
-        <path d="M4 20h16" />
-      </svg>
-    );
-  if (idx === 2)
-    return (
-      <svg {...common}>
-        <path d="M22 2L11 13" />
-        <path d="M22 2l-7 20-4-9-9-4 20-7z" />
-      </svg>
-    );
-  if (idx === 3)
-    return (
-      <svg {...common}>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 2" />
-      </svg>
-    );
-  if (idx === 4)
-    return (
-      <svg {...common}>
-        <path d="M4 17l5-5 4 4 7-9" />
-        <path d="M14 7h6v6" />
-      </svg>
-    );
-  return null;
+/* 4-step workflow icons. Mapped 1→Upload, 2→Send (plane), 3→Track
+   (presentation graph), 4→Convert (users group). */
+const STEP_ICON: Record<number, StreamlineIconName> = {
+  1: "upload",
+  2: "plane",
+  3: "presentation-graph",
+  4: "users-group",
+};
+
+/* StepIcon defers its colour to CSS via `currentColor` so the
+   parent emblem can swap between "reached" (accent) and idle
+   (grey) via a data-attribute selector without re-rendering. */
+function StepIcon({ idx }: { idx: number }) {
+  const which = STEP_ICON[idx];
+  if (!which) return null;
+  return (
+    <StreamlineIcon
+      name={which}
+      color="currentColor"
+      strokeWidth={14}
+      className="h-7 w-7 sm:h-8 sm:w-8"
+    />
+  );
 }
 
 type WorkflowSectionProps = {
@@ -64,49 +55,77 @@ type WorkflowSectionProps = {
 export function WorkflowSection({ content }: WorkflowSectionProps) {
   const c = content.workflow;
   const sectionRef = useRef<HTMLElement>(null);
-  const [progress, setProgress] = useState(0);
+  /* Progress is intentionally NOT React state. Re-rendering every
+     scroll frame triggers a full diff/commit pass and causes the
+     bar to lag behind the actual scroll position. Instead we write
+     the value directly to a CSS variable on the section element and
+     toggle a `data-reached` attribute on each step. The DOM diff
+     stays at exactly zero — every visual change is pure CSS. */
+  const stepCount = c.steps.length;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    let raf: number | null = null;
+    const apply = (progress: number) => {
+      const el = sectionRef.current;
+      if (!el) return;
+      el.style.setProperty("--workflow-progress", String(progress));
+      const reachedNodes = el.querySelectorAll<HTMLElement>("[data-step-index]");
+      reachedNodes.forEach((node) => {
+        const idx = Number(node.dataset.stepIndex);
+        const fraction = (idx + 0.5) / stepCount;
+        const reached = progress >= fraction || progress >= 0.97;
+        node.dataset.reached = reached ? "1" : "0";
+      });
+    };
 
     const compute = () => {
       const el = sectionRef.current;
       if (!el) return;
       const wideMq = window.matchMedia("(min-width: 1024px)");
       const motionMq = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const stickyActive = wideMq.matches && !motionMq.matches;
-      if (!stickyActive) {
-        /* Mobile / reduced-motion: timeline is statically laid out
-           and not driven by scroll. Show everything as "reached". */
-        setProgress(1);
-        return;
-      }
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight;
-      /* `travel` is the number of pixels the user can scroll while
-         the sticky child stays pinned (section height - viewport). */
-      const travel = Math.max(1, rect.height - vh);
-      const scrolled = Math.min(travel, Math.max(0, -rect.top));
-      setProgress(scrolled / travel);
+
+      if (motionMq.matches) {
+        apply(1);
+        return;
+      }
+
+      if (wideMq.matches) {
+        /* Desktop: section is sticky-pinned for 5x viewport. Progress
+           ramps as the user scrolls through that travel distance. */
+        const travel = Math.max(1, rect.height - vh);
+        const scrolled = Math.min(travel, Math.max(0, -rect.top));
+        apply(scrolled / travel);
+        return;
+      }
+
+      /* Mobile: section flows naturally. Progress is driven by how
+         far the section has moved through the viewport. 0 when the
+         section's top is near the bottom of the viewport, 1 once
+         the section's bottom is roughly at the top quarter — this
+         gives the vertical bar enough room to fill out before the
+         user reaches the CTA. */
+      const startTop = vh * 0.7;
+      const endTop = vh * 0.25 - rect.height;
+      const range = startTop - endTop;
+      const scrolled = startTop - rect.top;
+      apply(Math.max(0, Math.min(1, scrolled / range)));
     };
 
+    /* Scroll handler. We call compute() synchronously — the work is
+       a handful of reads + a few CSS-var writes and runs in <0.1ms,
+       so there's no measurable benefit to rAF throttling for this
+       shape of update, and avoiding rAF dodges a stale-closure bug
+       we hit when React Strict Mode mounted → cleaned-up → re-mounted
+       the effect and canceled the queued frame before it fired. */
     const onScroll = () => {
-      if (raf !== null) return;
-      raf = requestAnimationFrame(() => {
-        raf = null;
-        compute();
-      });
+      compute();
     };
 
-    /* Defer the initial compute() to the next frame so it runs as
-       a rAF callback (keeps setProgress out of the synchronous
-       effect body). */
-    raf = requestAnimationFrame(() => {
-      raf = null;
-      compute();
-    });
+    // Immediate compute so the bar lands at the right value on mount.
+    compute();
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
@@ -114,9 +133,8 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      if (raf !== null) cancelAnimationFrame(raf);
     };
-  }, []);
+  }, [stepCount]);
 
   return (
     <section ref={sectionRef} className="workflow-shell">
@@ -124,20 +142,12 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
         <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
           <Reveal>
             <div className="text-center">
-              <span
-                className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/45"
-                style={{
-                  background: "rgba(255,255,255,0.025)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
-                <span className="h-1 w-1 rounded-full bg-white/50" />
-                {c.eyebrow}
-              </span>
-              <h2 className="font-display mx-auto mt-5 max-w-[760px] text-[1.75rem] font-medium leading-[1.15] tracking-tight text-white sm:text-[2.6rem] lg:text-[2.95rem]">
-                {c.title}
-              </h2>
-              <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-white/45 sm:text-[15px]">
+              <h3 className="mx-auto max-w-[760px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
+                {c.titleLine1}
+                <br />
+                <span className="text-white/40">{c.titleLine2}</span>
+              </h3>
+              <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
                 {c.subtitle}
               </p>
             </div>
@@ -145,19 +155,44 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
 
           {/* Timeline */}
           <div className="relative mt-12 sm:mt-16">
-            {/* Desktop horizontal connector */}
+            {/* Desktop horizontal connector — drives off CSS var
+                `--workflow-progress` (0 → 1), set imperatively by
+                the scroll handler so React never re-renders this
+                tree. transform: scaleX is GPU-composited, no layout
+                reflow, and tracks the scroll position 1-for-1. */}
             <div className="pointer-events-none absolute left-[10%] right-[10%] top-7 hidden h-[2px] lg:block">
               <div
                 className="absolute inset-0 rounded-full"
                 style={{ background: "rgba(255,255,255,0.06)" }}
               />
               <div
-                className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-200 ease-out"
+                className="workflow-bar absolute inset-y-0 left-0 right-0 origin-left rounded-full"
                 style={{
-                  width: `${progress * 100}%`,
-                  background:
-                    "linear-gradient(90deg, #60a5fa, #a78bfa, #fbbf24, #34d399)",
-                  boxShadow: "0 0 16px rgba(167,139,250,0.45)",
+                  background: "#006ffe",
+                  boxShadow:
+                    "0 0 14px rgba(0,111,254,0.45), 0 0 36px rgba(0,111,254,0.2)",
+                }}
+              />
+            </div>
+
+            {/* Mobile vertical connector — same CSS-var-driven
+                progress, but as scaleY behind the centred column of
+                step emblems. Hidden on lg+ where the horizontal
+                connector takes over. */}
+            <div
+              className="pointer-events-none absolute left-1/2 top-7 w-[2px] -translate-x-1/2 lg:hidden"
+              style={{ height: "calc(100% - 8rem)" }}
+            >
+              <div
+                className="absolute inset-0 rounded-full"
+                style={{ background: "rgba(255,255,255,0.06)" }}
+              />
+              <div
+                className="workflow-bar-vertical absolute inset-x-0 top-0 bottom-0 origin-top rounded-full"
+                style={{
+                  background: "#006ffe",
+                  boxShadow:
+                    "0 0 12px rgba(0,111,254,0.45), 0 0 28px rgba(0,111,254,0.18)",
                 }}
               />
             </div>
@@ -165,56 +200,35 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
             <div className="grid gap-10 sm:gap-12 lg:grid-cols-4 lg:gap-6">
               {c.steps.map((step, i) => {
                 const accent = STEP_ACCENTS[i % STEP_ACCENTS.length];
-                const stepFraction = (i + 0.5) / c.steps.length;
-                const reached = progress >= stepFraction || progress >= 0.97;
 
                 return (
                   <div
                     key={step.idx}
-                    className="flex flex-col items-center text-center"
+                    data-step-index={i}
+                    data-reached="0"
+                    className="workflow-step flex flex-col items-center text-center"
+                    style={
+                      {
+                        "--accent": accent,
+                      } as React.CSSProperties
+                    }
                   >
                     <div className="relative">
-                      <div
-                        className="flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-500"
-                        style={{
-                          background:
-                            "linear-gradient(160deg, rgba(20,20,24,0.95) 0%, rgba(6,6,8,1) 100%)",
-                          border: `1px solid ${reached ? accent + "55" : "rgba(255,255,255,0.08)"}`,
-                          boxShadow: reached
-                            ? `0 0 26px -2px ${accent}88, inset 0 1px 0 0 rgba(255,255,255,0.08)`
-                            : "inset 0 1px 0 0 rgba(255,255,255,0.04), 0 8px 20px -8px rgba(0,0,0,0.7)",
-                          transform: reached ? "scale(1.04)" : "scale(1)",
-                        }}
-                      >
-                        <StepIcon
-                          idx={step.idx}
-                          accent={reached ? accent : "rgba(255,255,255,0.45)"}
-                        />
+                      <div className="workflow-step-emblem flex h-14 w-14 items-center justify-center rounded-2xl">
+                        <StepIcon idx={step.idx} />
                       </div>
-                      <span
-                        className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold tabular-nums transition-colors"
-                        style={{
-                          background: reached
-                            ? accent
-                            : "rgba(255,255,255,0.08)",
-                          color: reached ? "#0a0a0a" : "rgba(255,255,255,0.55)",
-                          border: "1px solid rgba(0,0,0,0.35)",
-                        }}
-                      >
+                      {/* Step number badge — solid in both states, no
+                          outline, so it never reads as a faded disc
+                          with a double edge. */}
+                      <span className="workflow-step-num absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold tabular-nums">
                         {step.idx}
                       </span>
                     </div>
 
-                    <h3
-                      className="mt-5 text-[16px] font-semibold text-white transition-opacity duration-500 sm:text-[17px]"
-                      style={{ opacity: reached ? 1 : 0.4 }}
-                    >
+                    <h3 className="workflow-step-title mt-5 text-[16px] font-semibold text-white sm:text-[17px]">
                       {step.name}
                     </h3>
-                    <p
-                      className="mt-2 max-w-[280px] text-[13px] leading-relaxed text-white/45 transition-opacity duration-500 sm:text-[13.5px]"
-                      style={{ opacity: reached ? 1 : 0.35 }}
-                    >
+                    <p className="workflow-step-copy mt-2 max-w-[280px] text-[13px] leading-relaxed text-white/55 sm:text-[13.5px]">
                       {step.copy}
                     </p>
                   </div>
@@ -222,10 +236,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
               })}
             </div>
 
-            <div
-              className="mt-12 flex justify-center transition-opacity duration-500 sm:mt-16"
-              style={{ opacity: progress >= 0.85 ? 1 : 0.35 }}
-            >
+            <div className="mt-12 flex justify-center sm:mt-16">
               <LandingCtaLink
                 loggedInHref="https://vvault.app/auth/google"
                 loggedOutHref="https://vvault.app/auth/google"

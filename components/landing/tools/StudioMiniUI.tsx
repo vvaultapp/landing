@@ -22,7 +22,7 @@ export function StudioMiniUI({ locale = "en" }: { locale?: Locale }) {
   return (
     <div className="flex h-full flex-col gap-2.5">
       <div className="flex items-center justify-between px-1">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-white/30">
+        <span className="text-[10px] font-semibold text-white/30">
           Studio
         </span>
         <span className="flex items-center gap-1 text-[10px] text-white/50">
@@ -67,7 +67,7 @@ export function StudioMiniUI({ locale = "en" }: { locale?: Locale }) {
             {/* platform chip */}
             <div className="absolute inset-x-1.5 bottom-1.5">
               <span
-                className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[9px] font-medium text-white/85"
+                className="flex items-center gap-1 rounded-lg px-1.5 py-0.5 text-[9px] font-medium text-white/85"
                 style={{
                   background: "rgba(0,0,0,0.55)",
                   backdropFilter: "blur(6px)",

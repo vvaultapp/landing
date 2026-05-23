@@ -39,21 +39,21 @@ export type LandingNewWorkflowStep = {
 
 export type LandingNewContent = {
   problemGap: {
-    eyebrow: string;
-    title: string;
+    titleLine1: string;
+    titleLine2: string;
     pairs: LandingNewProblemPair[];
     closingLine: string;
   };
   toolsGallery: {
-    eyebrow: string;
-    title: string;
+    titleLine1: string;
+    titleLine2: string;
     subtitle: string;
     hintHover: string;
     tools: LandingNewToolMeta[];
   };
   workflow: {
-    eyebrow: string;
-    title: string;
+    titleLine1: string;
+    titleLine2: string;
     subtitle: string;
     steps: LandingNewWorkflowStep[];
     ctaLabel: string;
@@ -68,8 +68,8 @@ export type LandingNewContent = {
 
 const en: LandingNewContent = {
   problemGap: {
-    eyebrow: "The gap",
-    title: "Your music ops are spread across 6 apps. You're losing leads.",
+    titleLine1: "Your music ops live in six apps.",
+    titleLine2: "You're losing leads in the gaps.",
     pairs: [
       {
         beforeIcon: "mail",
@@ -96,8 +96,8 @@ const en: LandingNewContent = {
     closingLine: "vvault is the workspace that puts it back together.",
   },
   toolsGallery: {
-    eyebrow: "The toolkit",
-    title: "8 tools. One workspace. Zero context-switching.",
+    titleLine1: "One workspace, eight tools.",
+    titleLine2: "Zero context switching.",
     subtitle:
       "Each tool is built for music ops. Hover any card to see it in action.",
     hintHover: "Hover to preview",
@@ -161,8 +161,8 @@ const en: LandingNewContent = {
     ],
   },
   workflow: {
-    eyebrow: "The loop",
-    title: "From upload to sale in 4 steps",
+    titleLine1: "From upload to sale.",
+    titleLine2: "Four steps, one workspace.",
     subtitle:
       "Drop a beat. Send it. See who's listening. Close the deal. Same workspace, every time.",
     steps: [
@@ -187,7 +187,7 @@ const en: LandingNewContent = {
         copy: "Spot the hot lead. Follow up. Close the placement or sale.",
       },
     ],
-    ctaLabel: "Start the loop — free, no card",
+    ctaLabel: "Start the loop. Free, no card.",
   },
   finalCta: {
     title: "Ship your music like a business. Starting today.",
@@ -199,8 +199,8 @@ const en: LandingNewContent = {
 
 const fr: LandingNewContent = {
   problemGap: {
-    eyebrow: "L'écart",
-    title: "Tes opérations musique sont éclatées sur 6 apps. Tu perds des leads.",
+    titleLine1: "Tes opérations musique vivent dans six apps.",
+    titleLine2: "Tu perds des leads dans les trous.",
     pairs: [
       {
         beforeIcon: "mail",
@@ -227,8 +227,8 @@ const fr: LandingNewContent = {
     closingLine: "vvault est le workspace qui remet tout ça ensemble.",
   },
   toolsGallery: {
-    eyebrow: "La boîte à outils",
-    title: "8 outils. Un workspace. Zéro changement de contexte.",
+    titleLine1: "Un workspace, huit outils.",
+    titleLine2: "Zéro changement de contexte.",
     subtitle:
       "Chaque outil est pensé pour les opérations musique. Survole une card pour la voir en action.",
     hintHover: "Survole pour prévisualiser",
@@ -292,8 +292,8 @@ const fr: LandingNewContent = {
     ],
   },
   workflow: {
-    eyebrow: "La boucle",
-    title: "De l'upload à la vente en 4 étapes",
+    titleLine1: "De l'upload à la vente.",
+    titleLine2: "Quatre étapes, un workspace.",
     subtitle:
       "Drop un beat. Envoie-le. Vois qui écoute. Close le deal. Même workspace, à chaque fois.",
     steps: [
@@ -318,7 +318,7 @@ const fr: LandingNewContent = {
         copy: "Repère le hot lead. Relance. Close le placement ou la vente.",
       },
     ],
-    ctaLabel: "Lance la boucle — gratuit, sans carte",
+    ctaLabel: "Lance la boucle. Gratuit, sans carte.",
   },
   finalCta: {
     title: "Gère ta musique comme un vrai business. Dès aujourd'hui.",

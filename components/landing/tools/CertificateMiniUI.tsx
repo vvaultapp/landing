@@ -69,7 +69,7 @@ export function CertificateMiniUI({ locale = "en" }: { locale?: Locale }) {
           border: "1px solid rgba(255,255,255,0.05)",
         }}
       >
-        <div className="flex items-center justify-between text-[8.5px] uppercase tracking-wider text-white/30">
+        <div className="flex items-center justify-between text-[8.5px] text-white/30">
           <span>SHA-256</span>
           <span>2026 · 04 · 12</span>
         </div>

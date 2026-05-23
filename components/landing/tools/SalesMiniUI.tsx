@@ -9,7 +9,7 @@ export function SalesMiniUI({ locale = "en" }: { locale?: Locale }) {
   return (
     <div className="flex h-full flex-col gap-2">
       <div className="flex items-center justify-between px-1">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-white/30">
+        <span className="text-[10px] font-semibold text-white/30">
           {fr ? "Marketplace" : "Marketplace"}
         </span>
         <span
@@ -33,7 +33,7 @@ export function SalesMiniUI({ locale = "en" }: { locale?: Locale }) {
         }}
       >
         <div
-          className="relative h-9 w-9 shrink-0 overflow-hidden rounded-md"
+          className="relative h-9 w-9 shrink-0 overflow-hidden rounded-lg"
           style={{ boxShadow: "0 4px 10px rgba(0,0,0,0.4)" }}
         >
           <Image

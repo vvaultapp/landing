@@ -22,7 +22,7 @@ export function LibraryMiniUI({ locale = "en" }: { locale?: Locale }) {
   return (
     <div className="flex h-full flex-col gap-2.5">
       <div className="flex items-center justify-between px-1">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-white/30">
+        <span className="text-[10px] font-semibold text-white/30">
           {fr ? "Bibliothèque" : "Library"}
         </span>
         <span className="text-[9.5px] text-white/30">
@@ -54,10 +54,10 @@ export function LibraryMiniUI({ locale = "en" }: { locale?: Locale }) {
         ))}
       </div>
       <div className="mt-auto flex items-center gap-1.5">
-        <span className="rounded-md bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-white/55">
+        <span className="rounded-lg bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-white/55">
           {fr ? "Privé" : "Private"}
         </span>
-        <span className="rounded-md bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-white/55">
+        <span className="rounded-lg bg-white/[0.04] px-1.5 py-0.5 text-[9px] text-white/55">
           {fr ? "Tokenisé" : "Tokenized"}
         </span>
         <span className="ml-auto text-[9px] text-white/30">

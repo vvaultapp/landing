@@ -5,59 +5,53 @@ import type {
   LandingNewProblemPair,
 } from "@/components/landing/contentNew";
 import { Reveal } from "@/components/landing/Reveal";
+import {
+  StreamlineIcon,
+  type StreamlineIconName,
+} from "@/components/landing/StreamlineIcon";
+
+/* Each "before" pain has a streamline-solar icon. Tinted red so the
+   emblem still reads as "this is the broken state" without
+   reaching for a separate lucide icon. */
+const PAIN_ICON: Record<string, StreamlineIconName> = {
+  mail: "letter",
+  folder: "music-library",
+  wallet: "money-bag",
+};
 
 function PainIcon({ name }: { name: string }) {
-  const common = {
-    viewBox: "0 0 24 24" as const,
-    fill: "none" as const,
-    stroke: "rgba(255,255,255,0.5)",
-    strokeWidth: 1.5,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    className: "h-6 w-6 sm:h-7 sm:w-7",
-  };
-  if (name === "mail")
-    return (
-      <svg {...common}>
-        <rect x="3" y="5" width="18" height="14" rx="2" />
-        <path d="M3 7l9 6 9-6" />
-        <path d="M16.5 4.5l3 3M16.5 7.5l3-3" stroke="rgba(248,113,113,0.7)" strokeWidth={1.8} />
-      </svg>
-    );
-  if (name === "folder")
-    return (
-      <svg {...common}>
-        <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
-        <path d="M9 13l3 3M12 13l-3 3" stroke="rgba(248,113,113,0.7)" strokeWidth={1.6} />
-      </svg>
-    );
-  if (name === "wallet")
-    return (
-      <svg {...common}>
-        <rect x="3" y="6" width="18" height="13" rx="2" />
-        <path d="M3 10h18" />
-        <path d="M14 14.5l3.5-3.5M14 11l3.5 3.5" stroke="rgba(248,113,113,0.7)" strokeWidth={1.6} />
-      </svg>
-    );
-  return null;
+  const which = PAIN_ICON[name];
+  if (!which) return null;
+  return (
+    <StreamlineIcon
+      name={which}
+      color="rgba(248,113,113,0.85)"
+      strokeWidth={14}
+      className="h-7 w-7 sm:h-8 sm:w-8"
+    />
+  );
 }
 
 function ProblemCard({
   pair,
-  index,
 }: {
   pair: LandingNewProblemPair;
-  index: number;
 }) {
   return (
     <div
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:-translate-y-0.5 sm:p-7"
+      className="group relative flex h-full cursor-default flex-col overflow-hidden rounded-2xl p-6 transition-transform duration-300 ease-out hover:-translate-y-0.5 sm:p-7"
       style={{
         background:
           "linear-gradient(180deg, rgba(14,10,11,0.96) 0%, rgba(6,4,5,1) 100%)",
         border: "1px solid rgba(248,113,113,0.10)",
         boxShadow:
           "0 14px 32px -12px rgba(0,0,0,0.6), inset 0 1px 0 0 rgba(255,255,255,0.03)",
+        /* Promote to its own compositing layer so the hover translate
+           is done by the GPU and the text inside is not re-rasterised
+           at subpixel offsets each frame (the source of the flicker). */
+        transform: "translateZ(0)",
+        willChange: "transform",
+        backfaceVisibility: "hidden",
       }}
     >
       {/* Subtle red wash at the bottom — signals "this is a pain" */}
@@ -78,8 +72,8 @@ function ProblemCard({
         }}
       />
 
-      {/* Index + icon row */}
-      <div className="relative flex items-center justify-between">
+      {/* Icon row — no index number any more */}
+      <div className="relative flex items-center">
         <div
           className="flex h-11 w-11 items-center justify-center rounded-2xl sm:h-12 sm:w-12"
           style={{
@@ -92,9 +86,6 @@ function ProblemCard({
         >
           <PainIcon name={pair.beforeIcon} />
         </div>
-        <span className="font-mono text-[10.5px] font-medium uppercase tracking-[0.18em] text-white/30">
-          0{index + 1}
-        </span>
       </div>
 
       <h3 className="relative mt-6 text-[18px] font-semibold leading-tight text-white sm:text-[19px]">
@@ -118,30 +109,18 @@ export function ProblemGapSection({ content }: ProblemGapSectionProps) {
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
-            <span
-              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.14em]"
-              style={{
-                background: "rgba(248,113,113,0.06)",
-                border: "1px solid rgba(248,113,113,0.18)",
-                color: "rgba(248,113,113,0.85)",
-              }}
-            >
-              <span
-                className="h-1 w-1 rounded-full"
-                style={{ background: "rgba(248,113,113,0.85)" }}
-              />
-              {c.eyebrow}
-            </span>
-            <h2 className="font-display mx-auto mt-5 max-w-[820px] text-[1.75rem] font-medium leading-[1.15] tracking-tight text-white sm:text-[2.6rem] lg:text-[2.95rem]">
-              {c.title}
-            </h2>
+            <h3 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
+              {c.titleLine1}
+              <br />
+              <span className="text-white/40">{c.titleLine2}</span>
+            </h3>
           </div>
         </Reveal>
 
         <div className="mt-12 grid gap-5 sm:mt-16 sm:gap-6 lg:grid-cols-3">
           {c.pairs.map((pair, i) => (
             <Reveal key={pair.beforeIcon} delayMs={i * 110}>
-              <ProblemCard pair={pair} index={i} />
+              <ProblemCard pair={pair} />
             </Reveal>
           ))}
         </div>

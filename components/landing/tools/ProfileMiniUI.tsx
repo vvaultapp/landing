@@ -54,7 +54,7 @@ export function ProfileMiniUI({ locale = "en" }: { locale?: Locale }) {
           {PACK_COVERS.map((src, i) => (
             <div
               key={i}
-              className="relative aspect-square overflow-hidden rounded-md"
+              className="relative aspect-square overflow-hidden rounded-lg"
               style={{ boxShadow: "0 4px 10px rgba(0,0,0,0.4)" }}
             >
               <Image
@@ -71,7 +71,7 @@ export function ProfileMiniUI({ locale = "en" }: { locale?: Locale }) {
         {/* contact CTA */}
         <div className="mt-3 px-2.5">
           <div
-            className="flex h-6 items-center justify-center rounded-md text-[8.5px] font-semibold text-black"
+            className="flex h-6 items-center justify-center rounded-lg text-[8.5px] font-semibold text-black"
             style={{
               background: "linear-gradient(to bottom, #ffffff, #d4d4d4)",
               boxShadow: "0 2px 6px rgba(255,255,255,0.08)",
@@ -79,7 +79,7 @@ export function ProfileMiniUI({ locale = "en" }: { locale?: Locale }) {
           >
             {fr ? "Me contacter" : "Contact me"}
           </div>
-          <div className="mt-1.5 flex h-5 items-center justify-center rounded-md text-[8px] font-medium text-white/65"
+          <div className="mt-1.5 flex h-5 items-center justify-center rounded-lg text-[8px] font-medium text-white/65"
             style={{
               background: "rgba(255,255,255,0.04)",
               border: "1px solid rgba(255,255,255,0.07)",

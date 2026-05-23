@@ -43,7 +43,7 @@ export function ContactsMiniUI({ locale = "en" }: { locale?: Locale }) {
   return (
     <div className="flex h-full flex-col gap-1.5">
       <div className="flex items-center justify-between px-1">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-white/30">
+        <span className="text-[10px] font-semibold text-white/30">
           {fr ? "Contacts" : "Contacts"}
         </span>
         <span className="text-[9.5px] text-white/30">

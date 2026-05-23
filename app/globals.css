@@ -597,6 +597,11 @@ details[open] .faq-answer {
   position: relative;
   padding-top: 6rem;
   padding-bottom: 6rem;
+  /* `--workflow-progress` is written imperatively by the section's
+     scroll handler (0 → 1). The bar's transform reads it directly,
+     so visual updates happen in a single GPU paint with no React
+     work per scroll frame. */
+  --workflow-progress: 1;
 }
 
 @media (min-width: 1024px) {
@@ -605,6 +610,7 @@ details[open] .faq-answer {
       height: 500vh;
       padding-top: 0;
       padding-bottom: 0;
+      --workflow-progress: 0;
     }
     .workflow-pin {
       position: sticky;
@@ -614,6 +620,67 @@ details[open] .faq-answer {
       height: 100vh;
     }
   }
+}
+
+/* Connector bar — drives off the CSS var with no transition, so
+   the bar tracks the scroll position 1-for-1 and never lags. */
+.workflow-bar {
+  transform: scaleX(var(--workflow-progress));
+  transform-origin: left center;
+  will-change: transform;
+}
+
+/* Mobile vertical version — same CSS var, scaleY instead of scaleX,
+   growing top-to-bottom as the user scrolls through the section. */
+.workflow-bar-vertical {
+  transform: scaleY(var(--workflow-progress));
+  transform-origin: top center;
+  will-change: transform;
+}
+
+/* Step emblems + text. Reached states are driven by the
+   data-reached attribute, which the scroll handler flips on each
+   step element. CSS handles all visual transitions. */
+.workflow-step {
+  color: rgb(170, 170, 175);
+}
+.workflow-step-emblem {
+  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.04);
+  transition: border-color 280ms ease, box-shadow 280ms ease;
+}
+.workflow-step-num {
+  background: #1a1a1d;
+  color: rgb(180, 180, 185);
+  transition: background-color 280ms ease, color 280ms ease;
+}
+.workflow-step-title {
+  opacity: 0.45;
+  transition: opacity 280ms ease;
+}
+.workflow-step-copy {
+  opacity: 0.4;
+  transition: opacity 280ms ease;
+}
+.workflow-step[data-reached="1"] {
+  color: var(--accent);
+}
+.workflow-step[data-reached="1"] .workflow-step-emblem {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 22px -4px color-mix(in srgb, var(--accent) 40%, transparent),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+}
+.workflow-step[data-reached="1"] .workflow-step-num {
+  /* Step number badge sits a couple of stops lighter than the
+     connector line so the two blues read as related but
+     distinct — light pill against the bolder bar underneath. */
+  background: #60a5fa;
+  color: #0a0a0a;
+}
+.workflow-step[data-reached="1"] .workflow-step-title,
+.workflow-step[data-reached="1"] .workflow-step-copy {
+  opacity: 1;
 }
 
 /* /new — ToolsGallery hover hint: hide on touch devices via CSS so
