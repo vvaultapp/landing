@@ -105,7 +105,7 @@ type ProblemGapSectionProps = {
 export function ProblemGapSection({ content }: ProblemGapSectionProps) {
   const c = content.problemGap;
   return (
-    <section className="relative pt-48 pb-12 sm:pt-32 sm:pb-16">
+    <section className="relative pt-48 pb-12 sm:pt-40 sm:pb-16 lg:pt-[18rem]">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">

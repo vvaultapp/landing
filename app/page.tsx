@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LandingPage } from "@/components/landing/LandingPage";
+import { LandingPageNew } from "@/components/landing/LandingPageNew";
 
 export const metadata: Metadata = {
   title: "vvault | Send, Sell & Track Your Beats",
@@ -15,5 +15,5 @@ export const metadata: Metadata = {
 };
 
 export default function Homepage() {
-  return <LandingPage locale="en" />;
+  return <LandingPageNew locale="en" />;
 }

@@ -116,8 +116,8 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
       const lastRect = steps[steps.length - 1].getBoundingClientRect();
       const firstCenter = firstRect.top + firstRect.height / 2;
       const lastCenter = lastRect.top + lastRect.height / 2;
-      const startY = vh * 0.8;
-      const endY = vh * 0.35;
+      const startY = vh * 0.85;
+      const endY = vh * 0.55;
       const iconSpan = lastCenter - firstCenter;
       const total = iconSpan + (startY - endY);
       const done = startY - firstCenter;
@@ -207,7 +207,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
               />
             </div>
 
-            <div className="grid gap-8 sm:gap-12 lg:grid-cols-4 lg:gap-6">
+            <div className="grid gap-14 sm:gap-12 lg:grid-cols-4 lg:gap-6">
               {c.steps.map((step, i) => {
                 const accent = STEP_ACCENTS[i % STEP_ACCENTS.length];
 

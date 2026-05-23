@@ -72,7 +72,7 @@ export type LandingNewContent = {
 
 const en: LandingNewContent = {
   problemGap: {
-    titleLine1: "Your music ops live in six apps.",
+    titleLine1: "Your music lives across six apps.",
     titleLine2: "You're losing leads in the gaps.",
     pairs: [
       {
@@ -207,8 +207,8 @@ const en: LandingNewContent = {
 
 const fr: LandingNewContent = {
   problemGap: {
-    titleLine1: "Tes opérations musique vivent dans six apps.",
-    titleLine2: "Tu perds des leads dans les trous.",
+    titleLine1: "Ta musique vit dans six apps.",
+    titleLine2: "Tu perds des leads entre les deux.",
     pairs: [
       {
         beforeIcon: "mail",
