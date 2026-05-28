@@ -7,6 +7,7 @@ import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
+import { WinsSection } from "@/components/landing/WinsSection";
 import { useLocale } from "@/lib/useLocale";
 import { formatPrice } from "@/lib/formatPrice";
 import dynamic from "next/dynamic";
@@ -1268,6 +1269,12 @@ export default function PricingPage({
 
           {/* Trustpilot social proof */}
           <SocialProofSection locale={locale} />
+
+          {/* Wins wall — sits directly below the Trustpilot card and
+              above Compare plans. Real screenshots of producers using
+              vvault; the bottom row fades into a "View wins" button
+              that opens the full /reviews wall. */}
+          <WinsSection locale={locale} />
         </div>
 
         {/* Comparison tables, full viewport width so the sticky header's
