@@ -1,18 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Locale } from "@/components/landing/content";
 import { Reveal } from "@/components/landing/Reveal";
-import { FEATURED_WINS } from "@/lib/landing-wins";
+import { FEATURED_WINS, type Win } from "@/lib/landing-wins";
+import { WinLightbox } from "@/components/landing/WinLightbox";
 import { trackButtonClick } from "@/lib/analytics/client";
 
 /* "Wins" wall — real screenshots of producers using vvault. Shows the
-   6 featured wins in a 3-per-row grid; the bottom row fades into black
-   with a centered "View wins" button that links to the full /reviews
-   wall. */
+   12 featured wins in a masonry (so every screenshot keeps its natural
+   aspect ratio and nothing is ever cropped, on desktop or mobile). The
+   wall is clipped to a preview height that fades into a centered
+   "View wins" button → the full /reviews wall. Tapping any win opens
+   it full-size in a lightbox. */
 export function WinsSection({ locale = "en" }: { locale?: Locale }) {
   const fr = locale === "fr";
+  const [active, setActive] = useState<Win | null>(null);
+
   return (
     <section className="relative pt-24 pb-20 sm:pt-32 sm:pb-28">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
@@ -35,44 +41,43 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
           </div>
         </Reveal>
 
-        {/* Grid + fade. The grid holds the 6 featured wins; an absolute
-            gradient floor fades the bottom row into black, and the
-            "View wins" button floats centered over that fade. */}
+        {/* Masonry + fade. The wall is clipped to a preview height; an
+            absolute gradient floor fades the bottom into black, and the
+            "View wins" button floats centered over that fade. Each win
+            keeps its natural aspect (no crop), so screenshots never get
+            cut off — on desktop or mobile. */}
         <div className="relative mt-12 sm:mt-16">
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 lg:gap-5">
-            {FEATURED_WINS.map((win, i) => (
-              <Reveal key={win.src} delayMs={(i % 4) * 70}>
-                <div
-                  className="relative overflow-hidden rounded-2xl"
-                  style={{
-                    background: "#0d0d0f",
-                    outline: "1px solid rgba(255,255,255,0.08)",
-                    outlineOffset: "-1px",
-                  }}
-                >
-                  {/* Fixed aspect so the grid rows stay even. object-top
-                      keeps the most important part (names / totals,
-                      which sit at the top of every screenshot) in view.
-                      next/image fills the box and serves an AVIF/WebP
-                      variant sized to the card (~25vw on desktop), so
-                      each one is only a few KB and lazy-loads. */}
-                  <div className="relative aspect-[4/5] w-full">
+          <div className="max-h-[680px] overflow-hidden sm:max-h-[760px]">
+            <div className="columns-2 gap-3 sm:columns-3 sm:gap-4 lg:columns-4 [&>*]:mb-3 sm:[&>*]:mb-4">
+              {FEATURED_WINS.map((win, i) => (
+                <Reveal key={win.src} delayMs={(i % 4) * 70}>
+                  <button
+                    type="button"
+                    onClick={() => setActive(win)}
+                    aria-label={`Open win: ${win.alt}`}
+                    className="block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl transition-transform duration-200 hover:-translate-y-0.5"
+                    style={{
+                      background: "#0d0d0f",
+                      outline: "1px solid rgba(255,255,255,0.08)",
+                      outlineOffset: "-1px",
+                    }}
+                  >
                     <Image
                       src={win.src}
                       alt={win.alt}
-                      fill
+                      width={win.w}
+                      height={win.h}
                       sizes="(max-width: 640px) 45vw, (max-width: 1024px) 30vw, 24vw"
-                      className="object-cover object-top"
+                      className="block h-auto w-full"
                     />
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                  </button>
+                </Reveal>
+              ))}
+            </div>
           </div>
 
-          {/* Fade floor — sits over the lower portion of the bottom row
-              so it dissolves into the page background. Tall enough to
-              swallow roughly the bottom half of row two. */}
+          {/* Fade floor — dissolves the clipped bottom of the wall into
+              the page so it doesn't end on a hard cut. */}
           <div
             className="pointer-events-none absolute inset-x-0 bottom-0 h-[260px] sm:h-[300px]"
             style={{
@@ -106,6 +111,8 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
           </div>
         </div>
       </div>
+
+      <WinLightbox win={active} onClose={() => setActive(null)} />
     </section>
   );
 }

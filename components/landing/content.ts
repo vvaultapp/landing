@@ -686,7 +686,7 @@ const landingContentFr = {
         "Frais marketplace réduits (5%)",
         "Meilleur moment d'envoi (IA)",
       ],
-      cost: "0€",
+      cost: "€0",
       costNote: "sans carte bancaire",
     },
     ai: {
@@ -701,7 +701,7 @@ const landingContentFr = {
         "Ton propre domaine et lecteur brandé",
         "50% de réduction quand tu postules à des appels payants",
       ],
-      cost: "24.99€/mois",
+      cost: "€24.99/mo",
       costNote: "mensuel · annuel disponible",
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
@@ -757,7 +757,7 @@ const landingContentFr = {
   },
   singlePlan: {
     name: "Pro",
-    price: "8.99€/mois",
+    price: "€8.99/mo",
     note: "mensuel · annuel disponible (2 mois offerts)",
     cta: "Démarrer Pro",
     bullets: [

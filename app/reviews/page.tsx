@@ -16,7 +16,8 @@ import {
   type LandingReview,
   type LandingReviewApi,
 } from "@/lib/landing-reviews";
-import { WINS } from "@/lib/landing-wins";
+import { WINS, type Win } from "@/lib/landing-wins";
+import { WinLightbox } from "@/components/landing/WinLightbox";
 import { useLocale } from "@/lib/useLocale";
 
 const TRUSTPILOT_URL = "https://www.trustpilot.com/review/vvault.app";
@@ -30,6 +31,7 @@ const CARD_OUTLINE = "1px solid rgba(255, 255, 255, 0.08)";
 export default function ReviewsPage() {
   const [locale] = useLocale();
   const content = getLandingContent(locale);
+  const [activeWin, setActiveWin] = useState<Win | null>(null);
 
   /* Hydrate from the locale-specific fallback list — same path the
      SocialProofSection uses. As soon as /api/landing-stats responds
@@ -129,9 +131,12 @@ export default function ReviewsPage() {
               (no cropping, so the names + totals stay readable). */}
           <div className="mt-12 columns-2 gap-3 sm:mt-16 sm:columns-3 sm:gap-4 lg:columns-4 [&>*]:mb-3 sm:[&>*]:mb-4">
             {WINS.map((win) => (
-              <div
+              <button
+                type="button"
                 key={win.src}
-                className="break-inside-avoid overflow-hidden rounded-2xl"
+                onClick={() => setActiveWin(win)}
+                aria-label={`Open win: ${win.alt}`}
+                className="block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl transition-transform duration-200 hover:-translate-y-0.5"
                 style={{
                   background: CARD_BG,
                   outline: CARD_OUTLINE,
@@ -142,7 +147,7 @@ export default function ReviewsPage() {
                     (w/h reserve layout space → no CLS in the masonry)
                     and serves an AVIF/WebP variant sized to the column
                     (~25vw on desktop), lazy-loaded so off-screen wins
-                    never download. */}
+                    never download. Tap to view full size. */}
                 <Image
                   src={win.src}
                   alt={win.alt}
@@ -151,7 +156,7 @@ export default function ReviewsPage() {
                   sizes="(max-width: 640px) 48vw, (max-width: 1024px) 32vw, 24vw"
                   className="block h-auto w-full"
                 />
-              </div>
+              </button>
             ))}
           </div>
 
@@ -237,6 +242,8 @@ export default function ReviewsPage() {
         showColumns={false}
         inlineLegalWithBrand
       />
+
+      <WinLightbox win={activeWin} onClose={() => setActiveWin(null)} />
     </div>
   );
 }

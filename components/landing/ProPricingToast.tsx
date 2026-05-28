@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { trackButtonClick } from "@/lib/analytics/client";
-import { formatPrice } from "@/lib/formatPrice";
 
 type ProPricingToastProps = {
   locale?: "en" | "fr";
@@ -144,17 +143,12 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
 
           <div className="mt-5 flex items-baseline gap-1.5">
             <span className="text-[2rem] font-light leading-none text-white tabular-nums">
-              {formatPrice("1", locale)}
+              €8.99
             </span>
             <span className="text-[14px] font-medium text-white/45">
-              {fr ? "le premier mois" : "first month"}
+              {fr ? "par mois" : "per month"}
             </span>
           </div>
-          <p className="mt-1 text-[11.5px] text-white/35">
-            {fr
-              ? `puis ${formatPrice("8.99", locale)} par mois`
-              : `then ${formatPrice("8.99", locale)} per month`}
-          </p>
 
           <Link
             href="https://vvault.app/signup?plan=pro"

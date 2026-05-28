@@ -126,11 +126,6 @@ type ColorBendsProps = {
   iterations?: number;
   intensity?: number;
   bandWidth?: number;
-  /* Seconds added to `uTime` on every frame, so the pattern starts
-     as if the shader had already been animating for that long.
-     Useful when the initial state (uTime = 0) drifts the bright
-     zone to a corner and you want it centred from frame one. */
-  initialTimeOffset?: number;
 };
 
 export default function ColorBends({
@@ -150,7 +145,6 @@ export default function ColorBends({
   iterations = 1,
   intensity = 1.5,
   bandWidth = 6,
-  initialTimeOffset = 0,
 }: ColorBendsProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
@@ -250,7 +244,7 @@ export default function ColorBends({
     const loop = () => {
       const dt = clock.getDelta();
       const elapsed = clock.elapsedTime;
-      material.uniforms.uTime.value = elapsed + initialTimeOffset;
+      material.uniforms.uTime.value = elapsed;
 
       const deg =
         (rotationRef.current % 360) + autoRotateRef.current * elapsed;
