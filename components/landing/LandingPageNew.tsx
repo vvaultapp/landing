@@ -11,6 +11,7 @@ import { ProblemGapSection } from "@/components/landing/ProblemGapSection";
 import { ToolsGallerySection } from "@/components/landing/ToolsGallerySection";
 import { WorkflowSection } from "@/components/landing/WorkflowSection";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
+import { WinsSection } from "@/components/landing/WinsSection";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
 import PricingPage from "@/app/pricing/Content";
 import { FaqSection } from "@/components/landing/FaqSection";
@@ -67,6 +68,7 @@ export function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
         <ToolsGallerySection content={contentNew} locale={locale} />
         <WorkflowSection content={contentNew} />
         <SocialProofSection locale={locale} />
+        <WinsSection locale={locale} />
         <HeroStatementSection content={content} locale={locale} />
         <PricingPage locale={locale} embedded />
         <FaqSection content={content} />

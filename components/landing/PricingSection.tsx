@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from "react";
 import type { LandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { Reveal } from "@/components/landing/Reveal";
+import { formatPrice } from "@/lib/formatPrice";
 
 type PricingSectionProps = {
   content: LandingContent;
@@ -78,8 +79,9 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
   const [annual, setAnnual] = useState(true);
   const { human, ai } = content.pricingComparison;
   const plan = content.singlePlan;
-  const proPrice = annual ? "€7.49" : "€8.99";
-  const ultraPrice = annual ? "€20.75" : "€24.99";
+  const proPrice = formatPrice(annual ? "7.49" : "8.99", locale);
+  const ultraPrice = formatPrice(annual ? "20.75" : "24.99", locale);
+  const promoPrice = formatPrice("1", locale);
   const fr = locale === "fr";
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
   const everythingInProLabel = fr ? "Tout ce qui est dans Pro, plus :" : "Everything in Pro, plus:";
@@ -89,7 +91,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       id: "free",
       name: human.title,
       eyebrow: "",
-      price: "€0",
+      price: formatPrice("0", locale),
       period: "",
       includedHeading: undefined as string | undefined,
       bullets: human.bullets,
@@ -102,8 +104,11 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       id: "pro",
       name: plan.name,
       eyebrow: content.pricingUi.mostPopular,
-      price: proPrice,
-      period: locale === "fr" ? "/mois" : "/mo",
+      /* Same promo as the pricing page: lead with €1 for the first
+         month, surface the regular per-month price as a small note. */
+      price: promoPrice,
+      period: fr ? "le premier mois" : "first month",
+      priceNote: fr ? `puis ${proPrice} par mois` : `then ${proPrice} per month`,
       includedHeading: everythingInFreeLabel,
       bullets: plan.bullets,
       cta: plan.cta,
@@ -176,6 +181,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
         <div className="mt-12 grid gap-6 lg:grid-cols-3 lg:items-stretch">
           {plans.map((p) => (
             <Reveal key={p.name} className="h-full">
+              <div className="relative flex h-full flex-col">
               <div
                 className="relative flex h-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
                 style={{
@@ -230,15 +236,18 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   />
                 )}
 
-                {/* Plan name */}
-                <h3 className="flex h-8 items-baseline gap-2 text-2xl font-semibold text-white">
-                  {p.name}
+                {/* Plan name + (Pro only) blue "Most popular" pill
+                    inline with the name. */}
+                <div className="flex h-8 items-center gap-2">
+                  <h3 className="text-2xl font-semibold text-white">
+                    {p.name}
+                  </h3>
                   {p.eyebrow && (
-                    <span className="text-[11px] font-medium text-white/40">
+                    <span className="inline-flex items-center rounded-full bg-white/[0.06] px-2.5 py-[3px] text-[10.5px] font-semibold tracking-[0.02em] text-white">
                       {p.eyebrow}
                     </span>
                   )}
-                </h3>
+                </div>
 
                 {/* Price */}
                 <div className="mt-4 flex items-baseline gap-1">
@@ -249,6 +258,12 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                     <span className="text-base text-white/40">{p.period}</span>
                   )}
                 </div>
+                {/* Optional "then €X/mo" subtext for promo prices. */}
+                {p.priceNote && (
+                  <p className="mt-1.5 text-[12px] font-medium leading-snug text-white/40">
+                    {p.priceNote}
+                  </p>
+                )}
                 {/* Divider */}
                 <div className="mt-5 h-px w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
 
@@ -293,6 +308,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                       : (locale === "fr" ? "Aucune carte requise" : "No credit card required")}
                   </p>
                 </div>
+              </div>
               </div>
             </Reveal>
           ))}

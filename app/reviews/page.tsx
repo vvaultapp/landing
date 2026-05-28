@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
@@ -15,6 +16,7 @@ import {
   type LandingReview,
   type LandingReviewApi,
 } from "@/lib/landing-reviews";
+import { WINS } from "@/lib/landing-wins";
 import { useLocale } from "@/lib/useLocale";
 
 const TRUSTPILOT_URL = "https://www.trustpilot.com/review/vvault.app";
@@ -103,26 +105,62 @@ export default function ReviewsPage() {
             className="text-center"
           >
             <h1 className="font-display text-5xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
-              {locale === "fr" ? "Avis" : "Reviews"}
+              {locale === "fr" ? "Wins" : "Wins"}
             </h1>
             <p className="mx-auto mt-5 max-w-[640px] text-lg leading-relaxed text-white/55 sm:text-xl">
               {locale === "fr" ? (
                 <>
-                  De vrais avis de producteurs
+                  De vrais artistes, de vraies ventes,
                   <br />
-                  qui utilisent vvault tous les jours.
+                  capturés depuis vvault.
                 </>
               ) : (
                 <>
-                  Real reviews from producers
+                  Real artists, real sales,
                   <br />
-                  who use vvault every day.
+                  captured straight from vvault.
                 </>
               )}
             </p>
           </motion.div>
 
-          <div className="mt-12 flex justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] sm:mt-16">
+          {/* Wins wall — every win screenshot in a masonry of 2/3
+              columns so each one shows at its natural aspect ratio
+              (no cropping, so the names + totals stay readable). */}
+          <div className="mt-12 columns-2 gap-3 sm:mt-16 sm:columns-3 sm:gap-4 lg:columns-4 [&>*]:mb-3 sm:[&>*]:mb-4">
+            {WINS.map((win) => (
+              <div
+                key={win.src}
+                className="break-inside-avoid overflow-hidden rounded-2xl"
+                style={{
+                  background: CARD_BG,
+                  outline: CARD_OUTLINE,
+                  outlineOffset: "-1px",
+                }}
+              >
+                {/* next/image keeps each screenshot's natural aspect
+                    (w/h reserve layout space → no CLS in the masonry)
+                    and serves an AVIF/WebP variant sized to the column
+                    (~25vw on desktop), lazy-loaded so off-screen wins
+                    never download. */}
+                <Image
+                  src={win.src}
+                  alt={win.alt}
+                  width={win.w}
+                  height={win.h}
+                  sizes="(max-width: 640px) 48vw, (max-width: 1024px) 32vw, 24vw"
+                  className="block h-auto w-full"
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Written reviews — the verified Trustpilot / App Store
+              text testimonials, below the visual wins wall. */}
+          <h2 className="mt-24 text-center text-2xl font-light text-white sm:mt-32 sm:text-3xl">
+            {locale === "fr" ? "Ce qu'ils en disent" : "What they're saying"}
+          </h2>
+          <div className="mt-10 flex justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] sm:mt-12">
             <TestimonialsColumn testimonials={columns.first} duration={15} />
             <TestimonialsColumn
               testimonials={columns.second}
