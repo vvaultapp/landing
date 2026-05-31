@@ -139,7 +139,7 @@ export function HeroStatementSection({ content, locale }: HeroStatementSectionPr
 
   return (
     <section id="how-it-works" className="pt-36 sm:pt-52">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div id="sponsored" className="mx-auto max-w-[1100px] scroll-mt-28">
             <h3 className="text-center text-xl font-semibold text-white sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>

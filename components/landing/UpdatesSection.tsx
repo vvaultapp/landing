@@ -7,7 +7,7 @@ import { Reveal } from "@/components/landing/Reveal";
 export function UpdatesSection() {
   return (
     <section id="updates" className="pt-0">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>

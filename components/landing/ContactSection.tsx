@@ -129,7 +129,7 @@ export function ContactSection({ locale }: ContactSectionProps) {
 
   return (
     <section id="contact" className="pt-36 sm:pt-52">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <h2 className="text-center text-2xl font-semibold text-white sm:text-3xl">
             {isEn ? "Get in touch" : "Contactez-nous"}

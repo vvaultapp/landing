@@ -82,7 +82,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
         <HeroLiveStats locale={locale} stats={stats} />
         <SocialProofSection locale={locale} />
         {/* "See pricing" CTA below the trustpilot card. */}
-        <div className="mx-auto flex w-full max-w-[1320px] justify-center px-5 pt-10 sm:px-8 sm:pt-12 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[clamp(1320px,92vw,2400px)] justify-center px-5 pt-10 sm:px-8 sm:pt-12 lg:px-10">
           <LandingCtaLink
             loggedInHref="/pricing"
             loggedOutHref="/pricing"

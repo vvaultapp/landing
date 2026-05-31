@@ -209,8 +209,8 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
   }, [reviews, slideIndex, isMobile]);
 
   return (
-    <section id="customers" className="pt-20 sm:pt-24 lg:pt-28">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+    <section id="customers" className="pt-[150px] sm:pt-[214px] lg:pt-[278px]">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           {/* Whole card is wrapped in a Next/Link to /reviews. On hover
               (or tap on touch — see CSS group/social), the inner
@@ -223,36 +223,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
             className="group/social relative block overflow-hidden rounded-[20px] outline-none sm:rounded-[24px]"
           >
             {/* Inner stack — gets blurred + scaled down on hover */}
-            <div className="relative overflow-hidden rounded-[20px] transition-[filter,transform,opacity] duration-300 ease-out group-hover/social:scale-[0.985] group-hover/social:opacity-65 group-hover/social:blur-[3px] sm:rounded-[24px]">
-            {/* Background layer — hard black, with a bottom fade so the card
-                dissolves into the page rather than showing a hard edge. */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-black"
-              style={{
-                maskImage:
-                  "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, black 0%, black 55%, transparent 100%)",
-              }}
-            />
-            {/* Top center glow — bigger, lower opacity */}
-            <div
-              className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[160px] w-[500px] sm:h-[200px] sm:w-[650px]"
-              style={{
-                background:
-                  "radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 45%, transparent 70%)",
-              }}
-            />
-
-            {/* Top border line — bright center, fading to corners */}
-            <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 10%, rgba(255,255,255,0.18) 35%, rgba(255,255,255,0.28) 50%, rgba(255,255,255,0.18) 65%, rgba(255,255,255,0.06) 90%, transparent 100%)",
-              }}
-            />
+            <div className="relative overflow-hidden rounded-[20px] bg-white/[0.05] transition-[filter,transform,opacity] duration-300 ease-out group-hover/social:scale-[0.985] group-hover/social:opacity-65 group-hover/social:blur-[3px] sm:rounded-[24px]">
 
             {/* Content */}
             <div className="relative px-6 pb-10 pt-12 sm:px-10 sm:pb-12 sm:pt-14">

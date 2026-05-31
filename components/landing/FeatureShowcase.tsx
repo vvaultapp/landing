@@ -985,7 +985,7 @@ export function SellCard({ locale }: { locale: Locale }) {
 export function FeatureShowcase({ locale = "en" }: { locale?: Locale }) {
   return (
     <section className="pt-32 sm:pt-44">
-      <div className="mx-auto w-full max-w-[1320px] space-y-36 px-5 sm:space-y-52 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] space-y-36 px-5 sm:space-y-52 sm:px-8 lg:px-10">
         {/* 1 — Analytics: full-width */}
         <AnalyticsSection locale={locale} />
 

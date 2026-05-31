@@ -218,7 +218,7 @@ export function ToolsGallerySection({
       id="tools"
       className="relative pt-24 pb-20 sm:pt-32 sm:pb-28"
     >
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
             <h3 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
@@ -269,7 +269,7 @@ export function ToolsGallerySection({
                 href: "/features",
               })
             }
-            className="inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-[13px] font-semibold text-white/85 transition-colors duration-200 active:bg-white/[0.07]"
+            className="inline-flex items-center gap-2 rounded-[8px] border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-[13px] font-semibold text-white/85 transition-colors duration-200 active:bg-white/[0.07]"
           >
             {locale === "fr" ? "Voir toutes les fonctionnalités" : "View all features"}
             <svg

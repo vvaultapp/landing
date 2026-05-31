@@ -223,37 +223,15 @@ function MobileMenu({
           />
         </nav>
 
-        {/* Continue with Google — replaces the old Get Started CTA.
-            Grey low-opacity pill on the glass backdrop so it sits
-            into the surface rather than popping off it. Tapping it
-            sends the user straight into the Google OAuth flow,
-            which on this app is the fastest path to a live
-            account from a cold mobile visit. */}
+        {/* Get Started — primary CTA in the mobile menu. Grey
+            low-opacity pill on the glass backdrop. */}
         <div className="mt-4">
           <a
             href="https://vvault.app/auth/google"
-            className="flex w-full items-center justify-center gap-2.5 rounded-xl bg-white/[0.06] px-5 py-3 text-[14px] font-semibold text-white/85 transition-colors duration-200 active:bg-white/[0.09]"
+            className="flex w-full items-center justify-center gap-2.5 rounded-[8px] bg-white/[0.06] px-5 py-3 text-[14px] font-semibold text-white/85 transition-colors duration-200 active:bg-white/[0.09]"
             style={{ WebkitTapHighlightColor: "transparent" }}
           >
-            <svg viewBox="0 0 24 24" className="h-[18px] w-[18px]" fill="none">
-              <path
-                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-                fill="#4285F4"
-              />
-              <path
-                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                fill="#34A853"
-              />
-              <path
-                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z"
-                fill="#FBBC05"
-              />
-              <path
-                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                fill="#EA4335"
-              />
-            </svg>
-            {locale === "fr" ? "Continuer avec Google" : "Continue with Google"}
+            {locale === "fr" ? "Commencer" : "Get Started"}
           </a>
         </div>
         </div>
@@ -323,23 +301,65 @@ function useIsWindows() {
   return isWin;
 }
 
-function NavDropdown({
+export function NavDropdown({
   item,
   open,
   onEnter,
   onLeave,
   onClick,
+  placement = "down",
 }: {
   item: LandingNavItem;
   open: boolean;
   onEnter: () => void;
   onLeave: () => void;
   onClick: () => void;
+  placement?: "down" | "up";
 }) {
   const isMac = useIsMac();
   const isWindows = useIsWindows();
   const trustpilotScore = useTrustpilotScore();
   const hasChildren = item.children && item.children.length > 0;
+
+  // Keep the dropdown panel inside the viewport. The panel is centered
+  // on its trigger (translateX(-50%)); when the trigger sits near a
+  // screen edge — e.g. the bottom-right hero quick-menu, where "Docs"
+  // opens a wide panel — the centered panel would overflow and get
+  // clipped. We measure the trigger center + the panel's own width and
+  // nudge the panel horizontally so it always stays within a 12px
+  // margin of both screen edges. offsetWidth and the trigger rect are
+  // both unaffected by the applied shift, so there's no feedback loop.
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [shiftX, setShiftX] = useState(0);
+  useEffect(() => {
+    if (!open) return;
+    const measure = () => {
+      const wrap = wrapperRef.current;
+      const panel = panelRef.current;
+      if (!wrap || !panel) return;
+      const margin = 12;
+      const trigger = wrap.getBoundingClientRect();
+      const centerX = trigger.left + trigger.width / 2;
+      const width = panel.offsetWidth;
+      const naturalLeft = centerX - width / 2;
+      const naturalRight = centerX + width / 2;
+      let next = 0;
+      if (naturalRight > window.innerWidth - margin) {
+        next = window.innerWidth - margin - naturalRight;
+      } else if (naturalLeft < margin) {
+        next = margin - naturalLeft;
+      }
+      setShiftX(next);
+    };
+    // Panels are always laid out (the menu is opacity-toggled, not
+    // display:none), so offsetWidth + the trigger rect are available
+    // synchronously the moment `open` flips — no rAF needed, and no
+    // one-frame flash of the panel in its overflowing position.
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [open]);
 
   // Reorder download children based on platform
   const children = (() => {
@@ -367,7 +387,7 @@ function NavDropdown({
         href={item.href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noreferrer" : undefined}
-        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/60 transition-colors duration-200 hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/60 transition-colors duration-200 hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 lg:px-4 lg:py-2 lg:text-[16px]"
       >
         {item.label}
       </a>
@@ -376,6 +396,7 @@ function NavDropdown({
 
   return (
     <div
+      ref={wrapperRef}
       className="relative"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
@@ -383,7 +404,7 @@ function NavDropdown({
       <button
         type="button"
         onClick={onClick}
-        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 ${
+        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 lg:gap-2 lg:px-4 lg:py-2 lg:text-[16px] ${
           open ? "text-white/90" : "text-white/60 hover:text-white/90"
         }`}
       >
@@ -403,51 +424,30 @@ function NavDropdown({
 
       {/* Dropdown panel */}
       <div
-        className="absolute left-1/2 top-full z-50 pt-2"
+        ref={panelRef}
+        className={`absolute left-1/2 z-50 ${placement === "up" ? "bottom-full pb-[18px]" : "top-full pt-2"}`}
         style={{
-          transform: "translateX(-50%)",
+          transform: `translateX(calc(-50% + ${shiftX}px))`,
           pointerEvents: open ? "auto" : "none",
         }}
       >
         <div
-          className="relative overflow-hidden rounded-2xl shadow-2xl shadow-black/80"
+          className="relative overflow-hidden rounded-2xl"
           style={{
-            background: "#000",
+            background: "rgba(255,255,255,0.08)",
+            backdropFilter: "blur(16px)",
+            WebkitBackdropFilter: "blur(16px)",
             opacity: open ? 1 : 0,
-            transform: open ? "translateY(0) translateZ(0)" : "translateY(-4px) translateZ(0)",
+            transform: open
+              ? "translateY(0) translateZ(0)"
+              : placement === "up"
+                ? "translateY(4px) translateZ(0)"
+                : "translateY(-4px) translateZ(0)",
             transition:
               "opacity 0.18s ease-out, transform 0.18s ease-out",
             willChange: "opacity, transform",
           }}
         >
-          {/* Border overlay with fade mask — same as GlowCard */}
-          <div
-            className="pointer-events-none absolute inset-0 rounded-[inherit]"
-            style={{
-              border: "1px solid rgba(255,255,255,0.06)",
-              borderBottom: "none",
-              maskImage:
-                "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-              WebkitMaskImage:
-                "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-            }}
-          />
-          {/* Top glow line */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-px"
-            style={{
-              background:
-                "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.14) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
-            }}
-          />
-          {/* Top glow orb */}
-          <div
-            className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[80px] w-[300px]"
-            style={{
-              background:
-                "radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%)",
-            }}
-          />
           {(() => {
             const isFeatures = item.label === "Features" || item.label === "Fonctionnalités";
             const studioChild = isFeatures ? children!.find((c) => c.label === "Studio") : null;
@@ -789,6 +789,12 @@ function StudioFeaturedCard({
   );
 }
 
+/* The top-nav links (Features / Testimonials / Download / Docs / Pricing)
+   now live in the bottom-right hamburger menu (see HeroSection →
+   HeroQuickMenu). Flip this to `true` to bring them back into the top
+   bar — the markup is kept intact below, just gated. */
+const SHOW_TOP_NAV_LINKS = false;
+
 export function LandingNav({ locale, content, showPrimaryLinks = true }: LandingNavProps) {
   const fr = locale === "fr";
   const homeHref = locale === "fr" ? "/fr" : "/";
@@ -893,16 +899,16 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
            window where the nav band is uncovered. */
       }}
     >
-      <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center px-5 sm:h-[68px] sm:px-8 lg:px-10">
+      <div className="mx-auto flex h-[72px] w-full max-w-[clamp(1320px,92vw,2400px)] items-center px-5 sm:h-[68px] sm:px-8 lg:h-[84px] lg:px-10">
         <Link
           href={homeHref}
-          className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-white"
+          className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-white lg:text-[18px]"
           aria-label={content.ui.homepageAriaLabel}
         >
           vvault
         </Link>
 
-        {showPrimaryLinks ? (
+        {SHOW_TOP_NAV_LINKS && showPrimaryLinks ? (
           <nav
             aria-label={fr ? "Principal" : "Primary"}
             className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex"
@@ -923,33 +929,33 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <div className="ml-auto hidden lg:block" />
         )}
 
-        <div className="ml-auto hidden items-center gap-3 lg:flex">
+        <div className="ml-auto hidden items-center gap-2 lg:flex lg:gap-5">
+          <LandingCtaLink
+            loggedInHref="/pricing"
+            loggedOutHref="/pricing"
+            track={{ buttonId: "nav.try_pro", surface: "landing.nav", locale }}
+            className="inline-flex items-center rounded-[8px] px-3 py-1.5 text-[14px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35 lg:px-4 lg:py-2 lg:text-[16px]"
+          >
+            {locale === "fr" ? "Essayer Pro pour 1€" : "Try Pro for €1"}
+          </LandingCtaLink>
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
-            track={{ buttonId: "nav.log_in", surface: "landing.nav", locale }}
-            className="inline-flex items-center rounded-xl px-3 py-1.5 text-[14px] font-medium text-white/70 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            track={{ buttonId: "nav.enter_app", surface: "landing.nav", locale }}
+            className="inline-flex items-center rounded-full bg-[#e8e8e8] px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45 lg:px-7 lg:py-2.5 lg:text-[16px]"
           >
-            {locale === "fr" ? "Connexion" : "Log In"}
-          </LandingCtaLink>
-          <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            track={{ buttonId: "nav.get_started", surface: "landing.nav", locale }}
-            className="inline-flex items-center rounded-xl bg-[#e8e8e8] px-5 py-2 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
-          >
-            {locale === "fr" ? "Commencer" : "Get Started"}
+            {locale === "fr" ? "Ouvrir l'app" : "Open App"}
           </LandingCtaLink>
         </div>
 
         <div className="ml-auto flex items-center gap-2 lg:hidden">
           <LandingCtaLink
-            loggedInHref="https://vvault.app/signup"
-            loggedOutHref="https://vvault.app/signup"
-            track={{ buttonId: "nav.get_started", surface: "landing.nav_mobile", locale }}
-            className="inline-flex items-center rounded-xl bg-[#e8e8e8] px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            loggedInHref="https://vvault.app/login"
+            loggedOutHref="https://vvault.app/login"
+            track={{ buttonId: "nav.enter_app", surface: "landing.nav_mobile", locale }}
+            className="inline-flex items-center rounded-full bg-[#e8e8e8] px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
           >
-            {locale === "fr" ? "Commencer" : "Get Started"}
+            {locale === "fr" ? "Ouvrir l'app" : "Open App"}
           </LandingCtaLink>
           {/* Hamburger ↔ X morph toggle. Two separated bars on idle;
               rotate ±45° and collapse onto the same line when the

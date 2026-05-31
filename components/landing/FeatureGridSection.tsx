@@ -8,7 +8,7 @@ export function FeatureGridSection({ locale }: { locale: Locale }) {
 
   return (
     <section id="product" className="pt-14 sm:pt-20">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="max-w-[900px]">
             <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">

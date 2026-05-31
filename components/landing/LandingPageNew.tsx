@@ -2,18 +2,9 @@
 
 import { useEffect } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
-import {
-  HeroSection,
-  HeroLiveStats,
-  useLandingStats,
-} from "@/components/landing/HeroSection";
-import { ProblemGapSection } from "@/components/landing/ProblemGapSection";
-import { ToolsGallerySection } from "@/components/landing/ToolsGallerySection";
-import { WorkflowSection } from "@/components/landing/WorkflowSection";
-import { HeroStatementSection } from "@/components/landing/HeroStatementSection";
+import { HeroSection } from "@/components/landing/HeroSection";
+import { FeatureSection } from "@/components/landing/MinimalSections";
 import PricingPage from "@/app/pricing/Content";
-import { FaqSection } from "@/components/landing/FaqSection";
-import { ContactSection } from "@/components/landing/ContactSection";
 import { FinalCtaSectionNew } from "@/components/landing/FinalCtaSectionNew";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
@@ -28,7 +19,6 @@ type LandingPageNewProps = {
 export function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
   const content = getLandingContent(locale);
   const contentNew = getLandingNewContent(locale);
-  const { stats } = useLandingStats();
 
   useEffect(() => {
     document.title =
@@ -43,11 +33,6 @@ export function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
   }, [locale]);
 
   useEffect(() => {
-    /* Same anonymous CNIL-compliant landing-view tracker as the
-       legacy home — works for the /new route too. We don't pass a
-       variant here because trackLandingView's signature is "get"
-       only; differentiation between / and /new is done server-side
-       via the URL stored on the analytic row. */
     void trackLandingView("get");
   }, []);
 
@@ -61,17 +46,16 @@ export function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
       </a>
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main id="main-content" className="pb-20 sm:pb-0">
+        {/* 1 — Hero (headline + signup + product video slot) */}
         <HeroSection content={content} locale={locale} />
-        <ProblemGapSection content={contentNew} />
-        <ToolsGallerySection content={contentNew} locale={locale} />
-        <WorkflowSection content={contentNew} />
-        <HeroStatementSection content={content} locale={locale} />
+        {/* 2 — Features (a headline, then a pair of media — repeated) */}
+        <FeatureSection locale={locale} />
+        {/* 7 — Wins wall + 8 — Pricing (Wins renders inside pricing) */}
         <PricingPage locale={locale} embedded />
-        <FaqSection content={content} />
-        <ContactSection locale={locale} />
-        <HeroLiveStats locale={locale} stats={stats} />
+        {/* 9 — Final CTA */}
         <FinalCtaSectionNew content={contentNew} />
       </main>
+      {/* 10 — Footer */}
       <LandingFooter locale={locale} content={content} />
       <CookieConsentBanner />
     </div>

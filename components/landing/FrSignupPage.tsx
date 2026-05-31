@@ -78,7 +78,7 @@ export function FrSignupPage() {
         {content.skipToContentLabel}
       </a>
       <header className="border-b border-white/10">
-        <div className="mx-auto flex h-[70px] w-full max-w-[1320px] items-center px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex h-[70px] w-full max-w-[clamp(1320px,92vw,2400px)] items-center px-5 sm:px-8 lg:px-10">
           <Link
             href="/fr"
             className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-white/60 transition-colors hover:text-white"
@@ -95,7 +95,7 @@ export function FrSignupPage() {
       </header>
 
       <main id="main-content" className="pb-12 pt-12 sm:pb-16 sm:pt-16">
-        <section className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+        <section className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
           <div className="max-w-[980px]">
             <h1 className="font-display text-[2.3rem] leading-[1.02] tracking-tight text-white sm:text-[3.2rem] lg:text-[3.8rem]">
               Crée ton compte gratuit.

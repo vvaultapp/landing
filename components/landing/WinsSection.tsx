@@ -20,8 +20,8 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
   const [active, setActive] = useState<Win | null>(null);
 
   return (
-    <section className="relative pt-24 pb-20 sm:pt-32 sm:pb-28">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+    <section className="relative pt-[150px] pb-20 sm:pt-[214px] sm:pb-28 lg:pt-[278px]">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
             <h2 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
@@ -98,7 +98,7 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
                   href: "/reviews",
                 })
               }
-              className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3 text-[14px] font-semibold text-black transition-colors duration-200 hover:bg-white/90"
+              className="inline-flex items-center gap-2 rounded-[8px] bg-white px-6 py-3 text-[14px] font-semibold text-black transition-colors duration-200 hover:bg-white/90"
             >
               {fr ? "Voir les wins" : "View wins"}
               <svg

@@ -97,19 +97,6 @@ const landingContentEn = {
       ],
     },
     {
-      label: "About",
-      href: "/about",
-      children: [
-        { label: "Company", href: "/about", description: "Our story and mission" },
-        { label: "Blog", href: "/blog", description: "Articles and guides" },
-        { label: "Compare", href: "/compare", description: "vvault vs alternatives" },
-        { label: "Privacy", href: "/privacy", description: "Privacy policy" },
-        { label: "Terms", href: "/terms", description: "Terms of service" },
-        { label: "For Producers", href: "/for/producers", description: "Built for beatmakers", featured: true },
-        { label: "For Labels", href: "/for/managers-and-labels", description: "Team workflows", featured: true },
-      ],
-    },
-    {
       label: "Download",
       href: "#download",
       children: [
@@ -128,17 +115,9 @@ const landingContentEn = {
         { label: "Campaigns", href: "/docs/campaigns" },
         { label: "Sales", href: "/docs/sales" },
         { label: "Plans & Pricing", href: "/docs/plans" },
+        { label: "About", href: "/about" },
+        { label: "Help", href: "/help" },
         { label: "Watch Demo", href: "https://www.youtube.com/watch?v=m2WPJvKnCzU", description: "See vvault in action", featured: true, external: true },
-      ],
-    },
-    {
-      label: "Help",
-      href: "/help",
-      children: [
-        { label: "FAQ", href: "/help", description: "Common questions" },
-        { label: "Support", href: "https://www.vvault.app/support", description: "Get help", external: true },
-        { label: "Discord Community", href: "https://discord.gg/QGGEZR5KhB", description: "Ask the community", external: true },
-        { label: "Join Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Community & support", featured: true, external: true },
       ],
     },
     { label: "Pricing", href: "/pricing" },
@@ -511,19 +490,6 @@ const landingContentFr = {
       ],
     },
     {
-      label: "À propos",
-      href: "/about",
-      children: [
-        { label: "Entreprise", href: "/about", description: "Notre histoire et mission" },
-        { label: "Blog", href: "/blog", description: "Articles et guides" },
-        { label: "Comparer", href: "/compare", description: "vvault vs alternatives" },
-        { label: "Confidentialité", href: "/privacy", description: "Politique de confidentialité" },
-        { label: "Conditions", href: "/terms", description: "Conditions d'utilisation" },
-        { label: "Pour Producteurs", href: "/for/producers", description: "Conçu pour les beatmakers", featured: true },
-        { label: "Pour Labels", href: "/for/managers-and-labels", description: "Workflows d'équipe", featured: true },
-      ],
-    },
-    {
       label: "Télécharger",
       href: "#download",
       children: [
@@ -542,16 +508,9 @@ const landingContentFr = {
         { label: "Campagnes", href: "/docs/campaigns" },
         { label: "Ventes", href: "/docs/sales" },
         { label: "Plans & Tarifs", href: "/docs/plans" },
+        { label: "À propos", href: "/about" },
+        { label: "Aide", href: "/help" },
         { label: "Voir la démo", href: "https://www.youtube.com/watch?v=m2WPJvKnCzU", description: "Découvre vvault en action", featured: true, external: true },
-      ],
-    },
-    {
-      label: "Aide",
-      href: "/help",
-      children: [
-        { label: "FAQ", href: "/help", description: "Questions fréquentes" },
-        { label: "Support", href: "https://www.vvault.app/support", description: "Obtenir de l'aide", external: true },
-        { label: "Rejoindre Discord", href: "https://discord.gg/QGGEZR5KhB", description: "Communauté & support", featured: true, external: true },
       ],
     },
     { label: "Tarifs", href: "/pricing" },
@@ -686,7 +645,7 @@ const landingContentFr = {
         "Frais marketplace réduits (5%)",
         "Meilleur moment d'envoi (IA)",
       ],
-      cost: "€0",
+      cost: "0€",
       costNote: "sans carte bancaire",
     },
     ai: {
@@ -701,7 +660,7 @@ const landingContentFr = {
         "Ton propre domaine et lecteur brandé",
         "50% de réduction quand tu postules à des appels payants",
       ],
-      cost: "€24.99/mo",
+      cost: "24.99€/mois",
       costNote: "mensuel · annuel disponible",
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
@@ -757,7 +716,7 @@ const landingContentFr = {
   },
   singlePlan: {
     name: "Pro",
-    price: "€8.99/mo",
+    price: "8.99€/mois",
     note: "mensuel · annuel disponible (2 mois offerts)",
     cta: "Démarrer Pro",
     bullets: [

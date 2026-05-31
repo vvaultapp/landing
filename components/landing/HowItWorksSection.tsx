@@ -18,7 +18,7 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
 
   return (
     <section id="how-it-works" className="pt-20 sm:pt-28">
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="grid gap-8 py-14 lg:grid-cols-[1fr_1fr] lg:gap-16">
             <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">

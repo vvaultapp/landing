@@ -48,7 +48,7 @@ export function LandingFooter({
   if (!showColumns && inlineLegalWithBrand) {
     return (
       <footer className="mt-8 border-t border-white/10 pb-10 pt-6">
-        <div className="mx-auto flex w-full max-w-[1320px] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[clamp(1320px,92vw,2400px)] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
           <Link
             href={homeHref}
             className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white/95"
@@ -91,36 +91,9 @@ export function LandingFooter({
   }
 
   return (
-    <>
-      {/* Giant watermark logo — sits above footer, bottom ~20% hidden behind footer */}
-      <div className="pointer-events-none relative z-0 -mb-[3rem] select-none sm:-mb-[5rem] lg:-mb-[7rem]" aria-hidden="true">
-        <p
-          className="text-center text-[10rem] font-semibold uppercase leading-[0.82] tracking-[0.18em] sm:text-[16rem] lg:text-[22rem]"
-          style={{
-            color: "rgba(255,255,255,0.04)",
-          }}
-        >
-          vvault
-        </p>
-      </div>
+      <footer className="relative z-[1] bg-white/[0.05] pb-20 pt-14 sm:pb-28 sm:pt-16">
 
-      <footer className="relative z-[1] overflow-hidden bg-black pb-20 pt-14 sm:pb-28 sm:pt-16">
-      {/* Top glow line */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px"
-        style={{
-          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 10%, rgba(255,255,255,0.22) 50%, rgba(255,255,255,0.06) 90%, transparent 100%)",
-        }}
-      />
-      {/* Top center glow orb */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[180px] w-[600px]"
-        style={{
-          background: "radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%)",
-        }}
-      />
-
-      <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
           {/* Brand + social */}
           <div>
@@ -137,7 +110,7 @@ export function LandingFooter({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="footer.social.discord"
-                className="flex h-8 w-8 items-center justify-center rounded-xl text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
                 aria-label="Discord"
               >
                 <DiscordFooterIcon />
@@ -147,7 +120,7 @@ export function LandingFooter({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="footer.social.instagram"
-                className="flex h-8 w-8 items-center justify-center rounded-xl text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
                 aria-label="Instagram"
               >
                 <InstagramFooterIcon />
@@ -222,6 +195,5 @@ export function LandingFooter({
         </div>
       </div>
     </footer>
-    </>
   );
 }

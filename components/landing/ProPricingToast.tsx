@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { trackButtonClick } from "@/lib/analytics/client";
+import { formatPrice } from "@/lib/formatPrice";
 
 type ProPricingToastProps = {
   locale?: "en" | "fr";
@@ -33,7 +34,7 @@ type ProPricingToastProps = {
  * Pricing: shows the MONTHLY price (€8.99) — the same number the
  * pricing-page Pro card shows when the annual/monthly toggle is off.
  *
- * CTA: links to `https://vvault.app/signup?plan=pro`, the same
+ * CTA: links to `https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`, the same
  * destination as the pricing-page "Join Pro now" button for a
  * logged-out visitor.
  */
@@ -143,22 +144,27 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
 
           <div className="mt-5 flex items-baseline gap-1.5">
             <span className="text-[2rem] font-light leading-none text-white tabular-nums">
-              €8.99
+              {formatPrice("1", locale)}
             </span>
             <span className="text-[14px] font-medium text-white/45">
-              {fr ? "par mois" : "per month"}
+              {fr ? "le premier mois" : "first month"}
             </span>
           </div>
+          <p className="mt-1 text-[11.5px] text-white/35">
+            {fr
+              ? `puis ${formatPrice("8.99", locale)} par mois`
+              : `then ${formatPrice("8.99", locale)} per month`}
+          </p>
 
           <Link
-            href="https://vvault.app/signup?plan=pro"
+            href="https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
             onClick={() => {
               trackButtonClick({
                 buttonId: "toast.join_pro",
                 surface: "landing.pro_toast",
                 locale,
                 planId: "pro",
-                href: "https://vvault.app/signup?plan=pro",
+                href: "https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
               });
               close();
             }}

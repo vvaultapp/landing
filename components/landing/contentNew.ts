@@ -200,7 +200,7 @@ const en: LandingNewContent = {
   finalCta: {
     title: "Ship your music like a business. Starting today.",
     sub: "Free forever. No card needed. 2 minutes to set up.",
-    ctaLabel: "Continue with Google",
+    ctaLabel: "Get Started",
     ctaHref: "https://vvault.app/signup",
   },
 };
@@ -335,7 +335,7 @@ const fr: LandingNewContent = {
   finalCta: {
     title: "Gère ta musique comme un vrai business. Dès aujourd'hui.",
     sub: "Gratuit pour toujours. Sans carte. 2 minutes pour démarrer.",
-    ctaLabel: "Continuer avec Google",
+    ctaLabel: "Commencer",
     ctaHref: "https://vvault.app/signup",
   },
 };

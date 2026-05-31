@@ -9,6 +9,16 @@ import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { WinsSection } from "@/components/landing/WinsSection";
 import { useLocale } from "@/lib/useLocale";
+import { formatPrice } from "@/lib/formatPrice";
+import dynamic from "next/dynamic";
+
+/* ColorBends ships three.js + shaders, so dynamic-import keeps it
+   out of SSR and the initial JS bundle for pages that don't render
+   the pricing banner. */
+const ColorBends = dynamic(
+  () => import("@/components/landing/ColorBends"),
+  { ssr: false },
+);
 
 function FaqItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -483,6 +493,216 @@ type PricingPageProps = {
   embedded?: boolean;
 };
 
+/* Pricing hero — Shopify-style glassmorphic banner that visually
+   extends down from the top nav (no border between them). The banner
+   has:
+     - the same backdrop blur + dark tint as the nav so the two
+       surfaces read as a single piece of glass
+     - two large, very soft dark-grey radial orbs behind the content
+       for depth (subtle, never popping)
+     - rounded bottom corners only, so the bottom edge sits like a
+       lozenge above the white-on-black cards section.
+   The eyebrow is plain text (no pill), the headline reuses the same
+   `font-light` weight as the card prices, and the EmailCtaPill sits
+   inside the banner. */
+function PricingHeroBanner({
+  locale,
+  promoPrice,
+}: {
+  locale: "en" | "fr";
+  promoPrice: string;
+}) {
+  const fr = locale === "fr";
+  return (
+    <div className="relative z-10 pt-[var(--app-banner-h,0px)]">
+      {/* Banner starts at the very top of the page (y=0). The fixed
+          LandingNav sits over it via its own z-50; we add enough
+          top padding inside to push the banner content clear of the
+          nav AND give it a bit more breathing room than nav height
+          alone, so the headline doesn't feel cramped under the nav. */}
+      <div
+        className="relative w-full overflow-hidden px-5 pb-20 pt-[160px] sm:px-8 sm:pb-24 sm:pt-[180px]"
+        style={{
+          background: "#000000",
+        }}
+      >
+        {/* Background effect — ColorBends in a pure #006ffe blue
+            family. Single-hue palette eliminates the turquoise/cyan
+            colour blends that appear when the shader interpolates
+            between distant hues. Higher scale + bandWidth produce
+            larger, smoother bands so the result reads as a clean
+            blue glow rather than a pixelated gradient. The mask is
+            anchored near the top and is widest there, so the colour
+            sits centrally and tapers as you move down the banner. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.7]"
+          style={{
+            /* Wide ellipse anchored near the top — the bright zone
+               sits in the centre + is widest at the start of the
+               banner, fading downward and outward. */
+            maskImage:
+              "radial-gradient(ellipse 115% 100% at 50% 25%, black 0%, black 40%, transparent 95%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 115% 100% at 50% 25%, black 0%, black 40%, transparent 95%)",
+            /* Heavier blur softens the bands into a pure glow. */
+            filter: "blur(35px)",
+          }}
+        >
+          <ColorBends
+            /* Single hue — eliminates any cyan/turquoise blending
+               between two colours. The shader is constrained to
+               produce only #006ffe at varying intensity. */
+            colors={["#006ffe"]}
+            rotation={90}
+            speed={0.12}
+            scale={1.8}
+            frequency={0.85}
+            warpStrength={1}
+            mouseInfluence={0}
+            noise={0}
+            parallax={0.4}
+            iterations={1}
+            intensity={1.4}
+            bandWidth={8}
+            transparent
+            autoRotate={0}
+            /* Skip the first ~10 seconds of the animation so the
+               pattern starts already centred + wide instead of
+               drifting in from the top-left corner. */
+            initialTimeOffset={10}
+          />
+        </div>
+        {/* Long bottom fade — solid black at the very bottom edge so
+            the banner blends seamlessly into the cards section
+            beneath it. Starts transparent so the blue still glows
+            through the upper half before easing into black. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 30%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.85) 82%, rgba(0,0,0,0.97) 94%, #000 100%)",
+          }}
+        />
+
+        <Reveal>
+          <div className="relative text-center">
+            <p className="text-[15px] font-medium tracking-[0.02em] text-white/65 sm:text-[16px]">
+              {fr ? "Tarifs" : "Pricing"}
+            </p>
+            <h1 className="mx-auto mt-4 max-w-[820px] font-display text-[2.4rem] font-light leading-[1.05] tracking-tight text-white sm:text-[3.2rem] lg:text-[4rem]">
+              {fr ? (
+                <>
+                  Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.
+                </>
+              ) : (
+                <>
+                  Start Pro at <span className="whitespace-nowrap">{promoPrice}</span>.
+                </>
+              )}
+            </h1>
+            <p className="mx-auto mt-5 max-w-[560px] text-[15px] leading-relaxed text-white/55 sm:text-[17px]">
+              {fr
+                ? "Toutes les features Pro pendant un mois. Sans engagement, annule quand tu veux."
+                : "Every Pro feature for a month. No commitment, cancel anytime."}
+            </p>
+            <JoinProCta locale={locale} />
+          </div>
+        </Reveal>
+      </div>
+    </div>
+  );
+}
+
+/* Shared Monthly / Annual segmented toggle that lives above the
+   pricing cards. Solid black container with subtle border, gentle
+   rounded-2xl corners that mirror the pricing cards. The Annual
+   segment carries an inline "Save 17%" badge so the discount reads
+   as part of the label instead of needing a separate callout. */
+function BillingToggle({
+  annual,
+  setAnnual,
+  locale,
+}: {
+  annual: boolean;
+  setAnnual: (next: boolean) => void;
+  locale: "en" | "fr";
+}) {
+  const fr = locale === "fr";
+  return (
+    <div className="mx-auto mt-12 flex w-fit items-center sm:mt-14">
+      <div
+        className="inline-flex items-center gap-1 rounded-2xl p-1"
+        style={{
+          background: "#000000",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setAnnual(false)}
+          aria-pressed={!annual}
+          className={`rounded-xl px-5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
+            !annual
+              ? "bg-white/[0.08] text-white"
+              : "bg-transparent text-white/55 hover:text-white"
+          }`}
+        >
+          {fr ? "Mensuel" : "Monthly"}
+        </button>
+        <button
+          type="button"
+          onClick={() => setAnnual(true)}
+          aria-pressed={annual}
+          className={`inline-flex items-center gap-2 rounded-xl px-5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
+            annual
+              ? "bg-white/[0.08] text-white"
+              : "bg-transparent text-white/55 hover:text-white"
+          }`}
+        >
+          <span>{fr ? "Annuel" : "Annual"}</span>
+          {/* "Save 17%" badge sits inline next to the Annual label.
+              Solid blue when Annual is the active selection, a
+              translucent blue badge otherwise. */}
+          <span
+            className={`inline-flex items-center rounded-full px-2 py-[1px] text-[10.5px] font-semibold tracking-[0.02em] ${
+              annual ? "bg-[#006ffe] text-white" : "bg-[#006ffe]/15 text-[#7fb6ff]"
+            }`}
+          >
+            {fr ? "Économise 17%" : "Save 17%"}
+          </span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* Single Join Pro CTA — replaces the previous email-pill so the
+   hero leads directly into signup. Same href + tracking signature as
+   the Pro card CTA below, so the two entry points are interchangeable
+   from the user's POV. */
+function JoinProCta({ locale }: { locale: "en" | "fr" }) {
+  const fr = locale === "fr";
+  return (
+    <div className="mt-10 flex justify-center">
+      <LandingCtaLink
+        loggedInHref="https://vvault.app/billing?coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
+        loggedOutHref="https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
+        track={{
+          buttonId: "pricing_page.hero_join_pro",
+          surface: "pricing_page.hero",
+          locale,
+          planId: "pro",
+        }}
+        className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-[15px] font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+      >
+        {fr ? "Rejoindre Pro" : "Join Pro now"}
+      </LandingCtaLink>
+    </div>
+  );
+}
+
 export default function PricingPage({
   locale: localeOverride,
   embedded = false,
@@ -491,8 +711,12 @@ export default function PricingPage({
   const locale = localeOverride ?? localeFromHook;
   const content = getLandingContent(locale);
   const [annual, setAnnual] = useState(true);
-  const proPrice = annual ? "\u20ac7.49" : "\u20ac8.99";
-  const ultraPrice = annual ? "\u20ac20.75" : "\u20ac24.99";
+  /* Use the shared formatter so EN renders "\u20ac1" and FR renders "1\u20ac"
+     consistently with every other price on the site. */
+  const proPrice = formatPrice(annual ? "7.49" : "8.99", locale);
+  const ultraPrice = formatPrice(annual ? "20.75" : "24.99", locale);
+  const freePrice = formatPrice("0", locale);
+  const promoPrice = formatPrice("1", locale);
   /* Two separate flags for two separate concerns:
      - `stuck` , the compare-plans sticky is in its pinned/ride-up
        phase. Its glass backdrop should be ON whenever any part of
@@ -582,6 +806,10 @@ export default function PricingPage({
     price: string;
     period: string;
     audience?: string;
+    /* Optional small line between price + audience — used to show
+       the regular price below a promo price (Pro: "€1 first month" +
+       "then €7.49/mo"). */
+    priceNote?: string;
     includedHeading?: string;
     bullets: readonly string[];
     cta: string;
@@ -592,7 +820,7 @@ export default function PricingPage({
     {
       id: "free",
       name: "Free",
-      price: "\u20ac0",
+      price: freePrice,
       period: "",
       audience: fr ? "Pour commencer" : "Just getting started",
       includedHeading: undefined,
@@ -622,9 +850,15 @@ export default function PricingPage({
       id: "pro",
       name: "Pro",
       eyebrow: content.pricingUi.mostPopular,
-      price: proPrice,
-      period: "/mo",
+      /* Promo: €1 for the first month, then the regular per-month
+         price kicks in. We show the €1 as the headline price + the
+         regular price as a small subtext via `priceNote`. */
+      price: promoPrice,
+      period: fr ? "le premier mois" : "first month",
       audience: fr ? "Le plus populaire" : "Most popular",
+      priceNote: fr
+        ? `puis ${proPrice} par mois`
+        : `then ${proPrice} per month`,
       includedHeading: undefined,
       bullets: fr
         ? [
@@ -642,15 +876,15 @@ export default function PricingPage({
             "Wavematch (scans for stolen beats)",
           ],
       cta: fr ? "Rejoindre Pro" : "Join Pro now",
-      href: "https://vvault.app/billing",
-      loggedOutHref: "https://vvault.app/signup?plan=pro",
+      href: "https://vvault.app/billing?coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
+      loggedOutHref: "https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
       featured: true,
     },
     {
       id: "ultra",
       name: "Ultra",
       price: ultraPrice,
-      period: "/mo",
+      period: locale === "fr" ? "/mois" : "/mo",
       audience: fr ? "Échelle et automatisation" : "Scaling with automation",
       includedHeading: undefined,
       bullets: fr
@@ -680,7 +914,7 @@ export default function PricingPage({
   ];
 
   const mngmtPlan = {
-    name: "MNGMT",
+    name: "La Formule",
     price: fr ? "Sur mesure" : "Custom",
     audience: fr
       ? "Pour quelques-uns. Des services sur mesure, con\u00e7us main dans la main avec les beatmakers qui font d\u00e9j\u00e0 bouger les lignes."
@@ -688,14 +922,14 @@ export default function PricingPage({
     bullet: fr
       ? "Pour quelques-uns. Services sur mesure, main dans la main."
       : "For a select few. Bespoke services, crafted hand-in-hand.",
-    cta: fr ? "Contacter l'\u00e9quipe" : "Contact sales",
-    href: "mailto:contact@vvault.app",
+    cta: "Go to",
+    href: "https://laformule.vvault.fr/",
     note: fr ? "Sur invitation" : "By invitation",
   };
 
   const stickyPlans = [
-    { id: "free", name: "Free", price: "\u20ac0", period: "", href: "https://vvault.app/signup" },
-    { id: "pro", name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=pro" },
+    { id: "free", name: "Free", price: freePrice, period: "", href: "https://vvault.app/signup" },
+    { id: "pro", name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO" },
     { id: "ultra", name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=ultra" },
   ];
   const startedLabel = fr ? "Commencer" : "Get Started";
@@ -710,8 +944,8 @@ export default function PricingPage({
     : "landing-root min-h-screen bg-black font-sans text-[#f0f0f0]";
   const MainWrapper = embedded ? "div" : "main";
   const mainClassName = embedded
-    ? "relative pt-24 pb-12 sm:pt-32 sm:pb-16"
-    : "relative z-10 pb-32 pt-40 sm:pt-48";
+    ? "relative pt-24 pb-0 sm:pt-32 sm:pb-0"
+    : "relative z-10 pb-32 pt-2 sm:pt-4";
 
   return (
     <RootWrapper className={rootClassName}>
@@ -719,40 +953,37 @@ export default function PricingPage({
         <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       )}
 
+      {!embedded && <PricingHeroBanner locale={locale} promoPrice={promoPrice} />}
       <MainWrapper className={mainClassName}>
-        <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
-          {/* Header */}
+        <div className="mx-auto w-full max-w-[1000px] px-5 sm:px-8 lg:px-10">
+          {embedded && (
+            /* Embedded mode keeps a minimal headline so the host page
+               doesn't get a full-width glass banner on top of its own
+               sections. */
+            <Reveal>
+              <div className="text-center">
+                <h2 className="mx-auto max-w-[820px] text-[1.75rem] font-light leading-[1.1] tracking-tight text-white sm:text-[2.4rem] lg:text-[2.9rem]">
+                  {locale === "fr" ? (
+                    <>Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.</>
+                  ) : (
+                    <>Start Pro at <span className="whitespace-nowrap">{promoPrice}</span>.</>
+                  )}
+                </h2>
+              </div>
+            </Reveal>
+          )}
+
+          {/* Shared billing-cycle toggle — single segmented control
+              that drives both Pro and Ultra's pricing in lockstep, so
+              individual card headers stay clean and the user picks
+              their cadence once. The "Save X%" callout uses a small
+              hand-drawn arrow pointing at the Annual segment to make
+              the annual discount feel earned. */}
           <Reveal>
-            <div className="text-center">
-              <h1 className="font-display text-5xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
-                {locale === "fr" ? "Tarifs" : "Pricing"}
-              </h1>
-              <p className="mx-auto mt-5 max-w-[640px] text-lg leading-relaxed text-white/55 sm:text-xl">
-                {locale === "fr" ? (
-                  <>
-                    Des plans qui se remboursent
-                    <br />
-                    en un seul placement.
-                  </>
-                ) : (
-                  <>
-                    Plans that pay for themselves
-                    <br />
-                    in one placement.
-                  </>
-                )}
-              </p>
-            </div>
+            <BillingToggle annual={annual} setAnnual={setAnnual} locale={locale} />
           </Reveal>
 
-          {/* Plan cards, horizontally swipeable on mobile (Free → Pro
-              → Ultra) with CSS scroll-snap; standard 3-col grid on lg.
-              Mobile padding on each side lets every card snap to the
-              true viewport center (including Free and Ultra), not
-              just Pro. `touch-action: pan-x` on the scroller keeps
-              vertical page scrolling stable, tapping or starting a
-              near-vertical drag on a card doesn't jiggle the row. */}
-          <Reveal className="relative z-20 mt-12 block">
+          <Reveal className="relative z-20 mt-6 block">
             <div className="relative">
             <div
               className="pricing-card-scroll relative z-10 -mx-5 flex snap-x snap-mandatory items-stretch gap-4 overflow-x-auto overflow-y-visible scroll-smooth px-[13vw] lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:p-0 lg:snap-none"
@@ -772,16 +1003,9 @@ export default function PricingPage({
               }}
             >
             {plans.map((p) => {
-              // Internal "glow" via a vertical background gradient inside
-              // each card. Pro is the bright navy (#0c2152) that fills
-              // most of the card and fades just before the very top, so
-              // the glow reads as punchy and goes high enough to lift the
-              // whole card. Free + Ultra get a much subtler dark-grey
-              // gradient that only covers the bottom third — a quiet hint
-              // of glow that ends sooner, matching the user's spec.
-              const cardBg = p.featured
-                ? "linear-gradient(to top, rgba(13, 55, 143, 0.85) 0%, rgba(13, 55, 143, 0.65) 25%, rgba(12, 40, 110, 0.45) 50%, rgba(12, 33, 82, 0.22) 70%, rgba(12, 33, 82, 0.08) 80%, rgba(0, 0, 0, 0) 88%), #000000"
-                : "linear-gradient(to top, rgba(60, 60, 65, 0.45) 0%, rgba(60, 60, 65, 0.32) 20%, rgba(60, 60, 65, 0.20) 40%, rgba(60, 60, 65, 0.10) 60%, rgba(60, 60, 65, 0.04) 75%, rgba(0, 0, 0, 0) 88%), #000000";
+              // Pro (featured): solid #090909 fill, no outline, no glow.
+              // Free + Ultra: no fill at all — fully transparent, outline only.
+              const cardBg = p.featured ? "#090909" : "transparent";
               return (
               <div
                 key={p.name}
@@ -804,28 +1028,11 @@ export default function PricingPage({
                     className="relative flex w-full flex-1 flex-col overflow-hidden rounded-2xl"
                     style={{
                       background: cardBg,
-                      /* Outline rendered via `outline` + negative
-                         `outline-offset` instead of inset box-shadow.
-                         Visually identical position (1px inside the
-                         border-box) but the browser draws outlines
-                         with native rounded-corner antialiasing, so
-                         the line stays uniform thickness all the way
-                         around — no more "thin corners" artifact that
-                         box-shadow can produce on rounded shapes.
-                         box-shadow is now reserved purely for Pro's
-                         outer halo. */
+                      /* All three cards get the same 1px outline (offset
+                         -1px so the rounded corners stay uniform). Pro also
+                         carries the solid #090909 fill. */
                       outline: "1px solid rgba(255, 255, 255, 0.14)",
                       outlineOffset: "-1px",
-                      /* Compact halo with a downward y-offset so the
-                         glow concentrates BELOW the card and barely
-                         touches the area above. Lateral spread is
-                         preserved (so the cross-card bleed onto Free
-                         and Ultra inner edges still works), only the
-                         upward visibility is reduced — matching the
-                         mobile look the user wants. */
-                      boxShadow: p.featured
-                        ? "0 40px 80px 0 rgba(28, 95, 200, 0.18), 0 80px 160px 10px rgba(13, 55, 143, 0.10)"
-                        : undefined,
                       WebkitFontSmoothing: "antialiased",
                     }}
                   >
@@ -835,34 +1042,22 @@ export default function PricingPage({
                       Both toggles drive the same `annual` state, so flipping
                       one updates both prices in lockstep. Free has no
                       toggle (no monthly/annual concept). */}
-                  <div className="flex h-8 items-center justify-between gap-2">
+                  <div className="flex h-8 items-center gap-2">
                     <h3 className="text-2xl font-light text-white">
                       {p.name}
                     </h3>
-                    {(p.name === "Pro" || p.name === "Ultra") && (
-                      <button
-                        type="button"
-                        aria-label={content.pricingUi.toggleBillingAriaLabel}
-                        aria-pressed={annual}
-                        onClick={() => setAnnual((v) => !v)}
-                        data-track-id="pricing.toggle_billing"
-                        className="flex items-center gap-2 text-[11.5px] font-semibold tracking-wide text-white/70 transition-colors duration-200 hover:text-white"
+                    {/* Featured (Pro) gets a "Most popular" pill
+                        right next to its name. The billing-cycle
+                        toggle now lives in a single shared control
+                        above the card grid, so each card header is
+                        just name + pill — keeps the layout cleaner
+                        and the CTAs aligned. */}
+                    {p.featured && (
+                      <span
+                        className="inline-flex items-center rounded-full bg-white px-2.5 py-[3px] text-[10.5px] font-semibold tracking-[0.02em] text-[#0e0e0e]"
                       >
-                        <span>{fr ? "Annuel" : "Annual"}</span>
-                        <span
-                          className={`relative inline-block h-[18px] w-[32px] rounded-full transition-colors duration-200 ${
-                            annual
-                              ? "bg-[#4296f6]"
-                              : "bg-white/15"
-                          }`}
-                        >
-                          <span
-                            className={`absolute top-[2px] h-[14px] w-[14px] rounded-full bg-white shadow-sm transition-[left] duration-200 ${
-                              annual ? "left-[16px]" : "left-[2px]"
-                            }`}
-                          />
-                        </span>
-                      </button>
+                        {content.pricingUi.mostPopular}
+                      </span>
                     )}
                   </div>
 
@@ -877,22 +1072,27 @@ export default function PricingPage({
                       in place. */}
                   <div className="mt-4 flex items-baseline gap-2" style={{ isolation: "isolate" }}>
                     {/* Price renders as plain text — no animation on
-                        toggle. New digits replace old ones instantly. */}
+                        toggle. New digits replace old ones instantly.
+                        The `period` label is now plan-driven (Pro reads
+                        "first month" instead of the generic "per month")
+                        so promotional pricing can use the same slot. */}
                     <span className="text-[2rem] font-light leading-none text-white tabular-nums">
                       {p.price}
                     </span>
                     {p.period && (
                       <span className="text-[15px] font-medium leading-none text-white/45">
-                        {fr ? "par mois" : "per month"}
+                        {p.id === "pro" ? p.period : (fr ? "par mois" : "per month")}
                       </span>
                     )}
                   </div>
 
-                  {/* Description / audience — sits BELOW the price.
-                      Tight spacing keeps the card compact (overall card
-                      height stays close to the Framer reference). */}
+                  {/* Single sub-price slot — Pro fills it with the
+                      "then €X/mo" promo note, Free / Ultra fill it
+                      with the audience tag. Sharing one slot keeps
+                      the vertical rhythm identical across all three
+                      cards, so the CTAs sit at the same baseline. */}
                   <p className="mt-3 text-[13px] font-medium leading-snug text-white/55">
-                    {p.audience}
+                    {p.priceNote ?? p.audience}
                   </p>
 
                   <div className="mt-5">
@@ -905,13 +1105,25 @@ export default function PricingPage({
                         locale,
                         planId: p.id,
                       }}
-                      className={`inline-flex w-full items-center justify-center rounded-2xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                      className={`inline-flex w-full items-center justify-between rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                         p.featured
-                          ? "bg-[#4397f8] text-white hover:bg-[#2c75d4] focus-visible:ring-[#4397f8]/35"
+                          ? "bg-[#006ffe] text-white hover:bg-[#005fd6] focus-visible:ring-[#006ffe]/35"
                           : "bg-white/[0.06] text-white hover:bg-white/[0.1] focus-visible:ring-white/20"
                       }`}
                     >
-                      {p.cta}
+                      <span>{p.cta}</span>
+                      <svg
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4 shrink-0"
+                      >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
                     </LandingCtaLink>
                   </div>
 
@@ -977,8 +1189,7 @@ export default function PricingPage({
             <div
               className="relative mx-auto w-[74vw] overflow-hidden rounded-2xl sm:w-auto"
               style={{
-                background:
-                  "linear-gradient(to right, rgba(60, 60, 65, 0.45) 0%, rgba(60, 60, 65, 0.32) 18%, rgba(60, 60, 65, 0.18) 38%, rgba(60, 60, 65, 0.08) 58%, rgba(60, 60, 65, 0.02) 75%, rgba(0, 0, 0, 0) 90%), #000000",
+                background: "transparent",
                 outline: "1px solid rgba(255, 255, 255, 0.14)",
                 outlineOffset: "-1px",
               }}
@@ -1011,7 +1222,7 @@ export default function PricingPage({
                   loggedInHref={mngmtPlan.href}
                   loggedOutHref={mngmtPlan.href}
                   data-track-id="pricing.mngmt.contact_sales"
-                  className="shrink-0 inline-flex items-center justify-center rounded-2xl bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
+                  className="shrink-0 inline-flex items-center justify-center rounded-[8px] bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
                 >
                   {mngmtPlan.cta}
                 </LandingCtaLink>
@@ -1045,14 +1256,21 @@ export default function PricingPage({
             </div>
           </Reveal>
 
-          {/* Trustpilot social proof */}
-          <SocialProofSection locale={locale} />
+          {/* Trustpilot + Wins are full-width shared sections with their
+              own internal padding. Pull them out by this pricing
+              container's padding (-mx) so their content lands on the same
+              ~920px column as the feature videos above — their own padding
+              restores the gutter. */}
+          <div className="-mx-5 sm:-mx-8 lg:-mx-10">
+            {/* Trustpilot social proof */}
+            <SocialProofSection locale={locale} />
 
-          {/* Wins wall — sits directly below the Trustpilot card and
-              above Compare plans. Real screenshots of producers using
-              vvault; the bottom row fades into a "View wins" button
-              that opens the full /reviews wall. */}
-          <WinsSection locale={locale} />
+            {/* Wins wall — sits directly below the Trustpilot card and
+                above Compare plans. Real screenshots of producers using
+                vvault; the bottom row fades into a "View wins" button
+                that opens the full /reviews wall. */}
+            <WinsSection locale={locale} />
+          </div>
         </div>
 
         {/* Comparison tables, full viewport width so the sticky header's
@@ -1096,7 +1314,7 @@ export default function PricingPage({
                    nav area is uncovered glass on scroll-past. */
               }}
             />
-            <div className="mx-auto w-full max-w-[1320px] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">
+            <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">
               {/* Mobile: big title + toggle stacked full-width on top, then
                   the 3 plan columns beneath. Desktop: single 40/20/20/20 row
                   aligning with the feature tables below. */}
@@ -1171,9 +1389,21 @@ export default function PricingPage({
                           locale,
                           planId: p.id,
                         }}
-                        className="mt-3 hidden w-full items-center justify-center rounded-xl bg-white px-3 py-1.5 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 sm:inline-flex"
+                        className="mt-3 hidden w-full items-center justify-between rounded-full bg-white px-3.5 py-1.5 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 sm:inline-flex"
                       >
-                        {startedLabel}
+                        <span>{startedLabel}</span>
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-3.5 w-3.5 shrink-0"
+                        >
+                          <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
                       </LandingCtaLink>
                     </div>
                   ))}
@@ -1193,7 +1423,7 @@ export default function PricingPage({
               user scroll hundreds of pixels past the top before the
               fade kicks in. */}
           <Reveal threshold={0}>
-            <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+            <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
               {getComparisonSections(locale).map((section) => (
                 <div key={section.title} className="mt-12 sm:mt-16">
                   {/* Section header, bigger, with divider underneath */}
@@ -1245,7 +1475,7 @@ export default function PricingPage({
             landing (e.g. /new) the host renders its own FAQ + final
             CTA so we skip these to avoid duplicates. */}
         {!embedded && (
-        <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
 
           {/* FAQ */}
           <div className="mt-28 sm:mt-36">
@@ -1278,7 +1508,7 @@ export default function PricingPage({
                 <a
                   href="https://vvault.app/signup"
                   data-track-id="pricing.final_cta.start_free"
-                  className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+                  className="inline-flex items-center rounded-[8px] bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
                 >
                   {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
                 </a>

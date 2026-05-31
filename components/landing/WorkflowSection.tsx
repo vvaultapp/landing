@@ -149,7 +149,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
   return (
     <section ref={sectionRef} className="workflow-shell">
       <div className="workflow-pin">
-        <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
           <Reveal>
             <div className="text-center">
               <h3 className="mx-auto max-w-[760px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
@@ -256,7 +256,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
                   buttonId: "workflow.start_the_loop",
                   surface: "landing.new.workflow",
                 }}
-                className="inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
+                className="inline-flex items-center gap-2 rounded-[8px] px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
                 style={{
                   background:
                     "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",
