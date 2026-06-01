@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LandingContent, LandingNavItem, Locale } from "@/components/landing/content";
 import { NavDropdown } from "@/components/landing/LandingNav";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
@@ -75,6 +75,40 @@ function toFastAvatarUrl(rawUrl: string): string {
     return rawUrl;
   }
   return rawUrl;
+}
+
+const AVATAR_PRELOAD_PARALLEL = 10;
+const AVATAR_PRELOAD_PARALLEL_SLOW = 4;
+
+function shuffleStrings(values: string[]): string[] {
+  const next = [...values];
+  for (let idx = next.length - 1; idx > 0; idx -= 1) {
+    const swapIdx = Math.floor(Math.random() * (idx + 1));
+    [next[idx], next[swapIdx]] = [next[swapIdx], next[idx]];
+  }
+  return next;
+}
+
+function preloadAvatar(url: string): Promise<boolean> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.loading = "eager";
+    let settled = false;
+    const done = (success: boolean) => {
+      if (settled) return;
+      settled = true;
+      img.onload = null;
+      img.onerror = null;
+      clearTimeout(timeoutId);
+      resolve(success);
+    };
+    const timeoutId = window.setTimeout(() => done(false), 4500);
+    img.onload = () => done(true);
+    img.onerror = () => done(false);
+    img.src = url;
+    if (img.complete && img.naturalWidth > 0) done(true);
+  });
 }
 
 const LANDING_STATS_CACHE_KEY = "vvault-landing-stats-v1";
@@ -217,49 +251,207 @@ export function HeroTrustedBy({
   loaded: boolean;
   avatarUrls: string[];
 }) {
+  const AVATAR_SLOT_COUNT = 5;
   const numberFormatter = useMemo(
     () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
     [locale],
   );
-  // Static row of the first 5 avatars, rewritten to tiny 48px images. No
-  // rotation, no preload pool, no crossfade — just a handful of small stills.
-  const avatars = useMemo(() => {
-    const seen = new Set<string>();
-    const out: string[] = [];
-    for (const u of avatarUrls) {
-      const c = u.trim();
-      if (!c || seen.has(c)) continue;
-      seen.add(c);
-      out.push(toFastAvatarUrl(c));
-      if (out.length >= 5) break;
+  const optimizedAvatarUrls = useMemo(() => {
+    const unique = new Set<string>();
+    for (const source of avatarUrls) {
+      const cleaned = source.trim();
+      if (!cleaned) continue;
+      unique.add(toFastAvatarUrl(cleaned));
     }
-    return out;
+    return Array.from(unique).sort((left, right) => left.localeCompare(right));
   }, [avatarUrls]);
-
-  const gradients = [
+  const optimizedAvatarsKey = useMemo(() => optimizedAvatarUrls.join("|"), [optimizedAvatarUrls]);
+  const avatarPoolRef = useRef<string[]>(optimizedAvatarUrls);
+  const shuffledPoolRef = useRef<string[]>([]);
+  const shuffleCursorRef = useRef(0);
+  const placeholderGradients = [
     "linear-gradient(to bottom right, rgba(110,231,183,0.7), rgba(20,184,166,0.6))",
     "linear-gradient(to bottom right, rgba(147,197,253,0.7), rgba(59,130,246,0.6))",
     "linear-gradient(to bottom right, rgba(251,207,232,0.7), rgba(244,114,182,0.6))",
     "linear-gradient(to bottom right, rgba(252,211,77,0.7), rgba(245,158,11,0.6))",
     "linear-gradient(to bottom right, rgba(216,180,254,0.7), rgba(168,85,247,0.6))",
   ];
+  const [slots, setSlots] = useState<Array<{ layerA: string; layerB: string; showA: boolean }>>(
+    Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
+  );
+  const refillShuffledPool = useCallback(() => {
+    shuffledPoolRef.current = shuffleStrings(avatarPoolRef.current);
+    shuffleCursorRef.current = 0;
+  }, []);
+
+  const pickNextAvatar = useCallback(
+    (blocked: Set<string>) => {
+      const pool = avatarPoolRef.current;
+      if (pool.length === 0) return "";
+      if (pool.length === 1) return pool[0] ?? "";
+
+      const maxAttempts = pool.length * 2;
+      for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+        if (shuffleCursorRef.current >= shuffledPoolRef.current.length) {
+          refillShuffledPool();
+        }
+
+        const candidate = shuffledPoolRef.current[shuffleCursorRef.current] ?? "";
+        shuffleCursorRef.current += 1;
+        if (!candidate) continue;
+        if (blocked.has(candidate) && attempt < maxAttempts - 1) continue;
+        return candidate;
+      }
+
+      for (const candidate of pool) {
+        if (!blocked.has(candidate)) return candidate;
+      }
+
+      return pool[Math.floor(Math.random() * pool.length)] ?? "";
+    },
+    [refillShuffledPool],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    avatarPoolRef.current = optimizedAvatarUrls;
+    refillShuffledPool();
+
+    if (optimizedAvatarUrls.length === 0) {
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    const connection = (navigator as Navigator & { connection?: { effectiveType?: string; saveData?: boolean } })
+      .connection;
+    const isSlow =
+      Boolean(connection?.saveData) ||
+      connection?.effectiveType === "slow-2g" ||
+      connection?.effectiveType === "2g";
+    // Preload only a small working set (the 5 visible slots + a few for the
+    // first rotations), to keep the on-load request count tiny.
+    const preloadQueue = shuffleStrings(optimizedAvatarUrls.slice(0, 8));
+    const preloadParallel = Math.min(
+      preloadQueue.length,
+      isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL,
+    );
+
+    const failedUrls = new Set<string>();
+    const workers = Array.from({ length: preloadParallel }, async () => {
+      while (!cancelled) {
+        const next = preloadQueue.pop();
+        if (!next) break;
+        const ok = await preloadAvatar(next);
+        if (!ok) failedUrls.add(next);
+      }
+    });
+
+    void Promise.allSettled(workers).then(() => {
+      if (cancelled || failedUrls.size === 0) return;
+      const cleaned = avatarPoolRef.current.filter((u) => !failedUrls.has(u));
+      if (cleaned.length > 0) {
+        avatarPoolRef.current = cleaned;
+        refillShuffledPool();
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [optimizedAvatarsKey, optimizedAvatarUrls, refillShuffledPool]);
+
+  useEffect(() => {
+    const pool = avatarPoolRef.current;
+    if (pool.length === 0) return;
+
+    const seededUrls = new Set<string>();
+    const seeded = Array.from({ length: AVATAR_SLOT_COUNT }, () => {
+      const blocked = new Set(seededUrls);
+      const url = pickNextAvatar(blocked);
+      if (url) seededUrls.add(url);
+      return { layerA: url, layerB: url, showA: true };
+    });
+    setSlots(seeded);
+  }, [optimizedAvatarsKey, pickNextAvatar]);
+
+  useEffect(() => {
+    if (avatarPoolRef.current.length <= 1) return;
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    )
+      return;
+
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    const rotate = () => {
+      setSlots((currentSlots) => {
+        const pool = avatarPoolRef.current;
+        if (pool.length <= 1) return currentSlots;
+
+        const usedInFrame = new Set<string>();
+        return currentSlots.map((currentSlot) => {
+          const currentUrl = currentSlot.showA ? currentSlot.layerA : currentSlot.layerB;
+          const blocked = new Set(usedInFrame);
+          if (currentUrl) blocked.add(currentUrl);
+          const nextUrl = pickNextAvatar(blocked);
+          if (nextUrl) usedInFrame.add(nextUrl);
+
+          if (!nextUrl || nextUrl === currentUrl) {
+            return { ...currentSlot, showA: !currentSlot.showA };
+          }
+
+          const updated = currentSlot.showA
+            ? { layerA: currentSlot.layerA, layerB: nextUrl, showA: false }
+            : { layerA: nextUrl, layerB: currentSlot.layerB, showA: true };
+          return updated;
+        });
+      });
+    };
+    const start = () => {
+      if (!intervalId) intervalId = setInterval(rotate, 3000);
+    };
+    const stop = () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+    start();
+    const onVis = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [optimizedAvatarsKey, pickNextAvatar]);
 
   return (
     <div className="mt-9 flex justify-center">
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:gap-3">
         <div className="flex items-center">
-          {Array.from({ length: 5 }).map((_, idx) => (
+          {slots.map((slotState, idx) => (
             <span
-              key={idx}
+              key={`trusted-avatar-${idx}`}
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
-              } relative inline-flex h-9 w-9 overflow-hidden rounded-full ring-1 ring-black/30 lg:h-8 lg:w-8 min-[2000px]:h-9 min-[2000px]:w-9`}
-              style={{ background: gradients[idx] }}
+              } relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30 sm:h-9 sm:w-9 lg:h-8 lg:w-8 min-[2000px]:h-9 min-[2000px]:w-9`}
+              style={{ background: placeholderGradients[idx % placeholderGradients.length] }}
             >
-              {avatars[idx] && (
+              {slotState.layerA && (
                 <span
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url("${avatars[idx]}")` }}
+                  className={`absolute inset-0 block bg-cover bg-center transform-gpu transition-opacity duration-700 ease-out ${
+                    slotState.showA ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{ backgroundImage: `url("${slotState.layerA}")` }}
+                />
+              )}
+              {slotState.layerB && (
+                <span
+                  className={`absolute inset-0 block bg-cover bg-center transform-gpu transition-opacity duration-700 ease-out ${
+                    slotState.showA ? "opacity-0" : "opacity-100"
+                  }`}
+                  style={{ backgroundImage: `url("${slotState.layerB}")` }}
                 />
               )}
             </span>
@@ -329,9 +521,8 @@ function HeroQuickMenu({ items }: { items: LandingNavItem[]; locale: Locale }) {
         data-nav-dropdown
         className="absolute bottom-[calc(100%+12px)] right-0 rounded-2xl p-1.5 transition-[opacity,transform] duration-200"
         style={{
-          background: "rgba(255,255,255,0.08)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
+          background: "#18181b",
+          border: "1px solid rgba(255,255,255,0.1)",
           opacity: navMenuOpen ? 1 : 0,
           transform: navMenuOpen ? "translateY(0)" : "translateY(8px)",
           transformOrigin: "bottom right",

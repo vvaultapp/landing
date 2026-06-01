@@ -379,11 +379,11 @@ html {
 }
 .hero-slide-left {
   transform: translate(0, -50%);
-  animation: hero-slide-in-left 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: hero-slide-in-left 1000ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .hero-slide-right {
   transform: translate(0, -50%);
-  animation: hero-slide-in-right 780ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+  animation: hero-slide-in-right 1000ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-slide-left,

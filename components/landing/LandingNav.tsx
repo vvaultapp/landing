@@ -363,9 +363,8 @@ export function NavDropdown({
         <div
           className="relative overflow-hidden rounded-2xl"
           style={{
-            background: "rgba(255,255,255,0.08)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
+            background: "#18181b",
+            border: "1px solid rgba(255,255,255,0.1)",
             opacity: open ? 1 : 0,
             transform: open
               ? "translateY(0) translateZ(0)"
