@@ -1,5 +1,3 @@
-"use client";
-
 import type { LandingNewContent } from "@/components/landing/contentNew";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 

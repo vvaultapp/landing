@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import {
   HeroSection,
-  HeroLiveStats,
   useLandingStats,
 } from "@/components/landing/HeroSection";
+import { HeroLiveStats } from "@/components/landing/HeroLiveStats";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { FeatureShowcase } from "@/components/landing/FeatureShowcase";
 import { HeroStatementSection } from "@/components/landing/HeroStatementSection";

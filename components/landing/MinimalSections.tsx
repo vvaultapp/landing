@@ -1,5 +1,3 @@
-"use client";
-
 import type { Locale } from "@/components/landing/content";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
 

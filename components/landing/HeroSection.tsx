@@ -2,47 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LandingContent, LandingNavItem, Locale } from "@/components/landing/content";
-import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { NavDropdown } from "@/components/landing/LandingNav";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
 import { trackButtonClick } from "@/lib/analytics/client";
 
-/* Plain-text chip whose only visual marker is a prism-coloured dot
-   that cycles through the five palette stops (see `.prism-dot` in
-   globals.css). No background, no border, no halo — the dot alone
-   carries the studio-page-esque accent. */
-function HeroStudioBadge({
-  href,
-  newLabel,
-  onyxLabel,
-}: {
-  href: string;
-  newLabel: string;
-  onyxLabel?: string;
-}) {
-  return (
-    <LandingCtaLink
-      loggedInHref={href}
-      loggedOutHref={href}
-      data-track-id="home.hero.see_pricing"
-      className="group inline-flex items-center gap-2 px-1 py-0.5 text-sm sm:text-sm"
-    >
-      <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
-      <span className="font-semibold text-white">{newLabel}</span>
-      {onyxLabel ? (
-        <span className="text-white/72">{onyxLabel}</span>
-      ) : null}
-      <svg
-        viewBox="0 0 20 20"
-        className="h-4 w-4 fill-none stroke-current text-white/42 stroke-[1.8] transition-transform duration-300 ease-out group-hover:translate-x-1"
-      >
-        <path d="M4 10h11M11 6l4 4-4 4" />
-      </svg>
-    </LandingCtaLink>
-  );
-}
-
-type LandingStatsResponse = {
+export type LandingStatsResponse = {
   emailsSentTotal: number;
   usersTotal: number;
   tracksTotal: number;
@@ -370,7 +334,9 @@ export function HeroTrustedBy({
       Boolean(connection?.saveData) ||
       connection?.effectiveType === "slow-2g" ||
       connection?.effectiveType === "2g";
-    const preloadQueue = shuffleStrings(optimizedAvatarUrls.slice(0, 20));
+    // Preload only a small working set (the 5 visible slots + a few for the
+    // first rotations) instead of 20, to avoid a request flurry on load.
+    const preloadQueue = shuffleStrings(optimizedAvatarUrls.slice(0, 8));
     const preloadParallel = Math.min(
       preloadQueue.length,
       isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL,
@@ -514,166 +480,9 @@ export function HeroTrustedBy({
   );
 }
 
-function StatCardIcon({ statKey }: { statKey: string }) {
-  /* Sized by the parent <span className="h-9 w-9"> so the icon glyph
-     fills its 36px slot in the pricing-card-style tile. */
-  const iconClass = "h-full w-full";
-  const gradId = `icon-grad-${statKey}`;
-
-  const grad = (
-    <defs>
-      <linearGradient id={gradId} x1="0.5" y1="0" x2="0.5" y2="1">
-        <stop offset="0%" stopColor="rgba(255,255,255,0.45)" />
-        <stop offset="40%" stopColor="rgba(200,205,215,0.32)" />
-        <stop offset="70%" stopColor="rgba(160,165,180,0.22)" />
-        <stop offset="100%" stopColor="rgba(140,145,160,0.18)" />
-      </linearGradient>
-    </defs>
-  );
-
-  if (statKey === "emails") {
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
-        {grad}
-        <path fill={`url(#${gradId})`} d="M0 4a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2H2a2 2 0 0 1 -2 -2zm2 -1a1 1 0 0 0 -1 1v0.217l7 4.2 7 -4.2V4a1 1 0 0 0 -1 -1zm13 2.383 -4.708 2.825L15 11.105zm-0.034 6.876 -5.64 -3.471L8 9.583l-1.326 -0.795 -5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 0.966 -0.741M1 11.105l4.708 -2.897L1 5.383z" />
-      </svg>
-    );
-  }
-  if (statKey === "tracks") {
-    const maskId = `mask-${statKey}`;
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
-        <defs>
-          <linearGradient id={gradId} x1="0.5" y1="0" x2="0.5" y2="1">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.45)" />
-            <stop offset="40%" stopColor="rgba(200,205,215,0.32)" />
-            <stop offset="70%" stopColor="rgba(160,165,180,0.22)" />
-            <stop offset="100%" stopColor="rgba(140,145,160,0.18)" />
-          </linearGradient>
-          <mask id={maskId}>
-            <path fill="white" d="M6 13c0 1.105 -1.12 2 -2.5 2S1 14.105 1 13s1.12 -2 2.5 -2 2.5 0.896 2.5 2m9 -2c0 1.105 -1.12 2 -2.5 2s-2.5 -0.895 -2.5 -2 1.12 -2 2.5 -2 2.5 0.895 2.5 2" />
-            <path fill="white" fillRule="evenodd" d="M14 11V2h1v9zM6 3v10H5V3z" />
-            <path fill="white" d="M5 2.905a1 1 0 0 1 0.9 -0.995l8 -0.8a1 1 0 0 1 1.1 0.995V3L5 4z" />
-          </mask>
-        </defs>
-        <rect x="0" y="0" width="16" height="16" fill={`url(#${gradId})`} mask={`url(#${maskId})`} />
-      </svg>
-    );
-  }
-  if (statKey === "money") {
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className={iconClass}>
-        {grad}
-        <path fill={`url(#${gradId})`} d="M4 10.781c0.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27 -0.179 3.678 -1.438 3.678 -3.3 0 -1.59 -0.947 -2.51 -2.956 -3.028l-0.722 -0.187V3.467c1.122 0.11 1.879 0.714 2.07 1.616h1.47c-0.166 -1.6 -1.54 -2.748 -3.54 -2.875V1H7.591v1.233c-1.939 0.23 -3.27 1.472 -3.27 3.156 0 1.454 0.966 2.483 2.661 2.917l0.61 0.162v4.031c-1.149 -0.17 -1.94 -0.8 -2.131 -1.718zm3.391 -3.836c-1.043 -0.263 -1.6 -0.825 -1.6 -1.616 0 -0.944 0.704 -1.641 1.8 -1.828v3.495l-0.2 -0.05zm1.591 1.872c1.287 0.323 1.852 0.859 1.852 1.769 0 1.097 -0.826 1.828 -2.2 1.939V8.73z" />
-      </svg>
-    );
-  }
-  if (statKey === "review") {
-    return (
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className={iconClass}>
-        {grad}
-        <path fill={`url(#${gradId})`} fillRule="evenodd" d="M10.58 1.87a1.25 1.25 0 1 0 -2.16 1.26l2.133 3.656 -4.354 7.464H2a1.25 1.25 0 1 0 0 2.5h4.884l0.063 0H13a1.25 1.25 0 1 0 0 -2.5H9.093l3.973 -6.811 0.026 -0.044L15.58 3.13a1.25 1.25 0 1 0 -2.16 -1.26L12 4.305 10.58 1.87Zm4.5 7.714 2.72 4.666H22a1.25 1.25 0 1 1 0 2.5h-2.74l1.82 3.12a1.25 1.25 0 1 1 -2.16 1.26l-2.887 -4.95a1.228 1.228 0 0 1 -0.06 -0.104l-3.053 -5.232a1.25 1.25 0 1 1 2.16 -1.26Zm-9 9.832a1.25 1.25 0 0 0 -2.16 -1.26l-1 1.714a1.25 1.25 0 0 0 2.16 1.26l1 -1.714Z" clipRule="evenodd" />
-      </svg>
-    );
-  }
-  return null;
-}
-
-
-export function HeroLiveStats({
-  locale,
-  stats,
-}: {
-  locale: Locale;
-  stats: LandingStatsResponse;
-  loaded?: boolean;
-}) {
-  const numberFormatter = useMemo(
-    () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
-    [locale],
-  );
-  const moneyFormatter = useMemo(
-    () =>
-      new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US", {
-        style: "currency",
-        currency: "EUR",
-        maximumFractionDigits: 0,
-      }),
-    [locale],
-  );
-
-  const items = [
-    {
-      label: locale === "fr" ? "Emails envoyés" : "Emails sent",
-      value: numberFormatter.format(stats.emailsSentTotal),
-    },
-    {
-      label: locale === "fr" ? "Tracks stockés" : "Tracks stored",
-      value: numberFormatter.format(stats.tracksTotal),
-    },
-    {
-      label: locale === "fr" ? "Beats vendus" : "Beats sold",
-      value: moneyFormatter.format(stats.moneyPaidTotalCents / 100),
-    },
-    {
-      label: locale === "fr" ? "Note App Store" : "App Store rating",
-      value: stats.appStoreReviewLabel,
-    },
-  ];
-
-  /* Framer-style stat strip — no card chrome, just typography on the
-     hero background with hairline dividers between cells. 4-col row
-     on md+, 2x2 grid on mobile. Each cell has a small uppercase
-     tracked label sitting above a big tabular-nums number.
-     Padding is tuned so the strip peeks ~30-50px above the fold on
-     mobile (signal there's more below) and stays fully below the
-     fold on desktop (clean hero, no competing focal point). */
-  return (
-    <div className="pt-56 pb-6 sm:pt-56 sm:pb-8 lg:pt-64 lg:pb-10">
-      <div className="mx-auto w-full max-w-[1100px] px-5 sm:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4">
-          {items.map((item, i) => {
-            /* Borders: on mobile (grid-cols-2) we want a vertical
-               divider between cols (cell idx 1 + 3 get border-left)
-               and a horizontal divider between rows (cell idx 2 + 3
-               get border-top). On md+ (grid-cols-4) all cells but
-               the first get border-left; no horizontal dividers
-               since it's a single row. */
-            const mobileLeftBorder = i % 2 === 1;
-            const mobileTopBorder = i >= 2;
-            const desktopLeftBorder = i > 0;
-            return (
-              <div
-                key={item.label}
-                className={[
-                  /* items-center + text-center so each cell reads as
-                     visually centered. With items-start the longer
-                     labels (e.g. "Emails sent") pulled the whole row
-                     visually left. */
-                  "flex flex-col items-center gap-2.5 px-5 py-6 text-center sm:gap-3 sm:px-7 sm:py-8",
-                  mobileLeftBorder ? "border-l border-white/[0.08]" : "",
-                  mobileTopBorder
-                    ? "border-t border-white/[0.08] md:border-t-0"
-                    : "",
-                  desktopLeftBorder ? "md:border-l md:border-white/[0.08]" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-              >
-                <span className="text-[12px] font-medium leading-tight text-white/50 sm:text-[12.5px]">
-                  {item.label}
-                </span>
-                <span className="text-[1.85rem] font-light leading-[0.95] tabular-nums text-white sm:text-[2.4rem] lg:text-[2.75rem]">
-                  {item.value}
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
+/* StatCardIcon + HeroLiveStats moved to components/landing/HeroLiveStats.tsx
+   (used only by the legacy landing) so this module — imported by the live
+   homepage — no longer bundles them. */
 
 
 
@@ -682,86 +491,6 @@ type HeroSectionProps = {
   locale?: Locale;
   showOnyxUploader?: boolean;
 };
-
-const HERO_HEADLINES_EN = [
-  "send your music.",
-  "store your packs.",
-  "sell your music.",
-  "track your sends.",
-  "get placements.",
-];
-
-const HERO_HEADLINES_FR = [
-  "d'envoyer ta musique.",
-  "de stocker tes packs.",
-  "de vendre ta musique.",
-  "de tracker tes envois.",
-  "de décrocher des placements.",
-];
-
-function RotatingHeadline({ locale }: { locale: Locale }) {
-  const headlines = locale === "fr" ? HERO_HEADLINES_FR : HERO_HEADLINES_EN;
-  const [index, setIndex] = useState(0);
-  const [state, setState] = useState<"visible" | "exiting" | "entering">("visible");
-  const timeout1Ref = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const timeout2Ref = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-
-    let intervalId: ReturnType<typeof setInterval> | null = null;
-    const tick = () => {
-      setState("exiting");
-      timeout1Ref.current = setTimeout(() => {
-        setIndex((prev) => (prev + 1) % headlines.length);
-        setState("entering");
-        timeout2Ref.current = setTimeout(() => {
-          setState("visible");
-        }, 50);
-      }, 400);
-    };
-    const start = () => {
-      if (!intervalId) intervalId = setInterval(tick, 3000);
-    };
-    const stop = () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    };
-    start();
-    const onVis = () => (document.hidden ? stop() : start());
-    document.addEventListener("visibilitychange", onVis);
-    return () => {
-      stop();
-      document.removeEventListener("visibilitychange", onVis);
-      if (timeout1Ref.current) clearTimeout(timeout1Ref.current);
-      if (timeout2Ref.current) clearTimeout(timeout2Ref.current);
-    };
-  }, [headlines.length]);
-
-  return (
-    <span
-      className="inline-block transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-      style={{
-        opacity: state === "visible" ? 1 : 0,
-        filter: state === "visible" ? "blur(0px)" : "blur(6px)",
-        transform:
-          state === "entering"
-            ? "translateY(8px)"
-            : state === "exiting"
-              ? "translateY(-8px)"
-              : "translateY(0)",
-      }}
-    >
-      {headlines[index]}
-    </span>
-  );
-}
 
 /* Bottom-right quick menu — a hamburger pill (same look as the
    "Learn more" pill). On hover it reveals the top-nav links as a

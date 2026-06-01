@@ -1,5 +1,3 @@
-"use client";
-
 import type { LandingContent, Locale } from "@/components/landing/content";
 import Link from "next/link";
 import { FooterLanguageSwitcher } from "@/components/landing/FooterLanguageSwitcher";
