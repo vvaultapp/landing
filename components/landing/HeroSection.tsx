@@ -396,6 +396,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
                   src="/landing/features/computer"
                   poster="/landing/features/computer.webp"
                   className="block w-full rounded-[14px]"
+                  fadeIn={false}
                 />
               </div>
               {/* Phone — front, up and to the right, taller, centered on the computer */}
@@ -404,6 +405,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
                   src="/landing/features/phone"
                   poster="/landing/features/phone.webp"
                   className="block w-full rounded-[22px]"
+                  fadeIn={false}
                 />
               </div>
             </div>

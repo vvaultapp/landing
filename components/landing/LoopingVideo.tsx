@@ -3,29 +3,24 @@
 import { useEffect, useRef, useState } from "react";
 
 /* Auto-looping, muted, inline video — the untitled.stream treatment:
-   no controls, no play button. Four things matter here:
+   no controls, no play button. What matters here:
 
-   1. preload="none" + lazy play — nothing downloads until the clip
-      is about to scroll into view. An IntersectionObserver play()s
-      it when it nears the viewport and pause()s it once it leaves,
-      so only the 1–3 clips you can actually see ever decode. That's
-      what keeps scrolling buttery with a dozen videos on the page.
-   2. <source> order webm → mp4 — the browser picks the smallest
-      format it supports (VP9/AV1 webm is ~30–50% lighter than mp4),
-      falling back to mp4 on Safari.
-   3. Shape-aware fit — a very tall (≈9:16 phone) clip and a normal
-      clip want different framing. We read the poster's natural size
-      (it loads fast + shares the clip's aspect) and apply
-      `tallClassName` (phone: sits on the bottom, gap on top) or
-      `centeredClassName` (everything else: centered). The DEFAULT
-      before measuring is the *centered* fit, so a clip never flashes
-      the wrong (bigger) framing — that's what kept it looking
-      different between screens.
-   4. All sizing is a % of the card, so the composition is identical
-      at every resolution; only the card's absolute size changes. */
+   1. preload="none" + lazy play — nothing downloads until the clip is
+      about to scroll into view. An IntersectionObserver play()s it when it
+      nears the viewport (with a generous rootMargin so it's loaded BEFORE
+      it's on screen, never popping in as you reach it) and pause()s it once
+      it leaves, so only the clips near the viewport ever decode.
+   2. Fade-in — when the first frame is ready the clip fades in over the
+      card's grey placeholder instead of snapping in, so scrolling reads as
+      smooth rather than "buggy". Disable with fadeIn={false} (the hero clips
+      slide in instead, so they opt out).
+   3. <source> order webm → mp4 — the browser picks the smallest format it
+      supports, falling back to mp4 on Safari.
+   4. Shape-aware fit — a very tall (≈9:16 phone) clip and a normal clip want
+      different framing. We read the poster's natural size and apply
+      `tallClassName` or `centeredClassName` (the default until measured). */
 
 // Clearly taller than wide (w/h < 0.9) ⇒ phone clip: sits on the bottom.
-// Square-ish and landscape clips are centered in the middle instead.
 const TALL_RATIO = 0.9;
 
 export function LoopingVideo({
@@ -35,6 +30,7 @@ export function LoopingVideo({
   tallClassName = "",
   centeredClassName = "",
   fitOverride = "",
+  fadeIn = true,
 }: {
   /** Base path WITHOUT extension, e.g. "/landing/features/upload".
       Expects `${src}.webm` and `${src}.mp4` in /public. */
@@ -47,13 +43,17 @@ export function LoopingVideo({
   tallClassName?: string;
   /** Applied otherwise — the default until the shape is measured. */
   centeredClassName?: string;
-  /** If set, used verbatim instead of the auto tall/centered class —
-      lets one card hand-tune its video's size + vertical position. */
+  /** If set, used verbatim instead of the auto tall/centered class. */
   fitOverride?: string;
+  /** Fade the clip in when its first frame is ready (default). Set false to
+      keep it visible immediately (e.g. when a parent handles the entrance). */
+  fadeIn?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   // Default false ⇒ centered fit, so nothing flashes the bigger framing.
   const [isTall, setIsTall] = useState(false);
+  // When fading in, stay hidden until the first frame is ready.
+  const [ready, setReady] = useState(!fadeIn);
 
   // Measure orientation from the poster (same aspect as the video, but a
   // tiny webp, so it resolves almost immediately).
@@ -72,7 +72,11 @@ export function LoopingVideo({
     const v = ref.current;
     if (!v) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return; // respect users who don't want motion — poster stays
+    if (reduce) {
+      // No autoplay for reduced-motion users — reveal the poster instead.
+      setReady(true);
+      return;
+    }
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -81,18 +85,23 @@ export function LoopingVideo({
           else v.pause();
         }
       },
-      { rootMargin: "300px 0px", threshold: 0.05 },
+      // Generous margin: start loading ~800px before the clip scrolls into
+      // view so it's playing by the time it's actually visible.
+      { rootMargin: "800px 0px", threshold: 0.01 },
     );
     io.observe(v);
     return () => io.disconnect();
   }, []);
 
   const fit = fitOverride || (isTall ? tallClassName : centeredClassName);
+  const fade = fadeIn
+    ? `transition-opacity duration-500 ease-out ${ready ? "opacity-100" : "opacity-0"}`
+    : "";
 
   return (
     <video
       ref={ref}
-      className={`${className} ${fit}`.trim()}
+      className={`${className} ${fit} ${fade}`.trim()}
       poster={poster}
       muted
       loop
@@ -101,6 +110,9 @@ export function LoopingVideo({
       aria-hidden="true"
       tabIndex={-1}
       disablePictureInPicture
+      onLoadedData={() => setReady(true)}
+      onCanPlay={() => setReady(true)}
+      onError={() => setReady(true)}
     >
       <source src={`${src}.webm`} type="video/webm" />
       <source src={`${src}.mp4`} type="video/mp4" />
