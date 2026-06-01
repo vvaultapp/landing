@@ -44,6 +44,39 @@ function normalizeAvatarUrls(value: unknown): string[] {
   return Array.from(unique);
 }
 
+/* Rewrite Supabase-storage / Google / Gravatar avatar URLs to a tiny 48px
+   render, so the 5 static hero avatars are only a few KB each. */
+function toFastAvatarUrl(rawUrl: string): string {
+  try {
+    const parsed = new URL(rawUrl);
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname;
+    if (parsed.searchParams.has("token")) return rawUrl;
+    if (path.includes("/storage/v1/object/public/")) {
+      parsed.pathname = path.replace(
+        "/storage/v1/object/public/",
+        "/storage/v1/render/image/public/",
+      );
+      parsed.searchParams.set("width", "48");
+      parsed.searchParams.set("height", "48");
+      parsed.searchParams.set("quality", "60");
+      parsed.searchParams.set("resize", "cover");
+      return parsed.toString();
+    }
+    if (host.includes("googleusercontent.com")) {
+      parsed.searchParams.set("sz", "48");
+      return parsed.toString();
+    }
+    if (host.includes("gravatar.com")) {
+      parsed.searchParams.set("s", "48");
+      return parsed.toString();
+    }
+  } catch {
+    return rawUrl;
+  }
+  return rawUrl;
+}
+
 const LANDING_STATS_CACHE_KEY = "vvault-landing-stats-v1";
 
 function readStatsCache(): LandingStatsResponse | null {
@@ -177,23 +210,67 @@ export function HeroTrustedBy({
   locale,
   usersTotal,
   loaded,
+  avatarUrls,
 }: {
   locale: Locale;
   usersTotal: number;
   loaded: boolean;
+  avatarUrls: string[];
 }) {
   const numberFormatter = useMemo(
     () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
     [locale],
   );
+  // Static row of the first 5 avatars, rewritten to tiny 48px images. No
+  // rotation, no preload pool, no crossfade — just a handful of small stills.
+  const avatars = useMemo(() => {
+    const seen = new Set<string>();
+    const out: string[] = [];
+    for (const u of avatarUrls) {
+      const c = u.trim();
+      if (!c || seen.has(c)) continue;
+      seen.add(c);
+      out.push(toFastAvatarUrl(c));
+      if (out.length >= 5) break;
+    }
+    return out;
+  }, [avatarUrls]);
+
+  const gradients = [
+    "linear-gradient(to bottom right, rgba(110,231,183,0.7), rgba(20,184,166,0.6))",
+    "linear-gradient(to bottom right, rgba(147,197,253,0.7), rgba(59,130,246,0.6))",
+    "linear-gradient(to bottom right, rgba(251,207,232,0.7), rgba(244,114,182,0.6))",
+    "linear-gradient(to bottom right, rgba(252,211,77,0.7), rgba(245,158,11,0.6))",
+    "linear-gradient(to bottom right, rgba(216,180,254,0.7), rgba(168,85,247,0.6))",
+  ];
 
   return (
     <div className="mt-9 flex justify-center">
-      <p className="text-[15px] text-white sm:text-base lg:text-[15px] min-[2000px]:text-base">
-        {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
-        <span>{loaded ? numberFormatter.format(usersTotal) : "…"}</span>{" "}
-        <span>{locale === "fr" ? "artistes & beatmakers" : "artists & producers"}</span>
-      </p>
+      <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:gap-3">
+        <div className="flex items-center">
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <span
+              key={idx}
+              className={`${
+                idx === 0 ? "ml-0" : "-ml-2.5"
+              } relative inline-flex h-9 w-9 overflow-hidden rounded-full ring-1 ring-black/30 lg:h-8 lg:w-8 min-[2000px]:h-9 min-[2000px]:w-9`}
+              style={{ background: gradients[idx] }}
+            >
+              {avatars[idx] && (
+                <span
+                  className="absolute inset-0 bg-cover bg-center"
+                  style={{ backgroundImage: `url("${avatars[idx]}")` }}
+                />
+              )}
+            </span>
+          ))}
+        </div>
+        <p className="text-[15px] text-white sm:text-base lg:text-[15px] min-[2000px]:text-base">
+          {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
+          <span>{loaded ? numberFormatter.format(usersTotal) : "…"}</span>{" "}
+          <span>{locale === "fr" ? "artistes & beatmakers" : "artists & producers"}</span>
+        </p>
+      </div>
     </div>
   );
 }
@@ -319,6 +396,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
               locale={locale}
               usersTotal={stats.usersTotal}
               loaded={loaded}
+              avatarUrls={stats.avatarUrls}
             />
 
             {/* Sign-up — Email + Apple (outline) and Google (white),
