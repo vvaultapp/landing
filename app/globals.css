@@ -357,6 +357,41 @@ html {
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Hero product graphic — slide in (no fade): the computer eases in from the
+   left, the phone from the right. The keyframes carry translateY(-50%) so the
+   pieces stay vertically centred throughout, and the resting transform is the
+   centred state (also the reduced-motion fallback). */
+@keyframes hero-slide-in-left {
+  from {
+    transform: translate(-32px, -50%);
+  }
+  to {
+    transform: translate(0, -50%);
+  }
+}
+@keyframes hero-slide-in-right {
+  from {
+    transform: translate(32px, -50%);
+  }
+  to {
+    transform: translate(0, -50%);
+  }
+}
+.hero-slide-left {
+  transform: translate(0, -50%);
+  animation: hero-slide-in-left 780ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-slide-right {
+  transform: translate(0, -50%);
+  animation: hero-slide-in-right 780ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide-left,
+  .hero-slide-right {
+    animation: none;
+  }
+}
+
 /* Final CTA — slow cinematic 3D reveal of the headline. Each clause
    unfolds forward (rotateX -28deg → 0), rises, and de-blurs over
    1.4s with a strong ease-out so the letters feel like they're
