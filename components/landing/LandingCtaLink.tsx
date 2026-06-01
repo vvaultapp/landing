@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
-import { useAuth } from "@/hooks/useAuth";
 import {
   appendAttributionParams,
   trackButtonClick,
@@ -21,6 +20,30 @@ type LandingCtaLinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">
   };
 };
 
+/**
+ * Lazily answer "is there a session?" WITHOUT pulling the Supabase SDK into
+ * the first-load bundle. Previously this component used `useAuth()`, which
+ * statically imports `@/lib/supabaseClient` — that alone shipped the entire
+ * Supabase client (~186KB: auth + realtime + postgrest) on the marketing
+ * landing AND opened a realtime socket + an auth round-trip on every visit,
+ * just to decide a link's href.
+ *
+ * Instead we dynamic-import the client once (shared, cached promise) AFTER
+ * hydration and read the session LOCALLY (`getSession`, no network call, no
+ * socket). The result is memoised so N CTAs share a single import + read.
+ */
+let sessionPromise: Promise<boolean> | null = null;
+function hasSessionLazy(): Promise<boolean> {
+  if (typeof window === "undefined") return Promise.resolve(false);
+  if (!sessionPromise) {
+    sessionPromise = import("@/lib/supabaseClient")
+      .then(({ supabase }) => supabase.auth.getSession())
+      .then(({ data }) => Boolean(data.session))
+      .catch(() => false);
+  }
+  return sessionPromise;
+}
+
 export function LandingCtaLink({
   children,
   loggedInHref = "/dashboard",
@@ -29,13 +52,24 @@ export function LandingCtaLink({
   onClick,
   ...anchorProps
 }: LandingCtaLinkProps) {
-  const { user, loading } = useAuth();
-  const baseHref = !loading && user ? loggedInHref : loggedOutHref;
-  const [href, setHref] = useState(baseHref);
+  // Start with the logged-out destination (correct for the overwhelming
+  // majority of marketing visitors) so SSR + first paint are stable and the
+  // Supabase SDK stays out of the critical bundle. Upgrade to the logged-in
+  // destination only after a deferred, local session check resolves.
+  const [href, setHref] = useState(loggedOutHref);
 
   useEffect(() => {
-    setHref(appendAttributionParams(baseHref, "get"));
-  }, [baseHref]);
+    let active = true;
+    setHref(appendAttributionParams(loggedOutHref, "get"));
+    hasSessionLazy().then((loggedIn) => {
+      if (active && loggedIn) {
+        setHref(appendAttributionParams(loggedInHref, "get"));
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, [loggedInHref, loggedOutHref]);
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (track) {

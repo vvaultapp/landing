@@ -1,16 +1,36 @@
 "use client";
 
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { FeatureSection } from "@/components/landing/MinimalSections";
-import PricingPage from "@/app/pricing/Content";
-import { FinalCtaSectionNew } from "@/components/landing/FinalCtaSectionNew";
-import { LandingFooter } from "@/components/landing/LandingFooter";
 import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { getLandingNewContent } from "@/components/landing/contentNew";
 import { trackLandingView } from "@/lib/analytics/client";
+
+/* Below-the-fold sections are code-split and loaded after the hero hydrates,
+   so the homepage's critical first-load JS stays small (just the hero + nav).
+   The embedded pricing page especially is heavy (plans + Trustpilot + Wins
+   wall). Min-height placeholders reserve space so there's no layout jump.
+   Hero + features remain server-rendered for SEO and LCP. */
+const PricingPage = dynamic(() => import("@/app/pricing/Content"), {
+  ssr: false,
+  loading: () => <div className="min-h-[1200px]" aria-hidden="true" />,
+});
+const FinalCtaSectionNew = dynamic(
+  () =>
+    import("@/components/landing/FinalCtaSectionNew").then(
+      (m) => m.FinalCtaSectionNew,
+    ),
+  { ssr: false, loading: () => <div className="min-h-[420px]" aria-hidden="true" /> },
+);
+const LandingFooter = dynamic(
+  () =>
+    import("@/components/landing/LandingFooter").then((m) => m.LandingFooter),
+  { ssr: false, loading: () => <div className="min-h-[280px]" aria-hidden="true" /> },
+);
 
 type LandingPageNewProps = {
   locale?: Locale;
