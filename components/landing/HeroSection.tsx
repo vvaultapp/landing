@@ -427,7 +427,7 @@ export function HeroTrustedBy({
   }, [optimizedAvatarsKey, pickNextAvatar]);
 
   return (
-    <div className="mt-12 flex justify-center lg:mt-9">
+    <div className="mt-14 flex justify-center lg:mt-9">
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => (
@@ -561,6 +561,45 @@ function HeroQuickMenu({ items }: { items: LandingNavItem[]; locale: Locale }) {
 
 export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
   const { stats, loaded } = useLandingStats();
+  // Smooth ENTRY animation: the computer/phone rest off-screen (CSS) and play a
+  // slide-in keyframe (.hero-graphic-revealed) the first time the graphic is
+  // scrolled into view. Driven by a rAF-throttled scroll listener (not an
+  // IntersectionObserver — the IO proved unreliable here). `heroArmed` kicks
+  // off the clips' video + poster load on that same first reveal, so nothing
+  // graphic-related downloads on first paint.
+  const graphicRef = useRef<HTMLDivElement>(null);
+  const [graphicRevealed, setGraphicRevealed] = useState(false);
+  const [heroArmed, setHeroArmed] = useState(false);
+  useEffect(() => {
+    const el = graphicRef.current;
+    if (!el) return;
+    let raf = 0;
+    let done = false;
+    const check = () => {
+      raf = 0;
+      if (done) return;
+      const r = el.getBoundingClientRect();
+      // Reveal once the graphic has scrolled up into the top ~70% of the
+      // viewport (just past peeking in at the bottom). On desktop it's already
+      // there at mount, so it reveals immediately.
+      if (r.top < window.innerHeight * 0.7 && r.bottom > 0) {
+        done = true;
+        setGraphicRevealed(true);
+        setHeroArmed(true);
+      }
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
     <section className="relative flex min-h-screen items-start overflow-hidden lg:items-center">
@@ -568,7 +607,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
         {/* Two-column hero (claude.ai structure): all content on the
             left, an empty container on the right reserved for a video
             (to be added later). Stacks to a single column on mobile. */}
-        <div className="flex flex-col items-center gap-16 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,8vw,9rem)]">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,8vw,9rem)]">
           {/* LEFT — headline, trusted-by, sign-up card (centered). */}
           <div className="flex flex-col items-center text-center">
             <h1 className="font-display text-[2.4rem] font-normal leading-[1.05] tracking-tight text-white sm:text-[2.6rem] lg:text-[2.75rem] min-[2000px]:text-[3.1rem]">
@@ -591,7 +630,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
 
             {/* Sign-up — Email + Apple (outline) and Google (white),
                 all pill-shaped. No surrounding card. */}
-            <div className="mt-12 w-full max-w-[480px] lg:mt-9 lg:max-w-[420px]">
+            <div className="mt-14 w-full max-w-[480px] lg:mt-9 lg:max-w-[420px]">
               <div>
                 <div className="flex flex-col gap-3">
                   {/* Continue with Email — outline pill, top */}
@@ -657,7 +696,10 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
             {/* Layered product shot — desktop window (back, bottom-left) with
                 the phone floating up and to the right (untitled.stream style).
                 Same rounded corners + low-opacity outline as the cards. */}
-            <div className="relative aspect-[5/4] w-full">
+            <div
+              ref={graphicRef}
+              className={`relative aspect-[5/4] w-full${graphicRevealed ? " hero-graphic-revealed" : ""}`}
+            >
               {/* Computer — back, vertically centered on the phone */}
               <div className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] hero-slide-left overflow-hidden rounded-[14px] [outline:2px_solid_rgba(255,255,255,0.16)]">
                 <LoopingVideo
@@ -665,6 +707,8 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
                   poster="/landing/features/computer.webp"
                   className="block h-full w-full object-cover rounded-[14px]"
                   fadeIn={false}
+                  rootMargin="0px 0px"
+                  forceNear={heroArmed}
                 />
               </div>
               {/* Phone — front, up and to the right, taller, centered on the computer */}
@@ -674,6 +718,8 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
                   poster="/landing/features/phone.webp"
                   className="block h-full w-full object-cover rounded-[22px]"
                   fadeIn={false}
+                  rootMargin="0px 0px"
+                  forceNear={heroArmed}
                 />
               </div>
             </div>
