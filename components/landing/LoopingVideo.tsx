@@ -87,7 +87,7 @@ export function LoopingVideo({
       },
       // Generous margin: start loading ~800px before the clip scrolls into
       // view so it's playing by the time it's actually visible.
-      { rootMargin: "800px 0px", threshold: 0.01 },
+      { rootMargin: "1400px 0px", threshold: 0.01 },
     );
     io.observe(v);
     return () => io.disconnect();

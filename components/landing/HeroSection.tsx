@@ -427,7 +427,7 @@ export function HeroTrustedBy({
   }, [optimizedAvatarsKey, pickNextAvatar]);
 
   return (
-    <div className="mt-9 flex justify-center">
+    <div className="mt-12 flex justify-center lg:mt-9">
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => (
@@ -521,8 +521,7 @@ function HeroQuickMenu({ items }: { items: LandingNavItem[]; locale: Locale }) {
         data-nav-dropdown
         className="absolute bottom-[calc(100%+12px)] right-0 rounded-2xl p-1.5 transition-[opacity,transform] duration-200"
         style={{
-          background: "#18181b",
-          border: "1px solid rgba(255,255,255,0.1)",
+          background: "#141414",
           opacity: navMenuOpen ? 1 : 0,
           transform: navMenuOpen ? "translateY(0)" : "translateY(8px)",
           transformOrigin: "bottom right",
@@ -569,7 +568,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
         {/* Two-column hero (claude.ai structure): all content on the
             left, an empty container on the right reserved for a video
             (to be added later). Stacks to a single column on mobile. */}
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(2.5rem,6vw,7rem)]">
+        <div className="flex flex-col items-center gap-16 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,8vw,9rem)]">
           {/* LEFT — headline, trusted-by, sign-up card (centered). */}
           <div className="flex flex-col items-center text-center">
             <h1 className="font-display text-[2.4rem] font-normal leading-[1.05] tracking-tight text-white sm:text-[2.6rem] lg:text-[2.75rem] min-[2000px]:text-[3.1rem]">
@@ -592,7 +591,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
 
             {/* Sign-up — Email + Apple (outline) and Google (white),
                 all pill-shaped. No surrounding card. */}
-            <div className="mt-9 w-full max-w-[480px] lg:max-w-[420px]">
+            <div className="mt-12 w-full max-w-[480px] lg:mt-9 lg:max-w-[420px]">
               <div>
                 <div className="flex flex-col gap-3">
                   {/* Continue with Email — outline pill, top */}
@@ -660,20 +659,20 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
                 Same rounded corners + low-opacity outline as the cards. */}
             <div className="relative aspect-[5/4] w-full">
               {/* Computer — back, vertically centered on the phone */}
-              <div className="absolute left-0 top-1/2 w-[74%] hero-slide-left overflow-hidden rounded-[14px] [outline:2px_solid_rgba(255,255,255,0.16)]">
+              <div className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] hero-slide-left overflow-hidden rounded-[14px] [outline:2px_solid_rgba(255,255,255,0.16)]">
                 <LoopingVideo
                   src="/landing/features/computer"
                   poster="/landing/features/computer.webp"
-                  className="block w-full rounded-[14px]"
+                  className="block h-full w-full object-cover rounded-[14px]"
                   fadeIn={false}
                 />
               </div>
               {/* Phone — front, up and to the right, taller, centered on the computer */}
-              <div className="absolute right-[3%] top-1/2 z-10 w-[38%] hero-slide-right overflow-hidden rounded-[22px] [outline:2px_solid_rgba(255,255,255,0.16)]">
+              <div className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] hero-slide-right overflow-hidden rounded-[22px] [outline:2px_solid_rgba(255,255,255,0.16)]">
                 <LoopingVideo
                   src="/landing/features/phone"
                   poster="/landing/features/phone.webp"
-                  className="block w-full rounded-[22px]"
+                  className="block h-full w-full object-cover rounded-[22px]"
                   fadeIn={false}
                 />
               </div>
