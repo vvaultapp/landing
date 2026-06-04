@@ -607,6 +607,29 @@ function HeroDevices() {
     return () => mq.removeEventListener("change", sync);
   }, []);
 
+  // Warm the two device posters (tiny webps, ~42 KB) right AFTER the page's
+  // load event — off the critical path, but cached before the user scrolls
+  // down to the devices on mobile, so they show the frame instantly (never
+  // grey) the moment they slide in.
+  useEffect(() => {
+    const warm = () => {
+      for (const src of ["/landing/features/computer.webp", "/landing/features/phone.webp"]) {
+        const img = new window.Image();
+        img.decoding = "async";
+        img.src = src;
+      }
+    };
+    const schedule = () => {
+      const ric = (window as Window & {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void;
+      }).requestIdleCallback;
+      if (ric) ric(warm, { timeout: 2000 });
+      else setTimeout(warm, 300);
+    };
+    if (document.readyState === "complete") schedule();
+    else window.addEventListener("load", schedule, { once: true });
+  }, []);
+
   const mobileRef = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
   useEffect(() => {

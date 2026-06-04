@@ -154,8 +154,12 @@ async function loadHeroStats(): Promise<HeroStats> {
   return result;
 }
 
-const cachedLoadHeroStats = unstable_cache(loadHeroStats, ["landing-hero-stats-v1"], {
-  revalidate: 600,
+/* Long revalidate (1h): the cold render blocks on the avatar downloads, so we
+   want to pay that as rarely as possible. The displayed count never goes stale
+   in practice because the client re-polls /api/landing-stats every 60s and
+   updates it live — the server value only needs to be a good first-paint seed. */
+const cachedLoadHeroStats = unstable_cache(loadHeroStats, ["landing-hero-stats-v2"], {
+  revalidate: 3600,
 });
 
 // Last good snapshot — so a transient failure can never downgrade the hero to
