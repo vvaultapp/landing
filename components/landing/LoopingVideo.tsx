@@ -54,10 +54,7 @@ export function LoopingVideo({
   const ref = useRef<HTMLVideoElement>(null);
   // Default false ⇒ centered fit, so nothing flashes the bigger framing.
   const [isTall, setIsTall] = useState(false);
-  // The poster (a tiny first-frame still) has decoded ⇒ fade it in over the
-  // card's grey placeholder, so the card shows the frame WHILE the video loads.
-  const [posterLoaded, setPosterLoaded] = useState(false);
-  // The video has a real frame ⇒ fade it in OVER the poster.
+  // The video has a real frame ⇒ fade it in OVER the always-visible poster.
   const [videoReady, setVideoReady] = useState(false);
   // Reveal the clip (load the video) once it nears the viewport. Eager (hero)
   // clips show their poster immediately and load the video right after the
@@ -66,18 +63,15 @@ export function LoopingVideo({
   const [near, setNear] = useState(false);
   const posterRef = useRef<HTMLImageElement>(null);
 
-  // If the poster is served from cache (warmed/preloaded), it can already be
-  // decoded by the time the <img> mounts — then its `load` event fired before
-  // React attached onLoad, so onLoad never runs and the poster would stay stuck
-  // invisible (opacity-0). Check `complete` here to cover that case.
+  // The poster is rendered at full opacity (it just appears once decoded), so
+  // there's no load race to handle for visibility. We only read its orientation
+  // here in case it was served from cache and mounted already-complete (no
+  // onLoad), so the framing is right from the first frame.
   useEffect(() => {
     if (!(eager || near)) return;
     const img = posterRef.current;
-    if (img && img.complete && img.naturalWidth > 0) {
-      setPosterLoaded(true);
-      if (img.naturalHeight > 0) {
-        setIsTall(img.naturalWidth / img.naturalHeight < TALL_RATIO);
-      }
+    if (img && img.complete && img.naturalHeight > 0) {
+      setIsTall(img.naturalWidth / img.naturalHeight < TALL_RATIO);
     }
   }, [eager, near]);
 
@@ -140,11 +134,8 @@ export function LoopingVideo({
           aria-hidden="true"
           draggable={false}
           decoding="async"
-          className={`${className} ${fit} pointer-events-none select-none transition-opacity duration-300 ease-out ${
-            posterLoaded ? "opacity-100" : "opacity-0"
-          }`.trim()}
+          className={`${className} ${fit} pointer-events-none select-none`.trim()}
           onLoad={(e) => {
-            setPosterLoaded(true);
             const img = e.currentTarget;
             if (img.naturalHeight > 0) {
               setIsTall(img.naturalWidth / img.naturalHeight < TALL_RATIO);
