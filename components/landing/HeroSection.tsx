@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
 import { trackButtonClick } from "@/lib/analytics/client";
+import { fetchJsonCached } from "@/lib/fetchJsonCached";
 
 export type LandingStatsResponse = {
   emailsSentTotal: number;
@@ -76,8 +77,8 @@ function toFastAvatarUrl(rawUrl: string): string {
   return rawUrl;
 }
 
-const AVATAR_PRELOAD_PARALLEL = 10;
-const AVATAR_PRELOAD_PARALLEL_SLOW = 4;
+const AVATAR_PRELOAD_PARALLEL = 4;
+const AVATAR_PRELOAD_PARALLEL_SLOW = 2;
 
 function shuffleStrings(values: string[]): string[] {
   const next = [...values];
@@ -172,10 +173,9 @@ export function useLandingStats() {
       inFlight = true;
 
       try {
-        const res = await fetch("/api/landing-stats", { cache: "no-store" });
-        if (!res.ok || !active) return;
-
-        const payload = (await res.json()) as Partial<LandingStatsResponse>;
+        const payload = (await fetchJsonCached(
+          "/api/landing-stats",
+        )) as Partial<LandingStatsResponse>;
         if (!active) return;
 
         const next: LandingStatsResponse = {
@@ -209,7 +209,19 @@ export function useLandingStats() {
       }
     };
 
-    void loadStats();
+    // Defer the first stats fetch (and therefore the avatar image loads) until
+    // AFTER the page's load event + the browser is idle. This keeps them off
+    // the critical path so they never delay the load event or keep the browser
+    // loading bar spinning — the cached values (if any) already paint instantly.
+    const startStats = () => {
+      const ric = (window as Window & {
+        requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void;
+      }).requestIdleCallback;
+      if (ric) ric(() => void loadStats(), { timeout: 1500 });
+      else setTimeout(() => void loadStats(), 200);
+    };
+    if (document.readyState === "complete") startStats();
+    else window.addEventListener("load", startStats, { once: true });
 
     /* Re-poll every 60s so a tab that stays open through new
        Supabase activity reflects fresh KPI numbers without a
@@ -335,10 +347,11 @@ export function HeroTrustedBy({
       connection?.effectiveType === "2g";
     const parallel = isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL;
 
-    // Verify in shuffled order; gather a comfortable buffer of confirmed-good
-    // avatars (the 5 slots + a few extra for rotation variety).
-    const queue = shuffleStrings(optimizedAvatarUrls);
-    const target = Math.min(queue.length, Math.max(AVATAR_SLOT_COUNT + 5, 10));
+    // Load just the 5 visible avatars + 1 spare, and only ATTEMPT a few — so
+    // the hero makes ~6 Supabase image requests, not ~30. (Those slow profile-
+    // picture transforms were the bulk of the page's loading tail / spinner.)
+    const target = Math.min(optimizedAvatarUrls.length, AVATAR_SLOT_COUNT + 1);
+    const queue = shuffleStrings(optimizedAvatarUrls).slice(0, target + 3);
     const verified: string[] = [];
     let seeded = false;
 

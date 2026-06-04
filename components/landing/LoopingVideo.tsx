@@ -60,11 +60,15 @@ export function LoopingVideo({
   const [isTall, setIsTall] = useState(false);
   // When fading in, stay hidden until the first frame is ready.
   const [ready, setReady] = useState(!fadeIn);
+  // Only load the poster + clip once it nears the viewport (eager/hero clips
+  // load immediately). Keeps below-the-fold feature posters AND clips off the
+  // initial page load, so the first paint requests almost nothing.
+  const [near, setNear] = useState(false);
 
   // Measure orientation from the poster (same aspect as the video, but a
   // tiny webp, so it resolves almost immediately).
   useEffect(() => {
-    if (!poster) return;
+    if (!poster || !near) return;
     const img = new window.Image();
     img.onload = () => {
       if (img.naturalHeight > 0) {
@@ -72,32 +76,54 @@ export function LoopingVideo({
       }
     };
     img.src = poster;
-  }, [poster]);
+  }, [poster, near]);
 
   useEffect(() => {
     const v = ref.current;
     if (!v) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      // No autoplay for reduced-motion users — reveal the poster instead.
-      setReady(true);
+
+    // Start loading the poster + clip. Reduced motion just reveals the poster.
+    const activate = () => {
+      setNear(true);
+      if (reduce) setReady(true);
+      else void v.play().catch(() => {});
+    };
+
+    // Eager (hero, above the fold): activate once the page has FINISHED loading,
+    // so the ~1 MB of video is off the critical path / out of the load event —
+    // the loading bar finishes first, then the clip streams in. No IO needed
+    // since it's always in view.
+    if (eager) {
+      // Wait for the page to finish loading, THEN for the browser to go idle,
+      // before streaming the ~1 MB clip — so the loading bar always completes
+      // first (even on Safari, which tracks network), and the clip fills in.
+      const schedule = () => {
+        const ric = (window as Window & {
+          requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void;
+        }).requestIdleCallback;
+        if (ric) ric(() => activate(), { timeout: 1200 });
+        else setTimeout(activate, 200);
+      };
+      if (document.readyState === "complete") schedule();
+      else window.addEventListener("load", schedule, { once: true });
       return;
     }
 
+    // Non-eager (feature, below the fold): activate when it scrolls near, so
+    // below-the-fold clips/posters never stream on the first paint.
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) void v.play().catch(() => {});
-          else v.pause();
+          if (e.isIntersecting) activate();
+          else if (!reduce) v.pause();
         }
       },
-      // Generous margin: start loading ~800px before the clip scrolls into
-      // view so it's playing by the time it's actually visible.
-      { rootMargin: "800px 0px", threshold: 0.01 },
+      { rootMargin: "250px 0px", threshold: 0.01 },
     );
     io.observe(v);
     return () => io.disconnect();
-  }, []);
+  }, [eager]);
 
   const fit = fitOverride || (isTall ? tallClassName : centeredClassName);
   const fade = fadeIn
@@ -105,31 +131,23 @@ export function LoopingVideo({
     : "";
 
   return (
-    <>
-      {/* Eager (hero) clips: preload the tiny poster still so the first
-          paint is the frame, never a black box, even before the video
-          itself has buffered. React hoists this <link> into <head>. */}
-      {eager && poster ? (
-        <link rel="preload" as="image" href={poster} fetchPriority="high" />
-      ) : null}
-      <video
-        ref={ref}
-        className={`${className} ${fit} ${fade}`.trim()}
-        poster={poster}
-        muted
-        loop
-        playsInline
-        preload={eager ? "auto" : "none"}
-        aria-hidden="true"
-        tabIndex={-1}
-        disablePictureInPicture
-        onLoadedData={() => setReady(true)}
-        onCanPlay={() => setReady(true)}
-        onError={() => setReady(true)}
-      >
-        <source src={`${src}.webm`} type="video/webm" />
-        <source src={`${src}.mp4`} type="video/mp4" />
-      </video>
-    </>
+    <video
+      ref={ref}
+      className={`${className} ${fit} ${fade}`.trim()}
+      poster={near ? poster : undefined}
+      muted
+      loop
+      playsInline
+      preload="none"
+      aria-hidden="true"
+      tabIndex={-1}
+      disablePictureInPicture
+      onLoadedData={() => setReady(true)}
+      onCanPlay={() => setReady(true)}
+      onError={() => setReady(true)}
+    >
+      <source src={`${src}.webm`} type="video/webm" />
+      <source src={`${src}.mp4`} type="video/mp4" />
+    </video>
   );
 }

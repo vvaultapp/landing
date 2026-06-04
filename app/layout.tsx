@@ -83,6 +83,13 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://img.youtube.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
         <link rel="preconnect" href="https://va.vercel-scripts.com" crossOrigin="anonymous" />
+        {/* Warm the DNS+TLS to the avatar hosts so the (deferred, post-load)
+            profile pictures resolve fast — shortens the loading tail. */}
+        {process.env.NEXT_PUBLIC_SUPABASE_URL ? (
+          <link rel="preconnect" href={process.env.NEXT_PUBLIC_SUPABASE_URL} crossOrigin="anonymous" />
+        ) : null}
+        <link rel="preconnect" href="https://lh3.googleusercontent.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

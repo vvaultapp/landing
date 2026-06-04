@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
+import { fetchJsonCached } from "@/lib/fetchJsonCached";
 import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
@@ -72,9 +73,7 @@ function useBillingPrices(): BillingPrices | null {
     let alive = true;
     void (async () => {
       try {
-        const res = await fetch(`/api/billing/prices${devCurrencyQs()}`, { cache: "no-store" });
-        if (!res.ok) return;
-        const json = (await res.json()) as BillingPrices;
+        const json = (await fetchJsonCached(`/api/billing/prices${devCurrencyQs()}`)) as BillingPrices;
         if (alive) setPrices(json);
       } catch {
         // keep nulls; cards render once prices resolve

@@ -35,7 +35,8 @@ const DEFAULT_MANUAL_STATS = {
   trustpilot_score_label: "4.7/5",
 };
 
-const AVATAR_PAGE_SIZE = 1000;
+// Fetch a few more than we display (30) to absorb duplicate picture URLs.
+const AVATAR_FETCH_LIMIT = 60;
 
 function toPositiveInteger(value: unknown, fallback = 0): number {
   const next = Number(value);
@@ -86,28 +87,23 @@ export async function GET() {
   if (emailsRes.error) {
     console.error("[landing-stats] email sends count failed:", emailsRes.error.message);
   }
-  const avatarRows: Array<{ picture?: string | null }> = [];
-  let from = 0;
-
-  for (;;) {
-    const to = from + AVATAR_PAGE_SIZE - 1;
-    const avatarsRes = await supabase
-      .from("profiles")
-      .select("picture")
-      .not("picture", "is", null)
-      .neq("picture", "")
-      .range(from, to);
-
-    if (avatarsRes.error) {
-      console.error("[landing-stats] avatars query failed:", avatarsRes.error.message);
-      break;
-    }
-
-    const rows = (avatarsRes.data ?? []) as Array<{ picture?: string | null }>;
-    avatarRows.push(...rows);
-    if (rows.length < AVATAR_PAGE_SIZE) break;
-    from += AVATAR_PAGE_SIZE;
+  /* Fetch a deterministic, capped set of avatars (ordered, limited) — NOT every
+     profile-with-a-picture. This keeps the query fast and, crucially, returns
+     the SAME set every call, so the hero's avatar pool is stable and doesn't
+     reload a fresh batch of (slow) profile-picture transforms on every poll. */
+  const avatarsRes = await supabase
+    .from("profiles")
+    .select("picture")
+    .not("picture", "is", null)
+    .neq("picture", "")
+    .order("id", { ascending: true })
+    .limit(AVATAR_FETCH_LIMIT);
+  if (avatarsRes.error) {
+    console.error("[landing-stats] avatars query failed:", avatarsRes.error.message);
   }
+  const avatarRows = (avatarsRes.error ? [] : avatarsRes.data ?? []) as Array<{
+    picture?: string | null;
+  }>;
 
   /* The two new tables/columns (trustpilot_score_label,
      landing_trustpilot_reviews) ship with a SQL migration that the

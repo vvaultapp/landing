@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { fetchJsonCached } from "@/lib/fetchJsonCached";
 
 /* Lightweight, shared client hook that resolves the visitor's billing currency
    (EUR in Europe, USD elsewhere) from the same geo-aware /api/billing/prices
@@ -36,9 +37,10 @@ export function useBillingCurrency(): { currency: BillingCurrency; promoActive: 
           /* Intl unavailable — fall back to server geo / USD. */
         }
         const qs = out.toString() ? `?${out.toString()}` : "";
-        const res = await fetch(`/api/billing/prices${qs}`, { cache: "no-store" });
-        if (!res.ok) return;
-        const json = await res.json();
+        const json = (await fetchJsonCached(`/api/billing/prices${qs}`)) as {
+          proMonthly?: { currency?: string };
+          offers?: { proMonthlyIntro?: { active?: boolean } };
+        };
         const currency = (json?.proMonthly?.currency || "eur").toLowerCase() as BillingCurrency;
         const promoActive = Boolean(json?.offers?.proMonthlyIntro?.active);
         if (alive) setState({ currency, promoActive });

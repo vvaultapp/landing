@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import Link from "next/link";
 import { Reveal } from "@/components/landing/Reveal";
 import type { Locale } from "@/components/landing/content";
+import { fetchJsonCached } from "@/lib/fetchJsonCached";
 import {
   FALLBACK_REVIEWS_EN,
   FALLBACK_REVIEWS_FR,
@@ -113,9 +114,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
     let active = true;
     const load = async () => {
       try {
-        const res = await fetch("/api/landing-stats", { cache: "no-store" });
-        if (!res.ok || !active) return;
-        const payload = (await res.json()) as {
+        const payload = (await fetchJsonCached("/api/landing-stats")) as {
           trustpilotScoreLabel?: string;
           trustpilotReviews?: ApiReview[];
         };
