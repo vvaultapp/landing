@@ -64,6 +64,22 @@ export function LoopingVideo({
   // page's load event, so the hero is never grey yet the clip stays off the
   // critical path.
   const [near, setNear] = useState(false);
+  const posterRef = useRef<HTMLImageElement>(null);
+
+  // If the poster is served from cache (warmed/preloaded), it can already be
+  // decoded by the time the <img> mounts — then its `load` event fired before
+  // React attached onLoad, so onLoad never runs and the poster would stay stuck
+  // invisible (opacity-0). Check `complete` here to cover that case.
+  useEffect(() => {
+    if (!(eager || near)) return;
+    const img = posterRef.current;
+    if (img && img.complete && img.naturalWidth > 0) {
+      setPosterLoaded(true);
+      if (img.naturalHeight > 0) {
+        setIsTall(img.naturalWidth / img.naturalHeight < TALL_RATIO);
+      }
+    }
+  }, [eager, near]);
 
   useEffect(() => {
     const v = ref.current;
@@ -82,7 +98,11 @@ export function LoopingVideo({
     // loading — off the critical path / load event, but WITHOUT the long idle
     // wait that used to leave the hero grey for seconds.
     if (eager) {
-      const start = () => requestAnimationFrame(() => activate());
+      // The load event has already fired (or we wait for it), so starting the
+      // video here is off the critical path. A 0ms timeout yields once so we
+      // don't contend with hydration, and (unlike rAF) still fires in a
+      // background tab.
+      const start = () => setTimeout(activate, 0);
       if (document.readyState === "complete") start();
       else window.addEventListener("load", start, { once: true });
       return;
@@ -114,6 +134,7 @@ export function LoopingVideo({
     <>
       {showPoster && poster ? (
         <img
+          ref={posterRef}
           src={poster}
           alt=""
           aria-hidden="true"
