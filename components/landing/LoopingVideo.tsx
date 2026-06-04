@@ -31,8 +31,7 @@ export function LoopingVideo({
   centeredClassName = "",
   fitOverride = "",
   fadeIn = true,
-  rootMargin = "500px 0px",
-  forceNear = false,
+  eager = false,
 }: {
   /** Base path WITHOUT extension, e.g. "/landing/features/upload".
       Expects `${src}.webm` and `${src}.mp4` in /public. */
@@ -50,36 +49,22 @@ export function LoopingVideo({
   /** Fade the clip in when its first frame is ready (default). Set false to
       keep it visible immediately (e.g. when a parent handles the entrance). */
   fadeIn?: boolean;
-  /** IntersectionObserver rootMargin — how early to start loading. Default
-      ~1400px ahead (feature clips); the hero clips pass a small margin so they
-      load on-view instead of eagerly (keeps the mobile initial load instant). */
-  rootMargin?: string;
-  /** Arm loading (poster + playback) immediately, even if this clip's own
-      observer hasn't fired — used by the hero clips, which sit off-screen
-      during the scroll-scrub so their observer wouldn't trigger until they
-      slide in. The parent arms them on first scroll (or at mount on desktop). */
-  forceNear?: boolean;
+  /** Above-the-fold clips (the hero): preload eagerly (`preload="auto"`)
+      and preload the poster, so the first frame is ready immediately and
+      the clip never flashes black while loading. Leave false for the
+      scroll-down feature clips, which stay lazy (`preload="none"`). */
+  eager?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   // Default false ⇒ centered fit, so nothing flashes the bigger framing.
   const [isTall, setIsTall] = useState(false);
   // When fading in, stay hidden until the first frame is ready.
   const [ready, setReady] = useState(!fadeIn);
-  // Attach the poster only once the clip nears the viewport, so the
-  // (collectively heavy ~400KB) poster images don't all download on initial
-  // paint — they're part of the lazy load instead.
-  const [near, setNear] = useState(false);
-  // Let a parent arm the load explicitly (the hero clips are scroll-scrubbed
-  // off-screen, so their own observer won't fire until they slide in).
-  useEffect(() => {
-    if (forceNear) setNear(true);
-  }, [forceNear]);
 
-  // Measure orientation from the poster (same aspect as the video, a tiny
-  // webp). Deferred until the clip nears the viewport so the poster fetch is
-  // part of the lazy load, not the initial paint.
+  // Measure orientation from the poster (same aspect as the video, but a
+  // tiny webp, so it resolves almost immediately).
   useEffect(() => {
-    if (!poster || !near) return;
+    if (!poster) return;
     const img = new window.Image();
     img.onload = () => {
       if (img.naturalHeight > 0) {
@@ -87,7 +72,7 @@ export function LoopingVideo({
       }
     };
     img.src = poster;
-  }, [poster, near]);
+  }, [poster]);
 
   useEffect(() => {
     const v = ref.current;
@@ -95,7 +80,6 @@ export function LoopingVideo({
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       // No autoplay for reduced-motion users — reveal the poster instead.
-      setNear(true);
       setReady(true);
       return;
     }
@@ -103,18 +87,13 @@ export function LoopingVideo({
     const io = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
-          if (e.isIntersecting) {
-            setNear(true);
-            void v.play().catch(() => {});
-          } else {
-            v.pause();
-          }
+          if (e.isIntersecting) void v.play().catch(() => {});
+          else v.pause();
         }
       },
-      // How early to start loading before the clip enters view — set by the
-      // rootMargin prop (default ~1400px ahead for feature clips; hero clips
-      // pass a small margin so they load on-view, not eagerly on mobile).
-      { rootMargin, threshold: 0.01 },
+      // Generous margin: start loading ~800px before the clip scrolls into
+      // view so it's playing by the time it's actually visible.
+      { rootMargin: "800px 0px", threshold: 0.01 },
     );
     io.observe(v);
     return () => io.disconnect();
@@ -126,23 +105,31 @@ export function LoopingVideo({
     : "";
 
   return (
-    <video
-      ref={ref}
-      className={`${className} ${fit} ${fade}`.trim()}
-      poster={near ? poster : undefined}
-      muted
-      loop
-      playsInline
-      preload="none"
-      aria-hidden="true"
-      tabIndex={-1}
-      disablePictureInPicture
-      onLoadedData={() => setReady(true)}
-      onCanPlay={() => setReady(true)}
-      onError={() => setReady(true)}
-    >
-      <source src={`${src}.webm`} type="video/webm" />
-      <source src={`${src}.mp4`} type="video/mp4" />
-    </video>
+    <>
+      {/* Eager (hero) clips: preload the tiny poster still so the first
+          paint is the frame, never a black box, even before the video
+          itself has buffered. React hoists this <link> into <head>. */}
+      {eager && poster ? (
+        <link rel="preload" as="image" href={poster} fetchPriority="high" />
+      ) : null}
+      <video
+        ref={ref}
+        className={`${className} ${fit} ${fade}`.trim()}
+        poster={poster}
+        muted
+        loop
+        playsInline
+        preload={eager ? "auto" : "none"}
+        aria-hidden="true"
+        tabIndex={-1}
+        disablePictureInPicture
+        onLoadedData={() => setReady(true)}
+        onCanPlay={() => setReady(true)}
+        onError={() => setReady(true)}
+      >
+        <source src={`${src}.webm`} type="video/webm" />
+        <source src={`${src}.mp4`} type="video/mp4" />
+      </video>
+    </>
   );
 }

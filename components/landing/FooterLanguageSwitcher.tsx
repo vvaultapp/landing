@@ -72,6 +72,11 @@ export function FooterLanguageSwitcher({
       localStorage.setItem("vvault-locale", target);
       localStorage.setItem("vvault-docs-lang", target);
     } catch {}
+    // Also set the cookie so the server layout + proxy agree on the language
+    // after the reload — keeps EN/FR consistent across every page.
+    try {
+      document.cookie = `vvault_locale=${target}; path=/; max-age=31536000; samesite=lax`;
+    } catch {}
 
     const logical = pathname.startsWith("/fr")
       ? pathname.replace(/^\/fr/, "") || "/"

@@ -76,12 +76,13 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
 }
 
 export function PricingSection({ content, locale = "en" }: PricingSectionProps) {
-  const [annual, setAnnual] = useState(true);
+  const [annual, setAnnual] = useState(false);
   const { human, ai } = content.pricingComparison;
   const plan = content.singlePlan;
-  const proPrice = formatPrice(annual ? "7.49" : "8.99", locale);
-  const ultraPrice = formatPrice(annual ? "20.75" : "24.99", locale);
+  const proPrice = formatPrice(annual ? "9.92" : "11.99", locale);
+  const ultraPrice = formatPrice(annual ? "23.25" : "27.99", locale);
   const promoPrice = formatPrice("1", locale);
+  const strikePrice = formatPrice("11.99", locale);
   const fr = locale === "fr";
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
   const everythingInProLabel = fr ? "Tout ce qui est dans Pro, plus :" : "Everything in Pro, plus:";
@@ -107,6 +108,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
       /* Same promo as the pricing page: lead with €1 for the first
          month, surface the regular per-month price as a small note. */
       price: promoPrice,
+      strikePrice,
       period: fr ? "le premier mois" : "first month",
       priceNote: fr ? `puis ${proPrice} par mois` : `then ${proPrice} per month`,
       includedHeading: everythingInFreeLabel,
@@ -250,7 +252,12 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                 </div>
 
                 {/* Price */}
-                <div className="mt-4 flex items-baseline gap-1">
+                <div className="mt-4 flex items-baseline gap-1.5">
+                  {p.strikePrice && (
+                    <span className="text-2xl font-medium leading-none text-white/35 line-through">
+                      {p.strikePrice}
+                    </span>
+                  )}
                   <span className="text-[2.5rem] font-semibold leading-none text-white">
                     {p.price}
                   </span>

@@ -9,8 +9,83 @@ import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { WinsSection } from "@/components/landing/WinsSection";
 import { useLocale } from "@/lib/useLocale";
-import { formatPrice } from "@/lib/formatPrice";
 import dynamic from "next/dynamic";
+
+/* ── Live, geo-aware Stripe pricing ──────────────────────────────
+   Mirrors the main vvault app: EUR for European visitors, USD for
+   everyone else, fetched from /api/billing/prices (which resolves
+   currency from the request's geo headers). All amounts are Stripe
+   unit_amounts in cents. */
+type BillingPriceLite = { id?: string; unit_amount?: number | null; currency?: string; interval?: string };
+type ProMonthlyIntroOffer = { active?: boolean; introUnitAmount?: number; compareAtUnitAmount?: number | null; currency?: string };
+type BillingPrices = {
+  proMonthly?: BillingPriceLite;
+  proAnnual?: BillingPriceLite;
+  ultraMonthly?: BillingPriceLite;
+  ultraAnnual?: BillingPriceLite;
+  offers?: { proMonthlyIntro?: ProMonthlyIntroOffer };
+};
+
+function money(unitAmount: number | null | undefined, currency: string): string {
+  if (!unitAmount) return "";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(unitAmount / 100);
+}
+function moneyCompact(unitAmount: number | null | undefined, currency: string): string {
+  return money(unitAmount, currency).replace(/\.00$/, "");
+}
+function perMonthFromAnnualCents(annualCents: number | null | undefined): number {
+  const cents = typeof annualCents === "number" && Number.isFinite(annualCents) ? annualCents : 0;
+  return Math.round(cents / 12);
+}
+
+// Forward a dev-only ?currency=eur|usd / ?country=XX override so the EUR view
+// (and the €1 promo) can be previewed on localhost; ignored by the API in
+// production, where pricing stays strictly geo-based.
+function devCurrencyQs(): string {
+  if (typeof window === "undefined") return "";
+  const sp = new URLSearchParams(window.location.search);
+  const out = new URLSearchParams();
+  const cur = sp.get("currency");
+  if (cur) out.set("currency", cur);
+  const ctry = sp.get("country");
+  if (ctry) out.set("country", ctry);
+  // Browser timezone → lets the API resolve EUR/USD by location when there's
+  // no edge geo header (localhost). Never overrides a real geo header in prod.
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz) out.set("tz", tz);
+  } catch {
+    /* Intl unavailable — fall back to server geo / USD. */
+  }
+  const s = out.toString();
+  return s ? `?${s}` : "";
+}
+
+function useBillingPrices(): BillingPrices | null {
+  const [prices, setPrices] = useState<BillingPrices | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/billing/prices${devCurrencyQs()}`, { cache: "no-store" });
+        if (!res.ok) return;
+        const json = (await res.json()) as BillingPrices;
+        if (alive) setPrices(json);
+      } catch {
+        // keep nulls; cards render once prices resolve
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
+  return prices;
+}
 
 /* ColorBends ships three.js + shaders, so dynamic-import keeps it
    out of SSR and the initial JS bundle for pages that don't render
@@ -508,11 +583,21 @@ type PricingPageProps = {
 function PricingHeroBanner({
   locale,
   promoPrice,
+  promoActive,
+  signedIn,
+  currentPlan,
 }: {
   locale: "en" | "fr";
   promoPrice: string;
+  promoActive: boolean;
+  signedIn: boolean;
+  currentPlan: "free" | "pro" | "ultra" | null;
 }) {
   const fr = locale === "fr";
+  /* The "$1 first month" hero only makes sense for prospects and signed-in
+     Free users. A signed-in paid user (Pro/Ultra) sees the neutral
+     "Plans & Pricing" hero instead. */
+  const showPromoHero = promoActive && (!signedIn || currentPlan === "free");
   return (
     <div className="relative z-10 pt-[var(--app-banner-h,0px)]">
       {/* Banner starts at the very top of the page (y=0). The fixed
@@ -592,22 +677,32 @@ function PricingHeroBanner({
               {fr ? "Tarifs" : "Pricing"}
             </p>
             <h1 className="mx-auto mt-4 max-w-[820px] font-display text-[2.4rem] font-light leading-[1.05] tracking-tight text-white sm:text-[3.2rem] lg:text-[4rem]">
-              {fr ? (
-                <>
-                  Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.
-                </>
+              {showPromoHero ? (
+                fr ? (
+                  <>
+                    Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.
+                  </>
+                ) : (
+                  <>
+                    Start Pro at <span className="whitespace-nowrap">{promoPrice}</span>.
+                  </>
+                )
+              ) : fr ? (
+                "Plans & Tarifs"
               ) : (
-                <>
-                  Start Pro at <span className="whitespace-nowrap">{promoPrice}</span>.
-                </>
+                "Plans & Pricing"
               )}
             </h1>
             <p className="mx-auto mt-5 max-w-[560px] text-[15px] leading-relaxed text-white/55 sm:text-[17px]">
-              {fr
-                ? "Toutes les features Pro pendant un mois. Sans engagement, annule quand tu veux."
-                : "Every Pro feature for a month. No commitment, cancel anytime."}
+              {showPromoHero
+                ? fr
+                  ? "Toutes les features Pro pendant un mois. Sans engagement, annule quand tu veux."
+                  : "Every Pro feature for a month. No commitment, cancel anytime."
+                : fr
+                  ? "Choisis le plan qui te convient. Change ou annule quand tu veux."
+                  : "Pick the plan that fits. Change or cancel anytime."}
             </p>
-            <JoinProCta locale={locale} />
+            <JoinProCta locale={locale} signedIn={signedIn} currentPlan={currentPlan} />
           </div>
         </Reveal>
       </div>
@@ -678,26 +773,58 @@ function BillingToggle({
   );
 }
 
-/* Single Join Pro CTA — replaces the previous email-pill so the
-   hero leads directly into signup. Same href + tracking signature as
-   the Pro card CTA below, so the two entry points are interchangeable
-   from the user's POV. */
-function JoinProCta({ locale }: { locale: "en" | "fr" }) {
+/* Single Join Pro CTA — leads the hero directly into the funnel.
+   Auth-aware: anonymous visitors go through signup; signed-in visitors
+   (current plan passed via ?account=) go straight to the in-app Stripe
+   checkout, with the label/target adapted to the plan they already have. */
+function JoinProCta({
+  locale,
+  signedIn,
+  currentPlan,
+}: {
+  locale: "en" | "fr";
+  signedIn: boolean;
+  currentPlan: "free" | "pro" | "ultra" | null;
+}) {
   const fr = locale === "fr";
+
+  // Anonymous → original signup-first $1 promo funnel.
+  let href = "https://vvault.app/signup?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO";
+  let label = fr ? "Rejoindre Pro" : "Join Pro now";
+  let planId = "pro";
+
+  if (signedIn) {
+    if (currentPlan === "pro") {
+      // Already Pro → upsell straight to Ultra checkout.
+      href = "https://vvault.app/billing?plan=ultra&interval=month";
+      label = fr ? "Prendre Ultra" : "Get Ultra now";
+      planId = "ultra";
+    } else if (currentPlan === "ultra") {
+      // Top plan → nothing to buy, just manage the subscription.
+      href = "https://vvault.app/billing";
+      label = fr ? "Gérer mon abonnement" : "Manage plan";
+      planId = "ultra";
+    } else {
+      // Signed-in Free → straight to Pro checkout, skipping signup.
+      href = "https://vvault.app/billing?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO";
+      label = fr ? "Prendre Pro" : "Get Pro now";
+    }
+  }
+
   return (
     <div className="mt-10 flex justify-center">
       <LandingCtaLink
-        loggedInHref="https://vvault.app/billing?coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
-        loggedOutHref="https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
+        loggedInHref={href}
+        loggedOutHref={href}
         track={{
           buttonId: "pricing_page.hero_join_pro",
           surface: "pricing_page.hero",
           locale,
-          planId: "pro",
+          planId,
         }}
         className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-[15px] font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
       >
-        {fr ? "Rejoindre Pro" : "Join Pro now"}
+        {label}
       </LandingCtaLink>
     </div>
   );
@@ -710,13 +837,42 @@ export default function PricingPage({
   const [localeFromHook] = useLocale();
   const locale = localeOverride ?? localeFromHook;
   const content = getLandingContent(locale);
-  const [annual, setAnnual] = useState(true);
-  /* Use the shared formatter so EN renders "\u20ac1" and FR renders "1\u20ac"
-     consistently with every other price on the site. */
-  const proPrice = formatPrice(annual ? "7.49" : "8.99", locale);
-  const ultraPrice = formatPrice(annual ? "20.75" : "24.99", locale);
-  const freePrice = formatPrice("0", locale);
-  const promoPrice = formatPrice("1", locale);
+  const [annual, setAnnual] = useState(false);
+  /* Signed-in state + current plan. The marketing site can't read the vvault
+     session (separate origin / localStorage), so vvault passes the visitor's
+     current plan when it redirects a signed-in user here:
+       get.vvault.app/pricing?account=free|pro|ultra
+     When present we treat the visitor as signed-in: the card matching their
+     plan shows "Current plan", and upgrade CTAs go straight to the in-app
+     Stripe checkout instead of the signup funnel. No param \u2192 anonymous (the
+     original signup-first behaviour). */
+  const [accountPlan, setAccountPlan] = useState<"free" | "pro" | "ultra" | null>(null);
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get("account");
+    if (raw === "free" || raw === "pro" || raw === "ultra") setAccountPlan(raw);
+  }, []);
+  const signedIn = accountPlan !== null;
+  /* Live, geo-aware Stripe prices \u2014 EUR in Europe, USD everywhere else,
+     resolved server-side from the request's geo headers. Annual cards show
+     the per-month equivalent of the yearly price. */
+  const prices = useBillingPrices();
+  const displayCurrency = (prices?.proMonthly?.currency || "eur").toLowerCase();
+  const proPrice = money(
+    annual ? perMonthFromAnnualCents(prices?.proAnnual?.unit_amount) : prices?.proMonthly?.unit_amount,
+    displayCurrency,
+  );
+  const ultraPrice = money(
+    annual ? perMonthFromAnnualCents(prices?.ultraAnnual?.unit_amount) : prices?.ultraMonthly?.unit_amount,
+    displayCurrency,
+  );
+  const freePrice = displayCurrency === "usd" ? "$0" : "\u20ac0";
+  // \u20ac1 first-month promo (EUR only \u2014 coupon is a fixed EUR discount). Gated to
+  // monthly since the offer is "first month" only.
+  const proIntro = prices?.offers?.proMonthlyIntro;
+  const proIntroAvailable = Boolean(proIntro?.active);
+  const proShowPromo = proIntroAvailable && !annual;
+  const promoPrice = moneyCompact(proIntro?.introUnitAmount ?? 100, proIntro?.currency || displayCurrency);
+  const proRegularPrice = money(prices?.proMonthly?.unit_amount, displayCurrency);
   /* Two separate flags for two separate concerns:
      - `stuck` , the compare-plans sticky is in its pinned/ride-up
        phase. Its glass backdrop should be ON whenever any part of
@@ -799,11 +955,19 @@ export default function PricingPage({
   const everythingInFreeLabel = fr ? "Tout ce qui est dans Free, plus :" : "Everything in Free, plus:";
   const everythingInProLabel = fr ? "Tout ce qui est dans Pro, plus :" : "Everything in Pro, plus:";
 
+  /* Billing interval carried into the vvault checkout URLs so the selected
+     cadence (monthly/annual) survives the hand-off — signup/login/onboarding
+     all read ?interval=year|month. Without it every link defaulted to monthly. */
+  const interval = annual ? "year" : "month";
+
   const plans: Array<{
     id: string;
     name: string;
     eyebrow?: string;
     price: string;
+    /* Optional struck-through anchor price shown before the promo
+       price (Pro: ~€11.99~ then €1 first month). */
+    strikePrice?: string;
     period: string;
     audience?: string;
     /* Optional small line between price + audience — used to show
@@ -853,12 +1017,21 @@ export default function PricingPage({
       /* Promo: €1 for the first month, then the regular per-month
          price kicks in. We show the €1 as the headline price + the
          regular price as a small subtext via `priceNote`. */
-      price: promoPrice,
-      period: fr ? "le premier mois" : "first month",
+      price: proShowPromo ? promoPrice : proPrice,
+      strikePrice: proShowPromo ? proRegularPrice : undefined,
+      period: proShowPromo
+        ? fr
+          ? "le premier mois"
+          : "first month"
+        : fr
+          ? "par mois"
+          : "per month",
       audience: fr ? "Le plus populaire" : "Most popular",
-      priceNote: fr
-        ? `puis ${proPrice} par mois`
-        : `then ${proPrice} per month`,
+      priceNote: proShowPromo
+        ? fr
+          ? `puis ${proRegularPrice} par mois`
+          : `then ${proRegularPrice} per month`
+        : undefined,
       includedHeading: undefined,
       bullets: fr
         ? [
@@ -876,8 +1049,8 @@ export default function PricingPage({
             "Wavematch (scans for stolen beats)",
           ],
       cta: fr ? "Rejoindre Pro" : "Join Pro now",
-      href: "https://vvault.app/billing?coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
-      loggedOutHref: "https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
+      href: `https://vvault.app/billing?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`,
+      loggedOutHref: `https://vvault.app/signup?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`,
       featured: true,
     },
     {
@@ -907,8 +1080,8 @@ export default function PricingPage({
             "50% off opportunities submission",
           ],
       cta: fr ? "Rejoindre Ultra" : "Join Ultra now",
-      href: "https://vvault.app/billing",
-      loggedOutHref: "https://vvault.app/signup?plan=ultra",
+      href: `https://vvault.app/billing?plan=ultra&interval=${interval}`,
+      loggedOutHref: `https://vvault.app/signup?plan=ultra&interval=${interval}`,
       featured: false,
     },
   ];
@@ -929,8 +1102,8 @@ export default function PricingPage({
 
   const stickyPlans = [
     { id: "free", name: "Free", price: freePrice, period: "", href: "https://vvault.app/signup" },
-    { id: "pro", name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO" },
-    { id: "ultra", name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: "https://vvault.app/signup?plan=ultra" },
+    { id: "pro", name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: `https://vvault.app/signup?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO` },
+    { id: "ultra", name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: `https://vvault.app/signup?plan=ultra&interval=${interval}` },
   ];
   const startedLabel = fr ? "Commencer" : "Get Started";
 
@@ -953,7 +1126,7 @@ export default function PricingPage({
         <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       )}
 
-      {!embedded && <PricingHeroBanner locale={locale} promoPrice={promoPrice} />}
+      {!embedded && <PricingHeroBanner locale={locale} promoPrice={promoPrice} promoActive={proIntroAvailable} signedIn={signedIn} currentPlan={accountPlan} />}
       <MainWrapper className={mainClassName}>
         <div className="mx-auto w-full max-w-[1000px] px-5 sm:px-8 lg:px-10">
           {embedded && (
@@ -963,10 +1136,16 @@ export default function PricingPage({
             <Reveal>
               <div className="text-center">
                 <h2 className="mx-auto max-w-[820px] text-[1.75rem] font-light leading-[1.1] tracking-tight text-white sm:text-[2.4rem] lg:text-[2.9rem]">
-                  {locale === "fr" ? (
-                    <>Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.</>
+                  {proIntroAvailable && (!signedIn || accountPlan === "free") ? (
+                    locale === "fr" ? (
+                      <>Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.</>
+                    ) : (
+                      <>Start Pro at <span className="whitespace-nowrap">{promoPrice}</span>.</>
+                    )
+                  ) : locale === "fr" ? (
+                    "Plans & Tarifs"
                   ) : (
-                    <>Start Pro at <span className="whitespace-nowrap">{promoPrice}</span>.</>
+                    "Plans & Pricing"
                   )}
                 </h2>
               </div>
@@ -1076,6 +1255,11 @@ export default function PricingPage({
                         The `period` label is now plan-driven (Pro reads
                         "first month" instead of the generic "per month")
                         so promotional pricing can use the same slot. */}
+                    {p.strikePrice && (
+                      <span className="text-[1.35rem] font-light leading-none text-white/35 line-through tabular-nums">
+                        {p.strikePrice}
+                      </span>
+                    )}
                     <span className="text-[2rem] font-light leading-none text-white tabular-nums">
                       {p.price}
                     </span>
@@ -1092,39 +1276,114 @@ export default function PricingPage({
                       the vertical rhythm identical across all three
                       cards, so the CTAs sit at the same baseline. */}
                   <p className="mt-3 text-[13px] font-medium leading-snug text-white/55">
-                    {p.priceNote ?? p.audience}
+                    {annual && (p.id === "pro" || p.id === "ultra")
+                      ? fr
+                        ? "Facturé annuellement"
+                        : "Billed annually"
+                      : p.priceNote ?? p.audience}
                   </p>
 
                   <div className="mt-5">
-                    <LandingCtaLink
-                      loggedInHref={p.href}
-                      loggedOutHref={p.loggedOutHref || p.href}
-                      track={{
-                        buttonId: `pricing_page.card_${p.id}`,
-                        surface: "pricing_page.cards",
-                        locale,
-                        planId: p.id,
-                      }}
-                      className={`inline-flex w-full items-center justify-between rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                    {(() => {
+                      const isCurrent = signedIn && accountPlan === p.id;
+                      const ctaClassName = `inline-flex w-full items-center justify-between rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                         p.featured
                           ? "bg-[#006ffe] text-white hover:bg-[#005fd6] focus-visible:ring-[#006ffe]/35"
                           : "bg-white/[0.06] text-white hover:bg-white/[0.1] focus-visible:ring-white/20"
-                      }`}
-                    >
-                      <span>{p.cta}</span>
-                      <svg
-                        aria-hidden="true"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="h-4 w-4 shrink-0"
-                      >
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </LandingCtaLink>
+                      }`;
+                      const Arrow = (
+                        <svg
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          className="h-4 w-4 shrink-0"
+                        >
+                          <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
+                      );
+
+                      // Signed-in: the card matching the visitor's plan is their
+                      // current plan — show a non-actionable badge, not a CTA.
+                      if (isCurrent) {
+                        return (
+                          <span className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-white/45">
+                            <svg
+                              aria-hidden="true"
+                              viewBox="0 0 20 20"
+                              className="h-4 w-4 shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
+                            >
+                              <path d="M5 10.5l3.5 3.5L15 7" />
+                            </svg>
+                            {fr ? "Plan actuel" : "Current plan"}
+                          </span>
+                        );
+                      }
+
+                      // Signed-in + a paid plan they're not on → straight to the
+                      // in-app Stripe checkout (vvault has the session), skipping
+                      // the signup funnel.
+                      if (signedIn && (p.id === "pro" || p.id === "ultra")) {
+                        const upgradeHref = `https://vvault.app/billing?plan=${p.id}&interval=${interval}${
+                          p.id === "pro" ? "&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO" : ""
+                        }`;
+                        const upgradeLabel = fr
+                          ? p.id === "pro"
+                            ? "Prendre Pro"
+                            : "Prendre Ultra"
+                          : p.id === "pro"
+                            ? "Get Pro now"
+                            : "Get Ultra now";
+                        return (
+                          <LandingCtaLink
+                            loggedInHref={upgradeHref}
+                            loggedOutHref={upgradeHref}
+                            track={{
+                              buttonId: `pricing_page.card_${p.id}`,
+                              surface: "pricing_page.cards",
+                              locale,
+                              planId: p.id,
+                            }}
+                            className={ctaClassName}
+                          >
+                            <span>{upgradeLabel}</span>
+                            {Arrow}
+                          </LandingCtaLink>
+                        );
+                      }
+
+                      // Signed-in on Free, looking at Free, is handled above
+                      // (isCurrent). A signed-in paid user looking at Free has no
+                      // purchase action — show a muted, non-actionable label.
+                      if (signedIn && p.id === "free") {
+                        return (
+                          <span className="inline-flex w-full items-center justify-center rounded-full bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-white/35">
+                            {fr ? "Inclus" : "Free plan"}
+                          </span>
+                        );
+                      }
+
+                      // Anonymous visitor → original signup-first funnel.
+                      return (
+                        <LandingCtaLink
+                          loggedInHref={p.href}
+                          loggedOutHref={p.loggedOutHref || p.href}
+                          track={{
+                            buttonId: `pricing_page.card_${p.id}`,
+                            surface: "pricing_page.cards",
+                            locale,
+                            planId: p.id,
+                          }}
+                          className={ctaClassName}
+                        >
+                          <span>{p.cta}</span>
+                          {Arrow}
+                        </LandingCtaLink>
+                      );
+                    })()}
                   </div>
 
                   {p.includedHeading && (

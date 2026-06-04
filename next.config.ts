@@ -41,6 +41,11 @@ const nextConfig: NextConfig = {
       { source: "/data-deletion", destination: "/", permanent: true },
       { source: "/messages", destination: "/", permanent: true },
       { source: "/outreach", destination: "/", permanent: true },
+      // Tournament feature removed — send any old shared links home.
+      { source: "/tournament", destination: "/", permanent: true },
+      { source: "/tournament/:path*", destination: "/", permanent: true },
+      { source: "/fr/tournament", destination: "/fr", permanent: true },
+      { source: "/fr/tournament/:path*", destination: "/fr", permanent: true },
     ];
   },
 };

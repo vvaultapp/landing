@@ -3,10 +3,31 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { trackButtonClick } from "@/lib/analytics/client";
-import { formatPrice } from "@/lib/formatPrice";
 
 type ProPricingToastProps = {
   locale?: "en" | "fr";
+};
+
+/* Geo-aware money formatting — mirrors the pricing page so the toast shows
+   the same EUR/USD amounts Checkout will charge. */
+function money(cents: number | null | undefined, currency: string): string {
+  if (!cents) return "";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(cents / 100);
+}
+function moneyCompact(cents: number | null | undefined, currency: string): string {
+  return money(cents, currency).replace(/\.00$/, "");
+}
+
+type ToastPricing = {
+  currency: string;
+  proMonthly: number | null;
+  promoActive: boolean;
+  introUnitAmount: number;
 };
 
 /**
@@ -31,8 +52,8 @@ type ProPricingToastProps = {
  * flips true only after the section has been observed OUT of viewport
  * at least once, and only fire the toast on intersections after that.
  *
- * Pricing: shows the MONTHLY price (€8.99) — the same number the
- * pricing-page Pro card shows when the annual/monthly toggle is off.
+ * Pricing: geo-aware, fetched from /api/billing/prices — the €1/$1 first-month
+ * promo + the regular monthly price (€11.99 / $13.99), matching the pricing page.
  *
  * CTA: links to `https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`, the same
  * destination as the pricing-page "Join Pro now" button for a
@@ -41,6 +62,39 @@ type ProPricingToastProps = {
 export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
   const [shown, setShown] = useState(false);
   const [closedByUser, setClosedByUser] = useState(false);
+  /* Live, geo-aware Pro pricing (EUR in Europe, USD elsewhere) + the €1/$1
+     first-month promo, from the same endpoint the pricing page uses. */
+  const [pricing, setPricing] = useState<ToastPricing | null>(null);
+  useEffect(() => {
+    let alive = true;
+    void (async () => {
+      try {
+        const sp = new URLSearchParams(window.location.search);
+        const out = new URLSearchParams();
+        const cur = sp.get("currency");
+        if (cur) out.set("currency", cur);
+        const ctry = sp.get("country");
+        if (ctry) out.set("country", ctry);
+        const qs = out.toString() ? `?${out.toString()}` : "";
+        const res = await fetch(`/api/billing/prices${qs}`, { cache: "no-store" });
+        if (!res.ok) return;
+        const json = await res.json();
+        const offer = json?.offers?.proMonthlyIntro;
+        if (alive)
+          setPricing({
+            currency: (json?.proMonthly?.currency || "eur").toLowerCase(),
+            proMonthly: json?.proMonthly?.unit_amount ?? null,
+            promoActive: Boolean(offer?.active),
+            introUnitAmount: offer?.introUnitAmount ?? 100,
+          });
+      } catch {
+        // keep null; price block stays hidden until it resolves
+      }
+    })();
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   useEffect(() => {
     const target = document.getElementById("certificate-teaser");
@@ -144,27 +198,35 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
 
           <div className="mt-5 flex items-baseline gap-1.5">
             <span className="text-[2rem] font-light leading-none text-white tabular-nums">
-              {formatPrice("1", locale)}
+              {pricing
+                ? pricing.promoActive
+                  ? moneyCompact(pricing.introUnitAmount, pricing.currency)
+                  : money(pricing.proMonthly, pricing.currency)
+                : ""}
             </span>
-            <span className="text-[14px] font-medium text-white/45">
-              {fr ? "le premier mois" : "first month"}
-            </span>
+            {pricing?.promoActive && (
+              <span className="text-[14px] font-medium text-white/45">
+                {fr ? "le premier mois" : "first month"}
+              </span>
+            )}
           </div>
-          <p className="mt-1 text-[11.5px] text-white/35">
-            {fr
-              ? `puis ${formatPrice("8.99", locale)} par mois`
-              : `then ${formatPrice("8.99", locale)} per month`}
-          </p>
+          {pricing?.promoActive && (
+            <p className="mt-1 text-[11.5px] text-white/35">
+              {fr
+                ? `puis ${money(pricing.proMonthly, pricing.currency)} par mois`
+                : `then ${money(pricing.proMonthly, pricing.currency)} per month`}
+            </p>
+          )}
 
           <Link
-            href="https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
+            href="https://vvault.app/signup?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
             onClick={() => {
               trackButtonClick({
                 buttonId: "toast.join_pro",
                 surface: "landing.pro_toast",
                 locale,
                 planId: "pro",
-                href: "https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
+                href: "https://vvault.app/signup?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
               });
               close();
             }}

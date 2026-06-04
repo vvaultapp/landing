@@ -69,7 +69,7 @@ export default function VvaultVsGoogleDriveForProducersPage() {
                 name: "Is vvault free?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "vvault has a free plan that includes 100MB upload, share links, full contacts, and collaboration features. Pro (€7.49/mo) adds campaigns, tracking, CRM, and analytics. Ultra (€20.75/mo) adds automations, custom branding, and 0% marketplace fees.",
+                  text: "vvault has a free plan that includes 100MB upload, share links, full contacts, and collaboration features. Pro (€9.92/mo) adds campaigns, tracking, CRM, and analytics. Ultra (€23.25/mo) adds automations, custom branding, and 0% marketplace fees.",
                 },
               },
               {
@@ -215,7 +215,7 @@ export default function VvaultVsGoogleDriveForProducersPage() {
             <tr className="border-b border-white/[0.06]">
               <td className="px-4 py-3">Pricing</td>
               <td className="px-4 py-3">Free / $1.99/mo for 100GB</td>
-              <td className="px-4 py-3">Free / Pro €7.49/mo / Ultra €20.75/mo</td>
+              <td className="px-4 py-3">Free / Pro €9.92/mo / Ultra €23.25/mo</td>
             </tr>
           </tbody>
         </table>
@@ -279,8 +279,8 @@ export default function VvaultVsGoogleDriveForProducersPage() {
         <h3 className="mb-2 text-base font-semibold text-white/90">Q: Is vvault free?</h3>
         <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
           A: vvault has a free plan that includes 100MB upload, share links, full contacts, and
-          collaboration features. Pro (€7.49/mo) adds campaigns, tracking, CRM, and analytics.
-          Ultra (€20.75/mo) adds automations, custom branding, and 0% marketplace fees.
+          collaboration features. Pro (€9.92/mo) adds campaigns, tracking, CRM, and analytics.
+          Ultra (€23.25/mo) adds automations, custom branding, and 0% marketplace fees.
         </p>
       </div>
 

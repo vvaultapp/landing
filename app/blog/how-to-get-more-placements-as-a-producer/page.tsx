@@ -69,7 +69,7 @@ export default function HowToGetMorePlacementsAsAProducerPage() {
                 name: "Do I need a paid tool to land placements?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "You can technically send beats with any email and file sharing setup. But tracking engagement, managing contacts, and following up systematically is extremely difficult without a purpose-built tool. vvault's Pro plan at \u20ac7.49/mo gives you the full workflow.",
+                  text: "You can technically send beats with any email and file sharing setup. But tracking engagement, managing contacts, and following up systematically is extremely difficult without a purpose-built tool. vvault's Pro plan at \u20ac9.92/mo gives you the full workflow.",
                 },
               },
               {
@@ -248,7 +248,7 @@ export default function HowToGetMorePlacementsAsAProducerPage() {
         <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
           A: You can technically send beats with any email and file sharing setup. But tracking
           engagement, managing contacts, and following up systematically is extremely difficult
-          without a purpose-built tool. vvault&apos;s Pro plan at &euro;7.49/mo gives you the full
+          without a purpose-built tool. vvault&apos;s Pro plan at &euro;9.92/mo gives you the full
           workflow.
         </p>
       </div>

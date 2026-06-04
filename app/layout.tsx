@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
 import { ClickTracker } from "@/components/ClickTracker";
+import { PinnedQuickMenu } from "@/components/landing/PinnedQuickMenu";
+import { LocaleProvider } from "@/components/LocaleProvider";
 import "./globals.css";
 
 const geist = Geist({
@@ -59,7 +61,17 @@ export default async function RootLayout({
 }) {
   const cookieStore = await cookies();
   const localeCookie = cookieStore.get("vvault_locale")?.value;
-  const lang = localeCookie === "fr" ? "fr" : "en";
+  let lang: "en" | "fr";
+  if (localeCookie === "fr" || localeCookie === "en") {
+    lang = localeCookie;
+  } else {
+    // No cookie yet (first visit / deep link) — seed from the device's primary
+    // language, the same rule the proxy uses, so the first paint already
+    // matches and there's no flash of the wrong language.
+    const accept = (await headers()).get("accept-language") || "";
+    const primary = accept.split(",")[0]?.trim().split(";")[0]?.trim().toLowerCase();
+    lang = primary?.startsWith("fr") ? "fr" : "en";
+  }
 
   return (
     <html lang={lang} className={`h-full ${geist.variable}`}>
@@ -92,7 +104,7 @@ export default async function RootLayout({
                 },
                 {
                   "@type": "Offer",
-                  price: "7.49",
+                  price: "11.99",
                   priceCurrency: "EUR",
                   priceSpecification: {
                     "@type": "UnitPriceSpecification",
@@ -102,7 +114,7 @@ export default async function RootLayout({
                 },
                 {
                   "@type": "Offer",
-                  price: "20.75",
+                  price: "27.99",
                   priceCurrency: "EUR",
                   priceSpecification: {
                     "@type": "UnitPriceSpecification",
@@ -127,7 +139,15 @@ export default async function RootLayout({
             click that bubbles up from an element with a `data-track-id`
             attribute. See components/ClickTracker.tsx. */}
         <ClickTracker locale={lang} />
-        {children}
+        {/* Global language provider — seeds the site language from the cookie
+            on the server so every page renders the right language on first
+            paint (no flash), and keeps cookie + localStorage in sync. */}
+        <LocaleProvider initialLocale={lang}>
+          {children}
+          {/* Pinned bottom-right App Store + quick-nav menu — shown on every
+              landing page except /docs and /admin (self-excludes via path). */}
+          <PinnedQuickMenu />
+        </LocaleProvider>
         <Analytics />
       </body>
     </html>

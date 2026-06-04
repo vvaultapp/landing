@@ -1,8 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { LandingContent, LandingNavItem, Locale } from "@/components/landing/content";
-import { NavDropdown } from "@/components/landing/LandingNav";
+import type { LandingContent, Locale } from "@/components/landing/content";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
 import { trackButtonClick } from "@/lib/analytics/client";
 
@@ -243,12 +242,10 @@ export function useLandingStats() {
 export function HeroTrustedBy({
   locale,
   usersTotal,
-  loaded,
   avatarUrls,
 }: {
   locale: Locale;
   usersTotal: number;
-  loaded: boolean;
   avatarUrls: string[];
 }) {
   const AVATAR_SLOT_COUNT = 5;
@@ -269,13 +266,11 @@ export function HeroTrustedBy({
   const avatarPoolRef = useRef<string[]>(optimizedAvatarUrls);
   const shuffledPoolRef = useRef<string[]>([]);
   const shuffleCursorRef = useRef(0);
-  const placeholderGradients = [
-    "linear-gradient(to bottom right, rgba(110,231,183,0.7), rgba(20,184,166,0.6))",
-    "linear-gradient(to bottom right, rgba(147,197,253,0.7), rgba(59,130,246,0.6))",
-    "linear-gradient(to bottom right, rgba(251,207,232,0.7), rgba(244,114,182,0.6))",
-    "linear-gradient(to bottom right, rgba(252,211,77,0.7), rgba(245,158,11,0.6))",
-    "linear-gradient(to bottom right, rgba(216,180,254,0.7), rgba(168,85,247,0.6))",
-  ];
+  /* Solid dark-grey avatar placeholder shown while the real profile
+     pictures load (or when stats are unavailable). Deliberately a flat,
+     full-opacity grey — no colour, no translucency — so the brief
+     loading state reads as neutral dark circles, not coloured blobs. */
+  const placeholderColor = "#3f3f46";
   const [slots, setSlots] = useState<Array<{ layerA: string; layerB: string; showA: boolean }>>(
     Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
   );
@@ -312,12 +307,21 @@ export function HeroTrustedBy({
     [refillShuffledPool],
   );
 
+  /* Preload + verify the avatar images, then seed the visible slots AND the
+     rotation pool from ONLY the URLs that actually loaded. A broken / 404'd /
+     private avatar can therefore never leave one of the 5 circles grey.
+     `poolReady` bumps once a good set is seeded, which starts the rotation
+     effect below against the verified pool. */
+  const [poolReady, setPoolReady] = useState(0);
   useEffect(() => {
     let cancelled = false;
-    avatarPoolRef.current = optimizedAvatarUrls;
-    refillShuffledPool();
 
+    // No avatars yet (stats still loading / unavailable) → keep grey circles.
     if (optimizedAvatarUrls.length === 0) {
+      avatarPoolRef.current = [];
+      setSlots(
+        Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
+      );
       return () => {
         cancelled = true;
       };
@@ -329,51 +333,70 @@ export function HeroTrustedBy({
       Boolean(connection?.saveData) ||
       connection?.effectiveType === "slow-2g" ||
       connection?.effectiveType === "2g";
-    // Preload only a small working set (the 5 visible slots + a few for the
-    // first rotations), to keep the on-load request count tiny.
-    const preloadQueue = shuffleStrings(optimizedAvatarUrls.slice(0, 8));
-    const preloadParallel = Math.min(
-      preloadQueue.length,
-      isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL,
-    );
+    const parallel = isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL;
 
-    const failedUrls = new Set<string>();
-    const workers = Array.from({ length: preloadParallel }, async () => {
-      while (!cancelled) {
-        const next = preloadQueue.pop();
-        if (!next) break;
-        const ok = await preloadAvatar(next);
-        if (!ok) failedUrls.add(next);
+    // Verify in shuffled order; gather a comfortable buffer of confirmed-good
+    // avatars (the 5 slots + a few extra for rotation variety).
+    const queue = shuffleStrings(optimizedAvatarUrls);
+    const target = Math.min(queue.length, Math.max(AVATAR_SLOT_COUNT + 5, 10));
+    const verified: string[] = [];
+    let seeded = false;
+
+    const seedOnce = () => {
+      if (cancelled || seeded || verified.length === 0) return;
+      seeded = true;
+      const used = new Set<string>();
+      setSlots(
+        Array.from({ length: AVATAR_SLOT_COUNT }, () => {
+          const url = pickNextAvatar(used);
+          if (url) used.add(url);
+          return { layerA: url, layerB: url, showA: true };
+        }),
+      );
+      setPoolReady((v) => v + 1);
+    };
+
+    const workers = Array.from({ length: Math.min(parallel, queue.length) }, async () => {
+      while (!cancelled && verified.length < target) {
+        const url = queue.shift();
+        if (!url) break;
+        const ok = await preloadAvatar(url);
+        if (!ok || cancelled) continue;
+        verified.push(url);
+        avatarPoolRef.current = verified.slice();
+        refillShuffledPool();
+        // Seed the moment we have enough good ones; later successes just
+        // enrich the rotation pool without re-seeding (no visible reshuffle).
+        if (verified.length >= AVATAR_SLOT_COUNT) seedOnce();
       }
     });
 
     void Promise.allSettled(workers).then(() => {
-      if (cancelled || failedUrls.size === 0) return;
-      const cleaned = avatarPoolRef.current.filter((u) => !failedUrls.has(u));
-      if (cleaned.length > 0) {
-        avatarPoolRef.current = cleaned;
+      if (cancelled) return;
+      // Fewer than 5 verified (lots of broken URLs): seed with what loaded.
+      // If literally none verified, fall back to the raw list so the row is
+      // never permanently empty.
+      if (verified.length === 0) {
+        avatarPoolRef.current = optimizedAvatarUrls.slice();
         refillShuffledPool();
+        const used = new Set<string>();
+        setSlots(
+          Array.from({ length: AVATAR_SLOT_COUNT }, () => {
+            const url = pickNextAvatar(used);
+            if (url) used.add(url);
+            return { layerA: url, layerB: url, showA: true };
+          }),
+        );
+        setPoolReady((v) => v + 1);
+      } else {
+        seedOnce();
       }
     });
 
     return () => {
       cancelled = true;
     };
-  }, [optimizedAvatarsKey, optimizedAvatarUrls, refillShuffledPool]);
-
-  useEffect(() => {
-    const pool = avatarPoolRef.current;
-    if (pool.length === 0) return;
-
-    const seededUrls = new Set<string>();
-    const seeded = Array.from({ length: AVATAR_SLOT_COUNT }, () => {
-      const blocked = new Set(seededUrls);
-      const url = pickNextAvatar(blocked);
-      if (url) seededUrls.add(url);
-      return { layerA: url, layerB: url, showA: true };
-    });
-    setSlots(seeded);
-  }, [optimizedAvatarsKey, pickNextAvatar]);
+  }, [optimizedAvatarsKey, optimizedAvatarUrls, refillShuffledPool, pickNextAvatar]);
 
   useEffect(() => {
     if (avatarPoolRef.current.length <= 1) return;
@@ -424,10 +447,10 @@ export function HeroTrustedBy({
       stop();
       document.removeEventListener("visibilitychange", onVis);
     };
-  }, [optimizedAvatarsKey, pickNextAvatar]);
+  }, [poolReady, pickNextAvatar]);
 
   return (
-    <div className="mt-14 flex justify-center lg:mt-9">
+    <div className="mt-9 flex justify-center">
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => (
@@ -436,7 +459,7 @@ export function HeroTrustedBy({
               className={`${
                 idx === 0 ? "ml-0" : "-ml-2.5"
               } relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-1 ring-black/30 sm:h-9 sm:w-9 lg:h-8 lg:w-8 min-[2000px]:h-9 min-[2000px]:w-9`}
-              style={{ background: placeholderGradients[idx % placeholderGradients.length] }}
+              style={{ background: placeholderColor }}
             >
               {slotState.layerA && (
                 <span
@@ -459,7 +482,15 @@ export function HeroTrustedBy({
         </div>
         <p className="text-[15px] text-white sm:text-base lg:text-[15px] min-[2000px]:text-base">
           {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
-          <span>{loaded ? numberFormatter.format(usersTotal) : "…"}</span>{" "}
+          {/* Never render a bare "0" — until a real (positive) count
+              resolves we show an ellipsis, so a slow/failed stats fetch
+              degrades to "…" instead of the misleading "0 artists". */}
+          {/* Reserve a stable width for the count so the row (and therefore the
+              avatars + sign-up buttons that size with it) never changes width
+              when "…" is replaced by the real number on load — no layout jump. */}
+          <span className="inline-block min-w-[2.7em] text-center tabular-nums">
+            {usersTotal > 0 ? numberFormatter.format(usersTotal) : "…"}
+          </span>{" "}
           <span>{locale === "fr" ? "artistes & beatmakers" : "artists & producers"}</span>
         </p>
       </div>
@@ -479,127 +510,119 @@ type HeroSectionProps = {
   showOnyxUploader?: boolean;
 };
 
-/* Bottom-right quick menu — a hamburger pill (same look as the
-   "Learn more" pill). On hover it reveals the top-nav links as a
-   glassmorphic popup; each link reuses <NavDropdown> so it keeps the
-   exact dropdown panels, cards and hover behaviour from the old top
-   nav. The hamburger itself does nothing on click — hover only. */
-function HeroQuickMenu({ items }: { items: LandingNavItem[]; locale: Locale }) {
-  const [navMenuOpen, setNavMenuOpen] = useState(false);
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const menuCloseRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const itemCloseRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+/* Hero product devices (desktop window + phone). Rendered CLIENT-SIDE only —
+   the ~1 MB of video is kept entirely out of the server HTML, so the first
+   paint and the browser's loading/progress bar finish instantly on every
+   device. After hydration the right variant mounts:
 
-  const openMenu = () => {
-    if (menuCloseRef.current) {
-      clearTimeout(menuCloseRef.current);
-      menuCloseRef.current = null;
-    }
-    setNavMenuOpen(true);
-  };
-  const closeMenu = () => {
-    menuCloseRef.current = setTimeout(() => {
-      setNavMenuOpen(false);
-      setOpenIndex(null);
-    }, 160);
-  };
-  const handleEnter = (i: number) => {
-    if (itemCloseRef.current) {
-      clearTimeout(itemCloseRef.current);
-      itemCloseRef.current = null;
-    }
-    setOpenIndex(i);
-  };
-  const handleLeave = () => {
-    itemCloseRef.current = setTimeout(() => setOpenIndex(null), 150);
-  };
+   - Desktop: in the hero, eager, sliding in on mount (the CSS hero-slide-*).
+   - Mobile: parked off-screen (computer far left, phone far right) and pushed
+     well below the fold. The <LoopingVideo>s are only mounted — and therefore
+     only loaded — once the container scrolls into view, at which point the
+     devices slide in (computer → right, phone → left). Nothing video-related
+     downloads on the initial mobile visit. */
+function HeroDevices() {
+  const [mounted, setMounted] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    setMounted(true);
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
 
-  return (
-    <div className="relative" onMouseEnter={openMenu} onMouseLeave={closeMenu}>
-      {/* Popup above the hamburger — glassmorphic grey, no outline. */}
-      <div
-        data-nav-dropdown
-        className="absolute bottom-[calc(100%+12px)] right-0 rounded-2xl p-1.5 transition-[opacity,transform] duration-200"
-        style={{
-          background: "#141414",
-          opacity: navMenuOpen ? 1 : 0,
-          transform: navMenuOpen ? "translateY(0)" : "translateY(8px)",
-          transformOrigin: "bottom right",
-          pointerEvents: navMenuOpen ? "auto" : "none",
-        }}
-      >
-        <nav className="flex items-center gap-0.5" aria-label="Quick navigation">
-          {items.map((item, i) => (
-            <NavDropdown
-              key={item.label}
-              item={item}
-              open={openIndex === i}
-              onEnter={() => handleEnter(i)}
-              onLeave={handleLeave}
-              onClick={() => {}}
-              placement="up"
-            />
-          ))}
-        </nav>
+  const mobileRef = useRef<HTMLDivElement>(null);
+  const [revealed, setRevealed] = useState(false);
+  useEffect(() => {
+    if (!mounted || isDesktop) return;
+    const el = mobileRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setRevealed(true);
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      // Fire when ~15% of the devices scroll into view — they then mount
+      // (start loading) and slide in. No rootMargin, so nothing loads while
+      // they're still parked below the fold.
+      { threshold: 0.15 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [mounted, isDesktop]);
+
+  // SSR + first paint: reserved, empty box — no video resources requested.
+  if (!mounted) {
+    return <div className="relative aspect-[5/4] w-full" aria-hidden />;
+  }
+
+  if (isDesktop) {
+    return (
+      <div className="relative aspect-[5/4] w-full">
+        {/* Computer — back, vertically centered on the phone. The wrapper
+            reserves the clip's exact 660×414 aspect ratio so its height is
+            fixed from first paint — no resize/“jump” once the video loads. */}
+        <div className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] hero-slide-left overflow-hidden rounded-[14px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)]">
+          <LoopingVideo
+            src="/landing/features/computer"
+            poster="/landing/features/computer.webp"
+            className="absolute inset-0 block h-full w-full object-cover rounded-[14px]"
+            eager
+          />
+        </div>
+        {/* Phone — front, up and to the right. Reserves the 420×856 ratio. */}
+        <div className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] hero-slide-right overflow-hidden rounded-[22px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)]">
+          <LoopingVideo
+            src="/landing/features/phone"
+            poster="/landing/features/phone.webp"
+            className="absolute inset-0 block h-full w-full object-cover rounded-[22px]"
+            eager
+          />
+        </div>
       </div>
-      {/* Hamburger — hover-only, no click action. */}
-      <button
-        type="button"
-        aria-label="Menu"
-        aria-expanded={navMenuOpen}
-        className="inline-flex h-12 items-center gap-2 rounded-full bg-white/[0.08] px-5 text-[15px] font-medium text-white/75 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
+    );
+  }
+
+  // Mobile — off-screen until scrolled into view, then slide in + load.
+  return (
+    <div ref={mobileRef} className="relative aspect-[5/4] w-full">
+      <div
+        className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] overflow-hidden rounded-[14px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)] will-change-transform"
+        style={{ transform: revealed ? "translate(0, -50%)" : "translate(-145%, -50%)", transition: "transform 1800ms cubic-bezier(0.22, 1, 0.36, 1)" }}
       >
-        <svg viewBox="0 0 24 24" className="h-[20px] w-[20px]" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
-          <path d="M4 9h16" />
-          <path d="M4 15h16" />
-        </svg>
-        Menu
-      </button>
+        {revealed && (
+          <LoopingVideo
+            src="/landing/features/computer"
+            poster="/landing/features/computer.webp"
+            className="absolute inset-0 block h-full w-full object-cover rounded-[14px]"
+          />
+        )}
+      </div>
+      <div
+        className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] overflow-hidden rounded-[22px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)] will-change-transform"
+        style={{ transform: revealed ? "translate(0, -50%)" : "translate(145%, -50%)", transition: "transform 1800ms cubic-bezier(0.22, 1, 0.36, 1)" }}
+      >
+        {revealed && (
+          <LoopingVideo
+            src="/landing/features/phone"
+            poster="/landing/features/phone.webp"
+            className="absolute inset-0 block h-full w-full object-cover rounded-[22px]"
+          />
+        )}
+      </div>
     </div>
   );
 }
 
-export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
-  const { stats, loaded } = useLandingStats();
-  // Smooth ENTRY animation: the computer/phone rest off-screen (CSS) and play a
-  // slide-in keyframe (.hero-graphic-revealed) the first time the graphic is
-  // scrolled into view. Driven by a rAF-throttled scroll listener (not an
-  // IntersectionObserver — the IO proved unreliable here). `heroArmed` kicks
-  // off the clips' video + poster load on that same first reveal, so nothing
-  // graphic-related downloads on first paint.
-  const graphicRef = useRef<HTMLDivElement>(null);
-  const [graphicRevealed, setGraphicRevealed] = useState(false);
-  const [heroArmed, setHeroArmed] = useState(false);
-  useEffect(() => {
-    const el = graphicRef.current;
-    if (!el) return;
-    let raf = 0;
-    let done = false;
-    const check = () => {
-      raf = 0;
-      if (done) return;
-      const r = el.getBoundingClientRect();
-      // Reveal once the graphic has scrolled up into the top ~70% of the
-      // viewport (just past peeking in at the bottom). On desktop it's already
-      // there at mount, so it reveals immediately.
-      if (r.top < window.innerHeight * 0.7 && r.bottom > 0) {
-        done = true;
-        setGraphicRevealed(true);
-        setHeroArmed(true);
-      }
-    };
-    const onScroll = () => {
-      if (!raf) raf = requestAnimationFrame(check);
-    };
-    check();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, []);
+export function HeroSection({ locale = "en" }: HeroSectionProps) {
+  const { stats } = useLandingStats();
 
   return (
     <section className="relative flex min-h-screen items-start overflow-hidden lg:items-center">
@@ -607,7 +630,7 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
         {/* Two-column hero (claude.ai structure): all content on the
             left, an empty container on the right reserved for a video
             (to be added later). Stacks to a single column on mobile. */}
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,8vw,9rem)]">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,7vw,8.5rem)]">
           {/* LEFT — headline, trusted-by, sign-up card (centered). */}
           <div className="flex flex-col items-center text-center">
             <h1 className="font-display text-[2.4rem] font-normal leading-[1.05] tracking-tight text-white sm:text-[2.6rem] lg:text-[2.75rem] min-[2000px]:text-[3.1rem]">
@@ -624,13 +647,12 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
             <HeroTrustedBy
               locale={locale}
               usersTotal={stats.usersTotal}
-              loaded={loaded}
               avatarUrls={stats.avatarUrls}
             />
 
             {/* Sign-up — Email + Apple (outline) and Google (white),
                 all pill-shaped. No surrounding card. */}
-            <div className="mt-14 w-full max-w-[480px] lg:mt-9 lg:max-w-[420px]">
+            <div className="mt-9 w-full max-w-[480px] lg:max-w-[420px]">
               <div>
                 <div className="flex flex-col gap-3">
                   {/* Continue with Email — outline pill, top */}
@@ -689,66 +711,16 @@ export function HeroSection({ content, locale = "en" }: HeroSectionProps) {
             </div>
           </div>
 
-          {/* RIGHT — reserved video container. A product video will be
-              dropped in here later; for now it's an empty framed slot
-              that holds the layout. */}
-          <div className="w-full max-w-[440px] lg:w-[min(40vw,560px)] lg:max-w-none lg:shrink-0">
-            {/* Layered product shot — desktop window (back, bottom-left) with
-                the phone floating up and to the right (untitled.stream style).
-                Same rounded corners + low-opacity outline as the cards. */}
-            <div
-              ref={graphicRef}
-              className={`relative aspect-[5/4] w-full${graphicRevealed ? " hero-graphic-revealed" : ""}`}
-            >
-              {/* Computer — back, vertically centered on the phone */}
-              <div className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] hero-slide-left overflow-hidden rounded-[14px] [outline:2px_solid_rgba(255,255,255,0.16)]">
-                <LoopingVideo
-                  src="/landing/features/computer"
-                  poster="/landing/features/computer.webp"
-                  className="block h-full w-full object-cover rounded-[14px]"
-                  fadeIn={false}
-                  rootMargin="0px 0px"
-                  forceNear={heroArmed}
-                />
-              </div>
-              {/* Phone — front, up and to the right, taller, centered on the computer */}
-              <div className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] hero-slide-right overflow-hidden rounded-[22px] [outline:2px_solid_rgba(255,255,255,0.16)]">
-                <LoopingVideo
-                  src="/landing/features/phone"
-                  poster="/landing/features/phone.webp"
-                  className="block h-full w-full object-cover rounded-[22px]"
-                  fadeIn={false}
-                  rootMargin="0px 0px"
-                  forceNear={heroArmed}
-                />
-              </div>
-            </div>
+          {/* RIGHT — product devices. On mobile they're pushed well below the
+              fold (mt-[24vh]) so they're not in the hero; on desktop they sit
+              beside the headline (lg:mt-0). HeroDevices mounts them client-side
+              so no video loads on the initial visit (see the component). */}
+          <div className="mt-[26vh] w-full max-w-[440px] lg:mt-0 lg:w-[min(40vw,560px)] lg:max-w-none lg:shrink-0">
+            <HeroDevices />
           </div>
         </div>
       </div>
 
-      {/* Quick-nav hamburger — pinned to the screen (fixed), sitting at
-          the content right margin (aligned with the nav's Enter App). */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-8 z-[60] mx-auto hidden max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:flex lg:justify-end lg:px-10">
-        <div className="pointer-events-auto flex items-center gap-2.5">
-          {/* iPhone — App Store download, same glassmorphic pill as the
-              hamburger, Apple glyph left of the label. */}
-          <a
-            href="https://apps.apple.com/app/id6759256796"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackButtonClick({ buttonId: "hero.download_ios", surface: "landing.hero", locale, href: "https://apps.apple.com/app/id6759256796" })}
-            aria-label={locale === "fr" ? "Télécharger sur l'App Store" : "Download on the App Store"}
-            className="inline-flex h-12 items-center gap-2 rounded-full bg-white/[0.08] px-5 text-[15px] font-medium text-white/75 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
-          >
-            <svg viewBox="0 0 384 512" className="h-[18px] w-[18px] -translate-y-px" fill="currentColor" aria-hidden="true">
-              <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-            </svg>
-            iPhone
-          </a>
-          <HeroQuickMenu items={content.nav} locale={locale} />
-        </div>
-      </div>
     </section>
   );
 }

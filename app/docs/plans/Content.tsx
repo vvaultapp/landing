@@ -53,11 +53,11 @@ export default function PlansDocPage() {
       <p className="text-[14px] leading-relaxed text-[#666] mb-4">
         {locale === "fr" ? (
           <>
-            <strong className="text-[#444]">&euro;8,99/mois</strong> (ou &euro;7,49/mois en facturation annuelle). Tout ce qui est dans Free, plus :
+            <strong className="text-[#444]">&euro;11,99/mois</strong> (ou &euro;9,92/mois en facturation annuelle). Tout ce qui est dans Free, plus :
           </>
         ) : (
           <>
-            <strong className="text-[#444]">&euro;8.99/month</strong> (or &euro;7.49/month billed annually). Everything in Free, plus:
+            <strong className="text-[#444]">&euro;11.99/month</strong> (or &euro;9.92/month billed annually). Everything in Free, plus:
           </>
         )}
       </p>
@@ -88,11 +88,11 @@ export default function PlansDocPage() {
       <p className="text-[14px] leading-relaxed text-[#666] mb-4">
         {locale === "fr" ? (
           <>
-            <strong className="text-[#444]">&euro;24,99/mois</strong> (ou &euro;20,75/mois en facturation annuelle). Tout ce qui est dans Pro, plus :
+            <strong className="text-[#444]">&euro;27,99/mois</strong> (ou &euro;23,25/mois en facturation annuelle). Tout ce qui est dans Pro, plus :
           </>
         ) : (
           <>
-            <strong className="text-[#444]">&euro;24.99/month</strong> (or &euro;20.75/month billed annually). Everything in Pro, plus:
+            <strong className="text-[#444]">&euro;27.99/month</strong> (or &euro;23.25/month billed annually). Everything in Pro, plus:
           </>
         )}
       </p>

@@ -201,7 +201,7 @@ export default function DocsIntroductionPage() {
           <div className="rounded-xl border border-[#e5e5e5] bg-[#fafafa] p-4">
             <div className="flex items-baseline gap-2">
               <p className="text-[14px] font-medium text-[#222]">Pro</p>
-              <span className="text-[12px] text-[#999]">&euro;8.99/mo</span>
+              <span className="text-[12px] text-[#999]">&euro;11.99/mo</span>
             </div>
             <p className="mt-1 text-[13px] leading-snug text-[#999]">
               {locale === "fr"
@@ -213,7 +213,7 @@ export default function DocsIntroductionPage() {
           <div className="rounded-xl border border-[#e5e5e5] bg-[#fafafa] p-4">
             <div className="flex items-baseline gap-2">
               <p className="text-[14px] font-medium text-[#222]">Ultra</p>
-              <span className="text-[12px] text-[#999]">&euro;24.99/mo</span>
+              <span className="text-[12px] text-[#999]">&euro;27.99/mo</span>
             </div>
             <p className="mt-1 text-[13px] leading-snug text-[#999]">
               {locale === "fr"

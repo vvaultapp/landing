@@ -136,8 +136,8 @@ export default function BestToolsForSendingBeatsPage() {
         professional workflow instead of ad-hoc sending.
       </p>
       <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
-        Pricing: Free plan with 100MB upload, links, and contacts. Pro at &euro;7.49/mo adds
-        campaigns, tracking, CRM, and analytics. Ultra at &euro;20.75/mo adds automations, custom
+        Pricing: Free plan with 100MB upload, links, and contacts. Pro at &euro;9.92/mo adds
+        campaigns, tracking, CRM, and analytics. Ultra at &euro;23.25/mo adds automations, custom
         branding, and 0% marketplace fees.
       </p>
 

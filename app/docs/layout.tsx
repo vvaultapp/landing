@@ -191,8 +191,8 @@ const SEARCH_INDEX: SearchEntry[] = [
   // Plans
   { title: "Plans & Pricing", titleFr: "Plans & Tarifs", section: "Account", sectionFr: "Compte", href: "/docs/plans", keywords: ["plans", "pricing", "subscription", "cost", "free", "pro", "ultra", "tarifs", "abonnement", "coût", "gratuit"] },
   { title: "Free plan", titleFr: "Plan Free", section: "Plans", sectionFr: "Plans", href: "/docs/plans#free", keywords: ["free", "plan", "starter", "basic", "gratuit"] },
-  { title: "Pro plan", titleFr: "Plan Pro", section: "Plans", sectionFr: "Plans", href: "/docs/plans#pro", keywords: ["pro", "plan", "8.99", "paid", "payant"] },
-  { title: "Ultra plan", titleFr: "Plan Ultra", section: "Plans", sectionFr: "Plans", href: "/docs/plans#ultra", keywords: ["ultra", "plan", "24.99", "premium", "top"] },
+  { title: "Pro plan", titleFr: "Plan Pro", section: "Plans", sectionFr: "Plans", href: "/docs/plans#pro", keywords: ["pro", "plan", "11.99", "paid", "payant"] },
+  { title: "Ultra plan", titleFr: "Plan Ultra", section: "Plans", sectionFr: "Plans", href: "/docs/plans#ultra", keywords: ["ultra", "plan", "27.99", "premium", "top"] },
   { title: "Comparison table", titleFr: "Tableau comparatif", section: "Plans", sectionFr: "Plans", href: "/docs/plans#comparison", keywords: ["comparison", "compare", "table", "differences", "comparaison", "comparer", "tableau", "différences"] },
 ];
 

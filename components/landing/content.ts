@@ -264,7 +264,7 @@ const landingContentEn = {
         "Your own custom domain and branded player",
         "50% off when you submit to paid placement boards",
       ],
-      cost: "€24.99/mo",
+      cost: "€27.99/mo",
       costNote: "monthly · yearly available",
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
@@ -319,7 +319,7 @@ const landingContentEn = {
   },
   singlePlan: {
     name: "Pro",
-    price: "€8.99/mo",
+    price: "€11.99/mo",
     note: "monthly · annual billing available (2 months free)",
     cta: "Start Pro",
     bullets: [
@@ -660,7 +660,7 @@ const landingContentFr = {
         "Ton propre domaine et lecteur brandé",
         "50% de réduction quand tu postules à des appels payants",
       ],
-      cost: "24.99€/mois",
+      cost: "27.99€/mois",
       costNote: "mensuel · annuel disponible",
     },
   } as { human: LandingComparisonCard; ai: LandingComparisonCard },
@@ -716,7 +716,7 @@ const landingContentFr = {
   },
   singlePlan: {
     name: "Pro",
-    price: "8.99€/mois",
+    price: "11.99€/mois",
     note: "mensuel · annuel disponible (2 mois offerts)",
     cta: "Démarrer Pro",
     bullets: [

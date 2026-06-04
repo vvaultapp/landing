@@ -171,8 +171,10 @@ export function FeatureSection({ locale = "en" }: { locale?: Locale }) {
     <section className="py-[75px] sm:py-[107px] lg:py-[139px]">
       <div className={CONTAINER}>
         <div className="mx-auto flex max-w-[920px] flex-col gap-[150px] sm:gap-[214px] lg:gap-[278px]">
-          {groups.map((g) => (
-            <div key={g.h1}>
+          {groups.map((g, i) => (
+            // Nudge only the FIRST group ("The all-in-one tool…") down a bit on
+            // mobile; reset at sm+ so tablet/desktop spacing is unchanged.
+            <div key={g.h1} className={i === 0 ? "mt-16 sm:mt-0" : undefined}>
               <h2 className={`mx-auto max-w-[640px] text-center ${HEADING}`}>
                 {g.h1}
                 <br />

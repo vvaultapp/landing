@@ -179,7 +179,7 @@ export default function VvaultVsDropboxForProducers() {
               <tr className="border-b border-white/[0.06]">
                 <td className="px-4 py-3">Pro pricing</td>
                 <td className="px-4 py-3">$11.99/mo (2TB)</td>
-                <td className="px-4 py-3">&euro;7.49/mo (campaigns + tracking + CRM)</td>
+                <td className="px-4 py-3">&euro;9.92/mo (campaigns + tracking + CRM)</td>
               </tr>
             </tbody>
           </table>
