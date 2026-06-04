@@ -15,6 +15,17 @@ export type LandingStatsResponse = {
   avatarUrls: string[];
 };
 
+/* Server-seeded hero data passed down from the (server) page. Structurally
+   identical to HeroStats in lib/landing/heroStats.ts — redeclared here so this
+   client component never imports the server-only module. */
+export type HeroInitialStats = {
+  usersTotal: number;
+  avatarDataUris: string[];
+  avatarUrls: string[];
+};
+
+const NO_AVATARS: string[] = [];
+
 const LANDING_STATS_FALLBACK: LandingStatsResponse = {
   emailsSentTotal: 0,
   usersTotal: 0,
@@ -148,8 +159,18 @@ function writeStatsCache(next: LandingStatsResponse): void {
   }
 }
 
-export function useLandingStats() {
-  const [stats, setStats] = useState<LandingStatsResponse>(LANDING_STATS_FALLBACK);
+export function useLandingStats(initial?: { usersTotal?: number; avatarUrls?: string[] }) {
+  /* Seed from the server-rendered values so the count + avatar pool are present
+     on the very first client render (no "…", no empty pool) — the deferred
+     fetch below only ever refreshes them, never starts from zero. */
+  const [stats, setStats] = useState<LandingStatsResponse>(() => ({
+    ...LANDING_STATS_FALLBACK,
+    usersTotal:
+      typeof initial?.usersTotal === "number" && initial.usersTotal > 0
+        ? Math.floor(initial.usersTotal)
+        : 0,
+    avatarUrls: Array.isArray(initial?.avatarUrls) ? initial.avatarUrls : [],
+  }));
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -255,12 +276,18 @@ export function HeroTrustedBy({
   locale,
   usersTotal,
   avatarUrls,
+  initialAvatars = NO_AVATARS,
 }: {
   locale: Locale;
   usersTotal: number;
   avatarUrls: string[];
+  /** Avatars inlined by the server as base64 data URIs. When present they're
+      painted into the 5 circles immediately (never grey); the live URLs below
+      then just enrich the rotation pool. */
+  initialAvatars?: string[];
 }) {
   const AVATAR_SLOT_COUNT = 5;
+  const hasInitialAvatars = initialAvatars.length > 0;
   const numberFormatter = useMemo(
     () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US"),
     [locale],
@@ -275,16 +302,25 @@ export function HeroTrustedBy({
     return Array.from(unique).sort((left, right) => left.localeCompare(right));
   }, [avatarUrls]);
   const optimizedAvatarsKey = useMemo(() => optimizedAvatarUrls.join("|"), [optimizedAvatarUrls]);
-  const avatarPoolRef = useRef<string[]>(optimizedAvatarUrls);
+  const avatarPoolRef = useRef<string[]>(
+    hasInitialAvatars ? initialAvatars.slice() : optimizedAvatarUrls,
+  );
   const shuffledPoolRef = useRef<string[]>([]);
   const shuffleCursorRef = useRef(0);
-  /* Solid dark-grey avatar placeholder shown while the real profile
-     pictures load (or when stats are unavailable). Deliberately a flat,
-     full-opacity grey — no colour, no translucency — so the brief
-     loading state reads as neutral dark circles, not coloured blobs. */
+  /* Solid dark-grey avatar placeholder shown ONLY in the rare case where the
+     server inlined no avatars AND the client fetch hasn't returned yet. With
+     server-inlined data URIs (the normal path) the circles are never grey. */
   const placeholderColor = "#3f3f46";
   const [slots, setSlots] = useState<Array<{ layerA: string; layerB: string; showA: boolean }>>(
-    Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
+    () =>
+      Array.from({ length: AVATAR_SLOT_COUNT }, (_, idx) => {
+        // Cycle the inlined avatars to fill all 5 circles even if fewer than 5
+        // downloaded server-side — so a circle shows a real face, never grey.
+        // Only layerA is seeded (layerB is filled on the first rotation), so
+        // each inlined avatar appears once in the HTML, not twice.
+        const uri = hasInitialAvatars ? initialAvatars[idx % initialAvatars.length] : "";
+        return { layerA: uri, layerB: "", showA: true };
+      }),
   );
   const refillShuffledPool = useCallback(() => {
     shuffledPoolRef.current = shuffleStrings(avatarPoolRef.current);
@@ -319,21 +355,30 @@ export function HeroTrustedBy({
     [refillShuffledPool],
   );
 
-  /* Preload + verify the avatar images, then seed the visible slots AND the
-     rotation pool from ONLY the URLs that actually loaded. A broken / 404'd /
-     private avatar can therefore never leave one of the 5 circles grey.
-     `poolReady` bumps once a good set is seeded, which starts the rotation
-     effect below against the verified pool. */
+  /* Preload + verify the live avatar URLs in the background. With server-inlined
+     avatars the 5 circles are ALREADY painted (data URIs), so verified live URLs
+     only feed the rotation pool and the rotation effect crossfades them in
+     gradually — a circle never flashes grey. Without inlined avatars (rare
+     fallback) we seed the visible slots from ONLY the URLs that actually load,
+     so a broken/404'd avatar can't leave a circle grey either. `poolReady`
+     bumps whenever the pool changes, to (re)start the rotation effect below. */
   const [poolReady, setPoolReady] = useState(0);
   useEffect(() => {
     let cancelled = false;
 
-    // No avatars yet (stats still loading / unavailable) → keep grey circles.
+    // No live URLs to verify yet (stats still loading / unavailable).
     if (optimizedAvatarUrls.length === 0) {
-      avatarPoolRef.current = [];
-      setSlots(
-        Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
-      );
+      if (hasInitialAvatars) {
+        // Keep the inlined avatars visible; rotate among them.
+        avatarPoolRef.current = initialAvatars.slice();
+        refillShuffledPool();
+        setPoolReady((v) => v + 1);
+      } else {
+        avatarPoolRef.current = [];
+        setSlots(
+          Array.from({ length: AVATAR_SLOT_COUNT }, () => ({ layerA: "", layerB: "", showA: true })),
+        );
+      }
       return () => {
         cancelled = true;
       };
@@ -347,9 +392,8 @@ export function HeroTrustedBy({
       connection?.effectiveType === "2g";
     const parallel = isSlow ? AVATAR_PRELOAD_PARALLEL_SLOW : AVATAR_PRELOAD_PARALLEL;
 
-    // Load just the 5 visible avatars + 1 spare, and only ATTEMPT a few — so
-    // the hero makes ~6 Supabase image requests, not ~30. (Those slow profile-
-    // picture transforms were the bulk of the page's loading tail / spinner.)
+    // Verify a handful of live URLs (5 + a few spares) — keeps the hero to ~6
+    // image requests, not ~30.
     const target = Math.min(optimizedAvatarUrls.length, AVATAR_SLOT_COUNT + 1);
     const queue = shuffleStrings(optimizedAvatarUrls).slice(0, target + 3);
     const verified: string[] = [];
@@ -358,14 +402,19 @@ export function HeroTrustedBy({
     const seedOnce = () => {
       if (cancelled || seeded || verified.length === 0) return;
       seeded = true;
-      const used = new Set<string>();
-      setSlots(
-        Array.from({ length: AVATAR_SLOT_COUNT }, () => {
-          const url = pickNextAvatar(used);
-          if (url) used.add(url);
-          return { layerA: url, layerB: url, showA: true };
-        }),
-      );
+      // Only paint the slots directly when there were NO inlined avatars —
+      // otherwise the inlined faces stay put and the rotation swaps live ones
+      // in, so there's never a grey flash or an abrupt full-row swap.
+      if (!hasInitialAvatars) {
+        const used = new Set<string>();
+        setSlots(
+          Array.from({ length: AVATAR_SLOT_COUNT }, () => {
+            const url = pickNextAvatar(used);
+            if (url) used.add(url);
+            return { layerA: url, layerB: url, showA: true };
+          }),
+        );
+      }
       setPoolReady((v) => v + 1);
     };
 
@@ -378,29 +427,33 @@ export function HeroTrustedBy({
         verified.push(url);
         avatarPoolRef.current = verified.slice();
         refillShuffledPool();
-        // Seed the moment we have enough good ones; later successes just
-        // enrich the rotation pool without re-seeding (no visible reshuffle).
+        // Start the rotation as soon as we have a full set of live faces.
         if (verified.length >= AVATAR_SLOT_COUNT) seedOnce();
       }
     });
 
     void Promise.allSettled(workers).then(() => {
       if (cancelled) return;
-      // Fewer than 5 verified (lots of broken URLs): seed with what loaded.
-      // If literally none verified, fall back to the raw list so the row is
-      // never permanently empty.
       if (verified.length === 0) {
-        avatarPoolRef.current = optimizedAvatarUrls.slice();
-        refillShuffledPool();
-        const used = new Set<string>();
-        setSlots(
-          Array.from({ length: AVATAR_SLOT_COUNT }, () => {
-            const url = pickNextAvatar(used);
-            if (url) used.add(url);
-            return { layerA: url, layerB: url, showA: true };
-          }),
-        );
-        setPoolReady((v) => v + 1);
+        // Every live URL failed. Keep the inlined avatars if we have them;
+        // otherwise fall back to the raw list so the row is never empty/grey.
+        if (hasInitialAvatars) {
+          avatarPoolRef.current = initialAvatars.slice();
+          refillShuffledPool();
+          setPoolReady((v) => v + 1);
+        } else {
+          avatarPoolRef.current = optimizedAvatarUrls.slice();
+          refillShuffledPool();
+          const used = new Set<string>();
+          setSlots(
+            Array.from({ length: AVATAR_SLOT_COUNT }, () => {
+              const url = pickNextAvatar(used);
+              if (url) used.add(url);
+              return { layerA: url, layerB: url, showA: true };
+            }),
+          );
+          setPoolReady((v) => v + 1);
+        }
       } else {
         seedOnce();
       }
@@ -409,7 +462,14 @@ export function HeroTrustedBy({
     return () => {
       cancelled = true;
     };
-  }, [optimizedAvatarsKey, optimizedAvatarUrls, refillShuffledPool, pickNextAvatar]);
+  }, [
+    optimizedAvatarsKey,
+    optimizedAvatarUrls,
+    refillShuffledPool,
+    pickNextAvatar,
+    hasInitialAvatars,
+    initialAvatars,
+  ]);
 
   useEffect(() => {
     if (avatarPoolRef.current.length <= 1) return;
@@ -521,6 +581,7 @@ type HeroSectionProps = {
   content: LandingContent;
   locale?: Locale;
   showOnyxUploader?: boolean;
+  initialStats?: HeroInitialStats;
 };
 
 /* Hero product devices (desktop window + phone). Rendered CLIENT-SIDE only —
@@ -634,8 +695,8 @@ function HeroDevices() {
   );
 }
 
-export function HeroSection({ locale = "en" }: HeroSectionProps) {
-  const { stats } = useLandingStats();
+export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
+  const { stats } = useLandingStats(initialStats);
 
   return (
     <section className="relative flex min-h-screen items-start overflow-hidden lg:items-center">
@@ -661,6 +722,7 @@ export function HeroSection({ locale = "en" }: HeroSectionProps) {
               locale={locale}
               usersTotal={stats.usersTotal}
               avatarUrls={stats.avatarUrls}
+              initialAvatars={initialStats?.avatarDataUris ?? NO_AVATARS}
             />
 
             {/* Sign-up — Email + Apple (outline) and Google (white),
