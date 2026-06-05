@@ -5,7 +5,7 @@ import { FinalCtaSectionNew } from "@/components/landing/FinalCtaSectionNew";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DeferredPricing } from "@/components/landing/DeferredPricing";
 import { LandingBootstrap } from "@/components/landing/LandingBootstrap";
-import CookieConsentBanner from "@/components/legal/CookieConsentBanner";
+import CookieConsentBanner from "@/components/legal/CookieConsentBannerClient";
 import { getLandingContent, type Locale } from "@/components/landing/content";
 import { getLandingNewContent } from "@/components/landing/contentNew";
 import { getHeroStats } from "@/lib/landing/heroStats";

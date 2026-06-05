@@ -5,7 +5,7 @@ import { cookies, headers } from "next/headers";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
 import { ClickTracker } from "@/components/ClickTracker";
-import { PinnedQuickMenu } from "@/components/landing/PinnedQuickMenu";
+import PinnedQuickMenuClient from "@/components/landing/PinnedQuickMenuClient";
 import { LocaleProvider } from "@/components/LocaleProvider";
 import "./globals.css";
 
@@ -153,7 +153,7 @@ export default async function RootLayout({
           {children}
           {/* Pinned bottom-right App Store + quick-nav menu — shown on every
               landing page except /docs and /admin (self-excludes via path). */}
-          <PinnedQuickMenu />
+          <PinnedQuickMenuClient />
         </LocaleProvider>
         <Analytics />
       </body>
