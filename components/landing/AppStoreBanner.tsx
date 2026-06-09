@@ -74,10 +74,10 @@ export function AppStoreBanner() {
         height: `${BANNER_HEIGHT_PX}px`,
         paddingTop: "env(safe-area-inset-top)",
         boxSizing: "content-box",
-        background: "rgba(8, 8, 10, 0.96)",
+        background: "rgb(var(--bg) / 0.82)",
         backdropFilter: "blur(20px) saturate(180%)",
         WebkitBackdropFilter: "blur(20px) saturate(180%)",
-        borderBottom: "1px solid rgba(255, 255, 255, 0.07)",
+        borderBottom: "1px solid rgb(var(--ov) / 0.1)",
       }}
     >
       <button
@@ -133,7 +133,7 @@ export function AppStoreBanner() {
         href={APP_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="shrink-0 rounded-full bg-[#0a84ff] px-[18px] py-[7px] text-[14px] font-semibold text-[rgb(var(--fg))] transition-colors hover:bg-[#1c8fff]"
+        className="shrink-0 rounded-full bg-[#0a84ff] px-[18px] py-[7px] text-[14px] font-semibold text-white transition-colors hover:bg-[#1c8fff]"
       >
         Get
       </a>
