@@ -284,7 +284,7 @@ function KpiCard({
 }) {
   return (
     <div
-      className="rounded-2xl px-4 py-3.5 transition-colors duration-200 hover:bg-white/[0.03]"
+      className="rounded-2xl px-4 py-3.5 transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.03)]"
       style={{
         border: "1px solid rgba(255,255,255,0.05)",
         background: "rgba(255,255,255,0.015)",
@@ -292,11 +292,11 @@ function KpiCard({
     >
       <div className="flex items-center gap-2">
         {icon}
-        <span className="text-[10px] font-semibold text-white/30 sm:text-[11px]">
+        <span className="text-[10px] font-semibold text-[rgb(var(--fg)_/_0.3)] sm:text-[11px]">
           {label}
         </span>
       </div>
-      <p className="mt-2 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+      <p className="mt-2 text-2xl font-semibold tracking-tight text-[rgb(var(--fg))] sm:text-3xl">
         {value}
       </p>
       {sub && (
@@ -361,28 +361,28 @@ export function AnalyticsSection({ locale }: { locale: Locale }) {
         <div className="mb-6 flex justify-center">
           <SectionEmblem accentColor="#60a5fa" icon={(g) => <AnalyticsIcon gradId={g} />} id="analytics" />
         </div>
-        <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
+        <h3 className="text-[1.55rem] font-medium leading-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
           {locale === "fr" ? (
             <>
-              <span className="text-white/40">Vois qui a</span>{" "}
+              <span className="text-[rgb(var(--fg)_/_0.4)]">Vois qui a</span>{" "}
               ouvert.{" "}
-              <span className="text-white/40">Qui a</span>{" "}
+              <span className="text-[rgb(var(--fg)_/_0.4)]">Qui a</span>{" "}
               écouté.{" "}
-              <span className="text-white/40">Qui a</span>{" "}
+              <span className="text-[rgb(var(--fg)_/_0.4)]">Qui a</span>{" "}
               téléchargé.
             </>
           ) : (
             <>
-              <span className="text-white/40">See who</span>{" "}
+              <span className="text-[rgb(var(--fg)_/_0.4)]">See who</span>{" "}
               opened.{" "}
-              <span className="text-white/40">Who</span>{" "}
+              <span className="text-[rgb(var(--fg)_/_0.4)]">Who</span>{" "}
               played.{" "}
-              <span className="text-white/40">Who</span>{" "}
+              <span className="text-[rgb(var(--fg)_/_0.4)]">Who</span>{" "}
               downloaded.
             </>
           )}
         </h3>
-        <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+        <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
           {locale === "fr" ? "Des analytics en temps réel sur chaque envoi." : "Real-time analytics on every send."}
         </p>
       </div>
@@ -396,7 +396,7 @@ export function AnalyticsSection({ locale }: { locale: Locale }) {
                   icon={
                     <svg
                       viewBox="0 0 16 16"
-                      className="h-3.5 w-3.5 text-white/40"
+                      className="h-3.5 w-3.5 text-[rgb(var(--fg)_/_0.4)]"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="1.5"
@@ -463,25 +463,25 @@ export function AnalyticsSection({ locale }: { locale: Locale }) {
 
               {/* Activity feed */}
               <div className="mt-6 sm:mt-8">
-                <p className="px-3 text-[10px] font-semibold text-white/25 sm:text-[11px]">
+                <p className="px-3 text-[10px] font-semibold text-[rgb(var(--fg)_/_0.25)] sm:text-[11px]">
                   {fr ? "Activité en direct" : "Live activity"}
                 </p>
                 <div className="mt-2 space-y-0.5">
                   {activities.map((a, i) => (
                     <div
                       key={i}
-                      className="flex cursor-default items-center gap-3 rounded-xl px-3 py-2 text-[11px] transition-colors duration-150 hover:bg-white/[0.03] sm:text-[13px]"
+                      className="flex cursor-default items-center gap-3 rounded-xl px-3 py-2 text-[11px] transition-colors duration-150 hover:bg-[rgb(var(--ov)_/_0.03)] sm:text-[13px]"
                     >
                       <span
                         className="h-1.5 w-1.5 shrink-0 rounded-full"
                         style={{ backgroundColor: a.dot }}
                       />
-                      <span className="font-medium text-white/75">
+                      <span className="font-medium text-[rgb(var(--fg)_/_0.75)]">
                         {a.name}
                       </span>
-                      <span className="text-white/30">{a.action}</span>
-                      <span className="truncate text-white/50">{a.track}</span>
-                      <span className="ml-auto shrink-0 text-[10px] text-white/20">
+                      <span className="text-[rgb(var(--fg)_/_0.3)]">{a.action}</span>
+                      <span className="truncate text-[rgb(var(--fg)_/_0.5)]">{a.track}</span>
+                      <span className="ml-auto shrink-0 text-[10px] text-[rgb(var(--fg)_/_0.2)]">
                         {a.time}
                       </span>
                     </div>
@@ -529,13 +529,13 @@ function PackCard({
         />
         <div className="relative flex h-full flex-col justify-between p-3">
           <div>
-            <p className="text-base font-semibold tabular-nums text-white drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)]">
+            <p className="text-base font-semibold tabular-nums text-[rgb(var(--fg))] drop-shadow-[0_1px_4px_rgba(0,0,0,0.45)]">
               {tracks}
             </p>
-            <p className="text-[9px] tracking-wide text-white/70">{locale === "fr" ? "pistes" : "tracks"}</p>
+            <p className="text-[9px] tracking-wide text-[rgb(var(--fg)_/_0.7)]">{locale === "fr" ? "pistes" : "tracks"}</p>
           </div>
           <div className="flex justify-end">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white text-black opacity-0 shadow-[0_6px_18px_rgba(0,0,0,0.7)] transition-opacity duration-200 group-hover:opacity-100">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[rgb(var(--inv))] text-black opacity-0 shadow-[0_6px_18px_rgba(0,0,0,0.7)] transition-opacity duration-200 group-hover:opacity-100">
               <svg
                 viewBox="0 0 16 16"
                 className="ml-0.5 h-3 w-3"
@@ -548,10 +548,10 @@ function PackCard({
         </div>
       </div>
       <div className="mt-2.5 px-1">
-        <p className="truncate text-[13px] font-semibold text-white/80">
+        <p className="truncate text-[13px] font-semibold text-[rgb(var(--fg)_/_0.8)]">
           {name}
         </p>
-        <p className="text-[11px] text-white/35">{tracks} {locale === "fr" ? "pistes" : "tracks"}</p>
+        <p className="text-[11px] text-[rgb(var(--fg)_/_0.35)]">{tracks} {locale === "fr" ? "pistes" : "tracks"}</p>
       </div>
     </div>
   );
@@ -584,7 +584,7 @@ export function PacksCard({ locale }: { locale: Locale }) {
               >
                 <svg
                   viewBox="0 0 16 16"
-                  className="h-3 w-3 shrink-0 text-white/25"
+                  className="h-3 w-3 shrink-0 text-[rgb(var(--fg)_/_0.25)]"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.8"
@@ -597,7 +597,7 @@ export function PacksCard({ locale }: { locale: Locale }) {
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                   placeholder={locale === "fr" ? "Chercher des packs…" : "Search packs…"}
-                  className="w-full bg-transparent text-[11px] text-white/60 outline-none placeholder:text-white/20"
+                  className="w-full bg-transparent text-[11px] text-[rgb(var(--fg)_/_0.6)] outline-none placeholder:text-[rgb(var(--fg)_/_0.2)]"
                 />
               </div>
               {(["All", "Packs", "Series"] as const).map((tab) => {
@@ -610,8 +610,8 @@ export function PacksCard({ locale }: { locale: Locale }) {
                   onClick={() => setActiveTab(tab)}
                   className={`shrink-0 rounded-lg px-2.5 py-1.5 text-[10px] font-medium transition-colors ${
                     tab === activeTab
-                      ? "bg-white/10 text-white/75"
-                      : "text-white/25 hover:bg-white/[0.04] hover:text-white/40"
+                      ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.75)]"
+                      : "text-[rgb(var(--fg)_/_0.25)] hover:bg-[rgb(var(--ov)_/_0.04)] hover:text-[rgb(var(--fg)_/_0.4)]"
                   }`}
                 >
                   {tabLabel}
@@ -632,10 +632,10 @@ export function PacksCard({ locale }: { locale: Locale }) {
 
       {/* Label overlapping card bottom — pulled up */}
       <div className="relative z-10 mt-5 px-1 sm:mt-6">
-        <p className="text-[14px] font-semibold text-white/80 sm:text-[15px]">
+        <p className="text-[14px] font-semibold text-[rgb(var(--fg)_/_0.8)] sm:text-[15px]">
           {locale === "fr" ? "Ta bibliothèque" : "Your library"}
         </p>
-        <p className="mt-1 text-[13px] leading-relaxed text-white/35">
+        <p className="mt-1 text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.35)]">
           {locale === "fr"
             ? "Organise tes beats en packs propres et pro. Tag, cherche et gère ton catalogue depuis un seul endroit. Laisse des commentaires horodatés sur tes tracks pour un feedback précis."
             : "Organize your beats into clean, professional packs. Tag, search, and manage your catalog from one place. Leave timestamped comments on tracks for precise feedback."}
@@ -677,7 +677,7 @@ export function ComposeCard({ locale }: { locale: Locale }) {
                 >
                   <svg
                     viewBox="0 0 16 16"
-                    className="h-3.5 w-3.5 text-white/40"
+                    className="h-3.5 w-3.5 text-[rgb(var(--fg)_/_0.4)]"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
@@ -686,7 +686,7 @@ export function ComposeCard({ locale }: { locale: Locale }) {
                     <path d="M1 5l7 4 7-4" />
                   </svg>
                 </div>
-                <span className="text-[12px] font-semibold text-white/70">
+                <span className="text-[12px] font-semibold text-[rgb(var(--fg)_/_0.7)]">
                   {locale === "fr" ? "Nouvelle campagne" : "New campaign"}
                 </span>
               </div>
@@ -700,8 +700,8 @@ export function ComposeCard({ locale }: { locale: Locale }) {
                     onClick={() => setActiveChannel(ch.key)}
                     className={`rounded-lg px-2 py-1 text-[10px] font-medium transition-colors ${
                       ch.key === activeChannel
-                        ? "bg-white/10 text-white/70"
-                        : "text-white/25 hover:bg-white/[0.04] hover:text-white/40"
+                        ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.7)]"
+                        : "text-[rgb(var(--fg)_/_0.25)] hover:bg-[rgb(var(--ov)_/_0.04)] hover:text-[rgb(var(--fg)_/_0.4)]"
                     }`}
                   >
                     {ch.label}
@@ -714,7 +714,7 @@ export function ComposeCard({ locale }: { locale: Locale }) {
             <div className="mt-4 space-y-2.5">
               {/* To field */}
               <div>
-                <label className="mb-1 block text-[10px] font-medium text-white/30">
+                <label className="mb-1 block text-[10px] font-medium text-[rgb(var(--fg)_/_0.3)]">
                   {locale === "fr" ? "À" : "To"}
                 </label>
                 <div
@@ -727,34 +727,34 @@ export function ComposeCard({ locale }: { locale: Locale }) {
                   {recipients.map((r) => (
                     <span
                       key={r.name}
-                      className="flex cursor-default items-center gap-1.5 rounded-full py-0.5 pl-0.5 pr-2 transition-colors hover:bg-white/[0.06]"
+                      className="flex cursor-default items-center gap-1.5 rounded-full py-0.5 pl-0.5 pr-2 transition-colors hover:bg-[rgb(var(--ov)_/_0.06)]"
                       style={{ background: "rgba(255,255,255,0.04)" }}
                     >
                       <span
-                        className="flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-semibold text-white/80"
+                        className="flex h-4 w-4 items-center justify-center rounded-full text-[8px] font-semibold text-[rgb(var(--fg)_/_0.8)]"
                         style={{ background: r.color }}
                       >
                         {r.initial}
                       </span>
-                      <span className="text-[10px] text-white/60">
+                      <span className="text-[10px] text-[rgb(var(--fg)_/_0.6)]">
                         {r.name}
                       </span>
                     </span>
                   ))}
-                  <span className="text-[10px] text-white/25">{locale === "fr" ? "+12 autres" : "+12 more"}</span>
+                  <span className="text-[10px] text-[rgb(var(--fg)_/_0.25)]">{locale === "fr" ? "+12 autres" : "+12 more"}</span>
                 </div>
               </div>
 
               {/* Subject field */}
               <div>
-                <label className="mb-1 block text-[10px] font-medium text-white/30">
+                <label className="mb-1 block text-[10px] font-medium text-[rgb(var(--fg)_/_0.3)]">
                   {locale === "fr" ? "Objet" : "Subject"}
                 </label>
                 <input
                   type="text"
                   value={subjectValue}
                   onChange={(e) => setSubjectValue(e.target.value)}
-                  className="w-full rounded-xl bg-transparent px-3 py-2 text-[12px] text-white/70 outline-none placeholder:text-white/20 focus:ring-1 focus:ring-white/10"
+                  className="w-full rounded-xl bg-transparent px-3 py-2 text-[12px] text-[rgb(var(--fg)_/_0.7)] outline-none placeholder:text-[rgb(var(--fg)_/_0.2)] focus:ring-1 focus:ring-[rgb(var(--ov)_/_0.1)]"
                   style={{
                     border: "1px solid rgba(255,255,255,0.06)",
                     background: "rgba(255,255,255,0.015)",
@@ -764,14 +764,14 @@ export function ComposeCard({ locale }: { locale: Locale }) {
 
               {/* Message field */}
               <div>
-                <label className="mb-1 block text-[10px] font-medium text-white/30">
+                <label className="mb-1 block text-[10px] font-medium text-[rgb(var(--fg)_/_0.3)]">
                   Message
                 </label>
                 <textarea
                   value={messageValue}
                   onChange={(e) => setMessageValue(e.target.value)}
                   rows={2}
-                  className="w-full resize-none rounded-xl bg-transparent px-3 py-2 text-[12px] leading-relaxed text-white/70 outline-none placeholder:text-white/20 focus:ring-1 focus:ring-white/10"
+                  className="w-full resize-none rounded-xl bg-transparent px-3 py-2 text-[12px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] outline-none placeholder:text-[rgb(var(--fg)_/_0.2)] focus:ring-1 focus:ring-[rgb(var(--ov)_/_0.1)]"
                   style={{
                     border: "1px solid rgba(255,255,255,0.06)",
                     background: "rgba(255,255,255,0.015)",
@@ -784,11 +784,11 @@ export function ComposeCard({ locale }: { locale: Locale }) {
             <div className="mt-3 flex items-center justify-between">
               <div className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70" />
-                <span className="text-[10px] text-white/30">
+                <span className="text-[10px] text-[rgb(var(--fg)_/_0.3)]">
                   {locale === "fr" ? "Prêt à envoyer" : "Ready to send"}
                 </span>
               </div>
-              <button className="rounded-full bg-white px-4 py-1.5 text-[11px] font-semibold text-black transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)]">
+              <button className="rounded-full bg-[rgb(var(--inv))] px-4 py-1.5 text-[11px] font-semibold text-black transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)]">
                 {locale === "fr" ? "Envoyer" : "Send campaign"}
               </button>
             </div>
@@ -798,10 +798,10 @@ export function ComposeCard({ locale }: { locale: Locale }) {
 
       {/* Label overlapping card bottom — pulled up */}
       <div className="relative z-10 mt-5 px-1 sm:mt-6">
-        <p className="text-[14px] font-semibold text-white/80 sm:text-[15px]">
+        <p className="text-[14px] font-semibold text-[rgb(var(--fg)_/_0.8)] sm:text-[15px]">
           {locale === "fr" ? "Personnel, à grande échelle" : "Personal at scale"}
         </p>
-        <p className="mt-1 text-[13px] leading-relaxed text-white/35">
+        <p className="mt-1 text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.35)]">
           {locale === "fr"
             ? "Envoie à un contact ou à toute ta liste. Chaque envoi donne l'impression d'avoir été fait juste pour eux."
             : "Send to one contact or your whole list. Each one feels like it was crafted just for them."}
@@ -824,20 +824,20 @@ export function SellCard({ locale }: { locale: Locale }) {
         <div className="mb-6 flex justify-center">
           <SectionEmblem accentColor="#34d399" icon={(g) => <MoneyIcon gradId={g} />} id="money" />
         </div>
-        <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
+        <h3 className="text-[1.55rem] font-medium leading-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
           {locale === "fr" ? (
             <>
               Vends ta musique.{" "}
-              <span className="text-white/40">Garde 100% de ton argent.</span>
+              <span className="text-[rgb(var(--fg)_/_0.4)]">Garde 100% de ton argent.</span>
             </>
           ) : (
             <>
               Sell your music.{" "}
-              <span className="text-white/40">Keep 100% of your money.</span>
+              <span className="text-[rgb(var(--fg)_/_0.4)]">Keep 100% of your money.</span>
             </>
           )}
         </h3>
-        <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+        <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
           {locale === "fr"
             ? "Fixe ton prix, vends directement à ton audience via un checkout Stripe sécurisé. 0% de frais sur le plan Ultra — contrairement aux autres plateformes, on ne prend aucune commission sur tes ventes."
             : "Set your price, sell directly to your audience through secure Stripe checkout. 0% platform fee on Ultra — unlike other platforms, we don't take a cut of your sales."}
@@ -848,7 +848,7 @@ export function SellCard({ locale }: { locale: Locale }) {
           <div className="select-none px-5 py-5 sm:px-8 sm:py-6">
             <div className="flex items-center gap-4 sm:gap-5">
               {/* Track number */}
-              <span className="hidden text-[13px] tabular-nums text-white/25 sm:block">
+              <span className="hidden text-[13px] tabular-nums text-[rgb(var(--fg)_/_0.25)] sm:block">
                 1
               </span>
 
@@ -871,7 +871,7 @@ export function SellCard({ locale }: { locale: Locale }) {
 
               {/* Track info */}
               <div className="min-w-0 flex-1">
-                <p className="truncate text-[13px] font-semibold text-white/85 sm:text-[14px]">
+                <p className="truncate text-[13px] font-semibold text-[rgb(var(--fg)_/_0.85)] sm:text-[14px]">
                   Dark Melodies Vol.3 &mdash; Melody Pack &mdash; 140 BPM
                 </p>
                 <div className="mt-1 flex items-center gap-2">
@@ -884,9 +884,9 @@ export function SellCard({ locale }: { locale: Locale }) {
                   >
                     &euro;29.99
                   </span>
-                  <span className="flex items-center gap-1.5 text-[11px] text-white/40">
+                  <span className="flex items-center gap-1.5 text-[11px] text-[rgb(var(--fg)_/_0.4)]">
                     <span
-                      className="flex h-4 w-4 items-center justify-center rounded-full text-[7px] font-bold text-white/70"
+                      className="flex h-4 w-4 items-center justify-center rounded-full text-[7px] font-bold text-[rgb(var(--fg)_/_0.7)]"
                       style={{ background: "hsl(25,50%,22%)" }}
                     >
                       K
@@ -912,10 +912,10 @@ export function SellCard({ locale }: { locale: Locale }) {
               {/* Action icons */}
               <div className="flex items-center gap-2 sm:gap-3">
                 {/* Download */}
-                <button className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/[0.06]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[rgb(var(--ov)_/_0.06)]">
                   <svg
                     viewBox="0 0 16 16"
-                    className="h-4 w-4 text-white/30"
+                    className="h-4 w-4 text-[rgb(var(--fg)_/_0.3)]"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
@@ -930,7 +930,7 @@ export function SellCard({ locale }: { locale: Locale }) {
                   className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
                     purchased
                       ? "bg-emerald-500/15 text-emerald-400/80"
-                      : "hover:bg-white/[0.06] text-white/30"
+                      : "hover:bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg)_/_0.3)]"
                   }`}
                 >
                   <svg
@@ -946,10 +946,10 @@ export function SellCard({ locale }: { locale: Locale }) {
                   </svg>
                 </button>
                 {/* Heart */}
-                <button className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/[0.06]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[rgb(var(--ov)_/_0.06)]">
                   <svg
                     viewBox="0 0 16 16"
-                    className="h-4 w-4 text-white/30"
+                    className="h-4 w-4 text-[rgb(var(--fg)_/_0.3)]"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="1.5"
@@ -958,10 +958,10 @@ export function SellCard({ locale }: { locale: Locale }) {
                   </svg>
                 </button>
                 {/* More */}
-                <button className="hidden h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-white/[0.06] sm:flex">
+                <button className="hidden h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[rgb(var(--ov)_/_0.06)] sm:flex">
                   <svg
                     viewBox="0 0 16 16"
-                    className="h-4 w-4 text-white/30"
+                    className="h-4 w-4 text-[rgb(var(--fg)_/_0.3)]"
                     fill="currentColor"
                   >
                     <circle cx="8" cy="3" r="1.2" />
@@ -995,22 +995,22 @@ export function FeatureShowcase({ locale = "en" }: { locale?: Locale }) {
             <div className="mb-6 flex justify-center">
               <SectionEmblem accentColor="#a78bfa" icon={(g) => <LayersIcon gradId={g} />} id="layers" />
             </div>
-            <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
+            <h3 className="text-[1.55rem] font-medium leading-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
               {locale === "fr" ? (
                 <>
                   Crée des packs propres.
                   <br />
-                  <span className="text-white/40">Envoie-les personnellement.</span>
+                  <span className="text-[rgb(var(--fg)_/_0.4)]">Envoie-les personnellement.</span>
                 </>
               ) : (
                 <>
                   Build clean packs.
                   <br />
-                  <span className="text-white/40">Send them personally.</span>
+                  <span className="text-[rgb(var(--fg)_/_0.4)]">Send them personally.</span>
                 </>
               )}
             </h3>
-            <p className="mx-auto mt-4 max-w-xl text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+            <p className="mx-auto mt-4 max-w-xl text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
               {locale === "fr"
                 ? "On a construit les outils qu'on a toujours voulu avoir en tant que producteurs \u2014 un endroit pour organiser ton catalogue et toucher ton audience, où chaque envoi semble fait juste pour eux."
                 : <>We built the tools we always wished we had as producers &mdash; a place to organize your catalog and reach your audience, where every send feels like it was made just for them.</>}

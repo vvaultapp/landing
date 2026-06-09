@@ -1,17 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
 import { getLandingContent } from "@/components/landing/content";
 import { useLocale } from "@/lib/useLocale";
-
-const ColorBends = dynamic(() => import("@/components/landing/ColorBends"), {
-  ssr: false,
-});
 
 /* ------------------------------------------------------------------ */
 /*  Grid icon for the emblem                                          */
@@ -479,40 +474,14 @@ function FeatureCard({
 }) {
   return (
     <Link href={href} className="group block">
-      <div
-        className="relative overflow-hidden rounded-2xl p-6 sm:p-8 transition-colors duration-200 hover:brightness-125"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
-        }}
-      >
-        {/* Border overlay */}
-        <div
-          className="pointer-events-none absolute inset-0 rounded-[inherit]"
-          style={{
-            border: "1px solid rgba(255,255,255,0.06)",
-            borderBottom: "none",
-            maskImage:
-              "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-          }}
-        />
-        {/* Top glow line */}
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-px"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
-          }}
-        />
+      <div className="relative h-full overflow-hidden rounded-2xl border border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--ov)_/_0.02)] p-6 transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] sm:p-8">
 
         {/* Content */}
         <div className="relative z-10">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">{title}</h3>
+            <h3 className="text-lg font-semibold text-[rgb(var(--fg))]">{title}</h3>
             <svg
-              className="h-4 w-4 text-white/20 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-white/40"
+              className="h-4 w-4 text-[rgb(var(--fg)_/_0.2)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[rgb(var(--fg)_/_0.4)]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -521,7 +490,7 @@ function FeatureCard({
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </div>
-          <p className="mt-2 text-[13px] leading-relaxed text-white/50">
+          <p className="mt-2 text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.5)]">
             {description}
           </p>
           <ul className="mt-4 space-y-2">
@@ -533,7 +502,7 @@ function FeatureCard({
                     the top, dot ø4 ⇒ mt ≈ 8px). Previously `mt-1.5`
                     landed ~2px above the text and read misaligned. */}
                 <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-emerald-400/50" />
-                <span className="text-[13px] leading-relaxed text-white/40">
+                <span className="text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
                   {bullet}
                 </span>
               </li>
@@ -558,68 +527,39 @@ export default function FeaturesPage() {
   }, [locale]);
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
-
-      {/* Plasma hero background */}
-      <div
-        className="pointer-events-none fixed inset-x-0 top-0 z-0 h-screen"
-        style={{
-          maskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 80% 70% at 50% 30%, black 0%, transparent 70%)",
-        }}
-      >
-        <div className="absolute inset-0 opacity-[0.55]">
-          <ColorBends
-            colors={["#34d399"]}
-            rotation={90}
-            speed={0.2}
-            scale={1.2}
-            frequency={1}
-            warpStrength={1}
-            mouseInfluence={0}
-            noise={0}
-            parallax={0.5}
-            iterations={1}
-            intensity={1.5}
-            bandWidth={6}
-            transparent
-            autoRotate={0}
-          />
-        </div>
-      </div>
 
       <main className="relative z-10 mx-auto max-w-[880px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Hero */}
         <Reveal>
-          <Emblem />
+          <div className="flex justify-center">
+            <span className="inline-flex items-center rounded-full border border-[rgb(var(--ov)_/_0.12)] bg-[rgb(var(--ov)_/_0.03)] px-4 py-1.5 text-[12px] font-medium tracking-wide text-[rgb(var(--fg)_/_0.55)]">
+              {locale === "fr" ? "Toutes les features" : "All features"}
+            </span>
+          </div>
 
-          <h1
-            className="mt-8 text-center text-3xl font-medium leading-tight tracking-tight sm:text-[2.8rem]"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
-            {locale === "fr" ? "Toutes les Features" : "All Features"}
+          <h1 className="mx-auto mt-6 max-w-[16ch] text-balance text-center text-[2.2rem] font-semibold leading-[1.04] tracking-[-0.025em] text-[rgb(var(--fg))] sm:text-[3.25rem]">
+            {locale === "fr" ? "Toutes les features" : "All features"}
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
+          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[16px]">
             {locale === "fr"
               ? "La plateforme compl\u00e8te pour les producteurs de musique. Upload, promeus, vends et prot\u00e8ge tes sons \u2014 le tout depuis un seul espace s\u00e9curis\u00e9."
               : "The complete platform for music producers. Upload, promote, sell, and protect your sounds \u2014 all from one secure place."}
           </p>
 
-          <div className="mt-8 flex justify-center">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
               href="https://vvault.app/signup"
-              className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+              className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-all duration-200 hover:opacity-90"
             >
               {locale === "fr" ? "Commencer gratuitement" : "Get started for free"}
+            </a>
+            <a
+              href="/download/ios"
+              className="inline-flex items-center justify-center rounded-full border border-[rgb(var(--ov)_/_0.16)] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--fg))] transition-all duration-200 hover:bg-[rgb(var(--ov)_/_0.05)]"
+            >
+              {locale === "fr" ? "Télécharger sur iPhone" : "Download on iPhone"}
             </a>
           </div>
         </Reveal>
@@ -636,10 +576,10 @@ export default function FeaturesPage() {
         {/* Final CTA */}
         <Reveal className="mt-28 sm:mt-36">
           <div className="text-center">
-            <h2 className="text-2xl font-medium text-white sm:text-3xl">
+            <h2 className="text-2xl font-medium text-[rgb(var(--fg))] sm:text-3xl">
               {locale === "fr" ? "Pr\u00eat \u00e0 passer au niveau sup\u00e9rieur ?" : "Ready to level up?"}
             </h2>
-            <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+            <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
               {locale === "fr"
                 ? "Rejoins des milliers de producteurs qui utilisent d\u00e9j\u00e0 vvault pour g\u00e9rer leurs beats, d\u00e9velopper leur audience et d\u00e9crocher plus de placements."
                 : "Join thousands of producers already using vvault to manage their beats, grow their audience, and close more placements."}
@@ -647,7 +587,7 @@ export default function FeaturesPage() {
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
-                className="inline-flex items-center rounded-xl bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+                className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-all duration-200 hover:opacity-90"
               >
                 {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>
@@ -659,8 +599,6 @@ export default function FeaturesPage() {
       <LandingFooter
         locale={locale}
         content={content}
-        showColumns={false}
-        inlineLegalWithBrand
       />
     </div>
   );

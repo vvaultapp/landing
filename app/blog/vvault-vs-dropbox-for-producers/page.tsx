@@ -76,7 +76,7 @@ export default function VvaultVsDropboxForProducers() {
           publishedDate="2026-03-08"
         />
 
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Dropbox is a reliable file storage and sharing tool. Millions of people use it for all
           kinds of files, and producers often use it to share beat folders and project stems. But
           just like Google Drive, Dropbox was never designed for professional music sending. It does
@@ -85,7 +85,7 @@ export default function VvaultVsDropboxForProducers() {
         </p>
 
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">What Dropbox Does Well</h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Dropbox is clean, fast, and reliable for file storage and sharing. It syncs across devices,
           handles large files well, and the shared folder experience is smoother than Drive for many
           users. If you need to share a folder of stems with a collaborator or store your DAW
@@ -95,7 +95,7 @@ export default function VvaultVsDropboxForProducers() {
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">
           What Dropbox Cannot Do for Your Music Business
         </h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Dropbox has no concept of a &ldquo;beat pack&rdquo; as a presentable, branded asset. It
           does not track who opened your shared link. It does not tell you who played which files. It
           has no campaign system for sending to multiple contacts. It has no CRM. It has no
@@ -103,7 +103,7 @@ export default function VvaultVsDropboxForProducers() {
           you will never know if they did. For a full breakdown of{" "}
           <Link
             href="/blog/what-is-tracked-music-sending"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             what tracked sending means
           </Link>
@@ -111,72 +111,72 @@ export default function VvaultVsDropboxForProducers() {
         </p>
 
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">Feature Comparison</h2>
-        <div className="mb-4 overflow-x-auto rounded-xl border border-white/10">
+        <div className="mb-4 overflow-x-auto rounded-xl border border-[rgb(var(--ov)_/_0.1)]">
           <table className="w-full text-sm text-left">
             <thead>
-              <tr className="border-b border-white/10 bg-white/[0.04]">
-                <th className="px-4 py-3 font-semibold text-white/80">Feature</th>
-                <th className="px-4 py-3 font-semibold text-white/80">Dropbox</th>
-                <th className="px-4 py-3 font-semibold text-white/80">vvault</th>
+              <tr className="border-b border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.04)]">
+                <th className="px-4 py-3 font-semibold text-[rgb(var(--fg)_/_0.8)]">Feature</th>
+                <th className="px-4 py-3 font-semibold text-[rgb(var(--fg)_/_0.8)]">Dropbox</th>
+                <th className="px-4 py-3 font-semibold text-[rgb(var(--fg)_/_0.8)]">vvault</th>
               </tr>
             </thead>
-            <tbody className="text-white/60">
-              <tr className="border-b border-white/[0.06]">
+            <tbody className="text-[rgb(var(--fg)_/_0.6)]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">File storage and sync</td>
                 <td className="px-4 py-3">Yes — excellent</td>
                 <td className="px-4 py-3">Yes — music-focused</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Share folders with a link</td>
                 <td className="px-4 py-3">Yes</td>
                 <td className="px-4 py-3">Yes — packs with cover art and metadata</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Track link opens</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Track plays per beat</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes — with play duration</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Track downloads</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Send email campaigns</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Contact management / CRM</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Analytics and best-time-to-send</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Public producer profile</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Beat selling / payments</td>
                 <td className="px-4 py-3">No</td>
                 <td className="px-4 py-3">Yes — built-in marketplace</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Free plan</td>
                 <td className="px-4 py-3">2GB</td>
                 <td className="px-4 py-3">100MB + links + contacts + collabs</td>
               </tr>
-              <tr className="border-b border-white/[0.06]">
+              <tr className="border-b border-[rgb(var(--ov)_/_0.06)]">
                 <td className="px-4 py-3">Pro pricing</td>
                 <td className="px-4 py-3">$11.99/mo (2TB)</td>
                 <td className="px-4 py-3">&euro;9.92/mo (campaigns + tracking + CRM)</td>
@@ -186,20 +186,20 @@ export default function VvaultVsDropboxForProducers() {
         </div>
 
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">The Verdict</h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           If you are sharing project files with your close team, Dropbox is fine. If you are sending
           music to people you want to work with and you need to know what happens after you send —
           use vvault. They solve fundamentally different problems. See how vvault also compares to{" "}
           <Link
             href="/blog/vvault-vs-google-drive-for-producers"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             Google Drive
           </Link>{" "}
           and explore the best way to{" "}
           <Link
             href="/blog/how-to-organize-your-beat-catalog"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             organize your beat catalog
           </Link>
@@ -209,20 +209,20 @@ export default function VvaultVsDropboxForProducers() {
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">FAQ</h2>
 
         <div className="mb-6">
-          <h3 className="mb-2 text-base font-semibold text-white/90">
+          <h3 className="mb-2 text-base font-semibold text-[rgb(var(--fg)_/_0.9)]">
             Q: Is vvault a replacement for Dropbox?
           </h3>
-          <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
+          <p className="text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
             A: For music sending and professional presentation, yes. For general file backup and sync
             across devices, Dropbox still has strengths that are outside vvault&rsquo;s scope.
           </p>
         </div>
 
         <div className="mb-6">
-          <h3 className="mb-2 text-base font-semibold text-white/90">
+          <h3 className="mb-2 text-base font-semibold text-[rgb(var(--fg)_/_0.9)]">
             Q: Can I move my beats from Dropbox to vvault?
           </h3>
-          <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
+          <p className="text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
             A: Yes. You can upload MP3, WAV, and other audio/video formats directly into vvault
             through drag-and-drop or ZIP import.
           </p>

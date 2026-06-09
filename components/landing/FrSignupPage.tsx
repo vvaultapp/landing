@@ -70,24 +70,24 @@ export function FrSignupPage() {
   }, []);
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-[#0e0e0e]"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-[rgb(var(--inv))] focus:px-3 focus:py-2 focus:text-sm focus:text-[rgb(var(--inv-fg))]"
       >
         {content.skipToContentLabel}
       </a>
-      <header className="border-b border-white/10">
+      <header className="border-b border-[rgb(var(--ov)_/_0.1)]">
         <div className="mx-auto flex h-[70px] w-full max-w-[clamp(1320px,92vw,2400px)] items-center px-5 sm:px-8 lg:px-10">
           <Link
             href="/fr"
-            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-white/60 transition-colors hover:text-white"
+            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-[rgb(var(--fg)_/_0.6)] transition-colors hover:text-[rgb(var(--fg))]"
             aria-label={content.ui.homepageAriaLabel}
           >
             <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M10 3L5 8l5 5" />
             </svg>
-            <span className="font-semibold uppercase tracking-[0.18em] text-white/90 group-hover:text-white">
+            <span className="font-semibold uppercase tracking-[0.18em] text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
               vvault
             </span>
           </Link>
@@ -97,16 +97,16 @@ export function FrSignupPage() {
       <main id="main-content" className="pb-12 pt-12 sm:pb-16 sm:pt-16">
         <section className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
           <div className="max-w-[980px]">
-            <h1 className="font-display text-[2.3rem] leading-[1.02] tracking-tight text-white sm:text-[3.2rem] lg:text-[3.8rem]">
+            <h1 className="font-display text-[2.3rem] leading-[1.02] tracking-tight text-[rgb(var(--fg))] sm:text-[3.2rem] lg:text-[3.8rem]">
               Crée ton compte gratuit.
             </h1>
-            <p className="mt-5 max-w-[70ch] text-base leading-7 text-white/82 sm:text-lg sm:leading-8">
+            <p className="mt-5 max-w-[70ch] text-base leading-7 text-[rgb(var(--fg)_/_0.82)] sm:text-lg sm:leading-8">
               Envoie tes beats, vois qui écoute vraiment, et transforme chaque envoi en opportunité concrète.
             </p>
 
             <div className="mt-5 flex items-center gap-2">
               <span className="text-sm tracking-[0.08em] text-[#f2b84a]">★★★★★</span>
-              <span className="text-xs font-medium text-white/86 sm:text-sm">Utilisé par 600+ beatmakers chaque jour</span>
+              <span className="text-xs font-medium text-[rgb(var(--fg)_/_0.86)] sm:text-sm">Utilisé par 600+ beatmakers chaque jour</span>
             </div>
 
             <div className="mt-7 space-y-3">
@@ -146,14 +146,14 @@ export function FrSignupPage() {
               <LandingCtaLink
                 loggedInHref="https://vvault.app/signup"
                 loggedOutHref="https://vvault.app/signup"
-                className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
+                className="inline-flex items-center justify-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:text-base"
               >
                 Créer mon vvault
               </LandingCtaLink>
               <LandingCtaLink
                 loggedInHref="https://vvault.app/login"
                 loggedOutHref="https://vvault.app/login"
-                className="text-[11px] text-white/42 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white/72 sm:text-xs"
+                className="text-[11px] text-[rgb(var(--fg)_/_0.42)] underline decoration-white/20 underline-offset-4 transition-colors hover:text-[rgb(var(--fg)_/_0.72)] sm:text-xs"
               >
                 Déjà un compte ? Se connecter
               </LandingCtaLink>
@@ -164,14 +164,14 @@ export function FrSignupPage() {
             <LandingCtaLink
               loggedInHref="https://vvault.app/signup"
               loggedOutHref="https://vvault.app/signup"
-              className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 sm:text-base"
+              className="inline-flex items-center justify-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:text-base"
             >
               Créer mon vvault
             </LandingCtaLink>
             <LandingCtaLink
               loggedInHref="https://vvault.app/login"
               loggedOutHref="https://vvault.app/login"
-              className="text-[11px] text-white/42 underline decoration-white/20 underline-offset-4 transition-colors hover:text-white/72 sm:text-xs"
+              className="text-[11px] text-[rgb(var(--fg)_/_0.42)] underline decoration-white/20 underline-offset-4 transition-colors hover:text-[rgb(var(--fg)_/_0.72)] sm:text-xs"
             >
               Déjà un compte ? Se connecter
             </LandingCtaLink>
@@ -190,7 +190,7 @@ export function FrSignupPage() {
         </section>
       </main>
 
-      <LandingFooter locale="fr" content={content} showColumns={false} inlineLegalWithBrand />
+      <LandingFooter locale="fr" content={content} />
     </div>
   );
 }

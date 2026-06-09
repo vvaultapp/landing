@@ -113,10 +113,10 @@ function ContactCard({
         {icon}
       </div>
       <div>
-        <p className="text-[15px] font-semibold text-white/90 transition-colors duration-200 group-hover:text-white">
+        <p className="text-[15px] font-semibold text-[rgb(var(--fg)_/_0.9)] transition-colors duration-200 group-hover:text-[rgb(var(--fg))]">
           {label}
         </p>
-        <p className="mt-1 text-[13px] text-white/40">
+        <p className="mt-1 text-[13px] text-[rgb(var(--fg)_/_0.4)]">
           {description}
         </p>
       </div>
@@ -131,10 +131,10 @@ export function ContactSection({ locale }: ContactSectionProps) {
     <section id="contact" className="pt-36 sm:pt-52">
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
-          <h2 className="text-center text-2xl font-semibold text-white sm:text-3xl">
+          <h2 className="text-center text-2xl font-semibold text-[rgb(var(--fg))] sm:text-3xl">
             {isEn ? "Get in touch" : "Contactez-nous"}
           </h2>
-          <p className="mx-auto mt-3 max-w-md text-center text-[14px] text-white/40 sm:text-[15px]">
+          <p className="mx-auto mt-3 max-w-md text-center text-[14px] text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
             {isEn
               ? "Have a question? Reach out through any of these channels."
               : "Une question ? Contactez-nous via l'un de ces canaux."}

@@ -7,6 +7,7 @@ import { Reveal } from "@/components/landing/Reveal";
 import { fetchJsonCached } from "@/lib/fetchJsonCached";
 import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
+import { PricingFeatureIcon } from "@/components/landing/PricingFeatureIcon";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { WinsSection } from "@/components/landing/WinsSection";
 import { useLocale } from "@/lib/useLocale";
@@ -111,13 +112,13 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
       className="relative overflow-hidden rounded-2xl transition-all duration-300 hover:brightness-125"
       style={{
         background:
-          "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
+          "rgb(var(--surface))",
       }}
     >
       <div
         className="pointer-events-none absolute inset-0 rounded-[inherit]"
         style={{
-          border: "1px solid rgba(255,255,255,0.06)",
+          border: "1px solid rgb(var(--ov) / 0.06)",
           borderBottom: "none",
           maskImage:
             "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
@@ -129,7 +130,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         className="pointer-events-none absolute inset-x-0 top-0 h-px"
         style={{
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
+            "linear-gradient(90deg, transparent 0%, rgb(var(--ov) / 0.04) 15%, rgb(var(--ov) / 0.12) 50%, rgb(var(--ov) / 0.04) 85%, transparent 100%)",
         }}
       />
       <button
@@ -137,11 +138,11 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         onClick={toggle}
         className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left sm:px-8"
       >
-        <span className="text-[14px] font-medium text-white/84 sm:text-[15px]">
+        <span className="text-[14px] font-medium text-[rgb(var(--fg)_/_0.84)] sm:text-[15px]">
           {question}
         </span>
         <span
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center text-white/40 transition-transform duration-300 ease-out"
+          className="inline-flex h-5 w-5 shrink-0 items-center justify-center text-[rgb(var(--fg)_/_0.4)] transition-transform duration-300 ease-out"
           style={{
             transform: open ? "rotate(180deg)" : "rotate(0deg)",
           }}
@@ -160,7 +161,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         style={{ height: open ? height : 0, opacity: open ? 1 : 0 }}
       >
         <div ref={bodyRef} className="px-6 pb-5 sm:px-8">
-          <p className="text-[13px] leading-7 text-white/50 sm:text-[14px]">
+          <p className="text-[13px] leading-7 text-[rgb(var(--fg)_/_0.5)] sm:text-[14px]">
             {answer}
           </p>
         </div>
@@ -440,14 +441,14 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
 
   if (!desc) {
     return (
-      <p className="text-[14px] font-medium leading-snug text-white/90 sm:text-[16px]">
+      <p className="text-[14px] font-medium leading-snug text-[rgb(var(--fg)_/_0.9)] sm:text-[16px]">
         {label}
       </p>
     );
   }
 
   return (
-    <p className="text-[14px] font-medium leading-snug text-white/90 sm:text-[16px]">
+    <p className="text-[14px] font-medium leading-snug text-[rgb(var(--fg)_/_0.9)] sm:text-[16px]">
       <span
         ref={containerRef}
         className="relative inline-block align-baseline"
@@ -475,7 +476,7 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
               setOpen((v) => !v);
             }
           }}
-          className="cursor-help focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          className="cursor-help focus:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           style={{
             /* Bullet-dot underline: small round dots at the bottom of
                the text baseline. Cleared instantly when `open` (no
@@ -483,7 +484,7 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
                off without a fade. */
             backgroundImage: open
               ? "none"
-              : "radial-gradient(circle, rgba(255,255,255,0.45) 1.1px, transparent 1.3px)",
+              : "radial-gradient(circle, rgb(var(--ov) / 0.45) 1.1px, transparent 1.3px)",
             backgroundSize: "5px 3px",
             backgroundRepeat: "repeat-x",
             backgroundPosition: "left bottom",
@@ -495,14 +496,14 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
         {open && (
           <span
             role="tooltip"
-            className="pointer-events-none absolute left-0 bottom-[calc(100%+14px)] z-[100] block w-max max-w-[240px] rounded-md px-2 py-1 text-[11px] font-normal leading-snug text-white/90"
+            className="pointer-events-none absolute left-0 bottom-[calc(100%+14px)] z-[100] block w-max max-w-[240px] rounded-md px-2 py-1 text-[11px] font-normal leading-snug text-[rgb(var(--fg)_/_0.9)]"
             style={{
               /* Epidemic-style chat bubble, small, compact, solid
                  dark tile sitting above the label, with a downward
                  tail that points to the feature. No animation. */
-              background: "#1c1d22",
+              background: "rgb(var(--surface))",
               boxShadow:
-                "0 0 0 1px rgba(255,255,255,0.08), 0 6px 18px -4px rgba(0,0,0,0.7)",
+                "0 0 0 1px rgb(var(--ov) / 0.08), 0 6px 18px -4px rgba(0,0,0,0.7)",
             }}
           >
             {desc}
@@ -516,9 +517,9 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
               aria-hidden="true"
               className="absolute left-3 top-full block h-[8px] w-[8px] -translate-y-1/2 rotate-45"
               style={{
-                background: "#1c1d22",
+                background: "rgb(var(--surface))",
                 boxShadow:
-                  "1px 1px 0 0 rgba(255,255,255,0.08)",
+                  "1px 1px 0 0 rgb(var(--ov) / 0.08)",
               }}
             />
           </span>
@@ -531,7 +532,7 @@ function FeatureLabel({ label, desc }: { label: string; desc?: string }) {
 function CellValue({ value }: { value: boolean | string }) {
   if (typeof value === "string") {
     return (
-      <span className="block break-words text-left text-[13px] font-medium leading-snug text-white/80 sm:text-[15px]">
+      <span className="block break-words text-left text-[13px] font-medium leading-snug text-[rgb(var(--fg)_/_0.8)] sm:text-[15px]">
         {value}
       </span>
     );
@@ -540,7 +541,7 @@ function CellValue({ value }: { value: boolean | string }) {
     return (
       <svg
         viewBox="0 0 20 20"
-        className="h-7 w-7 fill-none stroke-emerald-400/80 stroke-[2] sm:h-[22px] sm:w-[22px]"
+        className="h-7 w-7 fill-none stroke-[rgb(var(--fg))] stroke-[2] sm:h-[22px] sm:w-[22px]"
       >
         <path d="M5 10.5l3.5 3.5L15 7" />
       </svg>
@@ -549,7 +550,7 @@ function CellValue({ value }: { value: boolean | string }) {
   return (
     <svg
       viewBox="0 0 20 20"
-      className="h-7 w-7 fill-none stroke-white/20 stroke-[1.8] sm:h-[22px] sm:w-[22px]"
+      className="h-7 w-7 fill-none stroke-[rgb(var(--fg)_/_0.4)] stroke-[1.8] sm:h-[22px] sm:w-[22px]"
     >
       <path d="M6 6l8 8M14 6l-8 8" />
     </svg>
@@ -607,7 +608,7 @@ function PricingHeroBanner({
       <div
         className="relative w-full overflow-hidden px-5 pb-20 pt-[160px] sm:px-8 sm:pb-24 sm:pt-[180px]"
         style={{
-          background: "#000000",
+          background: "rgb(var(--bg))",
         }}
       >
         {/* Background effect — ColorBends in a pure #006ffe blue
@@ -666,16 +667,16 @@ function PricingHeroBanner({
           className="pointer-events-none absolute inset-x-0 bottom-0 h-[55%]"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 30%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.85) 82%, rgba(0,0,0,0.97) 94%, #000 100%)",
+              "linear-gradient(180deg, rgb(var(--bg) / 0) 0%, rgb(var(--bg) / 0.2) 30%, rgb(var(--bg) / 0.55) 60%, rgb(var(--bg) / 0.85) 82%, rgb(var(--bg) / 0.97) 94%, rgb(var(--bg)) 100%)",
           }}
         />
 
         <Reveal>
           <div className="relative text-center">
-            <p className="text-[15px] font-medium tracking-[0.02em] text-white/65 sm:text-[16px]">
+            <p className="text-[15px] font-medium tracking-[0.02em] text-[rgb(var(--fg)_/_0.65)] sm:text-[16px]">
               {fr ? "Tarifs" : "Pricing"}
             </p>
-            <h1 className="mx-auto mt-4 max-w-[820px] font-display text-[2.4rem] font-light leading-[1.05] tracking-tight text-white sm:text-[3.2rem] lg:text-[4rem]">
+            <h1 className="mx-auto mt-4 max-w-[820px] font-display text-[2.4rem] font-light leading-[1.05] tracking-tight text-[rgb(var(--fg))] sm:text-[3.2rem] lg:text-[4rem]">
               {showPromoHero ? (
                 fr ? (
                   <>
@@ -692,7 +693,7 @@ function PricingHeroBanner({
                 "Plans & Pricing"
               )}
             </h1>
-            <p className="mx-auto mt-5 max-w-[560px] text-[15px] leading-relaxed text-white/55 sm:text-[17px]">
+            <p className="mx-auto mt-5 max-w-[560px] text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.55)] sm:text-[17px]">
               {showPromoHero
                 ? fr
                   ? "Toutes les features Pro pendant un mois. Sans engagement, annule quand tu veux."
@@ -727,10 +728,10 @@ function BillingToggle({
   return (
     <div className="mx-auto mt-12 flex w-fit items-center sm:mt-14">
       <div
-        className="inline-flex items-center gap-1 rounded-2xl p-1"
+        className="inline-flex items-center gap-1 rounded-full p-1"
         style={{
-          background: "#000000",
-          border: "1px solid rgba(255,255,255,0.08)",
+          background: "rgb(var(--bg))",
+          border: "1px solid rgb(var(--ov) / 0.08)",
         }}
       >
         <button
@@ -739,8 +740,8 @@ function BillingToggle({
           aria-pressed={!annual}
           className={`rounded-xl px-5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
             !annual
-              ? "bg-white/[0.08] text-white"
-              : "bg-transparent text-white/55 hover:text-white"
+              ? "bg-[rgb(var(--ov)_/_0.08)] text-[rgb(var(--fg))]"
+              : "bg-transparent text-[rgb(var(--fg)_/_0.55)] hover:text-[rgb(var(--fg))]"
           }`}
         >
           {fr ? "Mensuel" : "Monthly"}
@@ -751,8 +752,8 @@ function BillingToggle({
           aria-pressed={annual}
           className={`inline-flex items-center gap-2 rounded-xl px-5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
             annual
-              ? "bg-white/[0.08] text-white"
-              : "bg-transparent text-white/55 hover:text-white"
+              ? "bg-[rgb(var(--ov)_/_0.08)] text-[rgb(var(--fg))]"
+              : "bg-transparent text-[rgb(var(--fg)_/_0.55)] hover:text-[rgb(var(--fg))]"
           }`}
         >
           <span>{fr ? "Annuel" : "Annual"}</span>
@@ -821,7 +822,7 @@ function JoinProCta({
           locale,
           planId,
         }}
-        className="inline-flex items-center justify-center rounded-full bg-white px-7 py-3 text-[15px] font-semibold text-black transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+        className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[15px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
       >
         {label}
       </LandingCtaLink>
@@ -1113,7 +1114,7 @@ export default function PricingPage({
   const RootWrapper = embedded ? "section" : "div";
   const rootClassName = embedded
     ? "relative"
-    : "landing-root min-h-screen bg-black font-sans text-[#f0f0f0]";
+    : "landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]";
   const MainWrapper = embedded ? "div" : "main";
   const mainClassName = embedded
     ? "relative pt-24 pb-0 sm:pt-32 sm:pb-0"
@@ -1134,7 +1135,7 @@ export default function PricingPage({
                sections. */
             <Reveal>
               <div className="text-center">
-                <h2 className="mx-auto max-w-[820px] text-[1.75rem] font-light leading-[1.1] tracking-tight text-white sm:text-[2.4rem] lg:text-[2.9rem]">
+                <h2 className="mx-auto max-w-[820px] text-[1.75rem] font-light leading-[1.1] tracking-tight text-[rgb(var(--fg))] sm:text-[2.4rem] lg:text-[2.9rem]">
                   {proIntroAvailable && (!signedIn || accountPlan === "free") ? (
                     locale === "fr" ? (
                       <>Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.</>
@@ -1181,9 +1182,9 @@ export default function PricingPage({
               }}
             >
             {plans.map((p) => {
-              // Pro (featured): solid #090909 fill, no outline, no glow.
+              // Pro (featured): pure white in light / subtle dark in dark (--card).
               // Free + Ultra: no fill at all — fully transparent, outline only.
-              const cardBg = p.featured ? "#090909" : "transparent";
+              const cardBg = p.featured ? "rgb(var(--card))" : "transparent";
               return (
               <div
                 key={p.name}
@@ -1209,7 +1210,7 @@ export default function PricingPage({
                       /* All three cards get the same 1px outline (offset
                          -1px so the rounded corners stay uniform). Pro also
                          carries the solid #090909 fill. */
-                      outline: "1px solid rgba(255, 255, 255, 0.14)",
+                      outline: "1px solid rgb(var(--ov) / 0.14)",
                       outlineOffset: "-1px",
                       WebkitFontSmoothing: "antialiased",
                     }}
@@ -1221,7 +1222,7 @@ export default function PricingPage({
                       one updates both prices in lockstep. Free has no
                       toggle (no monthly/annual concept). */}
                   <div className="flex h-8 items-center gap-2">
-                    <h3 className="text-2xl font-light text-white">
+                    <h3 className="text-2xl font-light text-[rgb(var(--fg))]">
                       {p.name}
                     </h3>
                     {/* Featured (Pro) gets a "Most popular" pill
@@ -1232,7 +1233,7 @@ export default function PricingPage({
                         and the CTAs aligned. */}
                     {p.featured && (
                       <span
-                        className="inline-flex items-center rounded-full bg-white px-2.5 py-[3px] text-[10.5px] font-semibold tracking-[0.02em] text-[#0e0e0e]"
+                        className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-2.5 py-[3px] text-[10.5px] font-semibold tracking-[0.02em] text-[rgb(var(--inv-fg))]"
                       >
                         {content.pricingUi.mostPopular}
                       </span>
@@ -1255,15 +1256,15 @@ export default function PricingPage({
                         "first month" instead of the generic "per month")
                         so promotional pricing can use the same slot. */}
                     {p.strikePrice && (
-                      <span className="text-[1.35rem] font-light leading-none text-white/35 line-through tabular-nums">
+                      <span className="text-[1.35rem] font-light leading-none text-[rgb(var(--fg)_/_0.5)] line-through decoration-[rgb(var(--fg)_/_0.5)] decoration-1 tabular-nums">
                         {p.strikePrice}
                       </span>
                     )}
-                    <span className="text-[2rem] font-light leading-none text-white tabular-nums">
+                    <span className="text-[2rem] font-light leading-none text-[rgb(var(--fg))] tabular-nums">
                       {p.price}
                     </span>
                     {p.period && (
-                      <span className="text-[15px] font-medium leading-none text-white/45">
+                      <span className="text-[15px] font-medium leading-none text-[rgb(var(--fg)_/_0.45)]">
                         {p.id === "pro" ? p.period : (fr ? "par mois" : "per month")}
                       </span>
                     )}
@@ -1274,7 +1275,7 @@ export default function PricingPage({
                       with the audience tag. Sharing one slot keeps
                       the vertical rhythm identical across all three
                       cards, so the CTAs sit at the same baseline. */}
-                  <p className="mt-3 text-[13px] font-medium leading-snug text-white/55">
+                  <p className="mt-3 text-[13px] font-medium leading-snug text-[rgb(var(--fg)_/_0.55)]">
                     {annual && (p.id === "pro" || p.id === "ultra")
                       ? fr
                         ? "Facturé annuellement"
@@ -1288,7 +1289,7 @@ export default function PricingPage({
                       const ctaClassName = `inline-flex w-full items-center justify-between rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                         p.featured
                           ? "bg-[#006ffe] text-white hover:bg-[#005fd6] focus-visible:ring-[#006ffe]/35"
-                          : "bg-white/[0.06] text-white hover:bg-white/[0.1] focus-visible:ring-white/20"
+                          : "bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)] focus-visible:ring-[rgb(var(--ov)_/_0.2)]"
                       }`;
                       const Arrow = (
                         <svg
@@ -1309,11 +1310,11 @@ export default function PricingPage({
                       // current plan — show a non-actionable badge, not a CTA.
                       if (isCurrent) {
                         return (
-                          <span className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-white/45">
+                          <span className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[rgb(var(--ov)_/_0.04)] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg)_/_0.45)]">
                             <svg
                               aria-hidden="true"
                               viewBox="0 0 20 20"
-                              className="h-4 w-4 shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]"
+                              className="h-4 w-4 shrink-0 fill-none stroke-[rgb(var(--fg))] stroke-[2.2]"
                             >
                               <path d="M5 10.5l3.5 3.5L15 7" />
                             </svg>
@@ -1359,7 +1360,7 @@ export default function PricingPage({
                       // purchase action — show a muted, non-actionable label.
                       if (signedIn && p.id === "free") {
                         return (
-                          <span className="inline-flex w-full items-center justify-center rounded-full bg-white/[0.04] px-5 py-2.5 text-sm font-semibold text-white/35">
+                          <span className="inline-flex w-full items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.04)] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg)_/_0.35)]">
                             {fr ? "Inclus" : "Free plan"}
                           </span>
                         );
@@ -1386,7 +1387,7 @@ export default function PricingPage({
                   </div>
 
                   {p.includedHeading && (
-                    <p className="mt-8 text-[12.5px] font-medium text-white/50">
+                    <p className="mt-8 text-[12.5px] font-medium text-[rgb(var(--fg)_/_0.5)]">
                       {p.includedHeading}
                     </p>
                   )}
@@ -1394,14 +1395,12 @@ export default function PricingPage({
                     {p.bullets.map((bullet) => (
                       <li
                         key={bullet}
-                        className="flex items-start gap-2.5 text-[14.5px] font-medium leading-snug text-white/55"
+                        className="flex items-start gap-2.5 text-[14.5px] font-medium leading-snug text-[rgb(var(--fg)_/_0.55)]"
                       >
-                        <svg
-                          viewBox="0 0 20 20"
-                          className="mt-0 h-[18px] w-[18px] shrink-0 fill-none stroke-white/85 stroke-[2.2]"
-                        >
-                          <path d="M5 10.5l3.5 3.5L15 7" />
-                        </svg>
+                        <PricingFeatureIcon
+                          text={bullet}
+                          className="mt-px h-[19px] w-[19px] shrink-0 text-[rgb(var(--fg))]"
+                        />
                         <span>{bullet}</span>
                       </li>
                     ))}
@@ -1410,7 +1409,7 @@ export default function PricingPage({
                   <div className="mt-auto flex justify-start pt-6">
                     <a
                       href="#compare-plans"
-                      className="text-[13px] font-medium text-white/55 underline underline-offset-4 decoration-white/30 transition-colors duration-200 hover:text-white hover:decoration-white/60"
+                      className="text-[13px] font-medium text-[rgb(var(--fg)_/_0.55)] underline underline-offset-4 decoration-white/30 transition-colors duration-200 hover:text-[rgb(var(--fg))] hover:decoration-white/60"
                     >
                       {locale === "fr" ? "Voir plus" : "View more"}
                     </a>
@@ -1448,14 +1447,14 @@ export default function PricingPage({
               className="relative mx-auto w-[74vw] overflow-hidden rounded-2xl sm:w-auto"
               style={{
                 background: "transparent",
-                outline: "1px solid rgba(255, 255, 255, 0.14)",
+                outline: "1px solid rgb(var(--ov) / 0.14)",
                 outlineOffset: "-1px",
               }}
             >
               <div className="relative z-10 flex flex-col items-start gap-4 px-7 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8 sm:px-10 sm:py-7">
                 <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-5">
                   <h3
-                    className="shrink-0 text-[15px] leading-none text-white/90"
+                    className="shrink-0 text-[15px] leading-none text-[rgb(var(--fg)_/_0.9)]"
                     style={{
                       fontFamily:
                         "Geist, ui-sans-serif, system-ui, -apple-system, sans-serif",
@@ -1465,14 +1464,14 @@ export default function PricingPage({
                          treatment the original MNGMT card used so the
                          logo reads as graphic, not body copy. */
                       maskImage:
-                        "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%)",
+                        "linear-gradient(to right, rgb(var(--bg)) 0%, rgb(var(--bg) / 0.35) 100%)",
                       WebkitMaskImage:
-                        "linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.35) 100%)",
+                        "linear-gradient(to right, rgb(var(--bg)) 0%, rgb(var(--bg) / 0.35) 100%)",
                     }}
                   >
                     {mngmtPlan.name}
                   </h3>
-                  <p className="text-[13.5px] font-light leading-snug text-white/55 sm:text-[14px]">
+                  <p className="text-[13.5px] font-light leading-snug text-[rgb(var(--fg)_/_0.55)] sm:text-[14px]">
                     {mngmtPlan.bullet}
                   </p>
                 </div>
@@ -1480,7 +1479,7 @@ export default function PricingPage({
                   loggedInHref={mngmtPlan.href}
                   loggedOutHref={mngmtPlan.href}
                   data-track-id="pricing.mngmt.contact_sales"
-                  className="shrink-0 inline-flex items-center justify-center rounded-[8px] bg-white/[0.06] px-5 py-2.5 text-sm font-semibold text-white/80 transition-colors duration-200 hover:bg-white/[0.12] hover:text-white"
+                  className="shrink-0 inline-flex items-center justify-center rounded-[8px] bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.12)] hover:text-[rgb(var(--fg))]"
                 >
                   {mngmtPlan.cta}
                 </LandingCtaLink>
@@ -1495,7 +1494,7 @@ export default function PricingPage({
             <div className="mt-14 flex justify-center sm:mt-16">
               <a
                 href="#compare-plans"
-                className="group inline-flex items-center gap-3 text-[22px] font-medium text-white/85 transition-colors duration-200 hover:text-white sm:gap-4 sm:text-[28px]"
+                className="group inline-flex items-center gap-3 text-[22px] font-medium text-[rgb(var(--fg)_/_0.85)] transition-colors duration-200 hover:text-[rgb(var(--fg))] sm:gap-4 sm:text-[28px]"
               >
                 <span>
                   {locale === "fr" ? "Comparer les plans" : "Compare plans"}
@@ -1563,7 +1562,7 @@ export default function PricingPage({
                    stacked translucent layers) is what lets the nav
                    visually "merge" with the pinned compare-plans bar
                    on both mobile and desktop. */
-                backgroundColor: stuck ? "rgba(0, 0, 0, 0.55)" : "transparent",
+                backgroundColor: stuck ? "rgb(var(--bg) / 0.55)" : "transparent",
                 backdropFilter: stuck ? "blur(14px)" : "none",
                 WebkitBackdropFilter: stuck ? "blur(14px)" : "none",
                 /* Snap on/off, the nav's matching glass is also snap
@@ -1578,7 +1577,7 @@ export default function PricingPage({
                   aligning with the feature tables below. */}
               <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
                 <div className="pr-4">
-                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-white sm:text-[2.3rem] lg:text-[2.3rem]">
+                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-[rgb(var(--fg))] sm:text-[2.3rem] lg:text-[2.3rem]">
                     {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">
@@ -1588,19 +1587,19 @@ export default function PricingPage({
                       aria-label={content.pricingUi.toggleBillingAriaLabel}
                       data-track-id="pricing.toggle_billing"
                       className={`relative h-5 w-9 shrink-0 rounded-full transition-colors duration-200 ${
-                        annual ? "bg-emerald-500/80" : "bg-white/15"
+                        annual ? "bg-emerald-500/80" : "bg-[rgb(var(--ov)_/_0.15)]"
                       }`}
                     >
                       <span
-                        className={`absolute inset-y-0 my-auto h-[14px] w-[14px] rounded-full bg-white transition-[left] duration-200 ${
+                        className={`absolute inset-y-0 my-auto h-[14px] w-[14px] rounded-full bg-[rgb(var(--inv))] transition-[left] duration-200 ${
                           annual ? "left-[18px]" : "left-[3px]"
                         }`}
                       />
                     </button>
-                    <span className="text-[12.5px] font-medium text-white/75 sm:text-[13px]">
+                    <span className="text-[12.5px] font-medium text-[rgb(var(--fg)_/_0.75)] sm:text-[13px]">
                       {locale === "fr" ? "Facturation annuelle" : "Yearly billing"}
                     </span>
-                    <span className="text-[11.5px] text-white/35 sm:text-[12px]">
+                    <span className="text-[11.5px] text-[rgb(var(--fg)_/_0.35)] sm:text-[12px]">
                       -{" "}
                       {locale === "fr" ? "Économise 17%" : "Save up to 17%"}
                     </span>
@@ -1613,16 +1612,16 @@ export default function PricingPage({
                 <div className="mt-6 grid grid-cols-3 gap-0 sm:mt-0 sm:contents">
                   {stickyPlans.map((p) => (
                     <div key={p.name} className="pl-1 sm:pl-3">
-                      <h3 className="text-[14px] font-semibold leading-tight text-white sm:text-[22px]">
+                      <h3 className="text-[14px] font-semibold leading-tight text-[rgb(var(--fg))] sm:text-[22px]">
                         {p.name}
                       </h3>
-                      <p className="mt-0.5 text-[13px] font-medium tabular-nums leading-tight text-white sm:mt-1 sm:text-[18px]">
+                      <p className="mt-0.5 text-[13px] font-medium tabular-nums leading-tight text-[rgb(var(--fg))] sm:mt-1 sm:text-[18px]">
                         {p.price}
                         {p.period && (
-                          <span className="text-white/45">{p.period}</span>
+                          <span className="text-[rgb(var(--fg)_/_0.45)]">{p.period}</span>
                         )}
                       </p>
-                      <p className="mt-0.5 text-[9.5px] leading-snug text-white/40 sm:mt-1 sm:text-[11px]">
+                      <p className="mt-0.5 text-[9.5px] leading-snug text-[rgb(var(--fg)_/_0.4)] sm:mt-1 sm:text-[11px]">
                         {p.period
                           ? fr
                             ? annual
@@ -1647,7 +1646,7 @@ export default function PricingPage({
                           locale,
                           planId: p.id,
                         }}
-                        className="mt-3 hidden w-full items-center justify-between rounded-full bg-white px-3.5 py-1.5 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 sm:inline-flex"
+                        className="mt-3 hidden w-full items-center justify-between rounded-full bg-[rgb(var(--inv))] px-3.5 py-1.5 text-[12px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] sm:inline-flex"
                       >
                         <span>{startedLabel}</span>
                         <svg
@@ -1685,8 +1684,8 @@ export default function PricingPage({
               {getComparisonSections(locale).map((section) => (
                 <div key={section.title} className="mt-12 sm:mt-16">
                   {/* Section header, bigger, with divider underneath */}
-                  <div className="border-b border-white/10 pb-3 sm:pb-4">
-                    <h3 className="text-[18px] font-semibold text-white sm:text-[22px]">
+                  <div className="border-b border-[rgb(var(--ov)_/_0.1)] pb-3 sm:pb-4">
+                    <h3 className="text-[18px] font-semibold text-[rgb(var(--fg))] sm:text-[22px]">
                       {section.title}
                     </h3>
                   </div>
@@ -1697,7 +1696,7 @@ export default function PricingPage({
                     {section.rows.map((row) => (
                       <div
                         key={row.label}
-                        className="grid min-h-[138px] grid-cols-1 border-b border-white/[0.06] sm:min-h-[96px] sm:grid-cols-[40%_20%_20%_20%] sm:items-center"
+                        className="grid min-h-[138px] grid-cols-1 border-b border-[rgb(var(--ov)_/_0.06)] sm:min-h-[96px] sm:grid-cols-[40%_20%_20%_20%] sm:items-center"
                       >
                         {/* Label + tooltip (for complex features with a desc) */}
                         <div className="pb-2 pr-4 pt-5 sm:py-6">
@@ -1738,7 +1737,7 @@ export default function PricingPage({
           {/* FAQ */}
           <div className="mt-28 sm:mt-36">
             <Reveal>
-              <h2 className="text-center text-2xl font-semibold text-white sm:text-3xl">
+              <h2 className="text-center text-2xl font-semibold text-[rgb(var(--fg))] sm:text-3xl">
                 {content.pricingUi.faqTitle}
               </h2>
             </Reveal>
@@ -1754,10 +1753,10 @@ export default function PricingPage({
           {/* Final CTA */}
           <Reveal className="mt-28 sm:mt-36">
             <div className="text-center">
-              <h2 className="text-2xl font-medium text-white sm:text-3xl">
+              <h2 className="text-2xl font-medium text-[rgb(var(--fg))] sm:text-3xl">
                 {locale === "fr" ? "Pr\u00eat \u00e0 te lancer ?" : "Ready to start?"}
               </h2>
-              <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+              <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
                 {locale === "fr"
                   ? "Inscris-toi gratuitement et commence \u00e0 envoyer ta musique comme un pro d\u00e8s aujourd\u0027hui. Tes fichiers restent priv\u00e9s, tes donn\u00e9es t\u0027appartiennent."
                   : "Sign up for free and start sending your music professionally today. Your files stay private, your data stays yours."}
@@ -1766,7 +1765,7 @@ export default function PricingPage({
                 <a
                   href="https://vvault.app/signup"
                   data-track-id="pricing.final_cta.start_free"
-                  className="inline-flex items-center rounded-[8px] bg-white px-6 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+                  className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-6 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
                 >
                   {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
                 </a>
@@ -1781,8 +1780,6 @@ export default function PricingPage({
         <LandingFooter
           locale={locale}
           content={content}
-          showColumns={false}
-          inlineLegalWithBrand
         />
       )}
     </RootWrapper>

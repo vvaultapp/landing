@@ -52,7 +52,7 @@ export default function ComparePage() {
   const items = comparisons(fr);
 
   return (
-    <div className="min-h-screen bg-black text-[#f0f0f0]">
+    <div className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
       <LandingNavWrapper />
 
       <main className="mx-auto max-w-[720px] px-5 pt-28 pb-20 sm:px-8">
@@ -60,7 +60,7 @@ export default function ComparePage() {
           {fr ? "Comment vvault se compare" : "How vvault Compares"}
         </h1>
 
-        <p className="mb-4 mt-6 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 mt-6 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           {fr
             ? "vvault est un espace de travail musical conçu sur mesure. Voici comment il se compare aux outils génériques que la plupart des producteurs utilisent actuellement pour envoyer, stocker et partager leur musique."
             : "vvault is a purpose-built music workspace. Here is how it compares to the general-purpose tools most producers currently use for sending, storing, and sharing music."}
@@ -71,12 +71,12 @@ export default function ComparePage() {
             <Link
               key={item.href}
               href={item.href}
-              className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-white/20 hover:bg-white/[0.05]"
+              className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
             >
-              <h2 className="text-base font-semibold text-white/90 group-hover:text-white">
+              <h2 className="text-base font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
                 {item.title}
               </h2>
-              <p className="mt-2 text-sm leading-relaxed text-white/50">
+              <p className="mt-2 text-sm leading-relaxed text-[rgb(var(--fg)_/_0.5)]">
                 {item.summary}
               </p>
             </Link>

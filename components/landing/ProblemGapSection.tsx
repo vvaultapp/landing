@@ -88,10 +88,10 @@ function ProblemCard({
         </div>
       </div>
 
-      <h3 className="relative mt-6 text-[18px] font-semibold leading-tight text-white sm:text-[19px]">
+      <h3 className="relative mt-6 text-[18px] font-semibold leading-tight text-[rgb(var(--fg))] sm:text-[19px]">
         {pair.beforeTitle}
       </h3>
-      <p className="relative mt-2 text-[13.5px] leading-relaxed text-white/45 sm:text-[14px]">
+      <p className="relative mt-2 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.45)] sm:text-[14px]">
         {pair.beforeDesc}
       </p>
     </div>
@@ -109,10 +109,10 @@ export function ProblemGapSection({ content }: ProblemGapSectionProps) {
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
-            <h3 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
+            <h3 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
               {c.titleLine1}
               <br />
-              <span className="text-white/40">{c.titleLine2}</span>
+              <span className="text-[rgb(var(--fg)_/_0.4)]">{c.titleLine2}</span>
             </h3>
           </div>
         </Reveal>
@@ -126,11 +126,11 @@ export function ProblemGapSection({ content }: ProblemGapSectionProps) {
         </div>
 
         <Reveal delayMs={420}>
-          <p className="mx-auto mt-14 flex max-w-[640px] flex-col items-center gap-2 text-center text-[14.5px] leading-relaxed text-white/55 sm:mt-16 sm:text-[16px]">
+          <p className="mx-auto mt-14 flex max-w-[640px] flex-col items-center gap-2 text-center text-[14.5px] leading-relaxed text-[rgb(var(--fg)_/_0.55)] sm:mt-16 sm:text-[16px]">
             {c.closingLine}
             <span
               aria-hidden="true"
-              className="mt-1 inline-flex h-6 w-6 animate-bounce items-center justify-center text-white/30"
+              className="mt-1 inline-flex h-6 w-6 animate-bounce items-center justify-center text-[rgb(var(--fg)_/_0.3)]"
             >
               <svg
                 viewBox="0 0 20 20"

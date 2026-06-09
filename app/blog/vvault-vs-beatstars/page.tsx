@@ -92,7 +92,7 @@ export default function VvaultVsBeatStarsPage() {
         publishedDate="2026-03-10"
       />
 
-      <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+      <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
         BeatStars and vvault are not competitors. They solve different problems. BeatStars is a
         marketplace where artists browse and buy beats through leasing and exclusive licensing.
         vvault is a workspace where producers organize their catalog, send beat packs to specific
@@ -101,7 +101,7 @@ export default function VvaultVsBeatStarsPage() {
       </p>
 
       <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">What BeatStars Does</h2>
-      <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+      <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
         BeatStars is a beat-selling marketplace. You upload beats, set lease and exclusive prices,
         and artists find and purchase them through the BeatStars storefront, your embedded player,
         or YouTube. It handles licensing, payments, contracts, and distribution. It is the standard
@@ -110,7 +110,7 @@ export default function VvaultVsBeatStarsPage() {
       </p>
 
       <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">What vvault Does</h2>
-      <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+      <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
         vvault is built for the active side of the business — when you are sending music to specific
         people and need to know what happened. You organize your beats into packs, send them through
         email campaigns directly from vvault, and track every open, click, play, download, and
@@ -119,7 +119,7 @@ export default function VvaultVsBeatStarsPage() {
         built-in marketplace, but the core strength is the{" "}
         <Link
           href="/blog/what-is-tracked-music-sending"
-          className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
         >
           tracked sending workflow
         </Link>
@@ -127,18 +127,18 @@ export default function VvaultVsBeatStarsPage() {
       </p>
 
       <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">When to Use BeatStars</h2>
-      <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+      <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
         Use BeatStars when you want passive income from beat leasing. When artists are browsing and
         discovering beats on their own. When you are selling type beats through YouTube funnels.
         When you want a storefront that handles contracts and delivery automatically.
       </p>
 
       <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">When to Use vvault</h2>
-      <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+      <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
         Use vvault when you are actively{" "}
         <Link
           href="/blog/how-to-send-beats-to-artists"
-          className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
         >
           sending beats to specific artists
         </Link>
@@ -152,7 +152,7 @@ export default function VvaultVsBeatStarsPage() {
       <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">
         The Overlap — Selling Through vvault
       </h2>
-      <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+      <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
         vvault also has a built-in marketplace with Stripe payment processing. Pro users pay a 5%
         commission per sale. Ultra users pay 0%. So if you want to sell directly to contacts you are
         already sending to — exclusive placements, custom packs, sample packs — you can handle the
@@ -162,14 +162,14 @@ export default function VvaultVsBeatStarsPage() {
       <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">
         The Best Setup for Serious Producers
       </h2>
-      <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+      <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
         Many producers run both. BeatStars handles the passive marketplace funnel — type beats,
         leasing, organic discovery. vvault handles the active outreach and placement funnel —
         curated packs, targeted sends, tracked engagement, and professional follow-up. Together,
         they cover both sides of the business. See the full{" "}
         <Link
           href="/compare"
-          className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
         >
           comparison of all tools
         </Link>{" "}
@@ -179,10 +179,10 @@ export default function VvaultVsBeatStarsPage() {
       <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">FAQ</h2>
 
       <div className="mb-6">
-        <h3 className="mb-2 text-base font-semibold text-white/90">
+        <h3 className="mb-2 text-base font-semibold text-[rgb(var(--fg)_/_0.9)]">
           Q: Do I need to choose between vvault and BeatStars?
         </h3>
-        <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           A: No. They serve different purposes. Use BeatStars for passive beat sales and vvault for
           active sending, tracking, and placement workflow. Most serious producers benefit from
           both.
@@ -190,20 +190,20 @@ export default function VvaultVsBeatStarsPage() {
       </div>
 
       <div className="mb-6">
-        <h3 className="mb-2 text-base font-semibold text-white/90">
+        <h3 className="mb-2 text-base font-semibold text-[rgb(var(--fg)_/_0.9)]">
           Q: Can I sell beats through vvault?
         </h3>
-        <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           A: Yes. vvault has a built-in marketplace with Stripe integration. Pro users pay 5%
           commission, Ultra users pay 0%.
         </p>
       </div>
 
       <div className="mb-6">
-        <h3 className="mb-2 text-base font-semibold text-white/90">
+        <h3 className="mb-2 text-base font-semibold text-[rgb(var(--fg)_/_0.9)]">
           Q: Does vvault have a public storefront like BeatStars?
         </h3>
-        <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           A: vvault has public profiles where you can showcase packs, kits, series, and credits. It
           is not a browse-and-buy marketplace in the BeatStars sense — it is more like a
           professional portfolio with direct selling capabilities.

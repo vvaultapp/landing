@@ -95,7 +95,7 @@ export default function ReviewsPage() {
   );
 
   return (
-    <div className="min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main className="relative z-10 pb-32 pt-40 sm:pt-48">
         <section className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
@@ -106,10 +106,10 @@ export default function ReviewsPage() {
             transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="text-center"
           >
-            <h1 className="font-display text-5xl font-semibold leading-[1.05] text-white sm:text-6xl lg:text-7xl">
+            <h1 className="font-display text-5xl font-semibold leading-[1.05] text-[rgb(var(--fg))] sm:text-6xl lg:text-7xl">
               {locale === "fr" ? "Wins" : "Wins"}
             </h1>
-            <p className="mx-auto mt-5 max-w-[640px] text-lg leading-relaxed text-white/55 sm:text-xl">
+            <p className="mx-auto mt-5 max-w-[640px] text-lg leading-relaxed text-[rgb(var(--fg)_/_0.55)] sm:text-xl">
               {locale === "fr" ? (
                 <>
                   De vrais artistes, de vraies ventes,
@@ -162,7 +162,7 @@ export default function ReviewsPage() {
 
           {/* Written reviews — the verified Trustpilot / App Store
               text testimonials, below the visual wins wall. */}
-          <h2 className="mt-24 text-center text-2xl font-light text-white sm:mt-32 sm:text-3xl">
+          <h2 className="mt-24 text-center text-2xl font-light text-[rgb(var(--fg))] sm:mt-32 sm:text-3xl">
             {locale === "fr" ? "Ce qu'ils en disent" : "What they're saying"}
           </h2>
           <div className="mt-10 flex justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] sm:mt-12">
@@ -191,10 +191,10 @@ export default function ReviewsPage() {
               outlineOffset: "-1px",
             }}
           >
-            <h2 className="text-2xl font-light text-white sm:text-3xl">
+            <h2 className="text-2xl font-light text-[rgb(var(--fg))] sm:text-3xl">
               {locale === "fr" ? "Lire tous les avis" : "Read every review"}
             </h2>
-            <p className="mt-3 max-w-[560px] text-[14px] leading-relaxed text-white/60 sm:text-[15px]">
+            <p className="mt-3 max-w-[560px] text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] sm:text-[15px]">
               {locale === "fr"
                 ? "Tous nos avis sont publics et vérifiés. Trustpilot pour le web, l'App Store pour le mobile."
                 : "Every review is public and verified. Trustpilot for the web, the App Store for mobile."}
@@ -205,7 +205,7 @@ export default function ReviewsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="reviews.trustpilot"
-                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#00b67a] px-5 text-[13.5px] font-semibold text-white transition-colors hover:bg-[#009d6a]"
+                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#00b67a] px-5 text-[13.5px] font-semibold text-[rgb(var(--fg))] transition-colors hover:bg-[#009d6a]"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -222,7 +222,7 @@ export default function ReviewsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="reviews.app_store"
-                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-white/[0.06] px-5 text-[13.5px] font-medium text-white/85 transition-colors hover:bg-white/[0.12] hover:text-white"
+                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[rgb(var(--ov)_/_0.06)] px-5 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.85)] transition-colors hover:bg-[rgb(var(--ov)_/_0.12)] hover:text-[rgb(var(--fg))]"
               >
                 {locale === "fr" ? "Voir sur l'App Store" : "View on the App Store"}
               </a>
@@ -239,8 +239,6 @@ export default function ReviewsPage() {
       <LandingFooter
         locale={locale}
         content={content}
-        showColumns={false}
-        inlineLegalWithBrand
       />
 
       <WinLightbox win={activeWin} onClose={() => setActiveWin(null)} />

@@ -5,11 +5,11 @@ import { FooterLanguageSwitcher } from "@/components/landing/FooterLanguageSwitc
 
 export function BlogNav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/85 pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--bg)_/_0.85)] pt-[env(safe-area-inset-top)] backdrop-blur-[20px] sm:pt-0">
       <div className="mx-auto flex h-[74px] w-full max-w-[1320px] items-center gap-3 px-5 sm:h-[66px] sm:px-8 lg:px-10">
         <Link
           href="/"
-          className="shrink-0 rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white"
+          className="shrink-0 rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-[rgb(var(--fg))]"
           aria-label="vvault homepage"
         >
           vvault
@@ -18,19 +18,19 @@ export function BlogNav() {
         <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex">
           <Link
             href="/blog"
-            className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Blog
           </Link>
           <Link
             href="/for/producers"
-            className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             For Producers
           </Link>
           <Link
             href="/compare"
-            className="rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Compare
           </Link>
@@ -39,13 +39,13 @@ export function BlogNav() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             href="https://vvault.app/signup"
-            className="inline-flex items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
           >
             Sign up
           </a>
           <a
             href="https://vvault.app/login"
-            className="inline-flex items-center rounded-full px-3 py-1.5 text-sm text-white/30 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="inline-flex items-center rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Login
           </a>
@@ -54,13 +54,13 @@ export function BlogNav() {
         <div className="ml-auto flex items-center gap-2 lg:hidden">
           <a
             href="https://vvault.app/signup"
-            className="inline-flex items-center rounded-xl bg-white px-4 py-2 text-[12px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/45"
+            className="inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
           >
             Sign up
           </a>
           <a
             href="https://vvault.app/login"
-            className="inline-flex items-center rounded-full px-3 py-1.5 text-xs text-white/64 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/84 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+            className="inline-flex items-center rounded-full px-3 py-1.5 text-xs text-[rgb(var(--fg)_/_0.64)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.84)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Login
           </a>
@@ -102,13 +102,13 @@ export function BlogFooter() {
   ];
 
   return (
-    <footer className="mt-20 border-t border-white/10 pb-14 pt-10 sm:pt-12">
+    <footer className="mt-20 border-t border-[rgb(var(--ov)_/_0.1)] pb-14 pt-10 sm:pt-12">
       <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
             <Link
               href="/"
-              className="rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-white/95"
+              className="rounded-xl text-[13px] font-semibold tracking-[0.18em] uppercase text-[rgb(var(--fg)_/_0.95)]"
               aria-label="vvault homepage"
             >
               vvault
@@ -116,13 +116,13 @@ export function BlogFooter() {
           </div>
           {columns.map((column) => (
             <div key={column.title}>
-              <h3 className="text-sm font-semibold text-white/80">{column.title}</h3>
+              <h3 className="text-sm font-semibold text-[rgb(var(--fg)_/_0.8)]">{column.title}</h3>
               <ul className="mt-4 space-y-2.5">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="rounded-md px-1 py-1 text-sm text-white/50 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                      className="rounded-md px-1 py-1 text-sm text-[rgb(var(--fg)_/_0.5)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
                     >
                       {link.label}
                     </a>
@@ -133,23 +133,23 @@ export function BlogFooter() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-6">
+        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-[rgb(var(--ov)_/_0.1)] pt-6">
           <div className="flex flex-wrap items-center gap-4">
             <a
               href="/privacy"
-              className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
+              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
             >
               Privacy
             </a>
             <a
               href="/terms"
-              className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
+              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
             >
               Terms
             </a>
             <a
               href="mailto:vvaultapp@gmail.com"
-              className="rounded-md px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.05] hover:text-white/78"
+              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
             >
               Contact
             </a>
@@ -163,12 +163,12 @@ export function BlogFooter() {
 
 export function BottomCta() {
   return (
-    <div className="sticky bottom-0 z-40 border-t border-white/10 bg-black/95 backdrop-blur-[12px]">
+    <div className="sticky bottom-0 z-40 border-t border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--bg)_/_0.95)] backdrop-blur-[12px]">
       <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:px-10">
-        <p className="text-sm text-white/70">Ready to send music like a pro?</p>
+        <p className="text-sm text-[rgb(var(--fg)_/_0.7)]">Ready to send music like a pro?</p>
         <a
           href="https://vvault.app/signup"
-          className="inline-flex shrink-0 items-center rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+          className="inline-flex shrink-0 items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
         >
           Start free
         </a>
@@ -192,7 +192,7 @@ export function ArticleHeader({
     <header className="mb-10">
       <Link
         href="/blog"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-white/50 transition-colors hover:text-white/80"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-[rgb(var(--fg)_/_0.5)] transition-colors hover:text-[rgb(var(--fg)_/_0.8)]"
       >
         <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current stroke-[1.5]">
           <path d="M13 15l-5-5 5-5" />
@@ -202,8 +202,8 @@ export function ArticleHeader({
       <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl lg:text-[42px] lg:leading-[1.1]">
         {title}
       </h1>
-      <p className="mt-4 text-base leading-relaxed text-white/60 sm:text-lg">{description}</p>
-      <div className="mt-4 flex items-center gap-3 text-sm text-white/40">
+      <p className="mt-4 text-base leading-relaxed text-[rgb(var(--fg)_/_0.6)] sm:text-lg">{description}</p>
+      <div className="mt-4 flex items-center gap-3 text-sm text-[rgb(var(--fg)_/_0.4)]">
         <time dateTime={publishedDate}>
           {new Date(publishedDate + "T00:00:00").toLocaleDateString("en-US", {
             year: "numeric",
@@ -211,7 +211,7 @@ export function ArticleHeader({
             day: "numeric",
           })}
         </time>
-        <span className="text-white/20">·</span>
+        <span className="text-[rgb(var(--fg)_/_0.2)]">·</span>
         <span>{readingTime} read</span>
       </div>
     </header>
@@ -224,19 +224,19 @@ export function RelatedArticles({
   articles: { slug: string; title: string; description: string }[];
 }) {
   return (
-    <section className="mt-16 border-t border-white/10 pt-10">
+    <section className="mt-16 border-t border-[rgb(var(--ov)_/_0.1)] pt-10">
       <h2 className="mb-6 text-xl font-semibold">Related articles</h2>
       <div className="grid gap-4 sm:grid-cols-3">
         {articles.map((article) => (
           <Link
             key={article.slug}
             href={`/blog/${article.slug}`}
-            className="group rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-white/20 hover:bg-white/[0.05]"
+            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
           >
-            <h3 className="text-sm font-semibold leading-snug text-white/90 group-hover:text-white">
+            <h3 className="text-sm font-semibold leading-snug text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
               {article.title}
             </h3>
-            <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-white/50">
+            <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[rgb(var(--fg)_/_0.5)]">
               {article.description}
             </p>
           </Link>

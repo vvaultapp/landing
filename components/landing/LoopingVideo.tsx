@@ -31,6 +31,7 @@ export function LoopingVideo({
   centeredClassName = "",
   fitOverride = "",
   eager = false,
+  mp4Only = false,
 }: {
   /** Base path WITHOUT extension, e.g. "/landing/features/upload".
       Expects `${src}.webm` and `${src}.mp4` in /public. */
@@ -50,6 +51,9 @@ export function LoopingVideo({
       (off the critical path). Leave false for scroll-down feature clips, which
       reveal their poster + load their video only once scrolled near. */
   eager?: boolean;
+  /** Only emit the mp4 <source> — for clips that ship mp4-only (no webm),
+      so the browser never requests a 404 webm before falling back. */
+  mp4Only?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   // Default false ⇒ centered fit, so nothing flashes the bigger framing.
@@ -117,6 +121,15 @@ export function LoopingVideo({
     return () => io.disconnect();
   }, [eager]);
 
+  // Reliability net for the fade-in: if the clip became ready BEFORE React
+  // attached the onCanPlay/onLoadedData handlers (a common SSR/hydration race
+  // that otherwise leaves the <video> stuck at opacity 0), catch it here.
+  useEffect(() => {
+    if (videoReady) return;
+    const v = ref.current;
+    if (v && v.readyState >= 2) setVideoReady(true);
+  });
+
   const fit = fitOverride || (isTall ? tallClassName : centeredClassName);
   // Show the poster as soon as the clip is active — immediately for eager/hero
   // clips, on scroll-near for feature clips. The poster sits UNDER the video;
@@ -158,7 +171,7 @@ export function LoopingVideo({
         onLoadedData={() => setVideoReady(true)}
         onCanPlay={() => setVideoReady(true)}
       >
-        <source src={`${src}.webm`} type="video/webm" />
+        {mp4Only ? null : <source src={`${src}.webm`} type="video/webm" />}
         <source src={`${src}.mp4`} type="video/mp4" />
       </video>
     </>

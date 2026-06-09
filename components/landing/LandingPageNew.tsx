@@ -31,11 +31,11 @@ export async function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
   const heroStats = await getHeroStats();
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <LandingBootstrap locale={locale} />
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-[#0e0e0e]"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-[rgb(var(--inv))] focus:px-3 focus:py-2 focus:text-sm focus:text-[rgb(var(--inv-fg))]"
       >
         {content.skipToContentLabel}
       </a>

@@ -121,7 +121,7 @@ export default function CookieConsentBanner() {
          back to the mobile full-width layout. `left-auto` is set
          explicitly so the mobile `inset-x-0` (= left:0 right:0)
          can't leak through and stretch the banner across the page. */
-      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-white/[0.08] bg-[#111114] text-white shadow-[0_-12px_40px_rgba(0,0,0,0.6)] md:inset-x-auto md:bottom-7 md:right-7 md:left-auto md:w-[380px] md:max-w-[calc(100vw-3.5rem)] md:rounded-2xl md:border md:border-black/[0.08] md:bg-white md:text-black md:shadow-[0_18px_48px_rgba(16,17,18,0.16),0_2px_8px_rgba(16,17,18,0.08)]"
+      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--bg))] text-[rgb(var(--fg))] shadow-[0_-12px_40px_rgb(var(--ov)_/_0.3)] md:inset-x-auto md:bottom-7 md:right-7 md:left-auto md:w-[380px] md:max-w-[calc(100vw-3.5rem)] md:rounded-2xl md:border md:border-[rgb(var(--ov)_/_0.1)] md:bg-[rgb(var(--bg))] md:text-[rgb(var(--fg))] md:shadow-[0_18px_48px_rgba(16,17,18,0.16),0_2px_8px_rgba(16,17,18,0.08)]"
     >
       {/* Mobile-only dismiss. On mobile the layout is a vertical stack
           (title / body / buttons) so there's no clean horizontal row to
@@ -132,7 +132,7 @@ export default function CookieConsentBanner() {
           type="button"
           aria-label="Reject non-essential cookies and close"
           onClick={handleRejectAll}
-          className="absolute right-4 top-4 z-[1] inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#111114] text-white transition-colors hover:bg-white/10 sm:hidden"
+          className="absolute right-4 top-4 z-[1] inline-flex h-9 w-9 items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:hidden"
         >
           <X className="h-4 w-4" />
         </button>
@@ -178,22 +178,22 @@ function BannerView({
   return (
     <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-10 md:flex-col md:gap-5">
       <div className="min-w-0 max-w-[760px]">
-        <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base md:text-[15px] md:font-medium md:text-black">
+        <h2 className="text-[15px] font-semibold leading-snug text-[rgb(var(--fg))] sm:text-base md:text-[15px] md:font-medium md:text-[rgb(var(--fg))]">
           We value your privacy
         </h2>
-        <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px] md:mt-2 md:text-[13px] md:text-black/60">
+        <p className="mt-2 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.65)] sm:text-[14px] md:mt-2 md:text-[13px] md:text-[rgb(var(--fg))]/60">
           Cookies help this site function, measure usage, and support marketing.{" "}
           <button
             type="button"
             onClick={onCustomize}
-            className="font-medium text-white underline underline-offset-2 hover:text-white md:text-black md:hover:text-black"
+            className="font-medium text-[rgb(var(--fg))] underline underline-offset-2 hover:text-[rgb(var(--fg))] md:text-[rgb(var(--fg))] md:hover:text-[rgb(var(--fg))]"
           >
             Manage
           </button>{" "}
           anytime or read our{" "}
           <Link
             href="/privacy#cookies"
-            className="font-medium text-white underline underline-offset-2 hover:text-white md:text-black md:hover:text-black"
+            className="font-medium text-[rgb(var(--fg))] underline underline-offset-2 hover:text-[rgb(var(--fg))] md:text-[rgb(var(--fg))] md:hover:text-[rgb(var(--fg))]"
           >
             cookie policy
           </Link>
@@ -205,14 +205,14 @@ function BannerView({
         <button
           type="button"
           onClick={onRejectAll}
-          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:h-11 md:flex-1 md:justify-center md:border-black/15 md:px-4 md:text-[13px] md:text-black md:hover:bg-black/[0.04]"
+          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] md:h-11 md:flex-1 md:justify-center md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[13px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
         >
           Reject
         </button>
         <button
           type="button"
           onClick={onAcceptAll}
-          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90 md:h-11 md:flex-1 md:justify-center md:bg-black md:px-4 md:text-[13px] md:text-white md:hover:bg-black/85"
+          className="inline-flex h-10 items-center rounded-full bg-[rgb(var(--inv))] px-6 text-[13px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity hover:opacity-90 md:h-11 md:flex-1 md:justify-center md:px-4 md:text-[13px]"
         >
           Accept
         </button>
@@ -224,7 +224,7 @@ function BannerView({
           type="button"
           aria-label="Reject non-essential cookies and close"
           onClick={onDismiss}
-          className="ml-1 hidden h-10 w-10 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10 sm:inline-flex md:hidden"
+          className="ml-1 hidden h-10 w-10 items-center justify-center rounded-full text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:inline-flex md:hidden"
         >
           <X className="h-4 w-4" />
         </button>
@@ -248,10 +248,10 @@ function PreferencesView(props: {
     <div className="space-y-5">
       <div className="flex items-start justify-between gap-6">
         <div className="min-w-0 max-w-[760px]">
-          <h2 className="text-[15px] font-semibold leading-snug text-white sm:text-base md:font-medium md:text-black">
+          <h2 className="text-[15px] font-semibold leading-snug text-[rgb(var(--fg))] sm:text-base md:font-medium md:text-[rgb(var(--fg))]">
             Cookie preferences
           </h2>
-          <p className="mt-2 text-[13.5px] leading-relaxed text-white/65 sm:text-[14px] md:text-[13px] md:text-black/60">
+          <p className="mt-2 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.65)] sm:text-[14px] md:text-[13px] md:text-[rgb(var(--fg))]/60">
             Strictly necessary cookies are always on because the site cannot
             function without them. Toggle the others to your preference.
           </p>
@@ -261,7 +261,7 @@ function PreferencesView(props: {
             type="button"
             aria-label="Close preferences"
             onClick={props.onClose}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white/55 transition-colors hover:bg-white/10 hover:text-white md:text-black/55 md:hover:bg-black/[0.06] md:hover:text-black"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[rgb(var(--fg)_/_0.55)] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] hover:text-[rgb(var(--fg))] md:text-[rgb(var(--fg))]/55 md:hover:bg-[rgb(var(--bg)_/_0.06)] md:hover:text-[rgb(var(--fg))]"
           >
             <X className="h-4 w-4" />
           </button>
@@ -293,21 +293,21 @@ function PreferencesView(props: {
         <button
           type="button"
           onClick={props.onRejectAll}
-          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:h-9 md:border-black/15 md:px-4 md:text-[12.5px] md:text-black md:hover:bg-black/[0.04]"
+          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] md:h-9 md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
         >
           Reject non-essential
         </button>
         <button
           type="button"
           onClick={props.onAcceptAll}
-          className="inline-flex h-10 items-center rounded-full border border-white/20 bg-transparent px-5 text-[13px] font-medium text-white transition-colors hover:bg-white/10 md:h-9 md:border-black/15 md:px-4 md:text-[12.5px] md:text-black md:hover:bg-black/[0.04]"
+          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] md:h-9 md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
         >
           Accept all
         </button>
         <button
           type="button"
           onClick={props.onSave}
-          className="inline-flex h-10 items-center rounded-full bg-white px-6 text-[13px] font-semibold text-black transition-colors hover:bg-white/90 md:h-9 md:bg-black md:px-4 md:text-[12.5px] md:text-white md:hover:bg-black/85"
+          className="inline-flex h-10 items-center rounded-full bg-[rgb(var(--inv))] px-6 text-[13px] font-semibold text-black transition-colors hover:bg-[rgb(var(--ov)_/_0.9)] md:h-9 md:bg-[rgb(var(--bg))] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--bg)_/_0.85)]"
         >
           Save preferences
         </button>
@@ -332,25 +332,25 @@ function CategoryRow({
   const interactive = !locked;
   return (
     <label
-      className={`flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition-colors md:border-black/[0.08] md:bg-black/[0.025] ${
+      className={`flex items-start gap-3 rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.04)] p-4 transition-colors md:border-black/[0.08] md:bg-[rgb(var(--bg)_/_0.025)] ${
         interactive
-          ? 'cursor-pointer hover:border-white/15 hover:bg-white/[0.06] md:hover:border-black/[0.14] md:hover:bg-black/[0.04]'
+          ? 'cursor-pointer hover:border-[rgb(var(--ov)_/_0.15)] hover:bg-[rgb(var(--ov)_/_0.06)] md:hover:border-black/[0.14] md:hover:bg-[rgb(var(--ov)_/_0.06)]'
           : ''
       }`}
     >
       <Checkbox checked={checked} locked={locked} onChange={onChange} />
       <div className="min-w-0">
         <div className="flex items-center gap-2">
-          <span className="text-[13px] font-semibold text-white md:text-black">
+          <span className="text-[13px] font-semibold text-[rgb(var(--fg))] md:text-[rgb(var(--fg))]">
             {title}
           </span>
           {locked ? (
-            <span className="rounded-full bg-white/10 px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-white/55 md:bg-black/[0.08] md:text-black/55">
+            <span className="rounded-full bg-[rgb(var(--ov)_/_0.1)] px-1.5 py-px text-[9px] font-medium uppercase tracking-wide text-[rgb(var(--fg)_/_0.55)] md:bg-[rgb(var(--bg)_/_0.08)] md:text-[rgb(var(--fg))]/55">
               Always on
             </span>
           ) : null}
         </div>
-        <div className="mt-1 text-[12px] leading-relaxed text-white/55 md:text-black/55">
+        <div className="mt-1 text-[12px] leading-relaxed text-[rgb(var(--fg)_/_0.55)] md:text-[rgb(var(--fg))]/55">
           {description}
         </div>
       </div>
@@ -388,8 +388,8 @@ function Checkbox({
       }}
       className={`relative mt-0.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md border transition-colors ${
         checked
-          ? 'border-white bg-white md:border-black md:bg-black'
-          : 'border-white/30 bg-transparent md:border-black/30'
+          ? 'border-white bg-[rgb(var(--inv))] md:border-black md:bg-[rgb(var(--bg))]'
+          : 'border-[rgb(var(--ov)_/_0.3)] bg-transparent md:border-black/30'
       } ${locked ? 'opacity-60' : ''}`}
     >
       <svg
@@ -400,7 +400,7 @@ function Checkbox({
         strokeLinecap="round"
         strokeLinejoin="round"
         aria-hidden="true"
-        className={`h-3 w-3 text-black transition-opacity duration-150 md:text-white ${
+        className={`h-3 w-3 text-black transition-opacity duration-150 md:text-[rgb(var(--fg))] ${
           checked ? 'opacity-100' : 'opacity-0'
         }`}
       >

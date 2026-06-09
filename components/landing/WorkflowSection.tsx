@@ -152,12 +152,12 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
         <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
           <Reveal>
             <div className="text-center">
-              <h3 className="mx-auto max-w-[760px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
+              <h3 className="mx-auto max-w-[760px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
                 {c.titleLine1}
                 <br />
-                <span className="text-white/40">{c.titleLine2}</span>
+                <span className="text-[rgb(var(--fg)_/_0.4)]">{c.titleLine2}</span>
               </h3>
-              <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+              <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
                 {c.subtitle}
               </p>
             </div>
@@ -236,10 +236,10 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
                     </div>
 
                     <div className="min-w-0 flex-1 lg:contents">
-                      <h3 className="workflow-step-title text-[16px] font-semibold text-white lg:mt-5 sm:text-[17px]">
+                      <h3 className="workflow-step-title text-[16px] font-semibold text-[rgb(var(--fg))] lg:mt-5 sm:text-[17px]">
                         {step.name}
                       </h3>
-                      <p className="workflow-step-copy mt-1 max-w-[280px] text-[13px] leading-relaxed text-white/55 lg:mt-2 sm:text-[13.5px]">
+                      <p className="workflow-step-copy mt-1 max-w-[280px] text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.55)] lg:mt-2 sm:text-[13.5px]">
                         {step.copy}
                       </p>
                     </div>
@@ -256,7 +256,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
                   buttonId: "workflow.start_the_loop",
                   surface: "landing.new.workflow",
                 }}
-                className="inline-flex items-center gap-2 rounded-[8px] px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-[filter,box-shadow] duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
+                className="inline-flex items-center gap-2 rounded-[8px] px-5 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-[filter,box-shadow] duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
                 style={{
                   background:
                     "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",

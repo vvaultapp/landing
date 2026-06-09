@@ -27,7 +27,7 @@ export function FeaturePageShell({
   }, [docTitle]);
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <LandingNav locale="en" content={content} showPrimaryLinks={true} />
 
       <main className="relative z-10 mx-auto max-w-[720px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
@@ -38,13 +38,13 @@ export function FeaturePageShell({
               background:
                 "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              WebkitTextFillColor: "rgb(var(--fg))",
               backgroundClip: "text",
             }}
           >
             {title}
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
+          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[16px]">
             {subtitle}
           </p>
         </Reveal>
@@ -55,8 +55,6 @@ export function FeaturePageShell({
       <LandingFooter
         locale="en"
         content={content}
-        showColumns={false}
-        inlineLegalWithBrand
       />
     </div>
   );

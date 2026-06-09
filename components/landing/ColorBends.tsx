@@ -133,7 +133,7 @@ type ColorBendsProps = {
   initialTimeOffset?: number;
 };
 
-export default function ColorBends({
+function ColorBendsImpl({
   className = "",
   style,
   rotation = 90,
@@ -412,4 +412,17 @@ export default function ColorBends({
       style={style}
     />
   );
+}
+
+/* The background shader is intentionally kept ONLY on the pricing page (which
+   must stay identical). Everywhere else the design is now clean and glow-free,
+   so this renders nothing. */
+/* The WebGL background shader is removed site-wide — the design is now clean
+   and glow-free in both light and dark. Kept as a no-op so existing imports
+   (incl. the pricing page) don't need to change. ColorBendsImpl is retained
+   below in case the effect is ever reinstated. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function ColorBends(_props: ColorBendsProps) {
+  void ColorBendsImpl;
+  return null;
 }

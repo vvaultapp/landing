@@ -1,6 +1,7 @@
 import type { LandingContent, Locale } from "@/components/landing/content";
 import Link from "next/link";
 import { FooterLanguageSwitcher } from "@/components/landing/FooterLanguageSwitcher";
+import { FooterThemeToggle } from "@/components/landing/FooterThemeToggle";
 
 function isInternalHref(href: string) {
   return href.startsWith("/") && !href.startsWith("//");
@@ -45,11 +46,11 @@ export function LandingFooter({
 
   if (!showColumns && inlineLegalWithBrand) {
     return (
-      <footer className="mt-8 border-t border-white/10 pb-10 pt-6">
+      <footer className="mt-8 border-t border-[rgb(var(--ov)_/_0.1)] pb-10 pt-6">
         <div className="mx-auto flex w-full max-w-[clamp(1320px,92vw,2400px)] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
           <Link
             href={homeHref}
-            className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-white/95"
+            className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--fg)_/_0.95)]"
             aria-label={content.ui.homepageAriaLabel}
           >
             vvault
@@ -60,7 +61,7 @@ export function LandingFooter({
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="inline-block rounded-xl px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                  className="inline-block rounded-xl px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
                 >
                   {item.label}
                 </Link>
@@ -70,7 +71,7 @@ export function LandingFooter({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block rounded-xl px-2 py-1 text-sm text-white/52 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/78 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/35"
+                  className="inline-block rounded-xl px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
                 >
                   {item.label}
                 </a>
@@ -89,7 +90,7 @@ export function LandingFooter({
   }
 
   return (
-      <footer className="relative z-[1] bg-white/[0.05] pb-20 pt-14 sm:pb-28 sm:pt-16">
+      <footer className="relative z-[1] bg-[rgb(var(--ov)_/_0.05)] pb-20 pt-14 sm:pb-28 sm:pt-16">
 
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
@@ -97,7 +98,7 @@ export function LandingFooter({
           <div>
             <Link
               href={homeHref}
-              className="text-[13px] font-semibold uppercase tracking-[0.18em] text-white/95"
+              className="text-[13px] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--fg)_/_0.95)]"
               aria-label={content.ui.homepageAriaLabel}
             >
               vvault
@@ -108,7 +109,7 @@ export function LandingFooter({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="footer.social.discord"
-                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.6)]"
                 aria-label="Discord"
               >
                 <DiscordFooterIcon />
@@ -118,7 +119,7 @@ export function LandingFooter({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="footer.social.instagram"
-                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-white/30 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/60"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.6)]"
                 aria-label="Instagram"
               >
                 <InstagramFooterIcon />
@@ -130,14 +131,14 @@ export function LandingFooter({
           {showColumns &&
             content.footer.columns.map((column) => (
               <div key={column.title}>
-                <h3 className="text-sm font-semibold text-white/80">{column.title}</h3>
+                <h3 className="text-sm font-semibold text-[rgb(var(--fg)_/_0.8)]">{column.title}</h3>
                 <ul className="mt-4 space-y-2.5">
                   {column.links.map((link) => (
                     <li key={link.label}>
                       {isInternalHref(link.href) ? (
                         <Link
                           href={link.href}
-                          className="text-sm text-white/40 transition-colors duration-200 hover:text-white/70"
+                          className="text-sm text-[rgb(var(--fg)_/_0.4)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.7)]"
                         >
                           {link.label}
                         </Link>
@@ -146,7 +147,7 @@ export function LandingFooter({
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-white/40 transition-colors duration-200 hover:text-white/70"
+                          className="text-sm text-[rgb(var(--fg)_/_0.4)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.7)]"
                         >
                           {link.label}
                         </a>
@@ -159,14 +160,14 @@ export function LandingFooter({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-white/[0.06] pt-6 sm:mt-28">
+        <div className="mt-20 flex flex-wrap items-center justify-between gap-4 border-t border-[rgb(var(--ov)_/_0.06)] pt-6 sm:mt-28">
           <div className="flex flex-wrap items-center gap-3">
             {content.footer.legalLinks.map((item) =>
               isInternalHref(item.href) ? (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="text-sm text-white/35 transition-colors duration-200 hover:text-white/60"
+                  className="text-sm text-[rgb(var(--fg)_/_0.35)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.6)]"
                 >
                   {item.label}
                 </Link>
@@ -176,7 +177,7 @@ export function LandingFooter({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-white/35 transition-colors duration-200 hover:text-white/60"
+                  className="text-sm text-[rgb(var(--fg)_/_0.35)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.6)]"
                 >
                   {item.label}
                 </a>
@@ -184,12 +185,15 @@ export function LandingFooter({
             )}
           </div>
 
-          <FooterLanguageSwitcher
-            initialLocale={locale}
-            ariaLabel={content.ui.languageSwitcherAriaLabel}
-            enLabel={content.ui.languageEnglish}
-            frLabel={content.ui.languageFrench}
-          />
+          <div className="flex items-center gap-3">
+            <FooterThemeToggle />
+            <FooterLanguageSwitcher
+              initialLocale={locale}
+              ariaLabel={content.ui.languageSwitcherAriaLabel}
+              enLabel={content.ui.languageEnglish}
+              frLabel={content.ui.languageFrench}
+            />
+          </div>
         </div>
       </div>
     </footer>

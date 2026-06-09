@@ -126,19 +126,19 @@ export function HeroLiveStats({
                 key={item.label}
                 className={[
                   "flex flex-col items-center gap-2.5 px-5 py-6 text-center sm:gap-3 sm:px-7 sm:py-8",
-                  mobileLeftBorder ? "border-l border-white/[0.08]" : "",
+                  mobileLeftBorder ? "border-l border-[rgb(var(--ov)_/_0.08)]" : "",
                   mobileTopBorder
-                    ? "border-t border-white/[0.08] md:border-t-0"
+                    ? "border-t border-[rgb(var(--ov)_/_0.08)] md:border-t-0"
                     : "",
-                  desktopLeftBorder ? "md:border-l md:border-white/[0.08]" : "",
+                  desktopLeftBorder ? "md:border-l md:border-[rgb(var(--ov)_/_0.08)]" : "",
                 ]
                   .filter(Boolean)
                   .join(" ")}
               >
-                <span className="text-[12px] font-medium leading-tight text-white/50 sm:text-[12.5px]">
+                <span className="text-[12px] font-medium leading-tight text-[rgb(var(--fg)_/_0.5)] sm:text-[12.5px]">
                   {item.label}
                 </span>
-                <span className="text-[1.85rem] font-light leading-[0.95] tabular-nums text-white sm:text-[2.4rem] lg:text-[2.75rem]">
+                <span className="text-[1.85rem] font-light leading-[0.95] tabular-nums text-[rgb(var(--fg))] sm:text-[2.4rem] lg:text-[2.75rem]">
                   {item.value}
                 </span>
               </div>

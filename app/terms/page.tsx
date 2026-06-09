@@ -98,52 +98,52 @@ const termsSections: Array<{ title: string; paragraphs: string[]; link?: { href:
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-black text-white">
+    <main className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
       <div className="mx-auto w-full max-w-4xl px-5 py-14 sm:py-18">
         <div className="mb-10 flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-white/60 transition-colors hover:text-white"
+            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-[rgb(var(--fg)_/_0.6)] transition-colors hover:text-[rgb(var(--fg))]"
           >
             <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M10 3L5 8l5 5" />
             </svg>
-            <span className="tracking-[0.18em] font-semibold uppercase text-white/90 group-hover:text-white">
+            <span className="tracking-[0.18em] font-semibold uppercase text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
               vvault
             </span>
           </Link>
-          <div className="flex items-center gap-4 text-sm text-white/60">
-            <Link href="/privacy" className="hover:text-white transition-colors">
+          <div className="flex items-center gap-4 text-sm text-[rgb(var(--fg)_/_0.6)]">
+            <Link href="/privacy" className="hover:text-[rgb(var(--fg))] transition-colors">
               Privacy Policy
             </Link>
           </div>
         </div>
 
-        <header className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+        <header className="rounded-3xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.04)] p-6 sm:p-8">
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Terms of Use</h1>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
             By using vvault, you agree to these Terms of Use. If you do not agree, do not use the service.
           </p>
-          <p className="mt-4 text-xs text-white/50">Last updated: {LAST_UPDATED}</p>
+          <p className="mt-4 text-xs text-[rgb(var(--fg)_/_0.5)]">Last updated: {LAST_UPDATED}</p>
         </header>
 
-        <section className="mt-8 space-y-6 rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-8">
+        <section className="mt-8 space-y-6 rounded-3xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-6 sm:p-8">
           {termsSections.map((section) => (
             <div key={section.title}>
-              <h2 className="text-lg font-semibold text-white">{section.title}</h2>
+              <h2 className="text-lg font-semibold text-[rgb(var(--fg))]">{section.title}</h2>
               <div className="mt-2 space-y-2">
                 {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph} className="text-sm leading-relaxed text-white/70 sm:text-[15px]">
+                  <p key={paragraph} className="text-sm leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-[15px]">
                     {paragraph}
                   </p>
                 ))}
                 {section.link ? (
-                  <p className="text-sm leading-relaxed text-white/80 sm:text-[15px]">
+                  <p className="text-sm leading-relaxed text-[rgb(var(--fg)_/_0.8)] sm:text-[15px]">
                     <a
                       href={section.link.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="underline decoration-white/35 underline-offset-4 hover:text-white"
+                      className="underline decoration-white/35 underline-offset-4 hover:text-[rgb(var(--fg))]"
                     >
                       {section.link.label}
                     </a>

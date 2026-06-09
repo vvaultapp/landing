@@ -102,7 +102,7 @@ const landingContentEn = {
       children: [
         { label: "Download for macOS", href: "/download/macos", description: "Desktop app for Mac" },
         { label: "Download for Windows", href: "/download/windows", description: "Desktop app for Windows" },
-        { label: "Download on App Store", href: "https://apps.apple.com/app/id6759256796", description: "Mobile app for iPhone", external: true },
+        { label: "Download on App Store", href: "/download/ios", description: "Mobile app for iPhone", external: true },
       ],
     },
     {
@@ -495,7 +495,7 @@ const landingContentFr = {
       children: [
         { label: "Télécharger pour macOS", href: "/download/macos", description: "App de bureau pour Mac" },
         { label: "Télécharger pour Windows", href: "/download/windows", description: "App de bureau pour Windows" },
-        { label: "Télécharger sur l'App Store", href: "https://apps.apple.com/app/id6759256796", description: "App mobile pour iPhone", external: true },
+        { label: "Télécharger sur l'App Store", href: "/download/ios", description: "App mobile pour iPhone", external: true },
       ],
     },
     {

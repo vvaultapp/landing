@@ -165,7 +165,7 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
             type="button"
             onClick={close}
             aria-label={fr ? "Fermer" : "Close"}
-            className="absolute right-4 top-4 inline-flex h-7 w-7 items-center justify-center rounded-full text-white/45 transition-colors duration-150 hover:bg-white/[0.08] hover:text-white"
+            className="absolute right-4 top-4 inline-flex h-7 w-7 items-center justify-center rounded-full text-[rgb(var(--fg)_/_0.45)] transition-colors duration-150 hover:bg-[rgb(var(--ov)_/_0.08)] hover:text-[rgb(var(--fg))]"
           >
             <svg
               viewBox="0 0 16 16"
@@ -180,24 +180,24 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
               styling: small, sentence-case, no pill / no glow / no
               uppercase tracking — just a quiet brand-blue label. */}
           <div className="flex items-baseline gap-2.5">
-            <h3 className="text-2xl font-light leading-none text-white">
+            <h3 className="text-2xl font-light leading-none text-[rgb(var(--fg))]">
               Pro
             </h3>
             <span className="text-[12px] font-medium leading-none text-[#7fb6ff]">
               {fr ? "Recommandé" : "Recommended"}
             </span>
           </div>
-          <p className="mt-3 text-[13.5px] font-medium leading-snug text-white/65">
+          <p className="mt-3 text-[13.5px] font-medium leading-snug text-[rgb(var(--fg)_/_0.65)]">
             {fr ? "Va plus loin avec Pro" : "Go further with Pro"}
           </p>
-          <p className="mt-2 text-[13px] leading-snug text-white/45">
+          <p className="mt-2 text-[13px] leading-snug text-[rgb(var(--fg)_/_0.45)]">
             {fr
               ? "Envois et tracking illimités, ventes à 5%, Wavematch."
               : "Unlimited sends, full tracking, 5% sales fee, Wavematch."}
           </p>
 
           <div className="mt-5 flex items-baseline gap-1.5">
-            <span className="text-[2rem] font-light leading-none text-white tabular-nums">
+            <span className="text-[2rem] font-light leading-none text-[rgb(var(--fg))] tabular-nums">
               {pricing
                 ? pricing.promoActive
                   ? moneyCompact(pricing.introUnitAmount, pricing.currency)
@@ -205,13 +205,13 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
                 : ""}
             </span>
             {pricing?.promoActive && (
-              <span className="text-[14px] font-medium text-white/45">
+              <span className="text-[14px] font-medium text-[rgb(var(--fg)_/_0.45)]">
                 {fr ? "le premier mois" : "first month"}
               </span>
             )}
           </div>
           {pricing?.promoActive && (
-            <p className="mt-1 text-[11.5px] text-white/35">
+            <p className="mt-1 text-[11.5px] text-[rgb(var(--fg)_/_0.35)]">
               {fr
                 ? `puis ${money(pricing.proMonthly, pricing.currency)} par mois`
                 : `then ${money(pricing.proMonthly, pricing.currency)} per month`}
@@ -230,7 +230,7 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
               });
               close();
             }}
-            className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#4397f8] px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#2c75d4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4397f8]/35"
+            className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#4397f8] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg))] transition-colors duration-200 hover:bg-[#2c75d4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4397f8]/35"
           >
             {fr ? "Rejoindre Pro" : "Join Pro now"}
           </Link>

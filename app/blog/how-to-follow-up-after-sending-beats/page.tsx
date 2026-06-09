@@ -76,7 +76,7 @@ export default function HowToFollowUpAfterSendingBeats() {
           publishedDate="2026-03-04"
         />
 
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           The first email rarely gets the placement. The follow-up does. But most producers either
           never follow up at all, or follow up so generically that they damage the relationship. The
           difference between annoying and effective follow-up comes down to timing, relevance, and
@@ -86,13 +86,13 @@ export default function HowToFollowUpAfterSendingBeats() {
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">
           Why Most Producers Skip Follow-Up
         </h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           They feel awkward about it. They do not want to seem pushy. They do not know if the person
           even saw the email. So they wait, hope for a response, and eventually move on. This is
           understandable — but it is also the single biggest reason producers{" "}
           <Link
             href="/blog/how-to-get-more-placements-as-a-producer"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             leave placements on the table
           </Link>
@@ -103,7 +103,7 @@ export default function HowToFollowUpAfterSendingBeats() {
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">
           The Problem With Blind Follow-Up
         </h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Sending &ldquo;just checking in — did you get a chance to listen?&rdquo; five days later to
           someone who may have never opened the email is weak. It adds no value, creates no urgency,
           and makes you sound like you have nothing else going on. Blind follow-up treats every
@@ -113,40 +113,40 @@ export default function HowToFollowUpAfterSendingBeats() {
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">
           The Right Way — Follow Up Based on Engagement Data
         </h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           If you use a tracked sending tool like vvault, you know exactly what each contact did. That
           changes everything.
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Contact opened the email and played 3 beats? Follow up with: &ldquo;Noticed you checked
           out the pack — if any of those caught your ear, I can send stems or more in that
           style.&rdquo; This is relevant and specific.
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Contact opened but did not click? The subject or preview got their attention, but the
           content did not pull them through. Follow up with a different hook: a standout beat preview,
           a different pack angle, or a personal note.
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Contact never opened? Do not reference the previous email. Send a fresh message with a new
           subject line and a different opening angle. Treat it like a first touchpoint.
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Contact downloaded a beat? This is a high-intent signal. Follow up quickly with next steps:
           &ldquo;Want me to send the stems? Happy to work on this one with you.&rdquo;
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           Learn more about{" "}
           <Link
             href="/blog/how-to-track-who-listened-to-your-beats"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             how tracking works
           </Link>{" "}
           and{" "}
           <Link
             href="/blog/what-is-tracked-music-sending"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             what tracked music sending means
           </Link>
@@ -154,7 +154,7 @@ export default function HowToFollowUpAfterSendingBeats() {
         </p>
 
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">Timing Rules</h2>
-        <ul className="mb-4 list-disc space-y-2 pl-6 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <ul className="mb-4 list-disc space-y-2 pl-6 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           <li>First follow-up: 3 to 5 days after the initial send.</li>
           <li>
             Second follow-up: 5 to 7 days after the first follow-up, only if there was some
@@ -171,18 +171,18 @@ export default function HowToFollowUpAfterSendingBeats() {
         </ul>
 
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">Templates That Work</h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
-          <strong className="text-white/80">After play engagement:</strong> &ldquo;Hey [Name] — saw
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
+          <strong className="text-[rgb(var(--fg)_/_0.8)]">After play engagement:</strong> &ldquo;Hey [Name] — saw
           you checked out the pack. If any of those fit the direction, I have a few more I can send
           over. Just let me know.&rdquo;
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
-          <strong className="text-white/80">After open but no click:</strong> &ldquo;Hey [Name] —
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
+          <strong className="text-[rgb(var(--fg)_/_0.8)]">After open but no click:</strong> &ldquo;Hey [Name] —
           wanted to make sure this one did not get buried. Here is a quick listen to the standout
           track from that pack: [direct link]. Let me know what you think.&rdquo;
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
-          <strong className="text-white/80">Fresh follow-up after no engagement:</strong> &ldquo;Hey
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
+          <strong className="text-[rgb(var(--fg)_/_0.8)]">Fresh follow-up after no engagement:</strong> &ldquo;Hey
           [Name] — got some new ones this week I think fit your sound. Different vibe from last time:
           [new pack link]. No pressure — just wanted to keep you in the loop.&rdquo;
         </p>
@@ -190,26 +190,26 @@ export default function HowToFollowUpAfterSendingBeats() {
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">
           How vvault Helps You Follow Up Smarter
         </h2>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           vvault shows you the full activity timeline for each contact — every email opened, every
           beat played, every download. You can schedule follow-ups directly inside a campaign, and
           vvault&rsquo;s analytics surface the best time to send based on your recipients&rsquo;
           actual engagement patterns.
         </p>
-        <p className="mb-4 text-[15px] leading-relaxed text-white/70 sm:text-base">
+        <p className="mb-4 text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
           The CRM also generates recommendations: based on what a contact has listened to and
           downloaded across your entire catalog, vvault suggests which tracks to send next and can
           turn those suggestions into a prefilled campaign in one click. Whether you are a solo{" "}
           <Link
             href="/for/producers"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             producer
           </Link>{" "}
           or part of a{" "}
           <Link
             href="/for/managers-and-labels"
-            className="text-white underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
           >
             management team
           </Link>
@@ -219,10 +219,10 @@ export default function HowToFollowUpAfterSendingBeats() {
         <h2 className="mt-10 mb-4 text-xl font-semibold sm:text-2xl">FAQ</h2>
 
         <div className="mb-6">
-          <h3 className="mb-2 text-base font-semibold text-white/90">
+          <h3 className="mb-2 text-base font-semibold text-[rgb(var(--fg)_/_0.9)]">
             Q: How many times should I follow up?
           </h3>
-          <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
+          <p className="text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
             A: Two follow-ups after the initial send is a safe default. If there is engagement
             (opens, plays), a third touchpoint is reasonable. If there is zero engagement after two
             follow-ups, move on and revisit later with fresh material.
@@ -230,10 +230,10 @@ export default function HowToFollowUpAfterSendingBeats() {
         </div>
 
         <div className="mb-6">
-          <h3 className="mb-2 text-base font-semibold text-white/90">
+          <h3 className="mb-2 text-base font-semibold text-[rgb(var(--fg)_/_0.9)]">
             Q: Is following up really necessary for landing placements?
           </h3>
-          <p className="text-[15px] leading-relaxed text-white/70 sm:text-base">
+          <p className="text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
             A: Yes. Most decision-makers do not respond to the first email. Consistent, relevant
             follow-up is how serious producers stay on the radar and eventually land opportunities.
           </p>

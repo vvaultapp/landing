@@ -27,7 +27,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
     <div
       className="relative overflow-hidden rounded-2xl transition-all duration-300 hover:brightness-125"
       style={{
-        background: "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
+        background: "rgb(var(--surface))",
       }}
     >
       {/* Border overlay — no bottom, sides fade out */}
@@ -52,9 +52,9 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         onClick={toggle}
         className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left sm:px-8"
       >
-        <span className="text-[14px] font-medium text-white/84 sm:text-[15px]">{question}</span>
+        <span className="text-[14px] font-medium text-[rgb(var(--fg)_/_0.84)] sm:text-[15px]">{question}</span>
         <span
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center text-white/40 transition-transform duration-300 ease-out"
+          className="inline-flex h-5 w-5 shrink-0 items-center justify-center text-[rgb(var(--fg)_/_0.4)] transition-transform duration-300 ease-out"
           style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
           aria-hidden="true"
         >
@@ -68,7 +68,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         style={{ height: open ? height : 0, opacity: open ? 1 : 0 }}
       >
         <div ref={bodyRef} className="px-6 pb-5 sm:px-8">
-          <p className="text-[13px] leading-7 text-white/50 sm:text-[14px]">{answer}</p>
+          <p className="text-[13px] leading-7 text-[rgb(var(--fg)_/_0.5)] sm:text-[14px]">{answer}</p>
         </div>
       </div>
     </div>
@@ -139,17 +139,17 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
         {/* Header */}
         <Reveal>
           <div className="text-center">
-            <h2 className="font-display text-3xl text-white sm:text-5xl">
+            <h2 className="font-display text-3xl text-[rgb(var(--fg))] sm:text-5xl">
               {content.pricingUi.title}
             </h2>
-            <p className="mt-3 text-[15px] text-white/45 sm:text-base">
+            <p className="mt-3 text-[15px] text-[rgb(var(--fg)_/_0.45)] sm:text-base">
               {content.pricingUi.subtitle}
             </p>
 
             {/* Toggle */}
             <div className="relative mt-8 flex flex-col items-center gap-2">
               <div className="flex items-center justify-center gap-3">
-                <span className={`text-sm ${annual ? "text-white/40" : "text-white"}`}>
+                <span className={`text-sm ${annual ? "text-[rgb(var(--fg)_/_0.4)]" : "text-[rgb(var(--fg))]"}`}>
                   {content.pricingUi.monthly}
                 </span>
                 <button
@@ -157,16 +157,16 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   aria-label={content.pricingUi.toggleBillingAriaLabel}
                   onClick={() => setAnnual((v) => !v)}
                   className={`relative h-7 w-12 rounded-full transition-colors duration-200 ${
-                    annual ? "bg-emerald-500/80" : "bg-white/10"
+                    annual ? "bg-emerald-500/80" : "bg-[rgb(var(--ov)_/_0.1)]"
                   }`}
                 >
                   <span
-                    className={`absolute inset-y-0 my-auto h-5 w-5 rounded-full bg-white transition-[left] duration-200 ${
+                    className={`absolute inset-y-0 my-auto h-5 w-5 rounded-full bg-[rgb(var(--inv))] transition-[left] duration-200 ${
                       annual ? "left-6" : "left-1"
                     }`}
                   />
                 </button>
-                <span className={`text-sm ${annual ? "text-white" : "text-white/40"}`}>
+                <span className={`text-sm ${annual ? "text-[rgb(var(--fg))]" : "text-[rgb(var(--fg)_/_0.4)]"}`}>
                   {content.pricingUi.annually}
                 </span>
               </div>
@@ -187,65 +187,26 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
               <div
                 className="relative flex h-full flex-col overflow-hidden rounded-2xl p-6 sm:p-8"
                 style={{
-                  background: p.featured
-                    ? "linear-gradient(180deg, rgba(22,22,28,1) 0%, rgba(10,10,13,1) 100%)"
-                    : p.name === ai.title
-                      ? "linear-gradient(180deg, rgba(18,14,28,0.98) 0%, rgba(6,4,12,1) 100%)"
-                      : "linear-gradient(180deg, rgba(12,12,15,0.98) 0%, rgba(4,4,5,1) 100%)",
+                  // Pro (featured) = subtle low-opacity fill; Free/Ultra = clean
+                  // outline cards (transparent fill + the visible border below).
+                  background: p.featured ? "rgb(var(--card))" : "transparent",
                 }}
               >
                 {/* Border overlay — no bottom, sides fade out */}
                 <div
                   className="pointer-events-none absolute inset-0 rounded-[inherit]"
-                  style={{
-                    border: p.featured
-                      ? "1px solid rgba(255,255,255,0.18)"
-                      : p.name === ai.title
-                        ? "1px solid rgba(168,130,255,0.12)"
-                        : "1px solid rgba(255,255,255,0.06)",
-                    borderBottom: "none",
-                    maskImage: "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-                    WebkitMaskImage: "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
-                  }}
+                  style={{ border: "1px solid rgb(var(--ov) / 0.14)" }}
                 />
-                {/* Top glow line */}
-                <div
-                  className="pointer-events-none absolute inset-x-0 top-0 h-px"
-                  style={{
-                    background: p.featured
-                      ? "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 15%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.1) 85%, transparent 100%)"
-                      : p.name === ai.title
-                        ? "linear-gradient(90deg, transparent 0%, rgba(168,130,255,0.08) 15%, rgba(168,130,255,0.25) 50%, rgba(168,130,255,0.08) 85%, transparent 100%)"
-                        : "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.04) 15%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.04) 85%, transparent 100%)",
-                  }}
-                />
-                {/* Pro glow — bright white */}
-                {p.featured && (
-                  <div
-                    className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[200px] w-[500px]"
-                    style={{
-                      background: "radial-gradient(ellipse at center, rgba(255,255,255,0.09) 0%, transparent 70%)",
-                    }}
-                  />
-                )}
-                {/* Ultra glow — purple accent */}
-                {p.name === ai.title && (
-                  <div
-                    className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 h-[160px] w-[420px]"
-                    style={{
-                      background: "radial-gradient(ellipse at center, rgba(168,130,255,0.07) 0%, transparent 70%)",
-                    }}
-                  />
-                )}
+                {/* glows removed — clean, flat cards in both themes */}
 
                 {/* Plan name + (Pro only) blue "Most popular" pill
                     inline with the name. */}
                 <div className="flex h-8 items-center gap-2">
-                  <h3 className="text-2xl font-semibold text-white">
+                  <h3 className="text-2xl font-semibold text-[rgb(var(--fg))]">
                     {p.name}
                   </h3>
                   {p.eyebrow && (
-                    <span className="inline-flex items-center rounded-full bg-white/[0.06] px-2.5 py-[3px] text-[10.5px] font-semibold tracking-[0.02em] text-white">
+                    <span className="inline-flex items-center rounded-full bg-[rgb(var(--ov)_/_0.06)] px-2.5 py-[3px] text-[10.5px] font-semibold tracking-[0.02em] text-[rgb(var(--fg))]">
                       {p.eyebrow}
                     </span>
                   )}
@@ -254,29 +215,29 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                 {/* Price */}
                 <div className="mt-4 flex items-baseline gap-1.5">
                   {p.strikePrice && (
-                    <span className="text-2xl font-medium leading-none text-white/35 line-through">
+                    <span className="text-2xl font-medium leading-none text-[rgb(var(--fg)_/_0.35)] line-through">
                       {p.strikePrice}
                     </span>
                   )}
-                  <span className="text-[2.5rem] font-semibold leading-none text-white">
+                  <span className="text-[2.5rem] font-semibold leading-none text-[rgb(var(--fg))]">
                     {p.price}
                   </span>
                   {p.period && (
-                    <span className="text-base text-white/40">{p.period}</span>
+                    <span className="text-base text-[rgb(var(--fg)_/_0.4)]">{p.period}</span>
                   )}
                 </div>
                 {/* Optional "then €X/mo" subtext for promo prices. */}
                 {p.priceNote && (
-                  <p className="mt-1.5 text-[12px] font-medium leading-snug text-white/40">
+                  <p className="mt-1.5 text-[12px] font-medium leading-snug text-[rgb(var(--fg)_/_0.4)]">
                     {p.priceNote}
                   </p>
                 )}
                 {/* Divider */}
-                <div className="mt-5 h-px w-full" style={{ background: "rgba(255,255,255,0.06)" }} />
+                <div className="mt-5 h-px w-full" style={{ background: "rgb(var(--ov) / 0.1)" }} />
 
                 {/* Features — checks (included) */}
                 {p.includedHeading && (
-                  <p className="mt-6 text-[12px] font-semibold uppercase tracking-wider text-white/40">
+                  <p className="mt-6 text-[12px] font-semibold uppercase tracking-wider text-[rgb(var(--fg)_/_0.4)]">
                     {p.includedHeading}
                   </p>
                 )}
@@ -284,9 +245,9 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   {p.bullets.map((bullet) => (
                     <li
                       key={bullet}
-                      className="flex items-start gap-2.5 text-[14.5px] leading-snug text-white/80"
+                      className="flex items-start gap-2.5 text-[14.5px] leading-snug text-[rgb(var(--fg)_/_0.8)]"
                     >
-                      <svg viewBox="0 0 20 20" className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-emerald-400/80 stroke-[2.2]">
+                      <svg viewBox="0 0 20 20" className="mt-[3px] h-[18px] w-[18px] shrink-0 fill-none stroke-[rgb(var(--fg))] stroke-[2.2]">
                         <path d="M5 10.5l3.5 3.5L15 7" />
                       </svg>
                       <span>{bullet}</span>
@@ -301,15 +262,15 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   <LandingCtaLink
                     loggedInHref={p.href}
                     loggedOutHref={p.loggedOutHref || p.href}
-                    className={`inline-flex w-full items-center justify-center rounded-2xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                    className={`inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 ${
                       p.featured
-                        ? "bg-white text-[#0e0e0e] hover:bg-white/90 focus-visible:ring-white/35"
-                        : "bg-white/[0.06] text-white hover:bg-white/[0.1] focus-visible:ring-white/20"
+                        ? "bg-[rgb(var(--inv))] text-[rgb(var(--inv-fg))] hover:opacity-90 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+                        : "border border-[rgb(var(--ov)_/_0.18)] text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.06)] focus-visible:ring-[rgb(var(--ov)_/_0.2)]"
                     }`}
                   >
                     {p.cta} <span className="ml-1.5">→</span>
                   </LandingCtaLink>
-                  <p className="mt-2.5 text-center text-[11px] text-white/25">
+                  <p className="mt-2.5 text-center text-[11px] text-[rgb(var(--fg)_/_0.25)]">
                     {p.period
                       ? (locale === "fr" ? "Annule quand tu veux" : "Cancel anytime")
                       : (locale === "fr" ? "Aucune carte requise" : "No credit card required")}
@@ -324,7 +285,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
         {/* FAQ */}
         <div className="mt-28 sm:mt-36">
           <Reveal>
-            <h3 className="text-center text-2xl font-semibold text-white sm:text-3xl">
+            <h3 className="text-center text-2xl font-semibold text-[rgb(var(--fg))] sm:text-3xl">
               {content.pricingUi.faqTitle}
             </h3>
           </Reveal>

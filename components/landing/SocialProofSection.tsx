@@ -60,7 +60,7 @@ function ReviewCard({
          when the carousel cycled and visibly shifted everything below
          it during the rotation. */}
       <p
-        className="text-[13px] leading-relaxed text-white/70 sm:text-[14px]"
+        className="text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-[14px]"
         style={{
           display: "-webkit-box",
           WebkitLineClamp: 4,
@@ -71,7 +71,7 @@ function ReviewCard({
       >
         &ldquo;{review.body}&rdquo;
       </p>
-      <p className="text-[11px] font-medium text-white/40 sm:text-xs">
+      <p className="text-[11px] font-medium text-[rgb(var(--fg)_/_0.4)] sm:text-xs">
         {review.name}
       </p>
     </div>
@@ -222,7 +222,7 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
             className="group/social relative block overflow-hidden rounded-[20px] outline-none sm:rounded-[24px]"
           >
             {/* Inner stack — gets blurred + scaled down on hover */}
-            <div className="relative overflow-hidden rounded-[20px] bg-white/[0.05] transition-[filter,transform,opacity] duration-300 ease-out group-hover/social:scale-[0.985] group-hover/social:opacity-65 group-hover/social:blur-[3px] sm:rounded-[24px]">
+            <div className="relative overflow-hidden rounded-[20px] bg-[rgb(var(--ov)_/_0.05)] transition-[filter,transform,opacity] duration-300 ease-out group-hover/social:scale-[0.985] group-hover/social:opacity-65 group-hover/social:blur-[3px] sm:rounded-[24px]">
 
             {/* Content */}
             <div className="relative px-6 pb-10 pt-12 sm:px-10 sm:pb-12 sm:pt-14">
@@ -241,10 +241,10 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
                   />
                   <path fill="#005128" d="M194.7 181.8l-7.2-22.3-51.8 37.6z" />
                 </svg>
-                <span className="text-sm text-white/50 sm:text-base">
+                <span className="text-sm text-[rgb(var(--fg)_/_0.5)] sm:text-base">
                   {locale === "fr" ? "Adoré sur Trustpilot" : "Loved on Trustpilot"}
                 </span>
-                <span className="text-sm font-semibold text-white/50 sm:text-base">
+                <span className="text-sm font-semibold text-[rgb(var(--fg)_/_0.5)] sm:text-base">
                   {trustpilotScore}/5
                 </span>
               </span>
@@ -282,8 +282,8 @@ export function SocialProofSection({ locale = "en" }: { locale?: Locale }) {
             {/* Hover overlay — dark scrim + "View all the reviews"
                 with a two-stroke diagonal arrow. Only opaque on
                 hover/focus-within. */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/55 opacity-0 transition-opacity duration-300 group-hover/social:opacity-100 group-focus-visible/social:opacity-100">
-              <span className="inline-flex items-center gap-3 text-[16px] font-medium text-white sm:text-[18px]">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[rgb(var(--bg)_/_0.55)] opacity-0 transition-opacity duration-300 group-hover/social:opacity-100 group-focus-visible/social:opacity-100">
+              <span className="inline-flex items-center gap-3 text-[16px] font-medium text-[rgb(var(--fg))] sm:text-[18px]">
                 {locale === "fr" ? "Voir tous les avis" : "View all the reviews"}
                 <svg
                   viewBox="0 0 24 24"

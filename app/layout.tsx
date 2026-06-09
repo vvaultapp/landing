@@ -7,6 +7,7 @@ import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
 import { ClickTracker } from "@/components/ClickTracker";
 import PinnedQuickMenuClient from "@/components/landing/PinnedQuickMenuClient";
 import { LocaleProvider } from "@/components/LocaleProvider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
 const geist = Geist({
@@ -74,8 +75,18 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={lang} className={`h-full ${geist.variable}`}>
+    <html lang={lang} suppressHydrationWarning className={`h-full ${geist.variable}`}>
       <head>
+        {/* Set the theme class before first paint so there's no flash of the
+            wrong theme — device-based (prefers-color-scheme) unless the visitor
+            has explicitly chosen one. Default markup is dark; this adds
+            `light` when appropriate. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var m=localStorage.getItem('vvault-theme');var d=m==='dark'?true:m==='light'?false:matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('light',!d);}catch(e){}})();",
+          }}
+        />
         {/* Preconnect hints shave ~100-300ms off first-byte for the
             third-party assets used on landing pages. DNS resolution +
             TLS handshake start during the initial HTML parse instead
@@ -139,7 +150,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full bg-black text-[#f0f0f0] font-sans">
+      <body className="min-h-full bg-[rgb(var(--bg))] text-[rgb(var(--fg))] font-sans">
         <AppStoreBanner />
         <ScrollToTop />
         {/* Document-wide click tracker. Fires `trackButtonClick` for any
@@ -149,12 +160,14 @@ export default async function RootLayout({
         {/* Global language provider — seeds the site language from the cookie
             on the server so every page renders the right language on first
             paint (no flash), and keeps cookie + localStorage in sync. */}
+        <ThemeProvider>
         <LocaleProvider initialLocale={lang}>
           {children}
           {/* Pinned bottom-right App Store + quick-nav menu — shown on every
               landing page except /docs and /admin (self-excludes via path). */}
           <PinnedQuickMenuClient />
         </LocaleProvider>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

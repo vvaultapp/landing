@@ -16,7 +16,7 @@ const CONTAINER =
   "mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10";
 
 const HEADING =
-  "font-display text-[1.25rem] font-medium leading-[1.3] tracking-tight text-white sm:text-[1.55rem] lg:text-[1.8rem]";
+  "font-display text-[1.25rem] font-medium leading-[1.3] tracking-tight text-[rgb(var(--fg))] sm:text-[1.55rem] lg:text-[1.8rem]";
 
 /* Shared fit classes for the visual inside a card — reused by the auto-loop
    <video> clips AND the static <img> screenshots so they frame identically,
@@ -52,7 +52,7 @@ function Placeholder({
   return (
     <div
       data-image-placeholder
-      className={`relative flex items-center justify-center overflow-hidden rounded-[24px] bg-white/[0.12] ${className}`}
+      className={`relative flex items-center justify-center overflow-hidden rounded-[24px] bg-[rgb(var(--ov)_/_0.12)] ${className}`}
     >
       {image ? (
         <img
@@ -73,7 +73,7 @@ function Placeholder({
           centeredClassName={FIT_CENTERED}
         />
       ) : (
-        <span className="px-4 text-center text-[11px] font-medium tracking-wide text-white/30">
+        <span className="px-4 text-center text-[11px] font-medium tracking-wide text-[rgb(var(--fg)_/_0.3)]">
           {label}
         </span>
       )}
@@ -104,8 +104,8 @@ function FeatureCard({
   return (
     <div>
       <Placeholder label={label} src={src} poster={poster} image={image} fit={fit} className={`${aspect} w-full`} />
-      <h3 className="mt-5 text-[15px] font-medium text-white">{title}</h3>
-      <p className="mt-1.5 max-w-[320px] text-[13px] leading-relaxed text-white/40">
+      <h3 className="mt-5 text-[15px] font-medium text-[rgb(var(--fg))]">{title}</h3>
+      <p className="mt-1.5 max-w-[320px] text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
         {copy}
       </p>
     </div>
@@ -136,7 +136,7 @@ export function ProblemStatementSection({ locale = "en" }: { locale?: Locale }) 
         <h2 className={HEADING}>
           {fr ? "Ta musique vit dans six apps." : "Your music lives in six apps."}
           <br />
-          <span className="text-white/35">
+          <span className="text-[rgb(var(--fg)_/_0.35)]">
             {fr ? "Tu perds de l'argent entre les deux." : "You're losing money in the gaps."}
           </span>
         </h2>
@@ -200,7 +200,7 @@ export function FeatureSection({ locale = "en" }: { locale?: Locale }) {
               <h2 className={`mx-auto max-w-[640px] text-center ${HEADING}`}>
                 {g.h1}
                 <br />
-                <span className="text-white/35">{g.h2}</span>
+                <span className="text-[rgb(var(--fg)_/_0.35)]">{g.h2}</span>
               </h2>
               <div className="mt-[150px] grid grid-cols-1 gap-x-8 gap-y-12 sm:mt-[214px] sm:grid-cols-2 lg:mt-[278px]">
                 {g.cards.map((c) => (

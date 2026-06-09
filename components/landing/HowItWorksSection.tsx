@@ -21,10 +21,10 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="grid gap-8 py-14 lg:grid-cols-[1fr_1fr] lg:gap-16">
-            <h2 className="font-display text-3xl leading-tight text-white sm:text-5xl">
+            <h2 className="font-display text-3xl leading-tight text-[rgb(var(--fg))] sm:text-5xl">
               {content.howItWorksIntro.title}
             </h2>
-            <p className="max-w-[620px] text-base leading-7 text-white/26 sm:text-lg">
+            <p className="max-w-[620px] text-base leading-7 text-[rgb(var(--fg)_/_0.26)] sm:text-lg">
               {content.howItWorksIntro.description}
             </p>
           </div>
@@ -32,12 +32,12 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
 
         <Reveal className="mt-2 sm:mt-4">
           <div className="mx-auto max-w-[1100px]">
-            <h3 className="text-center text-xl font-semibold text-white sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>
-            <p className="mt-2 text-center text-sm text-white/58">{content.pricingUi.sponsoredDescription}</p>
+            <h3 className="text-center text-xl font-semibold text-[rgb(var(--fg))] sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>
+            <p className="mt-2 text-center text-sm text-[rgb(var(--fg)_/_0.58)]">{content.pricingUi.sponsoredDescription}</p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {content.pricingUi.sponsoredVideos.map((video) => (
-                <div key={video.url} className="overflow-hidden rounded-[14px] border border-white/10 bg-[#090909]">
+                <div key={video.url} className="overflow-hidden rounded-[14px] border border-[rgb(var(--ov)_/_0.1)] bg-[#090909]">
                   <div className="relative w-full pb-[56.25%]">
                     <iframe
                       className="absolute inset-0 h-full w-full"
@@ -58,15 +58,15 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
         <div className="mt-16 grid gap-6 sm:mt-20">
           {content.howItWorks.map((step, index) => (
             <Reveal key={step.title} delayMs={index * 36}>
-              <article className="landing-panel overflow-hidden rounded-[18px] border border-white/10 bg-transparent min-h-[260px] md:h-[280px] md:min-h-0">
+              <article className="landing-panel overflow-hidden rounded-[18px] border border-[rgb(var(--ov)_/_0.1)] bg-transparent min-h-[260px] md:h-[280px] md:min-h-0">
                 <div className="grid h-full md:grid-cols-2 md:items-stretch">
                   <div className="p-6 sm:p-8">
-                    <p className="text-[11px] tracking-[0.12em] text-white/50">
+                    <p className="text-[11px] tracking-[0.12em] text-[rgb(var(--fg)_/_0.5)]">
                       {content.howItWorksIntro.stepLabel} {index + 1}
                     </p>
-                    <h3 className="mt-2 text-lg font-semibold text-white/90">{step.title}</h3>
-                    <p className="mt-3 text-sm leading-7 text-white/58">{step.description}</p>
-                    <p className="mt-4 text-sm leading-7 text-white/45">
+                    <h3 className="mt-2 text-lg font-semibold text-[rgb(var(--fg)_/_0.9)]">{step.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-[rgb(var(--fg)_/_0.58)]">{step.description}</p>
+                    <p className="mt-4 text-sm leading-7 text-[rgb(var(--fg)_/_0.45)]">
                       {step.detail}
                     </p>
                   </div>
@@ -81,7 +81,7 @@ export function HowItWorksSection({ content }: HowItWorksSectionProps) {
                         sizes="(min-width: 768px) 50vw, 100vw"
                       />
                     ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-[11px] tracking-[0.14em] text-white/45">
+                      <div className="absolute inset-0 flex items-center justify-center text-[11px] tracking-[0.14em] text-[rgb(var(--fg)_/_0.45)]">
                         {content.howItWorksIntro.imagePlaceholder}
                       </div>
                     )}

@@ -12,7 +12,7 @@ const Plasma = dynamic(() => import("@/components/landing/Plasma"), {
   ssr: false,
 });
 
-const APPSTORE_URL = "https://apps.apple.com/app/id6759256796";
+const APPSTORE_URL = "/download/ios";
 
 function useIsMac() {
   const [isMac, setIsMac] = useState(true);
@@ -43,9 +43,9 @@ export default function DownloadPage() {
   const fr = locale === "fr";
 
   const secondaryClass =
-    "inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-medium text-white/50 transition-colors duration-200 hover:bg-white/[0.06] hover:text-white/80";
+    "inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-medium text-[rgb(var(--fg)_/_0.5)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.8)]";
   const disabledClass =
-    "inline-flex cursor-not-allowed items-center gap-2.5 whitespace-nowrap rounded-2xl border border-white/[0.08] bg-white/[0.03] px-6 py-3 text-[15px] font-medium text-white/35";
+    "inline-flex cursor-not-allowed items-center gap-2.5 whitespace-nowrap rounded-2xl border border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--ov)_/_0.03)] px-6 py-3 text-[15px] font-medium text-[rgb(var(--fg)_/_0.35)]";
 
   const macButton = (
     <button
@@ -87,7 +87,7 @@ export default function DownloadPage() {
   );
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       <div
@@ -129,19 +129,19 @@ export default function DownloadPage() {
               background:
                 "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              WebkitTextFillColor: "rgb(var(--fg))",
             }}
           >
             {fr ? "Télécharger vvault" : "Download vvault"}
           </h1>
 
-          <p className="mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/50 sm:text-base">
+          <p className="mt-4 max-w-lg text-center text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.5)] sm:text-base">
             {fr
               ? "Disponible sur macOS, Windows et iOS. Importe, envoie et suis ta musique depuis n'importe quel appareil."
               : "Available on macOS, Windows, and iOS. Upload, send, and track your music from any device."}
           </p>
 
-          <span className="mt-4 rounded-full bg-white/[0.06] px-3 py-1 text-[12px] font-medium text-white/40">
+          <span className="mt-4 rounded-full bg-[rgb(var(--ov)_/_0.06)] px-3 py-1 text-[12px] font-medium text-[rgb(var(--fg)_/_0.4)]">
             v0.1.0
           </span>
 

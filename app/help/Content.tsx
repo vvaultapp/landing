@@ -31,11 +31,11 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         onClick={toggle}
         className="flex w-full items-center justify-between px-6 py-5 text-left"
       >
-        <span className="pr-4 text-[14px] font-medium text-white/70 sm:text-[15px]">
+        <span className="pr-4 text-[14px] font-medium text-[rgb(var(--fg)_/_0.7)] sm:text-[15px]">
           {question}
         </span>
         <svg
-          className="h-4 w-4 shrink-0 text-white/30 transition-transform duration-200"
+          className="h-4 w-4 shrink-0 text-[rgb(var(--fg)_/_0.3)] transition-transform duration-200"
           style={{ transform: open ? "rotate(45deg)" : "rotate(0deg)" }}
           viewBox="0 0 16 16"
           fill="none"
@@ -50,7 +50,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         style={{ maxHeight: open ? `${height}px` : "0px" }}
       >
         <div ref={bodyRef} className="px-6 pb-5">
-          <p className="text-[13px] leading-relaxed text-white/35 sm:text-[14px]">{answer}</p>
+          <p className="text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.35)] sm:text-[14px]">{answer}</p>
         </div>
       </div>
     </div>
@@ -69,7 +69,7 @@ export default function HelpPage() {
   const faqItems = content.faq;
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main className="relative z-10 mx-auto max-w-[720px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Header */}
@@ -80,13 +80,13 @@ export default function HelpPage() {
               background:
                 "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              WebkitTextFillColor: "rgb(var(--fg))",
               backgroundClip: "text",
             }}
           >
             {fr ? "Centre d'aide" : "Help Center"}
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
+          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[16px]">
             {fr ? "Trouve les réponses aux questions les plus courantes." : "Find answers to common questions."}
           </p>
         </Reveal>
@@ -103,8 +103,8 @@ export default function HelpPage() {
         {/* Still need help? */}
         <Reveal delayMs={200}>
           <div className="mt-20 text-center">
-            <h2 className="text-xl font-medium text-white sm:text-2xl">{fr ? "Encore besoin d'aide ?" : "Still need help?"}</h2>
-            <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+            <h2 className="text-xl font-medium text-[rgb(var(--fg))] sm:text-2xl">{fr ? "Encore besoin d'aide ?" : "Still need help?"}</h2>
+            <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
               {fr ? "Tu n'as pas trouvé ce que tu cherches ? Contacte-nous directement ou demande à la communauté." : "Can\u0027t find what you\u0027re looking for? Reach out directly or ask the community."}
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -112,11 +112,11 @@ export default function HelpPage() {
                 href="https://www.vvault.app/support"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] px-5 py-2.5 text-[13px] font-medium text-white/70 transition-colors hover:bg-white/[0.1] sm:text-[14px]"
+                className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:text-[14px]"
               >
                 Support
                 <svg
-                  className="h-3 w-3 text-white/30"
+                  className="h-3 w-3 text-[rgb(var(--fg)_/_0.3)]"
                   viewBox="0 0 12 12"
                   fill="none"
                   stroke="currentColor"
@@ -129,11 +129,11 @@ export default function HelpPage() {
                 href="https://discord.gg/QGGEZR5KhB"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-white/[0.06] px-5 py-2.5 text-[13px] font-medium text-white/70 transition-colors hover:bg-white/[0.1] sm:text-[14px]"
+                className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:text-[14px]"
               >
                 Discord
                 <svg
-                  className="h-3 w-3 text-white/30"
+                  className="h-3 w-3 text-[rgb(var(--fg)_/_0.3)]"
                   viewBox="0 0 12 12"
                   fill="none"
                   stroke="currentColor"
@@ -146,7 +146,7 @@ export default function HelpPage() {
           </div>
         </Reveal>
       </main>
-      <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
+      <LandingFooter locale={locale} content={content} />
     </div>
   );
 }

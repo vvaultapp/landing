@@ -61,15 +61,15 @@ export const TestimonialsColumn = (props: {
                       </svg>
                     ))}
                   </div>
-                  <p className="mt-4 text-[13.5px] leading-relaxed text-white/85">
+                  <p className="mt-4 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.85)]">
                     &ldquo;{review.body}&rdquo;
                   </p>
                   <div className="mt-5 flex items-center justify-between gap-2">
-                    <span className="truncate text-[12.5px] font-medium text-white">
+                    <span className="truncate text-[12.5px] font-medium text-[rgb(var(--fg))]">
                       {review.name}
                     </span>
                     {review.source ? (
-                      <span className="shrink-0 text-[11px] font-medium text-white/45">
+                      <span className="shrink-0 text-[11px] font-medium text-[rgb(var(--fg)_/_0.45)]">
                         {review.source}
                       </span>
                     ) : null}

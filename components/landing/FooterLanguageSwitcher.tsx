@@ -95,7 +95,7 @@ export function FooterLanguageSwitcher({
 
   return (
     <div
-      className="flex items-center gap-1 rounded-xl border border-white/[0.06] px-1 py-0.5"
+      className="flex items-center gap-1 rounded-xl border border-[rgb(var(--ov)_/_0.06)] px-1 py-0.5"
       role="group"
       aria-label={ariaLabel}
     >
@@ -105,8 +105,8 @@ export function FooterLanguageSwitcher({
         aria-pressed={locale === "en"}
         className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
           locale === "en"
-            ? "bg-white/10 text-white/90"
-            : "text-white/40 hover:text-white/70"
+            ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.9)]"
+            : "text-[rgb(var(--fg)_/_0.4)] hover:text-[rgb(var(--fg)_/_0.7)]"
         }`}
       >
         {enLabel}
@@ -117,8 +117,8 @@ export function FooterLanguageSwitcher({
         aria-pressed={locale === "fr"}
         className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
           locale === "fr"
-            ? "bg-white/10 text-white/90"
-            : "text-white/40 hover:text-white/70"
+            ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.9)]"
+            : "text-[rgb(var(--fg)_/_0.4)] hover:text-[rgb(var(--fg)_/_0.7)]"
         }`}
       >
         {frLabel}

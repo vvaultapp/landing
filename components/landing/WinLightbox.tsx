@@ -35,14 +35,14 @@ export function WinLightbox({
       aria-modal="true"
       aria-label={win.alt}
       onClick={onClose}
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm sm:p-8"
+      className="fixed inset-0 z-[120] flex items-center justify-center bg-[rgb(var(--bg)_/_0.85)] p-4 backdrop-blur-sm sm:p-8"
     >
       {/* Close button */}
       <button
         type="button"
         onClick={onClose}
         aria-label="Close"
-        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20 sm:right-6 sm:top-6"
+        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.2)] sm:right-6 sm:top-6"
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5 fill-none stroke-current stroke-[2]">
           <path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" />

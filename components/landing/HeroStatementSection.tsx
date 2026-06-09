@@ -142,8 +142,8 @@ export function HeroStatementSection({ content, locale }: HeroStatementSectionPr
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div id="sponsored" className="mx-auto max-w-[1100px] scroll-mt-28">
-            <h3 className="text-center text-xl font-semibold text-white sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>
-            <p className="mt-2 text-center text-sm text-white/58">{content.pricingUi.sponsoredDescription}</p>
+            <h3 className="text-center text-xl font-semibold text-[rgb(var(--fg))] sm:text-2xl">{content.pricingUi.sponsoredTitle}</h3>
+            <p className="mt-2 text-center text-sm text-[rgb(var(--fg)_/_0.58)]">{content.pricingUi.sponsoredDescription}</p>
 
             <div className="mt-6">
               <div className="relative">
@@ -152,7 +152,7 @@ export function HeroStatementSection({ content, locale }: HeroStatementSectionPr
                   onClick={() => scrollToPage(Math.max(0, activePage - 1))}
                   disabled={activePage === 0}
                   aria-label={fr ? "Page précédente" : "Previous page"}
-                  className="absolute -left-8 top-1/2 z-10 -translate-y-1/2 p-1 text-white/75 transition hover:text-white disabled:opacity-25 sm:-left-10 lg:-left-14"
+                  className="absolute -left-8 top-1/2 z-10 -translate-y-1/2 p-1 text-[rgb(var(--fg)_/_0.75)] transition hover:text-[rgb(var(--fg))] disabled:opacity-25 sm:-left-10 lg:-left-14"
                 >
                   <ChevronLeft className="h-7 w-7" />
                 </button>
@@ -169,7 +169,7 @@ export function HeroStatementSection({ content, locale }: HeroStatementSectionPr
                     <div
                       key={video.url}
                       data-sponsored-card="true"
-                      className="min-w-0 shrink-0 snap-start basis-[88%] overflow-hidden rounded-[14px] border border-white/10 bg-[#090909] sm:basis-[calc(50%-8px)] lg:basis-[calc(33.333%-10.67px)]"
+                      className="min-w-0 shrink-0 snap-start basis-[88%] overflow-hidden rounded-[14px] border border-[rgb(var(--ov)_/_0.1)] bg-[#090909] sm:basis-[calc(50%-8px)] lg:basis-[calc(33.333%-10.67px)]"
                     >
                       <div className="relative w-full pb-[56.25%]">
                         <iframe
@@ -191,7 +191,7 @@ export function HeroStatementSection({ content, locale }: HeroStatementSectionPr
                   onClick={() => scrollToPage(Math.min(pageCount - 1, activePage + 1))}
                   disabled={activePage >= pageCount - 1}
                   aria-label={fr ? "Page suivante" : "Next page"}
-                  className="absolute -right-8 top-1/2 z-10 -translate-y-1/2 p-1 text-white/75 transition hover:text-white disabled:opacity-25 sm:-right-10 lg:-right-14"
+                  className="absolute -right-8 top-1/2 z-10 -translate-y-1/2 p-1 text-[rgb(var(--fg)_/_0.75)] transition hover:text-[rgb(var(--fg))] disabled:opacity-25 sm:-right-10 lg:-right-14"
                 >
                   <ChevronRight className="h-7 w-7" />
                 </button>
@@ -210,7 +210,7 @@ export function HeroStatementSection({ content, locale }: HeroStatementSectionPr
                     aria-label={`Go to page ${index + 1}`}
                     aria-pressed={isActive}
                     className={`h-2.5 rounded-full transition ${
-                      isActive ? "w-8 bg-white" : "w-2.5 bg-white/25 hover:bg-white/45"
+                      isActive ? "w-8 bg-[rgb(var(--inv))]" : "w-2.5 bg-[rgb(var(--ov)_/_0.25)] hover:bg-[rgb(var(--ov)_/_0.45)]"
                     }`}
                   />
                 );

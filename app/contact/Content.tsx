@@ -65,7 +65,7 @@ export default function ContactPage() {
   const cards = contactCards(fr);
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main className="relative z-10 mx-auto max-w-[720px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Header */}
@@ -76,13 +76,13 @@ export default function ContactPage() {
               background:
                 "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
               WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
+              WebkitTextFillColor: "rgb(var(--fg))",
               backgroundClip: "text",
             }}
           >
             {fr ? "Nous contacter" : "Contact Us"}
           </h1>
-          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-white/40 sm:text-[16px]">
+          <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[16px]">
             {fr ? "On serait ravis d'avoir de tes nouvelles." : "We\u0027d love to hear from you."}
           </p>
         </Reveal>
@@ -103,15 +103,15 @@ export default function ContactPage() {
                 }}
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] text-white/50">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[rgb(var(--ov)_/_0.04)] text-[rgb(var(--fg)_/_0.5)]">
                     {card.icon}
                   </div>
                   <div>
-                    <h2 className="text-[15px] font-medium text-white/80 sm:text-[16px]">
+                    <h2 className="text-[15px] font-medium text-[rgb(var(--fg)_/_0.8)] sm:text-[16px]">
                       {card.title}
                       {card.external && (
                         <svg
-                          className="ml-1.5 inline-block h-3 w-3 text-white/30"
+                          className="ml-1.5 inline-block h-3 w-3 text-[rgb(var(--fg)_/_0.3)]"
                           viewBox="0 0 12 12"
                           fill="none"
                           stroke="currentColor"
@@ -121,7 +121,7 @@ export default function ContactPage() {
                         </svg>
                       )}
                     </h2>
-                    <p className="mt-1 text-[13px] leading-relaxed text-white/35 sm:text-[14px]">
+                    <p className="mt-1 text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.35)] sm:text-[14px]">
                       {card.description}
                     </p>
                   </div>
@@ -133,51 +133,51 @@ export default function ContactPage() {
 
         {/* What we can help with */}
         <Reveal className="mt-24">
-          <h2 className="text-[22px] font-medium text-white sm:text-[26px]">
+          <h2 className="text-[22px] font-medium text-[rgb(var(--fg))] sm:text-[26px]">
             {fr ? "Comment on peut t'aider" : "How we can help"}
           </h2>
-          <p className="mt-3 text-[14.5px] leading-relaxed text-white/45 sm:text-[15px]">
+          <p className="mt-3 text-[14.5px] leading-relaxed text-[rgb(var(--fg)_/_0.45)] sm:text-[15px]">
             {fr
               ? "vvault est conçu et maintenu par une petite équipe de producteurs et développeurs. On lit chaque message et on répond personnellement, généralement en moins de 24 heures les jours de semaine. Que tu aies une question sur ton compte, un bug à signaler, une idée de fonctionnalité, ou une demande de partenariat, tu es au bon endroit."
               : "vvault is built and maintained by a small team of producers and developers. We read every message and reply personally, usually within 24 hours on weekdays. Whether you have an account question, a bug to report, a feature idea, or a partnership inquiry, you're in the right place."}
           </p>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
-              <h3 className="text-[14.5px] font-medium text-white/85">
+            <div className="rounded-2xl border border-[rgb(var(--ov)_/_0.04)] bg-[rgb(var(--ov)_/_0.01)] p-5">
+              <h3 className="text-[14.5px] font-medium text-[rgb(var(--fg)_/_0.85)]">
                 {fr ? "Support technique" : "Technical support"}
               </h3>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
                 {fr
                   ? "Problème d'upload, campagne qui ne s'envoie pas, paiement bloqué ? Écris-nous par email avec une capture d'écran si possible et on règle ça."
                   : "Upload not working, campaign stuck, payment blocked? Email us with a screenshot if possible and we'll get it sorted."}
               </p>
             </div>
-            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
-              <h3 className="text-[14.5px] font-medium text-white/85">
+            <div className="rounded-2xl border border-[rgb(var(--ov)_/_0.04)] bg-[rgb(var(--ov)_/_0.01)] p-5">
+              <h3 className="text-[14.5px] font-medium text-[rgb(var(--fg)_/_0.85)]">
                 {fr ? "Compte et facturation" : "Account & billing"}
               </h3>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
                 {fr
                   ? "Questions sur ton plan, ton abonnement, un changement d'email ou la suppression de ton compte ? On s'en occupe rapidement par email."
                   : "Questions about your plan, your subscription, changing your email or closing your account? We handle it quickly by email."}
               </p>
             </div>
-            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
-              <h3 className="text-[14.5px] font-medium text-white/85">
+            <div className="rounded-2xl border border-[rgb(var(--ov)_/_0.04)] bg-[rgb(var(--ov)_/_0.01)] p-5">
+              <h3 className="text-[14.5px] font-medium text-[rgb(var(--fg)_/_0.85)]">
                 {fr ? "Demandes de fonctionnalités" : "Feature requests"}
               </h3>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
                 {fr
                   ? "Une idée pour améliorer vvault ? Le Discord est l'endroit idéal pour partager ton feedback et voter sur les prochaines features."
                   : "Got an idea to improve vvault? The Discord is the best place to share feedback and vote on what we build next."}
               </p>
             </div>
-            <div className="rounded-2xl border border-white/[0.04] bg-white/[0.01] p-5">
-              <h3 className="text-[14.5px] font-medium text-white/85">
+            <div className="rounded-2xl border border-[rgb(var(--ov)_/_0.04)] bg-[rgb(var(--ov)_/_0.01)] p-5">
+              <h3 className="text-[14.5px] font-medium text-[rgb(var(--fg)_/_0.85)]">
                 {fr ? "Partenariats & presse" : "Partnerships & press"}
               </h3>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-white/40">
+              <p className="mt-2 text-[13.5px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
                 {fr
                   ? "Tu es journaliste, créateur de contenu, label ou marque qui veut collaborer ? Écris-nous par email avec ton projet."
                   : "Journalist, content creator, label, or brand looking to collaborate? Email us with your project."}
@@ -188,10 +188,10 @@ export default function ContactPage() {
 
         {/* Before contacting */}
         <Reveal className="mt-20">
-          <h2 className="text-[22px] font-medium text-white sm:text-[26px]">
+          <h2 className="text-[22px] font-medium text-[rgb(var(--fg))] sm:text-[26px]">
             {fr ? "Avant de nous écrire" : "Before reaching out"}
           </h2>
-          <p className="mt-3 text-[14.5px] leading-relaxed text-white/45 sm:text-[15px]">
+          <p className="mt-3 text-[14.5px] leading-relaxed text-[rgb(var(--fg)_/_0.45)] sm:text-[15px]">
             {fr
               ? "Beaucoup de questions ont déjà une réponse. Jette un œil à notre centre d'aide et à notre documentation, tu y trouveras probablement ce que tu cherches en quelques secondes."
               : "Many questions already have an answer. Take a look at our help center and documentation — you'll likely find what you're looking for in seconds."}
@@ -200,28 +200,28 @@ export default function ContactPage() {
             <Link
               href="/help"
               data-track-id="contact.help_center"
-              className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
+              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
             >
               {fr ? "Centre d'aide" : "Help center"}
             </Link>
             <Link
               href="/docs"
               data-track-id="contact.docs"
-              className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
+              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
             >
               {fr ? "Documentation" : "Documentation"}
             </Link>
             <Link
               href="/pricing"
               data-track-id="contact.pricing_link"
-              className="inline-flex items-center rounded-xl bg-white/[0.06] px-4 py-2 text-[13.5px] font-medium text-white/80 transition-colors duration-200 hover:bg-white/[0.1]"
+              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
             >
               {fr ? "Tarifs" : "Pricing"}
             </Link>
           </div>
         </Reveal>
       </main>
-      <LandingFooter locale={locale} content={content} showColumns={false} inlineLegalWithBrand />
+      <LandingFooter locale={locale} content={content} />
     </div>
   );
 }

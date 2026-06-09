@@ -154,20 +154,20 @@ function ToolCard({
           >
             <ToolIcon id={tool.id} accent={tool.accent} />
           </div>
-          <h3 className="text-[15px] font-semibold text-white sm:text-[15.5px]">
+          <h3 className="text-[15px] font-semibold text-[rgb(var(--fg))] sm:text-[15.5px]">
             {tool.name}
           </h3>
         </div>
         <svg
           viewBox="0 0 20 20"
-          className="h-4 w-4 fill-none stroke-current text-white/25 stroke-[1.6] transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/65"
+          className="h-4 w-4 fill-none stroke-current text-[rgb(var(--fg)_/_0.25)] stroke-[1.6] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[rgb(var(--fg)_/_0.65)]"
         >
           <path d="M4 10h11M11 6l4 4-4 4" />
         </svg>
       </div>
 
       {/* One-liner */}
-      <p className="relative mt-2 text-[12.5px] leading-relaxed text-white/45 sm:text-[13px]">
+      <p className="relative mt-2 text-[12.5px] leading-relaxed text-[rgb(var(--fg)_/_0.45)] sm:text-[13px]">
         {tool.oneLiner}
       </p>
 
@@ -221,15 +221,15 @@ export function ToolsGallerySection({
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
-            <h3 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
+            <h3 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
               {c.titleLine1}
               <br />
-              <span className="text-white/40">{c.titleLine2}</span>
+              <span className="text-[rgb(var(--fg)_/_0.4)]">{c.titleLine2}</span>
             </h3>
-            <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+            <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
               {c.subtitle}
             </p>
-            <p className="tools-hover-hint mt-3 text-[11.5px] font-medium tracking-[0.02em] text-white/30">
+            <p className="tools-hover-hint mt-3 text-[11.5px] font-medium tracking-[0.02em] text-[rgb(var(--fg)_/_0.3)]">
               {c.hintHover}
             </p>
           </div>
@@ -269,7 +269,7 @@ export function ToolsGallerySection({
                 href: "/features",
               })
             }
-            className="inline-flex items-center gap-2 rounded-[8px] border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-[13px] font-semibold text-white/85 transition-colors duration-200 active:bg-white/[0.07]"
+            className="inline-flex items-center gap-2 rounded-[8px] border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] px-5 py-2.5 text-[13px] font-semibold text-[rgb(var(--fg)_/_0.85)] transition-colors duration-200 active:bg-[rgb(var(--ov)_/_0.07)]"
           >
             {locale === "fr" ? "Voir toutes les fonctionnalités" : "View all features"}
             <svg

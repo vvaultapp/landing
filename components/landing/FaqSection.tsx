@@ -47,11 +47,11 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         onClick={toggle}
         className="flex w-full cursor-pointer items-center justify-between gap-4 px-6 py-5 text-left sm:px-8"
       >
-        <span className="text-[14px] font-medium text-white/84 sm:text-[15px]">
+        <span className="text-[14px] font-medium text-[rgb(var(--fg)_/_0.84)] sm:text-[15px]">
           {question}
         </span>
         <span
-          className="inline-flex h-5 w-5 shrink-0 items-center justify-center text-white/40 transition-transform duration-300 ease-out"
+          className="inline-flex h-5 w-5 shrink-0 items-center justify-center text-[rgb(var(--fg)_/_0.4)] transition-transform duration-300 ease-out"
           style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
           aria-hidden="true"
         >
@@ -68,7 +68,7 @@ function FaqItem({ question, answer }: { question: string; answer: string }) {
         style={{ height: open ? height : 0, opacity: open ? 1 : 0 }}
       >
         <div ref={bodyRef} className="px-6 pb-5 sm:px-8">
-          <p className="text-[13px] leading-7 text-white/50 sm:text-[14px]">
+          <p className="text-[13px] leading-7 text-[rgb(var(--fg)_/_0.5)] sm:text-[14px]">
             {answer}
           </p>
         </div>
@@ -86,7 +86,7 @@ export function FaqSection({ content }: FaqSectionProps) {
     <section id="faq" className="pt-28 sm:pt-40">
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
-          <h2 className="text-center font-display text-3xl text-white sm:text-5xl">
+          <h2 className="text-center font-display text-3xl text-[rgb(var(--fg))] sm:text-5xl">
             {content.pricingUi.faqTitle}
           </h2>
         </Reveal>

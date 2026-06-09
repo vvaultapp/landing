@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "vvault_app_banner_dismissed_v1";
-const APP_STORE_URL = "https://apps.apple.com/app/id6759256796";
+const APP_STORE_URL = "/download/ios";
 const BANNER_HEIGHT_PX = 64;
 
 /* App-store smart banner shown at the very top of the viewport on
@@ -84,7 +84,7 @@ export function AppStoreBanner() {
         type="button"
         onClick={dismiss}
         aria-label="Dismiss app banner"
-        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/10 text-white/65 transition-colors hover:bg-white/15 hover:text-white"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.65)] transition-colors hover:bg-[rgb(var(--ov)_/_0.15)] hover:text-[rgb(var(--fg))]"
       >
         <svg
           viewBox="0 0 14 14"
@@ -122,10 +122,10 @@ export function AppStoreBanner() {
         rel="noopener noreferrer"
         className="min-w-0 flex-1"
       >
-        <p className="truncate text-[15.5px] font-semibold leading-tight text-white">
+        <p className="truncate text-[15.5px] font-semibold leading-tight text-[rgb(var(--fg))]">
           vvault
         </p>
-        <p className="truncate text-[12.5px] leading-tight text-white/55">
+        <p className="truncate text-[12.5px] leading-tight text-[rgb(var(--fg)_/_0.55)]">
           Send, sell &amp; track your beats
         </p>
       </a>
@@ -133,7 +133,7 @@ export function AppStoreBanner() {
         href={APP_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="shrink-0 rounded-full bg-[#0a84ff] px-[18px] py-[7px] text-[14px] font-semibold text-white transition-colors hover:bg-[#1c8fff]"
+        className="shrink-0 rounded-full bg-[#0a84ff] px-[18px] py-[7px] text-[14px] font-semibold text-[rgb(var(--fg))] transition-colors hover:bg-[#1c8fff]"
       >
         Get
       </a>

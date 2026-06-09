@@ -66,10 +66,10 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
 
 
   return (
-    <div className="landing-root min-h-screen bg-black font-sans text-[#f0f0f0]">
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:text-sm focus:text-[#0e0e0e]"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-[rgb(var(--inv))] focus:px-3 focus:py-2 focus:text-sm focus:text-[rgb(var(--inv-fg))]"
       >
         {content.skipToContentLabel}
       </a>
@@ -87,7 +87,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
             data-track-id="home.see_pricing_under_metrics"
-            className="inline-flex h-11 items-center gap-2 rounded-full border border-white/15 bg-white/[0.04] px-6 text-[14px] font-medium text-white transition-colors duration-200 hover:bg-white/[0.08]"
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-[rgb(var(--ov)_/_0.15)] bg-[rgb(var(--ov)_/_0.04)] px-6 text-[14px] font-medium text-[rgb(var(--fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.08)]"
           >
             {locale === "fr" ? "Voir les tarifs" : "See pricing"}
             <span aria-hidden="true">→</span>

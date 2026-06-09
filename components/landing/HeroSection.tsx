@@ -553,7 +553,7 @@ export function HeroTrustedBy({
             </span>
           ))}
         </div>
-        <p className="text-[15px] text-white sm:text-base lg:text-[15px] min-[2000px]:text-base">
+        <p className="text-[15px] text-[rgb(var(--fg))] sm:text-base lg:text-[15px] min-[2000px]:text-base">
           {locale === "fr" ? "Utilisé par" : "Used by"}{" "}
           {/* Never render a bare "0" — until a real (positive) count
               resolves we show an ellipsis, so a slow/failed stats fetch
@@ -666,7 +666,7 @@ function HeroDevices() {
         {/* Computer — back, vertically centered on the phone. The wrapper
             reserves the clip's exact 660×414 aspect ratio so its height is
             fixed from first paint — no resize/“jump” once the video loads. */}
-        <div className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] hero-slide-left overflow-hidden rounded-[14px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)]">
+        <div className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] hero-slide-left overflow-hidden rounded-[14px] bg-[rgb(var(--ov)_/_0.04)] [outline:2px_solid_rgb(var(--ov)_/_0.16)]">
           <LoopingVideo
             src="/landing/features/computer"
             poster="/landing/features/computer.webp"
@@ -675,7 +675,7 @@ function HeroDevices() {
           />
         </div>
         {/* Phone — front, up and to the right. Reserves the 420×856 ratio. */}
-        <div className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] hero-slide-right overflow-hidden rounded-[22px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)]">
+        <div className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] hero-slide-right overflow-hidden rounded-[22px] bg-[rgb(var(--ov)_/_0.04)] [outline:2px_solid_rgb(var(--ov)_/_0.16)]">
           <LoopingVideo
             src="/landing/features/phone"
             poster="/landing/features/phone.webp"
@@ -691,7 +691,7 @@ function HeroDevices() {
   return (
     <div ref={mobileRef} className="relative aspect-[5/4] w-full">
       <div
-        className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] overflow-hidden rounded-[14px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)] will-change-transform"
+        className="absolute left-0 top-1/2 aspect-[660/414] w-[74%] overflow-hidden rounded-[14px] bg-[rgb(var(--ov)_/_0.04)] [outline:2px_solid_rgb(var(--ov)_/_0.16)] will-change-transform"
         style={{ transform: revealed ? "translate(0, -50%)" : "translate(-145%, -50%)", transition: "transform 1800ms cubic-bezier(0.22, 1, 0.36, 1)" }}
       >
         {revealed && (
@@ -703,7 +703,7 @@ function HeroDevices() {
         )}
       </div>
       <div
-        className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] overflow-hidden rounded-[22px] bg-white/[0.04] [outline:2px_solid_rgba(255,255,255,0.16)] will-change-transform"
+        className="absolute right-[3%] top-1/2 z-10 aspect-[420/856] w-[38%] overflow-hidden rounded-[22px] bg-[rgb(var(--ov)_/_0.04)] [outline:2px_solid_rgb(var(--ov)_/_0.16)] will-change-transform"
         style={{ transform: revealed ? "translate(0, -50%)" : "translate(145%, -50%)", transition: "transform 1800ms cubic-bezier(0.22, 1, 0.36, 1)" }}
       >
         {revealed && (
@@ -723,14 +723,14 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
   return (
     <section className="relative flex min-h-screen items-start overflow-hidden lg:items-center">
-      <div className="relative z-10 mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-4 pb-16 pt-[140px] sm:px-8 sm:pt-[152px] lg:px-10 lg:pb-24 lg:pt-48">
+      <div className="relative z-10 mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-4 pb-16 pt-[140px] sm:px-8 sm:pt-[152px] lg:px-10 lg:pb-24 lg:pt-24">
         {/* Two-column hero (claude.ai structure): all content on the
             left, an empty container on the right reserved for a video
             (to be added later). Stacks to a single column on mobile. */}
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,7vw,8.5rem)]">
           {/* LEFT — headline, trusted-by, sign-up card (centered). */}
           <div className="flex flex-col items-center text-center">
-            <h1 className="font-display text-[2.4rem] font-normal leading-[1.05] tracking-tight text-white sm:text-[2.6rem] lg:text-[2.75rem] min-[2000px]:text-[3.1rem]">
+            <h1 className="font-display text-[2.4rem] font-normal leading-[1.05] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.75rem] min-[2000px]:text-[3.1rem]">
               <span className="block">
                 {locale === "fr" ? "Gère ta musique" : "Run your music"}
               </span>
@@ -757,7 +757,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                   <a
                     href="https://vvault.app/signup"
                     onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
-                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-white/20 px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-white transition-colors duration-200 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-[rgb(var(--ov)_/_0.2)] px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-[rgb(var(--fg))] transition-colors duration-200 hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
                   >
                     <svg viewBox="-8 -8 256 256" className="h-5 w-5 -translate-y-px" fill="none" stroke="currentColor" strokeWidth={18} strokeLinecap="round" strokeLinejoin="round">
                       <path d="M20 120c0 -37.7124 0 -56.5685 11.7157 -68.2843C43.4315 40 62.2876 40 100 40h40c37.712 0 56.569 0 68.284 11.7157C220 63.4315 220 82.2876 220 120c0 37.712 0 56.569 -11.716 68.284C196.569 200 177.712 200 140 200h-40c-37.7124 0 -56.5685 0 -68.2843 -11.716C20 176.569 20 157.712 20 120Z" />
@@ -769,9 +769,9 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                   <a
                     href="https://vvault.app/signup"
                     onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
-                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-white/20 px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-white transition-colors duration-200 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-[rgb(var(--ov)_/_0.2)] px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-[rgb(var(--fg))] transition-colors duration-200 hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
                   >
-                    <svg viewBox="0 0 384 512" className="h-5 w-5 -translate-y-0.5" fill="#ffffff" aria-hidden="true">
+                    <svg viewBox="0 0 384 512" className="h-5 w-5 -translate-y-0.5" fill="currentColor" aria-hidden="true">
                       <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
                     </svg>
                     {locale === "fr" ? "Continuer avec Apple" : "Continue with Apple"}
@@ -780,7 +780,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                   <a
                     href="https://vvault.app/auth/google"
                     onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
-                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-white px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
                   >
                     <svg
                       viewBox="0 0 24 24"
@@ -798,9 +798,9 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                 </div>
 
                 {/* Privacy line — vvault's equivalent of claude's */}
-                <p className="mt-4 text-center text-[12px] leading-relaxed text-white/40">
+                <p className="mt-4 text-center text-[12px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
                   {locale === "fr" ? "En continuant, tu acceptes la " : "By continuing, you acknowledge vvault's "}
-                  <a href="/privacy" className="text-white/55 underline underline-offset-2 hover:no-underline">
+                  <a href="/privacy" className="text-[rgb(var(--fg)_/_0.55)] underline underline-offset-2 hover:no-underline">
                     {locale === "fr" ? "Politique de confidentialité" : "Privacy Policy"}
                   </a>
                   {locale === "fr" ? " de vvault." : "."}

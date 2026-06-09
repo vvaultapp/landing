@@ -24,16 +24,16 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
       <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
-            <h2 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-white sm:text-3xl lg:text-[2.2rem]">
+            <h2 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
               {fr ? "Des wins, tous les jours." : "Wins, every single day."}
               <br />
-              <span className="text-white/40">
+              <span className="text-[rgb(var(--fg)_/_0.4)]">
                 {fr
                   ? "Des vrais artistes. De vraies ventes."
                   : "Real artists. Real sales."}
               </span>
             </h2>
-            <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+            <p className="mx-auto mt-4 max-w-[560px] text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
               {fr
                 ? "Ce que les producteurs reçoivent depuis qu'ils envoient avec vvault."
                 : "What producers get back the moment they start sending with vvault."}
@@ -57,8 +57,8 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
                     aria-label={`Open win: ${win.alt}`}
                     className="block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl transition-transform duration-200 hover:-translate-y-0.5"
                     style={{
-                      background: "#0d0d0f",
-                      outline: "1px solid rgba(255,255,255,0.08)",
+                      background: "rgb(var(--ov) / 0.04)",
+                      outline: "1px solid rgb(var(--ov) / 0.08)",
                       outlineOffset: "-1px",
                     }}
                   >
@@ -82,7 +82,7 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
             className="pointer-events-none absolute inset-x-0 bottom-0 h-[260px] sm:h-[300px]"
             style={{
               background:
-                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.9) 75%, #000 100%)",
+                "linear-gradient(180deg, rgb(var(--bg) / 0) 0%, rgb(var(--bg) / 0.55) 45%, rgb(var(--bg) / 0.9) 75%, rgb(var(--bg)) 100%)",
             }}
           />
 
@@ -98,7 +98,7 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
                   href: "/reviews",
                 })
               }
-              className="inline-flex items-center gap-2 rounded-[8px] bg-white px-6 py-3 text-[14px] font-semibold text-black transition-colors duration-200 hover:bg-white/90"
+              className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--inv))] px-6 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity duration-200 hover:opacity-90"
             >
               {fr ? "Voir les wins" : "View wins"}
               <svg

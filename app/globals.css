@@ -2,10 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Theme tokens as RGB triplets so `rgb(var(--x) / <alpha>)` works in both
+     plain CSS and Tailwind arbitrary values. Default = dark (the original
+     look); `html.light` flips them. The dark values equal the old hardcoded
+     colors, so dark mode stays byte-identical as components migrate to tokens. */
+  --bg: 0 0 0;       /* page background (was #000) */
+  --fg: 242 242 242; /* primary text (was #f2f2f2 / white) */
+  --ov: 255 255 255; /* overlay / card / border base (was white/…) */
+  --inv: 255 255 255;  /* inverted/filled surface (the white pill buttons) */
+  --inv-fg: 14 14 14;  /* text on the inverted surface (was #0e0e0e) */
+  --surface: 28 29 34; /* solid elevated panel (was #1c1d22) */
+  --card: 10 10 10;    /* featured (Pro) card — subtle dark; pure white in light */
+}
+html.light {
+  --bg: 250 250 250;   /* page background — #fafafa, not pure white */
+  --fg: 17 17 17;
+  --ov: 0 0 0;
+  --inv: 17 17 17;
+  --inv-fg: 255 255 255;
+  --surface: 244 244 245;
+  --card: 255 255 255; /* Pro card — pure white #ffffff on the #fafafa page */
+}
 html,
 body {
   @apply antialiased;
   color-scheme: dark;
+}
+html.light {
+  color-scheme: light;
 }
 
 /* App-store smart banner. When AppStoreBanner mounts on iOS mobile
@@ -19,7 +44,7 @@ body {
 
 /* Grey selection highlight */
 .landing-root ::selection {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgb(var(--ov) / 0.15);
   color: inherit;
 }
 
@@ -142,8 +167,8 @@ html {
 }
 
 .landing-root {
-  background: #000000;
-  color: rgba(242, 242, 242, 0.94);
+  background: rgb(var(--bg));
+  color: rgb(var(--fg) / 0.94);
   width: 100%;
   max-width: 100%;
   /* `overflow-x: clip` clips horizontal overflow without creating a scroll

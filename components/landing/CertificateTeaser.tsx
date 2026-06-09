@@ -125,20 +125,20 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
           </div>
 
           <div className="text-center">
-            <h3 className="text-[1.55rem] font-medium leading-tight text-white sm:text-3xl lg:text-[2.2rem]">
+            <h3 className="text-[1.55rem] font-medium leading-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
               {locale === "fr" ? (
                 <>
                   Protège ta musique.{" "}
-                  <span className="text-white/40">Légalement.</span>
+                  <span className="text-[rgb(var(--fg)_/_0.4)]">Légalement.</span>
                 </>
               ) : (
                 <>
                   Protect your music.{" "}
-                  <span className="text-white/40">Legally.</span>
+                  <span className="text-[rgb(var(--fg)_/_0.4)]">Legally.</span>
                 </>
               )}
             </h3>
-            <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-white/40 sm:text-[15px]">
+            <p className="mx-auto mt-3 max-w-lg text-[14px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[15px]">
               {locale === "fr"
                 ? "Chaque track que tu uploades reçoit un certificat de dépôt certifié par hash \u2014 un document légal infalsifiable qui établit l'antériorité et protège tes droits."
                 : <>Every track you upload gets a hash-certified deposit certificate &mdash; a tamper-proof legal document that establishes anteriority and protects your rights.</>}
@@ -147,7 +147,7 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
               <Link
                 href="/certificate"
                 data-track-id="home.certificate_teaser.view"
-                className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 text-[14px] font-semibold text-[#0e0e0e] transition-colors duration-200 hover:bg-white/90"
+                className="inline-flex items-center gap-2 rounded-xl bg-[rgb(var(--inv))] px-5 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
               >
                 {locale === "fr" ? "Découvrir la fonctionnalité" : "View new feature"}
                 <svg
@@ -211,10 +211,10 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
                     <CheckBadgeIcon className="h-5 w-5 text-yellow-400/80" />
                   </div>
                   <div>
-                    <p className="text-[14px] font-semibold text-white/85">
+                    <p className="text-[14px] font-semibold text-[rgb(var(--fg)_/_0.85)]">
                       {locale === "fr" ? "Certificat de dépôt" : "Certificate of deposit"}
                     </p>
-                    <p className="text-[11px] text-white/35">
+                    <p className="text-[11px] text-[rgb(var(--fg)_/_0.35)]">
                       {locale === "fr" ? "Certifié par hash · Infalsifiable · Horodaté" : <>Hash-certified &middot; Tamper-proof &middot; Timestamped</>}
                     </p>
                   </div>
@@ -231,14 +231,14 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
                   ].map((row, i) => (
                     <div
                       key={i}
-                      className="flex items-center justify-between border-b border-white/[0.04] py-3"
+                      className="flex items-center justify-between border-b border-[rgb(var(--ov)_/_0.04)] py-3"
                     >
-                      <span className="text-[12px] text-white/35">
+                      <span className="text-[12px] text-[rgb(var(--fg)_/_0.35)]">
                         {row.label}
                       </span>
                       <span
-                        className={`text-[13px] font-medium text-white/70 ${
-                          row.mono ? "font-mono text-[11px] text-white/40" : ""
+                        className={`text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] ${
+                          row.mono ? "font-mono text-[11px] text-[rgb(var(--fg)_/_0.4)]" : ""
                         }`}
                       >
                         {row.value}

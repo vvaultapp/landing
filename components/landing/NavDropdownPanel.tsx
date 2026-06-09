@@ -93,7 +93,7 @@ function StudioFeaturedCard({
       href={href}
       className="group relative flex flex-1 flex-col overflow-hidden rounded-[14px]"
       style={{
-        background: "linear-gradient(180deg, #0c0c10 0%, #060609 100%)",
+        background: "rgb(var(--surface))",
       }}
     >
       {everOpened && (
@@ -128,12 +128,12 @@ function StudioFeaturedCard({
         className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background:
-            "radial-gradient(ellipse 130% 110% at 50% 50%, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.1) 45%, transparent 75%)",
+            "radial-gradient(ellipse 130% 110% at 50% 50%, rgb(var(--ov) / 0.28) 0%, rgb(var(--ov) / 0.1) 45%, transparent 75%)",
         }}
       />
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center gap-2 px-4 py-8">
         <span
-          className="font-sans text-white"
+          className="font-sans text-[rgb(var(--fg))]"
           style={{
             fontWeight: 900,
             fontSize: "22px",
@@ -142,15 +142,15 @@ function StudioFeaturedCard({
             paddingLeft: "0.24em",
             color: "transparent",
             backgroundImage:
-              "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.75) 100%)",
+              "linear-gradient(180deg, rgb(var(--ov) / 1) 0%, rgb(var(--ov) / 0.75) 100%)",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+            WebkitTextFillColor: "rgb(var(--fg))",
           }}
         >
           STUDIO
         </span>
-        <span className="mt-1 block text-center text-[11px] leading-snug text-white/60">
+        <span className="mt-1 block text-center text-[11px] leading-snug text-[rgb(var(--fg)_/_0.6)]">
           {description || "Automated video posting"}
         </span>
       </div>
@@ -194,7 +194,7 @@ export default function NavDropdownPanel({
         key={child.label}
         href={child.href}
         {...extraProps}
-        className="flex h-9 items-center gap-2 rounded-xl px-3 transition-colors duration-150 hover:bg-white/[0.06]"
+        className="flex h-9 items-center gap-2 rounded-xl px-3 transition-colors duration-150 hover:bg-[rgb(var(--ov)_/_0.06)]"
         style={{ contain: "layout" }}
       >
         {icon ? (
@@ -204,12 +204,12 @@ export default function NavDropdownPanel({
             </svg>
           </div>
         ) : null}
-        <span className="text-[13px] font-medium leading-none text-white/75 whitespace-nowrap">
+        <span className="text-[13px] font-medium leading-none text-[rgb(var(--fg)_/_0.75)] whitespace-nowrap">
           {child.label}
           {child.external && (
             <svg
               viewBox="0 0 12 12"
-              className="mb-px ml-1 inline h-2.5 w-2.5 fill-none stroke-current stroke-[1.5] text-white/25"
+              className="mb-px ml-1 inline h-2.5 w-2.5 fill-none stroke-current stroke-[1.5] text-[rgb(var(--fg)_/_0.25)]"
             >
               <path d="M4 1h7v7M11 1L5 7" />
             </svg>
@@ -227,16 +227,16 @@ export default function NavDropdownPanel({
     return (
       <Tag href={href} {...extraProps} className={`group relative flex flex-1 flex-col rounded-[14px] p-px ${className}`}
         style={{
-          background: "linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.01) 100%)",
+          background: "linear-gradient(180deg, rgb(var(--ov) / 0.13) 0%, rgb(var(--ov) / 0.05) 50%, rgb(var(--ov) / 0.01) 100%)",
         }}
       >
         {/* Inner fill */}
         <div className="relative flex h-full flex-1 flex-col overflow-hidden rounded-[13px] transition-colors duration-300"
-          style={{ background: "linear-gradient(180deg, #0e0e0e 0%, #090909 100%)" }}
+          style={{ background: "rgb(var(--surface))" }}
         >
           {/* Hover glow — soft radial from top */}
           <div className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            style={{ background: "radial-gradient(ellipse 90% 50% at 50% 0%, rgba(255,255,255,0.05) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(ellipse 90% 50% at 50% 0%, rgb(var(--ov) / 0.05) 0%, transparent 70%)" }}
           />
           {/* Content */}
           <div className="relative z-10 flex h-full flex-1 flex-col">{cardChildren}</div>
@@ -268,8 +268,8 @@ export default function NavDropdownPanel({
           </div>
         </div>
         <div className="text-center">
-          <span className="block text-[13px] font-semibold text-white/85">{trustpilotScore}</span>
-          <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>
+          <span className="block text-[13px] font-semibold text-[rgb(var(--fg)_/_0.85)]">{trustpilotScore}</span>
+          <span className="mt-0.5 block text-[10px] text-[rgb(var(--fg)_/_0.35)]">{child.description}</span>
         </div>
       </div>
     </FeaturedCardWrap>
@@ -283,14 +283,14 @@ export default function NavDropdownPanel({
         <div className="relative mx-1.5 mt-1.5 overflow-hidden rounded-lg" style={{ aspectRatio: "16/9" }}>
           <img src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`} alt="" loading="lazy" className="h-full w-full object-cover" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-black/50 backdrop-blur-sm">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[rgb(var(--bg)_/_0.5)] backdrop-blur-sm">
               <svg viewBox="0 0 16 16" className="ml-0.5 h-3 w-3 fill-white"><path d="M5 3.5l8 4.5-8 4.5V3.5z" /></svg>
             </div>
           </div>
         </div>
         <div className="px-3 py-2 text-center">
-          <span className="text-[12px] font-medium text-white/80">{child.label}</span>
-          {child.description && <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>}
+          <span className="text-[12px] font-medium text-[rgb(var(--fg)_/_0.8)]">{child.label}</span>
+          {child.description && <span className="mt-0.5 block text-[10px] text-[rgb(var(--fg)_/_0.35)]">{child.description}</span>}
         </div>
       </FeaturedCardWrap>
     );
@@ -308,8 +308,8 @@ export default function NavDropdownPanel({
           </svg>
         </div>
         <div className="text-center">
-          <span className="block text-[13px] font-semibold text-white/85">{child.label}</span>
-          <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>
+          <span className="block text-[13px] font-semibold text-[rgb(var(--fg)_/_0.85)]">{child.label}</span>
+          <span className="mt-0.5 block text-[10px] text-[rgb(var(--fg)_/_0.35)]">{child.description}</span>
         </div>
       </div>
     </FeaturedCardWrap>
@@ -339,12 +339,12 @@ export default function NavDropdownPanel({
   const renderAudienceCard = (child: typeof children extends (infer U)[] | undefined ? U : never) => (
     <FeaturedCardWrap key={child.label} href={child.href} external={child.external}>
       <div className="flex flex-1 items-center gap-3 px-3.5 py-3.5">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white/50" style={{ background: "rgba(255,255,255,0.06)" }}>
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-[rgb(var(--fg)_/_0.5)]" style={{ background: "rgb(var(--ov) / 0.06)" }}>
           {audienceIcons[child.label]}
         </div>
         <div>
-          <span className="block text-[13px] font-semibold text-white/85">{child.label}</span>
-          {child.description && <span className="mt-0.5 block text-[10px] text-white/35">{child.description}</span>}
+          <span className="block text-[13px] font-semibold text-[rgb(var(--fg)_/_0.85)]">{child.label}</span>
+          {child.description && <span className="mt-0.5 block text-[10px] text-[rgb(var(--fg)_/_0.35)]">{child.description}</span>}
         </div>
       </div>
     </FeaturedCardWrap>
@@ -355,8 +355,8 @@ export default function NavDropdownPanel({
     return (
       <FeaturedCardWrap key={child.label} href={child.href} external={child.external} className="items-center justify-center">
         <div className="flex flex-1 flex-col items-center justify-center gap-1 px-3 py-4">
-          <span className="text-[13px] font-medium text-white/80">{child.label}</span>
-          {child.description && <span className="text-[11px] text-white/35">{child.description}</span>}
+          <span className="text-[13px] font-medium text-[rgb(var(--fg)_/_0.8)]">{child.label}</span>
+          {child.description && <span className="text-[11px] text-[rgb(var(--fg)_/_0.35)]">{child.description}</span>}
         </div>
       </FeaturedCardWrap>
     );
