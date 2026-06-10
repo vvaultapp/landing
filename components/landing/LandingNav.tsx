@@ -136,7 +136,7 @@ function MobileMenu({
                   <Link
                     href={item.href}
                     onClick={onClose}
-                    className="-mx-1 flex items-center justify-between rounded-xl px-1 py-4 text-[15px] font-medium text-[rgb(var(--fg)_/_0.6)] transition-colors duration-150 active:bg-[rgb(var(--ov)_/_0.06)]"
+                    className="-mx-1 flex items-center justify-between rounded-xl px-1 py-4 text-[15px] font-medium text-[rgb(var(--fg)_/_0.6)] active:bg-[rgb(var(--ov)_/_0.06)]"
                     style={{ WebkitTapHighlightColor: "transparent" }}
                   >
                     {item.label}
@@ -151,7 +151,7 @@ function MobileMenu({
                 <button
                   type="button"
                   onClick={() => setExpandedIndex(isExpanded ? null : i)}
-                  className="-mx-1 flex w-full items-center justify-between rounded-xl px-1 py-4 text-[15px] font-medium text-[rgb(var(--fg)_/_0.6)] transition-colors duration-150 active:bg-[rgb(var(--ov)_/_0.06)]"
+                  className="-mx-1 flex w-full items-center justify-between rounded-xl px-1 py-4 text-[15px] font-medium text-[rgb(var(--fg)_/_0.6)] active:bg-[rgb(var(--ov)_/_0.06)]"
                   style={{ WebkitTapHighlightColor: "transparent" }}
                 >
                   {item.label}
@@ -184,7 +184,7 @@ function MobileMenu({
                           key={child.label}
                           href={child.href}
                           {...extraProps}
-                          className="flex items-center gap-2 rounded-xl py-2.5 pl-3 text-[14px] text-[rgb(var(--fg)_/_0.4)] transition-colors duration-150 active:bg-[rgb(var(--ov)_/_0.06)] active:text-[rgb(var(--fg)_/_0.7)]"
+                          className="flex items-center gap-2 rounded-xl py-2.5 pl-3 text-[14px] text-[rgb(var(--fg)_/_0.4)] active:bg-[rgb(var(--ov)_/_0.06)] active:text-[rgb(var(--fg)_/_0.7)]"
                           style={{ WebkitTapHighlightColor: "transparent" }}
                         >
                           {child.label}
@@ -215,7 +215,7 @@ function MobileMenu({
         <div className="mt-4">
           <a
             href="https://vvault.app/auth/google"
-            className="flex w-full items-center justify-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-5 py-3.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity duration-200 hover:opacity-90 active:opacity-80"
+            className="flex w-full items-center justify-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-5 py-3.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90 active:opacity-80"
             style={{ WebkitTapHighlightColor: "transparent" }}
           >
             {locale === "fr" ? "Commencer" : "Get Started"}
@@ -342,7 +342,7 @@ export function NavDropdown({
         href={item.href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noreferrer" : undefined}
-        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg))] transition-colors duration-200 hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
+        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg))] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
       >
         {item.label}
       </a>
@@ -359,7 +359,7 @@ export function NavDropdown({
       <button
         type="button"
         onClick={onClick}
-        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg))] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:gap-2 lg:px-4 lg:py-2 lg:text-[16px]`}
+        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:gap-2 lg:px-4 lg:py-2 lg:text-[16px]`}
       >
         {item.label}
         <svg
@@ -423,7 +423,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
   const { currency: billingCurrency } = useBillingCurrency();
   const promoSymbol = billingCurrency === "usd" ? "$" : "€";
   const tryProLabel = fr
-    ? `Essayer Pro pour 1${promoSymbol}`
+    ? `Essayer Pro pour 1 ${promoSymbol}`
     : `Try Pro for ${promoSymbol}1`;
   const [scrollProgress, setScrollProgress] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -561,7 +561,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
             track={{ buttonId: "nav.try_pro", surface: "landing.nav", locale }}
-            className="inline-flex items-center rounded-[8px] px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg)_/_0.7)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
+            className="inline-flex items-center rounded-[8px] px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg)_/_0.7)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
           >
             {tryProLabel}
           </LandingCtaLink>
@@ -569,7 +569,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
             track={{ buttonId: "nav.enter_app", surface: "landing.nav", locale }}
-            className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-5 py-2 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)] lg:px-7 lg:py-2.5 lg:text-[16px]"
+            className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-5 py-2 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)] lg:px-7 lg:py-2.5 lg:text-[16px]"
           >
             {locale === "fr" ? "Ouvrir l'app" : "Open App"}
           </LandingCtaLink>
@@ -580,7 +580,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
             track={{ buttonId: "nav.enter_app", surface: "landing.nav_mobile", locale }}
-            className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
+            className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
           >
             {locale === "fr" ? "Ouvrir l'app" : "Open App"}
           </LandingCtaLink>
@@ -602,7 +602,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
                   : "Open menu"
             }
             aria-expanded={mobileMenuOpen}
-            className="relative flex h-9 w-9 items-center justify-center text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:text-[rgb(var(--fg))]"
+            className="relative flex h-9 w-9 items-center justify-center text-[rgb(var(--fg)_/_0.8)] hover:text-[rgb(var(--fg))]"
             style={{ WebkitTapHighlightColor: "transparent" }}
           >
             <span className="relative block h-[18px] w-[20px]">

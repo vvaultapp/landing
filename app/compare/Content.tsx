@@ -71,7 +71,7 @@ export default function ComparePage() {
             <Link
               key={item.href}
               href={item.href}
-              className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
+              className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
             >
               <h2 className="text-base font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
                 {item.title}

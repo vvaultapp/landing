@@ -124,7 +124,7 @@ export default function HowToGetMorePlacementsAsAProducerPage() {
         regardless of organization, so you can always find what you need. Read the full guide on{" "}
         <Link
           href="/blog/how-to-organize-your-beat-catalog"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           how to organize your beat catalog
         </Link>
@@ -156,7 +156,7 @@ export default function HowToGetMorePlacementsAsAProducerPage() {
         branded pack. You see their engagement data in real time. See the full{" "}
         <Link
           href="/blog/how-to-send-beats-to-artists"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           guide to sending beats professionally
         </Link>
@@ -177,7 +177,7 @@ export default function HowToGetMorePlacementsAsAProducerPage() {
         about being strategic with your time. Learn more about{" "}
         <Link
           href="/blog/how-to-track-who-listened-to-your-beats"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           tracking who listened to your beats
         </Link>
@@ -197,7 +197,7 @@ export default function HowToGetMorePlacementsAsAProducerPage() {
         send next based on their engagement history. Read the complete{" "}
         <Link
           href="/blog/how-to-follow-up-after-sending-beats"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           follow-up strategy guide
         </Link>
@@ -214,14 +214,14 @@ export default function HowToGetMorePlacementsAsAProducerPage() {
         sporadic event. Whether you are an independent{" "}
         <Link
           href="/for/producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           producer
         </Link>{" "}
         or working with a{" "}
         <Link
           href="/for/managers-and-labels"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           management team
         </Link>

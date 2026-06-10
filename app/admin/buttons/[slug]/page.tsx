@@ -74,7 +74,7 @@ export default async function ButtonsByPage({
       <main className="mx-auto w-full max-w-[1100px] px-6 pb-20 pt-10 sm:px-10">
         <Link
           href={{ pathname: "/admin/buttons", query: { range } }}
-          className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#101112]/55 transition-colors hover:text-[#101112]"
+          className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-[#101112]/55 hover:text-[#101112]"
         >
           <ArrowLeft className="h-3.5 w-3.5" strokeWidth={2} />
           All pages

@@ -117,7 +117,7 @@ export default function VvaultVsGoogleDriveForProducersPage() {
         actually work. See the full{" "}
         <Link
           href="/for/producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           feature overview for producers
         </Link>
@@ -244,7 +244,7 @@ export default function VvaultVsGoogleDriveForProducersPage() {
         full{" "}
         <Link
           href="/blog/best-tools-for-sending-beats"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           comparison of tools for sending beats
         </Link>{" "}

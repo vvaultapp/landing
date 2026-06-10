@@ -29,7 +29,7 @@ export default function BlogIndexPage() {
             <Link
               key={article.slug}
               href={`/blog/${article.slug}`}
-              className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
+              className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
             >
               <h3 className="text-base font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
                 {article.title}
@@ -52,7 +52,7 @@ export default function BlogIndexPage() {
             <Link
               key={article.slug}
               href={`/blog/${article.slug}`}
-              className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
+              className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
             >
               <h3 className="text-base font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
                 {article.title}
@@ -73,7 +73,7 @@ export default function BlogIndexPage() {
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
           <Link
             href="/for/producers"
-            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
+            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
           >
             <h3 className="text-base font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
               {fr ? "Producteurs" : "Producers"}
@@ -82,7 +82,7 @@ export default function BlogIndexPage() {
           </Link>
           <Link
             href="/for/artists"
-            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
+            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
           >
             <h3 className="text-base font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
               {fr ? "Artistes" : "Artists"}
@@ -93,7 +93,7 @@ export default function BlogIndexPage() {
           </Link>
           <Link
             href="/for/managers-and-labels"
-            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
+            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
           >
             <h3 className="text-base font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
               {fr ? "Managers & Labels" : "Managers & Labels"}

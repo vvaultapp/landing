@@ -106,21 +106,21 @@ export default function HowToTrackWhoListenedToYourBeats() {
           That information gap{" "}
           <Link
             href="/blog/how-to-get-more-placements-as-a-producer"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             costs placements
           </Link>
           . It costs relationships. It costs money. See how traditional tools like{" "}
           <Link
             href="/blog/vvault-vs-google-drive-for-producers"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             Google Drive
           </Link>{" "}
           and{" "}
           <Link
             href="/blog/vvault-vs-dropbox-for-producers"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             Dropbox
           </Link>{" "}
@@ -148,7 +148,7 @@ export default function HowToTrackWhoListenedToYourBeats() {
           now available specifically for music, built around packs, tracks, and the{" "}
           <Link
             href="/for/producers"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             producer workflow
           </Link>
@@ -186,7 +186,7 @@ export default function HowToTrackWhoListenedToYourBeats() {
           you prioritize your time and energy. Learn more about{" "}
           <Link
             href="/blog/how-to-follow-up-after-sending-beats"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             following up effectively
           </Link>

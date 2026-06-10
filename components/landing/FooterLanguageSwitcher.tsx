@@ -103,7 +103,7 @@ export function FooterLanguageSwitcher({
         type="button"
         onClick={() => switchTo("en")}
         aria-pressed={locale === "en"}
-        className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
+        className={`rounded-xl px-2.5 py-1 text-xs font-medium ${
           locale === "en"
             ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.9)]"
             : "text-[rgb(var(--fg)_/_0.4)] hover:text-[rgb(var(--fg)_/_0.7)]"
@@ -115,7 +115,7 @@ export function FooterLanguageSwitcher({
         type="button"
         onClick={() => switchTo("fr")}
         aria-pressed={locale === "fr"}
-        className={`rounded-xl px-2.5 py-1 text-xs font-medium transition-colors duration-200 ${
+        className={`rounded-xl px-2.5 py-1 text-xs font-medium ${
           locale === "fr"
             ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.9)]"
             : "text-[rgb(var(--fg)_/_0.4)] hover:text-[rgb(var(--fg)_/_0.7)]"

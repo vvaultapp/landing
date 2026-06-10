@@ -96,7 +96,7 @@ export default function ContactPage() {
                 data-track-id={card.trackId}
                 target={card.external ? "_blank" : undefined}
                 rel={card.external ? "noopener noreferrer" : undefined}
-                className="group block rounded-2xl p-6 transition-[filter] duration-200 hover:brightness-125"
+                className="group block rounded-2xl p-6 hover:brightness-125"
                 style={{
                   border: "1px solid rgba(255,255,255,0.04)",
                   background: "rgba(255,255,255,0.01)",
@@ -200,21 +200,21 @@ export default function ContactPage() {
             <Link
               href="/help"
               data-track-id="contact.help_center"
-              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
+              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] hover:bg-[rgb(var(--ov)_/_0.1)]"
             >
               {fr ? "Centre d'aide" : "Help center"}
             </Link>
             <Link
               href="/docs"
               data-track-id="contact.docs"
-              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
+              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] hover:bg-[rgb(var(--ov)_/_0.1)]"
             >
               {fr ? "Documentation" : "Documentation"}
             </Link>
             <Link
               href="/pricing"
               data-track-id="contact.pricing_link"
-              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
+              className="inline-flex items-center rounded-xl bg-[rgb(var(--ov)_/_0.06)] px-4 py-2 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.8)] hover:bg-[rgb(var(--ov)_/_0.1)]"
             >
               {fr ? "Tarifs" : "Pricing"}
             </Link>

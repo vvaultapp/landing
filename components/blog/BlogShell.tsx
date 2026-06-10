@@ -18,19 +18,19 @@ export function BlogNav() {
         <nav aria-label="Primary" className="ml-auto hidden items-center gap-5 lg:flex">
           <Link
             href="/blog"
-            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Blog
           </Link>
           <Link
             href="/for/producers"
-            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             For Producers
           </Link>
           <Link
             href="/compare"
-            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+            className="rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Compare
           </Link>
@@ -39,13 +39,13 @@ export function BlogNav() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             href="https://vvault.app/signup"
-            className="inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
+            className="inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-sm font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
           >
             Sign up
           </a>
           <a
             href="https://vvault.app/login"
-            className="inline-flex items-center rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+            className="inline-flex items-center rounded-full px-3 py-1.5 text-sm text-[rgb(var(--fg)_/_0.3)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Login
           </a>
@@ -54,13 +54,13 @@ export function BlogNav() {
         <div className="ml-auto flex items-center gap-2 lg:hidden">
           <a
             href="https://vvault.app/signup"
-            className="inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
+            className="inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-[12px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
           >
             Sign up
           </a>
           <a
             href="https://vvault.app/login"
-            className="inline-flex items-center rounded-full px-3 py-1.5 text-xs text-[rgb(var(--fg)_/_0.64)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.84)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+            className="inline-flex items-center rounded-full px-3 py-1.5 text-xs text-[rgb(var(--fg)_/_0.64)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.84)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
           >
             Login
           </a>
@@ -122,7 +122,7 @@ export function BlogFooter() {
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="rounded-md px-1 py-1 text-sm text-[rgb(var(--fg)_/_0.5)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+                      className="rounded-md px-1 py-1 text-sm text-[rgb(var(--fg)_/_0.5)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
                     >
                       {link.label}
                     </a>
@@ -137,19 +137,19 @@ export function BlogFooter() {
           <div className="flex flex-wrap items-center gap-4">
             <a
               href="/privacy"
-              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
+              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
             >
               Privacy
             </a>
             <a
               href="/terms"
-              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
+              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
             >
               Terms
             </a>
             <a
               href="mailto:vvaultapp@gmail.com"
-              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
+              className="rounded-md px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg)_/_0.78)]"
             >
               Contact
             </a>
@@ -168,7 +168,7 @@ export function BottomCta() {
         <p className="text-sm text-[rgb(var(--fg)_/_0.7)]">Ready to send music like a pro?</p>
         <a
           href="https://vvault.app/signup"
-          className="inline-flex shrink-0 items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
+          className="inline-flex shrink-0 items-center rounded-xl bg-[rgb(var(--inv))] px-4 py-2 text-sm font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)]"
         >
           Start free
         </a>
@@ -192,7 +192,7 @@ export function ArticleHeader({
     <header className="mb-10">
       <Link
         href="/blog"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-[rgb(var(--fg)_/_0.5)] transition-colors hover:text-[rgb(var(--fg)_/_0.8)]"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-[rgb(var(--fg)_/_0.5)] hover:text-[rgb(var(--fg)_/_0.8)]"
       >
         <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current stroke-[1.5]">
           <path d="M13 15l-5-5 5-5" />
@@ -231,7 +231,7 @@ export function RelatedArticles({
           <Link
             key={article.slug}
             href={`/blog/${article.slug}`}
-            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 transition-colors hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
+            className="group rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-5 hover:border-[rgb(var(--ov)_/_0.2)] hover:bg-[rgb(var(--ov)_/_0.05)]"
           >
             <h3 className="text-sm font-semibold leading-snug text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
               {article.title}

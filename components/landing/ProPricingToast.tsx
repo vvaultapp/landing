@@ -1,5 +1,7 @@
 "use client";
 
+import { formatMoney, formatMoneyCompact } from "@/lib/money";
+import { fetchBillingPricesForClient } from "@/lib/billingPricesClient";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { trackButtonClick } from "@/lib/analytics/client";
@@ -10,17 +12,13 @@ type ProPricingToastProps = {
 
 /* Geo-aware money formatting — mirrors the pricing page so the toast shows
    the same EUR/USD amounts Checkout will charge. */
-function money(cents: number | null | undefined, currency: string): string {
+function money(cents: number | null | undefined, currency: string, locale: "en" | "fr" = "en"): string {
   if (!cents) return "";
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currency.toUpperCase(),
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(cents / 100);
+  return formatMoney(cents, currency, locale);
 }
-function moneyCompact(cents: number | null | undefined, currency: string): string {
-  return money(cents, currency).replace(/\.00$/, "");
+function moneyCompact(cents: number | null | undefined, currency: string, locale: "en" | "fr" = "en"): string {
+  if (!cents) return "";
+  return formatMoneyCompact(cents, currency, locale);
 }
 
 type ToastPricing = {
@@ -62,23 +60,20 @@ type ToastPricing = {
 export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
   const [shown, setShown] = useState(false);
   const [closedByUser, setClosedByUser] = useState(false);
-  /* Live, geo-aware Pro pricing (EUR in Europe, USD elsewhere) + the €1/$1
-     first-month promo, from the same endpoint the pricing page uses. */
+  /* Geo-aware Pro pricing (EUR in Europe, USD elsewhere) + the €1/$1
+     first-month promo, from the same static both-currency table the pricing
+     page uses (currency resolved client-side, response CDN-cached, fetch
+     deduped with the pricing page's). */
   const [pricing, setPricing] = useState<ToastPricing | null>(null);
   useEffect(() => {
     let alive = true;
     void (async () => {
       try {
-        const sp = new URLSearchParams(window.location.search);
-        const out = new URLSearchParams();
-        const cur = sp.get("currency");
-        if (cur) out.set("currency", cur);
-        const ctry = sp.get("country");
-        if (ctry) out.set("country", ctry);
-        const qs = out.toString() ? `?${out.toString()}` : "";
-        const res = await fetch(`/api/billing/prices${qs}`, { cache: "no-store" });
-        if (!res.ok) return;
-        const json = await res.json();
+        const json = (await fetchBillingPricesForClient()) as {
+          proMonthly?: { currency?: string; unit_amount?: number };
+          offers?: { proMonthlyIntro?: { active?: boolean; introUnitAmount?: number } };
+        } | null;
+        if (!json) return;
         const offer = json?.offers?.proMonthlyIntro;
         if (alive)
           setPricing({
@@ -165,7 +160,7 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
             type="button"
             onClick={close}
             aria-label={fr ? "Fermer" : "Close"}
-            className="absolute right-4 top-4 inline-flex h-7 w-7 items-center justify-center rounded-full text-[rgb(var(--fg)_/_0.45)] transition-colors duration-150 hover:bg-[rgb(var(--ov)_/_0.08)] hover:text-[rgb(var(--fg))]"
+            className="absolute right-4 top-4 inline-flex h-7 w-7 items-center justify-center rounded-full text-[rgb(var(--fg)_/_0.45)] hover:bg-[rgb(var(--ov)_/_0.08)] hover:text-[rgb(var(--fg))]"
           >
             <svg
               viewBox="0 0 16 16"
@@ -200,8 +195,8 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
             <span className="text-[2rem] font-light leading-none text-[rgb(var(--fg))] tabular-nums">
               {pricing
                 ? pricing.promoActive
-                  ? moneyCompact(pricing.introUnitAmount, pricing.currency)
-                  : money(pricing.proMonthly, pricing.currency)
+                  ? moneyCompact(pricing.introUnitAmount, pricing.currency, locale)
+                  : money(pricing.proMonthly, pricing.currency, locale)
                 : ""}
             </span>
             {pricing?.promoActive && (
@@ -213,8 +208,8 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
           {pricing?.promoActive && (
             <p className="mt-1 text-[11.5px] text-[rgb(var(--fg)_/_0.35)]">
               {fr
-                ? `puis ${money(pricing.proMonthly, pricing.currency)} par mois`
-                : `then ${money(pricing.proMonthly, pricing.currency)} per month`}
+                ? `puis ${money(pricing.proMonthly, pricing.currency, locale)} par mois`
+                : `then ${money(pricing.proMonthly, pricing.currency, locale)} per month`}
             </p>
           )}
 
@@ -230,7 +225,7 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
               });
               close();
             }}
-            className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#4397f8] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg))] transition-colors duration-200 hover:bg-[#2c75d4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4397f8]/35"
+            className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-[#4397f8] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg))] hover:bg-[#2c75d4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4397f8]/35"
           >
             {fr ? "Rejoindre Pro" : "Join Pro now"}
           </Link>

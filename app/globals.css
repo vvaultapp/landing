@@ -282,10 +282,6 @@ html {
   box-shadow:
     0 14px 34px -8px rgba(235, 215, 255, 0.55),
     inset 0 0 0 1px rgba(255, 255, 255, 0.92);
-  transition:
-    box-shadow 300ms ease-out,
-    transform 300ms ease-out,
-    background-color 300ms ease-out;
 }
 .home-cta-primary:hover {
   box-shadow:
@@ -593,11 +589,6 @@ details[open] .faq-answer {
     cursor: default;
     user-select: none;
     transform: scale(1);
-    transition:
-      border-color 180ms ease,
-      background-color 180ms ease,
-      color 180ms ease,
-      transform 180ms ease;
   }
 
   .signup-pill:hover {

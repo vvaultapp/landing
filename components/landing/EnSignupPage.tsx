@@ -81,7 +81,7 @@ export function EnSignupPage() {
         <div className="mx-auto flex h-[70px] w-full max-w-[clamp(1320px,92vw,2400px)] items-center px-5 sm:px-8 lg:px-10">
           <Link
             href="/"
-            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-[rgb(var(--fg)_/_0.6)] transition-colors hover:text-[rgb(var(--fg))]"
+            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-[rgb(var(--fg)_/_0.6)] hover:text-[rgb(var(--fg))]"
             aria-label={content.ui.homepageAriaLabel}
           >
             <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -146,14 +146,14 @@ export function EnSignupPage() {
               <LandingCtaLink
                 loggedInHref="https://vvault.app/signup"
                 loggedOutHref="https://vvault.app/signup"
-                className="inline-flex items-center justify-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:text-base"
+                className="inline-flex items-center justify-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:text-base"
               >
                 Create my vvault
               </LandingCtaLink>
               <LandingCtaLink
                 loggedInHref="https://vvault.app/login"
                 loggedOutHref="https://vvault.app/login"
-                className="text-[11px] text-[rgb(var(--fg)_/_0.42)] underline decoration-white/20 underline-offset-4 transition-colors hover:text-[rgb(var(--fg)_/_0.72)] sm:text-xs"
+                className="text-[11px] text-[rgb(var(--fg)_/_0.42)] underline decoration-white/20 underline-offset-4 hover:text-[rgb(var(--fg)_/_0.72)] sm:text-xs"
               >
                 Already have an account? Log in
               </LandingCtaLink>
@@ -164,14 +164,14 @@ export function EnSignupPage() {
             <LandingCtaLink
               loggedInHref="https://vvault.app/signup"
               loggedOutHref="https://vvault.app/signup"
-              className="inline-flex items-center justify-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:text-base"
+              className="inline-flex items-center justify-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:text-base"
             >
               Create my vvault
             </LandingCtaLink>
             <LandingCtaLink
               loggedInHref="https://vvault.app/login"
               loggedOutHref="https://vvault.app/login"
-              className="text-[11px] text-[rgb(var(--fg)_/_0.42)] underline decoration-white/20 underline-offset-4 transition-colors hover:text-[rgb(var(--fg)_/_0.72)] sm:text-xs"
+              className="text-[11px] text-[rgb(var(--fg)_/_0.42)] underline decoration-white/20 underline-offset-4 hover:text-[rgb(var(--fg)_/_0.72)] sm:text-xs"
             >
               Already have an account? Log in
             </LandingCtaLink>

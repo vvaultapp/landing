@@ -34,9 +34,10 @@ export function LocaleProvider({
 }) {
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
 
-  // Reconcile once on mount: an explicit localStorage choice (e.g. set in
-  // another tab, or before the cookie existed) wins and is mirrored back into
-  // the cookie. Otherwise just make sure the cookie matches the server seed.
+  // Reconcile once on mount. Priority: explicit localStorage choice → the
+  // vvault_locale cookie (set at the edge by the proxy for French visitors —
+  // pages render statically now, so the server can't read it anymore) → the
+  // static seed. The winner is mirrored back into the cookie.
   useEffect(() => {
     try {
       const stored = localStorage.getItem("vvault-locale");
@@ -44,6 +45,14 @@ export function LocaleProvider({
         setLocaleState(stored);
         writeLocaleCookie(stored);
         return;
+      }
+      if (stored !== "en" && stored !== "fr") {
+        const m = document.cookie.match(/(?:^|;\s*)vvault_locale=(en|fr)/);
+        const fromCookie = m?.[1] as Locale | undefined;
+        if (fromCookie && fromCookie !== locale) {
+          setLocaleState(fromCookie);
+          return;
+        }
       }
     } catch {
       /* ignore */

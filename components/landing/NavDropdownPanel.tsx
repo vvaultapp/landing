@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { LandingNavItem } from "@/components/landing/content";
+import { fetchJsonCached } from "@/lib/fetchJsonCached";
 
 /* ogl bundle for the Studio card's Prism — dynamically imported so it only
    loads with this (already lazy) panel module, never on its own. */
@@ -12,17 +13,18 @@ const Prism = dynamic(() => import("@/components/landing/Prism"), {
 });
 
 /* Pulls the live Trustpilot rating from /api/landing-stats so the
-   Testimonials dropdown card stays in sync with the SocialProofSection. */
+   Testimonials dropdown card stays in sync with the SocialProofSection.
+   fetchJsonCached dedupes this with the hero's + social proof's calls
+   so the page makes ONE stats request, not three. */
 function useTrustpilotScore() {
   const [score, setScore] = useState("4.7 / 5");
   useEffect(() => {
     let active = true;
-    fetch("/api/landing-stats", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: { trustpilotScoreLabel?: string } | null) => {
-        if (!active || !data?.trustpilotScoreLabel) return;
-        const trimmed = data.trustpilotScoreLabel.replace(/\s+/g, "").replace("/", " / ");
-        setScore(trimmed);
+    fetchJsonCached("/api/landing-stats")
+      .then((data) => {
+        const label = (data as { trustpilotScoreLabel?: string } | null)?.trustpilotScoreLabel;
+        if (!active || !label) return;
+        setScore(label.replace(/\s+/g, "").replace("/", " / "));
       })
       .catch(() => {});
     return () => {
@@ -194,7 +196,7 @@ export default function NavDropdownPanel({
         key={child.label}
         href={child.href}
         {...extraProps}
-        className="flex h-9 items-center gap-2 rounded-xl px-3 transition-colors duration-150 hover:bg-[rgb(var(--ov)_/_0.06)]"
+        className="flex h-9 items-center gap-2 rounded-xl px-3 hover:bg-[rgb(var(--ov)_/_0.06)]"
         style={{ contain: "layout" }}
       >
         {icon ? (
@@ -231,7 +233,7 @@ export default function NavDropdownPanel({
         }}
       >
         {/* Inner fill */}
-        <div className="relative flex h-full flex-1 flex-col overflow-hidden rounded-[13px] transition-colors duration-300"
+        <div className="relative flex h-full flex-1 flex-col overflow-hidden rounded-[13px]"
           style={{ background: "rgb(var(--surface))" }}
         >
           {/* Hover glow — soft radial from top */}

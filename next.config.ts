@@ -19,8 +19,6 @@ const nextConfig: NextConfig = {
     optimizePackageImports: [
       "lucide-react",
       "@supabase/supabase-js",
-      "@react-three/drei",
-      "@react-three/fiber",
     ],
   },
   images: {

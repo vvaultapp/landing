@@ -64,7 +64,7 @@ export default function ProducersPage() {
           people per pack. Learn more about{" "}
           <Link
             href="/blog/how-to-organize-your-beat-catalog"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             organizing your beat catalog
           </Link>
@@ -81,7 +81,7 @@ export default function ProducersPage() {
           messy email threads. Read the full guide on{" "}
           <Link
             href="/blog/how-to-send-beats-to-artists"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             how to send beats to artists
           </Link>
@@ -98,7 +98,7 @@ export default function ProducersPage() {
           best-time-to-send insights. Learn about{" "}
           <Link
             href="/blog/what-is-tracked-music-sending"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             tracked music sending
           </Link>
@@ -139,7 +139,7 @@ export default function ProducersPage() {
           </h2>
           <a
             href="https://vvault.app/signup"
-            className="mt-5 inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.9)]"
+            className="mt-5 inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)]"
           >
             Start free
           </a>

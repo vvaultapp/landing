@@ -103,7 +103,7 @@ export default function VvaultVsDropboxForProducers() {
           you will never know if they did. For a full breakdown of{" "}
           <Link
             href="/blog/what-is-tracked-music-sending"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             what tracked sending means
           </Link>
@@ -192,14 +192,14 @@ export default function VvaultVsDropboxForProducers() {
           use vvault. They solve fundamentally different problems. See how vvault also compares to{" "}
           <Link
             href="/blog/vvault-vs-google-drive-for-producers"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             Google Drive
           </Link>{" "}
           and explore the best way to{" "}
           <Link
             href="/blog/how-to-organize-your-beat-catalog"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             organize your beat catalog
           </Link>

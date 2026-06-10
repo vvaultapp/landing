@@ -36,6 +36,7 @@ function Placeholder({
   image,
   className = "",
   fit,
+  mp4Only,
 }: {
   label: string;
   /** Video base path (no extension). When set, an auto-loop video
@@ -48,6 +49,8 @@ function Placeholder({
   className?: string;
   /** Per-card fit override (size + vertical position). Defaults to centered. */
   fit?: string;
+  /** Clip ships mp4-only (its webm was larger and got deleted). */
+  mp4Only?: boolean;
 }) {
   return (
     <div
@@ -67,6 +70,7 @@ function Placeholder({
         <LoopingVideo
           src={src}
           poster={poster}
+          mp4Only={mp4Only}
           fitOverride={fit}
           className="absolute"
           tallClassName={FIT_TALL}
@@ -91,6 +95,7 @@ function FeatureCard({
   poster,
   image,
   fit,
+  mp4Only,
 }: {
   label: string;
   title: string;
@@ -100,10 +105,11 @@ function FeatureCard({
   poster?: string;
   image?: string;
   fit?: string;
+  mp4Only?: boolean;
 }) {
   return (
     <div>
-      <Placeholder label={label} src={src} poster={poster} image={image} fit={fit} className={`${aspect} w-full`} />
+      <Placeholder label={label} src={src} poster={poster} image={image} fit={fit} mp4Only={mp4Only} className={`${aspect} w-full`} />
       <h3 className="mt-5 text-[15px] font-medium text-[rgb(var(--fg))]">{title}</h3>
       <p className="mt-1.5 max-w-[320px] text-[13px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
         {copy}
@@ -155,13 +161,13 @@ export function FeatureSection({ locale = "en" }: { locale?: Locale }) {
   const groups: {
     h1: string;
     h2: string;
-    cards: { label: string; title: string; copy: string; src?: string; poster?: string; image?: string; fit?: string }[];
+    cards: { label: string; title: string; copy: string; src?: string; poster?: string; image?: string; fit?: string; mp4Only?: boolean }[];
   }[] = [
     {
       h1: fr ? "L'outil tout-en-un" : "The all-in-one tool",
       h2: fr ? "pour les pros de la musique." : "for music professionals.",
       cards: [
-        { label: "Upload · iPhone", title: fr ? "Dépose tout dedans" : "Drop it all in", copy: fr ? "Beats, loops, stems et ZIPs, triés à l'arrivée et chiffrés pour que rien ne fuite avant l'heure." : "Beats, loops, stems and ZIPs, sorted on arrival and encrypted so nothing leaks before you're ready.", src: "/landing/features/upload", poster: "/landing/features/upload.webp", fit: FIT_TALL },
+        { label: "Upload · iPhone", title: fr ? "Dépose tout dedans" : "Drop it all in", copy: fr ? "Beats, loops, stems et ZIPs, triés à l'arrivée et chiffrés pour que rien ne fuite avant l'heure." : "Beats, loops, stems and ZIPs, sorted on arrival and encrypted so nothing leaks before you're ready.", src: "/landing/features/upload", poster: "/landing/features/upload.webp", mp4Only: true, fit: FIT_TALL },
         { label: "Library · desktop", title: fr ? "Des packs, prêts à partager" : "Packs, ready to share", copy: fr ? "Regroupe tes tracks en packs, partagés via des liens privés que seules les personnes choisies ouvrent." : "Bundle tracks into packs, shared through private links only the people you choose can open.", image: "/landing/features/folder.webp" },
         { label: "Inbox · iPhone", title: fr ? "Une inbox pour les beats reçus" : "An inbox for incoming beats", copy: fr ? "Tout ce qu'on t'envoie arrive dans un feed privé que toi seul peux voir." : "Everything sent your way lands in one private feed only you can see.", image: "/landing/features/inbox.webp" },
         { label: "Certificate · desktop", title: fr ? "La preuve que c'est toi le premier" : "Proof you made it first", copy: fr ? "Chaque upload est horodaté avec un certificat de propriété, pour que ton travail soit incontestablement le tien." : "Every upload is timestamped with a certificate of ownership, so your work is provably yours.", image: "/landing/features/certificate.webp" },
@@ -171,7 +177,7 @@ export function FeatureSection({ locale = "en" }: { locale?: Locale }) {
       h1: fr ? "Envoie. Track tout." : "Send it. Track all of it.",
       h2: fr ? "vvault te dit ce qui marche." : "vvault tells you what's working.",
       cards: [
-        { label: "Wavematch · desktop", title: fr ? "Trouve qui a utilisé tes beats" : "Find who used your beats", copy: fr ? "On scanne Spotify, YouTube et Apple Music pour qu'aucun beat volé ou non crédité ne passe." : "We scan Spotify, YouTube and Apple Music so stolen or uncredited beats never slip by.", src: "/landing/features/wavematch", poster: "/landing/features/wavematch.webp" },
+        { label: "Wavematch · desktop", title: fr ? "Trouve qui a utilisé tes beats" : "Find who used your beats", copy: fr ? "On scanne Spotify, YouTube et Apple Music pour qu'aucun beat volé ou non crédité ne passe." : "We scan Spotify, YouTube and Apple Music so stolen or uncredited beats never slip by.", src: "/landing/features/wavematch", poster: "/landing/features/wavematch.webp", mp4Only: true },
         { label: "Campaigns · desktop", title: fr ? "Touche toute ta liste" : "Reach your whole list", copy: fr ? "Envoie à toute ta liste, directement depuis ton Gmail." : "Send beats to your whole list, straight from your own Gmail.", image: "/landing/features/campaigns.webp" },
         { label: "Analytics · iPhone", title: fr ? "Chaque ouverture, écoute, download" : "Every open, play and download", copy: fr ? "Regarde l'activité arriver en live dès qu'ils lancent la lecture." : "Watch the activity roll in the second they hit play.", image: "/landing/features/analytics.webp", fit: FIT_TALL },
         { label: "Contacts · desktop", title: fr ? "Un CRM pour ton son" : "A CRM for your sound", copy: fr ? "Chaque contact scoré auto selon qui ouvre, écoute et achète." : "Every contact auto-scored by who opens, plays and buys.", image: "/landing/features/crm.webp" },

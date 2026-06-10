@@ -84,7 +84,7 @@ export function AppStoreBanner() {
         type="button"
         onClick={dismiss}
         aria-label="Dismiss app banner"
-        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.65)] transition-colors hover:bg-[rgb(var(--ov)_/_0.15)] hover:text-[rgb(var(--fg))]"
+        className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.65)] hover:bg-[rgb(var(--ov)_/_0.15)] hover:text-[rgb(var(--fg))]"
       >
         <svg
           viewBox="0 0 14 14"
@@ -109,7 +109,7 @@ export function AppStoreBanner() {
            cropped wordmark with no rounded mask. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/vvault-iOS-Default-1024x1024@1x.png"
+          src="/vvault-appbanner-88.webp"
           alt="vvault"
           width={44}
           height={44}
@@ -133,7 +133,7 @@ export function AppStoreBanner() {
         href={APP_STORE_URL}
         target="_blank"
         rel="noopener noreferrer"
-        className="shrink-0 rounded-full bg-[#0a84ff] px-[18px] py-[7px] text-[14px] font-semibold text-white transition-colors hover:bg-[#1c8fff]"
+        className="shrink-0 rounded-full bg-[#0a84ff] px-[18px] py-[7px] text-[14px] font-semibold text-white hover:bg-[#1c8fff]"
       >
         Get
       </a>

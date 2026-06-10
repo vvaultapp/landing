@@ -474,14 +474,14 @@ function FeatureCard({
 }) {
   return (
     <Link href={href} className="group block">
-      <div className="relative h-full overflow-hidden rounded-2xl border border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--ov)_/_0.02)] p-6 transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.05)] sm:p-8">
+      <div className="relative h-full overflow-hidden rounded-2xl border border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--ov)_/_0.02)] p-6 hover:bg-[rgb(var(--ov)_/_0.05)] sm:p-8">
 
         {/* Content */}
         <div className="relative z-10">
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold text-[rgb(var(--fg))]">{title}</h3>
             <svg
-              className="h-4 w-4 text-[rgb(var(--fg)_/_0.2)] transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-[rgb(var(--fg)_/_0.4)]"
+              className="h-4 w-4 text-[rgb(var(--fg)_/_0.2)] group-hover:translate-x-0.5 group-hover:text-[rgb(var(--fg)_/_0.4)]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -551,13 +551,13 @@ export default function FeaturesPage() {
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
             <a
               href="https://vvault.app/signup"
-              className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-all duration-200 hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90"
             >
               {locale === "fr" ? "Commencer gratuitement" : "Get started for free"}
             </a>
             <a
               href="/download/ios"
-              className="inline-flex items-center justify-center rounded-full border border-[rgb(var(--ov)_/_0.16)] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--fg))] transition-all duration-200 hover:bg-[rgb(var(--ov)_/_0.05)]"
+              className="inline-flex items-center justify-center rounded-full border border-[rgb(var(--ov)_/_0.16)] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.05)]"
             >
               {locale === "fr" ? "Télécharger sur iPhone" : "Download on iPhone"}
             </a>
@@ -587,7 +587,7 @@ export default function FeaturesPage() {
             <div className="mt-6 flex justify-center">
               <a
                 href="https://vvault.app/signup"
-                className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-all duration-200 hover:opacity-90"
+                className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90"
               >
                 {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
               </a>

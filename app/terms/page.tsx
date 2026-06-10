@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LandingNav } from "@/components/landing/LandingNav";
+import { LandingFooter } from "@/components/landing/LandingFooter";
+import { getLandingContent } from "@/components/landing/content";
 
 export const metadata: Metadata = {
   title: "Terms of Service | vvault",
@@ -97,63 +100,57 @@ const termsSections: Array<{ title: string; paragraphs: string[]; link?: { href:
 ];
 
 export default function TermsPage() {
+  const content = getLandingContent("en");
+
   return (
-    <main className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
-      <div className="mx-auto w-full max-w-4xl px-5 py-14 sm:py-18">
-        <div className="mb-10 flex flex-wrap items-center justify-between gap-3">
-          <Link
-            href="/"
-            className="group flex items-center gap-2 rounded-xl text-[13px] font-medium text-[rgb(var(--fg)_/_0.6)] transition-colors hover:text-[rgb(var(--fg))]"
-          >
-            <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M10 3L5 8l5 5" />
-            </svg>
-            <span className="tracking-[0.18em] font-semibold uppercase text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
-              vvault
-            </span>
-          </Link>
-          <div className="flex items-center gap-4 text-sm text-[rgb(var(--fg)_/_0.6)]">
-            <Link href="/privacy" className="hover:text-[rgb(var(--fg))] transition-colors">
-              Privacy Policy
-            </Link>
-          </div>
-        </div>
+    <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
+      <LandingNav locale="en" content={content} showPrimaryLinks={true} />
 
-        <header className="rounded-3xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.04)] p-6 sm:p-8">
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Terms of Use</h1>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-base">
-            By using vvault, you agree to these Terms of Use. If you do not agree, do not use the service.
-          </p>
-          <p className="mt-4 text-xs text-[rgb(var(--fg)_/_0.5)]">Last updated: {LAST_UPDATED}</p>
-        </header>
+      <main className="mx-auto w-full max-w-[760px] px-5 pb-32 pt-36 sm:px-8 sm:pt-44">
+        <h1 className="text-[2.6rem] font-semibold leading-[1.02] tracking-[-0.03em] text-[rgb(var(--fg))] sm:text-[4.25rem]">
+          Terms of Use
+        </h1>
+        <p className="mt-5 text-[14px] font-medium text-[rgb(var(--fg)_/_0.45)]">
+          Last updated: {LAST_UPDATED}
+        </p>
+        <p className="mt-3 max-w-xl text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.55)]">
+          By using vvault, you agree to these Terms of Use. If you do not agree, do not use the service.
+        </p>
 
-        <section className="mt-8 space-y-6 rounded-3xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] p-6 sm:p-8">
-          {termsSections.map((section) => (
-            <div key={section.title}>
-              <h2 className="text-lg font-semibold text-[rgb(var(--fg))]">{section.title}</h2>
-              <div className="mt-2 space-y-2">
-                {section.paragraphs.map((paragraph) => (
-                  <p key={paragraph} className="text-sm leading-relaxed text-[rgb(var(--fg)_/_0.7)] sm:text-[15px]">
-                    {paragraph}
-                  </p>
-                ))}
-                {section.link ? (
-                  <p className="text-sm leading-relaxed text-[rgb(var(--fg)_/_0.8)] sm:text-[15px]">
-                    <a
-                      href={section.link.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="underline decoration-white/35 underline-offset-4 hover:text-[rgb(var(--fg))]"
-                    >
-                      {section.link.label}
-                    </a>
-                  </p>
-                ) : null}
-              </div>
-            </div>
-          ))}
-        </section>
-      </div>
-    </main>
+        {termsSections.map((section) => (
+          <section key={section.title}>
+            <h2 className="mt-16 text-2xl font-semibold tracking-[-0.015em] text-[rgb(var(--fg))] sm:text-3xl">
+              {section.title}
+            </h2>
+            {section.paragraphs.map((paragraph) => (
+              <p key={paragraph} className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.55)]">
+                {paragraph}
+              </p>
+            ))}
+            {section.link ? (
+              <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.55)]">
+                <a
+                  href={section.link.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="underline underline-offset-4 hover:text-[rgb(var(--fg))]"
+                >
+                  {section.link.label}
+                </a>
+              </p>
+            ) : null}
+          </section>
+        ))}
+
+        <Link
+          href="/privacy"
+          className="mt-20 inline-block text-[14px] font-medium text-[rgb(var(--fg)_/_0.55)] underline underline-offset-4 hover:text-[rgb(var(--fg))]"
+        >
+          Privacy Policy &rarr;
+        </Link>
+      </main>
+
+      <LandingFooter locale="en" content={content} />
+    </div>
   );
 }

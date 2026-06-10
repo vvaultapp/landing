@@ -112,14 +112,14 @@ export default function WhatIsTrackedMusicSendingPage() {
         opportunities invisible. Tools like{" "}
         <Link
           href="/blog/vvault-vs-google-drive-for-producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           Google Drive
         </Link>{" "}
         and{" "}
         <Link
           href="/blog/vvault-vs-dropbox-for-producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           Dropbox
         </Link>{" "}
@@ -155,7 +155,7 @@ export default function WhatIsTrackedMusicSendingPage() {
         the{" "}
         <Link
           href="/blog/how-to-follow-up-after-sending-beats"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           follow-up guide
         </Link>
@@ -177,21 +177,21 @@ export default function WhatIsTrackedMusicSendingPage() {
         generate the most interest. This works for individual{" "}
         <Link
           href="/for/producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           producers
         </Link>
         ,{" "}
         <Link
           href="/for/artists"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           artists
         </Link>
         , and{" "}
         <Link
           href="/for/managers-and-labels"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           managers and labels
         </Link>{" "}

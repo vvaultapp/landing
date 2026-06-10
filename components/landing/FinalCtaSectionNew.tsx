@@ -27,7 +27,7 @@ export function FinalCtaSectionNew({ content }: FinalCtaSectionNewProps) {
                 buttonId: "finalCtaNew.get_started",
                 surface: "landing.new.final_cta",
               }}
-              className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--inv))] px-6 py-3 text-[15px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
+              className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--inv))] px-6 py-3 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)]"
             >
               {c.ctaLabel}
             </LandingCtaLink>

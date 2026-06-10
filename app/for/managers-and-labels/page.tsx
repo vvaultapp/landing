@@ -72,7 +72,7 @@ export default function ManagersAndLabelsPage() {
           with{" "}
           <Link
             href="/blog/what-is-tracked-music-sending"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             tracked music sending
           </Link>
@@ -88,7 +88,7 @@ export default function ManagersAndLabelsPage() {
           and tags. Know exactly who is engaged and who is not. Read more about{" "}
           <Link
             href="/blog/how-to-follow-up-after-sending-beats"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             following up effectively
           </Link>
@@ -119,7 +119,7 @@ export default function ManagersAndLabelsPage() {
           </h2>
           <a
             href="https://vvault.app/signup"
-            className="mt-5 inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.9)]"
+            className="mt-5 inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-6 py-3 text-sm font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)]"
           >
             Start free
           </a>

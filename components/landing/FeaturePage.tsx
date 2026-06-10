@@ -49,7 +49,7 @@ export type FeaturePageData = {
 
 /* pill button base — matches the hero CTAs */
 const PILL =
-  "inline-flex items-center justify-center rounded-full px-7 py-3 text-[14px] font-semibold transition-all duration-200";
+  "inline-flex items-center justify-center rounded-full px-7 py-3 text-[14px] font-semibold";
 
 function AppleGlyph({ className = "" }: { className?: string }) {
   return (
@@ -150,7 +150,7 @@ export function FeaturePage({ data }: { data: FeaturePageData }) {
             {data.why.map((item) => (
               <div
                 key={item.title.en}
-                className="rounded-2xl border border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--ov)_/_0.02)] px-5 py-5 transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.04)]"
+                className="rounded-2xl border border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--ov)_/_0.02)] px-5 py-5 hover:bg-[rgb(var(--ov)_/_0.04)]"
               >
                 <p className="text-[14px] font-semibold text-[rgb(var(--fg)_/_0.85)]">
                   {t(item.title, locale)}

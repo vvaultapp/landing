@@ -92,7 +92,7 @@ export default function HowToFollowUpAfterSendingBeats() {
           understandable — but it is also the single biggest reason producers{" "}
           <Link
             href="/blog/how-to-get-more-placements-as-a-producer"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             leave placements on the table
           </Link>
@@ -139,14 +139,14 @@ export default function HowToFollowUpAfterSendingBeats() {
           Learn more about{" "}
           <Link
             href="/blog/how-to-track-who-listened-to-your-beats"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             how tracking works
           </Link>{" "}
           and{" "}
           <Link
             href="/blog/what-is-tracked-music-sending"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             what tracked music sending means
           </Link>
@@ -202,14 +202,14 @@ export default function HowToFollowUpAfterSendingBeats() {
           turn those suggestions into a prefilled campaign in one click. Whether you are a solo{" "}
           <Link
             href="/for/producers"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             producer
           </Link>{" "}
           or part of a{" "}
           <Link
             href="/for/managers-and-labels"
-            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+            className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
           >
             management team
           </Link>

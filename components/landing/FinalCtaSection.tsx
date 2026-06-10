@@ -108,7 +108,7 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
               loggedInHref={content.finalCta.primary.href}
               loggedOutHref={content.finalCta.primary.href}
               data-track-id="home.final_cta.signup"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-[rgb(var(--inv))] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[rgb(var(--inv))] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
             >
               {content.finalCta.primary.label}
               <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current stroke-[1.8]">
@@ -119,7 +119,7 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
               loggedInHref={content.finalCta.secondary.href}
               loggedOutHref={content.finalCta.secondary.href}
               data-track-id="home.final_cta.secondary"
-              className="inline-flex items-center gap-1.5 rounded-2xl px-5 py-2.5 text-sm font-medium text-[rgb(var(--fg)_/_0.58)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.8)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+              className="inline-flex items-center gap-1.5 rounded-2xl px-5 py-2.5 text-sm font-medium text-[rgb(var(--fg)_/_0.58)] hover:text-[rgb(var(--fg)_/_0.8)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
             >
               {content.finalCta.secondary.label}
               <svg viewBox="0 0 20 20" className="h-4 w-4 fill-none stroke-current stroke-[1.8]">

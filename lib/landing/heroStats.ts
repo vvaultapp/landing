@@ -41,7 +41,9 @@ const ROTATION_POOL = 24;
 // over observed cold transform times (~80-530ms) so we reliably get all 5.
 const PER_IMAGE_TIMEOUT_MS = 2000;
 // Skip anything suspiciously large for an inline avatar (keeps the HTML lean).
-const MAX_INLINE_BYTES = 90_000;
+// A 64px webp is 2-6KB; 16KB is generous headroom while guaranteeing the five
+// inlined avatars can never balloon the page HTML.
+const MAX_INLINE_BYTES = 16_000;
 
 /* Rewrite Supabase-storage / Google / Gravatar avatar URLs to a tiny 64px
    render so each inlined avatar is only a few KB. Mirrors the client's
@@ -168,7 +170,15 @@ let lastGood: HeroStats | null = null;
 
 export async function getHeroStats(): Promise<HeroStats> {
   try {
-    const data = await cachedLoadHeroStats();
+    // Hard ceiling on how long a render may wait for stats. With ISR this
+    // only ever runs at revalidate time, but a hung Supabase call should
+    // still never stall HTML generation — serve the last-good snapshot.
+    const data = await Promise.race([
+      cachedLoadHeroStats(),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("hero stats timeout")), 2500),
+      ),
+    ]);
     if (data.usersTotal > 0 || data.avatarDataUris.length > 0) {
       lastGood = data;
       return data;

@@ -1,15 +1,16 @@
 // app/api/billing/prices/route.ts
 //
-// Geo-aware public pricing for the marketing site. Mirrors the main vvault
-// app's /api/billing/prices contract (same JSON shape, same currency rules):
-// EUR for European visitors, USD for everyone else. The amounts below mirror
-// the live multi-currency Stripe prices (kept in cents) so the marketing page
-// shows exactly what Checkout will charge.
+// Public pricing for the marketing site. STATIC + CDN-cached: the response
+// carries the price table for BOTH currencies under `byCurrency`, and the
+// client picks EUR/USD locally from the browser timezone (the same rule the
+// old geo-aware version applied server-side — see lib/billingPricesClient.ts).
+// This keeps the route off the lambda path entirely: it renders at build
+// time and revalidates hourly at the edge.
 import { NextResponse } from "next/server";
-import { billingCurrencyForRequest, type BillingCurrency } from "@/lib/billing/checkoutCurrency";
+import type { BillingCurrency } from "@/lib/billing/checkoutCurrency";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
+export const dynamic = "force-static";
+export const revalidate = 3600;
 
 // Live multi-currency Stripe amounts (unit_amount, in cents) as of June 2026.
 // Mirrors price_…GTgSV (Pro mo), …Groea (Pro yr), …c9ZIQ (Ultra mo),
@@ -37,9 +38,7 @@ const PRICE_IDS = {
 const PRO_MONTHLY_INTRO_PRICE_CENTS = 100;
 const CURRENCY_SYMBOL: Record<string, string> = { eur: "€", usd: "$" };
 
-export async function GET(req: Request) {
-  const currency = billingCurrencyForRequest(req);
-
+function payloadFor(currency: BillingCurrency) {
   const view = (key: keyof typeof AMOUNTS, interval: "month" | "year") => ({
     id: PRICE_IDS[key],
     unit_amount: AMOUNTS[key][currency],
@@ -57,7 +56,7 @@ export async function GET(req: Request) {
     ? `First month ${sym}1, then ${sym}${(compareAt / 100).toFixed(2)}/mo. Cancel anytime.`
     : "";
 
-  return NextResponse.json({
+  return {
     proMonthly,
     proAnnual: view("proAnnual", "year"),
     ultraMonthly: view("ultraMonthly", "month"),
@@ -74,6 +73,15 @@ export async function GET(req: Request) {
         ctaLabel: currency === "usd" ? "Upgrade for $1" : "Upgrade for 1€",
         disclaimer: introDisclaimer,
       },
+    },
+  };
+}
+
+export async function GET() {
+  return NextResponse.json({
+    byCurrency: {
+      eur: payloadFor("eur"),
+      usd: payloadFor("usd"),
     },
   });
 }

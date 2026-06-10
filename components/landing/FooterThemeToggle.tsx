@@ -15,7 +15,7 @@ export function FooterThemeToggle() {
       onClick={cycle}
       aria-label={`Theme: ${label}. Click to switch.`}
       title={`Theme: ${label}`}
-      className="inline-flex h-8 items-center gap-2 rounded-full border border-[rgb(var(--ov)_/_0.15)] px-3 text-[13px] font-medium text-[rgb(var(--fg)_/_0.55)] transition-colors duration-200 hover:border-[rgb(var(--ov)_/_0.3)] hover:text-[rgb(var(--fg)_/_0.85)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
+      className="inline-flex h-8 items-center gap-2 rounded-full border border-[rgb(var(--ov)_/_0.15)] px-3 text-[13px] font-medium text-[rgb(var(--fg)_/_0.55)] hover:border-[rgb(var(--ov)_/_0.3)] hover:text-[rgb(var(--fg)_/_0.85)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
     >
       {mode === "system" ? (
         /* monitor / auto */

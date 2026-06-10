@@ -128,7 +128,7 @@ export default function BestToolsForSendingBeatsPage() {
         Best for:{" "}
         <Link
           href="/for/producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           producers who send music regularly
         </Link>{" "}
@@ -154,7 +154,7 @@ export default function BestToolsForSendingBeatsPage() {
         professional asset. Read the full{" "}
         <Link
           href="/blog/vvault-vs-google-drive-for-producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           vvault vs Google Drive comparison
         </Link>
@@ -173,7 +173,7 @@ export default function BestToolsForSendingBeatsPage() {
         engagement tracking, no music-specific features, no campaign tools. See the detailed{" "}
         <Link
           href="/blog/vvault-vs-dropbox-for-producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           vvault vs Dropbox comparison
         </Link>
@@ -196,7 +196,7 @@ export default function BestToolsForSendingBeatsPage() {
         track their engagement. It is a storefront, not a workflow. Read the full{" "}
         <Link
           href="/blog/vvault-vs-beatstars"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           vvault vs BeatStars comparison
         </Link>

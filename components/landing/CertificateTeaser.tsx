@@ -147,7 +147,7 @@ export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
               <Link
                 href="/certificate"
                 data-track-id="home.certificate_teaser.view"
-                className="inline-flex items-center gap-2 rounded-xl bg-[rgb(var(--inv))] px-5 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
+                className="inline-flex items-center gap-2 rounded-xl bg-[rgb(var(--inv))] px-5 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)]"
               >
                 {locale === "fr" ? "Découvrir la fonctionnalité" : "View new feature"}
                 <svg

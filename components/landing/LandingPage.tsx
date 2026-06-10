@@ -87,7 +87,7 @@ export function LandingPage({ locale = "en" }: LandingPageProps) {
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
             data-track-id="home.see_pricing_under_metrics"
-            className="inline-flex h-11 items-center gap-2 rounded-full border border-[rgb(var(--ov)_/_0.15)] bg-[rgb(var(--ov)_/_0.04)] px-6 text-[14px] font-medium text-[rgb(var(--fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.08)]"
+            className="inline-flex h-11 items-center gap-2 rounded-full border border-[rgb(var(--ov)_/_0.15)] bg-[rgb(var(--ov)_/_0.04)] px-6 text-[14px] font-medium text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.08)]"
           >
             {locale === "fr" ? "Voir les tarifs" : "See pricing"}
             <span aria-hidden="true">→</span>

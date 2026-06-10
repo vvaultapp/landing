@@ -43,7 +43,7 @@ export default function DownloadPage() {
   const fr = locale === "fr";
 
   const secondaryClass =
-    "inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-medium text-[rgb(var(--fg)_/_0.5)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.8)]";
+    "inline-flex items-center gap-2.5 rounded-2xl px-6 py-3 text-[15px] font-medium text-[rgb(var(--fg)_/_0.5)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.8)]";
   const disabledClass =
     "inline-flex cursor-not-allowed items-center gap-2.5 whitespace-nowrap rounded-2xl border border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--ov)_/_0.03)] px-6 py-3 text-[15px] font-medium text-[rgb(var(--fg)_/_0.35)]";
 

@@ -94,7 +94,7 @@ function ContactCard({
     >
       {/* Border overlay — no bottom, sides fade */}
       <div
-        className="pointer-events-none absolute inset-0 rounded-[inherit] transition-all duration-200"
+        className="pointer-events-none absolute inset-0 rounded-[inherit]"
         style={{
           border: "1px solid rgba(255,255,255,0.06)",
           borderBottom: "none",
@@ -113,7 +113,7 @@ function ContactCard({
         {icon}
       </div>
       <div>
-        <p className="text-[15px] font-semibold text-[rgb(var(--fg)_/_0.9)] transition-colors duration-200 group-hover:text-[rgb(var(--fg))]">
+        <p className="text-[15px] font-semibold text-[rgb(var(--fg)_/_0.9)] group-hover:text-[rgb(var(--fg))]">
           {label}
         </p>
         <p className="mt-1 text-[13px] text-[rgb(var(--fg)_/_0.4)]">

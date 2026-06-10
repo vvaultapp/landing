@@ -11,10 +11,8 @@ import type { Locale } from "@/components/landing/content";
  */
 export function LandingBootstrap({ locale }: { locale: Locale }) {
   useEffect(() => {
-    document.title =
-      locale === "fr"
-        ? "vvault | Le workspace musical pour producteurs"
-        : "vvault | The music workspace for producers";
+    // NOTE: no document.title overwrite here — the route metadata already
+    // sets it, and a post-hydration swap reads as a tab-title flash.
     document.documentElement.lang = locale;
     try {
       localStorage.setItem("vvault-locale", locale);

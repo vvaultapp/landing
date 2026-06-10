@@ -1,10 +1,15 @@
-import Link from "next/link";
-import { cookies } from "next/headers";
+"use client";
 
-export default async function NotFound() {
-  const cookieStore = await cookies();
-  const localeCookie = cookieStore.get("vvault_locale")?.value;
-  const fr = localeCookie === "fr";
+import Link from "next/link";
+import { useLocaleContext } from "@/components/LocaleProvider";
+
+/* Client component on purpose: the global not-found boundary is prerendered
+   into EVERY route's shell, so reading cookies() here (the old behaviour)
+   silently forced the entire site into per-request dynamic rendering. The
+   locale now comes from the client-side LocaleProvider instead. */
+export default function NotFound() {
+  const { locale } = useLocaleContext();
+  const fr = locale === "fr";
 
   const heading = fr ? "Page introuvable" : "Page not found";
   const message = fr
@@ -18,15 +23,7 @@ export default async function NotFound() {
     <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
       <main className="relative z-10 mx-auto flex min-h-screen max-w-[720px] flex-col items-center justify-center px-5 text-center">
         <p className="text-[13px] font-medium uppercase tracking-[0.2em] text-[rgb(var(--fg)_/_0.3)]">404</p>
-        <h1
-          className="mt-4 text-3xl font-medium tracking-tight sm:text-[2.8rem]"
-          style={{
-            background: "linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.45) 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "rgb(var(--fg))",
-            backgroundClip: "text",
-          }}
-        >
+        <h1 className="mt-4 text-3xl font-medium tracking-tight text-[rgb(var(--fg))] sm:text-[2.8rem]">
           {heading}
         </h1>
         <p className="mx-auto mt-4 max-w-md text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
@@ -35,13 +32,13 @@ export default async function NotFound() {
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link
             href={homeHref}
-            className="inline-flex items-center rounded-xl bg-[rgb(var(--inv))] px-6 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
+            className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-6 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90"
           >
             {backHome}
           </Link>
           <Link
             href="/help"
-            className="inline-flex items-center rounded-2xl bg-[rgb(var(--ov)_/_0.06)] px-6 py-2.5 text-[14px] font-medium text-[rgb(var(--fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
+            className="inline-flex items-center rounded-full bg-[rgb(var(--ov)_/_0.06)] px-6 py-2.5 text-[14px] font-medium text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)]"
           >
             {helpCenter}
           </Link>

@@ -256,7 +256,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
                   buttonId: "workflow.start_the_loop",
                   surface: "landing.new.workflow",
                 }}
-                className="inline-flex items-center gap-2 rounded-[8px] px-5 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-[filter,box-shadow] duration-200 hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
+                className="inline-flex items-center gap-2 rounded-[8px] px-5 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:brightness-[0.96] hover:shadow-[0_6px_28px_0_rgba(255,255,255,0.14)]"
                 style={{
                   background:
                     "linear-gradient(to bottom, #ffffff 0%, #d4d4d4 100%)",

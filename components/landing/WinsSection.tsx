@@ -55,7 +55,7 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
                     type="button"
                     onClick={() => setActive(win)}
                     aria-label={`Open win: ${win.alt}`}
-                    className="block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl transition-transform duration-200 hover:-translate-y-0.5"
+                    className="block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl hover:-translate-y-0.5"
                     style={{
                       background: "rgb(var(--ov) / 0.04)",
                       outline: "1px solid rgb(var(--ov) / 0.08)",
@@ -98,7 +98,7 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
                   href: "/reviews",
                 })
               }
-              className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--inv))] px-6 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity duration-200 hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--inv))] px-6 py-3 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90"
             >
               {fr ? "Voir les wins" : "View wins"}
               <svg

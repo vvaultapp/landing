@@ -114,7 +114,7 @@ export default function HowToOrganizeYourBeatCatalogPage() {
         recipients. They should look clean, intentional, and tailored. Once organized,{" "}
         <Link
           href="/blog/how-to-send-beats-to-artists"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           sending beats professionally
         </Link>{" "}
@@ -154,14 +154,14 @@ export default function HowToOrganizeYourBeatCatalogPage() {
         This is especially useful for{" "}
         <Link
           href="/for/producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           producers
         </Link>{" "}
         managing a large catalog, or for{" "}
         <Link
           href="/for/managers-and-labels"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           managers and labels
         </Link>{" "}

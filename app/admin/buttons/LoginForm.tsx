@@ -33,7 +33,7 @@ export function LoginForm({ error }: { error?: boolean }) {
           ) : null}
           <button
             type="submit"
-            className="h-12 w-full rounded-2xl bg-black text-[14px] font-semibold text-white transition-colors hover:bg-[#101112]/90"
+            className="h-12 w-full rounded-2xl bg-black text-[14px] font-semibold text-white hover:bg-[#101112]/90"
           >
             Unlock
           </button>

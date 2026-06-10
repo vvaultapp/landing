@@ -300,7 +300,7 @@ export default function TestimonialsPage() {
               <a
                 href="https://vvault.app/signup"
                 data-track-id="testimonials.cta_signup"
-                className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-6 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
+                className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-6 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)]"
               >
                 {fr ? "Commencer gratuitement" : "Start for free"}
               </a>
@@ -309,7 +309,7 @@ export default function TestimonialsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="testimonials.cta_discord"
-                className="inline-flex items-center rounded-2xl bg-[rgb(var(--ov)_/_0.06)] px-6 py-2.5 text-[14px] font-medium text-[rgb(var(--fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.1)]"
+                className="inline-flex items-center rounded-2xl bg-[rgb(var(--ov)_/_0.06)] px-6 py-2.5 text-[14px] font-medium text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)]"
               >
                 {fr ? "Rejoindre Discord" : "Join Discord"}
               </a>

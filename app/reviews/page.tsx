@@ -136,7 +136,7 @@ export default function ReviewsPage() {
                 key={win.src}
                 onClick={() => setActiveWin(win)}
                 aria-label={`Open win: ${win.alt}`}
-                className="block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl transition-transform duration-200 hover:-translate-y-0.5"
+                className="block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-2xl hover:-translate-y-0.5"
                 style={{
                   background: CARD_BG,
                   outline: CARD_OUTLINE,
@@ -205,7 +205,7 @@ export default function ReviewsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="reviews.trustpilot"
-                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#00b67a] px-5 text-[13.5px] font-semibold text-[rgb(var(--fg))] transition-colors hover:bg-[#009d6a]"
+                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#00b67a] px-5 text-[13.5px] font-semibold text-[rgb(var(--fg))] hover:bg-[#009d6a]"
               >
                 <svg
                   viewBox="0 0 24 24"
@@ -222,7 +222,7 @@ export default function ReviewsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="reviews.app_store"
-                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[rgb(var(--ov)_/_0.06)] px-5 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.85)] transition-colors hover:bg-[rgb(var(--ov)_/_0.12)] hover:text-[rgb(var(--fg))]"
+                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[rgb(var(--ov)_/_0.06)] px-5 text-[13.5px] font-medium text-[rgb(var(--fg)_/_0.85)] hover:bg-[rgb(var(--ov)_/_0.12)] hover:text-[rgb(var(--fg))]"
               >
                 {locale === "fr" ? "Voir sur l'App Store" : "View on the App Store"}
               </a>

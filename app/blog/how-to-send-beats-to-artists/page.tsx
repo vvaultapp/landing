@@ -133,7 +133,7 @@ export default function HowToSendBeatsToArtistsPage() {
         is that decision-makers receive dozens of beat packs every week. The producers who{" "}
         <Link
           href="/blog/how-to-get-more-placements-as-a-producer"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           land placements consistently
         </Link>{" "}
@@ -246,7 +246,7 @@ export default function HowToSendBeatsToArtistsPage() {
         Learn more about{" "}
         <Link
           href="/blog/what-is-tracked-music-sending"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           tracked music sending
         </Link>
@@ -285,7 +285,7 @@ export default function HowToSendBeatsToArtistsPage() {
         activity, so you are never guessing. Read the full guide on{" "}
         <Link
           href="/blog/how-to-follow-up-after-sending-beats"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           how to follow up after sending beats
         </Link>
@@ -312,7 +312,7 @@ export default function HowToSendBeatsToArtistsPage() {
         you data you can use to send smarter next time. Whether you are an independent{" "}
         <Link
           href="/for/producers"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           producer
         </Link>{" "}

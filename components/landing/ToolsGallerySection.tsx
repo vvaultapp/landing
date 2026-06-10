@@ -269,7 +269,7 @@ export function ToolsGallerySection({
                 href: "/features",
               })
             }
-            className="inline-flex items-center gap-2 rounded-[8px] border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] px-5 py-2.5 text-[13px] font-semibold text-[rgb(var(--fg)_/_0.85)] transition-colors duration-200 active:bg-[rgb(var(--ov)_/_0.07)]"
+            className="inline-flex items-center gap-2 rounded-[8px] border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.03)] px-5 py-2.5 text-[13px] font-semibold text-[rgb(var(--fg)_/_0.85)] active:bg-[rgb(var(--ov)_/_0.07)]"
           >
             {locale === "fr" ? "Voir toutes les fonctionnalités" : "View all features"}
             <svg

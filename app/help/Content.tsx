@@ -112,7 +112,7 @@ export default function HelpPage() {
                 href="https://www.vvault.app/support"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:text-[14px]"
+                className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] hover:bg-[rgb(var(--ov)_/_0.1)] sm:text-[14px]"
               >
                 Support
                 <svg
@@ -129,7 +129,7 @@ export default function HelpPage() {
                 href="https://discord.gg/QGGEZR5KhB"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:text-[14px]"
+                className="inline-flex items-center gap-2 rounded-full bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] hover:bg-[rgb(var(--ov)_/_0.1)] sm:text-[14px]"
               >
                 Discord
                 <svg

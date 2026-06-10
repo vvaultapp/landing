@@ -215,7 +215,7 @@ export default async function ButtonsDashboard({
                     pathname: `/admin/buttons/${slug}`,
                     query: { range },
                   }}
-                  className="group flex flex-col gap-5 rounded-2xl border border-[#101112]/[0.08] bg-white p-6 transition-colors hover:border-[#101112]/[0.18] hover:bg-white"
+                  className="group flex flex-col gap-5 rounded-2xl border border-[#101112]/[0.08] bg-white p-6 hover:border-[#101112]/[0.18] hover:bg-white"
                 >
                   <Icon
                     className="h-6 w-6 text-[#101112]/80"
@@ -239,7 +239,7 @@ export default async function ButtonsDashboard({
                       </span>
                     </div>
                     <ChevronRight
-                      className="h-5 w-5 text-[#101112]/30 transition-colors group-hover:text-[#101112]/70"
+                      className="h-5 w-5 text-[#101112]/30 group-hover:text-[#101112]/70"
                       strokeWidth={1.8}
                     />
                   </div>

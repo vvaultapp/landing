@@ -97,5 +97,9 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/:path*"],
+  /* Page routes only — skip _next internals, API routes, and anything with a
+     file extension (videos, posters, fonts, icons). The old "/:path*" matcher
+     invoked this edge function for EVERY static asset request just to
+     early-return via isBypassedPath. */
+  matcher: ["/((?!_next/|api/|.*\\..*).*)"],
 };

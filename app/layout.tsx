@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { cookies, headers } from "next/headers";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
 import { ClickTracker } from "@/components/ClickTracker";
@@ -12,11 +11,9 @@ import "./globals.css";
 
 const geist = Geist({
   subsets: ["latin"],
-  /* 400 body, 500 medium, 600 semibold, 700 bold, 900 black. 900 is
-     used only by the /features/studio hero "STUDIO" wordmark — it's
-     loaded once site-wide and preloaded by next/font, so the studio
-     hero doesn't need to wait for a font fetch on first paint. */
-  weight: ["400", "500", "600", "700", "900"],
+  /* No weight array — Geist is a variable font, so this ships ONE woff2
+     covering 100-900 (incl. the 900 used by the STUDIO wordmark) instead
+     of five separately-preloaded static files. */
   display: "swap",
   variable: "--font-geist",
 });
@@ -55,27 +52,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const localeCookie = cookieStore.get("vvault_locale")?.value;
-  let lang: "en" | "fr";
-  if (localeCookie === "fr" || localeCookie === "en") {
-    lang = localeCookie;
-  } else {
-    // No cookie yet (first visit / deep link) — seed from the device's primary
-    // language, the same rule the proxy uses, so the first paint already
-    // matches and there's no flash of the wrong language.
-    const accept = (await headers()).get("accept-language") || "";
-    const primary = accept.split(",")[0]?.trim().split(";")[0]?.trim().toLowerCase();
-    lang = primary?.startsWith("fr") ? "fr" : "en";
-  }
-
+  /* lang is hardcoded — reading the locale cookie / accept-language here
+     (the old behaviour) forced EVERY page into per-request dynamic
+     rendering, so nothing was ever CDN-cached. The proxy already routes
+     French visitors to /fr at the edge, so non-/fr routes are always EN;
+     /fr corrects documentElement.lang via a tiny inline script in its own
+     layout. */
   return (
-    <html lang={lang} suppressHydrationWarning className={`h-full ${geist.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`h-full ${geist.variable}`}>
       <head>
         {/* Set the theme class before first paint so there's no flash of the
             wrong theme — device-based (prefers-color-scheme) unless the visitor
@@ -87,13 +76,12 @@ export default async function RootLayout({
               "(function(){try{var m=localStorage.getItem('vvault-theme');var d=m==='dark'?true:m==='light'?false:matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('light',!d);}catch(e){}})();",
           }}
         />
-        {/* Preconnect hints shave ~100-300ms off first-byte for the
-            third-party assets used on landing pages. DNS resolution +
-            TLS handshake start during the initial HTML parse instead
-            of waiting until the first fetch. */}
-        <link rel="preconnect" href="https://img.youtube.com" crossOrigin="anonymous" />
+        {/* Preconnect hints — avatar hosts only. Each preconnect costs a
+            DNS+TLS handshake competing with the critical path, so we only
+            warm origins actually fetched soon after load: YouTube thumbs
+            live inside the lazy nav dropdown (dns-prefetch is enough), and
+            Vercel Analytics loads same-origin in production. */}
         <link rel="dns-prefetch" href="https://i.ytimg.com" />
-        <link rel="preconnect" href="https://va.vercel-scripts.com" crossOrigin="anonymous" />
         {/* Warm the DNS+TLS to the avatar hosts so the (deferred, post-load)
             profile pictures resolve fast — shortens the loading tail. */}
         {process.env.NEXT_PUBLIC_SUPABASE_URL ? (
@@ -156,12 +144,13 @@ export default async function RootLayout({
         {/* Document-wide click tracker. Fires `trackButtonClick` for any
             click that bubbles up from an element with a `data-track-id`
             attribute. See components/ClickTracker.tsx. */}
-        <ClickTracker locale={lang} />
-        {/* Global language provider — seeds the site language from the cookie
-            on the server so every page renders the right language on first
-            paint (no flash), and keeps cookie + localStorage in sync. */}
+        <ClickTracker />
+        {/* Global language provider — statically seeded EN (so pages stay
+            CDN-cacheable); reconciles from localStorage/cookie on mount.
+            French visitors are routed to /fr at the edge by the proxy, so
+            the EN seed is path-correct for every non-/fr route. */}
         <ThemeProvider>
-        <LocaleProvider initialLocale={lang}>
+        <LocaleProvider initialLocale="en">
           {children}
           {/* Pinned bottom-right App Store + quick-nav menu — shown on every
               landing page except /docs and /admin (self-excludes via path). */}

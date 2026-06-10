@@ -284,7 +284,7 @@ function KpiCard({
 }) {
   return (
     <div
-      className="rounded-2xl px-4 py-3.5 transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.03)]"
+      className="rounded-2xl px-4 py-3.5 hover:bg-[rgb(var(--ov)_/_0.03)]"
       style={{
         border: "1px solid rgba(255,255,255,0.05)",
         background: "rgba(255,255,255,0.015)",
@@ -470,7 +470,7 @@ export function AnalyticsSection({ locale }: { locale: Locale }) {
                   {activities.map((a, i) => (
                     <div
                       key={i}
-                      className="flex cursor-default items-center gap-3 rounded-xl px-3 py-2 text-[11px] transition-colors duration-150 hover:bg-[rgb(var(--ov)_/_0.03)] sm:text-[13px]"
+                      className="flex cursor-default items-center gap-3 rounded-xl px-3 py-2 text-[11px] hover:bg-[rgb(var(--ov)_/_0.03)] sm:text-[13px]"
                     >
                       <span
                         className="h-1.5 w-1.5 shrink-0 rounded-full"
@@ -512,7 +512,7 @@ function PackCard({
   locale?: Locale;
 }) {
   return (
-    <div className="group flex w-full cursor-default flex-col select-none transition-transform duration-200 hover:-translate-y-0.5">
+    <div className="group flex w-full cursor-default flex-col select-none hover:-translate-y-0.5">
       <div
         className="relative aspect-square overflow-hidden rounded-2xl"
         style={{
@@ -535,7 +535,7 @@ function PackCard({
             <p className="text-[9px] tracking-wide text-[rgb(var(--fg)_/_0.7)]">{locale === "fr" ? "pistes" : "tracks"}</p>
           </div>
           <div className="flex justify-end">
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[rgb(var(--inv))] text-black opacity-0 shadow-[0_6px_18px_rgba(0,0,0,0.7)] transition-opacity duration-200 group-hover:opacity-100">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[rgb(var(--inv))] text-black opacity-0 shadow-[0_6px_18px_rgba(0,0,0,0.7)] group-hover:opacity-100">
               <svg
                 viewBox="0 0 16 16"
                 className="ml-0.5 h-3 w-3"
@@ -608,7 +608,7 @@ export function PacksCard({ locale }: { locale: Locale }) {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`shrink-0 rounded-lg px-2.5 py-1.5 text-[10px] font-medium transition-colors ${
+                  className={`shrink-0 rounded-lg px-2.5 py-1.5 text-[10px] font-medium ${
                     tab === activeTab
                       ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.75)]"
                       : "text-[rgb(var(--fg)_/_0.25)] hover:bg-[rgb(var(--ov)_/_0.04)] hover:text-[rgb(var(--fg)_/_0.4)]"
@@ -698,7 +698,7 @@ export function ComposeCard({ locale }: { locale: Locale }) {
                   <button
                     key={ch.key}
                     onClick={() => setActiveChannel(ch.key)}
-                    className={`rounded-lg px-2 py-1 text-[10px] font-medium transition-colors ${
+                    className={`rounded-lg px-2 py-1 text-[10px] font-medium ${
                       ch.key === activeChannel
                         ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg)_/_0.7)]"
                         : "text-[rgb(var(--fg)_/_0.25)] hover:bg-[rgb(var(--ov)_/_0.04)] hover:text-[rgb(var(--fg)_/_0.4)]"
@@ -727,7 +727,7 @@ export function ComposeCard({ locale }: { locale: Locale }) {
                   {recipients.map((r) => (
                     <span
                       key={r.name}
-                      className="flex cursor-default items-center gap-1.5 rounded-full py-0.5 pl-0.5 pr-2 transition-colors hover:bg-[rgb(var(--ov)_/_0.06)]"
+                      className="flex cursor-default items-center gap-1.5 rounded-full py-0.5 pl-0.5 pr-2 hover:bg-[rgb(var(--ov)_/_0.06)]"
                       style={{ background: "rgba(255,255,255,0.04)" }}
                     >
                       <span
@@ -788,7 +788,7 @@ export function ComposeCard({ locale }: { locale: Locale }) {
                   {locale === "fr" ? "Prêt à envoyer" : "Ready to send"}
                 </span>
               </div>
-              <button className="rounded-full bg-[rgb(var(--inv))] px-4 py-1.5 text-[11px] font-semibold text-black transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)]">
+              <button className="rounded-full bg-[rgb(var(--inv))] px-4 py-1.5 text-[11px] font-semibold text-black hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(255,255,255,0.1)]">
                 {locale === "fr" ? "Envoyer" : "Send campaign"}
               </button>
             </div>
@@ -912,7 +912,7 @@ export function SellCard({ locale }: { locale: Locale }) {
               {/* Action icons */}
               <div className="flex items-center gap-2 sm:gap-3">
                 {/* Download */}
-                <button className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[rgb(var(--ov)_/_0.06)]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-[rgb(var(--ov)_/_0.06)]">
                   <svg
                     viewBox="0 0 16 16"
                     className="h-4 w-4 text-[rgb(var(--fg)_/_0.3)]"
@@ -927,7 +927,7 @@ export function SellCard({ locale }: { locale: Locale }) {
                 {/* Cart */}
                 <button
                   onClick={() => setPurchased(!purchased)}
-                  className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+                  className={`flex h-8 w-8 items-center justify-center rounded-full ${
                     purchased
                       ? "bg-emerald-500/15 text-emerald-400/80"
                       : "hover:bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg)_/_0.3)]"
@@ -946,7 +946,7 @@ export function SellCard({ locale }: { locale: Locale }) {
                   </svg>
                 </button>
                 {/* Heart */}
-                <button className="flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[rgb(var(--ov)_/_0.06)]">
+                <button className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-[rgb(var(--ov)_/_0.06)]">
                   <svg
                     viewBox="0 0 16 16"
                     className="h-4 w-4 text-[rgb(var(--fg)_/_0.3)]"
@@ -958,7 +958,7 @@ export function SellCard({ locale }: { locale: Locale }) {
                   </svg>
                 </button>
                 {/* More */}
-                <button className="hidden h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-[rgb(var(--ov)_/_0.06)] sm:flex">
+                <button className="hidden h-8 w-8 items-center justify-center rounded-full hover:bg-[rgb(var(--ov)_/_0.06)] sm:flex">
                   <svg
                     viewBox="0 0 16 16"
                     className="h-4 w-4 text-[rgb(var(--fg)_/_0.3)]"

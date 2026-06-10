@@ -156,7 +156,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   type="button"
                   aria-label={content.pricingUi.toggleBillingAriaLabel}
                   onClick={() => setAnnual((v) => !v)}
-                  className={`relative h-7 w-12 rounded-full transition-colors duration-200 ${
+                  className={`relative h-7 w-12 rounded-full ${
                     annual ? "bg-emerald-500/80" : "bg-[rgb(var(--ov)_/_0.1)]"
                   }`}
                 >
@@ -262,7 +262,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
                   <LandingCtaLink
                     loggedInHref={p.href}
                     loggedOutHref={p.loggedOutHref || p.href}
-                    className={`inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold transition-opacity duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                    className={`inline-flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 ${
                       p.featured
                         ? "bg-[rgb(var(--inv))] text-[rgb(var(--inv-fg))] hover:opacity-90 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
                         : "border border-[rgb(var(--ov)_/_0.18)] text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.06)] focus-visible:ring-[rgb(var(--ov)_/_0.2)]"

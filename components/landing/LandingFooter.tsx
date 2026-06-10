@@ -61,7 +61,7 @@ export function LandingFooter({
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="inline-block rounded-xl px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+                  className="inline-block rounded-xl px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
                 >
                   {item.label}
                 </Link>
@@ -71,7 +71,7 @@ export function LandingFooter({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block rounded-xl px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+                  className="inline-block rounded-xl px-2 py-1 text-sm text-[rgb(var(--fg)_/_0.52)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.78)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
                 >
                   {item.label}
                 </a>
@@ -109,7 +109,7 @@ export function LandingFooter({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="footer.social.discord"
-                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.6)]"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-[rgb(var(--fg)_/_0.3)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.6)]"
                 aria-label="Discord"
               >
                 <DiscordFooterIcon />
@@ -119,7 +119,7 @@ export function LandingFooter({
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="footer.social.instagram"
-                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-[rgb(var(--fg)_/_0.3)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.6)]"
+                className="flex h-8 w-8 items-center justify-center rounded-[8px] text-[rgb(var(--fg)_/_0.3)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg)_/_0.6)]"
                 aria-label="Instagram"
               >
                 <InstagramFooterIcon />
@@ -138,7 +138,7 @@ export function LandingFooter({
                       {isInternalHref(link.href) ? (
                         <Link
                           href={link.href}
-                          className="text-sm text-[rgb(var(--fg)_/_0.4)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.7)]"
+                          className="text-sm text-[rgb(var(--fg)_/_0.4)] hover:text-[rgb(var(--fg)_/_0.7)]"
                         >
                           {link.label}
                         </Link>
@@ -147,7 +147,7 @@ export function LandingFooter({
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-[rgb(var(--fg)_/_0.4)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.7)]"
+                          className="text-sm text-[rgb(var(--fg)_/_0.4)] hover:text-[rgb(var(--fg)_/_0.7)]"
                         >
                           {link.label}
                         </a>
@@ -167,7 +167,7 @@ export function LandingFooter({
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="text-sm text-[rgb(var(--fg)_/_0.35)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.6)]"
+                  className="text-sm text-[rgb(var(--fg)_/_0.35)] hover:text-[rgb(var(--fg)_/_0.6)]"
                 >
                   {item.label}
                 </Link>
@@ -177,7 +177,7 @@ export function LandingFooter({
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-[rgb(var(--fg)_/_0.35)] transition-colors duration-200 hover:text-[rgb(var(--fg)_/_0.6)]"
+                  className="text-sm text-[rgb(var(--fg)_/_0.35)] hover:text-[rgb(var(--fg)_/_0.6)]"
                 >
                   {item.label}
                 </a>

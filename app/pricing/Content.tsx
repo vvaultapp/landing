@@ -4,10 +4,11 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { Reveal } from "@/components/landing/Reveal";
-import { fetchJsonCached } from "@/lib/fetchJsonCached";
+import { fetchBillingPricesForClient } from "@/lib/billingPricesClient";
 import { getLandingContent } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
 import { PricingFeatureIcon } from "@/components/landing/PricingFeatureIcon";
+import { formatMoney, formatMoneyCompact } from "@/lib/money";
 import { SocialProofSection } from "@/components/landing/SocialProofSection";
 import { WinsSection } from "@/components/landing/WinsSection";
 import { useLocale } from "@/lib/useLocale";
@@ -28,44 +29,20 @@ type BillingPrices = {
   offers?: { proMonthlyIntro?: ProMonthlyIntroOffer };
 };
 
-function money(unitAmount: number | null | undefined, currency: string): string {
+/* Locale-aware: fr renders "11,99 €" (symbol right, narrow space), en "€11.99".
+   Empty string while the amount is still unknown so cards stay blank, but a
+   real 0 formats ("0 €" / "€0") for the Free card. */
+function money(unitAmount: number | null | undefined, currency: string, locale: "en" | "fr" = "en"): string {
   if (!unitAmount) return "";
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: currency.toUpperCase(),
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(unitAmount / 100);
+  return formatMoney(unitAmount, currency, locale);
 }
-function moneyCompact(unitAmount: number | null | undefined, currency: string): string {
-  return money(unitAmount, currency).replace(/\.00$/, "");
+function moneyCompact(unitAmount: number | null | undefined, currency: string, locale: "en" | "fr" = "en"): string {
+  if (!unitAmount) return "";
+  return formatMoneyCompact(unitAmount, currency, locale);
 }
 function perMonthFromAnnualCents(annualCents: number | null | undefined): number {
   const cents = typeof annualCents === "number" && Number.isFinite(annualCents) ? annualCents : 0;
   return Math.round(cents / 12);
-}
-
-// Forward a dev-only ?currency=eur|usd / ?country=XX override so the EUR view
-// (and the €1 promo) can be previewed on localhost; ignored by the API in
-// production, where pricing stays strictly geo-based.
-function devCurrencyQs(): string {
-  if (typeof window === "undefined") return "";
-  const sp = new URLSearchParams(window.location.search);
-  const out = new URLSearchParams();
-  const cur = sp.get("currency");
-  if (cur) out.set("currency", cur);
-  const ctry = sp.get("country");
-  if (ctry) out.set("country", ctry);
-  // Browser timezone → lets the API resolve EUR/USD by location when there's
-  // no edge geo header (localhost). Never overrides a real geo header in prod.
-  try {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (tz) out.set("tz", tz);
-  } catch {
-    /* Intl unavailable — fall back to server geo / USD. */
-  }
-  const s = out.toString();
-  return s ? `?${s}` : "";
 }
 
 function useBillingPrices(): BillingPrices | null {
@@ -74,8 +51,11 @@ function useBillingPrices(): BillingPrices | null {
     let alive = true;
     void (async () => {
       try {
-        const json = (await fetchJsonCached(`/api/billing/prices${devCurrencyQs()}`)) as BillingPrices;
-        if (alive) setPrices(json);
+        // Static, CDN-cached both-currency table; the client resolves EUR/USD
+        // locally from the browser timezone (?currency/?country still work
+        // for previews — see lib/billingPricesClient.ts).
+        const json = (await fetchBillingPricesForClient()) as BillingPrices | null;
+        if (alive && json) setPrices(json);
       } catch {
         // keep nulls; cards render once prices resolve
       }
@@ -738,10 +718,10 @@ function BillingToggle({
           type="button"
           onClick={() => setAnnual(false)}
           aria-pressed={!annual}
-          className={`rounded-xl px-5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
+          className={`rounded-full px-5 py-1.5 text-[13px] font-semibold ${
             !annual
               ? "bg-[rgb(var(--ov)_/_0.08)] text-[rgb(var(--fg))]"
-              : "bg-transparent text-[rgb(var(--fg)_/_0.55)] hover:text-[rgb(var(--fg))]"
+              : "bg-transparent text-[rgb(var(--fg)_/_0.55)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg))]"
           }`}
         >
           {fr ? "Mensuel" : "Monthly"}
@@ -750,10 +730,10 @@ function BillingToggle({
           type="button"
           onClick={() => setAnnual(true)}
           aria-pressed={annual}
-          className={`inline-flex items-center gap-2 rounded-xl px-5 py-1.5 text-[13px] font-semibold transition-colors duration-200 ${
+          className={`inline-flex items-center gap-2 rounded-full px-5 py-1.5 text-[13px] font-semibold ${
             annual
               ? "bg-[rgb(var(--ov)_/_0.08)] text-[rgb(var(--fg))]"
-              : "bg-transparent text-[rgb(var(--fg)_/_0.55)] hover:text-[rgb(var(--fg))]"
+              : "bg-transparent text-[rgb(var(--fg)_/_0.55)] hover:bg-[rgb(var(--ov)_/_0.05)] hover:text-[rgb(var(--fg))]"
           }`}
         >
           <span>{fr ? "Annuel" : "Annual"}</span>
@@ -822,7 +802,7 @@ function JoinProCta({
           locale,
           planId,
         }}
-        className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[15px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity duration-200 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
+        className="inline-flex items-center justify-center rounded-full bg-[rgb(var(--inv))] px-7 py-3 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)]"
       >
         {label}
       </LandingCtaLink>
@@ -860,19 +840,25 @@ export default function PricingPage({
   const proPrice = money(
     annual ? perMonthFromAnnualCents(prices?.proAnnual?.unit_amount) : prices?.proMonthly?.unit_amount,
     displayCurrency,
+    locale,
   );
   const ultraPrice = money(
     annual ? perMonthFromAnnualCents(prices?.ultraAnnual?.unit_amount) : prices?.ultraMonthly?.unit_amount,
     displayCurrency,
+    locale,
   );
-  const freePrice = displayCurrency === "usd" ? "$0" : "\u20ac0";
+  const freePrice = formatMoneyCompact(0, displayCurrency, locale);
   // \u20ac1 first-month promo (EUR only \u2014 coupon is a fixed EUR discount). Gated to
   // monthly since the offer is "first month" only.
+  // While prices are still loading (null) we OPTIMISTICALLY assume the promo
+  // is active (it always is in production), so the very first paint already
+  // reads "Start Pro at \u20ac1." \u2014 no "Plans & Pricing" flash. If the fetch later
+  // says the promo is off, the headline gracefully swaps.
   const proIntro = prices?.offers?.proMonthlyIntro;
-  const proIntroAvailable = Boolean(proIntro?.active);
+  const proIntroAvailable = prices === null ? true : Boolean(proIntro?.active);
   const proShowPromo = proIntroAvailable && !annual;
-  const promoPrice = moneyCompact(proIntro?.introUnitAmount ?? 100, proIntro?.currency || displayCurrency);
-  const proRegularPrice = money(prices?.proMonthly?.unit_amount, displayCurrency);
+  const promoPrice = moneyCompact(proIntro?.introUnitAmount ?? 100, proIntro?.currency || displayCurrency, locale);
+  const proRegularPrice = money(prices?.proMonthly?.unit_amount, displayCurrency, locale);
   /* Two separate flags for two separate concerns:
      - `stuck` , the compare-plans sticky is in its pinned/ride-up
        phase. Its glass backdrop should be ON whenever any part of
@@ -1286,7 +1272,7 @@ export default function PricingPage({
                   <div className="mt-5">
                     {(() => {
                       const isCurrent = signedIn && accountPlan === p.id;
-                      const ctaClassName = `inline-flex w-full items-center justify-between rounded-full px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 ${
+                      const ctaClassName = `inline-flex w-full items-center justify-between rounded-full px-5 py-2.5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 ${
                         p.featured
                           ? "bg-[#006ffe] text-white hover:bg-[#005fd6] focus-visible:ring-[#006ffe]/35"
                           : "bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)] focus-visible:ring-[rgb(var(--ov)_/_0.2)]"
@@ -1409,7 +1395,7 @@ export default function PricingPage({
                   <div className="mt-auto flex justify-start pt-6">
                     <a
                       href="#compare-plans"
-                      className="text-[13px] font-medium text-[rgb(var(--fg)_/_0.55)] underline underline-offset-4 decoration-white/30 transition-colors duration-200 hover:text-[rgb(var(--fg))] hover:decoration-white/60"
+                      className="text-[13px] font-medium text-[rgb(var(--fg)_/_0.55)] underline underline-offset-4 decoration-white/30 hover:text-[rgb(var(--fg))] hover:decoration-white/60"
                     >
                       {locale === "fr" ? "Voir plus" : "View more"}
                     </a>
@@ -1479,7 +1465,7 @@ export default function PricingPage({
                   loggedInHref={mngmtPlan.href}
                   loggedOutHref={mngmtPlan.href}
                   data-track-id="pricing.mngmt.contact_sales"
-                  className="shrink-0 inline-flex items-center justify-center rounded-[8px] bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg)_/_0.8)] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.12)] hover:text-[rgb(var(--fg))]"
+                  className="shrink-0 inline-flex items-center justify-center rounded-[8px] bg-[rgb(var(--ov)_/_0.06)] px-5 py-2.5 text-sm font-semibold text-[rgb(var(--fg)_/_0.8)] hover:bg-[rgb(var(--ov)_/_0.12)] hover:text-[rgb(var(--fg))]"
                 >
                   {mngmtPlan.cta}
                 </LandingCtaLink>
@@ -1494,7 +1480,7 @@ export default function PricingPage({
             <div className="mt-14 flex justify-center sm:mt-16">
               <a
                 href="#compare-plans"
-                className="group inline-flex items-center gap-3 text-[22px] font-medium text-[rgb(var(--fg)_/_0.85)] transition-colors duration-200 hover:text-[rgb(var(--fg))] sm:gap-4 sm:text-[28px]"
+                className="group inline-flex items-center gap-3 text-[22px] font-medium text-[rgb(var(--fg)_/_0.85)] hover:text-[rgb(var(--fg))] sm:gap-4 sm:text-[28px]"
               >
                 <span>
                   {locale === "fr" ? "Comparer les plans" : "Compare plans"}
@@ -1502,7 +1488,7 @@ export default function PricingPage({
                 <svg
                   aria-hidden
                   viewBox="0 0 20 20"
-                  className="h-6 w-6 fill-none stroke-current stroke-[1.8] transform-gpu transition-transform duration-200 ease-out group-hover:translate-y-1.5 sm:h-7 sm:w-7"
+                  className="h-6 w-6 fill-none stroke-current stroke-[1.8] group-hover:translate-y-1.5 sm:h-7 sm:w-7"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   style={{ willChange: "transform" }}
@@ -1586,7 +1572,7 @@ export default function PricingPage({
                       onClick={() => setAnnual((v) => !v)}
                       aria-label={content.pricingUi.toggleBillingAriaLabel}
                       data-track-id="pricing.toggle_billing"
-                      className={`relative h-5 w-9 shrink-0 rounded-full transition-colors duration-200 ${
+                      className={`relative h-5 w-9 shrink-0 rounded-full ${
                         annual ? "bg-emerald-500/80" : "bg-[rgb(var(--ov)_/_0.15)]"
                       }`}
                     >
@@ -1646,7 +1632,7 @@ export default function PricingPage({
                           locale,
                           planId: p.id,
                         }}
-                        className="mt-3 hidden w-full items-center justify-between rounded-full bg-[rgb(var(--inv))] px-3.5 py-1.5 text-[12px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)] sm:inline-flex"
+                        className="mt-3 hidden w-full items-center justify-between rounded-full bg-[rgb(var(--inv))] px-3.5 py-1.5 text-[12px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] sm:inline-flex"
                       >
                         <span>{startedLabel}</span>
                         <svg
@@ -1765,7 +1751,7 @@ export default function PricingPage({
                 <a
                   href="https://vvault.app/signup"
                   data-track-id="pricing.final_cta.start_free"
-                  className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-6 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] transition-colors duration-200 hover:bg-[rgb(var(--ov)_/_0.9)]"
+                  className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-6 py-2.5 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)]"
                 >
                   {locale === "fr" ? "Commencer gratuitement" : "Start for free"}
                 </a>

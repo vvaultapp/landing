@@ -119,7 +119,7 @@ export default function VvaultVsBeatStarsPage() {
         built-in marketplace, but the core strength is the{" "}
         <Link
           href="/blog/what-is-tracked-music-sending"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           tracked sending workflow
         </Link>
@@ -138,7 +138,7 @@ export default function VvaultVsBeatStarsPage() {
         Use vvault when you are actively{" "}
         <Link
           href="/blog/how-to-send-beats-to-artists"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           sending beats to specific artists
         </Link>
@@ -169,7 +169,7 @@ export default function VvaultVsBeatStarsPage() {
         they cover both sides of the business. See the full{" "}
         <Link
           href="/compare"
-          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 transition-colors hover:decoration-white/60"
+          className="text-[rgb(var(--fg))] underline decoration-white/30 underline-offset-2 hover:decoration-white/60"
         >
           comparison of all tools
         </Link>{" "}

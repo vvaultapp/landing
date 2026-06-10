@@ -53,7 +53,7 @@ export function ContactsMiniUI({ locale = "en" }: { locale?: Locale }) {
       {rows.map((r) => (
         <div
           key={r.name}
-          className="group relative flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition-colors duration-200 hover:bg-white/[0.03]"
+          className="group relative flex items-center gap-2.5 rounded-xl px-2.5 py-2 hover:bg-white/[0.03]"
           style={{
             background: "rgba(255,255,255,0.018)",
             border: "1px solid rgba(255,255,255,0.05)",

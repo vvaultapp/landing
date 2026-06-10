@@ -132,7 +132,7 @@ export default function CookieConsentBanner() {
           type="button"
           aria-label="Reject non-essential cookies and close"
           onClick={handleRejectAll}
-          className="absolute right-4 top-4 z-[1] inline-flex h-9 w-9 items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:hidden"
+          className="absolute right-4 top-4 z-[1] inline-flex h-9 w-9 items-center justify-center rounded-full bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)] sm:hidden"
         >
           <X className="h-4 w-4" />
         </button>
@@ -205,14 +205,14 @@ function BannerView({
         <button
           type="button"
           onClick={onRejectAll}
-          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] md:h-11 md:flex-1 md:justify-center md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[13px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
+          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)] md:h-11 md:flex-1 md:justify-center md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[13px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
         >
           Reject
         </button>
         <button
           type="button"
           onClick={onAcceptAll}
-          className="inline-flex h-10 items-center rounded-full bg-[rgb(var(--inv))] px-6 text-[13px] font-semibold text-[rgb(var(--inv-fg))] transition-opacity hover:opacity-90 md:h-11 md:flex-1 md:justify-center md:px-4 md:text-[13px]"
+          className="inline-flex h-10 items-center rounded-full bg-[rgb(var(--inv))] px-6 text-[13px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90 md:h-11 md:flex-1 md:justify-center md:px-4 md:text-[13px]"
         >
           Accept
         </button>
@@ -224,7 +224,7 @@ function BannerView({
           type="button"
           aria-label="Reject non-essential cookies and close"
           onClick={onDismiss}
-          className="ml-1 hidden h-10 w-10 items-center justify-center rounded-full text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] sm:inline-flex md:hidden"
+          className="ml-1 hidden h-10 w-10 items-center justify-center rounded-full text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)] sm:inline-flex md:hidden"
         >
           <X className="h-4 w-4" />
         </button>
@@ -261,7 +261,7 @@ function PreferencesView(props: {
             type="button"
             aria-label="Close preferences"
             onClick={props.onClose}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[rgb(var(--fg)_/_0.55)] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] hover:text-[rgb(var(--fg))] md:text-[rgb(var(--fg))]/55 md:hover:bg-[rgb(var(--bg)_/_0.06)] md:hover:text-[rgb(var(--fg))]"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[rgb(var(--fg)_/_0.55)] hover:bg-[rgb(var(--ov)_/_0.1)] hover:text-[rgb(var(--fg))] md:text-[rgb(var(--fg))]/55 md:hover:bg-[rgb(var(--bg)_/_0.06)] md:hover:text-[rgb(var(--fg))]"
           >
             <X className="h-4 w-4" />
           </button>
@@ -293,21 +293,21 @@ function PreferencesView(props: {
         <button
           type="button"
           onClick={props.onRejectAll}
-          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] md:h-9 md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
+          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)] md:h-9 md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
         >
           Reject non-essential
         </button>
         <button
           type="button"
           onClick={props.onAcceptAll}
-          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] transition-colors hover:bg-[rgb(var(--ov)_/_0.1)] md:h-9 md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
+          className="inline-flex h-10 items-center rounded-full border border-[rgb(var(--ov)_/_0.2)] bg-transparent px-5 text-[13px] font-medium text-[rgb(var(--fg))] hover:bg-[rgb(var(--ov)_/_0.1)] md:h-9 md:border-[rgb(var(--ov)_/_0.15)] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--ov)_/_0.06)]"
         >
           Accept all
         </button>
         <button
           type="button"
           onClick={props.onSave}
-          className="inline-flex h-10 items-center rounded-full bg-[rgb(var(--inv))] px-6 text-[13px] font-semibold text-black transition-colors hover:bg-[rgb(var(--ov)_/_0.9)] md:h-9 md:bg-[rgb(var(--bg))] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--bg)_/_0.85)]"
+          className="inline-flex h-10 items-center rounded-full bg-[rgb(var(--inv))] px-6 text-[13px] font-semibold text-black hover:bg-[rgb(var(--ov)_/_0.9)] md:h-9 md:bg-[rgb(var(--bg))] md:px-4 md:text-[12.5px] md:text-[rgb(var(--fg))] md:hover:bg-[rgb(var(--bg)_/_0.85)]"
         >
           Save preferences
         </button>
@@ -332,7 +332,7 @@ function CategoryRow({
   const interactive = !locked;
   return (
     <label
-      className={`flex items-start gap-3 rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.04)] p-4 transition-colors md:border-black/[0.08] md:bg-[rgb(var(--bg)_/_0.025)] ${
+      className={`flex items-start gap-3 rounded-2xl border border-[rgb(var(--ov)_/_0.1)] bg-[rgb(var(--ov)_/_0.04)] p-4 md:border-black/[0.08] md:bg-[rgb(var(--bg)_/_0.025)] ${
         interactive
           ? 'cursor-pointer hover:border-[rgb(var(--ov)_/_0.15)] hover:bg-[rgb(var(--ov)_/_0.06)] md:hover:border-black/[0.14] md:hover:bg-[rgb(var(--ov)_/_0.06)]'
           : ''
@@ -386,7 +386,7 @@ function Checkbox({
           return;
         }
       }}
-      className={`relative mt-0.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md border transition-colors ${
+      className={`relative mt-0.5 inline-flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-md border ${
         checked
           ? 'border-white bg-[rgb(var(--inv))] md:border-black md:bg-[rgb(var(--bg))]'
           : 'border-[rgb(var(--ov)_/_0.3)] bg-transparent md:border-black/30'
