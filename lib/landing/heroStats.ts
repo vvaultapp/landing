@@ -41,9 +41,10 @@ const ROTATION_POOL = 24;
 // over observed cold transform times (~80-530ms) so we reliably get all 5.
 const PER_IMAGE_TIMEOUT_MS = 2000;
 // Skip anything suspiciously large for an inline avatar (keeps the HTML lean).
-// A 64px webp is 2-6KB; 16KB is generous headroom while guaranteeing the five
-// inlined avatars can never balloon the page HTML.
-const MAX_INLINE_BYTES = 16_000;
+// Real 64px q60 jpgs from photo avatars run 8-25KB, so 40KB accepts them all
+// (production showed only 1/5 avatars surviving a 16KB cap) while still
+// bounding the worst case at 5 × 40KB = 200KB of HTML.
+const MAX_INLINE_BYTES = 40_000;
 
 /* Rewrite Supabase-storage / Google / Gravatar avatar URLs to a tiny 64px
    render so each inlined avatar is only a few KB. Mirrors the client's
