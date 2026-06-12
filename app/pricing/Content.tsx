@@ -1577,7 +1577,7 @@ export default function PricingPage({
                       }`}
                     >
                       <span
-                        className={`absolute inset-y-0 my-auto h-[14px] w-[14px] rounded-full bg-[rgb(var(--inv))] transition-[left] duration-200 ${
+                        className={`absolute inset-y-0 my-auto h-[14px] w-[14px] rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-[left] duration-200 ${
                           annual ? "left-[18px]" : "left-[3px]"
                         }`}
                       />
@@ -1632,7 +1632,11 @@ export default function PricingPage({
                           locale,
                           planId: p.id,
                         }}
-                        className="mt-3 hidden w-full items-center justify-between rounded-full bg-[rgb(var(--inv))] px-3.5 py-1.5 text-[12px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] sm:inline-flex"
+                        className={`mt-3 hidden w-full items-center justify-between rounded-full px-3.5 py-1.5 text-[12px] font-semibold hover:opacity-90 sm:inline-flex ${
+                          p.id === "pro"
+                            ? "bg-[#006ffe] text-white"
+                            : "bg-[rgb(var(--ov)_/_0.06)] text-[rgb(var(--fg))]"
+                        }`}
                       >
                         <span>{startedLabel}</span>
                         <svg

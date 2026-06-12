@@ -42,9 +42,11 @@ export const TestimonialsColumn = (props: {
                   key={`${idx}-${i}`}
                   className="relative w-full max-w-xs overflow-hidden rounded-2xl p-6 sm:p-7"
                   style={{
-                    /* Solid very-dark-grey fill — no gradient, no halo. */
-                    background: "#0d0d0f",
-                    outline: "1px solid rgba(255, 255, 255, 0.08)",
+                    /* Low-opacity themed fill — light grey in light mode,
+                       subtle white in dark — so the black/white body text
+                       always reads. */
+                    background: "rgb(var(--ov) / 0.05)",
+                    outline: "1px solid rgb(var(--ov) / 0.1)",
                     outlineOffset: "-1px",
                   }}
                 >

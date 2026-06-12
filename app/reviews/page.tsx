@@ -23,10 +23,11 @@ import { useLocale } from "@/lib/useLocale";
 const TRUSTPILOT_URL = "https://www.trustpilot.com/review/vvault.app";
 const APP_STORE_URL = "https://apps.apple.com/us/app/vvault/id6759256796";
 
-/* Same flat dark-grey fill the review cards use. No gradient and no
-   halo so the page reads as deliberately understated. */
-const CARD_BG = "#0d0d0f";
-const CARD_OUTLINE = "1px solid rgba(255, 255, 255, 0.08)";
+/* Low-opacity themed fill the review cards use — light grey in light
+   mode, subtle white in dark — so the page reads as deliberately
+   understated while the black/white text always stays legible. */
+const CARD_BG = "rgb(var(--ov) / 0.05)";
+const CARD_OUTLINE = "1px solid rgb(var(--ov) / 0.1)";
 
 export default function ReviewsPage() {
   const [locale] = useLocale();
