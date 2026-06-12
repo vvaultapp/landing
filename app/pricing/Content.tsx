@@ -1086,9 +1086,25 @@ export default function PricingPage({
     note: fr ? "Sur invitation" : "By invitation",
   };
 
-  const stickyPlans = [
+  const stickyPlans: {
+    id: string;
+    name: string;
+    price: string;
+    strikePrice?: string;
+    period: string;
+    href: string;
+  }[] = [
     { id: "free", name: "Free", price: freePrice, period: "", href: "https://vvault.app/signup" },
-    { id: "pro", name: "Pro", price: proPrice, period: locale === "fr" ? "/mois" : "/mo", href: `https://vvault.app/signup?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO` },
+    {
+      id: "pro",
+      name: "Pro",
+      // Mirror the cards: on monthly with the promo on, show the €1/$1 first-
+      // month price with the regular price struck through.
+      price: proShowPromo ? promoPrice : proPrice,
+      strikePrice: proShowPromo ? proRegularPrice : undefined,
+      period: locale === "fr" ? "/mois" : "/mo",
+      href: `https://vvault.app/signup?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`,
+    },
     { id: "ultra", name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: `https://vvault.app/signup?plan=ultra&interval=${interval}` },
   ];
   const startedLabel = fr ? "Commencer" : "Get Started";
@@ -1577,7 +1593,7 @@ export default function PricingPage({
                       }`}
                     >
                       <span
-                        className={`absolute inset-y-0 my-auto h-[14px] w-[14px] rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.3)] transition-[left] duration-200 ${
+                        className={`absolute inset-y-0 my-auto h-[14px] w-[14px] rounded-full bg-white transition-[left] duration-200 ${
                           annual ? "left-[18px]" : "left-[3px]"
                         }`}
                       />
@@ -1602,6 +1618,11 @@ export default function PricingPage({
                         {p.name}
                       </h3>
                       <p className="mt-0.5 text-[13px] font-medium tabular-nums leading-tight text-[rgb(var(--fg))] sm:mt-1 sm:text-[18px]">
+                        {p.strikePrice && (
+                          <span className="mr-1 font-normal text-[rgb(var(--fg)_/_0.4)] line-through">
+                            {p.strikePrice}
+                          </span>
+                        )}
                         {p.price}
                         {p.period && (
                           <span className="text-[rgb(var(--fg)_/_0.45)]">{p.period}</span>

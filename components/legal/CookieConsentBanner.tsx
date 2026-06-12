@@ -121,7 +121,7 @@ export default function CookieConsentBanner() {
          back to the mobile full-width layout. `left-auto` is set
          explicitly so the mobile `inset-x-0` (= left:0 right:0)
          can't leak through and stretch the banner across the page. */
-      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--bg))] text-[rgb(var(--fg))] shadow-[0_-12px_40px_rgb(var(--ov)_/_0.3)] md:inset-x-auto md:bottom-7 md:right-7 md:left-auto md:w-[380px] md:max-w-[calc(100vw-3.5rem)] md:rounded-2xl md:border md:border-[rgb(var(--ov)_/_0.1)] md:bg-[rgb(var(--bg))] md:text-[rgb(var(--fg))] md:shadow-[0_18px_48px_rgba(16,17,18,0.16),0_2px_8px_rgba(16,17,18,0.08)]"
+      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--bg))] text-[rgb(var(--fg))] md:inset-x-auto md:bottom-7 md:right-7 md:left-auto md:w-[380px] md:max-w-[calc(100vw-3.5rem)] md:rounded-2xl md:border md:border-[rgb(var(--ov)_/_0.1)] md:bg-[rgb(var(--bg))] md:text-[rgb(var(--fg))]"
     >
       {/* Mobile-only dismiss. On mobile the layout is a vertical stack
           (title / body / buttons) so there's no clean horizontal row to

@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "motion/react";
 
 /* Review card structure — matches the LandingReview shape from
    /lib/landing-reviews, plus an optional `source` so we can tag App
@@ -22,17 +21,9 @@ export const TestimonialsColumn = (props: {
 }) => {
   return (
     <div className={props.className}>
-      <motion.div
-        animate={{
-          translateY: "-50%",
-        }}
-        transition={{
-          duration: props.duration || 10,
-          repeat: Infinity,
-          ease: "linear",
-          repeatType: "loop",
-        }}
-        className="flex flex-col gap-5 pb-5"
+      <div
+        className="review-marquee flex flex-col gap-5 pb-5"
+        style={{ "--review-dur": `${props.duration || 10}s` } as React.CSSProperties}
       >
         {[
           ...Array.from({ length: 2 }).map((_, idx) => (
@@ -44,10 +35,8 @@ export const TestimonialsColumn = (props: {
                   style={{
                     /* Low-opacity themed fill — light grey in light mode,
                        subtle white in dark — so the black/white body text
-                       always reads. */
+                       always reads. No outline. */
                     background: "rgb(var(--ov) / 0.05)",
-                    outline: "1px solid rgb(var(--ov) / 0.1)",
-                    outlineOffset: "-1px",
                   }}
                 >
                   {/* Trustpilot-style green stars row */}
@@ -81,7 +70,7 @@ export const TestimonialsColumn = (props: {
             </React.Fragment>
           )),
         ]}
-      </motion.div>
+      </div>
     </div>
   );
 };

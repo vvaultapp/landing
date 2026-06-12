@@ -50,6 +50,16 @@ body {
 
 html {
   scroll-behavior: smooth;
+  /* Paint the overscroll/rubber-band area the SAME colour as the footer.
+     The footer is rgb(var(--ov)/0.05) composited over the page --bg, so we
+     reproduce that exact composite as a SOLID background-color via color-mix
+     (95% bg + 5% ov). A solid background-color reliably extends into the
+     rubber-band region in Chrome/Safari; a background-image gradient does NOT
+     (it only paints the element box, leaving overscroll the bare --bg) — which
+     is why the area below the footer was still showing white. Themed, so it
+     flips automatically in dark mode (light → rgb(238,238,238), dark →
+     rgb(13,13,13)), always matching the footer. */
+  background-color: color-mix(in srgb, rgb(var(--bg)) 95%, rgb(var(--ov)));
 }
 
 /* Dark scrollbar */
@@ -213,6 +223,28 @@ html {
 /* Pro pricing toast — slides up from the bottom-right when the
    CertificateTeaser section enters the viewport. Single subtle
    keyframe, no overshoot. See components/landing/ProPricingToast. */
+/* /reviews testimonial columns — infinite vertical marquee. CSS keyframe
+   (not framer-motion) so it runs on the compositor thread: never janks on a
+   heavy page and never restarts/snaps when the review data re-renders. The
+   content is duplicated 2× so translateY(-50%) loops seamlessly. */
+.review-marquee {
+  animation: review-marquee var(--review-dur, 15s) linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .review-marquee {
+    animation: none;
+  }
+}
+@keyframes review-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -50%, 0);
+  }
+}
+
 @keyframes proToastIn {
   from {
     opacity: 0;

@@ -27,7 +27,7 @@ const APP_STORE_URL = "https://apps.apple.com/us/app/vvault/id6759256796";
    mode, subtle white in dark — so the page reads as deliberately
    understated while the black/white text always stays legible. */
 const CARD_BG = "rgb(var(--ov) / 0.05)";
-const CARD_OUTLINE = "1px solid rgb(var(--ov) / 0.1)";
+const CARD_OUTLINE = "none";
 
 export default function ReviewsPage() {
   const [locale] = useLocale();
@@ -166,7 +166,19 @@ export default function ReviewsPage() {
           <h2 className="mt-24 text-center text-2xl font-light text-[rgb(var(--fg))] sm:mt-32 sm:text-3xl">
             {locale === "fr" ? "Ce qu'ils en disent" : "What they're saying"}
           </h2>
-          <div className="mt-10 flex justify-center gap-6 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] sm:mt-12">
+          <div
+            className="mt-10 flex max-h-[740px] justify-center gap-6 overflow-hidden sm:mt-12"
+            style={{
+              // Both prefixes — Tailwind's [mask-image:…] only emits the
+              // unprefixed property, so Safari (and older Chrome) ignored the
+              // fade and the overflow-hidden hard-cut made cards pop in/out
+              // abruptly at the edges instead of fading.
+              maskImage:
+                "linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)",
+              WebkitMaskImage:
+                "linear-gradient(to bottom, transparent, black 25%, black 75%, transparent)",
+            }}
+          >
             <TestimonialsColumn testimonials={columns.first} duration={15} />
             <TestimonialsColumn
               testimonials={columns.second}
@@ -206,7 +218,7 @@ export default function ReviewsPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 data-track-id="reviews.trustpilot"
-                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#00b67a] px-5 text-[13.5px] font-semibold text-[rgb(var(--fg))] hover:bg-[#009d6a]"
+                className="inline-flex h-11 items-center gap-2 rounded-2xl bg-[#00b67a] px-5 text-[13.5px] font-semibold text-white hover:bg-[#009d6a]"
               >
                 <svg
                   viewBox="0 0 24 24"
