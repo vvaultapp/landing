@@ -2,6 +2,7 @@ import { LandingNav } from "@/components/landing/LandingNav";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { FeatureSection } from "@/components/landing/MinimalSections";
 import { FinalCtaSectionNew } from "@/components/landing/FinalCtaSectionNew";
+import { AskAiSection } from "@/components/landing/AskAiSection";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { DeferredPricing } from "@/components/landing/DeferredPricing";
 import { LandingBootstrap } from "@/components/landing/LandingBootstrap";
@@ -47,6 +48,8 @@ export async function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
         <FeatureSection locale={locale} />
         {/* 7 — Wins wall + 8 — Pricing (deferred client island) */}
         <DeferredPricing locale={locale} />
+        {/* 8.5 — "Still not sure?" — ask an AI about vvault (server-rendered) */}
+        <AskAiSection locale={locale} />
         {/* 9 — Final CTA (server-rendered) */}
         <FinalCtaSectionNew content={contentNew} />
       </main>
