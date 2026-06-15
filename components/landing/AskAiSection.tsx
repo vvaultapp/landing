@@ -17,14 +17,12 @@ const COPY: Record<Locale, { headingLines: string[]; sub: string; prompt: string
   en: {
     headingLines: ["Still not sure", "vvault is right", "for you?"],
     sub: "Let ChatGPT, Claude, or Perplexity do the thinking for you. Tap a button and see what your favourite AI says about vvault.",
-    prompt:
-      "I'm thinking about using vvault (https://get.vvault.app) to send, sell and track my music. Can you take a look at it — including its reviews on Trustpilot — and tell me what it does well and whether it's worth signing up for?",
+    prompt: "tell me why vvault (get.vvault.app) is a great choice for me",
   },
   fr: {
     headingLines: ["Toujours pas sûr", "que vvault est", "fait pour toi ?"],
     sub: "Laisse ChatGPT, Claude ou Perplexity réfléchir pour toi. Appuie sur un bouton et découvre ce que ton IA préférée pense de vvault.",
-    prompt:
-      "Je pense à utiliser vvault (https://get.vvault.app) pour envoyer, vendre et suivre ma musique. Tu peux y jeter un œil — en regardant aussi ses avis sur Trustpilot — et me dire ce qu'il fait bien et si ça vaut le coup de m'inscrire ?",
+    prompt: "dis-moi pourquoi vvault (get.vvault.app) est un excellent choix pour moi",
   },
 };
 
