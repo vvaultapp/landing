@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ScrollToTop } from "@/components/ScrollToTop";
-import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
+// Temporarily disabled — re-enable with the <AppStoreBanner /> render below.
+// import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
 import { ClickTracker } from "@/components/ClickTracker";
 import PinnedQuickMenuClient from "@/components/landing/PinnedQuickMenuClient";
 import { LocaleProvider } from "@/components/LocaleProvider";
@@ -139,7 +140,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full bg-[rgb(var(--bg))] text-[rgb(var(--fg))] font-sans">
-        <AppStoreBanner />
+        {/* Temporarily disabled — re-enable to bring back the mobile
+            "Get vvault on the App Store" banner. */}
+        {/* <AppStoreBanner /> */}
         <ScrollToTop />
         {/* Document-wide click tracker. Fires `trackButtonClick` for any
             click that bubbles up from an element with a `data-track-id`

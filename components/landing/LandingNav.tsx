@@ -497,8 +497,14 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
   return (
     <>
     <header
-      className="nav-enter fixed inset-x-0 top-[var(--app-banner-h,0px)] z-50 pt-[env(safe-area-inset-top)] sm:pt-0"
+      className="nav-enter fixed inset-x-0 z-50 pt-[env(safe-area-inset-top)] sm:pt-0"
       style={{
+        /* Sits BELOW the in-flow promo banner: `--promo-h` (set by PromoBanner,
+           homepage only) is the banner's remaining visible height, so the nav
+           starts under the banner and slides up to pin at the top as the banner
+           scrolls away. `--app-banner-h` is the separate iOS app-banner offset.
+           Both default to 0 → on every other page the nav stays pinned at top. */
+        top: "calc(var(--app-banner-h, 0px) + var(--promo-h, 0px))",
         /* Both `mergedWithPinned` (compare-plans sticky merge) and
            `mobileMenuOpen` → zero our OWN glass. In both cases
            something else is providing the glass surface below us
