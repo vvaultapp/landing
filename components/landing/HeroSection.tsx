@@ -731,35 +731,27 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
       <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-16 pt-[150px] sm:px-8 sm:pt-[180px] lg:px-10 lg:pb-20 lg:pt-[200px]">
         {/* TOP ROW — headline left, description right (ElevenLabs structure).
             Stacks to one column on mobile. */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
-          <h1 className="font-display max-w-[680px] text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
-            <span className="block">{fr ? "Gère ta" : "Run your"}</span>
-            <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
-          </h1>
-          {/* Description — center-aligned with the headline */}
-          <div className="lg:max-w-[460px] lg:shrink-0">
-            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
-              {fr
-                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et plus, le tout depuis un espace soigné et sécurisé pensé pour rester fluide."
-                : "Send your emails to get downloads. Track opens, plays and more, all from a beautifully crafted, secure workspace designed to feel effortless."}
-            </p>
-          </div>
-        </div>
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+          {/* LEFT — headline, social proof, sign-up (tight stack). */}
+          <div className="flex max-w-[640px] flex-col items-start text-left">
+            <h1 className="font-display text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
+              <span className="block">{fr ? "Gère ta" : "Run your"}</span>
+              <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
+            </h1>
 
-        {/* Trusted-by + sign-up — left-aligned, close under the headline. */}
-        <div className="mt-6 flex flex-col items-start text-left">
-
-            {/* "Used by N artists & producers" — sits directly below the headline. */}
-            <HeroTrustedBy
-              locale={locale}
-              usersTotal={stats.usersTotal}
-              avatarUrls={stats.avatarUrls}
-              initialAvatars={initialStats?.avatarDataUris ?? NO_AVATARS}
-            />
+            {/* "Used by N artists & producers" — directly under the headline. */}
+            <div className="mt-5">
+              <HeroTrustedBy
+                locale={locale}
+                usersTotal={stats.usersTotal}
+                avatarUrls={stats.avatarUrls}
+                initialAvatars={initialStats?.avatarDataUris ?? NO_AVATARS}
+              />
+            </div>
 
             {/* Sign-up — Google (filled) first, then Apple + Email as icon
                 buttons that smoothly expand to their full label on hover. */}
-            <div className="mt-9 flex flex-wrap items-center gap-2.5">
+            <div className="mt-7 flex flex-wrap items-center gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
@@ -815,12 +807,25 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               </a>
               {fr ? " de vvault." : "."}
             </p>
+          </div>
+
+          {/* RIGHT — supporting description (ElevenLabs' top-right slot). */}
+          <div className="lg:max-w-[420px] lg:shrink-0 lg:pt-2">
+            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
+              {fr
+                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et plus, le tout depuis un espace soigné et sécurisé pensé pour rester fluide."
+                : "Send your emails to get downloads. Track opens, plays and more, all from a beautifully crafted, secure workspace designed to feel effortless."}
+            </p>
+          </div>
         </div>
 
         {/* SHOWCASE — full-width product video with a Computer / iPhone switch.
             Only the active video loads; the other loads the first time it's
             picked. */}
         <HeroShowcase locale={locale} />
+
+        {/* Live vvault stats — count up into view, re-poll for a "live" feel. */}
+        <HeroStats locale={locale} />
       </div>
     </section>
   );
@@ -880,6 +885,153 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
         </div>
       )}
+    </div>
+  );
+}
+
+/* Live vvault metrics shown below the hero video. Numbers count up the first
+   time the strip scrolls into view, then re-poll /api/landing-stats every 30s
+   and smoothly tick to the new totals — so a long-open tab keeps "counting". */
+type LandingMetrics = {
+  usersTotal: number;
+  tracksTotal: number;
+  downloadsTotal: number;
+  emailsSentTotal: number;
+};
+
+function AnimatedStat({
+  value,
+  active,
+  locale,
+  suffix = "",
+}: {
+  value: number;
+  active: boolean;
+  locale: Locale;
+  suffix?: string;
+}) {
+  const [display, setDisplay] = useState(0);
+  const fromRef = useRef(0);
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!active) return;
+    const from = fromRef.current;
+    const to = value;
+    if (from === to) {
+      setDisplay(to);
+      return;
+    }
+    const duration = 1500;
+    let startTs: number | null = null;
+    const step = (ts: number) => {
+      if (startTs === null) startTs = ts;
+      const t = Math.min(1, (ts - startTs) / duration);
+      const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+      setDisplay(Math.round(from + (to - from) * eased));
+      if (t < 1) {
+        rafRef.current = requestAnimationFrame(step);
+      } else {
+        fromRef.current = to;
+      }
+    };
+    rafRef.current = requestAnimationFrame(step);
+    return () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    };
+  }, [value, active]);
+
+  const formatted = useMemo(
+    () => new Intl.NumberFormat(locale === "fr" ? "fr-FR" : "en-US").format(display),
+    [display, locale],
+  );
+
+  return (
+    <span className="tabular-nums">
+      {formatted}
+      {suffix}
+    </span>
+  );
+}
+
+function HeroStats({ locale = "en" }: { locale?: Locale }) {
+  const fr = locale === "fr";
+  const [metrics, setMetrics] = useState<LandingMetrics | null>(null);
+  const [inView, setInView] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  // Count up only once the strip is on screen.
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setInView(true);
+            io.disconnect();
+            break;
+          }
+        }
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  // Fetch the live totals, then keep them fresh.
+  useEffect(() => {
+    let active = true;
+    const load = async () => {
+      try {
+        const res = await fetch("/api/landing-stats", { cache: "no-store" });
+        if (!res.ok || !active) return;
+        const d = await res.json();
+        if (!active) return;
+        const n = (v: unknown) => Math.max(0, Math.floor(Number(v) || 0));
+        setMetrics({
+          usersTotal: n(d.usersTotal),
+          tracksTotal: n(d.tracksTotal),
+          downloadsTotal: n(d.downloadsTotal),
+          emailsSentTotal: n(d.emailsSentTotal),
+        });
+      } catch {
+        // leave whatever we have
+      }
+    };
+    void load();
+    const id = window.setInterval(load, 30000);
+    return () => {
+      active = false;
+      window.clearInterval(id);
+    };
+  }, []);
+
+  const items: { value: number; label: string; suffix?: string }[] = [
+    { value: metrics?.usersTotal ?? 0, label: fr ? "Producteurs" : "Producers", suffix: "+" },
+    { value: metrics?.tracksTotal ?? 0, label: fr ? "Sons hébergés" : "Tracks hosted" },
+    { value: metrics?.downloadsTotal ?? 0, label: fr ? "Fichiers téléchargés" : "Files downloaded" },
+    { value: metrics?.emailsSentTotal ?? 0, label: fr ? "Emails envoyés" : "Emails sent" },
+  ];
+
+  const active = inView && metrics !== null;
+
+  return (
+    <div
+      ref={ref}
+      className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-[rgb(var(--ov)_/_0.08)] pt-12 sm:grid-cols-4 lg:mt-20"
+    >
+      {items.map((it) => (
+        <div key={it.label} className="flex flex-col items-center text-center">
+          <div className="font-display text-[2rem] leading-none text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[3rem]">
+            <AnimatedStat value={it.value} active={active} locale={locale} suffix={it.suffix} />
+          </div>
+          <div className="mt-2.5 text-[12.5px] font-medium text-[rgb(var(--fg)_/_0.5)] sm:text-[13.5px]">
+            {it.label}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

@@ -60,10 +60,12 @@ export async function GET() {
     auth: { persistSession: false },
   });
 
-  const [profilesRes, tracksRes, emailsRes, manualRes, reviewsRes] = await Promise.all([
+  const [profilesRes, tracksRes, emailsRes, downloadsRes, playsRes, manualRes, reviewsRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
     supabase.from("links").select("id", { count: "exact", head: true }).is("deleted_at", null),
     supabase.from("email_sends").select("id", { count: "exact", head: true }),
+    supabase.from("events").select("id", { count: "exact", head: true }).eq("event_type", "download"),
+    supabase.from("events").select("id", { count: "exact", head: true }).eq("event_type", "play"),
     supabase
       .from("landing_manual_stats")
       .select("money_paid_total_cents, app_store_review_label, trustpilot_score_label")
@@ -86,6 +88,12 @@ export async function GET() {
   }
   if (emailsRes.error) {
     console.error("[landing-stats] email sends count failed:", emailsRes.error.message);
+  }
+  if (downloadsRes.error) {
+    console.error("[landing-stats] downloads count failed:", downloadsRes.error.message);
+  }
+  if (playsRes.error) {
+    console.error("[landing-stats] plays count failed:", playsRes.error.message);
   }
   /* Fetch a deterministic, capped set of avatars (ordered, limited) — NOT every
      profile-with-a-picture. This keeps the query fast and, crucially, returns
@@ -177,6 +185,8 @@ export async function GET() {
       emailsSentTotal: toPositiveInteger(emailsRes.count, 0),
       usersTotal: toPositiveInteger(profilesRes.count, 0),
       tracksTotal: toPositiveInteger(tracksRes.count, 0),
+      downloadsTotal: toPositiveInteger(downloadsRes.count, 0),
+      playsTotal: toPositiveInteger(playsRes.count, 0),
       moneyPaidTotalCents,
       appStoreReviewLabel,
       trustpilotScoreLabel,
