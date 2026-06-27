@@ -1573,7 +1573,7 @@ export default function PricingPage({
                    nav area is uncovered glass on scroll-past. */
               }}
             />
-            <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">
+            <div className="mx-auto w-full max-w-[min(92vw,1300px)] px-5 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:px-10">
               {/* Mobile: big title + toggle stacked full-width on top, then
                   the 3 plan columns beneath. Desktop: single 40/20/20/20 row
                   aligning with the feature tables below. */}
@@ -1691,7 +1691,7 @@ export default function PricingPage({
               user scroll hundreds of pixels past the top before the
               fade kicks in. */}
           <Reveal threshold={0}>
-            <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
+            <div className="mx-auto w-full max-w-[min(92vw,1300px)] px-5 sm:px-8 lg:px-10">
               {getComparisonSections(locale).map((section) => (
                 <div key={section.title} className="mt-12 sm:mt-16">
                   {/* Section header, bigger, with divider underneath */}
@@ -1743,7 +1743,7 @@ export default function PricingPage({
             landing (e.g. /new) the host renders its own FAQ + final
             CTA so we skip these to avoid duplicates. */}
         {!embedded && (
-        <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto w-full max-w-[min(92vw,1300px)] px-5 sm:px-8 lg:px-10">
 
           {/* FAQ */}
           <div className="mt-28 sm:mt-36">

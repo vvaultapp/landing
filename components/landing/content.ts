@@ -96,7 +96,6 @@ const landingContentEn = {
         { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.7/5 from real users", featured: true, external: true },
       ],
     },
-    { label: "iPhone", href: "/download/ios" },
     {
       label: "Docs",
       href: "/docs",
@@ -112,6 +111,7 @@ const landingContentEn = {
         { label: "Watch Demo", href: "https://www.youtube.com/watch?v=m2WPJvKnCzU", description: "See vvault in action", featured: true, external: true },
       ],
     },
+    { label: "iPhone", href: "/download/ios" },
     { label: "Pricing", href: "/pricing" },
   ] as LandingNavItem[],
   hero: {
@@ -481,7 +481,6 @@ const landingContentFr = {
         { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.7/5 par de vrais utilisateurs", featured: true, external: true },
       ],
     },
-    { label: "iPhone", href: "/download/ios" },
     {
       label: "Docs",
       href: "/docs",
@@ -497,6 +496,7 @@ const landingContentFr = {
         { label: "Voir la démo", href: "https://www.youtube.com/watch?v=m2WPJvKnCzU", description: "Découvre vvault en action", featured: true, external: true },
       ],
     },
+    { label: "iPhone", href: "/download/ios" },
     { label: "Tarifs", href: "/pricing" },
   ] as LandingNavItem[],
   hero: {

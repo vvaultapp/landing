@@ -47,7 +47,7 @@ export function LandingFooter({
   if (!showColumns && inlineLegalWithBrand) {
     return (
       <footer className="mt-8 border-t border-[rgb(var(--ov)_/_0.1)] pb-10 pt-6">
-        <div className="mx-auto flex w-full max-w-[clamp(1320px,92vw,2400px)] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto flex w-full max-w-[min(92vw,1300px)] flex-wrap items-center justify-between gap-4 px-5 sm:px-8 lg:px-10">
           <Link
             href={homeHref}
             className="rounded-xl text-[13px] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--fg)_/_0.95)]"
@@ -92,7 +92,7 @@ export function LandingFooter({
   return (
       <footer className="relative z-[1] bg-[rgb(var(--ov)_/_0.05)] pb-20 pt-14 sm:pb-28 sm:pt-16">
 
-      <div className="mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1300px)] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr_1fr]">
           {/* Brand + social */}
           <div>
