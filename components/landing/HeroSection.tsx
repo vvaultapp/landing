@@ -741,7 +741,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
             {/* "Used by N artists & producers" — hugging the headline (negative
                 margin pulls it up into the headline's line-descent space). */}
-            <div className="-mt-1">
+            <div className="-mt-3">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
