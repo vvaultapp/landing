@@ -731,13 +731,25 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
       <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-16 pt-[150px] sm:px-8 sm:pt-[180px] lg:px-10 lg:pb-20 lg:pt-[200px]">
         {/* TOP ROW — headline + proof + sign-up on the left, description on the
             right (ElevenLabs structure). Stacks to one column on mobile. */}
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
-          {/* LEFT — headline, trusted-by, sign-up (left-aligned). */}
-          <div className="flex max-w-[640px] flex-col items-start text-left">
-            <h1 className="font-display text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
-              <span className="block">{fr ? "Gère ta" : "Run your"}</span>
-              <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
-            </h1>
+        {/* Headline + description — vertically centered with each other
+            (ElevenLabs' top row). */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
+          <h1 className="font-display max-w-[680px] text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
+            <span className="block">{fr ? "Gère ta" : "Run your"}</span>
+            <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
+          </h1>
+          {/* Description — center-aligned with the headline */}
+          <div className="lg:max-w-[460px] lg:shrink-0">
+            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
+              {fr
+                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et plus, le tout depuis un espace soigné et sécurisé pensé pour rester fluide."
+                : "Send your emails to get downloads. Track opens, plays and more, all from a beautifully crafted, secure workspace designed to feel effortless."}
+            </p>
+          </div>
+        </div>
+
+        {/* Trusted-by + sign-up — left-aligned, below the headline. */}
+        <div className="mt-10 flex flex-col items-start text-left">
 
             {/* "Used by N artists & producers" — sits directly below the
                 headline (claude's subtitle slot). */}
@@ -806,16 +818,6 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               </a>
               {fr ? " de vvault." : "."}
             </p>
-          </div>
-
-          {/* RIGHT — supporting description (ElevenLabs' top-right slot). */}
-          <div className="lg:max-w-[340px] lg:shrink-0 lg:pt-2">
-            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
-              {fr
-                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et ventes au même endroit."
-                : "Send your emails to get downloads. Track opens, plays, and sales from one secure workspace."}
-            </p>
-          </div>
         </div>
 
         {/* SHOWCASE — full-width product video with a Computer / iPhone switch.
@@ -827,7 +829,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
   );
 }
 
-/* Switchable product showcase: one full-length video at a time. The visible
+/* Switchable product showcase — one full-length video at a time. The visible
    device's clip is the only one that loads on first paint (mobile → iPhone,
    desktop → Computer); the other only mounts (and starts loading) the first
    time its tab is selected. */
@@ -835,23 +837,12 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
   const fr = locale === "fr";
   const [mounted, setMounted] = useState(false);
   const [device, setDevice] = useState<"computer" | "iphone">("computer");
-  const [loaded, setLoaded] = useState<{ computer: boolean; iphone: boolean }>({
-    computer: false,
-    iphone: false,
-  });
 
   useEffect(() => {
     const isMobile = window.matchMedia("(max-width: 1023px)").matches;
-    const init = isMobile ? "iphone" : "computer";
-    setDevice(init);
-    setLoaded({ computer: init === "computer", iphone: init === "iphone" });
+    setDevice(isMobile ? "iphone" : "computer");
     setMounted(true);
   }, []);
-
-  const select = (d: "computer" | "iphone") => {
-    setDevice(d);
-    setLoaded((prev) => (prev[d] ? prev : { ...prev, [d]: true }));
-  };
 
   const tab = (active: boolean) =>
     `rounded-full px-5 py-2 text-[14px] font-medium focus-visible:outline-none ${
@@ -865,32 +856,31 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
       {/* Computer / iPhone switch — centered, no outline, grey active pill */}
       <div className="mb-7 flex justify-center">
         <div className="inline-flex rounded-full p-1">
-          <button type="button" onClick={() => select("computer")} className={tab(device === "computer")}>
+          <button type="button" onClick={() => setDevice("computer")} className={tab(device === "computer")}>
             {fr ? "Ordinateur" : "Computer"}
           </button>
-          <button type="button" onClick={() => select("iphone")} className={tab(device === "iphone")}>
+          <button type="button" onClick={() => setDevice("iphone")} className={tab(device === "iphone")}>
             iPhone
           </button>
         </div>
       </div>
 
       {/* Just the clip at its NATIVE aspect — rounded corners + a hairline
-          outline, no surrounding container. Sized near native so it stays
-          sharp. Only the active device's clip is mounted (the other loads the
-          first time its tab is picked). */}
-      {!mounted && (
-        <div className="relative mx-auto aspect-[660/414] w-full max-w-[720px] overflow-hidden rounded-[16px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+          outline, no surrounding container. Computer spans the full width (edge
+          to edge with the nav); iPhone is centered. Only the ACTIVE clip is
+          mounted, so switching tabs unmounts the old <video> and mounts a fresh
+          one that reloads from the very beginning (minimal memory + network). */}
+      {!mounted ? (
+        <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
           <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
         </div>
-      )}
-      {mounted && loaded.computer && (
-        <div className={`relative mx-auto aspect-[660/414] w-full max-w-[720px] overflow-hidden rounded-[16px] [outline:1px_solid_rgb(var(--ov)_/_0.12)] ${device === "computer" ? "block" : "hidden"}`}>
-          <LoopingVideo src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+      ) : device === "computer" ? (
+        <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+          <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
         </div>
-      )}
-      {mounted && loaded.iphone && (
-        <div className={`relative mx-auto aspect-[420/856] w-full max-w-[300px] overflow-hidden rounded-[28px] [outline:1px_solid_rgb(var(--ov)_/_0.12)] ${device === "iphone" ? "block" : "hidden"}`}>
-          <LoopingVideo src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+      ) : (
+        <div className="relative mx-auto aspect-[1206/2460] w-full max-w-[300px] overflow-hidden rounded-[30px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+          <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
         </div>
       )}
     </div>
