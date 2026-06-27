@@ -96,15 +96,7 @@ const landingContentEn = {
         { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.7/5 from real users", featured: true, external: true },
       ],
     },
-    {
-      label: "Download",
-      href: "#download",
-      children: [
-        { label: "Download for macOS", href: "/download/macos", description: "Desktop app for Mac" },
-        { label: "Download for Windows", href: "/download/windows", description: "Desktop app for Windows" },
-        { label: "Download on App Store", href: "/download/ios", description: "Mobile app for iPhone", external: true },
-      ],
-    },
+    { label: "iPhone", href: "/download/ios" },
     {
       label: "Docs",
       href: "/docs",
@@ -489,15 +481,7 @@ const landingContentFr = {
         { label: "Trustpilot", href: "https://www.trustpilot.com/review/vvault.app", description: "4.7/5 par de vrais utilisateurs", featured: true, external: true },
       ],
     },
-    {
-      label: "Télécharger",
-      href: "#download",
-      children: [
-        { label: "Télécharger pour macOS", href: "/download/macos", description: "App de bureau pour Mac" },
-        { label: "Télécharger pour Windows", href: "/download/windows", description: "App de bureau pour Windows" },
-        { label: "Télécharger sur l'App Store", href: "/download/ios", description: "App mobile pour iPhone", external: true },
-      ],
-    },
+    { label: "iPhone", href: "/download/ios" },
     {
       label: "Docs",
       href: "/docs",

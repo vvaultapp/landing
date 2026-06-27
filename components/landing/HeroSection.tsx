@@ -727,14 +727,14 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
   return (
     <section className="relative flex min-h-screen items-start overflow-hidden lg:items-center">
-      <div className="relative z-10 mx-auto w-full max-w-[clamp(1320px,92vw,2400px)] px-4 pb-16 pt-[140px] sm:px-8 sm:pt-[152px] lg:px-10 lg:pb-24 lg:pt-24">
+      <div className="relative z-10 mx-auto w-full max-w-[min(94vw,1340px)] px-4 pb-16 pt-[128px] sm:px-6 sm:pt-[140px] lg:px-8 lg:pb-24 lg:pt-20">
         {/* Two-column hero (claude.ai structure): all content on the
             left, an empty container on the right reserved for a video
             (to be added later). Stacks to a single column on mobile. */}
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,7vw,8.5rem)]">
           {/* LEFT — headline, trusted-by, sign-up card (centered). */}
           <div className="flex flex-col items-center text-center">
-            <h1 className="font-display text-[2.4rem] font-normal leading-[1.05] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.75rem] min-[2000px]:text-[3.1rem]">
+            <h1 className="font-display text-[2.9rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[3.2rem] lg:text-[3.5rem]">
               <span className="block">
                 {locale === "fr" ? "Gère ta musique" : "Run your music"}
               </span>

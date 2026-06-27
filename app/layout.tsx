@@ -5,7 +5,7 @@ import { ScrollToTop } from "@/components/ScrollToTop";
 // Temporarily disabled — re-enable with the <AppStoreBanner /> render below.
 // import { AppStoreBanner } from "@/components/landing/AppStoreBanner";
 import { ClickTracker } from "@/components/ClickTracker";
-import PinnedQuickMenuClient from "@/components/landing/PinnedQuickMenuClient";
+// import PinnedQuickMenuClient from "@/components/landing/PinnedQuickMenuClient"; // removed — links moved to top nav
 import { LocaleProvider } from "@/components/LocaleProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
@@ -155,9 +155,9 @@ export default function RootLayout({
         <ThemeProvider>
         <LocaleProvider initialLocale="en">
           {children}
-          {/* Pinned bottom-right App Store + quick-nav menu — shown on every
-              landing page except /docs and /admin (self-excludes via path). */}
-          <PinnedQuickMenuClient />
+          {/* Pinned bottom-right iPhone + Menu buttons removed — their links
+              now live in the top nav. Re-enable by restoring this render. */}
+          {/* <PinnedQuickMenuClient /> */}
         </LocaleProvider>
         </ThemeProvider>
         <Analytics />

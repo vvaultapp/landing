@@ -413,7 +413,7 @@ export function NavDropdown({
    now live in the bottom-right hamburger menu (see HeroSection →
    HeroQuickMenu). Flip this to `true` to bring them back into the top
    bar — the markup is kept intact below, just gated. */
-const SHOW_TOP_NAV_LINKS = false;
+const SHOW_TOP_NAV_LINKS = true;
 
 export function LandingNav({ locale, content, showPrimaryLinks = true }: LandingNavProps) {
   const fr = locale === "fr";
@@ -532,7 +532,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
            window where the nav band is uncovered. */
       }}
     >
-      <div className="mx-auto flex h-[72px] w-full max-w-[clamp(1320px,92vw,2400px)] items-center px-5 sm:h-[68px] sm:px-8 lg:h-[84px] lg:px-10">
+      <div className="mx-auto flex h-[56px] w-full max-w-[min(94vw,1340px)] items-center px-5 sm:h-[56px] sm:px-6 lg:h-[60px] lg:px-8">
         <Link
           href={homeHref}
           className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--fg))] lg:text-[18px]"
@@ -544,7 +544,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
         {SHOW_TOP_NAV_LINKS && showPrimaryLinks ? (
           <nav
             aria-label={fr ? "Principal" : "Primary"}
-            className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 lg:flex"
+            className="ml-7 hidden items-center gap-0.5 lg:flex"
             data-nav-dropdown
           >
             {content.nav.map((item, i) => (
