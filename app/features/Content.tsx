@@ -533,13 +533,7 @@ export default function FeaturesPage() {
       <main className="relative z-10 mx-auto max-w-[880px] px-5 pb-32 pt-40 sm:px-8 sm:pt-48">
         {/* Hero */}
         <Reveal>
-          <div className="flex justify-center">
-            <span className="inline-flex items-center rounded-full border border-[rgb(var(--ov)_/_0.12)] bg-[rgb(var(--ov)_/_0.03)] px-4 py-1.5 text-[12px] font-medium tracking-wide text-[rgb(var(--fg)_/_0.55)]">
-              {locale === "fr" ? "Toutes les features" : "All features"}
-            </span>
-          </div>
-
-          <h1 className="mx-auto mt-6 max-w-[16ch] text-balance text-center text-[2.2rem] font-semibold leading-[1.04] tracking-[-0.025em] text-[rgb(var(--fg))] sm:text-[3.25rem]">
+          <h1 className="mx-auto max-w-[16ch] text-balance text-center text-[2.2rem] font-semibold leading-[1.04] tracking-[-0.025em] text-[rgb(var(--fg))] sm:text-[3.25rem]">
             {locale === "fr" ? "Toutes les features" : "All features"}
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-center text-[15px] leading-relaxed text-[rgb(var(--fg)_/_0.4)] sm:text-[16px]">

@@ -189,6 +189,10 @@ html {
   scroll-margin-top: 88px;
 }
 
+/* Every page's main headline (h1) uses the display font, plus any element
+   explicitly marked .font-display (e.g. the marketing section h2s). Scoped to
+   .landing-root so /docs and /admin are untouched. */
+.landing-root h1,
 .landing-root .font-display,
 .font-display {
   /* Headlines use KMR Waldenburg; falls back to the body face (Inter). Pinned

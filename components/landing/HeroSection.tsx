@@ -733,36 +733,19 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
             right (ElevenLabs structure). Stacks to one column on mobile. */}
         {/* Headline + description — vertically centered with each other
             (ElevenLabs' top row). */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-12">
-          <h1 className="font-display max-w-[680px] text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
-            <span className="block">{fr ? "Gère ta" : "Run your"}</span>
-            <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
-          </h1>
-          {/* Description — center-aligned with the headline */}
-          <div className="lg:max-w-[460px] lg:shrink-0">
-            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
-              {fr
-                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et plus, le tout depuis un espace soigné et sécurisé pensé pour rester fluide."
-                : "Send your emails to get downloads. Track opens, plays and more, all from a beautifully crafted, secure workspace designed to feel effortless."}
-            </p>
-          </div>
-        </div>
-
-        {/* Trusted-by + sign-up — left-aligned, close under the headline. */}
-        <div className="mt-6 flex flex-col items-start text-left">
-
-            {/* "Used by N artists & producers" — sits directly below the
-                headline (claude's subtitle slot). */}
-            <HeroTrustedBy
-              locale={locale}
-              usersTotal={stats.usersTotal}
-              avatarUrls={stats.avatarUrls}
-              initialAvatars={initialStats?.avatarDataUris ?? NO_AVATARS}
-            />
+        {/* TOP ROW — headline + sign-up on the left; description with the
+            social proof beneath it on the right (ElevenLabs structure). */}
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+          {/* LEFT — headline + sign-up */}
+          <div className="flex max-w-[680px] flex-col items-start text-left">
+            <h1 className="font-display text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
+              <span className="block">{fr ? "Gère ta" : "Run your"}</span>
+              <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
+            </h1>
 
             {/* Sign-up — Google (filled) first, then Apple + Email as icon
                 buttons that smoothly expand to their full label on hover. */}
-            <div className="mt-9 flex flex-wrap items-center gap-2.5">
+            <div className="mt-8 flex flex-wrap items-center gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
@@ -818,6 +801,25 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               </a>
               {fr ? " de vvault." : "."}
             </p>
+          </div>
+
+          {/* RIGHT — description, with the social proof (avatars + "Used by")
+              directly beneath it. */}
+          <div className="lg:max-w-[460px] lg:shrink-0 lg:pt-2">
+            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
+              {fr
+                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et plus, le tout depuis un espace soigné et sécurisé pensé pour rester fluide."
+                : "Send your emails to get downloads. Track opens, plays and more, all from a beautifully crafted, secure workspace designed to feel effortless."}
+            </p>
+            <div className="mt-7">
+              <HeroTrustedBy
+                locale={locale}
+                usersTotal={stats.usersTotal}
+                avatarUrls={stats.avatarUrls}
+                initialAvatars={initialStats?.avatarDataUris ?? NO_AVATARS}
+              />
+            </div>
+          </div>
         </div>
 
         {/* SHOWCASE — full-width product video with a Computer / iPhone switch.

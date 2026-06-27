@@ -1258,11 +1258,11 @@ export default function PricingPage({
                         "first month" instead of the generic "per month")
                         so promotional pricing can use the same slot. */}
                     {p.strikePrice && (
-                      <span className="text-[1.35rem] font-light leading-none text-[rgb(var(--fg)_/_0.5)] line-through decoration-[rgb(var(--fg)_/_0.5)] decoration-1 tabular-nums">
+                      <span className="text-[1.35rem] font-normal leading-none text-[rgb(var(--fg)_/_0.5)] line-through decoration-[rgb(var(--fg)_/_0.5)] decoration-1 tabular-nums">
                         {p.strikePrice}
                       </span>
                     )}
-                    <span className="text-[2rem] font-light leading-none text-[rgb(var(--fg))] tabular-nums">
+                    <span className="text-[2rem] font-medium leading-none text-[rgb(var(--fg))] tabular-nums">
                       {p.price}
                     </span>
                     {p.period && (
