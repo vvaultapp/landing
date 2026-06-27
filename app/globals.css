@@ -181,7 +181,7 @@ html {
      pricing Compare-plans header) still pin to the viewport. `hidden`
      would silently break sticky. */
   overflow-x: clip;
-  font-family: var(--font-geist), "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   font-optical-sizing: auto;
 }
 
@@ -190,7 +190,7 @@ html {
 }
 
 .landing-root .font-display {
-  font-family: var(--font-geist), "Geist", -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-optical-sizing: auto;
   letter-spacing: 0.004em;
 }

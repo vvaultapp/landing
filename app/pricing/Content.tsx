@@ -1459,7 +1459,7 @@ export default function PricingPage({
                     className="shrink-0 text-[15px] leading-none text-[rgb(var(--fg)_/_0.9)]"
                     style={{
                       fontFamily:
-                        "Geist, ui-sans-serif, system-ui, -apple-system, sans-serif",
+                        "var(--font-inter), Inter, ui-sans-serif, system-ui, -apple-system, sans-serif",
                       fontWeight: 300,
                       letterSpacing: "0.42em",
                       /* Subtle right-fading mask on the wordmark — same

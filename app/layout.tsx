@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { ScrollToTop } from "@/components/ScrollToTop";
 // Temporarily disabled — re-enable with the <AppStoreBanner /> render below.
@@ -10,13 +10,13 @@ import { LocaleProvider } from "@/components/LocaleProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
-const geist = Geist({
+const inter = Inter({
   subsets: ["latin"],
-  /* No weight array — Geist is a variable font, so this ships ONE woff2
+  /* No weight array — Inter is a variable font, so this ships ONE woff2
      covering 100-900 (incl. the 900 used by the STUDIO wordmark) instead
-     of five separately-preloaded static files. */
+     of several separately-preloaded static files. */
   display: "swap",
-  variable: "--font-geist",
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -65,7 +65,7 @@ export default function RootLayout({
      /fr corrects documentElement.lang via a tiny inline script in its own
      layout. */
   return (
-    <html lang="en" suppressHydrationWarning className={`h-full ${geist.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`h-full ${inter.variable}`}>
       <head>
         {/* Set the theme class before first paint so there's no flash of the
             wrong theme — device-based (prefers-color-scheme) unless the visitor
