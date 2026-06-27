@@ -84,7 +84,7 @@ type FaqSectionProps = {
 export function FaqSection({ content }: FaqSectionProps) {
   return (
     <section id="faq" className="pt-28 sm:pt-40">
-      <div className="mx-auto w-full max-w-[min(94vw,1650px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <h2 className="text-center font-display text-3xl text-[rgb(var(--fg))] sm:text-5xl">
             {content.pricingUi.faqTitle}

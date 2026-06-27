@@ -727,13 +727,12 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
   return (
     <section className="relative flex items-start overflow-hidden">
-      <div className="relative z-10 mx-auto w-full max-w-[min(94vw,1650px)] px-4 pb-16 pt-[120px] sm:px-8 sm:pt-[132px] lg:px-10 lg:pb-20 lg:pt-[88px]">
-        {/* Two-column hero (claude.ai structure): all content on the
-            left, an empty container on the right reserved for a video
-            (to be added later). Stacks to a single column on mobile. */}
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,7vw,8.5rem)]">
-          {/* LEFT — headline, trusted-by, sign-up card (centered). */}
-          <div className="flex flex-col items-center text-center">
+      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-16 pt-[150px] sm:px-8 sm:pt-[180px] lg:px-10 lg:pb-20 lg:pt-[220px]">
+        {/* Two-column hero: content left (aligned under the logo), product
+            devices right (aligned under the Open App button). Stacks on mobile. */}
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-[clamp(2rem,5vw,5rem)]">
+          {/* LEFT — headline, trusted-by, sign-up (left-aligned on desktop). */}
+          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <h1 className="font-display text-[2.3rem] font-normal leading-[1.05] tracking-tight text-[rgb(var(--fg))] sm:text-[2.5rem] lg:text-[2.7rem]">
               <span className="block">
                 {locale === "fr" ? "Gère ta musique" : "Run your music"}

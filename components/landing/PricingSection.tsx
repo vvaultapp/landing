@@ -135,7 +135,7 @@ export function PricingSection({ content, locale = "en" }: PricingSectionProps) 
 
   return (
     <section id="pricing" className="pt-36 sm:pt-52">
-      <div className="mx-auto w-full max-w-[min(94vw,1650px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
         {/* Header */}
         <Reveal>
           <div className="text-center">

@@ -34,7 +34,7 @@ function CheckBadgeIcon({ className = "", gradId }: { className?: string; gradId
 export function CertificateTeaser({ locale = "en" }: { locale?: Locale }) {
   return (
     <section id="certificate-teaser" className="pt-36 sm:pt-52">
-      <div className="mx-auto w-full max-w-[min(94vw,1650px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           {/* Section emblem */}
           <div className="mb-6 flex justify-center">
