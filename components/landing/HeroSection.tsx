@@ -722,24 +722,21 @@ function HeroDevices() {
   );
 }
 
-export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
+export function HeroSection({ locale = "en", content, initialStats }: HeroSectionProps) {
   const { stats } = useLandingStats(initialStats);
+  const fr = locale === "fr";
 
   return (
-    <section className="relative flex items-start overflow-hidden">
-      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-16 pt-[150px] sm:px-8 sm:pt-[180px] lg:px-10 lg:pb-20 lg:pt-[220px]">
-        {/* Two-column hero: content left (aligned under the logo), product
-            devices right (aligned under the Open App button). Stacks on mobile. */}
-        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-[clamp(2rem,5vw,5rem)]">
-          {/* LEFT — headline, trusted-by, sign-up (left-aligned on desktop). */}
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-            <h1 className="font-display text-[2.3rem] font-normal leading-[1.05] tracking-tight text-[rgb(var(--fg))] sm:text-[2.5rem] lg:text-[2.7rem]">
-              <span className="block">
-                {locale === "fr" ? "Gère ta musique" : "Run your music"}
-              </span>
-              <span className="block">
-                {locale === "fr" ? "comme un business" : "like a business"}
-              </span>
+    <section className="relative overflow-hidden">
+      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-16 pt-[150px] sm:px-8 sm:pt-[180px] lg:px-10 lg:pb-20 lg:pt-[200px]">
+        {/* TOP ROW — headline + proof + sign-up on the left, description on the
+            right (ElevenLabs structure). Stacks to one column on mobile. */}
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-16">
+          {/* LEFT — headline, trusted-by, sign-up (left-aligned). */}
+          <div className="flex max-w-[640px] flex-col items-start text-left">
+            <h1 className="font-display text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
+              <span className="block">{fr ? "Gère ta" : "Run your"}</span>
+              <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
             </h1>
 
             {/* "Used by N artists & producers" — sits directly below the
@@ -751,77 +748,158 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               initialAvatars={initialStats?.avatarDataUris ?? NO_AVATARS}
             />
 
-            {/* Sign-up — Email + Apple (outline) and Google (white),
-                all pill-shaped. No surrounding card. */}
-            <div className="mt-9 w-full max-w-[480px] lg:max-w-[420px]">
-              <div>
-                <div className="flex flex-col gap-3">
-                  {/* Continue with Email — outline pill, top */}
-                  <a
-                    href="https://vvault.app/signup"
-                    onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
-                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-[rgb(var(--ov)_/_0.2)] px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
-                  >
-                    <svg viewBox="-8 -8 256 256" className="h-5 w-5 -translate-y-px" fill="none" stroke="currentColor" strokeWidth={18} strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M20 120c0 -37.7124 0 -56.5685 11.7157 -68.2843C43.4315 40 62.2876 40 100 40h40c37.712 0 56.569 0 68.284 11.7157C220 63.4315 220 82.2876 220 120c0 37.712 0 56.569 -11.716 68.284C196.569 200 177.712 200 140 200h-40c-37.7124 0 -56.5685 0 -68.2843 -11.716C20 176.569 20 157.712 20 120Z" />
-                      <path d="m60 80 21.589 17.9908C99.9553 113.296 109.139 120.949 120 120.949s20.045 -7.653 38.411 -22.9582L180 80" />
-                    </svg>
-                    {locale === "fr" ? "Continuer avec email" : "Continue with Email"}
-                  </a>
-                  {/* Continue with Apple — outline pill, middle */}
-                  <a
-                    href="https://vvault.app/signup"
-                    onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
-                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-[rgb(var(--ov)_/_0.2)] px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
-                  >
-                    <svg viewBox="0 0 384 512" className="h-5 w-5 -translate-y-0.5" fill="currentColor" aria-hidden="true">
-                      <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
-                    </svg>
-                    {locale === "fr" ? "Continuer avec Apple" : "Continue with Apple"}
-                  </a>
-                  {/* Continue with Google — white pill, bottom */}
-                  <a
-                    href="https://vvault.app/auth/google"
-                    onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
-                    className="inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 py-4 text-[16px] lg:px-5 lg:py-3.5 lg:text-[15px] min-[2000px]:px-6 min-[2000px]:py-4 min-[2000px]:text-[16px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-5 w-5"
-                      fill="none"
-                      style={{ transform: "translateY(-2px)", transition: "none" }}
-                    >
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                    </svg>
-                    {locale === "fr" ? "Continuer avec Google" : "Continue with Google"}
-                  </a>
-                </div>
+            {/* Sign-up — Google (filled) first, then Apple + Email as icon
+                buttons that smoothly expand to their full label on hover. */}
+            <div className="mt-9 flex flex-wrap items-center gap-2.5">
+              {/* Continue with Google — filled pill */}
+              <a
+                href="https://vvault.app/auth/google"
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
+                className="inline-flex items-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 py-3.5 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
+              >
+                <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                </svg>
+                {fr ? "Continuer avec Google" : "Continue with Google"}
+              </a>
 
-                {/* Privacy line — vvault's equivalent of claude's */}
-                <p className="mt-4 text-center text-[12px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
-                  {locale === "fr" ? "En continuant, tu acceptes la " : "By continuing, you acknowledge vvault's "}
-                  <a href="/privacy" className="text-[rgb(var(--fg)_/_0.55)] underline underline-offset-2 hover:no-underline">
-                    {locale === "fr" ? "Politique de confidentialité" : "Privacy Policy"}
-                  </a>
-                  {locale === "fr" ? " de vvault." : "."}
-                </p>
-              </div>
+              {/* Continue with Apple — icon only; expands to full label on hover */}
+              <a
+                href="https://vvault.app/signup"
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
+                aria-label={fr ? "Continuer avec Apple" : "Continue with Apple"}
+                className="group inline-flex items-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] px-3.5 py-3.5 text-[15px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
+              >
+                <svg viewBox="0 0 384 512" className="h-5 w-5 shrink-0 -translate-y-px" fill="currentColor" aria-hidden="true">
+                  <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
+                </svg>
+                <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-300 ease-out group-hover:ml-2.5 group-hover:max-w-[170px] group-hover:opacity-100">
+                  {fr ? "Continuer avec Apple" : "Continue with Apple"}
+                </span>
+              </a>
+
+              {/* Continue with Email — icon only; expands to full label on hover */}
+              <a
+                href="https://vvault.app/signup"
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
+                aria-label={fr ? "Continuer avec email" : "Continue with Email"}
+                className="group inline-flex items-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] px-3.5 py-3.5 text-[15px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
+              >
+                <svg viewBox="-8 -8 256 256" className="h-5 w-5 shrink-0 -translate-y-px" fill="none" stroke="currentColor" strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M20 120c0 -37.7124 0 -56.5685 11.7157 -68.2843C43.4315 40 62.2876 40 100 40h40c37.712 0 56.569 0 68.284 11.7157C220 63.4315 220 82.2876 220 120c0 37.712 0 56.569 -11.716 68.284C196.569 200 177.712 200 140 200h-40c-37.7124 0 -56.5685 0 -68.2843 -11.716C20 176.569 20 157.712 20 120Z" />
+                  <path d="m60 80 21.589 17.9908C99.9553 113.296 109.139 120.949 120 120.949s20.045 -7.653 38.411 -22.9582L180 80" />
+                </svg>
+                <span className="max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-all duration-300 ease-out group-hover:ml-2.5 group-hover:max-w-[170px] group-hover:opacity-100">
+                  {fr ? "Continuer avec email" : "Continue with Email"}
+                </span>
+              </a>
             </div>
+
+            {/* Privacy line */}
+            <p className="mt-4 text-[12px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
+              {fr ? "En continuant, tu acceptes la " : "By continuing, you acknowledge vvault's "}
+              <a href="/privacy" className="text-[rgb(var(--fg)_/_0.55)] underline underline-offset-2 hover:no-underline">
+                {fr ? "Politique de confidentialité" : "Privacy Policy"}
+              </a>
+              {fr ? " de vvault." : "."}
+            </p>
           </div>
 
-          {/* RIGHT — product devices. On mobile they're pushed well below the
-              fold (mt-[24vh]) so they're not in the hero; on desktop they sit
-              beside the headline (lg:mt-0). HeroDevices mounts them client-side
-              so no video loads on the initial visit (see the component). */}
-          <div className="mt-[26vh] w-full max-w-[440px] lg:mt-0 lg:w-[min(40vw,560px)] lg:max-w-none lg:shrink-0">
-            <HeroDevices />
+          {/* RIGHT — supporting description (ElevenLabs' top-right slot). */}
+          <div className="lg:max-w-[360px] lg:shrink-0 lg:pt-2">
+            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
+              {content.hero.description}
+            </p>
           </div>
+        </div>
+
+        {/* SHOWCASE — full-width product video with a Computer / iPhone switch.
+            Only the active video loads; the other loads the first time it's
+            picked. */}
+        <HeroShowcase locale={locale} />
+      </div>
+    </section>
+  );
+}
+
+/* Switchable product showcase: one full-length video at a time. The visible
+   device's clip is the only one that loads on first paint (mobile → iPhone,
+   desktop → Computer); the other only mounts (and starts loading) the first
+   time its tab is selected. */
+function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
+  const fr = locale === "fr";
+  const [mounted, setMounted] = useState(false);
+  const [device, setDevice] = useState<"computer" | "iphone">("computer");
+  const [loaded, setLoaded] = useState<{ computer: boolean; iphone: boolean }>({
+    computer: false,
+    iphone: false,
+  });
+
+  useEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 1023px)").matches;
+    const init = isMobile ? "iphone" : "computer";
+    setDevice(init);
+    setLoaded({ computer: init === "computer", iphone: init === "iphone" });
+    setMounted(true);
+  }, []);
+
+  const select = (d: "computer" | "iphone") => {
+    setDevice(d);
+    setLoaded((prev) => (prev[d] ? prev : { ...prev, [d]: true }));
+  };
+
+  const tab = (active: boolean) =>
+    `rounded-full px-5 py-2 text-[14px] font-medium focus-visible:outline-none ${
+      active
+        ? "bg-[rgb(var(--inv))] text-[rgb(var(--inv-fg))]"
+        : "text-[rgb(var(--fg)_/_0.6)] hover:text-[rgb(var(--fg))]"
+    }`;
+
+  return (
+    <div className="mt-12 lg:mt-16">
+      {/* Computer / iPhone switch */}
+      <div className="mb-6 flex justify-center lg:justify-start">
+        <div className="inline-flex rounded-full border border-[rgb(var(--ov)_/_0.12)] bg-[rgb(var(--ov)_/_0.03)] p-1">
+          <button type="button" onClick={() => select("computer")} className={tab(device === "computer")}>
+            {fr ? "Ordinateur" : "Computer"}
+          </button>
+          <button type="button" onClick={() => select("iphone")} className={tab(device === "iphone")}>
+            iPhone
+          </button>
         </div>
       </div>
 
-    </section>
+      {/* Video frame */}
+      <div
+        className="relative w-full overflow-hidden rounded-[20px] bg-[rgb(var(--ov)_/_0.04)] [outline:1px_solid_rgb(var(--ov)_/_0.1)]"
+        style={{ aspectRatio: "16 / 10" }}
+      >
+        {mounted && loaded.computer && (
+          <div className={`absolute inset-0 ${device === "computer" ? "block" : "hidden"}`}>
+            <LoopingVideo
+              src="/landing/features/computer"
+              poster="/landing/features/computer.webp"
+              mp4Only
+              eager
+              className="absolute inset-0 block h-full w-full object-contain"
+            />
+          </div>
+        )}
+        {mounted && loaded.iphone && (
+          <div className={`absolute inset-0 ${device === "iphone" ? "block" : "hidden"}`}>
+            <LoopingVideo
+              src="/landing/features/phone"
+              poster="/landing/features/phone.webp"
+              mp4Only
+              eager
+              className="absolute inset-0 block h-full w-full object-contain"
+            />
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
