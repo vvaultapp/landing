@@ -722,7 +722,7 @@ function HeroDevices() {
   );
 }
 
-export function HeroSection({ locale = "en", content, initialStats }: HeroSectionProps) {
+export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
   const { stats } = useLandingStats(initialStats);
   const fr = locale === "fr";
 
@@ -809,9 +809,11 @@ export function HeroSection({ locale = "en", content, initialStats }: HeroSectio
           </div>
 
           {/* RIGHT — supporting description (ElevenLabs' top-right slot). */}
-          <div className="lg:max-w-[360px] lg:shrink-0 lg:pt-2">
+          <div className="lg:max-w-[340px] lg:shrink-0 lg:pt-2">
             <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
-              {content.hero.description}
+              {fr
+                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et ventes au même endroit."
+                : "Send your emails to get downloads. Track opens, plays, and sales from one secure workspace."}
             </p>
           </div>
         </div>
@@ -854,15 +856,15 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
   const tab = (active: boolean) =>
     `rounded-full px-5 py-2 text-[14px] font-medium focus-visible:outline-none ${
       active
-        ? "bg-[rgb(var(--inv))] text-[rgb(var(--inv-fg))]"
-        : "text-[rgb(var(--fg)_/_0.6)] hover:text-[rgb(var(--fg))]"
+        ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg))]"
+        : "text-[rgb(var(--fg)_/_0.55)] hover:text-[rgb(var(--fg))]"
     }`;
 
   return (
     <div className="mt-12 lg:mt-16">
-      {/* Computer / iPhone switch */}
-      <div className="mb-6 flex justify-center lg:justify-start">
-        <div className="inline-flex rounded-full border border-[rgb(var(--ov)_/_0.12)] bg-[rgb(var(--ov)_/_0.03)] p-1">
+      {/* Computer / iPhone switch — centered, no outline, grey active pill */}
+      <div className="mb-7 flex justify-center">
+        <div className="inline-flex rounded-full p-1">
           <button type="button" onClick={() => select("computer")} className={tab(device === "computer")}>
             {fr ? "Ordinateur" : "Computer"}
           </button>
@@ -872,34 +874,25 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
         </div>
       </div>
 
-      {/* Video frame */}
-      <div
-        className="relative w-full overflow-hidden rounded-[20px] bg-[rgb(var(--ov)_/_0.04)] [outline:1px_solid_rgb(var(--ov)_/_0.1)]"
-        style={{ aspectRatio: "16 / 10" }}
-      >
-        {mounted && loaded.computer && (
-          <div className={`absolute inset-0 ${device === "computer" ? "block" : "hidden"}`}>
-            <LoopingVideo
-              src="/landing/features/computer"
-              poster="/landing/features/computer.webp"
-              mp4Only
-              eager
-              className="absolute inset-0 block h-full w-full object-contain"
-            />
-          </div>
-        )}
-        {mounted && loaded.iphone && (
-          <div className={`absolute inset-0 ${device === "iphone" ? "block" : "hidden"}`}>
-            <LoopingVideo
-              src="/landing/features/phone"
-              poster="/landing/features/phone.webp"
-              mp4Only
-              eager
-              className="absolute inset-0 block h-full w-full object-contain"
-            />
-          </div>
-        )}
-      </div>
+      {/* Just the clip at its NATIVE aspect — rounded corners + a hairline
+          outline, no surrounding container. Sized near native so it stays
+          sharp. Only the active device's clip is mounted (the other loads the
+          first time its tab is picked). */}
+      {!mounted && (
+        <div className="relative mx-auto aspect-[660/414] w-full max-w-[720px] overflow-hidden rounded-[16px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+          <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+        </div>
+      )}
+      {mounted && loaded.computer && (
+        <div className={`relative mx-auto aspect-[660/414] w-full max-w-[720px] overflow-hidden rounded-[16px] [outline:1px_solid_rgb(var(--ov)_/_0.12)] ${device === "computer" ? "block" : "hidden"}`}>
+          <LoopingVideo src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+        </div>
+      )}
+      {mounted && loaded.iphone && (
+        <div className={`relative mx-auto aspect-[420/856] w-full max-w-[300px] overflow-hidden rounded-[28px] [outline:1px_solid_rgb(var(--ov)_/_0.12)] ${device === "iphone" ? "block" : "hidden"}`}>
+          <LoopingVideo src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+        </div>
+      )}
     </div>
   );
 }
