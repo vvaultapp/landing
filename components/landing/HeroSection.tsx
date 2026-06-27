@@ -728,7 +728,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-28 pt-[150px] sm:px-8 sm:pb-32 sm:pt-[180px] lg:px-10 lg:pb-40 lg:pt-[200px]">
+      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-36 pt-[150px] sm:px-8 sm:pb-44 sm:pt-[180px] lg:px-10 lg:pb-60 lg:pt-[200px]">
         {/* TOP ROW — headline left, description right (ElevenLabs structure).
             Stacks to one column on mobile. */}
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
@@ -739,8 +739,9 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
             </h1>
 
-            {/* "Used by N artists & producers" — tight under the headline. */}
-            <div className="mt-2">
+            {/* "Used by N artists & producers" — hugging the headline (negative
+                margin pulls it up into the headline's line-descent space). */}
+            <div className="-mt-1">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
@@ -1008,16 +1009,20 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
     };
   }, []);
 
+  // Icons are the Streamline Solar set, inlined with currentColor.
   const items: { value: number; label: string; suffix?: string; icon: React.ReactNode }[] = [
     {
       value: metrics?.usersTotal ?? 0,
       label: fr ? "Producteurs" : "Producers",
       suffix: "+",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
-          <circle cx="9" cy="8" r="3.2" />
-          <path d="M3.5 19c0-3 2.5-4.9 5.5-4.9s5.5 1.9 5.5 4.9" />
-          <path d="M16 5.2a3 3 0 0 1 0 5.6M17.6 14.4c2.2.5 3.7 2 3.7 4.1" />
+        <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <path d="M20 15a10 10 0 1 0 20 0 10 10 0 1 0 -20 0" />
+          <path d="M45 22.5c4.14225 0 7.5 -2.79822 7.5 -6.25S49.14225 10 45 10" />
+          <path d="M15 22.5C10.857875 22.5 7.5 19.701775 7.5 16.25S10.857875 10 15 10" />
+          <path d="M15 42.5a15 10 0 1 0 30 0 15 10 0 1 0 -30 0" />
+          <path d="M50 47.5c4.3855 -0.96175 7.5 -3.39725 7.5 -6.25s-3.1145 -5.28825 -7.5 -6.25" />
+          <path d="M10 47.5c-4.385625 -0.96175 -7.5 -3.39725 -7.5 -6.25s3.114375 -5.28825 7.5 -6.25" />
         </svg>
       ),
     },
@@ -1025,10 +1030,12 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
       value: metrics?.tracksTotal ?? 0,
       label: fr ? "Sons hébergés" : "Tracks hosted",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
-          <circle cx="6.5" cy="17" r="2.5" />
-          <circle cx="17.5" cy="15" r="2.5" />
-          <path d="M9 17V6l11-2v11" />
+        <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <path d="M5.958775 34.4825c-1.115075 -7.909 -1.6726 -11.863375 0.697025 -14.422925C9.025425 17.5 13.24395 17.5 21.680975 17.5h16.638025c8.437 0 12.6555 0 15.02525 2.559575 2.3695 2.55955 1.812 6.513925 0.697 14.422925l-1.0575 7.5c-0.8745 6.20225 -1.3115 9.30325 -3.5545 11.1605C47.18625 55 43.878 55 37.2615 55H22.7384c-6.616375 0 -9.924575 0 -12.16755 -1.857 -2.242975 -1.85725 -2.6802 -4.95825 -3.55465 -11.1605l-1.057425 -7.5Z" />
+          <path d="M48.90475 17.5c0.5715 -3.261925 -1.9385 -6.25 -5.25 -6.25H16.34515C13.033525 11.25 10.5235 14.238075 11.095075 17.5" />
+          <path d="M43.75 11.25c0.071 -0.6477 0.1065 -0.971625 0.107 -1.239125 0.0055 -2.559075 -1.922 -4.709275 -4.4665 -4.982325C39.1245 5 38.79875 5 38.147 5H21.852625c-0.6516 0 -0.977425 0 -1.243425 0.02855 -2.54445 0.27305 -4.472025 2.42325 -4.46645 4.9823 0.000575 0.267525 0.03605 0.5914 0.106975 1.23915" />
+          <path d="M37.5 28.75a3.75 3.75 0 1 0 7.5 0 3.75 3.75 0 1 0 -7.5 0" />
+          <path d="m50 50 -7.2105 -5.3715c-2.32525 -1.732 -5.788 -1.9045 -8.3475 -0.41575l-0.667 0.388c-1.77875 1.03475 -4.1985 0.86125 -5.73575 -0.41125l-9.5955 -7.94225c-1.9152 -1.58525 -4.987325 -1.67 -7.0257 -0.19375l-3.309825 2.39725" />
         </svg>
       ),
     },
@@ -1036,9 +1043,8 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
       value: metrics?.downloadsTotal ?? 0,
       label: fr ? "Fichiers téléchargés" : "Files downloaded",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
-          <path d="M12 3v11m0 0 4-4m-4 4-4-4" />
-          <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" />
+        <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <path d="m30 48.75 12.5 -12.5m-12.5 12.5 -12.5 -12.5m12.5 12.5 0 -25c0 -4.166675 -2.5 -12.5 -12.5 -12.5" />
         </svg>
       ),
     },
@@ -1046,9 +1052,9 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
       value: metrics?.emailsSentTotal ?? 0,
       label: fr ? "Emails envoyés" : "Emails sent",
       icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
-          <rect x="3" y="5" width="18" height="14" rx="2.5" />
-          <path d="m4 7.5 8 5.5 8-5.5" />
+        <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <path d="M5 30c0 -9.4281 0 -14.142125 2.928925 -17.071075C10.857875 10 15.5719 10 25 10h10c9.428 0 14.14225 0 17.071 2.928925C55 15.857875 55 20.5719 55 30c0 9.428 0 14.14225 -2.929 17.071C49.14225 50 44.428 50 35 50h-10c-9.4281 0 -14.142125 0 -17.071075 -2.929C5 44.14225 5 39.428 5 30Z" />
+          <path d="m15 20 5.39725 4.4977C24.988825 28.324 27.28475 30.23725 30 30.23725s5.01125 -1.91325 9.60275 -5.73955L45 20" />
         </svg>
       ),
     },
