@@ -342,7 +342,7 @@ export function NavDropdown({
         href={item.href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noreferrer" : undefined}
-        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg))] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
+        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-normal text-[rgb(var(--fg))] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
       >
         {item.label}
       </a>
@@ -359,7 +359,7 @@ export function NavDropdown({
       <button
         type="button"
         onClick={onClick}
-        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:gap-2 lg:px-4 lg:py-2 lg:text-[16px]`}
+        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-normal text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:gap-2 lg:px-4 lg:py-2 lg:text-[16px]`}
       >
         {item.label}
         <svg
@@ -387,16 +387,22 @@ export function NavDropdown({
         <div
           className="relative overflow-hidden rounded-2xl"
           style={{
-            /* Solid opaque panel — no blur, no outline, no shadow. */
-            background: "rgb(var(--surface))",
+            /* Solid white (light) / near-black (dark) panel, soft hairline
+               outline + a very soft drop shadow. */
+            background: "rgb(var(--card))",
+            border: "1px solid rgb(var(--ov) / 0.08)",
+            boxShadow:
+              "0 16px 48px -16px rgb(0 0 0 / 0.20), 0 4px 12px -6px rgb(0 0 0 / 0.08)",
             opacity: open ? 1 : 0,
+            /* Smooth "morph-in": a subtle squeeze (scale) + slide, eased out. */
+            transformOrigin: "top center",
             transform: open
-              ? "translateY(0) translateZ(0)"
+              ? "translateY(0) scale(1) translateZ(0)"
               : placement === "up"
-                ? "translateY(4px) translateZ(0)"
-                : "translateY(-4px) translateZ(0)",
+                ? "translateY(6px) scale(0.97) translateZ(0)"
+                : "translateY(-6px) scale(0.97) translateZ(0)",
             transition:
-              "opacity 0.18s ease-out, transform 0.18s ease-out",
+              "opacity 0.26s cubic-bezier(0.22, 1, 0.36, 1), transform 0.34s cubic-bezier(0.22, 1, 0.36, 1)",
             willChange: "opacity, transform",
           }}
         >
@@ -544,7 +550,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
         {SHOW_TOP_NAV_LINKS && showPrimaryLinks ? (
           <nav
             aria-label={fr ? "Principal" : "Primary"}
-            className="ml-7 hidden items-center gap-0.5 lg:flex"
+            className="ml-7 hidden items-center gap-0.5 lg:flex lg:translate-y-[1px]"
             data-nav-dropdown
           >
             {content.nav.map((item, i) => (
@@ -562,7 +568,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           <div className="ml-auto hidden lg:block" />
         )}
 
-        <div className="ml-auto hidden items-center gap-2 lg:flex lg:gap-5">
+        <div className="ml-auto hidden items-center gap-2 lg:flex lg:gap-5 lg:translate-y-[1px]">
           <LandingCtaLink
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
@@ -581,7 +587,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
           </LandingCtaLink>
         </div>
 
-        <div className="ml-auto flex items-center gap-2 lg:hidden">
+        <div className="ml-auto flex items-center gap-2 lg:hidden translate-y-[1px]">
           <LandingCtaLink
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"

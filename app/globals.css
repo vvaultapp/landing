@@ -50,16 +50,11 @@ body {
 
 html {
   scroll-behavior: smooth;
-  /* Paint the overscroll/rubber-band area the SAME colour as the footer.
-     The footer is rgb(var(--ov)/0.05) composited over the page --bg, so we
-     reproduce that exact composite as a SOLID background-color via color-mix
-     (95% bg + 5% ov). A solid background-color reliably extends into the
-     rubber-band region in Chrome/Safari; a background-image gradient does NOT
-     (it only paints the element box, leaving overscroll the bare --bg) — which
-     is why the area below the footer was still showing white. Themed, so it
-     flips automatically in dark mode (light → rgb(238,238,238), dark →
-     rgb(13,13,13)), always matching the footer. */
-  background-color: color-mix(in srgb, rgb(var(--bg)) 95%, rgb(var(--ov)));
+  /* Paint the overscroll/rubber-band area the SAME colour as the main page
+     background. A solid background-color reliably extends into the rubber-band
+     region in Chrome/Safari (a gradient does not). Themed, so it flips
+     automatically in dark mode. */
+  background-color: rgb(var(--bg));
 }
 
 /* Dark scrollbar */

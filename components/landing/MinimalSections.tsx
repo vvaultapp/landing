@@ -198,7 +198,7 @@ export function FeatureSection({ locale = "en" }: { locale?: Locale }) {
   return (
     <section className="py-[75px] sm:py-[107px] lg:py-[139px]">
       <div className={CONTAINER}>
-        <div className="mx-auto flex max-w-[920px] flex-col gap-[150px] sm:gap-[214px] lg:gap-[278px]">
+        <div className="flex w-full flex-col gap-[150px] sm:gap-[214px] lg:gap-[278px]">
           {groups.map((g, i) => (
             // Nudge only the FIRST group ("The all-in-one tool…") down a bit on
             // mobile; reset at sm+ so tablet/desktop spacing is unchanged.

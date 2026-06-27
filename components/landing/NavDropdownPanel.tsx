@@ -34,43 +34,80 @@ function useTrustpilotScore() {
   return score;
 }
 
-/* Inline SVG icons matching each feature page's emblem — viewBox 0 0 24 24 */
-const _ICON_ALL = <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>;
-const _ICON_LIBRARY = <><path d="M3.75 9.75V5.25a1.5 1.5 0 0 1 1.5-1.5h4.19a1.5 1.5 0 0 1 1.06.44l1.06 1.06a1.5 1.5 0 0 0 1.06.44h5.63a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V9.75Z" /><path d="M14.25 11.25v5.25" /><path d="M14.25 11.25l2.25-.75" /><circle cx="12.75" cy="16.5" r="1.5" /></>;
-const _ICON_ANALYTICS = <><path d="M3 21h18" /><path d="M5 21V7h3v14M10 21V3h3v18M15 21v-8h3v8" /></>;
-const _ICON_CAMPAIGNS = <><path d="M21.75 2.25 10.5 13.5" /><path d="M21.75 2.25l-6.75 19.5-3.75-8.25L3 9l18.75-6.75z" /></>;
-const _ICON_CONTACTS = <path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />;
-const _ICON_OPPORTUNITIES = <><circle cx="12" cy="12" r="10" /><circle cx="12" cy="12" r="6" /><circle cx="12" cy="12" r="2" /><path d="M12 2v4M12 18v4M2 12h4M18 12h4" strokeLinecap="round" /></>;
-const _ICON_SALES = <><circle cx="12" cy="12" r="10" /><path d="M15 9.5c0-1.38-1.34-2.5-3-2.5S9 8.12 9 9.5s1.34 2.5 3 2.5 3 1.12 3 2.5-1.34 2.5-3 2.5-3-1.12-3-2.5M12 5v2m0 10v2" strokeLinecap="round" strokeLinejoin="round" /></>;
-const _ICON_PROFILE = <><circle cx="12" cy="8" r="4" /><path d="M5.338 18.32C5.999 15.528 8.772 14 12 14s6.001 1.528 6.662 4.32c.09.38.135.57.045.738a.55.55 0 0 1-.24.243C18.296 19.4 18.1 19.4 17.706 19.4H6.294c-.394 0-.59 0-.76-.099a.55.55 0 0 1-.241-.243c-.09-.168-.046-.358.045-.738Z" /></>;
-const _ICON_LINK_IN_BIO = <><path d="M13.544 10.456a4.368 4.368 0 0 0-6.176 0l-3.089 3.088a4.367 4.367 0 1 0 6.176 6.176l1.544-1.544" strokeLinecap="round" strokeLinejoin="round" /><path d="M10.456 13.544a4.368 4.368 0 0 0 6.176 0l3.089-3.088a4.367 4.367 0 1 0-6.176-6.176l-1.544 1.544" strokeLinecap="round" strokeLinejoin="round" /></>;
-const _ICON_STUDIO = "studio-image" as unknown as React.ReactNode;
-const _ICON_CERTIFICATE = <><path d="M15.75 9.749 11.769 15.057a.726.726 0 0 1-.241.208.726.726 0 0 1-.306.09.737.737 0 0 1-.315-.046.727.727 0 0 1-.268-.172L8.25 12.749" /><path d="M10.73 1.357a1.75 1.75 0 0 1 2.54 0l1.512 1.881c.171.213.393.38.646.485.253.105.528.144.8.115l2.4-.261a1.75 1.75 0 0 1 1.72 1.72l-.261 2.4c-.03.272.01.547.115.8.105.253.272.475.485.646l1.881 1.512a1.75 1.75 0 0 1 0 2.54l-1.887 1.505a1.75 1.75 0 0 0-.6 1.447l.261 2.4a1.75 1.75 0 0 1-1.72 1.72l-2.4-.261a1.75 1.75 0 0 0-1.446.6L13.27 22.64a1.75 1.75 0 0 1-2.54 0l-1.511-1.88a1.75 1.75 0 0 0-1.447-.6l-2.4.261a1.75 1.75 0 0 1-1.72-1.72l.261-2.4a1.75 1.75 0 0 0-.6-1.447l-1.88-1.511a1.75 1.75 0 0 1 0-2.54l1.88-1.512a1.75 1.75 0 0 0 .6-1.446l-.261-2.4a1.75 1.75 0 0 1 1.72-1.72l2.4.261a1.75 1.75 0 0 0 1.447-.6l1.511-1.869Z" /></>;
+/* Menu-item icons — Streamline Solar (linear) from the vvault webapp set,
+   inlined with currentColor. Each carries its own viewBox because the set mixes
+   24-unit and 64-unit grids (24-unit paths keep their inline stroke-width). */
+type DropdownIcon = { vb: string; body: React.ReactNode };
+const I_ALL: DropdownIcon = { vb: "-2 -2 64 64", body: (<>
+  <path d="M6.25 16.25c0 -4.71405 0 -7.071075 1.46447 -8.535525C9.178925 6.25 11.53595 6.25 16.25 6.25c4.71405 0 7.071075 0 8.535525 1.464475C26.25 9.178925 26.25 11.53595 26.25 16.25v27.5c0 4.714 0 7.071 -1.464475 8.5355C23.321075 53.75 20.96405 53.75 16.25 53.75c-4.71405 0 -7.071075 0 -8.535525 -1.4645C6.25 50.821 6.25 48.464 6.25 43.75v-27.5Z" />
+  <path d="M33.75 38.75c0 -4.714 0 -7.071 1.4645 -8.5355C36.679 28.75 39.036 28.75 43.75 28.75c4.714 0 7.071 0 8.5355 1.4645 1.4645 1.4645 1.4645 3.8215 1.4645 8.5355v5c0 4.714 0 7.071 -1.4645 8.5355 -1.4645 1.4645 -3.8215 1.4645 -8.5355 1.4645 -4.714 0 -7.071 0 -8.5355 -1.4645C33.75 50.821 33.75 48.464 33.75 43.75v-5Z" />
+  <path d="M33.75 13.75c0 -2.3297 0 -3.49455 0.3805 -4.413425 0.5075 -1.225125 1.481 -2.1985 2.706 -2.705975C37.7555 6.25 38.92025 6.25 41.25 6.25h5c2.32975 0 3.4945 0 4.4135 0.3806 1.225 0.507475 2.1985 1.48085 2.706 2.705975 0.3805 0.918875 0.3805 2.083725 0.3805 4.413425 0 2.3297 0 3.49455 -0.3805 4.413425 -0.5075 1.225125 -1.481 2.1985 -2.706 2.705975C49.7445 21.25 48.57975 21.25 46.25 21.25h-5c-2.32975 0 -3.4945 0 -4.4135 -0.3806 -1.225 -0.507475 -2.1985 -1.48085 -2.706 -2.705975C33.75 17.24455 33.75 16.0797 33.75 13.75Z" />
+</>) };
+const I_LIBRARY: DropdownIcon = { vb: "0 0 24 24", body: (<>
+  <path strokeWidth={1.5} d="M19.562 7c0.2286 -1.30477 -0.7754 -2.5 -2.1001 -2.5H6.53812C5.21347 4.5 4.20946 5.69523 4.43809 7" />
+  <path strokeWidth={1.5} d="M17.5001 4.5c0.0283 -0.25908 0.0425 -0.38865 0.0428 -0.49565 0.0022 -1.02363 -0.7689 -1.88371 -1.7866 -1.99293C15.6499 2 15.5195 2 15.2589 2H8.74111c-0.26064 0 -0.39097 0 -0.49736 0.01142 -1.01779 0.10922 -1.78882 0.9693 -1.78659 1.99292 0.00023 0.10701 0.01442 0.23656 0.04279 0.49566" />
+  <path strokeWidth={1.5} strokeLinecap="round" d="M15 18H9" />
+  <path strokeWidth={1.5} d="M2.38351 13.793c-0.44603 -3.1636 -0.66904 -4.74535 0.27881 -5.76917C3.61017 7 5.29758 7 8.67239 7h6.65521c3.3748 0 5.0622 0 6.0101 1.02383 0.9478 1.02382 0.7248 2.60557 0.2788 5.76917l-0.423 3c-0.3498 2.4809 -0.5246 3.7213 -1.4218 4.4642C18.8745 22 17.5512 22 14.9046 22H9.09536c-2.64655 0 -3.96983 0 -4.86702 -0.7428 -0.89719 -0.7429 -1.07208 -1.9833 -1.42186 -4.4642l-0.42297 -3Z" />
+</>) };
+const I_ANALYTICS: DropdownIcon = { vb: "-2 -2 64 64", body: (<>
+  <path d="M5 30c0 -11.785125 0 -17.677675 3.661175 -21.338825C12.322325 5 18.214875 5 30 5c11.785 0 17.67775 0 21.33875 3.661175C55 12.322325 55 18.214875 55 30c0 11.785 0 17.67775 -3.66125 21.33875C47.67775 55 41.785 55 30 55c-11.785125 0 -17.677675 0 -21.338825 -3.66125C5 47.67775 5 41.785 5 30Z" />
+  <path strokeLinecap="round" d="m17.5 35 4.492225 -5.39075c1.780125 -2.136 2.670175 -3.20425 3.841025 -3.20425 1.171 0 2.061 1.06825 3.84125 3.20425l0.651 0.7815c1.78025 2.136 2.67025 3.20425 3.84125 3.20425 1.17075 0 2.061 -1.06825 3.841 -3.20425L42.5 25" />
+</>) };
+const I_CAMPAIGNS: DropdownIcon = { vb: "-2 -2 64 64", body: (<>
+  <path d="M5 30c0 -9.4281 0 -14.142125 2.928925 -17.071075C10.857875 10 15.5719 10 25 10h10c9.428 0 14.14225 0 17.071 2.928925C55 15.857875 55 20.5719 55 30c0 9.428 0 14.14225 -2.929 17.071C49.14225 50 44.428 50 35 50h-10c-9.4281 0 -14.142125 0 -17.071075 -2.929C5 44.14225 5 39.428 5 30Z" />
+  <path strokeLinecap="round" d="m15 20 5.39725 4.4977C24.988825 28.324 27.28475 30.23725 30 30.23725s5.01125 -1.91325 9.60275 -5.73955L45 20" />
+</>) };
+const I_CONTACTS: DropdownIcon = { vb: "-2 -2 64 64", body: (<>
+  <path d="M12.5 15a10 10 0 1 0 20 0 10 10 0 1 0 -20 0" />
+  <path strokeLinecap="round" d="M37.5 22.5c4.14225 0 7.5 -3.357875 7.5 -7.5s-3.35775 -7.5 -7.5 -7.5" />
+  <path d="M5 42.5a17.5 10 0 1 0 35 0 17.5 10 0 1 0 -35 0" />
+  <path strokeLinecap="round" d="M45 35c4.3855 0.96175 7.5 3.39725 7.5 6.25 0 2.57325 -2.53425 4.80725 -6.25 5.926" />
+</>) };
+const I_OPPS: DropdownIcon = { vb: "0 0 24 24", body: (<>
+  <path strokeWidth={1.5} d="M2 12c0 -4.71405 0 -7.07107 1.46447 -8.53553C4.92893 2 7.28595 2 12 2c4.714 0 7.0711 0 8.5355 1.46447C22 4.92893 22 7.28595 22 12c0 4.714 0 7.0711 -1.4645 8.5355C19.0711 22 16.714 22 12 22c-4.71405 0 -7.07107 0 -8.53553 -1.4645C2 19.0711 2 16.714 2 12Z" />
+  <path strokeWidth={1.5} strokeLinecap="round" d="M2 13h3.16026c0.90517 0 1.35776 0 1.75558 0.183 0.39783 0.1829 0.69237 0.5266 1.28145 1.2138l0.60542 0.7064c0.58908 0.6872 0.88362 1.0309 1.28149 1.2138 0.3978 0.183 0.8504 0.183 1.7555 0.183h0.3206c0.9051 0 1.3577 0 1.7555 -0.183 0.3979 -0.1829 0.6924 -0.5266 1.2815 -1.2138l0.6054 -0.7064c0.5891 -0.6872 0.8836 -1.0309 1.2815 -1.2138 0.3978 -0.183 0.8504 -0.183 1.7555 -0.183H22" />
+</>) };
+const I_SALES: DropdownIcon = { vb: "0 0 24 24", body: (<>
+  <path strokeWidth={1.5} d="M2 12a10 10 0 1 0 20 0 10 10 0 1 0 -20 0" />
+  <path strokeWidth={1.5} strokeLinecap="round" d="M12 6v12" />
+  <path strokeWidth={1.5} strokeLinecap="round" d="M15 9.5C15 8.11929 13.6569 7 12 7S9 8.11929 9 9.5c0 1.3807 1.3431 2.5 3 2.5s3 1.1193 3 2.5 -1.3431 2.5 -3 2.5 -3 -1.1193 -3 -2.5" />
+</>) };
+const I_PROFILE: DropdownIcon = { vb: "-2 -2 64 64", body: (<>
+  <path d="M20 15a10 10 0 1 0 20 0 10 10 0 1 0 -20 0" />
+  <path d="M12.5 42.5a17.5 10 0 1 0 35 0 17.5 10 0 1 0 -35 0" />
+</>) };
+const I_LINKBIO: DropdownIcon = { vb: "-2 -2 64 64", body: (<>
+  <path strokeLinecap="round" d="m35.40625 46.219 -1.802 1.802c-5.97175 5.97175 -15.653775 5.97175 -21.625475 0 -5.9717 -5.9715 -5.9717 -15.65375 0 -21.62525l1.802125 -1.80225" />
+  <path strokeLinecap="round" d="m24.5935 35.40625 10.81275 -10.81275" />
+  <path strokeLinecap="round" d="m24.5935 13.7809 1.80225 -1.802125c5.9715 -5.9717 15.65375 -5.9717 21.62525 0 5.97175 5.9717 5.97175 15.653725 0 21.625475l-1.802 1.802" />
+</>) };
+const I_CERT: DropdownIcon = { vb: "-2 -2 64 64", body: (
+  <path d="M7.5 26.04175c0 -7.994075 0 -11.99105 0.9438 -13.335725 0.943775 -1.344675 4.702 -2.631125 12.218475 -5.20405l1.432025 -0.490175C26.0125 5.6706 27.9715 5 30 5c2.0285 0 3.9875 0.6706 7.90575 2.0118l1.432 0.490175c7.5165 2.572925 11.27475 3.859375 12.2185 5.20405C52.5 14.0507 52.5 18.047675 52.5 26.04175v3.93675c0 14.095 -10.5975 20.93525 -17.2465 23.83975C33.45 54.606 32.54825 55 30 55c-2.54825 0 -3.45 -0.394 -5.2536 -1.18175C18.0974 50.91375 7.5 44.0735 7.5 29.9785v-3.93675Z" />
+) };
 
-const DROPDOWN_ICONS: Record<string, React.ReactNode> = {
+const DROPDOWN_ICONS: Record<string, DropdownIcon> = {
   /* English */
-  "All Features": _ICON_ALL,
-  "Library": _ICON_LIBRARY,
-  "Analytics": _ICON_ANALYTICS,
-  "Campaigns": _ICON_CAMPAIGNS,
-  "Contacts": _ICON_CONTACTS,
-  "Opportunities": _ICON_OPPORTUNITIES,
-  "Sales": _ICON_SALES,
-  "Profile": _ICON_PROFILE,
-  "Link in Bio": _ICON_LINK_IN_BIO,
-  "Studio": _ICON_STUDIO,
-  "Certificate": _ICON_CERTIFICATE,
+  "All Features": I_ALL,
+  "Library": I_LIBRARY,
+  "Analytics": I_ANALYTICS,
+  "Campaigns": I_CAMPAIGNS,
+  "Contacts": I_CONTACTS,
+  "Opportunities": I_OPPS,
+  "Sales": I_SALES,
+  "Profile": I_PROFILE,
+  "Link in Bio": I_LINKBIO,
+  "Certificate": I_CERT,
   /* French */
-  "Toutes les features": _ICON_ALL,
-  "Toutes les fonctionnalités": _ICON_ALL,
-  "Bibliothèque": _ICON_LIBRARY,
-  "Campagnes": _ICON_CAMPAIGNS,
-  "Opportunités": _ICON_OPPORTUNITIES,
-  "Ventes": _ICON_SALES,
-  "Profil": _ICON_PROFILE,
-  "Certificat": _ICON_CERTIFICATE,
-  "Analytiques": _ICON_ANALYTICS,
-  "Lien en Bio": _ICON_LINK_IN_BIO,
+  "Toutes les features": I_ALL,
+  "Toutes les fonctionnalités": I_ALL,
+  "Bibliothèque": I_LIBRARY,
+  "Campagnes": I_CAMPAIGNS,
+  "Opportunités": I_OPPS,
+  "Ventes": I_SALES,
+  "Profil": I_PROFILE,
+  "Certificat": I_CERT,
+  "Analytiques": I_ANALYTICS,
+  "Lien en Bio": I_LINKBIO,
 };
 
 /* Studio featured card — mounts the Prism ONCE on first open and keeps it
@@ -181,7 +218,7 @@ export default function NavDropdownPanel({
   const regularChildren = children!.filter((c) => !c.featured && c !== studioChild);
   const hasFeaturedPanel = studioChild || featuredChildren.length > 0;
 
-  const renderChild = (child: typeof children extends (infer U)[] | undefined ? U : never) => {
+  const renderChild = (child: typeof children extends (infer U)[] | undefined ? U : never, i = 0) => {
     const isExternal = child.external || child.href.startsWith("http://") || child.href.startsWith("https://") || child.href.startsWith("mailto:");
     const Tag = isExternal ? "a" : Link;
     const extraProps = isExternal
@@ -197,12 +234,17 @@ export default function NavDropdownPanel({
         href={child.href}
         {...extraProps}
         className="flex h-9 items-center gap-2 rounded-xl px-3 hover:bg-[rgb(var(--ov)_/_0.06)]"
-        style={{ contain: "layout" }}
+        style={{
+          contain: "layout",
+          opacity: open ? 1 : 0,
+          transform: open ? "translateX(0)" : "translateX(9px)",
+          transition: `opacity 0.34s cubic-bezier(0.22,1,0.36,1) ${i * 0.03}s, transform 0.34s cubic-bezier(0.22,1,0.36,1) ${i * 0.03}s`,
+        }}
       >
         {icon ? (
-          <div className="flex h-4 w-4 shrink-0 items-center justify-center" style={{ transform: "translateZ(0)" }}>
-            <svg viewBox="0 0 24 24" className="block h-4 w-4 fill-none stroke-[1.5]" style={{ color: "#666", stroke: "#666" }}>
-              {icon}
+          <div className="flex h-[18px] w-[18px] shrink-0 items-center justify-center" style={{ transform: "translateZ(0)" }}>
+            <svg viewBox={icon.vb} className="block h-[18px] w-[18px] fill-none" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" style={{ color: "rgb(var(--fg) / 0.5)", stroke: "currentColor" }}>
+              {icon.body}
             </svg>
           </div>
         ) : null}
@@ -387,7 +429,7 @@ export default function NavDropdownPanel({
             alignContent: "start",
           }}
         >
-          {regularChildren.map((child) => renderChild(child))}
+          {regularChildren.map((child, i) => renderChild(child, i))}
         </div>
         {/* Featured cards — right side */}
         <div className={`flex ${featuredPanelWidth} shrink-0 flex-col gap-2 p-2`}>
@@ -414,7 +456,7 @@ export default function NavDropdownPanel({
         gap: "0px",
       }}
     >
-      {children!.map((child) => renderChild(child))}
+      {children!.map((child, i) => renderChild(child, i))}
     </div>
   );
 }
