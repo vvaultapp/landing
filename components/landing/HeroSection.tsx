@@ -748,8 +748,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* Trusted-by + sign-up — left-aligned, below the headline. */}
-        <div className="mt-10 flex flex-col items-start text-left">
+        {/* Trusted-by + sign-up — left-aligned, close under the headline. */}
+        <div className="mt-6 flex flex-col items-start text-left">
 
             {/* "Used by N artists & producers" — sits directly below the
                 headline (claude's subtitle slot). */}

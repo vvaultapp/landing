@@ -1137,7 +1137,7 @@ export default function PricingPage({
                sections. */
             <Reveal>
               <div className="text-center">
-                <h2 className="mx-auto max-w-[820px] text-[1.75rem] font-light leading-[1.1] tracking-tight text-[rgb(var(--fg))] sm:text-[2.4rem] lg:text-[2.9rem]">
+                <h2 className="font-display mx-auto max-w-[820px] text-[1.75rem] font-light leading-[1.1] tracking-tight text-[rgb(var(--fg))] sm:text-[2.4rem] lg:text-[2.9rem]">
                   {proIntroAvailable && (!signedIn || accountPlan === "free") ? (
                     locale === "fr" ? (
                       <>Démarre Pro à <span className="whitespace-nowrap">{promoPrice}</span>.</>
@@ -1579,7 +1579,7 @@ export default function PricingPage({
                   aligning with the feature tables below. */}
               <div className="sm:grid sm:grid-cols-[40%_20%_20%_20%] sm:items-end">
                 <div className="pr-4">
-                  <h2 className="text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-[rgb(var(--fg))] sm:text-[2.3rem] lg:text-[2.3rem]">
+                  <h2 className="font-display text-[1.75rem] font-semibold leading-[1.0] tracking-[-0.02em] text-[rgb(var(--fg))] sm:text-[2.3rem] lg:text-[2.3rem]">
                     {locale === "fr" ? "Comparer les plans" : "Compare plans"}
                   </h2>
                   <div className="mt-3 flex flex-wrap items-center gap-2.5 sm:mt-4">

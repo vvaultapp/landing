@@ -20,17 +20,13 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-/* Headline display face — KMR Waldenburg (regular width). One file per weight
-   the headlines actually use (300/400/500/Bold); the browser only downloads
-   the weights a given page renders. 600 (semibold) maps to Bold via standard
-   font matching. */
+/* Headline display face — KMR Waldenburg (regular width). Every headline that
+   uses it renders at the hero's single weight (Regular / 400), so we ship just
+   the one file. The .font-display rule pins font-weight to 400. */
 const waldenburg = localFont({
-  src: [
-    { path: "./fonts/KMRWaldenburg-Light.woff2", weight: "300", style: "normal" },
-    { path: "./fonts/KMRWaldenburg-Regular.woff2", weight: "400", style: "normal" },
-    { path: "./fonts/KMRWaldenburg-Medium.woff2", weight: "500", style: "normal" },
-    { path: "./fonts/KMRWaldenburg-Bold.woff2", weight: "700", style: "normal" },
-  ],
+  src: "./fonts/KMRWaldenburg-Regular.woff2",
+  weight: "400",
+  style: "normal",
   display: "swap",
   variable: "--font-display",
 });

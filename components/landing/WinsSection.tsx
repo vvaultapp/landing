@@ -24,7 +24,7 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
       <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
-            <h2 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
+            <h2 className="font-display mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
               {fr ? "Des wins, tous les jours." : "Wins, every single day."}
               <br />
               <span className="text-[rgb(var(--fg)_/_0.4)]">
