@@ -189,8 +189,10 @@ html {
   scroll-margin-top: 88px;
 }
 
-.landing-root .font-display {
-  font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+.landing-root .font-display,
+.font-display {
+  /* Headlines use KMR Waldenburg; falls back to the body face (Inter). */
+  font-family: var(--font-display), var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-optical-sizing: auto;
   letter-spacing: 0.004em;
 }
