@@ -61,7 +61,7 @@ export function FinalCtaSection({ content }: FinalCtaSectionProps) {
       id="final-cta"
       className="relative overflow-hidden pt-44 pb-44 sm:pt-64 sm:pb-56"
     >
-      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1300px)] px-5 sm:px-8 lg:px-10">
+      <div className="relative z-10 mx-auto w-full max-w-[min(94vw,1650px)] px-5 sm:px-8 lg:px-10">
         <div className="text-center">
           <div
             className="mx-auto max-w-[480px] sm:max-w-[580px] lg:max-w-[660px]"

@@ -726,8 +726,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
   const { stats } = useLandingStats(initialStats);
 
   return (
-    <section className="relative flex min-h-screen items-start overflow-hidden lg:items-center">
-      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1300px)] px-4 pb-16 pt-[120px] sm:px-8 sm:pt-[132px] lg:px-10 lg:pb-20 lg:pt-[88px]">
+    <section className="relative flex items-start overflow-hidden">
+      <div className="relative z-10 mx-auto w-full max-w-[min(94vw,1650px)] px-4 pb-16 pt-[120px] sm:px-8 sm:pt-[132px] lg:px-10 lg:pb-20 lg:pt-[88px]">
         {/* Two-column hero (claude.ai structure): all content on the
             left, an empty container on the right reserved for a video
             (to be added later). Stacks to a single column on mobile. */}

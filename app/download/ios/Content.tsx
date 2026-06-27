@@ -23,7 +23,7 @@ export default function DownloadIOSPage() {
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
 
       <main className="relative pb-32">
-        <div className="mx-auto w-full max-w-[min(92vw,1300px)] px-4 pt-[140px] sm:px-8 sm:pt-48 lg:px-10">
+        <div className="mx-auto w-full max-w-[min(94vw,1650px)] px-4 pt-[140px] sm:px-8 sm:pt-48 lg:px-10">
           <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-center lg:gap-[clamp(3.5rem,7vw,8.5rem)]">
             {/* LEFT — headline, subhead, App Store button */}
             <div className="flex flex-col items-center text-center lg:items-start lg:text-left">

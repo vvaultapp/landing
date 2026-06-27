@@ -532,7 +532,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
            window where the nav band is uncovered. */
       }}
     >
-      <div className="mx-auto flex h-[62px] w-full max-w-[min(92vw,1300px)] items-center px-5 sm:h-[62px] sm:px-8 lg:h-[68px] lg:px-10">
+      <div className="mx-auto flex h-[62px] w-full max-w-[min(94vw,1650px)] items-center px-5 sm:h-[62px] sm:px-8 lg:h-[68px] lg:px-10">
         <Link
           href={homeHref}
           className="shrink-0 rounded-xl text-[14px] font-semibold uppercase tracking-[0.18em] text-[rgb(var(--fg))] lg:text-[18px]"
