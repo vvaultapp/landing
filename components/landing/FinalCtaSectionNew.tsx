@@ -14,7 +14,7 @@ export function FinalCtaSectionNew({ content }: FinalCtaSectionNewProps) {
       id="final-cta"
       className="pb-[150px] pt-[80px] sm:pb-[214px] sm:pt-[110px] lg:pb-[278px] lg:pt-[140px]"
     >
-      <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1220px)] px-5 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-[640px] text-center">
           <h2 className="font-display text-[1.25rem] font-medium leading-[1.3] tracking-tight text-[rgb(var(--fg))] sm:text-[1.55rem] lg:text-[1.8rem]">
             {c.title}

@@ -108,7 +108,7 @@ export function PinnedQuickMenu() {
   const content = getLandingContent(locale);
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-8 z-[60] mx-auto hidden max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:flex lg:justify-end lg:px-10">
+    <div className="pointer-events-none fixed inset-x-0 bottom-8 z-[60] mx-auto hidden max-w-[min(92vw,1220px)] px-5 sm:px-8 lg:flex lg:justify-end lg:px-10">
       <div className="pointer-events-auto flex items-center gap-2.5">
         {/* iPhone — App Store download, same glassmorphic pill as the
             hamburger, Apple glyph left of the label. */}

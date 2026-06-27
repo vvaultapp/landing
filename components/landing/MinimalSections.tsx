@@ -13,7 +13,7 @@ import { LoopingVideo } from "@/components/landing/LoopingVideo";
    ───────────────────────────────────────────────────────────── */
 
 const CONTAINER =
-  "mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10";
+  "mx-auto w-full max-w-[min(92vw,1220px)] px-5 sm:px-8 lg:px-10";
 
 /* Feature-section headings stay in the body face (Inter) — only the marketing
    statement headlines (hero, wins, pricing, FAQ, final CTA) use the display

@@ -79,7 +79,7 @@ export function AskAiSection({ locale = "en" }: AskAiSectionProps) {
       id="ask-ai"
       className="pt-[150px] pb-[70px] sm:pt-[200px] sm:pb-[100px] lg:pt-[280px] lg:pb-[140px]"
     >
-      <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1220px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div
             className="relative mx-auto max-w-[560px] overflow-hidden rounded-2xl p-8 text-center sm:p-12"

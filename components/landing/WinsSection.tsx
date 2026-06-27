@@ -21,7 +21,7 @@ export function WinsSection({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <section className="relative pt-[150px] pb-20 sm:pt-[214px] sm:pb-28 lg:pt-[278px]">
-      <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1220px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
             <h2 className="font-display mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">

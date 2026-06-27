@@ -728,7 +728,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-36 pt-[150px] sm:px-8 sm:pb-44 sm:pt-[180px] lg:px-10 lg:pb-60 lg:pt-[200px]">
+      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1220px)] px-5 pb-36 pt-[150px] sm:px-8 sm:pb-44 sm:pt-[180px] lg:px-10 lg:pb-60 lg:pt-[200px]">
         {/* TOP ROW — headline left, description right (ElevenLabs structure).
             Stacks to one column on mobile. */}
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
@@ -739,9 +739,10 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
             </h1>
 
-            {/* "Used by N artists & producers" — hugging the headline (negative
-                margin pulls it up into the headline's line-descent space). */}
-            <div className="-mt-3">
+            {/* "Used by N artists & producers" — gap to the headline is offset
+                by ~12px (the headline's line-descent) so the visual space above
+                and below this row reads equal. */}
+            <div className="mt-1">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
@@ -752,7 +753,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
             {/* Sign-up — Google (filled) first, then Apple + Email as icon
                 buttons that smoothly expand to their full label on hover. */}
-            <div className="mt-6 flex flex-wrap items-center gap-2.5">
+            <div className="mt-4 flex flex-wrap items-center gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
@@ -810,12 +811,13 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
             </p>
           </div>
 
-          {/* RIGHT — supporting description (ElevenLabs' top-right slot). */}
-          <div className="lg:max-w-[420px] lg:shrink-0 lg:pt-2">
-            <p className="text-[16px] leading-relaxed text-[rgb(var(--fg)_/_0.6)] lg:text-[17px]">
+          {/* RIGHT — supporting description (ElevenLabs' top-right slot).
+              Wider column + smaller, full-black text so it stays 3 longer lines. */}
+          <div className="lg:max-w-[560px] lg:shrink-0 lg:pt-2">
+            <p className="text-[14px] leading-relaxed text-[rgb(var(--fg))]">
               {fr
-                ? "Envoie tes emails pour obtenir des téléchargements. Suis les ouvertures, écoutes et plus, le tout depuis un espace soigné et sécurisé pensé pour rester fluide."
-                : "Send your emails to get downloads. Track opens, plays and more, all from a beautifully crafted, secure workspace designed to feel effortless."}
+                ? "La seule plateforme pensée pour gérer tout ton business musical — suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
+                : "The only platform built to run your entire music business — track every open, play and download in real time, turn listens into sales, and keep your catalog provably yours."}
             </p>
           </div>
         </div>
@@ -847,45 +849,60 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
     setMounted(true);
   }, []);
 
-  const tab = (active: boolean) =>
-    `rounded-full px-5 py-2 text-[14px] font-medium focus-visible:outline-none ${
+  const tabBtn = (active: boolean) =>
+    `flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none ${
       active
         ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg))]"
-        : "text-[rgb(var(--fg)_/_0.55)] hover:text-[rgb(var(--fg))]"
+        : "text-[rgb(var(--fg)_/_0.45)] hover:text-[rgb(var(--fg))]"
     }`;
 
+  const laptopIcon = (
+    <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px]">
+      <path d="M49.11775 38.83925H10.88235m38.2354 0V20c0 -4.71405 0 -7.071075 -1.4645 -8.535525C46.18875 10 43.83175 10 39.11775 10H20.88235c-4.71405 0 -7.071075 0 -8.535525 1.464475C10.88235 12.928925 10.88235 15.28595 10.88235 20v18.83925m38.2354 0 4.36 4.50025c0.111 0.115 0.167 0.1725 0.219 0.2295 0.80275 0.8815 1.264 2.0205 1.30075 3.212 0.0025 0.07725 0.0025 0.15725 0.0025 0.31725 0 0.373 0 0.5595 -0.01 0.717 -0.15875 2.51325 -2.1615 4.516 -4.67475 4.67475 -0.1575 0.01 -0.344 0.01 -0.717 0.01H10.4017c-0.373 0 -0.5595 0 -0.717 -0.01 -2.513075 -0.15875 -4.515975 -2.1615 -4.67475 -4.67475C5 47.65775 5 47.47125 5 47.09825c0 -0.16 0 -0.24 0.0024 -0.31725 0.036825 -1.1915 0.49815 -2.3305 1.300775 -3.212 0.052025 -0.057 0.107775 -0.1145 0.219025 -0.2295l4.36015 -4.50025" />
+      <path d="M23.75 46.25h12.5" />
+      <path d="M31.875 16.875c0 1.035525 -0.8395 1.875 -1.875 1.875s-1.875 -0.839475 -1.875 -1.875S28.9645 15 30 15s1.875 0.839475 1.875 1.875Z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+  const iphoneIcon = (
+    <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px]">
+      <path d="M10 25c0 -9.4281 0 -14.142125 2.928925 -17.071075C15.857875 5 20.5719 5 30 5c9.428 0 14.14225 0 17.071 2.928925C50 10.857875 50 15.5719 50 25v10c0 9.428 0 14.14225 -2.929 17.071C44.14225 55 39.428 55 30 55c-9.4281 0 -14.142125 0 -17.071075 -2.929C10 49.14225 10 44.428 10 35v-10Z" />
+      <path d="M37.5 47.5H22.5" />
+      <path d="m41.8705 5.9436 -0.21025 0.315425c-1.89025 2.8352 -2.83525 4.252875 -4.21575 5.11065 -0.2745 0.17055 -0.55975 0.3232 -0.85375 0.456975 -1.4795 0.67275 -3.18325 0.67275 -6.59075 0.67275 -3.4075 0 -5.11135 0 -6.590775 -0.67275 -0.294175 -0.133775 -0.5794 -0.286425 -0.853875 -0.456975 -1.3804 -0.857775 -2.325475 -2.2754 -4.21565 -5.11065l-0.210275 -0.315425" />
+    </svg>
+  );
+
   return (
-    <div className="mt-12 lg:mt-16">
-      {/* Computer / iPhone switch — centered, no outline, grey active pill */}
-      <div className="mb-7 flex justify-center">
-        <div className="inline-flex rounded-full p-1">
-          <button type="button" onClick={() => setDevice("computer")} className={tab(device === "computer")}>
-            {fr ? "Ordinateur" : "Computer"}
-          </button>
-          <button type="button" onClick={() => setDevice("iphone")} className={tab(device === "iphone")}>
-            iPhone
-          </button>
-        </div>
+    <div className="mt-12 flex items-center gap-4 lg:mt-16 lg:gap-6">
+      {/* Computer / iPhone switch — vertical, on the LEFT of the video and
+          vertically centered against it; icons stacked one above the other. */}
+      <div className="flex shrink-0 flex-col gap-1.5 rounded-full bg-[rgb(var(--ov)_/_0.05)] p-1.5">
+        <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")}>
+          {laptopIcon}
+        </button>
+        <button type="button" aria-label="iPhone" aria-pressed={device === "iphone"} onClick={() => setDevice("iphone")} className={tabBtn(device === "iphone")}>
+          {iphoneIcon}
+        </button>
       </div>
 
-      {/* Just the clip at its NATIVE aspect — rounded corners + a hairline
-          outline, no surrounding container. Computer spans the full width (edge
-          to edge with the nav); iPhone is centered. Only the ACTIVE clip is
-          mounted, so switching tabs unmounts the old <video> and mounts a fresh
-          one that reloads from the very beginning (minimal memory + network). */}
-      {!mounted ? (
-        <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-          <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
-        </div>
-      ) : device === "computer" ? (
-        <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-          <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
-        </div>
-      ) : (
-        <div className="relative mx-auto aspect-[1206/2460] w-full max-w-[300px] overflow-hidden rounded-[30px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-          <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
-        </div>
-      )}
+      {/* The clip at its NATIVE aspect — rounded corners + a hairline outline.
+          Computer fills the remaining width; iPhone is centered. Only the ACTIVE
+          clip is mounted, so switching unmounts the old <video> and mounts a
+          fresh one that reloads from the very beginning. */}
+      <div className="min-w-0 flex-1">
+        {!mounted ? (
+          <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+            <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+          </div>
+        ) : device === "computer" ? (
+          <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+            <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+          </div>
+        ) : (
+          <div className="relative mx-auto aspect-[1206/2460] w-full max-w-[300px] overflow-hidden rounded-[30px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+            <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1044,7 +1061,8 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
       label: fr ? "Fichiers téléchargés" : "Files downloaded",
       icon: (
         <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
-          <path d="m30 48.75 12.5 -12.5m-12.5 12.5 -12.5 -12.5m12.5 12.5 0 -25c0 -4.166675 -2.5 -12.5 -12.5 -12.5" />
+          <path d="M7.5 37.5c0 7.071 0 10.6065 2.1967 12.80325C11.8934 52.5 15.428925 52.5 22.5 52.5h15c7.071 0 10.6065 0 12.80325 -2.19675C52.5 48.1065 52.5 44.571 52.5 37.5" />
+          <path d="M30 7.5v32.5m0 0 10 -10.9375M30 40l-10 -10.9375" />
         </svg>
       ),
     },
@@ -1069,7 +1087,9 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
     >
       {items.map((it) => (
         <div key={it.label} className="flex flex-col items-center text-center">
-          <div className="mb-3 text-[rgb(var(--fg)_/_0.4)]">{it.icon}</div>
+          {/* Solid (full-opacity) muted color via color-mix so overlapping
+              strokes don't darken where they cross (the low-opacity artifact). */}
+          <div className="mb-3" style={{ color: "color-mix(in srgb, rgb(var(--fg)) 55%, rgb(var(--bg)))" }}>{it.icon}</div>
           <div className="font-display text-[2rem] leading-none text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[3rem]">
             <AnimatedStat value={it.value} active={active} locale={locale} suffix={it.suffix} />
           </div>

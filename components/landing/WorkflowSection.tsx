@@ -149,7 +149,7 @@ export function WorkflowSection({ content }: WorkflowSectionProps) {
   return (
     <section ref={sectionRef} className="workflow-shell">
       <div className="workflow-pin">
-        <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto w-full max-w-[min(92vw,1220px)] px-5 sm:px-8 lg:px-10">
           <Reveal>
             <div className="text-center">
               <h3 className="mx-auto max-w-[760px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">

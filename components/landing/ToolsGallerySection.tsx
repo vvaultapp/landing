@@ -218,7 +218,7 @@ export function ToolsGallerySection({
       id="tools"
       className="relative pt-24 pb-20 sm:pt-32 sm:pb-28"
     >
-      <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
+      <div className="mx-auto w-full max-w-[min(92vw,1220px)] px-5 sm:px-8 lg:px-10">
         <Reveal>
           <div className="text-center">
             <h3 className="mx-auto max-w-[820px] text-[1.55rem] font-medium leading-tight tracking-tight text-[rgb(var(--fg))] sm:text-3xl lg:text-[2.2rem]">
