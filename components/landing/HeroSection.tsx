@@ -728,7 +728,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-16 pt-[150px] sm:px-8 sm:pt-[180px] lg:px-10 lg:pb-20 lg:pt-[200px]">
+      <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1200px)] px-5 pb-28 pt-[150px] sm:px-8 sm:pb-32 sm:pt-[180px] lg:px-10 lg:pb-40 lg:pt-[200px]">
         {/* TOP ROW — headline left, description right (ElevenLabs structure).
             Stacks to one column on mobile. */}
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
@@ -739,8 +739,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
             </h1>
 
-            {/* "Used by N artists & producers" — directly under the headline. */}
-            <div className="mt-5">
+            {/* "Used by N artists & producers" — tight under the headline. */}
+            <div className="mt-2">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
@@ -751,7 +751,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
             {/* Sign-up — Google (filled) first, then Apple + Email as icon
                 buttons that smoothly expand to their full label on hover. */}
-            <div className="mt-7 flex flex-wrap items-center gap-2.5">
+            <div className="mt-6 flex flex-wrap items-center gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
@@ -1008,11 +1008,50 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
     };
   }, []);
 
-  const items: { value: number; label: string; suffix?: string }[] = [
-    { value: metrics?.usersTotal ?? 0, label: fr ? "Producteurs" : "Producers", suffix: "+" },
-    { value: metrics?.tracksTotal ?? 0, label: fr ? "Sons hébergés" : "Tracks hosted" },
-    { value: metrics?.downloadsTotal ?? 0, label: fr ? "Fichiers téléchargés" : "Files downloaded" },
-    { value: metrics?.emailsSentTotal ?? 0, label: fr ? "Emails envoyés" : "Emails sent" },
+  const items: { value: number; label: string; suffix?: string; icon: React.ReactNode }[] = [
+    {
+      value: metrics?.usersTotal ?? 0,
+      label: fr ? "Producteurs" : "Producers",
+      suffix: "+",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <circle cx="9" cy="8" r="3.2" />
+          <path d="M3.5 19c0-3 2.5-4.9 5.5-4.9s5.5 1.9 5.5 4.9" />
+          <path d="M16 5.2a3 3 0 0 1 0 5.6M17.6 14.4c2.2.5 3.7 2 3.7 4.1" />
+        </svg>
+      ),
+    },
+    {
+      value: metrics?.tracksTotal ?? 0,
+      label: fr ? "Sons hébergés" : "Tracks hosted",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <circle cx="6.5" cy="17" r="2.5" />
+          <circle cx="17.5" cy="15" r="2.5" />
+          <path d="M9 17V6l11-2v11" />
+        </svg>
+      ),
+    },
+    {
+      value: metrics?.downloadsTotal ?? 0,
+      label: fr ? "Fichiers téléchargés" : "Files downloaded",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <path d="M12 3v11m0 0 4-4m-4 4-4-4" />
+          <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" />
+        </svg>
+      ),
+    },
+    {
+      value: metrics?.emailsSentTotal ?? 0,
+      label: fr ? "Emails envoyés" : "Emails sent",
+      icon: (
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
+          <rect x="3" y="5" width="18" height="14" rx="2.5" />
+          <path d="m4 7.5 8 5.5 8-5.5" />
+        </svg>
+      ),
+    },
   ];
 
   const active = inView && metrics !== null;
@@ -1020,10 +1059,11 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
   return (
     <div
       ref={ref}
-      className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-[rgb(var(--ov)_/_0.08)] pt-12 sm:grid-cols-4 lg:mt-20"
+      className="mt-14 grid grid-cols-2 gap-x-6 gap-y-12 border-t border-[rgb(var(--ov)_/_0.08)] pt-12 sm:grid-cols-4 lg:mt-20"
     >
       {items.map((it) => (
         <div key={it.label} className="flex flex-col items-center text-center">
+          <div className="mb-3 text-[rgb(var(--fg)_/_0.4)]">{it.icon}</div>
           <div className="font-display text-[2rem] leading-none text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[3rem]">
             <AnimatedStat value={it.value} active={active} locale={locale} suffix={it.suffix} />
           </div>

@@ -342,7 +342,7 @@ export function NavDropdown({
         href={item.href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noreferrer" : undefined}
-        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-normal text-[rgb(var(--fg))] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
+        className="cursor-pointer whitespace-nowrap rounded-xl px-3 py-1.5 text-[13px] font-normal text-[rgb(var(--fg))] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-3 lg:py-1.5 lg:text-[14px]"
       >
         {item.label}
       </a>
@@ -359,7 +359,7 @@ export function NavDropdown({
       <button
         type="button"
         onClick={onClick}
-        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[14px] font-normal text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:gap-2 lg:px-4 lg:py-2 lg:text-[16px]`}
+        className={`group flex cursor-default items-center gap-1.5 whitespace-nowrap rounded-xl px-3 py-1.5 text-[13px] font-normal text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:gap-1.5 lg:px-3 lg:py-1.5 lg:text-[14px]`}
       >
         {item.label}
         <svg
@@ -573,7 +573,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
             loggedInHref="/pricing"
             loggedOutHref="/pricing"
             track={{ buttonId: "nav.try_pro", surface: "landing.nav", locale }}
-            className="inline-flex items-center rounded-[8px] px-3 py-1.5 text-[14px] font-medium text-[rgb(var(--fg)_/_0.7)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-4 lg:py-2 lg:text-[16px]"
+            className="inline-flex items-center rounded-[8px] px-3 py-1.5 text-[13px] font-medium text-[rgb(var(--fg)_/_0.7)] hover:bg-[rgb(var(--ov)_/_0.06)] hover:text-[rgb(var(--fg))] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.35)] lg:px-3 lg:py-1.5 lg:text-[14px]"
           >
             {tryProLabel}
           </LandingCtaLink>
@@ -581,7 +581,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
             loggedInHref="https://vvault.app/login"
             loggedOutHref="https://vvault.app/login"
             track={{ buttonId: "nav.enter_app", surface: "landing.nav", locale }}
-            className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-5 py-2 text-[14px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)] lg:px-7 lg:py-2.5 lg:text-[16px]"
+            className="inline-flex items-center rounded-full bg-[rgb(var(--inv))] px-4 py-1.5 text-[13px] font-semibold text-[rgb(var(--inv-fg))] hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.45)] lg:px-5 lg:py-2 lg:text-[14px]"
           >
             {locale === "fr" ? "Ouvrir l'app" : "Open App"}
           </LandingCtaLink>
