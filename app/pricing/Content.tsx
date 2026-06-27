@@ -1130,7 +1130,7 @@ export default function PricingPage({
 
       {!embedded && <PricingHeroBanner locale={locale} promoPrice={promoPrice} promoActive={proIntroAvailable} signedIn={signedIn} currentPlan={accountPlan} />}
       <MainWrapper className={mainClassName}>
-        <div className="mx-auto w-full max-w-[1000px] px-5 sm:px-8 lg:px-10">
+        <div className="mx-auto w-full max-w-[min(92vw,1200px)] px-5 sm:px-8 lg:px-10">
           {embedded && (
             /* Embedded mode keeps a minimal headline so the host page
                doesn't get a full-width glass banner on top of its own
