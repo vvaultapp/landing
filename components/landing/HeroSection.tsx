@@ -735,14 +735,14 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
           {/* LEFT — headline, social proof, sign-up (tight stack). */}
           <div className="flex max-w-[640px] flex-col items-start text-left">
             <h1 className="font-display text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
-              <span className="block">{fr ? "Gère ta" : "Run your"}</span>
-              <span className="block">{fr ? "musique comme un business" : "music like a business"}</span>
+              <span className="block">{fr ? "Gère ta musique" : "Run your"}</span>
+              <span className="block">{fr ? "comme un business" : "music like a business"}</span>
             </h1>
 
             {/* "Used by N artists & producers" — gap to the headline is offset
                 by ~12px (the headline's line-descent) so the visual space above
                 and below this row reads equal. */}
-            <div className="mt-2">
+            <div className="mt-5">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
@@ -753,7 +753,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
             {/* Sign-up — Google (filled) first, then Apple + Email as icon
                 buttons that smoothly expand to their full label on hover. */}
-            <div className="mt-2 flex flex-wrap items-center gap-2.5">
+            <div className="mt-5 flex flex-wrap items-center gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
@@ -879,7 +879,7 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           the video on the left (in the gutter) on desktop; on smaller screens it
           tucks against the inner-left edge. Vertically centered against the
           (fixed-height) video so it never moves when switching device. */}
-      <div className="absolute left-1 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5 rounded-full bg-[rgb(var(--card))] p-1.5 [box-shadow:0_6px_24px_-8px_rgb(0_0_0_/_0.25)] [outline:1px_solid_rgb(var(--ov)_/_0.08)] lg:left-0 lg:-translate-x-[calc(100%+14px)]">
+      <div className="absolute left-1 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5 rounded-full p-1.5 lg:left-0 lg:-translate-x-[calc(100%+14px)]">
         <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")} style={{ color: iconColor(device === "computer") }}>
           {laptopIcon}
         </button>
