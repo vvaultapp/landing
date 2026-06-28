@@ -766,7 +766,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               <a
                 href="https://vvault.app/auth/google"
                 onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
-                className="inline-flex items-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 py-3.5 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[color-mix(in_srgb,rgb(var(--inv)),rgb(var(--bg))_28%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
+                className="inline-flex h-[50px] items-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[color-mix(in_srgb,rgb(var(--inv)),rgb(var(--bg))_28%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -782,7 +782,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                 href="https://vvault.app/signup"
                 onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
                 aria-label={fr ? "Continuer avec Apple" : "Continue with Apple"}
-                className="group inline-flex items-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] px-3.5 py-3.5 text-[15px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
+                className="group inline-flex items-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] h-[50px] px-3.5 text-[15px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
               >
                 <svg viewBox="0 0 384 512" className="h-5 w-5 shrink-0 -translate-y-px" fill="currentColor" aria-hidden="true">
                   <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
@@ -797,7 +797,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                 href="https://vvault.app/signup"
                 onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
                 aria-label={fr ? "Continuer avec email" : "Continue with Email"}
-                className="group inline-flex items-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] px-3.5 py-3.5 text-[15px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
+                className="group inline-flex items-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] h-[50px] px-3.5 text-[15px] font-semibold text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)]"
               >
                 <svg viewBox="-8 -8 256 256" className="h-5 w-5 shrink-0 -translate-y-px" fill="none" stroke="currentColor" strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M20 120c0 -37.7124 0 -56.5685 11.7157 -68.2843C43.4315 40 62.2876 40 100 40h40c37.712 0 56.569 0 68.284 11.7157C220 63.4315 220 82.2876 220 120c0 37.712 0 56.569 -11.716 68.284C196.569 200 177.712 200 140 200h-40c-37.7124 0 -56.5685 0 -68.2843 -11.716C20 176.569 20 157.712 20 120Z" />
@@ -901,7 +901,7 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           toggling. On mobile each device sizes naturally (iPhone capped by
           width) so the phone never gets squished. Only the active clip is
           mounted; it remounts (from frame 0) on switch. */}
-      <div className="relative w-full lg:aspect-[1724/1118]">
+      <div className="relative w-full lg:aspect-[1724/1125]">
         {!mounted ? (
           <div className="lg:absolute lg:inset-0 lg:flex lg:items-center">
             <MacBookFrame>
@@ -932,14 +932,18 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
 function MacBookFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full [container-type:inline-size]">
-      <div className="rounded-[1.6cqw] bg-[#1b1b1d] p-[0.9cqw] shadow-[0_26px_60px_-26px_rgba(0,0,0,0.5)]">
-        <div className="relative aspect-[1724/1080] overflow-hidden rounded-[0.7cqw] bg-black">
+      {/* Lid — space-grey body, thin uniform bezel, rounded corners. */}
+      <div className="relative rounded-[1.8cqw] bg-[#1c1c1e] p-[0.85cqw] shadow-[0_28px_64px_-28px_rgba(0,0,0,0.55)]">
+        <div className="relative aspect-[1724/1080] overflow-hidden rounded-[1cqw] bg-black">
           {children}
         </div>
+        {/* camera notch — small tab dipping into the top-centre of the screen */}
+        <div className="absolute left-1/2 top-[0.85cqw] z-20 h-[1.5cqw] w-[9cqw] -translate-x-1/2 rounded-b-[0.8cqw] bg-[#1c1c1e]" />
       </div>
-      {/* hinge + base sliver */}
-      <div className="relative mx-auto h-[1.5cqw] w-[101.5%] rounded-b-[1cqw] bg-[linear-gradient(180deg,#cfd0d4,#9b9ca1)]">
-        <div className="absolute left-1/2 top-0 h-[42%] w-[12%] -translate-x-1/2 rounded-b-[0.5cqw] bg-[#0b0b0d]" />
+      {/* Hinge / base front edge — a touch wider, brushed-aluminium, with the
+          centred opening groove. */}
+      <div className="relative mx-auto h-[2cqw] w-[103%] rounded-b-[1.3cqw] bg-[linear-gradient(180deg,#d6d7da_0%,#aaabb1_55%,#8d8e94_100%)]">
+        <div className="absolute left-1/2 top-0 h-[42%] w-[13%] -translate-x-1/2 rounded-b-[0.9cqw] bg-[rgb(var(--bg))]" />
       </div>
     </div>
   );
