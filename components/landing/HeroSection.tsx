@@ -523,7 +523,7 @@ export function HeroTrustedBy({
   }, [poolReady, pickNextAvatar]);
 
   return (
-    <div className="mt-9 flex justify-center">
+    <div className="flex justify-center">
       <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:gap-3">
         <div className="flex items-center">
           {slots.map((slotState, idx) => (
@@ -742,7 +742,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
             {/* "Used by N artists & producers" — gap to the headline is offset
                 by ~12px (the headline's line-descent) so the visual space above
                 and below this row reads equal. */}
-            <div className="-mt-1">
+            <div className="mt-2">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
