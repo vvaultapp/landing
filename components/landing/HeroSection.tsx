@@ -912,9 +912,9 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
               <span className="absolute left-[-3px] top-[38%] h-[44px] w-[3px] rounded-l-[2px] bg-[#0b0b0d]" />
               <span className="absolute right-[-3px] top-[26%] h-[66px] w-[3px] rounded-r-[2px] bg-[#0b0b0d]" />
               {/* body + bezel */}
-              <div className="relative h-full w-full rounded-[44px] bg-[#0b0b0d] p-[8px]">
+              <div className="relative h-full w-full rounded-[54px] bg-[#0b0b0d] p-[8px]">
                 {/* screen */}
-                <div className="relative h-full w-full overflow-hidden rounded-[37px] bg-black">
+                <div className="relative h-full w-full overflow-hidden rounded-[47px] bg-black">
                   <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
                   {/* dynamic island */}
                   <div className="absolute left-1/2 top-[11px] z-10 h-[26px] w-[94px] -translate-x-1/2 rounded-full bg-black" />
