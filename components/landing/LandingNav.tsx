@@ -614,7 +614,7 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
                   : "Open menu"
             }
             aria-expanded={mobileMenuOpen}
-            className="relative flex h-9 w-9 items-center justify-center text-[rgb(var(--fg)_/_0.8)] hover:text-[rgb(var(--fg))]"
+            className="relative flex h-9 w-9 items-center justify-end text-[rgb(var(--fg)_/_0.8)] hover:text-[rgb(var(--fg))]"
             style={{ WebkitTapHighlightColor: "transparent" }}
           >
             <span className="relative block h-[18px] w-[20px]">

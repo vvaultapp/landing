@@ -523,8 +523,8 @@ export function HeroTrustedBy({
   }, [poolReady, pickNextAvatar]);
 
   return (
-    <div className="flex justify-center">
-      <div className="flex flex-col items-center gap-2 text-center sm:flex-row sm:items-center sm:gap-3">
+    <div className="flex justify-start">
+      <div className="flex flex-row items-center gap-3 text-left">
         <div className="flex items-center">
           {slots.map((slotState, idx) => (
             <span
@@ -734,10 +734,18 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           {/* LEFT — headline, social proof, sign-up (tight stack). */}
           <div className="flex max-w-[640px] flex-col items-start text-left">
-            <h1 className="font-display text-[2.4rem] font-normal leading-[1.04] tracking-tight text-[rgb(var(--fg))] sm:text-[2.6rem] lg:text-[2.9rem]">
+            <h1 className="font-display text-[clamp(1.5rem,5.6vw,2.9rem)] font-normal leading-[1.06] tracking-tight text-[rgb(var(--fg))]">
               <span className="block">{fr ? "Gère ta musique" : "Run your"}</span>
               <span className="block">{fr ? "comme un business" : "music like a business"}</span>
             </h1>
+
+            {/* Description — on MOBILE it sits right under the headline; on desktop
+                it lives in the right column (hidden here). */}
+            <p className="mt-4 max-w-[440px] text-[14px] leading-relaxed text-[rgb(var(--fg))] lg:hidden">
+              {fr
+                ? "La seule plateforme pensée pour gérer tout ton business musical. Suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
+                : "The only platform built to run your entire music business. Track every open, play and download in real time, turn listens into sales, and keep your catalog provably yours."}
+            </p>
 
             {/* "Used by N artists & producers" — gap to the headline is offset
                 by ~12px (the headline's line-descent) so the visual space above
@@ -811,9 +819,9 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
             </p>
           </div>
 
-          {/* RIGHT — supporting description (ElevenLabs' top-right slot).
-              Wider column + smaller, full-black text so it stays 3 longer lines. */}
-          <div className="lg:max-w-[560px] lg:shrink-0 lg:pt-2">
+          {/* RIGHT — supporting description (ElevenLabs' top-right slot), desktop
+              only; on mobile the copy sits under the headline instead. */}
+          <div className="hidden lg:block lg:max-w-[560px] lg:shrink-0 lg:pt-2">
             <p className="text-[14px] leading-relaxed text-[rgb(var(--fg))]">
               {fr
                 ? "La seule plateforme pensée pour gérer tout ton business musical. Suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
@@ -851,13 +859,13 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
 
   const tabBtn = (active: boolean) =>
     `flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none ${
-      active ? "bg-[rgb(17_17_17_/_0.08)]" : "hover:bg-[rgb(17_17_17_/_0.05)]"
+      active ? "bg-[rgb(var(--switch-active))]" : "hover:bg-[rgb(var(--switch-fg)_/_0.06)]"
     }`;
-  // The pill is always white, so the icons are always dark. Solid (full-opacity)
-  // colors so the overlapping strokes never darken. Active = near-black,
-  // inactive = a muted solid grey.
+  // Icons contrast with the pill (black pill in dark, white in light). Solid
+  // (full-opacity) colors so overlapping strokes never darken: active = full
+  // switch-fg, inactive = muted.
   const iconColor = (active: boolean) =>
-    active ? "#111111" : "color-mix(in srgb, #111111 42%, #ffffff)";
+    active ? "rgb(var(--switch-fg))" : "rgb(var(--switch-fg-muted))";
 
   const laptopIcon = (
     <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px]">
@@ -876,11 +884,10 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <div className="relative mt-12 lg:mt-16">
-      {/* Computer / iPhone switch — vertical, icons stacked. Sits just OUTSIDE
-          the video on the left (in the gutter) on desktop; on smaller screens it
-          tucks against the inner-left edge. Vertically centered against the
-          (fixed-height) video so it never moves when switching device. */}
-      <div className="absolute left-1 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5 rounded-full bg-white p-1.5 lg:left-0 lg:-translate-x-[calc(100%+14px)]">
+      {/* Computer / iPhone switch — a horizontal pill centered above the stage on
+          mobile; a vertical pill just OUTSIDE the video's left edge on desktop,
+          vertically centered against it. */}
+      <div className="mx-auto mb-6 flex w-fit flex-row gap-1.5 rounded-full bg-[rgb(var(--switch-pill))] p-1.5 lg:absolute lg:left-0 lg:top-1/2 lg:z-10 lg:mx-0 lg:mb-0 lg:w-auto lg:-translate-x-[calc(100%+14px)] lg:-translate-y-1/2 lg:flex-col">
         <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")} style={{ color: iconColor(device === "computer") }}>
           {laptopIcon}
         </button>
@@ -889,40 +896,70 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
         </button>
       </div>
 
-      {/* Fixed-height stage (full nav width). The computer clip fills it; the
-          iPhone clip is centered inside the SAME box, so the stage height — and
-          therefore the switch + the metrics below — never shift between
-          devices. Only the active clip is mounted (remounts from 0 on switch). */}
-      <div className="relative aspect-[1724/1080] w-full">
+      {/* Device stage. On desktop it's a fixed-aspect box so the MacBook fills it
+          and the iPhone (centered, h-full) is the SAME height — no shift when
+          toggling. On mobile each device sizes naturally (iPhone capped by
+          width) so the phone never gets squished. Only the active clip is
+          mounted; it remounts (from frame 0) on switch. */}
+      <div className="relative w-full lg:aspect-[1724/1118]">
         {!mounted ? (
-          <div className="absolute inset-0 overflow-hidden rounded-[18px] bg-[#0c0c0e] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-            <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+          <div className="lg:absolute lg:inset-0 lg:flex lg:items-center">
+            <MacBookFrame>
+              <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+            </MacBookFrame>
           </div>
         ) : device === "computer" ? (
-          <div className="absolute inset-0 overflow-hidden rounded-[18px] bg-[#0c0c0e] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-            <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+          <div className="lg:absolute lg:inset-0 lg:flex lg:items-center">
+            <MacBookFrame>
+              <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+            </MacBookFrame>
           </div>
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center">
-            {/* iPhone frame — titanium body, bezel, dynamic island + side buttons. */}
-            <div className="relative h-full aspect-[1206/2500]">
-              {/* side buttons, peeking out from behind the body */}
-              <span className="absolute left-[-3px] top-[19%] h-[26px] w-[3px] rounded-l-[2px] bg-[#0b0b0d]" />
-              <span className="absolute left-[-3px] top-[28%] h-[44px] w-[3px] rounded-l-[2px] bg-[#0b0b0d]" />
-              <span className="absolute left-[-3px] top-[38%] h-[44px] w-[3px] rounded-l-[2px] bg-[#0b0b0d]" />
-              <span className="absolute right-[-3px] top-[26%] h-[66px] w-[3px] rounded-r-[2px] bg-[#0b0b0d]" />
-              {/* body + bezel */}
-              <div className="relative h-full w-full rounded-[54px] bg-[#0b0b0d] p-[8px]">
-                {/* screen */}
-                <div className="relative h-full w-full overflow-hidden rounded-[47px] bg-black">
-                  <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
-                  {/* dynamic island */}
-                  <div className="absolute left-1/2 top-[11px] z-10 h-[26px] w-[94px] -translate-x-1/2 rounded-full bg-black" />
-                </div>
-              </div>
-            </div>
+          <div className="flex justify-center lg:absolute lg:inset-0 lg:items-center">
+            <IPhoneFrame className="w-[min(72vw,300px)] lg:h-full lg:w-auto">
+              <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+            </IPhoneFrame>
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/* MacBook mockup — aluminium lid + bezel around a 16:10 screen, a silver hinge
+   base below, and a soft shadow. All internals use cqw so it scales identically
+   at any width (the element is its own container). */
+function MacBookFrame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="w-full [container-type:inline-size]">
+      <div className="rounded-[1.6cqw] bg-[#1b1b1d] p-[0.9cqw] shadow-[0_26px_60px_-26px_rgba(0,0,0,0.5)]">
+        <div className="relative aspect-[1724/1080] overflow-hidden rounded-[0.7cqw] bg-black">
+          {children}
+        </div>
+      </div>
+      {/* hinge + base sliver */}
+      <div className="relative mx-auto h-[1.5cqw] w-[101.5%] rounded-b-[1cqw] bg-[linear-gradient(180deg,#cfd0d4,#9b9ca1)]">
+        <div className="absolute left-1/2 top-0 h-[42%] w-[12%] -translate-x-1/2 rounded-b-[0.5cqw] bg-[#0b0b0d]" />
+      </div>
+    </div>
+  );
+}
+
+/* iPhone mockup — titanium body, bezel, rounded screen, centered dynamic island
+   and side buttons. cqw internals scale with the frame width (its own
+   container), so it looks identical big (desktop) or small (mobile). */
+function IPhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative aspect-[1206/2500] [container-type:inline-size] ${className}`}>
+      <span className="absolute left-[-0.9cqw] top-[19%] h-[7cqw] w-[1cqw] rounded-l-[2px] bg-[#0b0b0d]" />
+      <span className="absolute left-[-0.9cqw] top-[28.5%] h-[12cqw] w-[1cqw] rounded-l-[2px] bg-[#0b0b0d]" />
+      <span className="absolute left-[-0.9cqw] top-[40%] h-[12cqw] w-[1cqw] rounded-l-[2px] bg-[#0b0b0d]" />
+      <span className="absolute right-[-0.9cqw] top-[27%] h-[17cqw] w-[1cqw] rounded-r-[2px] bg-[#0b0b0d]" />
+      <div className="relative h-full w-full rounded-[15cqw] bg-[#0b0b0d] p-[2.2cqw] shadow-[0_26px_60px_-26px_rgba(0,0,0,0.5)]">
+        <div className="relative h-full w-full overflow-hidden rounded-[13cqw] bg-black">
+          {children}
+          <div className="absolute left-1/2 top-[3cqw] z-10 h-[8.5cqw] w-[30cqw] -translate-x-1/2 rounded-full bg-black" />
+        </div>
       </div>
     </div>
   );
