@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
+import { MacBookFrame, IPhoneFrame } from "@/components/landing/DeviceFrames";
 import { trackButtonClick } from "@/lib/analytics/client";
 import { fetchJsonCached } from "@/lib/fetchJsonCached";
 
@@ -777,30 +778,38 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                 {fr ? "Continuer avec Google" : "Continue with Google"}
               </a>
 
-              {/* Continue with Apple — icon-only circle (no hover-expand, so no
-                  layout reflow / flicker). */}
+              {/* Continue with Apple — icon-only circle on mobile; on desktop it
+                  expands to the full label on hover. flex-nowrap row keeps the
+                  expansion from wrapping (which is what caused the old flicker). */}
               <a
                 href="https://vvault.app/signup"
                 onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
                 aria-label={fr ? "Continuer avec Apple" : "Continue with Apple"}
-                className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px]"
+                className="group inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px] lg:w-auto lg:justify-start lg:px-3.5 lg:text-[15px] lg:font-semibold"
               >
-                <svg viewBox="0 0 384 512" className="h-5 w-5 -translate-y-px" fill="currentColor" aria-hidden="true">
+                <svg viewBox="0 0 384 512" className="h-5 w-5 shrink-0 -translate-y-px" fill="currentColor" aria-hidden="true">
                   <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z" />
                 </svg>
+                <span className="hidden max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-[max-width,opacity,margin] duration-300 ease-out lg:inline-block lg:group-hover:ml-2.5 lg:group-hover:max-w-[160px] lg:group-hover:opacity-100">
+                  {fr ? "Continuer avec Apple" : "Continue with Apple"}
+                </span>
               </a>
 
-              {/* Continue with Email — icon-only circle */}
+              {/* Continue with Email — icon-only circle on mobile; expands on
+                  hover on desktop. */}
               <a
                 href="https://vvault.app/signup"
                 onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
                 aria-label={fr ? "Continuer avec email" : "Continue with Email"}
-                className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px]"
+                className="group inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px] lg:w-auto lg:justify-start lg:px-3.5 lg:text-[15px] lg:font-semibold"
               >
-                <svg viewBox="-8 -8 256 256" className="h-5 w-5 -translate-y-px" fill="none" stroke="currentColor" strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <svg viewBox="-8 -8 256 256" className="h-5 w-5 shrink-0 -translate-y-px" fill="none" stroke="currentColor" strokeWidth={18} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <path d="M20 120c0 -37.7124 0 -56.5685 11.7157 -68.2843C43.4315 40 62.2876 40 100 40h40c37.712 0 56.569 0 68.284 11.7157C220 63.4315 220 82.2876 220 120c0 37.712 0 56.569 -11.716 68.284C196.569 200 177.712 200 140 200h-40c-37.7124 0 -56.5685 0 -68.2843 -11.716C20 176.569 20 157.712 20 120Z" />
                   <path d="m60 80 21.589 17.9908C99.9553 113.296 109.139 120.949 120 120.949s20.045 -7.653 38.411 -22.9582L180 80" />
                 </svg>
+                <span className="hidden max-w-0 overflow-hidden whitespace-nowrap opacity-0 transition-[max-width,opacity,margin] duration-300 ease-out lg:inline-block lg:group-hover:ml-2.5 lg:group-hover:max-w-[160px] lg:group-hover:opacity-100">
+                  {fr ? "Continuer avec email" : "Continue with Email"}
+                </span>
               </a>
             </div>
 
@@ -850,6 +859,25 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
     const isMobile = window.matchMedia("(max-width: 1023px)").matches;
     setDevice(isMobile ? "iphone" : "computer");
     setMounted(true);
+    // Warm BOTH posters + (low-priority) the other device's clip so toggling
+    // never shows a black box: the tiny poster paints instantly and the mp4 is
+    // already cached by the time you switch. Done after load + idle, off the
+    // critical path. <link> tags stay in the DOM so the fetch always completes.
+    const warm = () => {
+      const add = (rel: string, href: string, as?: string) => {
+        if (document.querySelector(`link[href="${href}"]`)) return;
+        const l = document.createElement("link");
+        l.rel = rel;
+        l.href = href;
+        if (as) l.as = as;
+        document.head.appendChild(l);
+      };
+      add("preload", "/landing/features/computer.webp", "image");
+      add("preload", "/landing/features/phone.webp", "image");
+      add("prefetch", isMobile ? "/landing/features/computer.mp4" : "/landing/features/phone.mp4");
+    };
+    if (document.readyState === "complete") setTimeout(warm, 600);
+    else window.addEventListener("load", () => setTimeout(warm, 600), { once: true });
   }, []);
 
   const tabBtn = (active: boolean) =>
@@ -916,52 +944,6 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
             </IPhoneFrame>
           </div>
         )}
-      </div>
-    </div>
-  );
-}
-
-/* MacBook mockup — aluminium lid + bezel around a 16:10 screen, a silver hinge
-   base below, and a soft shadow. All internals use cqw so it scales identically
-   at any width (the element is its own container). */
-function MacBookFrame({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="w-full [container-type:inline-size]">
-      {/* Lid — bezel (black in light, dark grey in dark), rounded top, square
-          bottom so it meets the base cleanly. Uniform bezel centres the screen.
-          translateZ(0) gives the rounded clip its own layer so the video edges
-          stay crisp (no fuzzy fringe). */}
-      <div className="relative z-10 rounded-t-[1.9cqw] bg-[rgb(var(--device-body))] p-[0.85cqw]">
-        <div className="relative aspect-[1724/1080] overflow-hidden rounded-[1.1cqw] bg-black [transform:translateZ(0)]">
-          {children}
-        </div>
-        {/* camera notch — tab dipping into the top-centre of the screen */}
-        <div className="absolute left-1/2 top-[0.85cqw] z-20 h-[1.5cqw] w-[9cqw] -translate-x-1/2 rounded-b-[0.8cqw] bg-[rgb(var(--device-body))]" />
-      </div>
-      {/* Base / keyboard deck — WIDER than the lid (the body overhangs the
-          screen), brushed aluminium, with the centred opening groove. */}
-      <div className="relative mx-auto h-[2cqw] w-[106%] rounded-b-[1.3cqw] bg-[linear-gradient(180deg,#d6d7da_0%,#aaabb1_55%,#8d8e94_100%)]">
-        <div className="absolute left-1/2 top-0 h-[42%] w-[12%] -translate-x-1/2 rounded-b-[0.9cqw] bg-[rgb(var(--bg))]" />
-      </div>
-    </div>
-  );
-}
-
-/* iPhone mockup — titanium body, bezel, rounded screen, centered dynamic island
-   and side buttons. cqw internals scale with the frame width (its own
-   container), so it looks identical big (desktop) or small (mobile). */
-function IPhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`relative aspect-[1206/2500] [container-type:inline-size] ${className}`}>
-      <span className="absolute left-[-0.9cqw] top-[19%] h-[7cqw] w-[1cqw] rounded-l-[2px] bg-[rgb(var(--device-body))]" />
-      <span className="absolute left-[-0.9cqw] top-[28.5%] h-[12cqw] w-[1cqw] rounded-l-[2px] bg-[rgb(var(--device-body))]" />
-      <span className="absolute left-[-0.9cqw] top-[40%] h-[12cqw] w-[1cqw] rounded-l-[2px] bg-[rgb(var(--device-body))]" />
-      <span className="absolute right-[-0.9cqw] top-[27%] h-[17cqw] w-[1cqw] rounded-r-[2px] bg-[rgb(var(--device-body))]" />
-      <div className="relative h-full w-full rounded-[15cqw] bg-[rgb(var(--device-body))] p-[2.2cqw]">
-        <div className="relative h-full w-full overflow-hidden rounded-[13cqw] bg-black [transform:translateZ(0)]">
-          {children}
-          <div className="absolute left-1/2 top-[3cqw] z-10 h-[8.5cqw] w-[30cqw] -translate-x-1/2 rounded-full bg-[rgb(var(--device-body))]" />
-        </div>
       </div>
     </div>
   );

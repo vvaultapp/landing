@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
+import { IPhoneFrame } from "@/components/landing/DeviceFrames";
 import { getLandingContent } from "@/components/landing/content";
 import { useLocale } from "@/lib/useLocale";
 
@@ -53,14 +54,16 @@ export default function DownloadIOSPage() {
 
             {/* RIGHT — big iPhone playing the app video */}
             <div className="w-full max-w-[440px] lg:w-[min(40vw,560px)] lg:max-w-none lg:shrink-0">
-              <div className="relative mx-auto aspect-[420/856] w-[clamp(240px,70vw,320px)] overflow-hidden rounded-[44px] bg-[rgb(var(--ov)_/_0.04)] [outline:2px_solid_rgb(var(--ov)/0.16)]">
+              <IPhoneFrame className="mx-auto w-[clamp(240px,70vw,320px)]">
                 <LoopingVideo
                   src="/landing/features/phone"
                   poster="/landing/features/phone.webp"
-                  className="absolute inset-0 block h-full w-full object-cover rounded-[44px]"
+                  mp4Only
                   eager
+                  fadeIn={false}
+                  className="absolute inset-0 block h-full w-full object-cover"
                 />
-              </div>
+              </IPhoneFrame>
             </div>
           </div>
         </div>
