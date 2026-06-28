@@ -939,7 +939,7 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           </div>
         ) : (
           <div className="flex justify-center lg:absolute lg:inset-0 lg:items-center">
-            <IPhoneFrame className="w-[min(72vw,300px)] lg:h-full lg:w-auto">
+            <IPhoneFrame className="w-full lg:h-full lg:w-auto">
               <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
             </IPhoneFrame>
           </div>
