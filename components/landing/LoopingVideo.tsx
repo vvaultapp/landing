@@ -32,6 +32,7 @@ export function LoopingVideo({
   fitOverride = "",
   eager = false,
   mp4Only = false,
+  fadeIn = true,
 }: {
   /** Base path WITHOUT extension, e.g. "/landing/features/upload".
       Expects `${src}.webm` and `${src}.mp4` in /public. */
@@ -54,6 +55,11 @@ export function LoopingVideo({
   /** Only emit the mp4 <source> — for clips that ship mp4-only (no webm),
       so the browser never requests a 404 webm before falling back. */
   mp4Only?: boolean;
+  /** Crossfade the video in over the poster (default). Set false for the hero
+      device-switch clips: the video swaps in INSTANTLY once its first frame is
+      ready (poster sits underneath at the same frame), so toggling devices
+      never shows the poster fading out for a beat. */
+  fadeIn?: boolean;
 }) {
   const ref = useRef<HTMLVideoElement>(null);
   // Default false ⇒ centered fit, so nothing flashes the bigger framing.
@@ -158,7 +164,7 @@ export function LoopingVideo({
       ) : null}
       <video
         ref={ref}
-        className={`${className} ${fit} transition-opacity duration-500 ease-out ${
+        className={`${className} ${fit} ${fadeIn ? "transition-opacity duration-500 ease-out" : ""} ${
           videoReady ? "opacity-100" : "opacity-0"
         }`.trim()}
         muted

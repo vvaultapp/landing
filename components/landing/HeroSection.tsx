@@ -851,12 +851,13 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
 
   const tabBtn = (active: boolean) =>
     `flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none ${
-      active ? "bg-[rgb(var(--ov)_/_0.12)]" : "hover:bg-[rgb(var(--ov)_/_0.06)]"
+      active ? "bg-[rgb(17_17_17_/_0.08)]" : "hover:bg-[rgb(17_17_17_/_0.05)]"
     }`;
-  // Solid (full-opacity) colors so the icon strokes never darken where they
-  // overlap. Active = full foreground; inactive = a muted solid via color-mix.
+  // The pill is always white, so the icons are always dark. Solid (full-opacity)
+  // colors so the overlapping strokes never darken. Active = near-black,
+  // inactive = a muted solid grey.
   const iconColor = (active: boolean) =>
-    active ? "rgb(var(--fg))" : "color-mix(in srgb, rgb(var(--fg)) 50%, rgb(var(--bg)))";
+    active ? "#111111" : "color-mix(in srgb, #111111 42%, #ffffff)";
 
   const laptopIcon = (
     <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px]">
@@ -879,7 +880,7 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           the video on the left (in the gutter) on desktop; on smaller screens it
           tucks against the inner-left edge. Vertically centered against the
           (fixed-height) video so it never moves when switching device. */}
-      <div className="absolute left-1 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5 rounded-full p-1.5 lg:left-0 lg:-translate-x-[calc(100%+14px)]">
+      <div className="absolute left-1 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5 rounded-full bg-white p-1.5 lg:left-0 lg:-translate-x-[calc(100%+14px)]">
         <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")} style={{ color: iconColor(device === "computer") }}>
           {laptopIcon}
         </button>
@@ -894,17 +895,31 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           devices. Only the active clip is mounted (remounts from 0 on switch). */}
       <div className="relative aspect-[1724/1080] w-full">
         {!mounted ? (
-          <div className="absolute inset-0 overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+          <div className="absolute inset-0 overflow-hidden rounded-[18px] bg-[#0c0c0e] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
             <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
           </div>
         ) : device === "computer" ? (
-          <div className="absolute inset-0 overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-            <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+          <div className="absolute inset-0 overflow-hidden rounded-[18px] bg-[#0c0c0e] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+            <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative h-full aspect-[1206/2460] overflow-hidden rounded-[26px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-              <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+            {/* iPhone frame — titanium body, bezel, dynamic island + side buttons. */}
+            <div className="relative h-full aspect-[1206/2500]">
+              {/* side buttons, peeking out from behind the body */}
+              <span className="absolute left-[-3px] top-[19%] h-[26px] w-[3px] rounded-l-[2px] bg-[#0b0b0d]" />
+              <span className="absolute left-[-3px] top-[28%] h-[44px] w-[3px] rounded-l-[2px] bg-[#0b0b0d]" />
+              <span className="absolute left-[-3px] top-[38%] h-[44px] w-[3px] rounded-l-[2px] bg-[#0b0b0d]" />
+              <span className="absolute right-[-3px] top-[26%] h-[66px] w-[3px] rounded-r-[2px] bg-[#0b0b0d]" />
+              {/* body + bezel */}
+              <div className="relative h-full w-full rounded-[44px] bg-[#0b0b0d] p-[8px]">
+                {/* screen */}
+                <div className="relative h-full w-full overflow-hidden rounded-[37px] bg-black">
+                  <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+                  {/* dynamic island */}
+                  <div className="absolute left-1/2 top-[11px] z-10 h-[26px] w-[94px] -translate-x-1/2 rounded-full bg-black" />
+                </div>
+              </div>
             </div>
           </div>
         )}
