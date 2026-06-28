@@ -736,17 +736,9 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
           {/* LEFT — headline, social proof, sign-up (tight stack). */}
           <div className="flex max-w-[640px] flex-col items-start text-left">
             <h1 className="font-display text-[clamp(1.65rem,7vw,2.9rem)] font-normal leading-[1.06] tracking-tight text-[rgb(var(--fg))]">
-              <span className="block">{fr ? "Gère ta musique" : "Run your"}</span>
-              <span className="block">{fr ? "comme un business" : "music like a business"}</span>
+              <span className="block">{fr ? "Envoie." : "Send it."}</span>
+              <span className="block">{fr ? "Vois tout." : "See everything."}</span>
             </h1>
-
-            {/* Description — on MOBILE it sits right under the headline; on desktop
-                it lives in the right column (hidden here). */}
-            <p className="mt-6 max-w-[460px] text-[15px] leading-relaxed text-[rgb(var(--fg))] lg:hidden">
-              {fr
-                ? "La seule plateforme pensée pour gérer tout ton business musical. Suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
-                : "The only platform built to run your entire music business. Track every open, play and download in real time, turn listens into sales, and keep your catalog provably yours."}
-            </p>
 
             {/* "Used by N artists & producers" — gap to the headline is offset
                 by ~12px (the headline's line-descent) so the visual space above
@@ -822,16 +814,6 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               {fr ? " de vvault." : "."}
             </p>
           </div>
-
-          {/* RIGHT — supporting description (ElevenLabs' top-right slot), desktop
-              only; on mobile the copy sits under the headline instead. */}
-          <div className="hidden lg:block lg:max-w-[580px] lg:shrink-0 lg:pt-2">
-            <p className="text-[15px] leading-relaxed text-[rgb(var(--fg))]">
-              {fr
-                ? "La seule plateforme pensée pour gérer tout ton business musical. Suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
-                : "The only platform built to run your entire music business. Track every open, play and download in real time, turn listens into sales, and keep your whole catalog provably yours."}
-            </p>
-          </div>
         </div>
 
         {/* SHOWCASE — full-width product video with a Computer / iPhone switch.
@@ -904,18 +886,6 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <div className="relative mt-12 lg:mt-16">
-      {/* Computer / iPhone switch — a horizontal pill centered above the stage on
-          mobile; a vertical pill just OUTSIDE the video's left edge on desktop,
-          vertically centered against it. */}
-      <div className="mx-auto mb-6 flex w-fit flex-row gap-1.5 rounded-full bg-[rgb(var(--switch-pill))] p-1.5 lg:absolute lg:left-0 lg:top-1/2 lg:z-10 lg:mx-0 lg:mb-0 lg:w-auto lg:-translate-x-[calc(100%+14px)] lg:-translate-y-1/2 lg:flex-col">
-        <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")} style={{ color: iconColor(device === "computer") }}>
-          {laptopIcon}
-        </button>
-        <button type="button" aria-label="iPhone" aria-pressed={device === "iphone"} onClick={() => setDevice("iphone")} className={tabBtn(device === "iphone")} style={{ color: iconColor(device === "iphone") }}>
-          {iphoneIcon}
-        </button>
-      </div>
-
       {/* Device stage. On desktop it's a fixed-aspect box so the MacBook fills it
           and the iPhone (centered, h-full) is the SAME height — no shift when
           toggling. On mobile each device sizes naturally (iPhone capped by
@@ -952,6 +922,18 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
             </IPhoneFrame>
           </div>
         )}
+      </div>
+
+      {/* Computer / iPhone switch — a horizontal pill centered BELOW the stage on
+          mobile; a vertical pill just OUTSIDE the video's left edge on desktop,
+          vertically centered against it. */}
+      <div className="mx-auto mt-6 flex w-fit flex-row gap-1.5 rounded-full bg-[rgb(var(--switch-pill))] p-1.5 lg:absolute lg:left-0 lg:top-1/2 lg:z-10 lg:mx-0 lg:mt-0 lg:w-auto lg:-translate-x-[calc(100%+14px)] lg:-translate-y-1/2 lg:flex-col">
+        <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")} style={{ color: iconColor(device === "computer") }}>
+          {laptopIcon}
+        </button>
+        <button type="button" aria-label="iPhone" aria-pressed={device === "iphone"} onClick={() => setDevice("iphone")} className={tabBtn(device === "iphone")} style={{ color: iconColor(device === "iphone") }}>
+          {iphoneIcon}
+        </button>
       </div>
     </div>
   );
