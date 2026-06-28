@@ -734,14 +734,14 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           {/* LEFT — headline, social proof, sign-up (tight stack). */}
           <div className="flex max-w-[640px] flex-col items-start text-left">
-            <h1 className="font-display text-[clamp(1.5rem,5.6vw,2.9rem)] font-normal leading-[1.06] tracking-tight text-[rgb(var(--fg))]">
+            <h1 className="font-display text-[clamp(1.65rem,7vw,2.9rem)] font-normal leading-[1.06] tracking-tight text-[rgb(var(--fg))]">
               <span className="block">{fr ? "Gère ta musique" : "Run your"}</span>
               <span className="block">{fr ? "comme un business" : "music like a business"}</span>
             </h1>
 
             {/* Description — on MOBILE it sits right under the headline; on desktop
                 it lives in the right column (hidden here). */}
-            <p className="mt-4 max-w-[440px] text-[14px] leading-relaxed text-[rgb(var(--fg))] lg:hidden">
+            <p className="mt-6 max-w-[460px] text-[15px] leading-relaxed text-[rgb(var(--fg))] lg:hidden">
               {fr
                 ? "La seule plateforme pensée pour gérer tout ton business musical. Suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
                 : "The only platform built to run your entire music business. Track every open, play and download in real time, turn listens into sales, and keep your catalog provably yours."}
@@ -750,7 +750,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
             {/* "Used by N artists & producers" — gap to the headline is offset
                 by ~12px (the headline's line-descent) so the visual space above
                 and below this row reads equal. */}
-            <div className="mt-5">
+            <div className="mt-7">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
@@ -761,12 +761,12 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
             {/* Sign-up — Google (filled) first, then Apple + Email as icon
                 buttons that smoothly expand to their full label on hover. */}
-            <div className="mt-5 flex flex-wrap items-center gap-2.5">
+            <div className="mt-7 flex flex-wrap items-center gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
                 onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
-                className="inline-flex h-[50px] items-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[color-mix(in_srgb,rgb(var(--inv)),rgb(var(--bg))_28%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
+                className="inline-flex h-[50px] items-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[color-mix(in_srgb,rgb(var(--inv)),rgb(var(--bg))_16%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
@@ -777,6 +777,9 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                 {fr ? "Continuer avec Google" : "Continue with Google"}
               </a>
 
+              {/* Apple + Email — grouped so they always wrap together (email
+                  stays next to Apple, never drops onto its own line on mobile). */}
+              <div className="flex items-center gap-2.5">
               {/* Continue with Apple — icon only; expands to full label on hover */}
               <a
                 href="https://vvault.app/signup"
@@ -807,10 +810,11 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                   {fr ? "Continuer avec email" : "Continue with Email"}
                 </span>
               </a>
+              </div>
             </div>
 
             {/* Privacy line */}
-            <p className="mt-4 text-[12px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
+            <p className="mt-5 text-[12px] leading-relaxed text-[rgb(var(--fg)_/_0.4)]">
               {fr ? "En continuant, tu acceptes la " : "By continuing, you acknowledge vvault's "}
               <a href="/privacy" className="text-[rgb(var(--fg)_/_0.55)] underline underline-offset-2 hover:no-underline">
                 {fr ? "Politique de confidentialité" : "Privacy Policy"}
@@ -821,8 +825,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
           {/* RIGHT — supporting description (ElevenLabs' top-right slot), desktop
               only; on mobile the copy sits under the headline instead. */}
-          <div className="hidden lg:block lg:max-w-[560px] lg:shrink-0 lg:pt-2">
-            <p className="text-[14px] leading-relaxed text-[rgb(var(--fg))]">
+          <div className="hidden lg:block lg:max-w-[580px] lg:shrink-0 lg:pt-2">
+            <p className="text-[15px] leading-relaxed text-[rgb(var(--fg))]">
               {fr
                 ? "La seule plateforme pensée pour gérer tout ton business musical. Suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
                 : "The only platform built to run your entire music business. Track every open, play and download in real time, turn listens into sales, and keep your whole catalog provably yours."}
@@ -932,17 +936,18 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
 function MacBookFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-full [container-type:inline-size]">
-      {/* Lid — space-grey body, thin uniform bezel, rounded corners. */}
-      <div className="relative rounded-[1.8cqw] bg-[#1c1c1e] p-[0.85cqw] shadow-[0_28px_64px_-28px_rgba(0,0,0,0.55)]">
-        <div className="relative aspect-[1724/1080] overflow-hidden rounded-[1cqw] bg-black">
+      {/* Lid — BLACK bezel, rounded top, square bottom so it meets the base
+          cleanly. Uniform bezel keeps the screen centred. */}
+      <div className="relative rounded-t-[1.9cqw] bg-black p-[0.85cqw]">
+        <div className="relative aspect-[1724/1080] overflow-hidden rounded-[1.1cqw] bg-black">
           {children}
         </div>
-        {/* camera notch — small tab dipping into the top-centre of the screen */}
-        <div className="absolute left-1/2 top-[0.85cqw] z-20 h-[1.5cqw] w-[9cqw] -translate-x-1/2 rounded-b-[0.8cqw] bg-[#1c1c1e]" />
+        {/* camera notch — black tab dipping into the top-centre of the screen */}
+        <div className="absolute left-1/2 top-[0.85cqw] z-20 h-[1.5cqw] w-[9cqw] -translate-x-1/2 rounded-b-[0.8cqw] bg-black" />
       </div>
-      {/* Hinge / base front edge — a touch wider, brushed-aluminium, with the
-          centred opening groove. */}
-      <div className="relative mx-auto h-[2cqw] w-[103%] rounded-b-[1.3cqw] bg-[linear-gradient(180deg,#d6d7da_0%,#aaabb1_55%,#8d8e94_100%)]">
+      {/* Hinge / base front edge — same width as the lid (lined up), brushed
+          aluminium, with the centred opening groove. */}
+      <div className="relative h-[2cqw] w-full rounded-b-[1.3cqw] bg-[linear-gradient(180deg,#d6d7da_0%,#aaabb1_55%,#8d8e94_100%)]">
         <div className="absolute left-1/2 top-0 h-[42%] w-[13%] -translate-x-1/2 rounded-b-[0.9cqw] bg-[rgb(var(--bg))]" />
       </div>
     </div>
@@ -959,7 +964,7 @@ function IPhoneFrame({ children, className = "" }: { children: React.ReactNode; 
       <span className="absolute left-[-0.9cqw] top-[28.5%] h-[12cqw] w-[1cqw] rounded-l-[2px] bg-[#0b0b0d]" />
       <span className="absolute left-[-0.9cqw] top-[40%] h-[12cqw] w-[1cqw] rounded-l-[2px] bg-[#0b0b0d]" />
       <span className="absolute right-[-0.9cqw] top-[27%] h-[17cqw] w-[1cqw] rounded-r-[2px] bg-[#0b0b0d]" />
-      <div className="relative h-full w-full rounded-[15cqw] bg-[#0b0b0d] p-[2.2cqw] shadow-[0_26px_60px_-26px_rgba(0,0,0,0.5)]">
+      <div className="relative h-full w-full rounded-[15cqw] bg-black p-[2.2cqw]">
         <div className="relative h-full w-full overflow-hidden rounded-[13cqw] bg-black">
           {children}
           <div className="absolute left-1/2 top-[3cqw] z-10 h-[8.5cqw] w-[30cqw] -translate-x-1/2 rounded-full bg-black" />

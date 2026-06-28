@@ -14,9 +14,9 @@
   --inv-fg: 14 14 14;  /* text on the inverted surface (was #0e0e0e) */
   --surface: 28 29 34; /* solid elevated panel (was #1c1d22) */
   --card: 10 10 10;    /* featured (Pro) card — subtle dark; pure white in light */
-  /* Hero device switch (laptop/iPhone): black pill in dark, white in light;
-     icons contrast against it. */
-  --switch-pill: 0 0 0;
+  /* Hero device switch (laptop/iPhone): an elevated dark pill (a bit brighter
+     than the #0e0e0e page) in dark, white in light; icons contrast against it. */
+  --switch-pill: 30 30 33;
   --switch-fg: 242 242 242;
   --switch-fg-muted: 138 138 138;
   --switch-active: 255 255 255 / 0.1;
