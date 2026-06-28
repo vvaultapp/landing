@@ -742,7 +742,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
             {/* "Used by N artists & producers" — gap to the headline is offset
                 by ~12px (the headline's line-descent) so the visual space above
                 and below this row reads equal. */}
-            <div className="mt-1">
+            <div className="-mt-1">
               <HeroTrustedBy
                 locale={locale}
                 usersTotal={stats.usersTotal}
@@ -753,7 +753,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
 
             {/* Sign-up — Google (filled) first, then Apple + Email as icon
                 buttons that smoothly expand to their full label on hover. */}
-            <div className="mt-4 flex flex-wrap items-center gap-2.5">
+            <div className="mt-2 flex flex-wrap items-center gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
@@ -816,8 +816,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
           <div className="lg:max-w-[560px] lg:shrink-0 lg:pt-2">
             <p className="text-[14px] leading-relaxed text-[rgb(var(--fg))]">
               {fr
-                ? "La seule plateforme pensée pour gérer tout ton business musical — suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
-                : "The only platform built to run your entire music business — track every open, play and download in real time, turn listens into sales, and keep your catalog provably yours."}
+                ? "La seule plateforme pensée pour gérer tout ton business musical. Suis chaque ouverture, écoute et téléchargement en direct, transforme tes écoutes en ventes et garde ton catalogue à toi."
+                : "The only platform built to run your entire music business. Track every open, play and download in real time, turn listens into sales, and keep your whole catalog provably yours."}
             </p>
           </div>
         </div>
@@ -851,10 +851,12 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
 
   const tabBtn = (active: boolean) =>
     `flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none ${
-      active
-        ? "bg-[rgb(var(--ov)_/_0.1)] text-[rgb(var(--fg))]"
-        : "text-[rgb(var(--fg)_/_0.45)] hover:text-[rgb(var(--fg))]"
+      active ? "bg-[rgb(var(--ov)_/_0.12)]" : "hover:bg-[rgb(var(--ov)_/_0.06)]"
     }`;
+  // Solid (full-opacity) colors so the icon strokes never darken where they
+  // overlap. Active = full foreground; inactive = a muted solid via color-mix.
+  const iconColor = (active: boolean) =>
+    active ? "rgb(var(--fg))" : "color-mix(in srgb, rgb(var(--fg)) 50%, rgb(var(--bg)))";
 
   const laptopIcon = (
     <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-[22px] w-[22px]">
@@ -872,34 +874,38 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
   );
 
   return (
-    <div className="mt-12 flex items-center gap-4 lg:mt-16 lg:gap-6">
-      {/* Computer / iPhone switch — vertical, on the LEFT of the video and
-          vertically centered against it; icons stacked one above the other. */}
-      <div className="flex shrink-0 flex-col gap-1.5 rounded-full bg-[rgb(var(--ov)_/_0.05)] p-1.5">
-        <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")}>
+    <div className="relative mt-12 lg:mt-16">
+      {/* Computer / iPhone switch — vertical, icons stacked. Sits just OUTSIDE
+          the video on the left (in the gutter) on desktop; on smaller screens it
+          tucks against the inner-left edge. Vertically centered against the
+          (fixed-height) video so it never moves when switching device. */}
+      <div className="absolute left-1 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-1.5 rounded-full bg-[rgb(var(--card))] p-1.5 [box-shadow:0_6px_24px_-8px_rgb(0_0_0_/_0.25)] [outline:1px_solid_rgb(var(--ov)_/_0.08)] lg:left-0 lg:-translate-x-[calc(100%+14px)]">
+        <button type="button" aria-label={fr ? "Ordinateur" : "Computer"} aria-pressed={device === "computer"} onClick={() => setDevice("computer")} className={tabBtn(device === "computer")} style={{ color: iconColor(device === "computer") }}>
           {laptopIcon}
         </button>
-        <button type="button" aria-label="iPhone" aria-pressed={device === "iphone"} onClick={() => setDevice("iphone")} className={tabBtn(device === "iphone")}>
+        <button type="button" aria-label="iPhone" aria-pressed={device === "iphone"} onClick={() => setDevice("iphone")} className={tabBtn(device === "iphone")} style={{ color: iconColor(device === "iphone") }}>
           {iphoneIcon}
         </button>
       </div>
 
-      {/* The clip at its NATIVE aspect — rounded corners + a hairline outline.
-          Computer fills the remaining width; iPhone is centered. Only the ACTIVE
-          clip is mounted, so switching unmounts the old <video> and mounts a
-          fresh one that reloads from the very beginning. */}
-      <div className="min-w-0 flex-1">
+      {/* Fixed-height stage (full nav width). The computer clip fills it; the
+          iPhone clip is centered inside the SAME box, so the stage height — and
+          therefore the switch + the metrics below — never shift between
+          devices. Only the active clip is mounted (remounts from 0 on switch). */}
+      <div className="relative aspect-[1724/1080] w-full">
         {!mounted ? (
-          <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+          <div className="absolute inset-0 overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
             <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
           </div>
         ) : device === "computer" ? (
-          <div className="relative aspect-[1724/1080] w-full overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+          <div className="absolute inset-0 overflow-hidden rounded-[18px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
             <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
           </div>
         ) : (
-          <div className="relative mx-auto aspect-[1206/2460] w-full max-w-[300px] overflow-hidden rounded-[30px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
-            <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="relative h-full aspect-[1206/2460] overflow-hidden rounded-[26px] [outline:1px_solid_rgb(var(--ov)_/_0.12)]">
+              <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager className="absolute inset-0 block h-full w-full object-cover" />
+            </div>
           </div>
         )}
       </div>
@@ -1030,7 +1036,7 @@ function HeroStats({ locale = "en" }: { locale?: Locale }) {
   const items: { value: number; label: string; suffix?: string; icon: React.ReactNode }[] = [
     {
       value: metrics?.usersTotal ?? 0,
-      label: fr ? "Producteurs" : "Producers",
+      label: fr ? "Producteurs & artistes" : "Producers & Artists",
       suffix: "+",
       icon: (
         <svg viewBox="-2 -2 64 64" fill="none" stroke="currentColor" strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
