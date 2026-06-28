@@ -14,12 +14,15 @@
   --inv-fg: 14 14 14;  /* text on the inverted surface (was #0e0e0e) */
   --surface: 28 29 34; /* solid elevated panel (was #1c1d22) */
   --card: 10 10 10;    /* featured (Pro) card — subtle dark; pure white in light */
-  /* Hero device switch (laptop/iPhone): an elevated dark pill (a bit brighter
-     than the #0e0e0e page) in dark, white in light; icons contrast against it. */
-  --switch-pill: 30 30 33;
+  /* Hero device switch (laptop/iPhone): a neutral pill, just a touch brighter
+     than the #0e0e0e page in dark, white in light; icons contrast against it. */
+  --switch-pill: 31 31 31;
   --switch-fg: 242 242 242;
   --switch-fg-muted: 138 138 138;
   --switch-active: 255 255 255 / 0.1;
+  /* Device-mockup body / bezel / notch: black in light, a dark (not pure-black)
+     grey in dark so the MacBook/iPhone edges stay visible on the #0e0e0e page. */
+  --device-body: 24 24 24;
 }
 html.light {
   --bg: 250 250 250;   /* page background — #fafafa, not pure white */
@@ -33,6 +36,7 @@ html.light {
   --switch-fg: 17 17 17;
   --switch-fg-muted: 150 150 150;
   --switch-active: 0 0 0 / 0.08;
+  --device-body: 0 0 0;
 }
 html,
 body {
