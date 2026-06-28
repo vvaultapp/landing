@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  /* Allow the dev server's /_next/* resources when the site is opened over the
+     LAN (e.g. testing on a phone via the machine's wifi IP). Dev-only. */
+  allowedDevOrigins: ["192.168.0.19", "localhost", "127.0.0.1"],
   /* Strip x-powered-by header so responses ship fewer bytes. */
   poweredByHeader: false,
   /* React strict mode catches perf anti-patterns in dev without

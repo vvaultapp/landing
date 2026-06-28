@@ -758,7 +758,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               <a
                 href="https://vvault.app/auth/google"
                 onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
-                className="inline-flex items-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 py-3.5 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[rgb(var(--ov)_/_0.9)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
+                className="inline-flex items-center gap-2.5 rounded-full bg-[rgb(var(--inv))] px-6 py-3.5 text-[15px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[color-mix(in_srgb,rgb(var(--inv)),rgb(var(--bg))_28%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)]"
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
