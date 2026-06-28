@@ -218,6 +218,24 @@ html {
   letter-spacing: 0.004em;
 }
 
+/* A/B hero-headline test. Both headlines ship in the HTML; the no-flash inline
+   script in app/layout.tsx sets html[data-ab-hero] before paint. Default (no
+   attribute / variant "a") shows A and hides B; variant "b" flips it. Pure CSS
+   so the right headline is correct on the very first paint — zero flash, zero
+   layout shift (both are two lines). */
+[data-ab-variant] {
+  display: block;
+}
+[data-ab-variant="b"] {
+  display: none;
+}
+html[data-ab-hero="b"] [data-ab-variant="a"] {
+  display: none;
+}
+html[data-ab-hero="b"] [data-ab-variant="b"] {
+  display: block;
+}
+
 .landing-root .landing-panel {
   border-color: rgba(255, 255, 255, 0.1);
 }

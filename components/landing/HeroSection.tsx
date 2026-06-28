@@ -727,6 +727,18 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
   const { stats } = useLandingStats(initialStats);
   const fr = locale === "fr";
 
+  // A/B hero-headline test. The no-flash script in app/layout.tsx assigns a
+  // sticky 50/50 bucket on <html data-ab-hero>. heroSurface() tags each tracked
+  // event with that bucket (read live at click time) so signup-button
+  // click-through can be compared per variant in the button_clicks data.
+  const heroSurface = () =>
+    `landing.hero.ab_${typeof document !== "undefined" && document.documentElement.dataset.abHero === "b" ? "b" : "a"}`;
+  useEffect(() => {
+    // One impression per page load — the denominator for click-through rate.
+    const v = document.documentElement.dataset.abHero === "b" ? "b" : "a";
+    trackButtonClick({ buttonId: "hero.impression", surface: `landing.hero.ab_${v}`, locale });
+  }, [locale]);
+
   return (
     <section className="relative overflow-hidden">
       <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1220px)] px-5 pb-36 pt-[150px] sm:px-8 sm:pb-44 sm:pt-[180px] lg:px-10 lg:pb-60 lg:pt-[200px]">
@@ -735,9 +747,17 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           {/* LEFT — headline, social proof, sign-up (tight stack). */}
           <div className="flex max-w-[640px] flex-col items-start text-left">
+            {/* A/B headline test — both variants ship in the HTML; CSS shows the
+                bucket the no-flash script picked (html[data-ab-hero]). */}
             <h1 className="font-display text-[clamp(1.65rem,7vw,2.9rem)] font-normal leading-[1.06] tracking-tight text-[rgb(var(--fg))]">
-              <span className="block">{fr ? "Envoie." : "Send it."}</span>
-              <span className="block">{fr ? "Vois tout." : "See everything."}</span>
+              <span data-ab-variant="a">
+                <span className="block">{fr ? "Gère ta musique" : "Run your"}</span>
+                <span className="block">{fr ? "comme un business" : "music like a business"}</span>
+              </span>
+              <span data-ab-variant="b">
+                <span className="block">{fr ? "Envoie." : "Send it."}</span>
+                <span className="block">{fr ? "Vois tout." : "See everything."}</span>
+              </span>
             </h1>
 
             {/* "Used by N artists & producers" — gap to the headline is offset
@@ -758,7 +778,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               {/* Continue with Google — filled pill */}
               <a
                 href="https://vvault.app/auth/google"
-                onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: "landing.hero", locale, href: "https://vvault.app/auth/google" })}
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: heroSurface(), locale, href: "https://vvault.app/auth/google" })}
                 className="inline-flex h-12 shrink-0 items-center gap-2 rounded-full bg-[rgb(var(--inv))] px-4 text-[13px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[color-mix(in_srgb,rgb(var(--inv)),rgb(var(--bg))_10%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:h-[50px] sm:gap-2.5 sm:px-6 sm:text-[15px]"
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
@@ -775,7 +795,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                   expansion from wrapping (which is what caused the old flicker). */}
               <a
                 href="https://vvault.app/signup"
-                onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: heroSurface(), locale, href: "https://vvault.app/signup" })}
                 aria-label={fr ? "Continuer avec Apple" : "Continue with Apple"}
                 className="group inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px] lg:w-auto lg:justify-start lg:px-3.5 lg:text-[15px] lg:font-semibold"
               >
@@ -791,7 +811,7 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                   hover on desktop. */}
               <a
                 href="https://vvault.app/signup"
-                onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: "landing.hero", locale, href: "https://vvault.app/signup" })}
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: heroSurface(), locale, href: "https://vvault.app/signup" })}
                 aria-label={fr ? "Continuer avec email" : "Continue with Email"}
                 className="group inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px] lg:w-auto lg:justify-start lg:px-3.5 lg:text-[15px] lg:font-semibold"
               >
