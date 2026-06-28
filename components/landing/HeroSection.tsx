@@ -859,22 +859,19 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
     const isMobile = window.matchMedia("(max-width: 1023px)").matches;
     setDevice(isMobile ? "iphone" : "computer");
     setMounted(true);
-    // Warm BOTH posters + (low-priority) the other device's clip so toggling
-    // never shows a black box: the tiny poster paints instantly and the mp4 is
-    // already cached by the time you switch. Done after load + idle, off the
-    // critical path. <link> tags stay in the DOM so the fetch always completes.
+    // Warm just the two (tiny) posters so the showcase / device toggle never
+    // shows a black box — the poster paints instantly while the clip streams.
+    // The clips themselves load lazily (on scroll-near / on switch), so the
+    // first page load never pulls multiple MB of video it may not need.
     const warm = () => {
-      const add = (rel: string, href: string, as?: string) => {
-        if (document.querySelector(`link[href="${href}"]`)) return;
+      for (const href of ["/landing/features/computer.webp", "/landing/features/phone.webp"]) {
+        if (document.querySelector(`link[href="${href}"]`)) continue;
         const l = document.createElement("link");
-        l.rel = rel;
+        l.rel = "preload";
+        l.as = "image";
         l.href = href;
-        if (as) l.as = as;
         document.head.appendChild(l);
-      };
-      add("preload", "/landing/features/computer.webp", "image");
-      add("preload", "/landing/features/phone.webp", "image");
-      add("prefetch", isMobile ? "/landing/features/computer.mp4" : "/landing/features/phone.mp4");
+      }
     };
     if (document.readyState === "complete") setTimeout(warm, 600);
     else window.addEventListener("load", () => setTimeout(warm, 600), { once: true });
@@ -926,21 +923,32 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           mounted; it remounts (from frame 0) on switch. */}
       <div className="relative w-full lg:aspect-[1724/1125]">
         {!mounted ? (
-          <div className="lg:absolute lg:inset-0 lg:flex lg:items-center">
-            <MacBookFrame>
-              <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
-            </MacBookFrame>
-          </div>
+          // Pre-hydration placeholder. Renders the device each viewport will
+          // DEFAULT to (desktop → MacBook, mobile → iPhone) purely via CSS, so it
+          // reserves the exact height the mounted clip will take → zero layout
+          // shift (CLS) after hydration.
+          <>
+            <div className="hidden lg:absolute lg:inset-0 lg:flex lg:items-center">
+              <MacBookFrame>
+                <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+              </MacBookFrame>
+            </div>
+            <div className="flex justify-center lg:hidden">
+              <IPhoneFrame className="w-full">
+                <img src="/landing/features/phone.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+              </IPhoneFrame>
+            </div>
+          </>
         ) : device === "computer" ? (
           <div className="lg:absolute lg:inset-0 lg:flex lg:items-center">
             <MacBookFrame>
-              <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+              <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
             </MacBookFrame>
           </div>
         ) : (
           <div className="flex justify-center lg:absolute lg:inset-0 lg:items-center">
             <IPhoneFrame className="w-full lg:h-full lg:w-auto">
-              <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+              <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
             </IPhoneFrame>
           </div>
         )}
