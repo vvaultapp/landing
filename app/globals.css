@@ -230,8 +230,7 @@ html {
 html[data-ab-hero="a"] [data-ab-variant="a"],
 html[data-ab-hero="b"] [data-ab-variant="b"],
 html[data-ab-hero="c"] [data-ab-variant="c"],
-html[data-ab-hero="d"] [data-ab-variant="d"],
-html[data-ab-hero="e"] [data-ab-variant="e"] {
+html[data-ab-hero="d"] [data-ab-variant="d"] {
   display: block;
 }
 html:not([data-ab-hero]) [data-ab-variant="a"] {

@@ -89,16 +89,16 @@ export default function RootLayout({
               "(function(){try{var m=localStorage.getItem('vvault-theme');var d=m==='dark'?true:m==='light'?false:matchMedia('(prefers-color-scheme: dark)').matches;document.documentElement.classList.toggle('light',!d);}catch(e){}})();",
           }}
         />
-        {/* A/B hero-headline test (5-way): assign a sticky, uniform 1-in-5
-            bucket (a-e) before first paint (cookie) and flag it on <html> so CSS
+        {/* A/B hero-headline test (4-way): assign a sticky, uniform 1-in-4
+            bucket (a-d) before first paint (cookie) and flag it on <html> so CSS
             shows the right headline with no flash. Page stays fully static — the
-            variant is chosen client-side and all 5 headlines ship in the HTML.
-            Cookie is versioned (vv_hero5) so anyone on an older 2-way cookie is
-            re-assigned cleanly into the 5-way split. */}
+            variant is chosen client-side and all 4 headlines ship in the HTML.
+            The [a-d] regex means anyone on a stale 'e' (or 2-way) cookie is
+            re-assigned cleanly into the current split. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){try{var m=document.cookie.match(/(?:^|; )vv_hero5=([a-e])/);var v=m?m[1]:['a','b','c','d','e'][Math.floor(Math.random()*5)];if(!m){document.cookie='vv_hero5='+v+';path=/;max-age=31536000;samesite=lax';}document.documentElement.setAttribute('data-ab-hero',v);}catch(e){}})();",
+              "(function(){try{var m=document.cookie.match(/(?:^|; )vv_hero5=([a-d])/);var v=m?m[1]:['a','b','c','d'][Math.floor(Math.random()*4)];if(!m){document.cookie='vv_hero5='+v+';path=/;max-age=31536000;samesite=lax';}document.documentElement.setAttribute('data-ab-hero',v);}catch(e){}})();",
           }}
         />
         {/* Preconnect hints — avatar hosts only. Each preconnect costs a
