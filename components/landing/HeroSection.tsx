@@ -727,16 +727,19 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
   const { stats } = useLandingStats(initialStats);
   const fr = locale === "fr";
 
-  // A/B hero-headline test. The no-flash script in app/layout.tsx assigns a
-  // sticky 50/50 bucket on <html data-ab-hero>. heroSurface() tags each tracked
-  // event with that bucket (read live at click time) so signup-button
-  // click-through can be compared per variant in the button_clicks data.
-  const heroSurface = () =>
-    `landing.hero.ab_${typeof document !== "undefined" && document.documentElement.dataset.abHero === "b" ? "b" : "a"}`;
+  // A/B hero-headline test (5-way). The no-flash script in app/layout.tsx
+  // assigns a sticky 1-in-5 bucket (a-e) on <html data-ab-hero>. heroSurface()
+  // tags each tracked event with that bucket (read live at click time) so
+  // signup-button click-through can be compared per variant in button_clicks.
+  const heroSurface = () => {
+    const v = typeof document !== "undefined" ? document.documentElement.dataset.abHero : "";
+    return `landing.hero.ab_${v && /^[a-e]$/.test(v) ? v : "a"}`;
+  };
   useEffect(() => {
     // One impression per page load — the denominator for click-through rate.
-    const v = document.documentElement.dataset.abHero === "b" ? "b" : "a";
-    trackButtonClick({ buttonId: "hero.impression", surface: `landing.hero.ab_${v}`, locale });
+    const v = document.documentElement.dataset.abHero;
+    const bucket = v && /^[a-e]$/.test(v) ? v : "a";
+    trackButtonClick({ buttonId: "hero.impression", surface: `landing.hero.ab_${bucket}`, locale });
   }, [locale]);
 
   return (
@@ -747,16 +750,29 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
           {/* LEFT — headline, social proof, sign-up (tight stack). */}
           <div className="flex max-w-[640px] flex-col items-start text-left">
-            {/* A/B headline test — both variants ship in the HTML; CSS shows the
-                bucket the no-flash script picked (html[data-ab-hero]). */}
+            {/* 5-way A/B headline test — all five variants ship in the HTML; CSS
+                shows the bucket the no-flash script picked (html[data-ab-hero]).
+                a=business · b=who's-playing · c=placements · d=downloads · e=sales */}
             <h1 className="font-display text-[clamp(1.65rem,7vw,2.9rem)] font-normal leading-[1.06] tracking-tight text-[rgb(var(--fg))]">
               <span data-ab-variant="a">
-                <span className="block">{fr ? "Gère ta musique" : "Run your"}</span>
-                <span className="block">{fr ? "comme un business" : "music like a business"}</span>
+                <span className="block">{fr ? "Gère ta musique" : "Run your music"}</span>
+                <span className="block">{fr ? "comme un business" : "like a business"}</span>
               </span>
               <span data-ab-variant="b">
-                <span className="block">{fr ? "Envoie." : "Send it."}</span>
-                <span className="block">{fr ? "Vois tout." : "See everything."}</span>
+                <span className="block">{fr ? "Sache qui" : "Know who's"}</span>
+                <span className="block">{fr ? "écoute tes beats" : "playing your beats"}</span>
+              </span>
+              <span data-ab-variant="c">
+                <span className="block">{fr ? "Envoie tes beats." : "Send beats."}</span>
+                <span className="block">{fr ? "Décroche des placements." : "Land placements."}</span>
+              </span>
+              <span data-ab-variant="d">
+                <span className="block">{fr ? "Envoie tes beats." : "Send beats."}</span>
+                <span className="block">{fr ? "Vois-les se télécharger." : "Watch them download."}</span>
+              </span>
+              <span data-ab-variant="e">
+                <span className="block">{fr ? "Fais des beats." : "Make beats."}</span>
+                <span className="block">{fr ? "Fais de l'argent." : "Make money."}</span>
               </span>
             </h1>
 
