@@ -124,7 +124,7 @@ export function PromoBanner({ locale = "en" }: PromoBannerProps) {
     {/* In-flow spacer reserving the fixed strip's height (same responsive
         heights), so page content starts below it and it scrolls away with the
         page. */}
-    <div aria-hidden className="min-h-[48px] sm:min-h-[88px] lg:min-h-[96px]" />
+    <div aria-hidden className="min-h-[62px] lg:min-h-[68px]" />
     <a
       ref={rootRef}
       href="/pricing"
@@ -150,7 +150,7 @@ export function PromoBanner({ locale = "en" }: PromoBannerProps) {
 
       {/* Content — a short, self-contained strip (no nav clearance; the nav now
           sits below it). Single centred row at every width. */}
-      <div className="relative flex min-h-[48px] items-center justify-center px-4 py-2 sm:min-h-[88px] sm:px-5 sm:py-3.5 lg:min-h-[96px]">
+      <div className="relative flex min-h-[62px] items-center justify-center px-4 py-2 sm:px-5 lg:min-h-[68px]">
         <div className="flex flex-row items-center justify-center gap-2 whitespace-nowrap text-white underline-offset-[3px] [text-shadow:0_2px_18px_rgba(7,16,60,0.35)] sm:gap-5">
           <span className="text-[14px] font-semibold tracking-tight group-hover:underline sm:text-[19px] lg:text-[21px]">
             {priceLabel}
