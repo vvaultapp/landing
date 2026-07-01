@@ -34,6 +34,12 @@ export async function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
 
   return (
     <div className="landing-root min-h-screen bg-[rgb(var(--bg))] font-sans text-[rgb(var(--fg))]">
+      {/* Preload the hero poster (the LCP element) for the device each viewport
+          DEFAULTS to, so it's fetched immediately — not after CSS parses — which
+          removes the LCP load-delay Lighthouse flags. Media-scoped so only the
+          matching one downloads: phone on phones, MacBook on tablet/desktop. */}
+      <link rel="preload" as="image" href="/landing/features/phone.webp" media="(max-width: 767px)" fetchPriority="high" />
+      <link rel="preload" as="image" href="/landing/features/computer.webp" media="(min-width: 768px)" fetchPriority="high" />
       <LandingBootstrap locale={locale} />
       <a
         href="#main-content"

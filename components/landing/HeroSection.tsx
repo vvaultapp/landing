@@ -937,12 +937,12 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
           <>
             <div className="hidden md:block lg:absolute lg:inset-0 lg:flex lg:items-center">
               <MacBookFrame>
-                <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+                <img src="/landing/features/computer.webp" alt="" aria-hidden fetchPriority="high" className="absolute inset-0 block h-full w-full object-cover" />
               </MacBookFrame>
             </div>
             <div className="flex justify-center md:hidden">
               <IPhoneFrame className="w-full">
-                <img src="/landing/features/phone.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
+                <img src="/landing/features/phone.webp" alt="" aria-hidden fetchPriority="high" className="absolute inset-0 block h-full w-full object-cover" />
               </IPhoneFrame>
             </div>
           </>
