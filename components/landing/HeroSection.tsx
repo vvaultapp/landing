@@ -870,8 +870,11 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
   const [device, setDevice] = useState<"computer" | "iphone">("computer");
 
   useEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 1023px)").matches;
-    setDevice(isMobile ? "iphone" : "computer");
+    // Only phones default to the iPhone clip; iPads/tablets and up default to
+    // the computer clip. (Was max-width:1023px, which wrongly counted iPads as
+    // "mobile" and defaulted them to the phone video.)
+    const isPhone = window.matchMedia("(max-width: 767px)").matches;
+    setDevice(isPhone ? "iphone" : "computer");
     setMounted(true);
     // Warm just the two (tiny) posters so the showcase / device toggle never
     // shows a black box — the poster paints instantly while the clip streams.
@@ -926,16 +929,18 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
       <div className="relative w-full lg:aspect-[1724/1125]">
         {!mounted ? (
           // Pre-hydration placeholder. Renders the device each viewport will
-          // DEFAULT to (desktop → MacBook, mobile → iPhone) purely via CSS, so it
-          // reserves the exact height the mounted clip will take → zero layout
-          // shift (CLS) after hydration.
+          // DEFAULT to (phones → iPhone; iPads/tablets + desktop → MacBook)
+          // purely via CSS, so it reserves the exact height the mounted clip will
+          // take → zero layout shift (CLS) after hydration. Split at md (768px)
+          // to match the default-device breakpoint above; the MacBook flows
+          // in-place on tablets and fills the aspect box on desktop (lg+).
           <>
-            <div className="hidden lg:absolute lg:inset-0 lg:flex lg:items-center">
+            <div className="hidden md:block lg:absolute lg:inset-0 lg:flex lg:items-center">
               <MacBookFrame>
                 <img src="/landing/features/computer.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
               </MacBookFrame>
             </div>
-            <div className="flex justify-center lg:hidden">
+            <div className="flex justify-center md:hidden">
               <IPhoneFrame className="w-full">
                 <img src="/landing/features/phone.webp" alt="" aria-hidden className="absolute inset-0 block h-full w-full object-cover" />
               </IPhoneFrame>
