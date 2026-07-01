@@ -237,6 +237,15 @@ html:not([data-ab-hero]) [data-ab-variant="a"] {
   display: block;
 }
 
+/* When the mobile menu (full-screen glass takeover) is open, hide the promo
+   banner so it doesn't bleed through the translucent panel at the top. The nav
+   bar simultaneously drops its promo offset (LandingNav) so the menu reads as a
+   clean full-screen panel from the very top. */
+html.mobile-menu-open a[data-track-id="promo-banner.pricing"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .landing-root .landing-panel {
   border-color: rgba(255, 255, 255, 0.1);
 }

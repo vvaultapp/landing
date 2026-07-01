@@ -40,15 +40,20 @@ function MobileMenu({
     if (open) setHasOpened(true);
   }, [open]);
 
-  // Lock body scroll when open
+  // Lock body scroll when open + flag the root so the promo banner can hide
+  // itself (it's a full-screen takeover; the banner must not bleed through the
+  // menu's translucent glass at the top).
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
+      document.documentElement.classList.add("mobile-menu-open");
     } else {
       document.body.style.overflow = "";
+      document.documentElement.classList.remove("mobile-menu-open");
     }
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.classList.remove("mobile-menu-open");
     };
   }, [open]);
 
@@ -510,7 +515,9 @@ export function LandingNav({ locale, content, showPrimaryLinks = true }: Landing
            starts under the banner and slides up to pin at the top as the banner
            scrolls away. `--app-banner-h` is the separate iOS app-banner offset.
            Both default to 0 → on every other page the nav stays pinned at top. */
-        top: "calc(var(--app-banner-h, 0px) + var(--promo-h, 0px))",
+        top: mobileMenuOpen
+          ? "var(--app-banner-h, 0px)"
+          : "calc(var(--app-banner-h, 0px) + var(--promo-h, 0px))",
         /* Both `mergedWithPinned` (compare-plans sticky merge) and
            `mobileMenuOpen` → zero our OWN glass. In both cases
            something else is providing the glass surface below us
