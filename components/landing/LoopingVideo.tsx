@@ -98,21 +98,18 @@ export function LoopingVideo({
     };
 
     // Eager (hero, in view from the start): the poster renders immediately (see
-    // the markup below), and we start the video right AFTER the page finishes
-    // loading — off the critical path / load event, but WITHOUT the long idle
-    // wait that used to leave the hero grey for seconds.
+    // the markup below), and the video starts right AFTER the page's load event
+    // — off the critical path, and with NO IntersectionObserver dependency, so
+    // it's guaranteed to play. This is what keeps the multi-MB clip from
+    // contending with first paint (HTML/CSS/fonts/poster-LCP/hydration).
     if (eager) {
-      // The load event has already fired (or we wait for it), so starting the
-      // video here is off the critical path. A 0ms timeout yields once so we
-      // don't contend with hydration, and (unlike rAF) still fires in a
-      // background tab.
       const start = () => setTimeout(activate, 0);
       if (document.readyState === "complete") start();
       else window.addEventListener("load", start, { once: true });
       return;
     }
 
-    // Non-eager (feature / mobile hero, below the fold): reveal + load when it
+    // Non-eager (feature / below-the-fold clips): reveal + load only once it
     // scrolls near, so nothing streams on the first paint.
     const io = new IntersectionObserver(
       (entries) => {

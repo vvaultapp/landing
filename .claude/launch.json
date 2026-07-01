@@ -16,6 +16,14 @@
       "env": { "PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" },
       "port": 3200,
       "autoPort": false
+    },
+    {
+      "name": "landing-prod",
+      "runtimeExecutable": "/usr/local/bin/npm",
+      "runtimeArgs": ["run", "start", "--", "-p", "3400"],
+      "env": { "PATH": "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin" },
+      "port": 3400,
+      "autoPort": false
     }
   ]
 }

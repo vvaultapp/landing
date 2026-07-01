@@ -944,13 +944,13 @@ function HeroShowcase({ locale = "en" }: { locale?: Locale }) {
         ) : device === "computer" ? (
           <div className="lg:absolute lg:inset-0 lg:flex lg:items-center">
             <MacBookFrame>
-              <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+              <LoopingVideo key="computer" src="/landing/features/computer" poster="/landing/features/computer.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
             </MacBookFrame>
           </div>
         ) : (
           <div className="flex justify-center lg:absolute lg:inset-0 lg:items-center">
             <IPhoneFrame className="w-full lg:h-full lg:w-auto">
-              <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
+              <LoopingVideo key="iphone" src="/landing/features/phone" poster="/landing/features/phone.webp" mp4Only eager fadeIn={false} className="absolute inset-0 block h-full w-full object-cover" />
             </IPhoneFrame>
           </div>
         )}
