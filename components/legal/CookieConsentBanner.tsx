@@ -121,8 +121,16 @@ export default function CookieConsentBanner() {
          back to the mobile full-width layout. `left-auto` is set
          explicitly so the mobile `inset-x-0` (= left:0 right:0)
          can't leak through and stretch the banner across the page. */
-      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--bg))] text-[rgb(var(--fg))] md:inset-x-auto md:bottom-7 md:right-7 md:left-auto md:w-[380px] md:max-w-[calc(100vw-3.5rem)] md:rounded-2xl md:border md:border-[rgb(var(--ov)_/_0.1)] md:bg-[rgb(var(--bg))] md:text-[rgb(var(--fg))]"
+      className="fixed inset-x-0 bottom-0 z-[1000] border-t border-[rgb(var(--ov)_/_0.08)] bg-[rgb(var(--bg))] pb-[env(safe-area-inset-bottom)] text-[rgb(var(--fg))] md:inset-x-auto md:bottom-7 md:right-7 md:left-auto md:w-[380px] md:max-w-[calc(100vw-3.5rem)] md:rounded-2xl md:border md:border-[rgb(var(--ov)_/_0.1)] md:bg-[rgb(var(--bg))] md:pb-0 md:text-[rgb(var(--fg))]"
     >
+      {/* Background "bleed" — some mobile browsers (iOS Chrome/Safari) animate
+          their own toolbar in/out, which can momentarily shrink the visual
+          viewport without moving this `bottom: 0` fixed element, leaving a
+          thin gap at the true bottom edge where the page behind shows through.
+          This extends the SAME background color well past the box's bottom so
+          that gap is never visible. Decorative + non-interactive. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 top-full h-24 bg-[rgb(var(--bg))] md:hidden" />
+
       {/* Mobile-only dismiss. On mobile the layout is a vertical stack
           (title / body / buttons) so there's no clean horizontal row to
           host the X. Anchor it to the banner's top-right corner instead.
