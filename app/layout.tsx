@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist } from "next/font/google";
 import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { ScrollToTop } from "@/components/ScrollToTop";
@@ -11,13 +11,13 @@ import { LocaleProvider } from "@/components/LocaleProvider";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import "./globals.css";
 
-const inter = Inter({
+const geist = Geist({
   subsets: ["latin"],
-  /* No weight array — Inter is a variable font, so this ships ONE woff2
+  /* No weight array — Geist is a variable font, so this ships ONE woff2
      covering 100-900 (incl. the 900 used by the STUDIO wordmark) instead
-     of several separately-preloaded static files. */
+     of five separately-preloaded static files. */
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-geist",
 });
 
 /* Headline display face — KMR Waldenburg (regular width). Every headline that
@@ -77,7 +77,7 @@ export default function RootLayout({
      /fr corrects documentElement.lang via a tiny inline script in its own
      layout. */
   return (
-    <html lang="en" suppressHydrationWarning className={`h-full ${inter.variable} ${waldenburg.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`h-full ${geist.variable} ${waldenburg.variable}`}>
       <head>
         {/* Set the theme class before first paint so there's no flash of the
             wrong theme — device-based (prefers-color-scheme) unless the visitor

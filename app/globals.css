@@ -195,7 +195,7 @@ html {
      pricing Compare-plans header) still pin to the viewport. `hidden`
      would silently break sticky. */
   overflow-x: clip;
-  font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: var(--font-geist), "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
   font-optical-sizing: auto;
 }
 
@@ -209,10 +209,10 @@ html {
 .landing-root h1,
 .landing-root .font-display,
 .font-display {
-  /* Headlines use KMR Waldenburg; falls back to the body face (Inter). Pinned
+  /* Headlines use KMR Waldenburg; falls back to the body face (Geist). Pinned
      to one weight (400) so every headline matches the hero, regardless of any
      font-weight utility on the element. */
-  font-family: var(--font-display), var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: var(--font-display), var(--font-geist), "Geist", -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-weight: 400 !important;
   font-optical-sizing: auto;
   letter-spacing: 0.004em;
