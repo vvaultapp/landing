@@ -23,6 +23,8 @@
   /* Device-mockup body / bezel / notch / island: pure black in both themes
      (a real device bezel is black). */
   --device-body: 0 0 0;
+  /* Cookie consent banner surface — same as the page in dark (unchanged). */
+  --cookie-bg: var(--bg);
 }
 html.light {
   --bg: 247 247 247;   /* page background — #f7f7f7, not pure white */
@@ -37,6 +39,9 @@ html.light {
   --switch-fg-muted: 150 150 150;
   --switch-active: 0 0 0 / 0.08;
   --device-body: 0 0 0;
+  /* Cookie banner: a touch darker than the #f7f7f7 page so it reads as its
+     own surface instead of blending in. */
+  --cookie-bg: 240 240 240;
 }
 html,
 body {
