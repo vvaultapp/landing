@@ -21,7 +21,21 @@ export type AttributionCookie = {
   meta_campaign_id?: string;
   meta_adset_id?: string;
   meta_ad_id?: string;
+  /** Which hero-headline A/B bucket (a-d) this visitor was assigned — carried
+      through to vvault.app so signup completion can be attributed per
+      variant, not just landing click-through. See app/layout.tsx's no-flash
+      assignment script (html[data-ab-hero]). */
+  hero_ab?: string;
 };
+
+/** Reads the sticky hero-headline A/B bucket assigned by the no-flash script
+    in app/layout.tsx (html[data-ab-hero]). Present on every landing page (the
+    bucket is a stable per-visitor assignment, not scoped to just the hero). */
+function getHeroAbBucket(): string | undefined {
+  if (typeof document === "undefined") return undefined;
+  const v = document.documentElement.dataset.abHero;
+  return v && /^[a-d]$/.test(v) ? v : undefined;
+}
 
 const COOKIE_NAME = "vv_attribution_v1";
 const STORAGE_KEY = "vv_attribution_v1";
@@ -197,6 +211,7 @@ export function ensureAttribution(sourceApp: SourceApp): AttributionCookie | nul
     first_seen_at: existing?.first_seen_at || new Date().toISOString(),
     platform: existing?.platform || inferPlatform(sourceApp),
     entry_point: existing?.entry_point || inferEntryPoint(sourceApp, params, referrer),
+    hero_ab: getHeroAbBucket() || existing?.hero_ab,
   };
 
   ATTR_KEYS.forEach((key) => {
@@ -242,6 +257,9 @@ export function appendAttributionParams(rawHref: string, sourceApp: SourceApp) {
   }
   if (source?.entry_point && !url.searchParams.get("entry_point")) {
     url.searchParams.set("entry_point", source.entry_point);
+  }
+  if (source?.hero_ab && !url.searchParams.get("hero_ab")) {
+    url.searchParams.set("hero_ab", source.hero_ab);
   }
 
   ATTR_KEYS.forEach((key) => {

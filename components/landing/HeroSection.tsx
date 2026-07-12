@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { LandingContent, Locale } from "@/components/landing/content";
 import { LoopingVideo } from "@/components/landing/LoopingVideo";
 import { MacBookFrame, IPhoneFrame } from "@/components/landing/DeviceFrames";
-import { trackButtonClick } from "@/lib/analytics/client";
+import { appendAttributionParams, trackButtonClick } from "@/lib/analytics/client";
 import { fetchJsonCached } from "@/lib/fetchJsonCached";
 
 export type LandingStatsResponse = {
@@ -742,6 +742,20 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
     trackButtonClick({ buttonId: "hero.impression", surface: `landing.hero.ab_${bucket}`, locale });
   }, [locale]);
 
+  // Sign-up CTA hrefs. Start with the plain destination (SSR-safe, no
+  // hydration mismatch), then upgrade client-side to carry attribution
+  // (ref_app, UTM, entry_point) AND the assigned hero_ab bucket as a query
+  // param — so vvault.app can attribute a completed signup back to the exact
+  // headline variant the visitor saw, not just landing-page click-through.
+  const GOOGLE_HREF = "https://vvault.app/auth/google";
+  const SIGNUP_HREF = "https://vvault.app/signup";
+  const [googleHref, setGoogleHref] = useState(GOOGLE_HREF);
+  const [signupHref, setSignupHref] = useState(SIGNUP_HREF);
+  useEffect(() => {
+    setGoogleHref(appendAttributionParams(GOOGLE_HREF, "get"));
+    setSignupHref(appendAttributionParams(SIGNUP_HREF, "get"));
+  }, []);
+
   return (
     <section className="relative overflow-hidden">
       <div className="relative z-10 mx-auto w-full max-w-[min(92vw,1220px)] px-5 pb-36 pt-[150px] sm:px-8 sm:pb-44 sm:pt-[180px] lg:px-10 lg:pb-60 lg:pt-[200px]">
@@ -789,8 +803,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
             <div className="mt-7 flex flex-nowrap items-center gap-2 sm:gap-2.5">
               {/* Continue with Google — filled pill */}
               <a
-                href="https://vvault.app/auth/google"
-                onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: heroSurface(), locale, href: "https://vvault.app/auth/google" })}
+                href={googleHref}
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_google", surface: heroSurface(), locale, href: googleHref })}
                 className="inline-flex h-12 shrink-0 items-center gap-2 rounded-full bg-[rgb(var(--inv))] px-4 text-[13px] font-semibold text-[rgb(var(--inv-fg))] hover:bg-[color-mix(in_srgb,rgb(var(--inv)),rgb(var(--bg))_10%)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.4)] sm:h-[50px] sm:gap-2.5 sm:px-6 sm:text-[15px]"
               >
                 <svg viewBox="0 0 24 24" className="h-5 w-5 shrink-0" fill="none" aria-hidden="true">
@@ -806,8 +820,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
                   expands to the full label on hover. flex-nowrap row keeps the
                   expansion from wrapping (which is what caused the old flicker). */}
               <a
-                href="https://vvault.app/signup"
-                onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: heroSurface(), locale, href: "https://vvault.app/signup" })}
+                href={signupHref}
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_apple", surface: heroSurface(), locale, href: signupHref })}
                 aria-label={fr ? "Continuer avec Apple" : "Continue with Apple"}
                 className="group inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px] lg:w-auto lg:justify-start lg:px-3.5 lg:text-[15px] lg:font-semibold"
               >
@@ -822,8 +836,8 @@ export function HeroSection({ locale = "en", initialStats }: HeroSectionProps) {
               {/* Continue with Email — icon-only circle on mobile; expands on
                   hover on desktop. */}
               <a
-                href="https://vvault.app/signup"
-                onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: heroSurface(), locale, href: "https://vvault.app/signup" })}
+                href={signupHref}
+                onClick={() => trackButtonClick({ buttonId: "hero.continue_email", surface: heroSurface(), locale, href: signupHref })}
                 aria-label={fr ? "Continuer avec email" : "Continue with Email"}
                 className="group inline-flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[rgb(var(--ov)_/_0.2)] text-[rgb(var(--fg))] hover:border-[rgb(var(--ov)_/_0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--ov)_/_0.3)] sm:h-[50px] sm:w-[50px] lg:w-auto lg:justify-start lg:px-3.5 lg:text-[15px] lg:font-semibold"
               >
