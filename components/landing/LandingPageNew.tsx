@@ -1,5 +1,4 @@
 import { LandingNav } from "@/components/landing/LandingNav";
-import { PromoBanner } from "@/components/landing/PromoBanner";
 import { HeroSection } from "@/components/landing/HeroSection";
 import { FeatureSection } from "@/components/landing/MinimalSections";
 import { FinalCtaSectionNew } from "@/components/landing/FinalCtaSectionNew";
@@ -49,8 +48,6 @@ export async function LandingPageNew({ locale = "en" }: LandingPageNewProps) {
       </a>
       <LandingNav locale={locale} content={content} showPrimaryLinks={true} />
       <main id="main-content" className="pb-20 sm:pb-0">
-        {/* 0 — Promo banner ("Get Pro at €1" + countdown), full-bleed above the nav */}
-        <PromoBanner locale={locale} />
         {/* 1 — Hero (headline + signup + product video) */}
         <HeroSection content={content} locale={locale} initialStats={heroStats} />
         {/* 2 — Features (server-rendered; videos are client islands) */}

@@ -53,7 +53,7 @@ type ToastPricing = {
  * Pricing: geo-aware, fetched from /api/billing/prices — the €1/$1 first-month
  * promo + the regular monthly price (€11.99 / $13.99), matching the pricing page.
  *
- * CTA: links to `https://vvault.app/signup?plan=pro&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`, the same
+ * CTA: links to `https://vvault.app/signup?plan=pro`, the same
  * destination as the pricing-page "Join Pro now" button for a
  * logged-out visitor.
  */
@@ -214,14 +214,14 @@ export function ProPricingToast({ locale = "en" }: ProPricingToastProps) {
           )}
 
           <Link
-            href="https://vvault.app/signup?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO"
+            href="https://vvault.app/signup?plan=pro&interval=month"
             onClick={() => {
               trackButtonClick({
                 buttonId: "toast.join_pro",
                 surface: "landing.pro_toast",
                 locale,
                 planId: "pro",
-                href: "https://vvault.app/signup?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO",
+                href: "https://vvault.app/signup?plan=pro&interval=month",
               });
               close();
             }}

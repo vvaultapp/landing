@@ -48,8 +48,10 @@ function payloadFor(currency: BillingCurrency) {
 
   const proMonthly = view("proMonthly", "month");
 
-  // Active for any supported currency (eur/usd) — the coupon discounts both.
-  const introActive = proMonthly.unit_amount > PRO_MONTHLY_INTRO_PRICE_CENTS;
+  // €1 first-month promo retired — Pro is its regular monthly price everywhere
+  // now (no intro discount). Kept the offer shape so consumers still read a
+  // valid (inactive) offer; flip this back to re-arm the promo.
+  const introActive = false;
   const compareAt = proMonthly.unit_amount;
   const sym = CURRENCY_SYMBOL[currency] ?? "€";
   const introDisclaimer = introActive

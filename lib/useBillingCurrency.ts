@@ -12,8 +12,8 @@ export type { BillingCurrency };
    server-side), so site-wide chrome (e.g. the nav promo pill) shows the right
    symbol on the very first client render — no fetch round-trip.
 
-   `promoActive` stays optimistically true (the €1/$1 intro offer is always on
-   in production; the pricing page re-confirms it from the static price table). */
+   `promoActive` is now always false — the €1/$1 first-month intro offer has
+   been retired, so Pro shows its regular price everywhere. */
 export function useBillingCurrency(): { currency: BillingCurrency; promoActive: boolean } {
   const [currency, setCurrency] = useState<BillingCurrency>("eur");
 
@@ -24,5 +24,5 @@ export function useBillingCurrency(): { currency: BillingCurrency; promoActive: 
     setCurrency(resolveClientBillingCurrency());
   }, []);
 
-  return { currency, promoActive: true };
+  return { currency, promoActive: false };
 }

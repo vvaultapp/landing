@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import type { LandingContent, LandingNavItem, Locale } from "@/components/landing/content";
 import { LandingCtaLink } from "@/components/landing/LandingCtaLink";
-import { useBillingCurrency } from "@/lib/useBillingCurrency";
 
 /* The heavy dropdown panel (card renderers, icons, Trustpilot card,
    Studio/Prism) lives in its own module, dynamic-imported (ssr:false) so it
@@ -429,13 +428,7 @@ const SHOW_TOP_NAV_LINKS = true;
 export function LandingNav({ locale, content, showPrimaryLinks = true }: LandingNavProps) {
   const fr = locale === "fr";
   const homeHref = locale === "fr" ? "/fr" : "/";
-  /* Geo-aware promo pill: "$1" for USD visitors, "€1" for EUR — mirrors the
-     currency the pricing page (and Checkout) resolves from the visitor's geo. */
-  const { currency: billingCurrency } = useBillingCurrency();
-  const promoSymbol = billingCurrency === "usd" ? "$" : "€";
-  const tryProLabel = fr
-    ? `Essayer Pro pour 1 ${promoSymbol}`
-    : `Try Pro for ${promoSymbol}1`;
+  const tryProLabel = fr ? "Essayer Pro" : "Try Pro";
   const [scrollProgress, setScrollProgress] = useState(0);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

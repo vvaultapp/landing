@@ -769,7 +769,7 @@ function JoinProCta({
   const fr = locale === "fr";
 
   // Anonymous → original signup-first $1 promo funnel.
-  let href = "https://vvault.app/signup?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO";
+  let href = "https://vvault.app/signup?plan=pro&interval=month";
   let label = fr ? "Rejoindre Pro" : "Join Pro now";
   let planId = "pro";
 
@@ -786,7 +786,7 @@ function JoinProCta({
       planId = "ultra";
     } else {
       // Signed-in Free → straight to Pro checkout, skipping signup.
-      href = "https://vvault.app/billing?plan=pro&interval=month&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO";
+      href = "https://vvault.app/billing?plan=pro&interval=month";
       label = fr ? "Prendre Pro" : "Get Pro now";
     }
   }
@@ -848,14 +848,12 @@ export default function PricingPage({
     locale,
   );
   const freePrice = formatMoneyCompact(0, displayCurrency, locale);
-  // \u20ac1 first-month promo (EUR only \u2014 coupon is a fixed EUR discount). Gated to
-  // monthly since the offer is "first month" only.
-  // While prices are still loading (null) we OPTIMISTICALLY assume the promo
-  // is active (it always is in production), so the very first paint already
-  // reads "Start Pro at \u20ac1." \u2014 no "Plans & Pricing" flash. If the fetch later
-  // says the promo is off, the headline gracefully swaps.
+  // \u20ac1 first-month promo retired \u2014 Pro shows its regular monthly price
+  // everywhere. Driven off the offer's `active` flag (now false from the API);
+  // no optimistic-true fallback, so nothing flashes a \u20ac1 headline while prices
+  // load. Flip the API offer back to active to re-arm this.
   const proIntro = prices?.offers?.proMonthlyIntro;
-  const proIntroAvailable = prices === null ? true : Boolean(proIntro?.active);
+  const proIntroAvailable = Boolean(proIntro?.active);
   const proShowPromo = proIntroAvailable && !annual;
   const promoPrice = moneyCompact(proIntro?.introUnitAmount ?? 100, proIntro?.currency || displayCurrency, locale);
   const proRegularPrice = money(prices?.proMonthly?.unit_amount, displayCurrency, locale);
@@ -1035,8 +1033,8 @@ export default function PricingPage({
             "Wavematch (scans for stolen beats)",
           ],
       cta: fr ? "Rejoindre Pro" : "Join Pro now",
-      href: `https://vvault.app/billing?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`,
-      loggedOutHref: `https://vvault.app/signup?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`,
+      href: `https://vvault.app/billing?plan=pro&interval=${interval}`,
+      loggedOutHref: `https://vvault.app/signup?plan=pro&interval=${interval}`,
       featured: true,
     },
     {
@@ -1103,7 +1101,7 @@ export default function PricingPage({
       price: proShowPromo ? promoPrice : proPrice,
       strikePrice: proShowPromo ? proRegularPrice : undefined,
       period: locale === "fr" ? "/mois" : "/mo",
-      href: `https://vvault.app/signup?plan=pro&interval=${interval}&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO`,
+      href: `https://vvault.app/signup?plan=pro&interval=${interval}`,
     },
     { id: "ultra", name: "Ultra", price: ultraPrice, period: locale === "fr" ? "/mois" : "/mo", href: `https://vvault.app/signup?plan=ultra&interval=${interval}` },
   ];
@@ -1329,9 +1327,7 @@ export default function PricingPage({
                       // in-app Stripe checkout (vvault has the session), skipping
                       // the signup funnel.
                       if (signedIn && (p.id === "pro" || p.id === "ultra")) {
-                        const upgradeHref = `https://vvault.app/billing?plan=${p.id}&interval=${interval}${
-                          p.id === "pro" ? "&coupon=STRIPE_COUPON_PRO_MONTHLY_INTRO" : ""
-                        }`;
+                        const upgradeHref = `https://vvault.app/billing?plan=${p.id}&interval=${interval}`;
                         const upgradeLabel = fr
                           ? p.id === "pro"
                             ? "Prendre Pro"
