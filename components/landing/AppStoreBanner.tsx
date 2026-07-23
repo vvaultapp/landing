@@ -69,11 +69,7 @@ export function AppStoreBanner() {
     <div
       role="banner"
       aria-label="Get the vvault iOS app"
-      /* `top` is offset by `--promo-h` so this sits BELOW the in-flow promo
-         strip (homepage) and slides up to pin at the top as the strip scrolls
-         away. On pages without the promo strip, `--promo-h` is unset → 0 → this
-         pins at the very top as before. */
-      className="fixed inset-x-0 top-[var(--promo-h,0px)] z-[100] flex items-center gap-2.5 px-3 md:hidden"
+      className="fixed inset-x-0 top-0 z-[100] flex items-center gap-2.5 px-3 md:hidden"
       style={{
         height: `${BANNER_HEIGHT_PX}px`,
         paddingTop: "env(safe-area-inset-top)",
