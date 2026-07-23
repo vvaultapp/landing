@@ -35,6 +35,20 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      /* Landing blackout: EVERY get.vvault.app URL (homepage, /pricing, blog,
+         docs — everything) bounces straight to the app at vvault.app. Served
+         as an edge redirect (no HTML, no JS, single 307) so there is zero
+         friction — the landing never renders. Host-gated so localhost/LAN dev
+         still serves the site normally for future landing work. Temporary
+         (307, not 308) so browsers/Google don't cache it permanently — remove
+         this block to resurrect the landing instantly. Query strings (UTMs
+         etc.) are passed through to vvault.app automatically. */
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "get.vvault.app" }],
+        destination: "https://vvault.app",
+        permanent: false,
+      },
       { source: "/homepage", destination: "/", permanent: true },
       { source: "/auth", destination: "/", permanent: true },
       { source: "/book-call", destination: "/", permanent: true },
