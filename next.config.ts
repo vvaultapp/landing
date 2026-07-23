@@ -43,10 +43,23 @@ const nextConfig: NextConfig = {
          (307, not 308) so browsers/Google don't cache it permanently — remove
          this block to resurrect the landing instantly. Query strings (UTMs
          etc.) are passed through to vvault.app automatically. */
+      /* French landing URLs carry explicit French intent (old links/shares to
+         get.vvault.app/fr) → the app's French homepage. Must sit BEFORE the
+         catch-all (first matching redirect wins). Visitors with a French
+         browser are covered either way: www.vvault.app auto-serves French
+         from Accept-Language at any entry point. */
+      {
+        source: "/fr/:path*",
+        has: [{ type: "host", value: "get.vvault.app" }],
+        destination: "https://www.vvault.app/fr",
+        permanent: false,
+      },
       {
         source: "/:path*",
         has: [{ type: "host", value: "get.vvault.app" }],
-        destination: "https://vvault.app",
+        /* www is the app's canonical host (vvault.app itself 308s to www) —
+           targeting it directly saves visitors a second redirect hop. */
+        destination: "https://www.vvault.app",
         permanent: false,
       },
       { source: "/homepage", destination: "/", permanent: true },
